@@ -1,0 +1,78 @@
+﻿###########################
+# - Union of Britain Events
+# - By SuperMarks & General Melchett
+###########################
+
+add_namespace = uob
+
+country_event = {
+	id = uob.1
+	immediate = {log = "[GetDateText]: [Root.GetName]: event uob.1"}
+	title = "The Future of Britain"
+	desc = uob.1.d
+	picture = report_event_generic_conference
+
+	fire_only_once = yes
+
+	is_triggered_only = yes
+
+	option = {
+		name = "The CPGB will bring the revolution to the world!"
+		add_ideas = one_party_dictatorship
+		set_politics = {
+			ruling_party = vanguardist
+			elections_allowed = no
+		}
+		add_popularity = { ideology = vanguardist popularity = 0.4 }
+		set_country_flag = cpgb_victory
+	}
+
+	option = {
+		name = "The BSP will ensure socialism in Britain!"
+		add_ideas = workers_republic
+		set_politics = {
+			ruling_party = collectivist
+			elections_allowed = no
+		}
+		add_popularity = { ideology = collectivist popularity = 0.4 }
+		set_country_flag = bsp_victory
+	}
+
+	option = {
+		name = "The ILP with their moderate socialism will ensure stability"
+		add_ideas = workers_republic
+		set_politics = {
+			ruling_party = libertarian_socialist
+			elections_allowed = no
+		}
+		add_popularity = { ideology = libertarian_socialist popularity = 0.4 }
+		set_country_flag = ilp_victory
+	}
+}
+
+# - Collapse of the Empire chain
+
+country_event = {
+	id = uob.2
+	immediate = {log = "[GetDateText]: [Root.GetName]: event uob.2"}
+	title = "The End of the Empire"
+	desc = uob.2.d
+	picture = report_event_generic_conference
+
+	fire_only_once = yes
+
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			UOB = {
+				annex_country = { target = ENG transfer_troops = yes }
+			}
+		}
+	}
+
+	option = {
+		name = "Meaningless lands only pursued by imperialist nations!"		# - Decisions will be activated for nations when UoB has that country flag
+		UOB = { country_event = { id = uob.1 hours = 1 } }
+	}
+}

@@ -1,0 +1,58 @@
+is_valid_annexation_state = {
+	is_owned_and_controlled_by = ROOT
+	is_claim_or_core_of_ROOT = no
+}
+
+can_select_annexation_mission = {
+	hidden_trigger = { NOT = { has_country_flag = open_annexation_event } }
+}
+
+ROOT_can_grant_land = {
+	exists = yes
+	NOT = {
+		has_war_with = ROOT
+		has_wargoal_against = ROOT
+		is_justifying_wargoal_against = ROOT
+		ROOT = { is_justifying_wargoal_against = PREV }
+		ROOT = { has_wargoal_against = PREV }
+		any_owned_state = { is_claim_or_core_of_ROOT = yes }
+	}
+	OR = {
+		AND = {
+			has_socialist_government = yes
+			ROOT = { has_socialist_government = yes }
+		}
+		AND = {
+			has_socialist_government = no
+			ROOT = { has_socialist_government = no }
+		}
+	}
+}
+
+
+stt_puppet_may_be_annexed = {
+	always = yes
+	# we can add focus completion rules or whatever later
+}
+
+
+stt_no_conflict_game_rules = {
+	if = {
+		limit = { has_global_flag = FX_state_transfer_tool_mp }
+		OR = {
+			is_owned_by = ROOT
+			owner = {
+				stt_puppet_may_be_annexed = no
+				is_subject_of = ROOT
+			}
+		}
+	}
+	else_if = {
+		limit = { has_global_flag = FX_state_transfer_tool_mp_no_subject }
+		is_owned_by = ROOT
+	}
+	else = {
+		always = yes
+	}
+}
+

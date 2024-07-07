@@ -1,0 +1,845 @@
+FRA_entente_council = {
+
+	german_sanctions_decision = {
+
+		icon = generic_industry
+
+		available = {
+			FRA = {
+				has_country_flag = FRA_german_violation
+				check_variable = {
+					entente_faith > 49
+				}
+			}
+		}
+
+		visible = {
+			OR = {
+				has_idea = FRA_entente_leader
+				has_idea = ITA_entente_leader
+			}
+			GER = {
+				OR = {
+					has_government = valkist
+					has_government = national_populist
+					has_government = authoritarian_democrat
+				}
+			}
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision german_sanctions_decision"
+			every_country = {
+				limit = {
+					NOT = {
+						OR = {
+							has_idea = FRA_entente_leader
+							has_idea = ITA_entente_leader
+						}
+					}
+					has_idea = GEN_entente_member
+				}
+				country_event = { id = ger.194 }
+			}
+			hidden_effect = {
+				ROOT = {
+					country_event = { id = ger.195 days = 7 }
+				}
+			}
+		}
+
+		fire_only_once = yes
+
+		cost = 50
+
+		ai_will_do = {
+			factor = 10
+			modifier = {
+				factor = 10
+				GER = {
+					NOT = {
+						is_in_faction_with = FRA
+					}
+				}
+			}
+		}
+	}
+
+	recognize_soviets_decision = {
+
+		icon = generic_industry
+
+		available = {
+			NOT = {
+				has_war_with = SOV
+			}
+			FRA = {
+				check_variable = {
+					entente_faith > 39
+				}
+			}
+		}
+
+		visible = {
+			OR = {
+				has_idea = FRA_entente_leader
+				has_idea = ITA_entente_leader
+			}
+			SOV = {
+				exists = yes
+			}
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision recognize_soviets_decision"
+			every_country = {
+				limit = {
+					NOT = {
+						original_tag = FRA
+					}
+					has_idea = GEN_entente_member
+				}
+				country_event = { id = ger.203 }
+			}
+			hidden_effect = {
+				FRA = {
+					country_event = { id = ger.204 days = 7 }
+				}
+			}
+		}
+
+		fire_only_once = yes
+
+		cost = 25
+
+		ai_will_do = {
+			factor = 20
+			modifier = {
+				factor = 5
+				SOV = {
+					has_war_with = GER
+				}
+			}
+		}
+	}
+
+	#entente_austerity_decision = {
+		#
+		#    icon = generic_industry
+		#
+		#	available = {
+			#		original_tag = FRA
+			#		FRA = {
+				#			has_idea = FRA_lsmc
+				#			has_war = no
+				#			check_variable = {
+					#				entente_faith > 39
+					#			}
+				#		}
+			#	}
+		#
+		#   visible = {
+			#		original_tag = FRA
+			#		FRA = {
+				#			has_idea = FRA_lsmc
+				#		}
+			#    }
+		#
+		#	complete_effect = {
+			#		log = "[GetDateText]: [Root.GetName]: Decision entente_austerity_decision"
+			#		every_country = {
+				#			limit = {
+					#				NOT = {
+						#					original_tag = FRA
+						#				}
+					#				has_idea = GEN_entente_member
+					#			}
+				#			country_event = { id = ger.199 }
+				#		}
+			#		hidden_effect = {
+				#			FRA = {
+					#				country_event = { id = ger.200 days = 7 }
+					#			}
+				#		}
+			#	}
+		#
+		#	fire_only_once = yes
+		#
+		#   cost = 50
+		#
+		#    ai_will_do = {
+			#        factor = 100
+			#		modifier = {
+				#			factor = 0.2
+				#			FRA = {
+					#				has_war = yes
+					#			}
+				#		}
+			#    }
+		#}
+
+	GEN_council_faction = {
+
+		icon = generic_industry
+
+		available = {
+			FRA = {
+				check_variable = {
+					entente_faith > 89
+				}
+			}
+		}
+
+		visible = {
+			original_tag = FRA
+			has_idea = FRA_entente_leader
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision GEN_council_faction"
+			every_country = {
+				limit = {
+					has_idea = GEN_entente_member
+				}
+				country_event = { id = FRA.council.1 }
+			}
+		}
+
+		fire_only_once = yes
+
+		cost = 100
+
+		ai_will_do = {
+			factor = 10
+			modifier = {
+				factor = 10
+				ROOT = {
+					NOT = {
+						is_in_faction_with = FRA
+					}
+				}
+			}
+		}
+	}
+
+	GEN_join_council = {
+
+		icon = generic_industry
+
+		available = {
+			NOT = {
+				OR = {
+					has_idea = GEN_entente_member
+					has_war_with = FRA
+				}
+			}
+			FRA = {
+				check_variable = {
+					entente_faith > 39
+				}
+			}
+			ROOT = {
+				is_puppet = no
+				OR = {
+					has_opinion = {
+						target = FRA
+						value > 99
+					}
+					is_in_faction_with = FRA
+				}
+			}
+		}
+
+		visible = {
+			NOT = {
+				has_idea = GEN_entente_member
+				OR = {
+					has_idea = FRA_entente_leader
+					has_idea = ITA_entente_leader
+				}
+				has_war_with = FRA
+			}
+			OR = {
+				has_opinion = {
+					target = FRA
+					value > 100
+				}
+				is_in_faction_with = FRA
+			}
+			FRA = {
+				check_variable = {
+					entente_faith > 39
+				}
+			}
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision GEN_join_council"
+			#remove_ideas = GEN_entente_member
+		}
+
+		cost = 50
+
+		ai_will_do = {
+			factor = 50
+			modifier = {
+				factor = 10
+				ROOT = {
+					is_in_faction_with = FRA
+				}
+			}
+			modifier = {
+				factor = 5
+				ROOT = {
+					is_neighbor_of = FRA
+				}
+			}
+		}
+	}
+
+	FRA_concil_support = {
+
+		icon = generic_industry
+
+		available = {
+			FRA = {
+				exists = yes
+				has_idea = FRA_entente_leader
+			}
+		}
+
+		visible = {
+			has_idea = GEN_entente_member
+			has_defensive_war = yes
+			NOT = {
+				OR = {
+					has_country_flag = GEN_support_done
+					has_war_with = FRA
+				}
+			}
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision FRA_concil_support"
+			set_country_flag = GEN_support_done
+			FRA = {
+				country_event = { id = FRA.council.5 }
+			}
+		}
+
+
+
+		cost = 50
+
+		ai_will_do = {
+			factor = 50
+			modifier = {
+				factor = 10
+				ROOT = {
+					surrender_progress > 0.15
+				}
+			}
+		}
+	}
+
+	german_war_decision = {
+
+		icon = generic_industry
+
+		available = {
+			original_tag = FRA
+			FRA = {
+				has_country_flag = FRA_german_violation
+				check_variable = {
+					entente_faith > 89
+				}
+			}
+		}
+
+		visible = {
+			original_tag = FRA
+			GER = {
+				OR = {
+					has_government = valkist
+					has_government = national_populist
+					has_government = authoritarian_democrat
+					has_government = paternal_autocrat
+				}
+				NOT = {
+					is_in_faction_with = FRA
+				}
+			}
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision german_war_decision"
+			if = {
+				limit = {
+					FRA = {
+						is_ai = yes
+					}
+				}
+				declare_war_on = {
+					target = GER
+					type = annex_everything
+				}
+			}
+			if = {
+				limit = {
+					FRA = {
+						is_ai = no
+					}
+				}
+				create_wargoal = {
+					target = GER
+					type = annex_everything
+				}
+			}
+			GER = {
+				country_event = { id = FRA.council.4 }
+			}
+		}
+
+		fire_only_once = yes
+
+		cost = 150
+
+		ai_will_do = {
+			factor = 10
+			modifier = {
+				factor = 10
+				GER = {
+					NOT = {
+						is_in_faction_with = FRA
+					}
+				}
+			}
+			modifier = {
+				factor = 0.1
+				FRA = {
+					has_war = yes
+				}
+			}
+		}
+	}
+
+	british_war_decision = {
+
+		icon = generic_industry
+
+		available = {
+			original_tag = FRA
+			FRA = {
+				check_variable = {
+					entente_faith > 89
+				}
+			}
+		}
+
+		visible = {
+			original_tag = FRA
+			ENG = {
+				NOT = {
+					is_in_faction_with = FRA
+				}
+			}
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision british_war_decision"
+			if = {
+				limit = {
+					FRA = {
+						is_ai = yes
+					}
+				}
+				declare_war_on = {
+					target = ENG
+					type = annex_everything
+				}
+			}
+			if = {
+				limit = {
+					FRA = {
+						is_ai = no
+					}
+				}
+				create_wargoal = {
+					target = ENG
+					type = annex_everything
+				}
+			}
+			ENG = {
+				country_event = { id = FRA.council.4 }
+			}
+		}
+
+		fire_only_once = yes
+
+		cost = 150
+
+		ai_will_do = {
+			factor = 5
+			modifier = {
+				factor = 10
+				ENG = {
+					NOT = {
+						is_in_faction_with = FRA
+					}
+				}
+			}
+			modifier = {
+				factor = 0.1
+				FRA = {
+					has_war = yes
+				}
+			}
+		}
+	}
+
+	soviet_war_decision = {
+
+		icon = generic_industry
+
+		available = {
+			original_tag = FRA
+			FRA = {
+				check_variable = {
+					entente_faith > 89
+				}
+			}
+		}
+
+		visible = {
+			original_tag = FRA
+			SOV = {
+				OR = {
+					has_government = vanguardist
+					has_government = collectivist
+					has_government = libertarian_socialist
+				}
+				NOT = {
+					is_in_faction_with = FRA
+				}
+			}
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision soviet_war_decision"
+			if = {
+				limit = {
+					FRA = {
+						is_ai = yes
+					}
+				}
+				declare_war_on = {
+					target = SOV
+					type = annex_everything
+				}
+			}
+			if = {
+				limit = {
+					FRA = {
+						is_ai = no
+					}
+				}
+				create_wargoal = {
+					target = SOV
+					type = annex_everything
+				}
+			}
+			SOV = {
+				country_event = { id = FRA.council.4 }
+			}
+		}
+
+		fire_only_once = yes
+
+		cost = 150
+
+		ai_will_do = {
+			factor = 10
+			modifier = {
+				factor = 10
+				SOV = {
+					NOT = {
+						is_in_faction_with = FRA
+					}
+				}
+			}
+			modifier = {
+				factor = 0.1
+				FRA = {
+					has_war = yes
+				}
+			}
+		}
+	}
+
+	GEN_council_research = {
+
+		icon = generic_industry
+
+		available = {
+			FRA = {
+				check_variable = {
+					entente_faith > 79
+				}
+			}
+		}
+
+		visible = {
+			OR = {
+				has_idea = FRA_entente_leader
+				has_idea = ITA_entente_leader
+			}
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision GEN_council_research"
+			every_country = {
+				limit = {
+					has_idea = GEN_entente_member
+				}
+				country_event = FRA.council.12
+			}
+		}
+
+		fire_only_once = yes
+
+		cost = 75
+
+		ai_will_do = {
+			factor = 100
+		}
+	}
+
+	GEN_council_exercise = {
+
+		icon = generic_industry
+
+		available = {
+			FRA = {
+				check_variable = {
+					entente_faith > 74
+				}
+			}
+		}
+
+		visible = {
+			OR = {
+				has_idea = FRA_entente_leader
+				has_idea = ITA_entente_leader
+			}
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision GEN_council_exercise"
+			every_country = {
+				limit = {
+					has_idea = GEN_entente_member
+				}
+				country_event = FRA.council.13
+			}
+		}
+
+		fire_only_once = yes
+
+		cost = 100
+
+		ai_will_do = {
+			factor = 100
+		}
+	}
+
+	GEN_austria_forts = {
+		icon = generic_industry
+		available = {
+			GER = {
+				has_completed_focus = GER_central_europe
+			}
+		}
+		visible = {
+			OR = {
+				has_idea = FRA_entente_leader
+				has_idea = ITA_entente_leader
+			}
+			AUS = {
+				exists = yes
+				is_puppet = no
+				has_idea = GEN_entente_member
+				has_war = no
+			}
+			GER = {
+				has_completed_focus = GER_pangerman
+			}
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision GEN_austria_forts"
+			AUS = {
+				country_event = FRA.council.15
+			}
+		}
+		fire_only_once = yes
+		cost = 50
+		ai_will_do = {
+			factor = 100
+		}
+	}
+
+	GEN_cze_forts = {
+		icon = generic_industry
+		available = {
+			GER = {
+				has_completed_focus = GER_central_europe
+			}
+		}
+		visible = {
+			OR = {
+				has_idea = FRA_entente_leader
+				has_idea = ITA_entente_leader
+			}
+			CZE = {
+				exists = yes
+				is_puppet = no
+				has_idea = GEN_entente_member
+				has_war = no
+			}
+			GER = {
+				has_completed_focus = GER_pangerman
+			}
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision GEN_cze_forts"
+			CZE = {
+				country_event = FRA.council.18
+			}
+		}
+		fire_only_once = yes
+		cost = 50
+		ai_will_do = {
+			factor = 100
+		}
+	}
+	GEN_den_forts = {
+		icon = generic_industry
+		available = {
+			GER = {
+				has_completed_focus = GER_scandinavia_focus
+			}
+		}
+		visible = {
+			OR = {
+				has_idea = FRA_entente_leader
+				has_idea = ITA_entente_leader
+			}
+			DEN = {
+				exists = yes
+				is_puppet = no
+				has_idea = GEN_entente_member
+				has_war = no
+			}
+			GER = {
+				has_completed_focus = GER_pangerman
+			}
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision GEN_den_forts"
+			DEN = {
+				country_event = FRA.council.19
+			}
+		}
+		fire_only_once = yes
+		cost = 50
+		ai_will_do = {
+			factor = 100
+		}
+	}
+	GEN_pol_forts = {
+		icon = generic_industry
+		available = {
+			GER = {
+				has_completed_focus = GER_eastern_focus
+			}
+		}
+		visible = {
+			OR = {
+				has_idea = FRA_entente_leader
+				has_idea = ITA_entente_leader
+			}
+			POL = {
+				exists = yes
+				is_puppet = no
+				has_idea = GEN_entente_member
+				has_war = no
+			}
+			GER = {
+				has_completed_focus = GER_pangerman
+			}
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision GEN_pol_forts"
+			POL = {
+				country_event = FRA.council.20
+			}
+		}
+		fire_only_once = yes
+		cost = 50
+		ai_will_do = {
+			factor = 100
+		}
+	}
+	GEN_leave_council = {
+		icon = generic_industry
+		available = {
+			FRA = {
+				check_variable = {
+					entente_faith < 20
+				}
+			}
+		}
+		visible = {
+			OR = {
+				has_idea = GEN_entente_member
+				has_idea = FRA_entente_leader
+				has_idea = ITA_entente_leader
+			}
+			NOT = {
+				original_tag = FRA
+			}
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision GEN_leave_council"
+			if = {
+				limit = {
+					has_idea = GEN_entente_member
+				}
+				remove_ideas = GEN_entente_member
+			}
+			if = {
+				limit = {
+					has_idea = FRA_entente_leader
+				}
+				remove_ideas = FRA_entente_leader
+			}
+			if = {
+				limit = {
+					has_idea = ITA_entente_leader
+				}
+				remove_ideas = ITA_entente_leader
+			}
+		}
+		cost = 25
+		ai_will_do = {
+			factor = 10
+			modifier = {
+				factor = 10
+				ROOT = {
+					NOT = {
+						is_in_faction_with = FRA
+					}
+				}
+			}
+		}
+	}
+}

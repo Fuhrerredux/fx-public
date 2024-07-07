@@ -1,0 +1,211 @@
+scripted_gui = {
+	FX_welcome_splash = {
+		context_type = player_context
+		window_name = "FX_intro_window_container"
+		dirty = FX_welcome_splash_variable
+
+		ai_enabled = {
+			always = no
+		}
+
+		visible = {
+			is_ai = no
+			# has_country_flag = show_intro_gui
+			has_variable = FX_welcome_splash_variable
+
+		}
+
+		properties = {
+			tab_1 = {
+				x = var:FX_splash_tab_1_x
+				# y = var:FX_splash_tab_1_y
+			}
+			tab_4 = {
+				x = var:FX_splash_tab_4_x
+				# y = var:FX_splash_tab_4_y
+			}
+		}
+
+		triggers = {
+			tab_1_visible = { country_has_intro = yes }
+			tab_2_visible = { country_has_guides = yes }
+			tab_4_visible = {
+				OR = {
+					country_has_intro = yes
+					country_has_guides = yes
+				}
+			}
+
+			tab_1_click_enabled = { NOT = { check_variable = { FX_welcome_splash_variable = 1 } } }
+			tab_2_click_enabled = { NOT = { check_variable = { FX_welcome_splash_variable = 2 } } }
+			# tab_3_click_enabled = { NOT = { check_variable = { FX_welcome_splash_variable = 3 } } }
+			tab_4_click_enabled = { NOT = { check_variable = { FX_welcome_splash_variable = 4 } } }
+
+			mod_intro_button_visible = {
+				check_variable = { FX_welcome_splash_variable = 1 }
+			}
+			mod_options_button_visible = {
+				NOT = {
+					check_variable = { FX_welcome_splash_variable = 1 }
+				}
+			}
+
+		}
+
+		effects = {
+			tab_1_click = { set_variable = { FX_welcome_splash_variable = 1 } }
+			tab_2_click = { 
+				if = {
+					# Main Open
+					limit = {
+						has_country_flag = FX_guides_window_open
+						NOT = {
+							has_country_flag = FX_show_guides_explanation_window
+						}
+					}
+					clr_country_flag = FX_guides_window_open
+					# Explanation Open
+					else_if = {
+						limit = {
+							has_country_flag = FX_show_guides_explanation_window
+							NOT = {
+								has_country_flag = FX_guides_window_open
+							}
+						}
+						clr_country_flag = FX_show_guides_explanation_window
+					}
+					# None Open
+					else_if = {
+						limit = {
+							NOT = {
+								has_country_flag = FX_guides_window_open
+								has_country_flag = FX_show_guides_explanation_window
+							}
+						}
+						set_country_flag = FX_guides_window_open
+					}
+					# Both Open (how?)
+					else = {
+						clr_country_flag = FX_guides_window_open
+						clr_country_flag = FX_show_guides_explanation_window
+					}
+				}
+				set_country_flag = FX_GUIDES_CLOSE_OPEN_SPLASH
+				clear_variable = FX_welcome_splash_variable
+				set_temp_variable = {
+					FX_guides_grid_dirty = 1
+				}
+			}
+			# tab_3_click = { set_variable = { FX_welcome_splash_variable = 3 } }
+			tab_4_click = { set_variable = { FX_welcome_splash_variable = 4 } }
+
+			mod_options_button_click = { clear_variable = FX_welcome_splash_variable }
+			mod_intro_button_click = {  clear_variable = FX_welcome_splash_variable }
+		}
+	}
+
+
+	FX_welcome_splash_tab_1 = {
+		context_type = player_context
+		window_name = FX_welcome_splash_tab_1_container
+		parent_window_name = "FX_intro_window_container"
+		dirty = FX_welcome_splash_variable
+
+		ai_enabled = { always = no }
+
+		visible = {
+			check_variable = { FX_welcome_splash_variable = 1 }
+		}
+
+		properties = {
+			FX_welcome_splash_tab_1_background_icon = {
+				image = "GFX_[ROOT.GetTag]_intro"
+			}
+		}
+	}
+
+	# FX_welcome_splash_tab_2 = {
+	# 	context_type = player_context
+	# 	window_name = FX_welcome_splash_tab_2_container
+	# 	parent_window_name = "FX_intro_window_container"
+	# 	dirty = FX_welcome_splash_variable
+	# 	dirty = welcome_splash_spoilers_revealed
+
+	# 	ai_enabled = { always = no }
+
+	# 	visible = {
+	# 		check_variable = { FX_welcome_splash_variable = 2 }
+	# 	}
+
+
+	# 	effects = {
+	# 		FX_welcome_splash_tab_2_reveal_spoilers_button_click = {
+	# 			if = {
+	# 				# Main Open
+	# 				limit = {
+	# 					has_country_flag = FX_guides_window_open
+	# 					NOT = {
+	# 						has_country_flag = FX_show_guides_explanation_window
+	# 					}
+	# 				}
+	# 				clr_country_flag = FX_guides_window_open
+	# 				# Explanation Open
+	# 				else_if = {
+	# 					limit = {
+	# 						has_country_flag = FX_show_guides_explanation_window
+	# 						NOT = {
+	# 							has_country_flag = FX_guides_window_open
+	# 						}
+	# 					}
+	# 					clr_country_flag = FX_show_guides_explanation_window
+	# 				}
+	# 				# None Open
+	# 				else_if = {
+	# 					limit = {
+	# 						NOT = {
+	# 							has_country_flag = FX_guides_window_open
+	# 							has_country_flag = FX_show_guides_explanation_window
+	# 						}
+	# 					}
+	# 					set_country_flag = FX_guides_window_open
+	# 				}
+	# 				# Both Open (how?)
+	# 				else = {
+	# 					clr_country_flag = FX_guides_window_open
+	# 					clr_country_flag = FX_show_guides_explanation_window
+	# 				}
+
+	# 			}
+	# 			set_temp_variable = {
+	# 				FX_guides_grid_dirty = 1
+	# 			}
+	# 		}
+	# 	}
+	# }
+
+	# FX_welcome_splash_tab_3 = {
+	# 	context_type = player_context
+	# 	window_name = FX_welcome_splash_tab_3_container
+	# 	parent_window_name = "FX_intro_window_container"
+	# 	dirty = FX_welcome_splash_variable
+
+	# 	ai_enabled = { always = no }
+
+	# 	visible = {
+	# 		check_variable = { FX_welcome_splash_variable = 3 }
+	# 	}
+	# }
+
+	FX_welcome_splash_tab_4 = {
+		context_type = player_context
+		window_name = FX_welcome_splash_tab_4_container
+		parent_window_name = "FX_intro_window_container"
+		dirty = FX_welcome_splash_variable
+
+		ai_enabled = { always = no }
+
+		visible = {
+			check_variable = { FX_welcome_splash_variable = 4 }
+		}
+	}
+}

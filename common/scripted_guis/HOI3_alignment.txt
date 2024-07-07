@@ -1,0 +1,400 @@
+scripted_gui = {
+
+	HOI3_alignment_gui = {
+		context_type = player_context
+		parent_window_token = diplomacy_tab 
+		window_name = "HOI3_alignment_gui_container"
+
+		ai_check = {
+			always = no
+		}
+
+		triggers = {
+			button_open_click_enabled = {
+				NOT = { has_country_flag = triangle_window_open }
+			}
+		}
+
+		effects = {
+			button_open_click = {
+			##############
+			#Vanilla Code#			
+			##############
+				every_country = {
+					add_to_array = { ROOT.alignment_array = THIS }
+					set_variable = {
+						alignment_array_X = 0
+					}
+					set_variable = {
+						alignment_array_Y = 0
+					}					
+					set_temp_variable = {
+						communism_X = party_popularity@vanguardist
+					}
+					add_to_temp_variable = {
+						var = communism_X
+						value = party_popularity@collectivist
+					}
+					add_to_temp_variable = {
+						var = communism_X
+						value = party_popularity@libertarian_socialist
+					}					
+					multiply_temp_variable = {
+						communism_X = -210
+					}
+					set_temp_variable = {
+						communism_Y = party_popularity@vanguardist
+					}
+					add_to_temp_variable = {
+						var = communism_Y
+						value = party_popularity@collectivist
+					}
+					add_to_temp_variable = {
+						var = communism_Y
+						value = party_popularity@libertarian_socialist
+					}
+					multiply_temp_variable = {
+						communism_Y = 112
+					}
+				
+					set_temp_variable = {
+						fascism_X = party_popularity@national_populist
+					}
+					add_to_temp_variable = {
+						var = fascism_X
+						value = party_popularity@valkist
+					}					
+					multiply_temp_variable = {
+						fascism_X = 210
+					}
+					set_temp_variable = {
+						fascism_Y = party_popularity@national_populist
+					}
+					add_to_temp_variable = {
+						var = fascism_Y
+						value = party_popularity@valkist
+					}					
+					multiply_temp_variable = {
+						fascism_Y = 112
+					}
+				
+					set_temp_variable = {
+						democratic_Y = party_popularity@social_democrat
+					}
+					add_to_temp_variable = {
+						var = democratic_Y
+						value = party_popularity@social_liberal
+					}
+					add_to_temp_variable = {
+						var = democratic_Y
+						value = party_popularity@market_liberal
+					}
+					add_to_temp_variable = {
+						var = democratic_Y
+						value = party_popularity@social_conservative
+					}
+					multiply_temp_variable = {
+						democratic_Y = -255
+					}
+				
+					add_to_variable = {
+						alignment_array_X = communism_X
+					}
+					add_to_variable = {
+						alignment_array_X = fascism_X
+					}
+				
+					add_to_variable = {
+						alignment_array_Y = communism_Y
+					}
+					add_to_variable = {
+						alignment_array_Y = fascism_Y
+					}
+					add_to_variable = {
+						alignment_array_Y = democratic_Y
+					}
+
+					clear_variable = num_of_factories_faction
+
+					if = {
+						limit = {
+							is_faction_leader = yes
+						}
+						for_each_loop = {
+							array = faction_members
+							add_to_variable = {
+								num_of_factories_faction = v:num_of_factories
+							}
+						}
+					}
+
+					if = { # factions Grid HOI3_tags_grid7
+						limit = {
+							is_faction_leader = yes
+						}
+						add_to_array = { # faction leader goes first
+							ROOT.factions_array = THIS							
+						}
+					}	
+				}
+				random_scope_in_array = {
+					array = global.majors
+					limit = {
+						is_faction_leader = yes
+						OR = {
+							has_government = social_democrat
+							has_government = social_liberal
+							has_government = market_liberal
+							has_government = social_conservative
+						}
+						all_of_scopes = {
+							array = global.majors
+							OR = {
+								tag = PREV
+								is_faction_leader = no
+								NOT = { check_variable = { PREV.current_party_ideology_group = current_party_ideology_group } }
+								check_variable = { PREV.num_of_factories_faction > num_of_factories_faction }
+							}
+						}
+					}
+					add_to_array = {
+						ROOT.ENG_ally_array = THIS
+					}
+					for_each_loop = {
+						array = allies
+						add_to_array = {
+							ROOT.ENG_ally_array = v
+						}
+					}
+				}
+				var:ROOT.ENG_ally_array^0 = {
+					set_variable = { ROOT.ENG_leader_ideology = current_party_ideology_group }
+				}
+				random_scope_in_array = {
+					array = global.majors
+					limit = {
+						is_faction_leader = yes
+						OR = {
+							has_government = vanguardist
+							has_government = collectivist
+							has_government = libertarian_socialist
+						}
+						all_of_scopes = {
+							array = global.majors
+							OR = {
+								tag = PREV
+								is_faction_leader = no
+								NOT = { check_variable = { PREV.current_party_ideology_group = current_party_ideology_group } }
+								check_variable = { PREV.num_of_factories_faction > num_of_factories_faction }
+							}
+						}
+					}
+					add_to_array = {
+						ROOT.SOV_ally_array = THIS
+					}
+					for_each_loop = {
+						array = allies
+						add_to_array = {
+							ROOT.SOV_ally_array = v
+						}
+					}
+				}
+				var:ROOT.SOV_ally_array^0 = {
+					set_variable = { ROOT.SOV_leader_ideology = current_party_ideology_group }
+				}
+				random_scope_in_array = {
+					array = global.majors
+					limit = {
+						is_faction_leader = yes
+						OR = {
+							has_government = national_populist
+							has_government = paternal_autocrat
+							has_government = authoritarian_democrat
+							has_government = valkist
+						}
+						all_of_scopes = {
+							array = global.majors
+							OR = {
+								tag = PREV
+								is_faction_leader = no
+								NOT = { check_variable = { PREV.current_party_ideology_group = current_party_ideology_group } }
+								check_variable = { PREV.num_of_factories_faction > num_of_factories_faction }
+							}
+						}
+					}
+					add_to_array = {
+						ROOT.GER_ally_array = THIS
+					}
+					for_each_loop = {
+						array = allies
+						add_to_array = {
+							ROOT.GER_ally_array = v
+						}
+					}
+				}
+				var:ROOT.GER_ally_array^0 = {
+					set_variable = { ROOT.GER_leader_ideology = current_party_ideology_group }
+				}
+				set_country_flag = triangle_window_open
+				add_to_variable = {
+					HOI3_alignment_grid_dirty = 1
+				}
+			}
+		}
+	}
+
+
+	HOI3_alignment_grid = {
+		context_type = player_context
+		window_name = "hoi3_faction_alignment_window"
+
+		visible = {
+			has_country_flag = triangle_window_open
+		}
+
+		dirty = HOI3_alignment_grid_dirty
+
+		dynamic_lists = {
+			HOI3_tags_grid = {
+				array = alignment_array
+				change_scope = yes
+
+				entry_container = hoi3_tag_entry
+			}
+
+			HOI3_tags_grid4 = {
+				array = ENG_ally_array
+				change_scope = yes
+
+				entry_container = hoi3_main_factions_entry
+			}			
+			HOI3_tags_grid5 = {
+				array = GER_ally_array
+				change_scope = yes
+
+				entry_container = hoi3_main_factions_entry
+			}				
+			HOI3_tags_grid6 = {
+				array = SOV_ally_array
+				change_scope = yes
+
+				entry_container = hoi3_main_factions_entry
+			}			
+			
+			HOI3_tags_grid7 = {
+				array = factions_array
+				change_scope = yes
+
+				entry_container = hoi3_all_factions
+			}				
+		}
+
+		effects = {
+			button_close_click = {
+				clear_array = democratic_alignment_array
+				clear_array = fascism_alignment_array
+				clear_array = communism_alignment_array
+				clear_array = neutrality_alignment_array
+				clear_array = ENG_ally_array
+				clear_array = GER_ally_array
+				clear_array = SOV_ally_array
+				clear_array = factions_array
+				clear_array = alignment_array
+				clr_country_flag = triangle_window_open
+				clr_country_flag = minor_toggle_on
+				clr_country_flag = minor_toggle_active
+			}
+			button_graph_toggle_click = {
+				if = {
+					limit = {
+						NOT = {
+							ROOT = {
+								has_country_flag = minor_toggle_on
+							}
+						}
+					}
+					every_country = {
+						limit = {
+							OR = {
+								is_puppet = yes
+								is_subject = yes
+								num_of_factories < 25
+							}
+						}
+						set_country_flag = minor_toggle_active
+						remove_from_array = { ROOT.alignment_array = THIS }
+					}
+					ROOT = {
+						set_country_flag = minor_toggle_on
+					}
+					add_to_variable = {
+						HOI3_alignment_grid_dirty = 1
+					}
+				}
+				
+				else = {
+					every_country = {
+						limit = {
+							has_country_flag = minor_toggle_active
+						}
+						add_to_array = { ROOT.alignment_array = THIS }
+						clr_country_flag = minor_toggle_active
+					}
+					ROOT = {
+						clr_country_flag = minor_toggle_on
+					}
+					add_to_variable = {
+						HOI3_alignment_grid_dirty = 1
+					}
+				}
+			}				
+			flag_click = {
+				capital_scope = {
+					ROOT = {
+						goto_state = PREV
+					}
+				}
+			}
+			flag2_click = {
+				capital_scope = {
+					ROOT = {
+						goto_state = PREV
+					}
+				}
+			}
+			flag2_right_click = {
+				remove_from_array = {
+					ROOT.alignment_array = THIS
+				}
+				add_to_array = {
+					array = ROOT.alignment_array
+					index = 0
+					value = THIS
+				}
+				add_to_variable = {
+					ROOT.HOI3_alignment_grid_dirty = 1
+				}
+			}
+		}
+
+		properties = {
+			flag = {
+				image = "[This.GetFlag]"
+			}
+			flag2 = {
+				image = "[This.GetFlag]"
+				x = alignment_array_X?-1000
+				y = alignment_array_Y?-1000
+			}
+			hoi3_allies = {
+				image = "GFX_ideology_[?ENG_leader_ideology.GetTokenKey]_group"
+			}
+			hoi3_comintern = {
+				image = "GFX_ideology_[?SOV_leader_ideology.GetTokenKey]_group"
+			}
+			hoi3_axis = {
+				image = "GFX_ideology_[?GER_leader_ideology.GetTokenKey]_group"
+			}
+		}
+	}
+}

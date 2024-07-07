@@ -1,0 +1,278 @@
+capital = 46
+
+oob = "ROM"
+
+set_research_slots = 3
+set_stability = 0.34
+set_war_support = 0.40
+
+# Starting tech
+set_technology = {
+	tech_support = 1		
+	tech_engineers = 1
+	tech_mountaineers = 1
+	tech_trucks = 1
+	motorised_infantry = 1
+	infantry_weapons = 1
+	infantry_weapons1 = 1
+	gw_artillery = 1
+	fuel_silos = 1
+	basic_train = 1
+}
+
+if = {
+	limit = { has_dlc = "By Blood Alone" }
+	set_air_oob = "ROM_air_bba"
+	set_technology = {
+		iw_small_airframe = 1
+		aa_lmg = 1
+		engines_1 = 1
+		early_bombs = 1
+	}
+	else = {
+		set_air_oob = "ROM_air_legacy"
+		set_technology = {
+			early_fighter = 1
+			CAS1 = 1
+		}
+	}
+}
+
+if = {
+  limit = {
+    NOT = { has_dlc = "No Step Back" }
+  }
+  set_technology = {
+    gwtank = 1
+    basic_light_tank = 1
+  }
+}
+if = {
+  limit = { has_dlc = "No Step Back" }
+  set_technology = {
+    gwtank_chassis = 1
+    basic_light_tank_chassis = 1
+  }
+}
+
+if = {
+	limit = { has_dlc = "Man the Guns" }
+	set_naval_oob = "ROM_naval_mtg"
+	set_technology = {
+		basic_naval_mines = 1
+		submarine_mine_laying = 1
+		early_ship_hull_light = 1
+		early_ship_hull_submarine = 1
+		basic_ship_hull_submarine = 1
+		early_ship_hull_cruiser = 1
+		basic_battery = 1
+		basic_torpedo = 1
+		basic_depth_charges = 1
+	}
+	else = {
+		set_naval_oob = "ROM_naval_legacy"
+		set_technology = {
+			early_submarine = 1
+			early_destroyer = 1
+			early_light_cruiser = 1
+			transport = 1
+		}
+	}
+}
+
+
+add_ideas = {
+	GEN_entente_member
+	ROM_the_iron_guard
+	ROM_economic_modernization
+	constitutional_monarchy
+}
+
+set_convoys = 17
+
+set_politics = {	
+	ruling_party = authoritarian_democrat
+	last_election = "1933.3.5"
+	election_frequency = 48
+	elections_allowed = yes
+}
+
+set_popularities = {
+  vanguardist = 0
+  collectivist = 2
+  libertarian_socialist = 3
+  social_democrat = 11
+  social_liberal = 10
+  market_liberal = 16
+  social_conservative = 12
+  authoritarian_democrat = 28
+  paternal_autocrat = 0
+  national_populist = 3
+  valkist = 15
+}
+
+# country_event = { id = romania.0 days = 1 } # Intro
+country_event = { id = romania.1 days = 14 } # Appointing a Regent
+country_event = { id = romania.5 days = 30 } # Tensions in Translyvania
+country_event = { id = romania.18 days = 80 } # North Railway Station Fire
+country_event = { id = romania.19 days = 280 } # Troops Deployment
+country_event = { id = romania.2 days = 663 } # Coronation of King Michael
+
+if = {
+	limit = { has_dlc = "By Blood Alone" }
+	create_equipment_variant = {
+		name = "IAR 14" 
+		type = small_plane_airframe_0
+		modules = {
+			fixed_main_weapon_slot = light_mg_2x
+			engine_type_slot = engine_1_1x
+			special_type_slot_1 = empty
+		}
+	}
+}
+
+### VARIANTS ###
+# 1936 Start #
+if = {
+	limit = { not = { has_dlc = "Man the Guns" } }
+	### Ship Variants ###
+	create_equipment_variant = {
+		name = "Regele Ferdinand Class"
+		type = destroyer_1
+		upgrades = {
+			ship_torpedo_upgrade = 1
+			destroyer_engine_upgrade = 1
+			ship_ASW_upgrade = 1
+			ship_anti_air_upgrade = 1
+		}
+	}
+}
+if = {
+	limit = { has_dlc = "Man the Guns" }
+	# Submarines #
+	create_equipment_variant = {
+		name = "Delfinul Class"				
+		type = ship_hull_submarine_2
+		name_group = ROM_SS_HISTORICAL
+		parent_version = 0
+		modules = {
+			fixed_ship_torpedo_slot = ship_torpedo_sub_1
+			fixed_ship_engine_slot = sub_ship_engine_1
+			rear_1_custom_slot = ship_mine_layer_sub
+		}
+	}
+	# Destroyers #
+	create_equipment_variant = {
+		name = "Marasti Class"				
+		type = ship_hull_light_1
+		name_group = ROM_DD_HISTORICAL
+		parent_version = 0
+		modules = {
+			fixed_ship_battery_slot = ship_light_battery_1
+			fixed_ship_anti_air_slot = ship_anti_air_1
+			fixed_ship_fire_control_system_slot = ship_fire_control_system_0
+			fixed_ship_radar_slot = empty
+			fixed_ship_engine_slot = light_ship_engine_1
+			fixed_ship_torpedo_slot = ship_torpedo_1
+			mid_1_custom_slot = ship_mine_layer_1
+			rear_1_custom_slot = empty
+		}
+		obsolete = yes
+	}
+	create_equipment_variant = {
+		name = "Regele Ferdinand Class"	
+		type = ship_hull_light_1
+		name_group = ROM_DD_HISTORICAL
+		parent_version = 0
+		modules = {
+			fixed_ship_battery_slot = ship_light_battery_1
+			fixed_ship_anti_air_slot = ship_anti_air_1
+			fixed_ship_fire_control_system_slot = ship_fire_control_system_0
+			fixed_ship_radar_slot = empty
+			fixed_ship_engine_slot = light_ship_engine_1
+			fixed_ship_torpedo_slot = ship_torpedo_1
+			mid_1_custom_slot = ship_mine_layer_1
+			rear_1_custom_slot = ship_depth_charge_1
+		}
+	}
+}
+
+recruit_character = ROM_Michael_von_Hohenzollern_Sigmaringen
+recruit_character = ROM_Nicholas_von_Hohenzollern_Sigmaringen
+recruit_character = ROM_Alexandru_Cantacuzino
+recruit_character = ROM_Gheorghe_Gheorghiu
+recruit_character = ROM_Petru_Groza
+recruit_character = ROM_Mihai_Dumitru_Ralea
+recruit_character = ROM_Regency_Council
+recruit_character = ROM_Corneliu_Zelea_Codreanu
+recruit_character = ROM_Petre_Dumitrescu
+recruit_character = ROM_Ion_Antonescu
+recruit_character = ROM_Gheorghe_Argeseanu
+recruit_character = ROM_Gheorghe_Avramescu
+recruit_character = ROM_Ioan_Racovita
+recruit_character = ROM_Constantin_Constantinescu_Claps
+recruit_character = ROM_Nicolae_Macici
+recruit_character = ROM_Constantin_Pantazi
+recruit_character = ROM_Nicolae_Ciuperca
+recruit_character = ROM_Ion_Glogojanu
+recruit_character = ROM_Leonard_Mociulschi
+recruit_character = ROM_Dumitru_Popescu
+recruit_character = ROM_Corneliu_Dragalina
+recruit_character = ROM_Florea_Tenescu
+recruit_character = ROM_Barbu_Paraianu
+recruit_character = ROM_Horia_Macellariu
+recruit_character = ROM_Gheorghe_Apostol
+recruit_character = ROM_Virgil_Madgearu
+recruit_character = ROM_Iuliu_Maniu
+recruit_character = ROM_Constantin_Bratianu
+recruit_character = ROM_Constantin_Angelescu
+recruit_character = ROM_Alexandru_Vaida_Voevod
+recruit_character = ROM_Armand_Calinescu
+recruit_character = ROM_Horia_Sima
+recruit_character = ROM_Ion_Mota
+recruit_character = ROM_Ana_Pauker
+recruit_character = ROM_Grigore_Gafencu
+recruit_character = ROM_Gheorghe_Tatarescu
+recruit_character = ROM_Savel_Radulescu
+recruit_character = ROM_Viorel_Tilea
+recruit_character = ROM_Grigore_Niculescu_Buzesti
+recruit_character = ROM_Constantin_Papanace
+recruit_character = ROM_Mihail_Sturdza
+recruit_character = ROM_Radu_Mironovici
+recruit_character = ROM_Miron_Constantinescu
+recruit_character = ROM_Ion_Mihalache
+recruit_character = ROM_Victor_Slavescu
+recruit_character = ROM_Mitita_Constantinescu
+recruit_character = ROM_Gheorghe_Mironescu
+recruit_character = ROM_Gheorghe_Potopeanu
+recruit_character = ROM_Ilie_Garneata
+recruit_character = ROM_Mihail_Manoilescu
+recruit_character = ROM_Gheorghe_Clime
+recruit_character = ROM_Teohari_Georgescu
+recruit_character = ROM_Pantelimon_Halippa
+recruit_character = ROM_Victor_Iamandi
+recruit_character = ROM_Richard_Franasovici
+recruit_character = ROM_Mihail_Ghelmegeanu
+recruit_character = ROM_Aurel_Aldea
+recruit_character = ROM_Ion_Belgea
+recruit_character = ROM_Ioan_Ilcus
+recruit_character = ROM_Mihail_Racovita
+recruit_character = ROM_Costin_Ionascu
+recruit_character = ROM_Constantin_Sanatescu
+recruit_character = ROM_Gheorghe_Mihail
+recruit_character = ROM_Ilie_Steflea
+recruit_character = ROM_Alexandru_Ioanitiu
+recruit_character = ROM_Nicolae_Sova
+recruit_character = ROM_Ioan_Georgescu
+recruit_character = ROM_Gheorghe_Jienescu
+recruit_character = ROM_Paul_Teodorescu
+recruit_character = ROM_Ermil_Gheorghiu
+recruit_character = ROM_Barbu_Lazareanu
+
+### Starting Ministers
+activate_advisor = ROM_Regency_Council_hog_pau
+activate_advisor = ROM_Grigore_Niculescu_Buzesti_for_ade
+activate_advisor = ROM_Gheorghe_Potopeanu_eco_pau
+activate_advisor = ROM_Aurel_Aldea_sec_sco
+
+save_global_event_target_as = unified_carpathia

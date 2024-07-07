@@ -1,0 +1,2134 @@
+# Nanjing Government Focus Tree
+# created by: dax0102
+
+focus_tree = {
+	id = kuomintang_focus
+
+	country = {
+		factor = 0
+		modifier = {
+			add = 10
+			tag = KMT
+		}
+	}
+
+	continuous_focus_position = { x = 100 y = 1000 }
+
+	initial_show_position = {
+		focus = KMT_loan_from_hsbc
+	}
+
+	#############################################
+	#                                           #
+	#                POLITICAL                  #
+	#                                           #
+	#############################################
+
+	# Address the Nation
+	focus = {
+		id = KMT_address_the_nation
+		icon = GFX_goal_KMT_military_regime
+		x = 3
+		y = 0
+		cost = 5
+		available = {
+			has_country_leader = {
+				character = KMT_Chiang_Kai_Shek
+				ruling_only = yes
+			}
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_address_the_nation"
+			add_stability = 0.15
+			add_war_support = 0.15
+		}
+	}
+
+	# Assume Complete Control
+	focus = {
+		id = KMT_assume_complete_control
+		icon = GFX_focus_generic_military_dictatorship
+		x = -2
+		y = 1
+		cost = 6
+		available = {
+			has_country_leader = {
+				character = KMT_Chiang_Kai_Shek
+				ruling_only = yes
+			}
+		}
+		relative_position_id = KMT_address_the_nation
+		mutually_exclusive = { focus = KMT_maintain_democratic_legitimacy }
+		prerequisite = { focus = KMT_address_the_nation }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_assume_complete_control"
+			country_event = { id = china.1 }
+		}
+	}
+
+	# Imprison the Opposition
+	focus = {
+		id = KMT_imprison_the_opposition
+		icon = GFX_goal_generic_police_state
+		x = 0
+		y = 1
+		cost = 5
+		available = {
+			has_country_leader = {
+				character = KMT_Chiang_Kai_Shek
+				ruling_only = yes
+			}
+			has_government = paternal_autocrat
+		}
+		relative_position_id = KMT_assume_complete_control
+		prerequisite = { focus = KMT_assume_complete_control }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_imprison_the_opposition"
+			add_political_power = -100
+			add_stability = 0.05
+			add_war_support = 0.05
+		}
+	}
+
+	# Restructure the Government
+	focus = {
+		id = KMT_restructure_the_government
+		icon = GFX_goal_generic_martial_law
+		x = 0
+		y = 1
+		cost = 6
+		available = {
+			has_country_leader = {
+				character = KMT_Chiang_Kai_Shek
+				ruling_only = yes
+			}
+			has_government = paternal_autocrat
+		}
+		relative_position_id = KMT_imprison_the_opposition
+		prerequisite = { focus = KMT_imprison_the_opposition }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_restructure_the_government"
+			add_popularity = {
+				ideology = paternal_autocrat
+				popularity = 0.05
+			}
+			remove_ideas = KMT_factionism
+		}
+	}
+
+	# Purge Socialist Elements
+	focus = {
+		id = KMT_purge_socialist_elements
+		icon = GFX_goal_UK_ban_unions
+		x = -1
+		y = 1
+		cost = 5
+		available = {
+			has_country_leader = {
+				character = KMT_Chiang_Kai_Shek
+				ruling_only = yes
+			}
+			has_government = paternal_autocrat
+		}
+		relative_position_id = KMT_restructure_the_government
+		prerequisite = { focus = KMT_restructure_the_government }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_purge_socialist_elements"
+			swap_ideas = {
+				remove_idea = KMT_socialist_opposition1
+				add_idea = KMT_socialist_opposition2
+			}
+		}
+	}
+
+	# Control the Unions
+	focus = {
+		id = KMT_control_the_unions
+		icon = GFX_goal_state_economy
+		x = 0
+		y = 1
+		cost = 5
+		available = {
+			has_country_leader = {
+				character = KMT_Chiang_Kai_Shek
+				ruling_only = yes
+			}
+			has_government = paternal_autocrat
+		}
+		relative_position_id = KMT_purge_socialist_elements
+		prerequisite = { focus = KMT_purge_socialist_elements }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_control_the_unions"
+			remove_ideas = KMT_socialist_opposition2
+		}
+	}
+
+	# Authorize Special Services
+	focus = {
+		id = KMT_authorize_special_services
+		icon = GFX_goal_generic_espionage
+		x = 1
+		y = 1
+		cost = 5
+		available = {
+			has_country_leader = {
+				character = KMT_Chiang_Kai_Shek
+				ruling_only = yes
+			}
+			has_government = paternal_autocrat
+		}
+		relative_position_id = KMT_restructure_the_government
+		prerequisite = { focus = KMT_restructure_the_government }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_authorize_special_services"
+			if = {
+				limit = { has_intelligence_agency = no }
+				custom_effect_tooltip = KMT_authorize_special_services_tt
+				create_intelligence_agency = yes
+				custom_effect_tooltip = tooltip_white_line
+			}
+
+			if = {
+				limit = {
+					NOT = { has_done_agency_upgrade = upgrade_passive_defense }
+				}
+				upgrade_intelligence_agency = upgrade_passive_defense
+			}
+			if = {
+				limit = {
+					NOT = { has_done_agency_upgrade = upgrade_anti_partisan }
+				}
+				upgrade_intelligence_agency = upgrade_anti_partisan
+			}
+			if = {
+				limit = {
+					NOT = { has_done_agency_upgrade = upgrade_interrogation_techniques }
+				}
+				upgrade_intelligence_agency = upgrade_interrogation_techniques
+			}
+			if = {
+				limit = {
+					NOT = { has_done_agency_upgrade = upgrade_psycho_warfare }
+				}
+				upgrade_intelligence_agency = upgrade_psycho_warfare
+			}
+		}
+	}
+
+	# Maintain Democratic Legitimacy
+	focus = {
+		id = KMT_maintain_democratic_legitimacy
+		icon = GFX_focus_generic_china1
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_country_leader = {
+				character = KMT_Chiang_Kai_Shek
+				ruling_only = yes
+			}
+		}
+		relative_position_id = KMT_address_the_nation
+		mutually_exclusive = { focus = KMT_assume_complete_control }
+		prerequisite = { focus = KMT_address_the_nation }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_maintain_democratic_legitimacy"
+			add_popularity = {
+				ideology = authoritarian_democrat
+				popularity = 0.05
+			}
+			add_stability = 0.05
+			add_war_support = 0.05
+		}
+	}
+
+	# Government Reforms
+	focus = {
+		id = KMT_government_reforms
+		icon = GFX_focus_LAT_suspend_constitution_of_latvia
+		x = 0
+		y = 1
+		cost = 6
+		available = {
+			has_country_leader = {
+				character = KMT_Chiang_Kai_Shek
+				ruling_only = yes
+			}
+			has_government = authoritarian_democrat
+		}
+		relative_position_id = KMT_maintain_democratic_legitimacy
+		prerequisite = { focus = KMT_maintain_democratic_legitimacy }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_government_reforms"
+			remove_ideas = KMT_factionism
+		}
+	}
+
+	# Cooperate with the Socialists
+	focus = {
+		id = KMT_cooperate_with_the_socialists
+		icon = GFX_focus_prc_social_democracy
+		x = -1
+		y = 1
+		cost = 5
+		available = {
+			has_country_leader = {
+				character = KMT_Chiang_Kai_Shek
+				ruling_only = yes
+			}
+			has_government = authoritarian_democrat
+		}
+		relative_position_id = KMT_government_reforms
+		mutually_exclusive = { focus = KMT_sun_yat_sen_legacy }
+		prerequisite = { focus = KMT_government_reforms }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_cooperate_with_the_socialists"
+			add_ideas = KMT_union_cooperation
+			custom_effect_tooltip = tooltip_white_line
+			activate_advisor = KMT_Wang_Jingwei_eco_sde
+		}
+	}
+
+	# Dr.Sun Yat-sen's Legacy
+	focus = {
+		id = KMT_sun_yat_sen_legacy
+		icon = GFX_goal_KMT_sun_legacy
+		x = 1
+		y = 1
+		cost = 5
+		available = {
+			has_country_leader = {
+				character = KMT_Chiang_Kai_Shek
+				ruling_only = yes
+			}
+			has_government = authoritarian_democrat
+		}
+		relative_position_id = KMT_government_reforms
+		mutually_exclusive = { focus = KMT_cooperate_with_the_socialists }
+		prerequisite = { focus = KMT_government_reforms }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_sun_yat_sen_legacy"
+			add_ideas = KMT_sun_legacy
+		}
+	}
+
+	# The Three Principles of the People
+	focus = {
+		id = KMT_the_three_principles_of_the_people
+		icon = GFX_goal_KMT_three_principles
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_country_leader = {
+				character = KMT_Chiang_Kai_Shek
+				ruling_only = yes
+			}
+			has_government = authoritarian_democrat
+		}
+		relative_position_id = KMT_cooperate_with_the_socialists
+		prerequisite = {
+			focus = KMT_sun_yat_sen_legacy
+			focus = KMT_cooperate_with_the_socialists
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_the_three_principles_of_the_people"
+			add_ideas = KMT_three_principles
+		}
+	}
+
+	# Militaristic State
+	focus = {
+		id = KMT_militaristic_state
+		icon = GFX_goal_generic_army_cooperation
+		x = -2
+		y = 1
+		cost = 6
+		available = {
+			has_country_leader = {
+				character = KMT_Chiang_Kai_Shek
+				ruling_only = yes
+			}
+			has_capitulated = no
+		}
+		relative_position_id = KMT_the_three_principles_of_the_people
+		prerequisite = {
+			focus = KMT_purge_socialist_elements
+			focus = KMT_the_three_principles_of_the_people
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_militaristic_state"
+			add_ideas = KMT_militarism
+		}
+	}
+
+	# Loyal to the Republic
+	focus = {
+		id = KMT_loyal_to_the_republic
+		icon = GFX_goal_KMT_republic
+		x = 0
+		y = 1
+		cost = 6
+		available = {
+			has_country_leader = {
+				character = KMT_Chiang_Kai_Shek
+				ruling_only = yes
+			}
+			has_capitulated = no
+		}
+		relative_position_id = KMT_the_three_principles_of_the_people
+		prerequisite = { focus = KMT_the_three_principles_of_the_people }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_loyal_to_the_republic"
+			add_ideas = KMT_the_republic
+		}
+	}
+
+	#############################################
+	#                                           #
+	#                INDUSTRY                   #
+	#                                           #
+	#############################################
+
+	# Loan from HSBC
+	focus = {
+		id = KMT_loan_from_hsbc
+		icon = GFX_focus_eng_imperial_federation
+		x = 11
+		y = 0
+		cost = 6
+		ai_will_do = {
+			factor = 800
+		}
+		available = {
+			has_capitulated = no
+			has_socialist_government = no
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_loan_from_hsbc"
+			random_owned_controlled_state = {
+				if = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+		}
+	}
+
+	# Expand the Railroads
+	focus = {
+		id = KMT_expand_the_railroads
+		icon = GFX_goal_KMT_the_modern_age
+		x = -3
+		y = 1
+		cost = 6
+		ai_will_do = {
+			factor = 800
+		}
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = KMT_loan_from_hsbc
+		prerequisite = { focus = KMT_loan_from_hsbc }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_expand_the_railroads"
+			unlock_decision_tooltip = KMT_nanchang_hangzhou_railway
+			unlock_decision_tooltip = KMT_guilin_changsha_railway
+			unlock_decision_tooltip = KMT_xiamen_nanchang_railway
+			unlock_decision_tooltip = KMT_nanchang_hangzhou_railway
+		}
+	}
+
+	# Agricultural Reforms
+	focus = {
+		id = KMT_agricultural_reforms
+		icon = GFX_goal_generic_agricultural_aid
+		x = -1
+		y = 1
+		cost = 6
+		ai_will_do = {
+			factor = 400
+			modifier = {
+				factor = 2
+				has_completed_focus = KMT_the_growing_economy
+			}
+		}
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = KMT_loan_from_hsbc
+		prerequisite = { focus = KMT_loan_from_hsbc }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_agricultural_reforms"
+			add_ideas = KMT_food_sufficiency
+		}
+	}
+
+	# Farm Mechanization Programs
+	focus = {
+		id = KMT_farm_mechanization_programs
+		icon = GFX_goal_SZC_improvised_farming_machinery
+		x = -2
+		y = 2
+		cost = 6
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = KMT_agricultural_reforms
+		prerequisite = { focus = KMT_agricultural_reforms }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_farm_mechanization_programs"
+			add_tech_bonus = {
+				category = industry
+				bonus = 0.75
+				uses = 2
+			}
+		}
+	}
+
+	# Renovate the Rural Areas
+	focus = {
+		id = KMT_renovate_the_rural_areas
+		icon = GFX_goal_Cotton
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			controls_state = 602
+			controls_state = 1024
+			controls_state = 893
+		}
+		relative_position_id = KMT_agricultural_reforms
+		prerequisite = { focus = KMT_agricultural_reforms }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_renovate_the_rural_areas"
+			every_owned_state = {
+				limit = {
+					OR = {
+						state = 602
+						state = 1024
+						state = 893
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+			}
+		}
+	}
+
+	# Expand Guangdong Arsenal
+	focus = {
+		id = KMT_expand_guangdong_arsenal
+		icon = GFX_goal_GXC_Guangdong_Arsenal
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			controls_state = 593
+		}
+		relative_position_id = KMT_renovate_the_rural_areas
+		prerequisite = { focus = KMT_renovate_the_rural_areas }
+		prerequisite = { focus = KMT_urbanize_guangzhou }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_expand_guangdong_arsenal"
+			593 = {
+				if = {
+					limit = {
+						free_building_slots = {
+							building = arms_factory
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = arms_factory
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+		}
+	}
+
+	# New Construction Methods
+	focus = {
+		id = KMT_new_construction_methods
+		icon = GFX_goal_generic_construct_civilian
+		x = 1
+		y = 1
+		cost = 6
+		ai_will_do = {
+			factor = 800
+		}
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = KMT_loan_from_hsbc
+		prerequisite = { focus = KMT_loan_from_hsbc }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_new_construction_methods"
+			add_tech_bonus = {
+				technology = construction1
+				technology = construction2
+				technology = construction3
+				technology = construction4
+				technology = construction5
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# The University of Nanjing
+	focus = {
+		id = KMT_the_university_of_nanjing
+		icon = GFX_goal_KTG_Bookstack
+		x = 0
+		y = 2
+		cost = 6
+		ai_will_do = {
+			factor = 800
+		}
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = KMT_new_construction_methods
+		prerequisite = { focus = KMT_new_construction_methods }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_the_university_of_nanjing"
+			CHI_improve_literacy = yes
+			add_research_slot = 1
+		}
+	}
+
+
+	focus = {
+		id = KMT_urbanize_guangzhou
+		icon = GFX_focus_spa_the_spanish_miracle
+		x = -1
+		y = 1
+		cost = 6
+		ai_will_do = {
+			factor = 800
+		}
+		available = {
+			controls_state = 592
+		}
+		relative_position_id = KMT_new_construction_methods
+		prerequisite = { focus = KMT_new_construction_methods }
+		prerequisite = { focus = KMT_agricultural_reforms }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_urbanize_guangzhou"
+			592 = {
+				set_state_category = eight
+			}
+			CHI_improve_economy = yes
+		}
+	}
+
+	# Infrastructure Projects
+	focus = {
+		id = KMT_infrastructure_projects
+		icon = GFX_goal_generic_bridge
+		x = -3
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = KMT_expand_guangdong_arsenal
+		prerequisite = { focus = KMT_expand_guangdong_arsenal }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_infrastructure_projects"
+			random_owned_controlled_state = {
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = KMT_industrial_silk
+		icon = GFX_goal_SZC_silk
+		x = -1
+		y = 1
+		cost = 6
+		relative_position_id = KMT_expand_guangdong_arsenal
+		prerequisite = { focus = KMT_expand_guangdong_arsenal }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_industrial_silk"
+			random_owned_controlled_state = {
+				if = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+		}
+	}
+
+	# Shanghai Docks
+	focus = {
+		id = KMT_shanghai_docks
+		icon = GFX_focus_generic_refit_civilian_ships
+		x = -1
+		y = 1
+		cost = 5
+		available = {
+			controls_state = 613
+		}
+		relative_position_id = KMT_industrial_silk
+		prerequisite = { focus = KMT_industrial_silk }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_shanghai_docks"
+			613 = {
+				if = {
+					limit = {
+						is_coastal = yes
+						free_building_slots = {
+							building = dockyard
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = dockyard
+						level = 2
+						instant_build = yes
+					}
+				}
+			}
+		}
+	}
+
+	# Guangzhou Ports
+	focus = {
+		id = KMT_guangzhou_ports
+		icon = GFX_goal_generic_shipyard
+		x = 1
+		y = 1
+		cost = 5
+		available = {
+			controls_state = 592
+		}
+		relative_position_id = KMT_shanghai_docks
+		prerequisite = { focus = KMT_shanghai_docks }
+		prerequisite = { focus = KMT_jiangxi_armament_factories }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_guangzhou_ports"
+			592 = {
+				if = {
+					limit = {
+						is_coastal = yes
+						free_building_slots = {
+							building = dockyard
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = dockyard
+						level = 2
+						instant_build = yes
+					}
+				}
+			}
+		}
+	}
+
+	# Subsidize New Industries
+	focus = {
+		id = KMT_subsidize_new_industries
+		icon = GFX_goal_generic_construction
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = KMT_expand_guangdong_arsenal
+		prerequisite = { focus = KMT_expand_guangdong_arsenal }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_subsidize_new_industries"
+			random_owned_controlled_state = {
+				if = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			random_owned_controlled_state = {
+				if = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+		}
+	}
+
+	# Jiangxi Armament Factories
+	focus = {
+		id = KMT_jiangxi_armament_factories
+		icon = GFX_goal_generic_construct_mil_factory
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			controls_state = 600
+		}
+		relative_position_id = KMT_industrial_silk
+		prerequisite = { focus = KMT_industrial_silk }
+		prerequisite = { focus = KMT_subsidize_new_industries }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_jiangxi_armament_factories"
+			600 = {
+				if = {
+					limit = {
+						free_building_slots = {
+							building = arms_factory
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = arms_factory
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+		}
+	}
+
+	# Nanning Mining Industries
+	focus = {
+		id = KMT_nanning_mining_industries
+		icon = GFX_goal_generic_construction2
+		x = 0
+		y = 2
+		cost = 6
+		available = {
+			controls_state = 594
+		}
+		relative_position_id = KMT_subsidize_new_industries
+		prerequisite = { focus = KMT_subsidize_new_industries }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_nanning_mining_industries"
+			add_tech_bonus = {
+				category = excavation_tech
+				bonus = 1.0
+				uses = 1
+			}
+			custom_effect_tooltip = tooltip_white_line
+			592 = {
+				add_resource = { type = tungsten amount = 20 }
+				add_resource = { type = steel amount = 20 }
+			}
+		}
+	}
+
+	focus = {
+		id = KMT_renovate_the_second_arsenal
+		icon = GFX_goal_GXC_Second_Guangdong_Arsenal
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			controls_state = 593
+		}
+		relative_position_id = KMT_subsidize_new_industries
+		prerequisite = { focus = KMT_subsidize_new_industries }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_renovate_the_second_arsenal"
+			593 = {
+				if = {
+					limit = {
+						free_building_slots = {
+							building = arms_factory
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = arms_factory
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+		}
+	}
+
+	# New Highways
+	focus = {
+		id = KMT_new_highways
+		icon = GFX_goal_generic_road
+		x = 1
+		y = 1
+		cost = 6
+		ai_will_do = {
+			factor = 800
+		}
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = KMT_new_construction_methods
+		prerequisite = { focus = KMT_new_construction_methods }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_new_highways"
+			random_owned_controlled_state = {
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	# Synthetic Fuel Project
+	focus = {
+		id = KMT_synthetic_fuel_project
+		icon = GFX_goal_generic_pipeline
+		x = 0
+		y = 2
+		cost = 6
+		ai_will_do = {
+			factor = 800
+		}
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = KMT_new_highways
+		prerequisite = { focus = KMT_new_highways }
+		prerequisite = { focus = KMT_the_university_of_nanjing }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_synthetic_fuel_project"
+			if = {
+				limit = {
+					NOT = { has_tech = synth_oil_experiments }
+				}
+				set_technology = {
+					synth_oil_experiments = 1
+				}
+			}
+			else = {
+				add_tech_bonus = {
+					category = cat_synth_oil
+					bonus = 1.0
+					uses = 1
+				}
+			}
+
+			random_owned_controlled_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = synthetic_refinery
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	# Hire Foreign Advisors
+	focus = {
+		id = KMT_hire_foreign_advisors
+		icon = GFX_goal_generic_banking_legislation
+		x = 3
+		y = 1
+		cost = 6
+		ai_will_do = {
+			factor = 800
+		}
+		available = {
+			has_political_power > 0
+		}
+		relative_position_id = KMT_new_construction_methods
+		prerequisite = { focus = KMT_new_construction_methods }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_hire_foreign_advisors"
+			CHI_improve_economy = yes
+			CHI_improve_literacy = yes
+		}
+	}
+
+	# Tax Reforms
+	focus = {
+		id = KMT_tax_reforms
+		icon = GFX_goal_generic_wealth_ceiling
+		x = -1
+		y = 1
+		cost = 6
+		ai_will_do = {
+			factor = 800
+		}
+		available = {
+			has_political_power > 0
+		}
+		relative_position_id = KMT_hire_foreign_advisors
+		prerequisite = { focus = KMT_hire_foreign_advisors }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_tax_reforms"
+			add_ideas = KMT_fiscal_reforms
+		}
+	}
+
+	# Women in the Workforce
+	focus = {
+		id = KMT_women_in_the_workforce
+		icon = GFX_IRE_women_industry
+		x = 1
+		y =1
+		cost = 6
+		ai_will_do = {
+			factor = 800
+		}
+		available = {
+			has_political_power > 0
+		}
+		relative_position_id = KMT_hire_foreign_advisors
+		prerequisite = { focus = KMT_hire_foreign_advisors }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_women_in_the_workforce"
+			add_ideas = KMT_working_women
+		}
+	}
+
+	# The Growing Economy
+	focus = {
+		id = KMT_the_growing_economy
+		icon = GFX_goal_KMT_revive_china
+		x = 1
+		y = 1
+		cost = 6
+		ai_will_do = {
+			factor = 800
+		}
+		available = {
+			has_political_power > 0
+		}
+		relative_position_id = KMT_tax_reforms
+		prerequisite = { focus = KMT_tax_reforms }
+		prerequisite = { focus = KMT_women_in_the_workforce }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_the_growing_economy"
+			CHI_improve_economy = yes
+			add_ideas = KMT_growing_economy
+		}
+	}
+
+	# Utilize Local Talent
+	focus = {
+		id = KMT_utilize_local_talent
+		icon = GFX_goal_generic_dissolve_parliament1
+		x = 1
+		y = 1
+		cost = 6
+		ai_will_do = {
+			factor = 800
+		}
+		available = {
+			has_political_power > 0
+		}
+		prerequisite = { focus = KMT_synthetic_fuel_project }
+		prerequisite = { focus = KMT_the_growing_economy }
+		relative_position_id = KMT_synthetic_fuel_project
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_utilize_local_talent"
+			CHI_improve_literacy = yes
+		}
+	}
+
+	#############################################
+	#                                           #
+	#                AIR FORCE                  #
+	#                                           #
+	#############################################
+
+	# Reforming the Kuomintang Forces
+	focus = {
+		id = KMT_reforming_the_kuomintang_forces
+		icon = GFX_goal_KMT_the_party_state
+		x = 14
+		y = 7
+		cost = 6
+		available = {
+			has_capitulated = no
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_reforming_the_kuomintang_forces"
+			add_equipment_to_stockpile = {
+				type = infantry_equipment_0
+				amount = 2000
+				producer = ROOT
+			}
+		}
+	}
+
+	# The Chinese Air Force
+	focus = {
+		id = KMT_the_chinese_air_force
+		icon = GFX_goal_KMT_airforce
+		x = -2
+		y = 1
+		cost = 3
+		available = {
+			has_capitulated = no
+			has_completed_focus = KMT_the_university_of_nanjing
+		}
+		relative_position_id = KMT_reforming_the_kuomintang_forces
+		prerequisite = { focus = KMT_reforming_the_kuomintang_forces }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_the_chinese_air_force"
+			air_experience = 25
+			custom_effect_tooltip = tooltip_white_line
+			custom_effect_tooltip = available_designer
+			show_ideas_tooltip = china_aviation_corporation_CHI
+
+			custom_effect_tooltip = tooltip_white_line
+			custom_effect_tooltip = available_designer
+			show_ideas_tooltip = central_aircraft_manufacturing_company
+
+			custom_effect_tooltip = tooltip_white_line
+			custom_effect_tooltip = available_designer
+			show_ideas_tooltip = central_air_transport
+		}
+	}
+
+	# Aerial Theories
+	focus = {
+		id = KMT_aerial_theories
+		icon = GFX_goal_generic_air_command
+		x = 1
+		y = 1
+		cost = 3
+		relative_position_id = KMT_the_chinese_air_force
+		prerequisite = { focus = KMT_the_chinese_air_force }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_aerial_theories"
+			add_doctrine_cost_reduction = {
+				category = air_doctrine
+				cost_reduction = 0.5
+				uses = 1
+			}
+		}
+	}
+
+	# Fighter Modernization
+	focus = {
+		id = KMT_fighter_modernization
+		icon = GFX_goal_generic_air_fighter
+		x = -1
+		y = 1
+		cost = 6
+		relative_position_id = KMT_the_chinese_air_force
+		prerequisite = { focus = KMT_the_chinese_air_force }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_fighter_modernization"
+			add_tech_bonus = {
+				category = light_fighter
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Bomber Modernization
+	focus = {
+		id = KMT_bomber_modernization
+		icon = GFX_goal_generic_air_bomber
+		x = -1
+		y = 1
+		cost = 6
+		relative_position_id = KMT_fighter_modernization
+		prerequisite = { focus = KMT_the_chinese_air_force }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_bomber_modernization"
+			add_tech_bonus = {
+				category = tactical_bomber
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Expand Air Bases
+	focus = {
+		id = KMT_expand_airbases
+		icon = GFX_goal_generic_airports
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			controls_state = 895
+			controls_state = 613
+			controls_state = 592
+		}
+		relative_position_id = KMT_fighter_modernization
+		prerequisite = { focus = KMT_fighter_modernization }
+		prerequisite = { focus = KMT_aerial_theories }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_expand_airbases"
+			895 = {
+				add_building_construction = {
+					type = air_base
+					level = 2
+					instant_build = yes
+				}
+			}
+			613 = {
+				add_building_construction = {
+					type = air_base
+					level = 2
+					instant_build = yes
+				}
+			}
+			592 = {
+				add_building_construction = {
+					type = air_base
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	# Air Defenses
+	focus = {
+		id = KMT_air_defenses
+		icon = GFX_goal_generic_air_defense2
+		x = 0
+		y = 2
+		cost = 6
+		available = {
+			controls_state = 895
+			controls_state = 613
+			controls_state = 592
+		}
+		relative_position_id = KMT_fighter_modernization
+		prerequisite = { focus = KMT_aerial_theories }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_air_defenses"
+			if = {
+				limit = {
+					NOT = { has_tech = interwar_antiair }
+				}
+				set_technology = {
+					interwar_antiair = 1
+				}
+			}
+			895 = {
+				add_building_construction = {
+					type = anti_air_building
+					level = 2
+					instant_build = yes
+				}
+			}
+			613 = {
+				add_building_construction = {
+					type = anti_air_building
+					level = 2
+					instant_build = yes
+				}
+			}
+			592 = {
+				add_building_construction = {
+					type = anti_air_building
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	# Heavy Fighter Programme
+	focus = {
+		id = KMT_heavy_fighter_programme
+		icon = GFX_goal_generic_air_fighter2_new
+		x = 0
+		y = 2
+		cost = 6
+		relative_position_id = KMT_expand_airbases
+		prerequisite = { focus = KMT_expand_airbases }
+		prerequisite = { focus = KMT_air_defenses }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_heavy_fighter_programme"
+			add_doctrine_cost_reduction = {
+				category = air_doctrine
+				cost_reduction = 0.5
+				uses = 1
+			}
+		}
+	}
+
+	#############################################
+	#                                           #
+	#                     NAVY                  #
+	#                                           #
+	#############################################
+
+	# The Chinese Navy
+	focus = {
+		id = KMT_the_chinese_navy
+		icon = GFX_goal_KMT_navy
+		x = 2
+		y = 1
+		cost = 3
+		relative_position_id = KMT_reforming_the_kuomintang_forces
+		prerequisite = { focus = KMT_reforming_the_kuomintang_forces }
+		available = {
+			has_capitulated = no
+			has_completed_focus = KMT_the_university_of_nanjing
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_the_chinese_navy"
+			navy_experience = 25
+
+			custom_effect_tooltip = tooltip_white_line
+			custom_effect_tooltip = available_designer
+			show_ideas_tooltip = csic
+
+			custom_effect_tooltip = tooltip_white_line
+			custom_effect_tooltip = available_designer
+			show_ideas_tooltip = china_state_shipbuilding_corporation
+		}
+	}
+
+	# Grand Fleet
+	focus = {
+		id = KMT_grand_fleet
+		icon = GFX_goal_generic_navy_battleship3alt
+		x = -1
+		y = 1
+		cost = 6
+		relative_position_id = KMT_the_chinese_navy
+		mutually_exclusive = { focus = KMT_wolfhounds_of_the_sea }
+		prerequisite = { focus = KMT_the_chinese_navy }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_shanghai_docks"
+			add_doctrine_cost_reduction = {
+				name = KMT_grand_fleet
+				category = cat_fleet_in_being
+				category = cat_base_strike
+				cost_reduction = 0.5
+				uses = 2
+			}
+		}
+	}
+
+	# Better Battleships
+	focus = {
+		id = KMT_better_battleships
+		icon = GFX_goal_generic_navy_battleship
+		x = -1
+		y = 1
+		cost = 6
+		relative_position_id = KMT_grand_fleet
+		prerequisite = { focus = KMT_grand_fleet }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_better_battleships"
+			add_tech_bonus = {
+				bonus = 1.0
+				category = bb_tech
+				uses = 1
+			}
+		}
+	}
+
+	# Wolfhounds of the Sea
+	focus = {
+		id = KMT_wolfhounds_of_the_sea
+		icon = GFX_goal_generic_navy_submarine
+		x = 2
+		y = 1
+		cost = 6
+		relative_position_id = KMT_the_chinese_navy
+		mutually_exclusive = { focus = KMT_grand_fleet }
+		prerequisite = { focus = KMT_the_chinese_navy }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_wolfhounds_of_the_sea"
+			add_doctrine_cost_reduction = {
+				category = cat_trade_interdiction
+				cost_reduction = 0.5
+				uses = 2
+			}
+		}
+	}
+
+	# Screen Research Project
+	focus = {
+		id = KMT_screen_research_project
+		icon = GFX_goal_generic_naval_cruiser2
+		x = 1
+		y = 1
+		cost = 6
+		relative_position_id = KMT_grand_fleet
+		prerequisite = {
+			focus = KMT_grand_fleet
+			focus = KMT_wolfhounds_of_the_sea
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_screen_research_project"
+			add_tech_bonus = {
+				bonus = 1
+				category = cl_tech
+				category = ca_tech
+				uses = 2
+			}
+		}
+	}
+
+	# Doctrinal Innovations
+	focus = {
+		id = KMT_doctrinal_innovations
+		icon = GFX_goal_generic_naval_command
+		x = -1
+		y = 1
+		cost = 6
+		prerequisite = { focus = KMT_screen_research_project }
+		relative_position_id = KMT_screen_research_project
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_screen_research_project"
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.5
+				uses = 1
+				category = naval_doctrine
+			}
+		}
+	}
+
+	# Marine Divisions
+	focus = {
+		id = KMT_marine_divisions
+		icon = GFX_goal_generic_marines2
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = KMT_screen_research_project }
+		relative_position_id = KMT_screen_research_project
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_marine_divisions"
+			add_tech_bonus = {
+				category = marine_tech
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Submarine Modernization
+	focus = {
+		id = KMT_submarine_modernization
+		icon = GFX_goal_generic_trade_interdiction
+		x = 0
+		y = 1
+		cost = 6
+		relative_position_id = KMT_wolfhounds_of_the_sea
+		prerequisite = { focus = KMT_wolfhounds_of_the_sea }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_submarine_modernization"
+			add_tech_bonus = {
+				bonus = 2.0
+				category = dd_tech
+				uses = 1
+			}
+			add_tech_bonus = {
+				bonus = 2.0
+				category = ss_tech
+				uses = 1
+			}
+		}
+	}
+
+	#############################################
+	#                                           #
+	#                    ARMY                   #
+	#                                           #
+	#############################################
+
+	# The Chinese Army
+	focus = {
+		id = KMT_the_chinese_army
+		icon = GFX_goal_KMT_army
+		x = 8
+		y = 1
+		cost = 3
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = KMT_reforming_the_kuomintang_forces
+		prerequisite = { focus = KMT_reforming_the_kuomintang_forces }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_the_chinese_army"
+			army_experience = 25
+		}
+	}
+
+	# Firepower Concentration
+	focus = {
+		id = KMT_firepower_concentration
+		icon = GFX_goal_generic_army_superior_firepower
+		x = -2
+		y = 1
+		cost = 6
+		available = {
+			NOT = {
+				has_tech = mobile_warfare
+				has_tech = trench_warfare
+				has_tech = mass_assault
+			}
+		}
+		mutually_exclusive = { focus = KMT_grand_battleplan }
+		relative_position_id = KMT_the_chinese_army
+		prerequisite = { focus = KMT_the_chinese_army }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_firepower_concentration"
+			add_doctrine_cost_reduction = {
+				name = KMT_firepower_concentration
+				category = cat_superior_firepower
+				cost_reduction = 0.5
+				uses = 1
+			}
+		}
+	}
+
+	# Grand Battleplan
+	focus = {
+		id = KMT_grand_battleplan
+		icon = GFX_goal_generic_army_grand_battleplan
+		x = 2
+		y = 1
+		cost = 6
+		available = {
+			NOT = {
+				has_tech = mobile_warfare
+				has_tech = superior_firepower
+				has_tech = mass_assault
+			}
+		}
+		mutually_exclusive = { focus = KMT_firepower_concentration }
+		relative_position_id = KMT_the_chinese_army
+		prerequisite = { focus = KMT_the_chinese_army }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_grand_battleplan"
+			add_doctrine_cost_reduction = {
+				name = KMT_grand_battleplan
+				category = cat_grand_battle_plan
+				cost_reduction = 0.5
+				uses = 1
+			}
+		}
+	}
+
+	# Expand Whampoa Academy
+	focus = {
+		id = KMT_expand_whampoa_academy
+		icon = GFX_focus_chi_whampoa_military_academy
+		x = 2
+		y = 1
+		cost = 6
+		relative_position_id = KMT_firepower_concentration
+		prerequisite = {
+			focus = KMT_firepower_concentration
+			focus = KMT_grand_battleplan
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_expand_whampoa_academy"
+			add_ideas = KMT_whampoa_academy
+		}
+	}
+
+	# Specialized Equipment Production
+	focus = {
+		id = KMT_specialized_equipment_production
+		icon = GFX_goal_generic_military_equipment
+		x = 0
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = KMT_firepower_concentration
+		prerequisite = { focus = KMT_firepower_concentration }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_specialized_equipment_production"
+			add_ideas = KMT_dedicated_weapons_factories
+		}
+	}
+
+	# Modern Logistics
+	focus = {
+		id = KMT_modern_logistics
+		icon = GFX_goal_generic_support_equipment
+		x = 1
+		y = 2
+		cost = 6
+		relative_position_id = KMT_firepower_concentration
+		prerequisite = { focus = KMT_firepower_concentration }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_modern_logistics"
+			add_tech_bonus = {
+				category = logistics_tech
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Artillery Modernization
+	focus = {
+		id = KMT_artillery_modernization
+		icon = GFX_goal_generic_army_artillery
+		x = -1
+		y = 2
+		cost = 6
+		relative_position_id = KMT_firepower_concentration
+		prerequisite = { focus = KMT_firepower_concentration }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_artillery_modernization"
+			add_tech_bonus = {
+				category = artillery
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Anti-Air Incorporation
+	focus = {
+		id = KMT_anti_air_incorporation
+		icon = GFX_goal_anti_air
+		x = -1
+		y = 1
+		cost = 6
+		prerequisite = { focus = KMT_artillery_modernization }
+		relative_position_id = KMT_artillery_modernization
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_anti_air_incorporation"
+			if = {
+				limit = {
+					NOT = { has_tech = interwar_antiair }
+				}
+				set_technology = {
+					interwar_antiair = 1
+				}
+			}
+			else = {
+				add_tech_bonus = {
+					category = cat_anti_air
+					bonus = 1.0
+					uses = 1
+				}
+			}
+			effect_tooltip = {
+				add_equipment_to_stockpile = {
+					type = anti_air_equipment_1
+					amount = 500
+					producer = ROOT
+				}
+			}
+			hidden_effect = {
+				add_equipment_to_stockpile = {
+					type = anti_air_equipment_1
+					amount = 500
+					producer = ROOT
+				}
+			}
+		}
+	}
+
+	# Armor Research
+	focus = {
+		id = KMT_armor_research
+		icon = GFX_goal_generic_army_tanks
+		x = -1
+		y = 1
+		cost = 6
+		prerequisite = { focus = KMT_modern_logistics }
+		prerequisite = { focus = KMT_specialized_equipment_production }
+		relative_position_id = KMT_modern_logistics
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_armor_research"
+			add_tech_bonus = {
+				category = armor
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Signal Companies
+	focus = {
+		id = KMT_signal_companies
+		icon = GFX_goal_radio
+		x = 1
+		y = 1
+		cost = 6
+		relative_position_id = KMT_anti_air_incorporation
+		prerequisite = { focus = KMT_anti_air_incorporation }
+		prerequisite = { focus = KMT_armor_research }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_signal_companies"
+			add_tech_bonus = {
+				category = signal_company_tech
+				bonus = 1.0
+				uses = 1.0
+			}
+		}
+	}
+
+
+	# The General Staff
+	focus = {
+		id = KMT_the_general_staff
+		icon = GFX_goal_KMT_military_affairs_cmsn
+		x = 0
+		y = 1
+		cost = 6
+		relative_position_id = KMT_grand_battleplan
+		prerequisite = { focus = KMT_grand_battleplan }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_the_general_staff"
+			add_ideas = KMT_general_staff_idea
+		}
+	}
+
+	# Equipment Standardization
+	focus = {
+		id = KMT_equipment_standardization
+		icon = GFX_goal_generic_small_arms
+		x = -1
+		y = 1
+		cost = 6
+		relative_position_id = KMT_the_general_staff
+		prerequisite = { focus = KMT_the_general_staff }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_equipment_standardization"
+			add_tech_bonus = {
+				category = infantry_weapons
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Reconnaisance Improvements
+	focus = {
+		id = KMT_reconnaissance_improvements
+		icon = GFX_goal_generic_cavalry
+		x = 1
+		y = 1
+		cost = 6
+		relative_position_id = KMT_the_general_staff
+		prerequisite = { focus = KMT_the_general_staff }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_reconnaissance_improvements"
+			add_tech_bonus = {
+				category = recon_tech
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+
+	# Army Engineers
+	focus = {
+		id = KMT_army_engineers
+		icon = GFX_goal_generic_construction2
+		x = 1
+		y = 1
+		cost = 6
+		relative_position_id = KMT_equipment_standardization
+		prerequisite = {
+			focus = KMT_equipment_standardization
+		}
+		prerequisite = {
+			focus = KMT_reconnaissance_improvements
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_army_engineers"
+			add_tech_bonus = {
+				category = engineers_tech
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Army Motorization
+	focus = {
+		id = KMT_army_motorization
+		icon = GFX_goal_generic_army_motorized
+		x = 3
+		y = 1
+		cost = 6
+		relative_position_id = KMT_the_general_staff
+		prerequisite = { focus = KMT_the_general_staff }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_army_motorization"
+			add_tech_bonus = {
+				category = motorized_equipment
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# A Reformed Army
+	focus = {
+		id = KMT_a_reformed_army
+		icon = GFX_goal_KMT_soul_of_whampoa
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = KMT_modern_logistics
+		prerequisite = {
+			focus = KMT_modern_logistics
+			focus = KMT_equipment_standardization
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_a_reformed_army"
+			add_ideas = KMT_the_republican_army
+		}
+	}
+
+	# Modern Doctrines
+	focus = {
+		id = KMT_modern_doctrines
+		icon = GFX_goal_generic_army_doctrines
+		x = 1
+		y = 1
+		cost = 6
+		relative_position_id = KMT_reconnaissance_improvements
+		prerequisite = { focus = KMT_reconnaissance_improvements }
+		prerequisite = { focus = KMT_army_motorization }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_modern_doctrines"
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.5
+				uses = 1
+				category = land_doctrine
+			}
+		}
+	}
+
+	# Mechanized Experiments
+	focus = {
+		id = KMT_mechanized_experiments
+		icon = GFX_goal_generic_army_artillery
+		x = 0
+		y = 1
+		cost = 6
+		relative_position_id = KMT_army_engineers
+		prerequisite = { focus = KMT_army_engineers }
+		prerequisite = { focus = KMT_modern_doctrines }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus KMT_mechanized_experiments"
+			add_tech_bonus = {
+				category = motorized_equipment
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	#############################################
+	#                                           #
+	#                UNIFICATION                #
+	#                                           #
+	#############################################
+
+	# Unification of China
+	focus = {
+		id = KMT_unification_of_china
+		icon = GFX_goal_kmt_contest_the_japanese
+		x = 21
+		y = 0
+		cost = 5
+		available = {
+			threat > 0.4
+			NOT = { has_idea = KMT_factionism }
+			has_completed_focus = KMT_the_growing_economy
+		}
+		completion_reward = {
+			unlock_decision_tooltip = KMT_unite_china
+			custom_effect_tooltip = tooltip_white_line
+			add_war_support = 0.1
+		}
+	}
+
+	# Subjugate the Warlords
+	focus = {
+		id = KMT_subjugate_the_warlords
+		icon = GFX_goal_KMT_united
+		x = 1
+		y = 2
+		cost = 5
+		available = {
+			is_subject = no
+			OR = {
+				country_exists = SHX
+				country_exists = SCH
+				country_exists = YUN
+				country_exists = XSM
+				country_exists = SIK
+			}
+		}
+		relative_position_id = KMT_unification_of_china
+		prerequisite = { focus = KMT_unification_of_china }
+		completion_reward = {
+			every_other_country = {
+				limit = {
+					is_chinese_tag = yes
+					NOT = {
+						tag = FNG
+						tag = ZHI
+					}
+				}
+				country_event = { id = china.2 }
+			}
+		}
+	}
+
+	# Attack the Beijing Government
+	focus = {
+		id = KMT_attack_the_beijing_government
+		icon = GFX_goal_generic_attack_zhili
+		x = 0
+		y = 1
+		cost = 5
+		available = {
+			country_exists = ZHI
+			can_declare_war_on = ZHI
+		}
+		bypass = {
+			OR = {
+				ZHI = {
+					exists = no
+					has_war_with = ROOT
+					is_subject_of = ROOT
+				}
+			}
+		}
+		relative_position_id = KMT_unification_of_china
+		will_lead_to_war_with = ZHI
+		prerequisite = { focus = KMT_unification_of_china }
+		completion_reward = {
+			create_wargoal = {
+				target = ZHI
+				type = annex_everything
+			}
+		}
+	}
+
+	# Attack Fengtian
+	focus = {
+		id = KMT_attack_fengtian
+		icon = GFX_goal_generic_attack_fengtian
+		x = 2
+		y = 1
+		cost = 5
+		available = {
+			country_exists = FNG
+			can_declare_war_on = FNG
+		}
+		bypass = {
+			OR = {
+				FNG = {
+					exists = no
+					has_war_with = ROOT
+					is_subject_of = ROOT
+				}
+			}
+		}
+		relative_position_id = KMT_unification_of_china
+		will_lead_to_war_with = FNG
+		prerequisite = { focus = KMT_unification_of_china }
+		completion_reward = {
+			create_wargoal = {
+				target = FNG
+				type = annex_everything
+			}
+		}
+	}
+
+	# Claims on Tibet
+	focus = {
+		id = KMT_claims_on_tibet
+		icon = GFX_goal_generic_attack_tibet
+		x = -2
+		y = 1
+		cost = 6
+		available = {
+			is_subject = no
+			country_exists = TIB
+			NOT = { country_exists = ZHI }
+			NOT = { country_exists = FNG }
+		}
+		bypass = {
+			OR = {
+				TIB = {
+					exists = no
+					has_war_with = ROOT
+					is_subject_of = ROOT
+				}
+			}
+		}
+		relative_position_id = KMT_unification_of_china
+		prerequisite = { focus = KMT_unification_of_china }
+		completion_reward = {
+			add_state_claim = 322
+			add_state_claim = 873
+			create_wargoal = {
+				target = TIB
+				type = annex_everything
+			}
+		}
+	}
+
+	# Hongkong Claim
+	focus = {
+		id = KMT_hongkong_claim
+		icon = GFX_focus_attack_britain
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			is_subject = no
+			NOT = {
+				owns_state = 326
+			}
+		}
+		bypass = {
+			owns_state = 326
+		}
+		relative_position_id = KMT_claims_on_tibet
+		prerequisite = { focus = KMT_claims_on_tibet }
+		completion_reward = {
+			326 = {
+				owner = {
+					country_event = { id = china.4 }
+				}
+			}
+		}
+	}
+
+	# Macau Claim
+	focus = {
+		id = KMT_macau_claim
+		icon = GFX_goal_generic_attack_portugal
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			is_subject = no
+			NOT = {
+				owns_state = 729
+			}
+		}
+		bypass = {
+			owns_state = 729
+		}
+		relative_position_id = KMT_claims_on_tibet
+		prerequisite = { focus = KMT_claims_on_tibet }
+		completion_reward = {
+			729 = {
+				owner = {
+					country_event = { id = china.4 }
+				}
+			}
+		}
+	}
+
+	# Taiwan Claim
+	focus = {
+		id = KMT_taiwan_claim
+		icon = GFX_focus_attack_japan
+		x = 0
+		y = 2
+		cost = 6
+		relative_position_id = KMT_claims_on_tibet
+		available = {
+			is_subject = no
+			NOT = {
+				owns_state = 524
+			}
+		}
+		prerequisite = { focus = KMT_claims_on_tibet }
+		completion_reward = {
+			524 = {
+				owner = {
+					country_event = { id = china.4 }
+				}
+			}
+		}
+	}
+}

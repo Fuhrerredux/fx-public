@@ -1,0 +1,416 @@
+add_namespace = saudi
+
+country_event = { # Intro
+	id = saudi.0
+	title = saudi.0.t
+	desc = saudi.0.d
+	picture = GFX_report_event_SAU_riding_horse
+	is_triggered_only = yes
+
+	option = {
+		name = saudi.0.a
+	}
+}
+
+country_event = {
+	id = saudi.1
+	hidden = yes
+	is_triggered_only = yes
+
+	option = { #
+		SAU = { country_event = saudi.2 }
+	}
+}
+
+country_event = { # Defeat of FROM
+	id = saudi.2
+	title = saudi.2.t
+	desc = saudi.2.d
+	picture = GFX_report_event_SAU_riding_horse
+	is_triggered_only = yes
+
+	option = {
+		name = saudi.2.a
+		if = {
+			limit = {
+				NOT = { country_exists = HEJ }
+				NOT = { country_exists = RAS }
+			}
+			set_country_flag = SAU_civil_war_end
+			save_global_event_target_as = unified_arabia
+		}
+	}
+}
+
+country_event = { # Ikhwan Seizes Power
+	id = saudi.3
+	title = saudi.3.t
+	desc = saudi.3.d
+	picture = GFX_report_event_JBS_Horses
+	is_triggered_only = yes
+
+	option = { #
+		name = saudi.3.a
+		set_politics = {
+			ruling_party = national_populist
+			elections_allowed = no
+		}
+		increase_ruling_party_popularity_by_25 = yes
+		remove_every_minister = yes
+		activate_advisor = SAU_Abdul_Aziz_bin_Faisal_al_Dawish_hog_npo
+		activate_advisor = SAU_Dhaidan_Ben_Hethlain_for_ade
+		activate_advisor = SAU_Auda_Abu_Tayi_eco_npo
+		activate_advisor = SAU_Jahjah_bin_Bajad_bin_Humaid_al_Otaibi_sec_ade
+
+		hidden_effect = {
+			set_country_flag = SAU_ikhwan_coup_flag
+			mark_focus_tree_layout_dirty = yes
+		}
+	}
+}
+
+country_event = { # Ikhwan Raid
+	id = saudi.4
+	title = saudi.4.t
+	desc = saudi.4.d
+	picture = GFX_report_event_JBS_Horses
+	is_triggered_only = yes
+
+	option = {
+		name = saudi.4.a
+		decrease_ruling_party_popularity_by_15 = yes
+		add_stability = -0.05
+	}
+}
+
+country_event = { # Invitation to the Dammam Accords
+	id = saudi.5
+	title = {
+		text = saudi.5.t
+		trigger = {
+			NOT = {
+				tag = IRQ
+			}
+		}
+	}
+	title = {
+		text = saudi.5.t.iraq
+		trigger = {
+			tag = IRQ
+		}
+	}
+	desc = {
+		text = saudi.5.d
+		trigger = {
+			NOT = {
+				tag = IRQ
+			}
+		}
+	}
+	desc = {
+		text = saudi.5.d.iraq
+		trigger = {
+			tag = IRQ
+		}
+	}
+	picture = GFX_report_event_SAU_ibn_saud
+	is_triggered_only = yes
+
+	option = {
+		name = saudi.5.a
+		FROM = {
+			country_event = { id = saudi.6 days = 1 }
+		}
+	}
+
+	option = {
+		name = saudi.5.b
+		FROM = {
+			country_event = { id = saudi.7 days = 1 }
+		}
+	}
+}
+
+country_event = { # from accepts
+	id = saudi.6
+	title = saudi.6.t
+	desc = saudi.6.d
+	picture = GFX_report_event_HEJ_ministers
+	is_triggered_only = yes
+
+	option = {
+		name = saudi.6.a
+		add_to_faction = FROM
+	}
+}
+
+country_event = { # from refuses
+	id = saudi.7
+	title = saudi.7.t
+	desc = saudi.7.d
+	picture = GFX_report_event_HEJ_ministers
+	is_triggered_only = yes
+
+	option = {
+		name = saudi.7.a
+	}
+}
+
+country_event = { # Saud Demands Asir
+	id = saudi.8
+	title = saudi.8.t
+	desc = saudi.8.d
+	picture = GFX_report_event_SAU_ibn_saud
+	is_triggered_only = yes
+
+	option = {
+		name = saudi.8.a
+		FROM = {
+			country_event = { id = saudi.9 days = 1 }
+		}
+	}
+
+	option = {
+		name = saudi.8.b
+		FROM = {
+			country_event = { id = saudi.10 days = 1 }
+		}
+	}
+}
+
+country_event = { # from accepts
+	id = saudi.9
+	title = saudi.9.t
+	desc = saudi.9.d
+	picture = GFX_report_event_HEJ_ministers
+	is_triggered_only = yes
+
+	option = {
+		name = saudi.9.a
+		transfer_state = 831
+	}
+}
+
+country_event = { # from refuses
+	id = saudi.10
+	title = saudi.10.t
+	desc = saudi.10.d
+	picture = GFX_report_event_HEJ_ministers
+	is_triggered_only = yes
+
+	option = {
+		name = saudi.10.a
+		declare_war_on = {
+			target = YEM
+			type = annex_everything
+		}
+	}
+
+	option = {
+		name = saudi.10.b
+		decrease_ruling_party_popularity_by_5 = yes
+	}
+}
+
+country_event = { # Yemeni Peace Proposal
+	id = saudi.11
+	title = saudi.11.t
+	desc = saudi.11.d
+	picture = GFX_report_event_HEJ_ministers
+	is_triggered_only = yes
+
+	option = {
+		name = saudi.11.a
+		SAU = { 
+			country_event = saudi.12
+			transfer_state = 831
+		}
+		every_enemy_country = {
+			limit = { is_in_faction_with = SAU }
+			white_peace = YEM
+		}
+	}
+
+	option = {
+		name = saudi.11.b
+		SAU = {
+			country_event = saudi.13
+		}
+	}
+}
+
+country_event = { # from accepts peace
+	id = saudi.12
+	title = saudi.12.t
+	desc = saudi.12.d
+	picture = GFX_report_event_HEJ_ministers
+	is_triggered_only = yes
+
+	option = {
+		name = saudi.12.a
+	}
+}
+
+country_event = { # from refuses peace
+	id = saudi.13
+	title = saudi.13.t
+	desc = saudi.13.d
+	picture = GFX_report_event_HEJ_ministers
+	is_triggered_only = yes
+
+	option = {
+		name = saudi.13.a
+	}
+}
+
+country_event = { # Saud Demands Trucial States
+	id = saudi.14
+	title = saudi.14.t
+	desc = saudi.14.d
+	picture = GFX_report_event_SAU_ibn_saud
+	is_triggered_only = yes
+
+	option = {
+		name = saudi.14.a
+		FROM = {
+			country_event = { id = saudi.15 days = 1 }
+		}
+	}
+
+	option = {
+		name = saudi.14.b
+		FROM = {
+			country_event = { id = saudi.16 days = 1 }
+		}
+	}
+}
+
+country_event = { # from accepts
+	id = saudi.15
+	title = saudi.15.t
+	desc = saudi.15.d
+	picture = GFX_report_event_HEJ_ministers
+	is_triggered_only = yes
+
+	option = {
+		name = saudi.15.a
+		transfer_state = 656
+		transfer_state = 658
+		set_country_flag = TRU_CONQ
+	}
+}
+
+country_event = { # from refuses
+	id = saudi.16
+	title = saudi.16.t
+	desc = saudi.16.d
+	picture = GFX_report_event_HEJ_ministers
+	is_triggered_only = yes
+
+	option = {
+		name = saudi.16.a
+		transfer_state = 656
+		transfer_state = 658
+		set_country_flag = TRU_CONQ
+		ENG = {
+			country_event = { id = saudi.17 days = 1 }
+		}
+	}
+
+	option = {
+		name = saudi.16.b
+		decrease_ruling_party_popularity_by_5 = yes
+	}
+}
+
+country_event = { # ENG: Saudi Snatches the Trucial States!
+	id = saudi.17
+	title = saudi.17.t
+	desc = saudi.17.d
+	picture = GFX_report_event_HEJ_ministers
+	is_triggered_only = yes
+
+	option = {
+		name = saudi.17.a
+		declare_war_on = {
+			target = SAU
+			type = annex_everything
+		}
+		set_country_flag = SAU_reclaim_trucial_states_flag
+		activate_mission_tooltip = SAU_reclaim_trucial_states
+	}
+
+	option = {
+		name = saudi.17.b
+		decrease_ruling_party_popularity_by_5 = yes
+	}
+}
+
+country_event = { # ENG: Rebellion in Oman!
+	id = saudi.18
+	title = saudi.18.t
+	desc = saudi.18.d
+	picture = GFX_report_event_HEJ_ministers
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			SAU = {
+				country_event = saudi.19
+			}
+			OMA = {
+				transfer_state = 294
+				load_oob = "OMA"
+			}
+			ENG = {
+				declare_war_on = {
+					target = OMA
+					type = annex_everything
+				}
+				set_province_controller = 8020
+				set_province_controller = 5049
+				set_province_controller = 1947
+				set_province_controller = 8002
+				set_province_controller = 2059
+				set_province_controller = 2103
+			}
+		}
+	}
+
+	option = {
+		name = saudi.18.a
+		activate_mission_tooltip = SAU_punish_muscat
+		set_country_flag = SAU_punish_muscat_flag
+	}
+}
+
+country_event = { # Rebellion in Oman!
+	id = saudi.19
+	title = saudi.19.t
+	desc = saudi.19.d
+	picture = GFX_report_event_HEJ_ministers
+	is_triggered_only = yes
+
+	option = {
+		name = saudi.19.a
+		set_country_flag = SAU_punish_muscat_flag
+	}
+}
+
+country_event = { # peace?
+	id = saudi.20
+	title = saudi.20.t
+	desc = saudi.20.d
+	picture = GFX_report_event_HEJ_ministers
+	is_triggered_only = yes
+
+	option = {
+		name = saudi.20.a
+		YEM = { country_event = { id = saudi.11 days = 1 } }
+	}
+	
+	option = {
+		name = saudi.20.b
+		add_war_support = -0.1
+	}
+}

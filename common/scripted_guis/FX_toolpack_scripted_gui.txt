@@ -1,0 +1,443 @@
+scripted_gui = {
+
+	state_transfer_tool = {
+		context_type = selected_state_context
+		window_name = "state_transfer_tool_container"
+		parent_window_token = selected_state_view
+		dirty = ROOT.update_stt_gui
+
+		ai_enabled = {
+			always = no
+		}
+
+		visible = {
+			has_global_flag = stt_enabled
+		}
+
+		
+		effects = {
+			# They are made so tooltips are "nicer"
+			mark_state_click = { # doesn't work if made into an effecr
+				THIS = { 
+					if = {
+						limit = { has_state_flag = marked_for_transfer }
+						custom_effect_tooltip = STT_clear_mark
+						clr_state_flag = marked_for_transfer
+						if = {
+							limit = { check_variable = { ROOT.marked_states^num = 1 } }
+							clear_array = ROOT.marked_states
+							hidden_effect = {
+								ROOT = { remove_mission = stt_highlight_states }
+							}
+							clear_variable = ROOT.update_stt_gui
+						}
+						else = {
+							remove_from_array = { ROOT.marked_states = THIS }
+							hidden_effect = {
+								ROOT = {
+									remove_mission = stt_highlight_states
+									activate_mission = stt_highlight_states
+								}
+							}
+							add_to_variable = { ROOT.update_stt_gui = 1 }
+						}
+					}
+					else = {
+						custom_effect_tooltip = STT_set_mark
+						set_state_flag = marked_for_transfer
+						add_to_array = { ROOT.marked_states = THIS }
+						hidden_effect = {
+							ROOT = {
+								remove_mission = stt_highlight_states
+								activate_mission = stt_highlight_states
+							}
+						}
+						add_to_variable = { ROOT.update_stt_gui = 1 }
+					}
+				}
+			}
+			mark_all_states_click = {
+				stt_mark_all_state = yes
+			}
+			mark_colonial_states_click = {
+				stt_mark_colonial_state = yes
+			}
+			mark_noncore_states_click = {
+				stt_mark_noncore_states = yes
+			}
+			clear_all_markings_click = {
+				stt_clear_all_markings = yes
+			}
+			award_states_click = {
+				stt_award_states = yes
+			}
+			add_cores_click = {
+				stt_add_cores = yes
+			}
+			remove_cores_click = {
+				stt_remove_cores = yes
+			}
+			add_claims_click = {
+				stt_add_claims = yes
+			}
+			remove_claims_click = {
+				stt_remove_claims = yes
+			}
+			mark_country_click = {
+				stt_mark_country = yes
+			}
+			add_puppet_click = {
+				stt_add_puppet = yes
+			}
+			remove_puppet_click = {
+				stt_remove_puppet = yes
+			}
+			add_faction_click = {
+				stt_add_faction = yes
+			}
+			remove_faction_click = {
+				stt_remove_faction = yes
+			}
+			add_peace_click = {
+				stt_add_peace = yes
+			}
+			add_war_click = {
+				stt_add_war = yes
+			}
+			add_resource_rights_click = {
+				stt_add_resource_rights = yes
+			}
+			rm_resource_rights_click = {
+				stt_rm_resource_rights = yes
+			}
+			increase_state_category_click = {
+				stt_upgrade_state_category_effect = yes
+			}
+			decrease_state_category_click = {
+				stt_downgrade_state_category_effect = yes
+			}
+			remilitarise_state_click = {
+				stt_remilitarise_state = yes
+			}
+			demilitarise_state_click = {
+				stt_demilitarise_state = yes
+			}
+		}
+		triggers = {
+			mark_state_click_enabled = {
+				stt_no_conflict_game_rules = yes
+			}
+			mark_all_states_click_enabled = {
+				stt_no_conflict_game_rules = yes
+				owner = {
+					any_owned_state = {
+						NOT = { has_state_flag = marked_for_transfer }
+					}
+				}
+			}
+			mark_colonial_states_click_enabled = {
+				stt_no_conflict_game_rules = yes
+				owner = {
+					any_owned_state = {
+						NOT = {
+							is_in_home_area = yes
+							has_state_flag = marked_for_transfer
+						}
+					}
+				}
+			}
+			mark_noncore_states_click_enabled = {
+				stt_no_conflict_game_rules = yes
+				owner = {
+					any_owned_state = {
+						NOT = {
+							is_core_of = owner
+							has_state_flag = marked_for_transfer
+						}
+					}
+				}
+			}
+			clear_all_markings_click_enabled = {
+				has_variable = ROOT.marked_states^num
+			}
+			award_states_click_enabled = {
+				has_variable = ROOT.marked_states^num
+				any_of_scopes = {
+					array = ROOT.marked_states
+					has_state_flag = marked_for_transfer
+					NOT = { is_owned_by = var:PREV.owner }
+				}
+			}
+			add_cores_click_enabled = {
+				has_variable = ROOT.marked_states^num
+				NOT = {
+					has_global_flag = FX_state_transfer_tool_mp
+					has_global_flag = FX_state_transfer_tool_mp_no_subject
+				}
+				any_of_scopes = {
+					array = ROOT.marked_states
+					has_state_flag = marked_for_transfer
+					NOT = { is_core_of = var:PREV.owner }
+				}
+			}
+			remove_cores_click_enabled = {
+				has_variable = ROOT.marked_states^num
+				NOT = {
+					has_global_flag = FX_state_transfer_tool_mp
+					has_global_flag = FX_state_transfer_tool_mp_no_subject
+				}
+				any_of_scopes = {
+					array = ROOT.marked_states
+					has_state_flag = marked_for_transfer
+					is_core_of = var:PREV.owner
+				}
+			}
+			add_claims_click_enabled = {
+				has_variable = ROOT.marked_states^num
+				NOT = {
+					has_global_flag = FX_state_transfer_tool_mp
+					has_global_flag = FX_state_transfer_tool_mp_no_subject
+				}
+				any_of_scopes = {
+					array = ROOT.marked_states
+					has_state_flag = marked_for_transfer
+					NOT = {
+						is_core_of = var:PREV.owner
+						is_claimed_by = var:PREV.owner
+					}
+				}
+			}
+			remove_claims_click_enabled = {
+				has_variable = ROOT.marked_states^num
+				NOT = {
+					has_global_flag = FX_state_transfer_tool_mp
+					has_global_flag = FX_state_transfer_tool_mp_no_subject
+				}
+				any_of_scopes = {
+					array = ROOT.marked_states
+					has_state_flag = marked_for_transfer
+					is_claimed_by = var:PREV.owner
+				}
+			}
+			add_resource_rights_click_enabled = {
+				has_variable = root.marked_states^num
+				NOT = {
+					has_global_flag = FX_state_transfer_tool_mp
+					has_global_flag = FX_state_transfer_tool_mp_no_subject
+				}
+				any_of_scopes = {
+					array = ROOT.marked_states
+					NOT = {
+						is_in_array = {
+							array = FROM.resource_rights_giver_states
+							value = THIS
+						}
+					}
+					has_state_flag = marked_for_transfer
+				}
+			}
+			rm_resource_rights_click_enabled = {
+				has_variable = root.marked_states^num
+				NOT = {
+					has_global_flag = FX_state_transfer_tool_mp
+					has_global_flag = FX_state_transfer_tool_mp_no_subject
+				}
+				any_of_scopes = {
+					array = ROOT.marked_states
+					is_in_array = {
+						array = FROM.resource_rights_giver_states
+						value = THIS
+					}
+					has_state_flag = marked_for_transfer
+				}
+			}
+
+			mark_country_click_enabled = {
+				NOT = {
+					has_global_flag = FX_state_transfer_tool_mp
+					has_global_flag = FX_state_transfer_tool_mp_no_subject
+				}
+			}
+			add_puppet_click_enabled = {
+				has_event_target = marked_country
+				event_target:marked_country = { is_subject = no }
+				THIS = {
+					owner = {
+						NOT = {
+							tag = event_target:marked_country
+							has_war_with = event_target:marked_country
+						}
+						is_subject = no
+					}
+				}
+			}
+			remove_puppet_click_enabled = {
+				has_event_target = marked_country
+				event_target:marked_country = { is_subject = yes }
+			}
+			add_faction_click_enabled = {
+				has_event_target = marked_country
+				OR = {
+					AND = {
+						event_target:marked_country = {
+							OR = {
+								is_subject = no
+								THIS = {
+									owner = { has_subject = event_target:marked_country }
+								}
+							}
+						}
+						THIS = {
+							owner = {
+								NOT = {
+									tag = event_target:marked_country
+									is_in_faction_with = event_target:marked_country
+									has_war_with = event_target:marked_country
+								}
+								is_in_faction = yes
+							}
+						}
+					}
+					event_target:marked_country = {
+						is_in_faction = yes
+						is_faction_leader = no
+						is_subject = no
+					}
+				}
+			}
+			remove_faction_click_enabled = {
+				has_event_target = marked_country
+				event_target:marked_country = {
+					is_subject = no
+					is_in_faction = yes
+				}
+			}
+			add_peace_click_enabled = {
+				has_event_target = marked_country
+				event_target:marked_country = { has_war = yes }
+			}
+			add_war_click_enabled = {
+				has_event_target = marked_country
+				THIS = {
+					owner = {
+						event_target:marked_country = { can_declare_war_on = PREV }
+					}
+				}
+			}
+			increase_state_category_click_enabled = {
+				has_variable = ROOT.marked_states^num
+				NOT = {
+					has_global_flag = FX_state_transfer_tool_mp
+					has_global_flag = FX_state_transfer_tool_mp_no_subject
+				}
+				any_of_scopes = {
+					array = ROOT.marked_states
+					has_state_flag = marked_for_transfer
+					NOT = {
+						has_state_category = twelve
+					}
+				}
+			}
+			decrease_state_category_click_enabled = {
+				has_variable = ROOT.marked_states^num
+				NOT = {
+					has_global_flag = FX_state_transfer_tool_mp
+					has_global_flag = FX_state_transfer_tool_mp_no_subject
+				}
+				any_of_scopes = {
+					array = ROOT.marked_states
+					has_state_flag = marked_for_transfer
+					NOT = { 
+						OR = {
+							has_state_category = one
+							has_state_category = wasteland
+						} 
+					}
+				}
+			}
+			remilitarise_state_click_enabled = {
+				has_variable = ROOT.marked_states^num
+				NOT = {
+					has_global_flag = FX_state_transfer_tool_mp
+					has_global_flag = FX_state_transfer_tool_mp_no_subject
+				}
+				any_of_scopes = {
+					array = ROOT.marked_states
+					has_state_flag = marked_for_transfer
+					is_demilitarized_zone = yes
+				}
+			}
+			demilitarise_state_click_enabled = {
+				has_variable = ROOT.marked_states^num
+				NOT = {
+					has_global_flag = FX_state_transfer_tool_mp
+					has_global_flag = FX_state_transfer_tool_mp_no_subject
+				}
+				any_of_scopes = {
+					array = ROOT.marked_states
+					has_state_flag = marked_for_transfer
+					is_demilitarized_zone = no
+				}
+			}
+		}
+
+		properties = {
+			mark_state = {
+				image = "[GetMarkIcon]"
+			}
+			mark_country = {
+				image = "[GetMarkCountryIcon]"
+			}
+		}
+	}
+
+	state_transfer_tool_shortcut = {
+		context_type = player_context
+		window_name = "state_transfer_tool_shortcut_container"
+		parent_window_token = top_bar
+		dirty = ROOT.update_stt_gui
+
+		ai_enabled = {	
+			always = no
+		}
+
+		visible = {
+			OR = {
+				is_debug = yes
+				has_global_flag = FX_state_transfer_tool_active
+				has_global_flag = debug_decisons_on
+			}
+		}
+
+		effects = {
+			tool_shortcut_click = {
+				if = {
+					limit = { has_global_flag = stt_enabled }
+					clr_global_flag = stt_enabled
+				}
+				else = {
+					set_global_flag = stt_enabled
+				}
+				clear_variable = ROOT.update_stt_gui
+			}
+		}
+
+		triggers = {
+			tool_shortcut_click_enabled = {
+				NOT = { has_global_flag = FX_disable_shortcut_stt } # not defined anywhere; might add it later
+			}
+		}
+	}
+
+	# For later
+	# puppet_tool = {
+	# 	context_type = selected_state_context
+	# 	window_name = "puppet_tool_container"
+
+	# 	ai_enabled = {
+	# 		always = no
+	# 	}
+
+		
+	# }
+}

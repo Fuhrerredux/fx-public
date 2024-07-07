@@ -1,0 +1,1524 @@
+SPR_foreign_policy = {
+	SPR_strengthen_french_ties = {
+
+		icon = generic_nationalism
+
+		target_trigger = {
+			FROM = {
+				tag = FRA
+			}
+		}
+
+		allowed = {
+			original_tag = SPR
+		}
+
+		available = {
+			has_global_flag = SPR_spanish_civil_war_ended_flag
+			has_country_flag = SPR_election_happened_flag
+			NOT = {
+				any_enemy_country = {
+					is_in_faction_with = FROM
+				}
+			}
+		}
+
+		visible = {
+			has_global_flag = SPR_spanish_civil_war_ended_flag
+		}
+
+		fire_only_once = yes
+
+		cost = 50
+
+		days_remove = 15
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SPR_strengthen_french_ties target: [From.GetName]"
+			add_opinion_modifier = { target = FRA modifier = medium_increase }
+			FRA = {
+				add_opinion_modifier = { target = SPR modifier = medium_increase }
+			}
+			if = {
+				limit = {
+					has_idea = SPAIN_very_low_recognition_idea
+				}
+				swap_ideas = {
+					remove_idea = SPAIN_very_low_recognition_idea
+					add_idea = SPAIN_low_recognition_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = SPAIN_low_recognition_idea
+				}
+				swap_ideas = {
+					remove_idea = SPAIN_low_recognition_idea
+					add_idea = SPAIN_medium_recognition_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = SPAIN_medium_recognition_idea
+				}
+				swap_ideas = {
+					remove_idea = SPAIN_medium_recognition_idea
+					add_idea = SPAIN_high_recognition_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = SPAIN_high_recognition_idea
+				}
+				remove_ideas = SPAIN_high_recognition_idea
+			}
+			else_if = {
+				limit = {
+					NOT = {
+						has_idea = SPAIN_high_recognition_idea
+					}
+				}
+				add_stability = 0.01
+				add_war_support = 0.01
+			}
+			country_event = { id = repspain.154 }
+			set_country_flag = SPR_strengthen_french_ties_flag
+		}
+
+		ai_will_do = {
+			factor = 100
+		}
+	}
+
+	SPR_join_entente = {
+
+		icon = generic_nationalism
+
+		target_trigger = {
+			FROM = {
+				tag = FRA
+			}
+		}
+
+		allowed = {
+			original_tag = SPR
+		}
+
+		available = {
+			has_global_flag = SPR_spanish_civil_war_ended_flag
+			has_country_flag = SPR_strengthen_french_ties_flag
+			has_country_flag = SPR_election_happened_flag
+			NOT = {
+				any_enemy_country = {
+					is_in_faction_with = FROM
+				}
+			}
+			OR = {
+				threat > 0.40
+				AND = {
+					OR = {
+						is_neighbor_of = GER
+						is_neighbor_of = SOV
+					}
+					threat > 0.20
+				}
+			}
+		}
+
+		visible = {
+			has_global_flag = SPR_spanish_civil_war_ended_flag
+		}
+
+		fire_only_once = yes
+
+		cost = 25
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SPR_join_entente target: [From.GetName]"
+			FRA = {
+				country_event = { id = repspain.150 }
+			}
+			set_country_flag = SPR_join_entente_flag
+		}
+
+		ai_will_do = {
+			factor = 100
+		}
+	}
+
+	SPR_support_republican_portugal = {
+
+		icon = generic_nationalism
+
+		allowed = {
+			original_tag = SPR
+		}
+
+		available = {
+			has_global_flag = SPR_spanish_civil_war_ended_flag
+			has_equipment = {
+				infantry_equipment_0 > 1000
+			}
+			has_manpower > 5000
+			is_neighbor_of = PRR
+			PRR = {
+				has_war_with = POR
+			}
+		}
+
+		visible = {
+			has_global_flag = SPR_spanish_civil_war_ended_flag
+		}
+
+		fire_only_once = yes
+
+		cost = 50
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SPR_support_republican_portugal target: [From.GetName]"
+			add_manpower = -5000
+			add_equipment_to_stockpile = {
+				type = infantry_equipment_0
+				amount = -1000
+				producer = SPR
+			}
+			PRR = {
+				country_event = { id = repspain.153 }
+			}
+		}
+
+		ai_will_do = {
+			factor = 100
+		}
+	}
+
+	SPR_connect_with_spanish_countries_america = {
+
+		icon = generic_nationalism
+
+		allowed = {
+			original_tag = SPR
+		}
+
+		available = {
+			has_global_flag = SPR_spanish_civil_war_ended_flag
+		}
+
+		visible = {
+			has_global_flag = SPR_spanish_civil_war_ended_flag
+		}
+
+		fire_only_once = yes
+
+		cost = 50
+
+		days_remove = 50
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SPR_connect_with_spanish_countries_america target: [From.GetName]"
+			add_political_power = -75
+			add_opinion_modifier = { target = MEX modifier = medium_increase }
+			add_opinion_modifier = { target = CUB modifier = medium_increase }
+			add_opinion_modifier = { target = COL modifier = medium_increase }
+			add_opinion_modifier = { target = VEN modifier = medium_increase }
+			add_opinion_modifier = { target = PRU modifier = medium_increase }
+			add_opinion_modifier = { target = BOL modifier = medium_increase }
+			add_opinion_modifier = { target = ARG modifier = medium_increase }
+			add_opinion_modifier = { target = CHL modifier = medium_increase }
+			MEX = {
+				add_opinion_modifier = { target = SPR modifier = medium_increase }
+				country_event = { id = repspain.155 }
+			}
+			CUB = {
+				add_opinion_modifier = { target = SPR modifier = medium_increase }
+			}
+			COL = {
+				add_opinion_modifier = { target = SPR modifier = medium_increase }
+			}
+			VEN = {
+				add_opinion_modifier = { target = SPR modifier = medium_increase }
+			}
+			PRU = {
+				add_opinion_modifier = { target = SPR modifier = medium_increase }
+			}
+			BOL = {
+				add_opinion_modifier = { target = SPR modifier = medium_increase }
+			}
+			ARG = {
+				add_opinion_modifier = { target = SPR modifier = medium_increase }
+				country_event = { id = repspain.158 }
+			}
+			CHL = {
+				add_opinion_modifier = { target = SPR modifier = medium_increase }
+			}
+			if = {
+				limit = {
+					has_idea = SPAIN_very_low_recognition_idea
+				}
+				swap_ideas = {
+					remove_idea = SPAIN_very_low_recognition_idea
+					add_idea = SPAIN_low_recognition_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = SPAIN_low_recognition_idea
+				}
+				swap_ideas = {
+					remove_idea = SPAIN_low_recognition_idea
+					add_idea = SPAIN_medium_recognition_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = SPAIN_medium_recognition_idea
+				}
+				swap_ideas = {
+					remove_idea = SPAIN_medium_recognition_idea
+					add_idea = SPAIN_high_recognition_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = SPAIN_high_recognition_idea
+				}
+				remove_ideas = SPAIN_high_recognition_idea
+			}
+			else_if = {
+				limit = {
+					NOT = {
+						has_idea = SPAIN_high_recognition_idea
+					}
+				}
+				add_stability = 0.01
+				add_war_support = 0.01
+			}
+			set_country_flag = SPR_connect_with_spanish_countries_america_flag
+		}
+
+		ai_will_do = {
+			factor = 100
+		}
+	}
+}
+
+SPM_foreign_policy = {
+	SPM_strengthen_british_ties = {
+
+		icon = generic_nationalism
+
+		target_trigger = {
+			FROM = {
+				tag = ENG
+			}
+		}
+
+		allowed = {
+			original_tag = SPM
+		}
+
+		available = {
+			has_global_flag = SPR_spanish_civil_war_ended_flag
+			has_country_flag = SPM_government_picked_flag
+			NOT = {
+				any_enemy_country = {
+					is_in_faction_with = FROM
+				}
+			}
+		}
+
+		visible = {
+			has_global_flag = SPR_spanish_civil_war_ended_flag
+		}
+
+		fire_only_once = yes
+
+		cost = 50
+
+		days_remove = 15
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SPM_strengthen_british_ties target: [From.GetName]"
+			add_opinion_modifier = { target = ENG modifier = medium_increase }
+			ENG = {
+				add_opinion_modifier = { target = SPM modifier = medium_increase }
+			}
+			if = {
+				limit = {
+					has_idea = SPAIN_very_low_recognition_idea
+				}
+				swap_ideas = {
+					remove_idea = SPAIN_very_low_recognition_idea
+					add_idea = SPAIN_low_recognition_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = SPAIN_low_recognition_idea
+				}
+				swap_ideas = {
+					remove_idea = SPAIN_low_recognition_idea
+					add_idea = SPAIN_medium_recognition_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = SPAIN_medium_recognition_idea
+				}
+				swap_ideas = {
+					remove_idea = SPAIN_medium_recognition_idea
+					add_idea = SPAIN_high_recognition_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = SPAIN_high_recognition_idea
+				}
+				remove_ideas = SPAIN_high_recognition_idea
+			}
+			else_if = {
+				limit = {
+					NOT = {
+						has_idea = SPAIN_high_recognition_idea
+					}
+				}
+				add_stability = 0.01
+				add_war_support = 0.01
+			}
+			country_event = { id = monspain.154 }
+			set_country_flag = SPM_strengthen_british_ties_flag
+		}
+
+		ai_will_do = {
+			factor = 100
+		}
+	}
+
+	SPM_join_ipa = {
+
+		icon = generic_nationalism
+
+		target_trigger = {
+			FROM = {
+				tag = ENG
+			}
+		}
+
+		allowed = {
+			original_tag = SPM
+		}
+
+		available = {
+			has_global_flag = SPR_spanish_civil_war_ended_flag
+			has_country_flag = SPM_strengthen_british_ties_flag
+			has_country_flag = SPM_government_picked_flag
+			NOT = {
+				any_enemy_country = {
+					is_in_faction_with = FROM
+				}
+			}
+			OR = {
+				threat > 0.40
+				AND = {
+					OR = {
+						is_neighbor_of = GER
+						is_neighbor_of = SOV
+					}
+					threat > 0.20
+				}
+			}
+		}
+
+		visible = {
+			has_global_flag = SPR_spanish_civil_war_ended_flag
+		}
+
+		fire_only_once = yes
+
+		cost = 15
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SPM_join_ipa target: [From.GetName]"
+			ENG = {
+				country_event = { id = monspain.150 }
+			}
+			set_country_flag = SPM_join_ipa_flag
+		}
+
+		ai_will_do = {
+			factor = 100
+		}
+	}
+
+	SPM_support_monarchist_portugal = {
+
+		icon = generic_nationalism
+
+		allowed = {
+			original_tag = SPR
+		}
+
+		available = {
+			has_global_flag = SPR_spanish_civil_war_ended_flag
+			has_equipment = {
+				infantry_equipment_0 > 1000
+			}
+			has_manpower > 5000
+			is_neighbor_of = POR
+			POR = {
+				has_war_with = PRR
+			}
+		}
+
+		visible = {
+			has_global_flag = SPR_spanish_civil_war_ended_flag
+		}
+
+		fire_only_once = yes
+
+		cost = 50
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SPM_support_monarchist_portugal target: [From.GetName]"
+			add_manpower = -5000
+			add_equipment_to_stockpile = {
+				type = infantry_equipment_0
+				amount = -1000
+				producer = SPM
+			}
+			POR = {
+				country_event = { id = monspain.153 }
+			}
+		}
+
+		ai_will_do = {
+			factor = 100
+		}
+	}
+
+	SPM_influence_latin_american_politics = {
+
+		icon = generic_nationalism
+
+		allowed = {
+			original_tag = SPM
+		}
+
+		available = {
+			has_global_flag = SPR_spanish_civil_war_ended_flag
+		}
+
+		visible = {
+			has_global_flag = SPR_spanish_civil_war_ended_flag
+		}
+
+		fire_only_once = yes
+
+		cost = 50
+
+		days_remove = 50
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SPM_influence_latin_american_politics target: [From.GetName]"
+			add_political_power = -75
+			add_opinion_modifier = { target = MEX modifier = medium_increase }
+			add_opinion_modifier = { target = COL modifier = medium_increase }
+			add_opinion_modifier = { target = PRU modifier = medium_increase }
+			add_opinion_modifier = { target = BOL modifier = medium_increase }
+			add_opinion_modifier = { target = ARG modifier = medium_increase }
+			add_opinion_modifier = { target = CHL modifier = medium_increase }
+			MEX = {
+				add_opinion_modifier = { target = SPM modifier = medium_increase }
+			}
+			CUB = {
+				country_event = { id = monspain.155 }
+			}
+			COL = {
+				add_opinion_modifier = { target = SPM modifier = medium_increase }
+			}
+			VEN = {
+				country_event = { id = monspain.158 }
+			}
+			PRU = {
+				add_opinion_modifier = { target = SPM modifier = medium_increase }
+			}
+			BOL = {
+				add_opinion_modifier = { target = SPM modifier = medium_increase }
+			}
+			ARG = {
+				add_opinion_modifier = { target = SPM modifier = medium_increase }
+			}
+			CHL = {
+				add_opinion_modifier = { target = SPM modifier = medium_increase }
+			}
+			USA = {
+				add_opinion_modifier = { target = SPF modifier = large_decrease }
+			}
+			if = {
+				limit = {
+					has_idea = SPAIN_very_low_recognition_idea
+				}
+				swap_ideas = {
+					remove_idea = SPAIN_very_low_recognition_idea
+					add_idea = SPAIN_low_recognition_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = SPAIN_low_recognition_idea
+				}
+				swap_ideas = {
+					remove_idea = SPAIN_low_recognition_idea
+					add_idea = SPAIN_medium_recognition_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = SPAIN_medium_recognition_idea
+				}
+				swap_ideas = {
+					remove_idea = SPAIN_medium_recognition_idea
+					add_idea = SPAIN_high_recognition_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = SPAIN_high_recognition_idea
+				}
+				remove_ideas = SPAIN_high_recognition_idea
+			}
+			else_if = {
+				limit = {
+					NOT = {
+						has_idea = SPAIN_high_recognition_idea
+					}
+				}
+				add_stability = 0.01
+				add_war_support = 0.01
+			}
+			set_country_flag = SPM_influence_latin_american_politics_flag
+		}
+
+		ai_will_do = {
+			factor = 100
+		}
+	}
+
+	SPM_strike_home_republicanism = {
+
+		icon = generic_prepare_civil_war
+
+		allowed = {
+			original_tag = SPM
+		}
+
+		available = {
+			has_country_flag = SPM_government_picked_flag
+			OR = {
+				has_government = paternal_autocrat
+				has_government = authoritarian_democrat
+			}
+			has_army_manpower = {
+				size > 499999
+			}
+			OR = {
+				strength_ratio = {
+					tag = FRA
+					ratio > 0.5
+				}
+				FRA = {
+					has_war_with = GER
+				}
+			}
+			FRA = {
+				exists = yes
+			}
+		}
+
+		visible = {
+			has_global_flag = SPR_spanish_civil_war_ended_flag
+		}
+
+		fire_only_once = yes
+
+		cost = 30
+
+		days_remove = 20
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SPM_strike_home_republicanism target: [From.GetName]"
+			create_wargoal = {
+				type = puppet_wargoal_focus
+				target = FRA
+			}
+		}
+
+		ai_will_do = {
+			factor = 100
+		}
+	}
+}
+
+SPA_foreign_policy = {
+	SPA_strengthen_soviet_ties = {
+
+		icon = generic_nationalism
+
+		target_trigger = {
+			FROM = {
+				tag = SOV
+			}
+		}
+
+		allowed = {
+			original_tag = SPA
+		}
+
+		available = {
+			has_global_flag = SPR_spanish_civil_war_ended_flag
+			has_country_flag = SPA_socialist_divisions_flag
+			NOT = {
+				any_enemy_country = {
+					is_in_faction_with = FROM
+				}
+			}
+		}
+
+		visible = {
+			has_global_flag = SPR_spanish_civil_war_ended_flag
+		}
+
+		fire_only_once = yes
+
+		cost = 50
+
+		days_remove = 15
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SPA_strengthen_soviet_ties target: [From.GetName]"
+			add_opinion_modifier = { target = SOV modifier = medium_increase }
+			SOV = {
+				add_opinion_modifier = { target = SPA modifier = medium_increase }
+			}
+			if = {
+				limit = {
+					has_idea = SPAIN_very_low_recognition_idea
+				}
+				swap_ideas = {
+					remove_idea = SPAIN_very_low_recognition_idea
+					add_idea = SPAIN_low_recognition_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = SPAIN_low_recognition_idea
+				}
+				swap_ideas = {
+					remove_idea = SPAIN_low_recognition_idea
+					add_idea = SPAIN_medium_recognition_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = SPAIN_medium_recognition_idea
+				}
+				swap_ideas = {
+					remove_idea = SPAIN_medium_recognition_idea
+					add_idea = SPAIN_high_recognition_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = SPAIN_high_recognition_idea
+				}
+				remove_ideas = SPAIN_high_recognition_idea
+			}
+			else_if = {
+				limit = {
+					NOT = {
+						has_idea = SPAIN_high_recognition_idea
+					}
+				}
+				add_stability = 0.01
+				add_war_support = 0.01
+			}
+			country_event = { id = socspain.153 }
+			set_country_flag = SPA_strengthen_soviet_ties_flag
+		}
+
+		ai_will_do = {
+			factor = 100
+		}
+	}
+
+	SPA_join_3rd_international = {
+
+		icon = generic_nationalism
+
+		target_trigger = {
+			FROM = {
+				tag = SOV
+			}
+		}
+
+		allowed = {
+			original_tag = SPA
+		}
+
+		available = {
+			has_global_flag = SPR_spanish_civil_war_ended_flag
+			has_country_flag = SPA_strengthen_soviet_ties_flag
+			has_country_flag = SPA_socialist_divisions_flag
+			NOT = {
+				any_enemy_country = {
+					is_in_faction_with = FROM
+				}
+			}
+			OR = {
+				threat > 0.40
+				AND = {
+					is_neighbor_of = GER
+					threat > 0.20
+				}
+			}
+		}
+
+		visible = {
+			has_global_flag = SPR_spanish_civil_war_ended_flag
+		}
+
+		fire_only_once = yes
+
+		cost = 15
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SPA_join_3rd_international target: [From.GetName]"
+			SOV = {
+				country_event = { id = socspain.150 }
+			}
+			set_country_flag = SPA_join_3rd_international_flag
+		}
+
+		ai_will_do = {
+			factor = 100
+		}
+	}
+
+	SPA_reach_out_socialist_revolutionaries = {
+
+		icon = generic_nationalism
+
+		allowed = {
+			original_tag = SPA
+		}
+
+		available = {
+			has_global_flag = SPR_spanish_civil_war_ended_flag
+		}
+
+		visible = {
+			has_global_flag = SPR_spanish_civil_war_ended_flag
+		}
+
+		fire_only_once = yes
+
+		cost = 50
+
+		days_remove = 50
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SPA_reach_out_socialist_revolutionaries target: [From.GetName]"
+			add_political_power = -75
+			every_other_country = {
+				limit = {
+					OR = {
+						has_government = vanguardist
+						has_government = collectivist
+						has_government = libertarian_socialist
+					}
+				}
+				add_opinion_modifier = {
+					target = SPA
+					modifier = medium_increase
+				}
+			}
+			if = {
+				limit = {
+					has_idea = SPAIN_very_low_recognition_idea
+				}
+				swap_ideas = {
+					remove_idea = SPAIN_very_low_recognition_idea
+					add_idea = SPAIN_low_recognition_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = SPAIN_low_recognition_idea
+				}
+				swap_ideas = {
+					remove_idea = SPAIN_low_recognition_idea
+					add_idea = SPAIN_medium_recognition_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = SPAIN_medium_recognition_idea
+				}
+				swap_ideas = {
+					remove_idea = SPAIN_medium_recognition_idea
+					add_idea = SPAIN_high_recognition_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = SPAIN_high_recognition_idea
+				}
+				remove_ideas = SPAIN_high_recognition_idea
+			}
+			else_if = {
+				limit = {
+					NOT = {
+						has_idea = SPAIN_high_recognition_idea
+					}
+				}
+				add_stability = 0.01
+				add_war_support = 0.01
+			}
+			set_country_flag = SPA_reach_out_socialist_revolutionaries_flag
+		}
+
+		ai_will_do = {
+			factor = 100
+		}
+	}
+
+	SPA_portuguese_revolution = {
+
+		icon = generic_prepare_civil_war
+
+		allowed = {
+			original_tag = SPA
+		}
+
+		available = {
+			has_country_flag = SPA_socialist_divisions_flag
+		}
+
+		visible = {
+			has_global_flag = SPR_spanish_civil_war_ended_flag
+			NOT = {
+				owns_state = 112
+				owns_state = 180
+			}
+		}
+
+		fire_only_once = yes
+
+		cost = 30
+
+		days_remove = 20
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SPA_portuguese_revolution target: [From.GetName]"
+			every_other_country = {
+				limit = {
+					owns_state = 112
+				}
+				SPA = {
+					declare_war_on = {
+						target = PREV
+						type = annex_everything
+					}
+				}
+			}
+			create_wargoal = {
+				type = annex_everything
+				target = POR
+			}
+			create_wargoal = {
+				type = annex_everything
+				target = PRR
+			}
+		}
+
+		ai_will_do = {
+			factor = 100
+		}
+	}
+
+	SPA_final_french_revolution = {
+
+		icon = generic_prepare_civil_war
+
+		allowed = {
+			original_tag = SPA
+		}
+
+		available = {
+			has_country_flag = SPA_socialist_divisions_flag
+			has_army_manpower = {
+				size > 499999
+			}
+			OR = {
+				strength_ratio = {
+					tag = FRA
+					ratio > 0.5
+				}
+				FRA = {
+					has_war_with = GER
+				}
+			}
+			FRA = {
+				exists = yes
+			}
+		}
+
+		visible = {
+			has_global_flag = SPR_spanish_civil_war_ended_flag
+			NOT = {
+				owns_state = 31
+			}
+		}
+
+		fire_only_once = yes
+
+		cost = 30
+
+		days_remove = 20
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SPA_final_french_revolution target: [From.GetName]"
+			create_wargoal = {
+				type = puppet_wargoal_focus
+				target = FRA
+			}
+		}
+
+		ai_will_do = {
+			factor = 100
+		}
+	}
+}
+
+SPF_foreign_policy = {
+	SPF_strengthen_german_ties = {
+
+		icon = generic_nationalism
+
+		target_trigger = {
+			FROM = {
+				tag = SOV
+			}
+		}
+
+		allowed = {
+			original_tag = SPF
+		}
+
+		available = {
+			has_global_flag = SPR_spanish_civil_war_ended_flag
+			has_country_flag = SPF_internal_struggle_over_flag
+			NOT = {
+				any_enemy_country = {
+					is_in_faction_with = FROM
+				}
+			}
+		}
+
+		visible = {
+			has_global_flag = SPR_spanish_civil_war_ended_flag
+		}
+
+		fire_only_once = yes
+
+		cost = 50
+
+		days_remove = 15
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SPF_strengthen_german_ties target: [From.GetName]"
+			add_opinion_modifier = { target = GER modifier = medium_increase }
+			GER = {
+				add_opinion_modifier = { target = SPF modifier = medium_increase }
+			}
+			if = {
+				limit = {
+					has_idea = SPAIN_very_low_recognition_idea
+				}
+				swap_ideas = {
+					remove_idea = SPAIN_very_low_recognition_idea
+					add_idea = SPAIN_low_recognition_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = SPAIN_low_recognition_idea
+				}
+				swap_ideas = {
+					remove_idea = SPAIN_low_recognition_idea
+					add_idea = SPAIN_medium_recognition_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = SPAIN_medium_recognition_idea
+				}
+				swap_ideas = {
+					remove_idea = SPAIN_medium_recognition_idea
+					add_idea = SPAIN_high_recognition_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = SPAIN_high_recognition_idea
+				}
+				remove_ideas = SPAIN_high_recognition_idea
+			}
+			else_if = {
+				limit = {
+					NOT = {
+						has_idea = SPAIN_high_recognition_idea
+					}
+				}
+				add_stability = 0.01
+				add_war_support = 0.01
+			}
+			country_event = { id = carspain.153 }
+			set_country_flag = SPF_strengthen_german_ties_flag
+		}
+
+		ai_will_do = {
+			factor = 100
+		}
+	}
+
+	SPF_join_stahlpakt = {
+
+		icon = generic_nationalism
+
+		target_trigger = {
+			FROM = {
+				tag = GER
+			}
+		}
+
+		allowed = {
+			original_tag = SPF
+		}
+
+		available = {
+			has_global_flag = SPR_spanish_civil_war_ended_flag
+			has_country_flag = SPF_strengthen_german_ties_flag
+			has_country_flag = SPF_internal_struggle_over_flag
+			NOT = {
+				any_enemy_country = {
+					is_in_faction_with = FROM
+				}
+			}
+			OR = {
+				AND = {
+					has_government = paternal_autocrat
+					threat > 0.80
+				}
+				AND = {
+					has_government = national_populist
+					threat > 0.40
+				}
+				AND = {
+					has_government = valkist
+					threat > 0.30
+				}
+				AND = {
+					has_government = paternal_autocrat
+					is_neighbor_of = SOV
+					threat > 0.40
+				}
+				AND = {
+					has_government = national_populist
+					is_neighbor_of = SOV
+					threat > 0.20
+				}
+				AND = {
+					has_government = valkist
+					is_neighbor_of = SOV
+				}
+			}
+		}
+
+		visible = {
+			has_global_flag = SPR_spanish_civil_war_ended_flag
+		}
+
+		fire_only_once = yes
+
+		cost = 15
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SPF_join_stahlpakt target: [From.GetName]"
+			GER = {
+				country_event = { id = carspain.150 }
+			}
+			set_country_flag = SPF_join_stahlpakt_flag
+		}
+
+		ai_will_do = {
+			factor = 100
+		}
+	}
+
+	SPF_promote_hispanimo = {
+
+		icon = generic_nationalism
+
+		allowed = {
+			original_tag = SPF
+		}
+
+		available = {
+			has_global_flag = SPR_spanish_civil_war_ended_flag
+		}
+
+		visible = {
+			has_global_flag = SPR_spanish_civil_war_ended_flag
+		}
+
+		fire_only_once = yes
+
+		cost = 50
+
+		days_remove = 50
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SPF_promote_hispanimo target: [From.GetName]"
+			add_political_power = -75
+			country_event = { id = carspain.154 }
+			add_opinion_modifier = { target = MEX modifier = medium_increase }
+			add_opinion_modifier = { target = COL modifier = medium_increase }
+			add_opinion_modifier = { target = PRU modifier = medium_increase }
+			add_opinion_modifier = { target = BOL modifier = medium_increase }
+			add_opinion_modifier = { target = ARG modifier = medium_increase }
+			add_opinion_modifier = { target = CHL modifier = medium_increase }
+			MEX = {
+				add_opinion_modifier = { target = SPF modifier = medium_increase }
+			}
+			CUB = {
+				add_opinion_modifier = { target = SPF modifier = medium_increase }
+			}
+			COL = {
+				add_opinion_modifier = { target = SPF modifier = medium_increase }
+			}
+			VEN = {
+				add_opinion_modifier = { target = SPF modifier = medium_increase }
+			}
+			PRU = {
+				add_opinion_modifier = { target = SPF modifier = medium_increase }
+			}
+			BOL = {
+				add_opinion_modifier = { target = SPF modifier = medium_increase }
+			}
+			ARG = {
+				add_opinion_modifier = { target = SPF modifier = medium_increase }
+			}
+			CHL = {
+				add_opinion_modifier = { target = SPF modifier = medium_increase }
+			}
+			USA = {
+				add_opinion_modifier = { target = SPF modifier = large_decrease }
+			}
+			if = {
+				limit = {
+					has_idea = SPAIN_very_low_recognition_idea
+				}
+				swap_ideas = {
+					remove_idea = SPAIN_very_low_recognition_idea
+					add_idea = SPAIN_low_recognition_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = SPAIN_low_recognition_idea
+				}
+				swap_ideas = {
+					remove_idea = SPAIN_low_recognition_idea
+					add_idea = SPAIN_medium_recognition_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = SPAIN_medium_recognition_idea
+				}
+				swap_ideas = {
+					remove_idea = SPAIN_medium_recognition_idea
+					add_idea = SPAIN_high_recognition_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = SPAIN_high_recognition_idea
+				}
+				remove_ideas = SPAIN_high_recognition_idea
+			}
+			else_if = {
+				limit = {
+					NOT = {
+						has_idea = SPAIN_high_recognition_idea
+					}
+				}
+				add_stability = 0.01
+				add_war_support = 0.01
+			}
+			set_country_flag = SPF_promote_hispanimo_flag
+		}
+
+		ai_will_do = {
+			factor = 100
+		}
+	}
+
+	SPF_united_iberia = {
+
+		icon = generic_prepare_civil_war
+
+		allowed = {
+			original_tag = SPF
+		}
+
+		available = {
+			has_country_flag = SPF_internal_struggle_over_flag
+		}
+
+		visible = {
+			has_global_flag = SPR_spanish_civil_war_ended_flag
+			NOT = {
+				owns_state = 112
+				owns_state = 180
+			}
+		}
+
+		fire_only_once = yes
+
+		cost = 30
+
+		days_remove = 20
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SPF_united_iberia target: [From.GetName]"
+			every_other_country = {
+				limit = {
+					owns_state = 112
+				}
+				SPF = {
+					declare_war_on = {
+						target = PREV
+						type = annex_everything
+					}
+				}
+			}
+			create_wargoal = {
+				type = annex_everything
+				target = POR
+			}
+			create_wargoal = {
+				type = annex_everything
+				target = PRR
+			}
+		}
+
+		ai_will_do = {
+			factor = 100
+		}
+	}
+
+	SPF_regain_northern_catalonia = {
+
+		icon = generic_prepare_civil_war
+
+		allowed = {
+			original_tag = SPF
+		}
+
+		available = {
+			has_country_flag = SPF_internal_struggle_over_flag
+			has_army_manpower = {
+				size > 499999
+			}
+			OR = {
+				strength_ratio = {
+					tag = FRA
+					ratio > 0.5
+				}
+				FRA = {
+					has_war_with = GER
+				}
+			}
+			FRA = {
+				exists = yes
+			}
+		}
+
+		visible = {
+			has_global_flag = SPR_spanish_civil_war_ended_flag
+			NOT = {
+				owns_state = 31
+			}
+		}
+
+		fire_only_once = yes
+
+		cost = 30
+
+		days_remove = 20
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SPF_regain_northern_catalonia target: [From.GetName]"
+			create_wargoal = {
+				type = take_claimed_state
+				target = FRA
+			}
+		}
+
+		ai_will_do = {
+			factor = 100
+		}
+	}
+
+	SPF_revenge_for_spanish_american_war = {
+
+		icon = generic_prepare_civil_war
+
+		allowed = {
+			original_tag = SPF
+		}
+
+		available = {
+			has_country_flag = SPF_internal_struggle_over_flag
+			has_army_manpower = {
+				size > 349999
+			}
+			strength_ratio = {
+				tag = USA
+				ratio > 0.5
+			}
+			USA = {
+				exists = yes
+			}
+		}
+
+		visible = {
+			has_global_flag = SPR_spanish_civil_war_ended_flag
+		}
+
+		fire_only_once = yes
+
+		cost = 30
+
+		days_remove = 20
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SPF_revenge_for_spanish_american_war target: [From.GetName]"
+			create_wargoal = {
+				type = puppet_wargoal_focus
+				target = USA
+			}
+		}
+
+		ai_will_do = {
+			factor = 100
+		}
+	}
+}
+SPR_internal_policy = {
+	SPR_declare_iberian_unification = {
+
+		icon = generic_nationalism
+
+		allowed = {
+			OR = {
+				original_tag = SPR
+				original_tag = SPM
+				original_tag = SPA
+				original_tag = SPF
+			}
+		}
+
+		available = {
+			controls_state = 112
+			controls_state = 180
+		}
+
+		visible = {
+			has_global_flag = SPR_spanish_civil_war_ended_flag
+			owns_state = 112
+			owns_state = 180
+		}
+
+		fire_only_once = yes
+
+		cost = 30
+
+		days_remove = 5
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SPR_declare_iberian_unification target: [From.GetName]"
+			country_event = { id = repspain.200 }
+		}
+
+		ai_will_do = {
+			factor = 100
+		}
+	}
+
+	SPR_integrate_portugal = {
+
+		icon = generic_nationalism
+
+		allowed = {
+			OR = {
+				original_tag = SPR
+				original_tag = SPM
+				original_tag = SPA
+				original_tag = SPF
+			}
+		}
+
+		available = {
+			controls_state = 1000
+			controls_state = 180
+			controls_state = 1001
+			controls_state = 181
+			controls_state = 999
+			controls_state = 112
+			controls_state = 179
+			controls_state = 998
+			has_country_flag = IBERIA_unified_flag
+		}
+
+		visible = {
+			has_global_flag = SPR_spanish_civil_war_ended_flag
+			owns_state = 112
+			owns_state = 180
+		}
+
+		fire_only_once = yes
+
+		cost = 75
+
+		days_remove = 100
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SPR_integrate_portugal target: [From.GetName]"
+			add_state_core = 1000
+			add_state_core = 180
+			add_state_core = 1001
+			add_state_core = 181
+			add_state_core = 999
+			add_state_core = 112
+			add_state_core = 179
+			add_state_core = 998
+		}
+
+		ai_will_do = {
+			factor = 100
+		}
+	}
+}

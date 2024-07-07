@@ -1,0 +1,157 @@
+CHI_improve_literacy = {
+	if = {
+		limit = { has_idea = CHI_illiterate_population }
+		swap_ideas = {
+			remove_idea = CHI_illiterate_population
+			add_idea = CHI_illiterate_population_1
+		}
+	}
+	else_if = {
+		limit = { has_idea = CHI_illiterate_population_1 }
+		swap_ideas = {
+			remove_idea = CHI_illiterate_population_1
+			add_idea = CHI_illiterate_population_2
+		}
+	}
+	else_if = {
+		limit = { has_idea = CHI_illiterate_population_2 }
+		remove_ideas = CHI_illiterate_population_2
+	}
+}
+
+CHI_improve_economy = {
+	if = {
+		limit = { has_idea = CHI_backwards_economy }
+		swap_ideas = {
+			remove_idea = CHI_backwards_economy
+			add_idea = CHI_backwards_economy_1
+		}
+	}
+	else_if = {
+		limit = { has_idea = CHI_backwards_economy_1 }
+		swap_ideas = {
+			remove_idea = CHI_backwards_economy_1
+			add_idea = CHI_backwards_economy_2
+		}
+	}
+	else_if = {
+		limit = { has_idea = CHI_backwards_economy_2 }
+		remove_ideas = CHI_backwards_economy_2
+	}
+}
+
+######Zhili Provinces Array Set######
+KMT_set_zhili_provinces = {
+	every_controlled_state = {
+		limit = {
+			OR = {
+				state = 600
+				state = 595
+				state = 1028
+				state = 1027
+				state = 1026
+				state = 1025
+				state = 596
+				state = 606
+				state = 934
+				state = 598
+				state = 895
+				state = 613
+			}
+		}
+		add_to_array = {
+			array = ROOT.Zhili_Province
+		}
+	}
+}
+KMT_set_zhili_provinces_claim = {
+	hidden_effect = {
+		KMT_set_zhili_provinces = yes
+		for_each_scope_loop = {
+			array = ROOT.Zhili_Province
+			add_claim_by = ZHI
+		}
+	}
+}
+KMT_zhili_dominant_china_state_claim = {
+	for_each_scope_loop = {
+		array = KMT.core_states
+		add_claim_by = ZHI
+	}
+}
+######Chinese Clique Array Set######
+KMT_set_clique = {
+	every_country = {
+		limit = { is_chinese_tag = yes }
+		add_to_array = {
+			array = global.Chinese_clique
+		}
+	}
+}
+KMT_remove_core_and_claim_from_dead_clique = {
+	hidden_effect = {
+		every_state = {
+			limit = {
+				any_of = {
+					array = global.Chinese_clique
+					OR = {
+						is_claimed_by = var:v
+						is_core_of = var:v
+					}
+					var:v = {
+						exists = no
+					}
+				}
+			}
+			for_each_scope_loop = {
+				array = global.Chinese_clique
+				if = {
+					limit = { exists = no }
+					remove_state_claim = PREV
+					if = {
+						limit = { check_variable = { PREV.core_countries^num > 1 } }
+						remove_state_core = PREV
+					}
+				}
+			}
+		}
+	}
+}
+######National Assembly Calculation######
+KMT_national_assembly_calculation_in_China = {
+	every_controlled_state = {
+		limit = { is_controlled_by = KMT }
+		KMT = {
+			set_variable = { KMTPop = PREV.state_population }
+			multiply_variable = { KMTPop = -1 }
+			divide_variable = { KMTPop = 100000 }
+			round_variable = KMTPop
+		}
+	}
+	###KMT
+	set_temp_variable = { GovPop = ROOT.party_popularity@authoritarian_democrat }
+	multiply_temp_variable = { GovPop = 100 }
+	multiply_temp_variable = { GovPop = KMTPop }
+	set_variable = { KMTMemberAssembly = GovPop }
+	round_variable = KMTMemberAssembly
+	###Zhili
+	set_temp_variable = { ZhiliPop = ROOT.party_popularity@paternal_autocrat }
+	multiply_temp_variable = { ZhiliPop = 100 }
+	multiply_temp_variable = { ZhiliPop = KMTPop }
+	set_variable = { JGDMemberAssembly = ZhiliPop }
+	round_variable = JGDMemberAssembly
+}
+KMT_set_quorum_presidential_election_win = {
+	every_controlled_state = {
+		limit = { is_controlled_by = KMT }
+		KMT = {
+			set_variable = { KMTPop = PREV.state_population }
+			multiply_variable = { KMTPop = -1 }
+			divide_variable = { KMTPop = 1000 }
+			round_variable = KMTPop
+		}
+	}
+	set_variable = { PresidentialQuorum = KMTPop }
+	multiply_variable = { PresidentialQuorum = 0.6 }
+	round_variable = PresidentialQuorum
+}

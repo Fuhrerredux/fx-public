@@ -1,0 +1,103 @@
+on_actions = {
+	on_startup = {
+		effect = {
+			every_state = {
+				limit = {
+					is_owned_by = GRE
+					is_core_of = GRE
+				}
+				add_to_array = { GRE.cored_states = THIS }
+				add_to_array = { GRE.initial_states = THIS }
+			}
+		}
+	}
+	on_daily = {
+		effect = {
+			GRE_enact_third_greturwar_peace = yes
+			if = {
+				limit = {
+					has_country_flag = GRE_thirdwarwithturkey_declared
+					NOT = {
+						has_war_with = TUR
+					}
+				}
+				clr_country_flag = GRE_thirdwarwithturkey_declared
+			}
+			every_state = {
+				limit = {
+					is_owned_by = GRE
+					is_core_of = GRE
+					NOT = {
+						is_in_array = { GRE.cored_states = THIS }
+					}
+				}
+				add_to_array = { GRE.cored_states = THIS }
+			}
+		}
+	}
+	on_new_term_election = {
+		effect = {
+			if = {
+				limit = {
+					tag = GRE
+				}
+				country_event = gre.38 # 1936 Snap Presidential Elections
+				country_event = gre.47 # 1941 Presidential Elections
+				country_event = gre.48 # 1946 Presidential Elections
+			}
+		}
+	}
+	on_government_change = {
+		effect = {
+			if = {
+				limit = {
+					tag = GRE
+					has_democratic_government = no
+				}
+				remove_ideas = GRE_venizelist_officers
+				else_if = {
+					limit = {
+						tag = GRE
+						has_democratic_government = yes
+					}
+					add_ideas = GRE_venizelist_officers
+				}
+			}
+			if = {
+				limit = {
+					tag = GRE
+					OR = {
+						has_ultranationalist_government = yes
+						has_government = social_liberal
+						has_government = market_liberal
+						has_government = social_democrat
+						has_socialist_government = yes
+					}
+					has_cosmetic_tag = GRE_kingdom
+				}
+				drop_cosmetic_tag = yes
+				if = {
+					limit = {
+						has_idea = GRE_george_is_bacc
+					}
+					remove_ideas = GRE_george_is_bacc
+				}
+			}
+		}
+	}
+	on_state_control_changed = {
+		effect = {
+			if = {
+				limit = {
+					ROOT = { tag = GRE }
+					FROM.FROM = { state = 341 }
+					NOT = { has_country_flag = GRE_GOT_CONSTANTINOPLE }
+				}
+				set_country_flag = GRE_GOT_CONSTANTINOPLE
+				GRE = {
+					country_event = { id = gre.121 days = 2 random_hours = 6 }
+				}
+			}
+		}
+	}
+}

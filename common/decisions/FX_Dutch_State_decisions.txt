@@ -1,0 +1,446 @@
+
+HOL_landwacht_expansion = {
+	HOL_conduct_war_games = {
+		icon = GFX_decision_generic_tank
+		fire_only_once = yes
+		days_remove = 60
+		ai_will_do = {
+			factor = 200
+		}
+		custom_cost_trigger = {
+			has_equipment = {
+				infantry_equipment_1 > 20
+			}
+		}
+		custom_cost_text = equipment_more_than_20
+		remove_effect = {
+			add_doctrine_cost_reduction = {
+				name = HOL_conduct_war_games
+				cost_reduction = 0.5
+				uses = 1
+				category = land_doctrine
+			}
+		}
+	}
+	HOL_recruitment_spree = {
+		icon = GFX_decision_eng_blackshirt_march
+		fire_only_once = yes
+		days_remove = 40
+		cost = 50
+		remove_effect = {
+			add_manpower = 15000
+		}
+	}
+	HOL_intensified_training_programs = {
+		icon = GFX_decision_generic_prepare_civil_war
+		fire_only_once = yes
+		days_remove = 100
+		cost = 20
+		remove_effect = {
+			custom_effect_tooltip = HOL_intensified_training_programs_tt
+			hidden_effect = {
+				load_oob = "HOL_elite"
+			}
+		}
+	}
+}
+foreign_politics = {
+	HOL_strike_at = {
+		allowed = { original_tag = HOL }
+		visible = { has_completed_focus = HOL_red_dawn_in_western_europe }
+		cost = 20
+		icon = GFX_decision_generic_ignite_civil_war
+		days_remove = 14
+		ai_will_do = {
+			factor = 200
+		}
+		target_trigger = {
+			FROM = {
+				OR = {
+					tag = BEL
+					tag = FRA
+				}
+			}
+		}
+		available = {
+			is_subject = no
+			FROM = {
+				NOT = {
+					is_in_faction_with = ROOT
+					is_subject_of = ROOT
+				}
+			}
+		}
+		remove_effect = {
+			declare_war_on = {
+				target = FROM
+				type = annex_everything
+			}
+		}
+	}
+	HOL_operations_in_brussels = {
+		allowed = { original_tag = HOL }
+		available = {
+			is_subject = no
+			has_capitulated = no
+		}
+		visible = {
+			has_completed_focus = HOL_covert_operations_in_belgium
+		}
+		ai_will_do = {
+			factor = 200
+		}
+		cost = 20
+		icon = GFX_decision_generic_political_discourse
+		complete_effect = {
+			custom_effect_tooltip = HOL_operations_in_brussels_tt
+			hidden_effect = {
+				country_event = { id = dutchstate.51 days = 60 }
+			}
+		}
+	}
+	HOL_espionage_in_france = {
+		allowed = { original_tag = HOL }
+		available = {
+			is_subject = no
+			has_capitulated = no
+		}
+		visible = {
+			has_completed_focus = HOL_espionage_in_the_city_of_lights
+		}
+		ai_will_do = {
+			factor = 200
+		}
+		target_trigger = {
+			FROM = { tag = FRA }
+		}
+		cost = 20
+		icon = GFX_decision_generic_political_discourse
+		complete_effect = {
+			custom_effect_tooltip = HOL_espionage_in_france_tt
+			hidden_effect = {
+				country_event = { id = dutchstate.50 days = 60 }
+			}
+		}
+	}
+	HOL_unification_of_the_lowlands = {
+		allowed = { original_tag = HOL }
+		available = {
+			is_subject = no
+			has_capitulated = no
+		}
+		visible = {
+			has_completed_focus = HOL_unify_the_lowlands
+		}
+		ai_will_do = {
+			factor = 200
+		}
+		available = {
+			FROM = {
+				exists = yes
+				NOT = { has_war_with = ROOT }
+				any_allied_country = {
+					FROM = {
+						NOT = { is_subject_of = PREV }
+					}
+				}
+			}
+		}
+		target_trigger = {
+			FROM = {
+				tag = BEL
+				tag = LUX
+			}
+		}
+		cost = 25
+		days_remove = 14
+		icon = GFX_decision_eng_trade_unions_support
+		remove_effect = {
+			FROM = {
+				country_event = { id = dutchstate.44 days = 3 }
+			}
+		}
+	}
+	HOL_operation_fakkel_decision = {
+		allowed = { original_tag = HOL }
+		available = {
+			is_subject = no
+			has_capitulated = no
+		}
+		visible = {
+			has_completed_focus = HOL_operation_fakkel
+			866 = {
+				OR = {
+					owner = { NOT = { tag = ROOT } }
+					is_controlled_by_ROOT_or_ally = no
+				}
+			}
+			867 = {
+				OR = {
+					owner = { NOT = { tag = ROOT } }
+					is_controlled_by_ROOT_or_ally = no
+				}
+			}
+		}
+		available = {
+			NOT = { has_war_with = BEL }
+		}
+		ai_will_do = {
+			factor = 200
+		}
+		cost = 25
+		fire_only_once = yes
+		icon = GFX_decision_eng_blackshirt_march
+		complete_effect = {
+			custom_effect_tooltip = HOL_operation_fakkel_decision_tt
+			hidden_effect = {
+				BEL = {
+					country_event = { id = dutchstate.11 days = 3 }
+				}
+				866 = { add_resistance = 25 }
+				867 = { add_resistance = 25 }
+			}
+		}
+	}
+}
+
+political_actions = {
+	HOL_smuggle_guns_from = {
+		allowed = { original_tag = HOL }
+		available = {
+			is_subject = no
+			has_capitulated = no
+		}
+		visible = {
+			has_completed_focus = HOL_smuggle_guns
+			FROM = {
+				has_country_flag = HOL_smuggled_guns_from
+			}
+		}
+		ai_will_do = {
+			factor = 200
+		}
+		icon = GFX_decision_generic_prepare_civil_war
+		cost = 20
+		days_remove = 14
+		target_trigger = {
+			FROM = {
+				tag = ENG
+				tag = FRA
+				tag = BEL
+				tag = DEN
+			}
+		}
+		remove_effect = {
+			FROM = {
+				set_country_flag = HOL_smuggled_guns_from
+				random_list = {
+					70 = {
+						country_event = { id = dutchstate.41 days = 2 }
+					}
+					30 = {
+						country_event = { id = dutchstate.43 days = 2 }
+					}
+				}
+			}
+		}
+	}
+	HOL_crush_socialists = {
+		allowed = { original_tag = HOL }
+		available = {
+			is_subject = no
+			has_capitulated = no
+		}
+		visible = {
+			OR = {
+				has_completed_focus = HOL_fight_the_leftists
+				has_completed_focus = HOL_the_red_scare
+				has_country_flag = HOL_socialist_problem
+			}
+		}
+		ai_will_do = {
+			factor = 200
+		}
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = HOL_conducting_pacification_tt
+				NOT = { has_country_flag = HOL_conducting_pacification }
+			}
+			FROM = {
+				has_state_flag = HOL_leftist_resistance_flag
+			}
+		}
+		icon = GFX_decision_oppression
+		cost = 20
+		on_map_mode = map_and_decisions_view
+		days_remove = 30
+		state_target = yes
+		target_trigger = {
+			FROM = {
+				OR = {
+					state = 7
+					state = 35
+					state = 36
+					state = 754
+					state = 938
+				}
+			}
+		}
+		complete_effect = {
+			set_country_flag = HOL_conducting_pacification
+		}
+		remove_effect = {
+			custom_effect_tooltip = HOL_crush_socialists_remove_tt
+			HOL_check_leftist_resistance = yes
+			clr_country_flag = HOL_conducting_pacification
+			FROM = {
+				clr_state_flag = HOL_leftist_resistance_flag
+				remove_dynamic_modifier = {
+					modifier = HOL_leftist_resistance
+				}
+			}
+		}
+	}
+	HOL_hunt_down_landwacht = {
+		allowed = { original_tag = HOL }
+		available = {
+			is_subject = no
+			has_capitulated = no
+		}
+		visible = {
+			OR = {
+				has_completed_focus = HOL_crush_the_remaining_landwacht
+				has_country_flag = HOL_landwacht_problem
+			}
+		}
+		ai_will_do = {
+			factor = 200
+		}
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = HOL_conducting_pacification_tt
+				NOT = { has_country_flag = HOL_conducting_pacification }
+			}
+			FROM = {
+				has_state_flag = HOL_landwacht_resistance_flag
+			}
+		}
+		icon = GFX_decision_generic_army_support
+		on_map_mode = map_and_decisions_view
+		state_target = yes
+		days_remove = 30
+		target_trigger = {
+			FROM = {
+				OR = {
+					state = 7
+					state = 35
+					state = 36
+					state = 754
+					state = 938
+				}
+			}
+		}
+		custom_cost_trigger = {
+			has_equipment = {
+				infantry_equipment_1 > 100
+			}
+		}
+		custom_cost_text = equipment_more_than_20
+		complete_effect = {
+			set_country_flag = HOL_conducting_pacification
+		}
+		remove_effect = {
+			custom_effect_tooltip = HOL_hunt_down_landwacht_remove_tt
+			HOL_check_landwacht_resistance = yes
+			clr_country_flag = HOL_conducting_pacification
+			FROM = {
+				clr_state_flag = HOL_landwacht_resistance_flag
+				remove_dynamic_modifier = {
+					modifier = HOL_landwacht_resistance
+				}
+			}
+		}
+	}
+	HOL_secure_the_state = {
+		allowed = { original_tag = HOL }
+		icon = GFX_decision_generic_nationalism
+		available = {
+			has_completed_focus = HOL_arrest_general_reynders
+		}
+		activation = {
+			has_country_flag = HOL_should_secure_the_state
+		}
+		ai_will_do = {
+			factor = 200
+		}
+		is_good = no
+		selectable_mission = no
+		days_mission_timeout = 180
+		timeout_effect = {
+			hidden_effect = {
+				clr_country_flag = HOL_should_secure_the_state
+				country_event = { id = dutchstate.112 days = 2 }
+			}
+		}
+		complete_effect = {
+			add_stability = 0.05
+			add_war_support = 0.05
+			increase_ruling_party_popularity_by_5 = yes
+			clr_country_flag = HOL_should_secure_the_state
+		}
+	}
+	HOL_proclaim_the_unification = {
+		allowed = { original_tag = HOL }
+		icon = GFX_decision_eng_support_imperialist_coup
+		visible = {
+			6 = { is_core_of = ROOT }
+			34 = { is_core_of = ROOT }
+			802 = { is_core_of = ROOT }
+			806 = { is_core_of = ROOT }
+			866 = { is_core_of = ROOT }
+			867 = { is_core_of = ROOT }
+		}
+		available = {
+			6 = { is_owned_by = ROOT }
+			34 = { is_owned_by = ROOT }
+			802 = { is_owned_by = ROOT }
+			806 = { is_owned_by = ROOT }
+			866 = { is_owned_by = ROOT }
+			867 = { is_owned_by = ROOT }
+		}
+		complete_effect = {
+			set_cosmetic_tag = HOL_unified
+			hidden_effect = {
+				random_other_country = {
+					news_event = { id = fxnews.19 hours = 12 }
+				}
+			}
+		}
+	}
+}
+
+HOL_state_integration = {
+	HOL_integrate_lost_lands = {
+		icon = GFX_decision_oppression
+		cost = 20
+		days_remove = 30
+		state_target = yes
+		on_map_mode = map_and_decisions_view
+		targets = {
+			6 34 802 806 866 867
+		}
+		ai_will_do = {
+			factor = 200
+		}
+		target_trigger = { owns_state = FROM }
+
+		visible = {
+			FROM = {
+				NOT = { is_core_of = HOL }
+			}
+		}
+		remove_effect = {
+			FROM = { add_core_of = ROOT }
+		}
+	}
+}

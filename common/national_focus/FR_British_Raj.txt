@@ -1,0 +1,2820 @@
+###########################
+# British Raj Focus Tree
+###########################
+# By Santander
+###########################
+
+focus_tree = {
+	id = british_raj_focus
+
+	country = {
+		factor = 0
+
+		modifier = {
+			add = 10
+			tag = RAJ
+		}
+	}
+
+	default = no
+
+	continuous_focus_position = { x = 1 y = 1000 }
+
+	focus = {
+		id = RAJ_Logistics
+		icon = GFX_goal_SOV_planned_economies
+		x = 11
+		y = 0
+		cost = 5
+
+		ai_will_do = {
+			factor = 2
+		}
+
+		allow_branch = {
+			NOT = { has_country_flag = RAJ_IS_EXILED }
+		}
+
+
+		#		available = {
+			#			has_country_flag = RAJ_Peace
+			#		}
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Logistics"
+			army_experience = 10
+			navy_experience = 10
+			air_experience = 10
+		}
+	}
+
+	#### Army Tree ####
+	focus = {
+		id = RAJ_British_Indian_Army
+		icon = GFX_goal_RAJ_The_Army
+		prerequisite = { focus = RAJ_Logistics }
+		x = 0
+		y = 1
+		cost = 5
+
+		ai_will_do = {
+			factor = 2
+		}
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_British_Indian_Army"
+			army_experience = 50
+			country_event = { id = raj.80 days = 1 }
+		}
+	}
+
+	focus = {
+		id = RAJ_Maintain_Indian_Control
+		icon = GFX_focus_RAJ_indianisation_of_army
+		mutually_exclusive = { focus = RAJ_Increase_British_Control }
+		prerequisite = { focus = RAJ_British_Indian_Army }
+		x = -2
+		y = 2
+		cost = 5
+
+		available_if_capitulated = yes
+
+		available = {
+			has_country_flag = RAJ_Indian_Army
+		}
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Maintain_Indian_Control"
+			add_stability = 0.05
+			hidden_effect = {
+				add_to_variable = { var = raj_fragment value = 1 }
+			}
+		}
+	}
+
+	focus = {
+		id = RAJ_Restructure_Command
+		icon = GFX_goal_USA_national_guard
+		prerequisite = { focus = RAJ_Maintain_Indian_Control }
+		x = -2
+		y = 3
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Restructure_Command"
+			add_command_power = 25
+		}
+	}
+
+	focus = {
+		id = RAJ_Promote_Indian_Officers
+		icon = GFX_focus_chi_army_reform
+		prerequisite = { focus = RAJ_Restructure_Command }
+		x = -2
+		y = 4
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Promote_Indian_Officers"
+			add_doctrine_cost_reduction = { cost_reduction = 0.5 uses = 2 category = cat_mobile_warfare }
+			army_experience = 25
+		}
+	}
+
+	focus = {
+		id = RAJ_Increase_British_Control
+		icon = GFX_goal_united_kingdom
+		mutually_exclusive = { focus = RAJ_Maintain_Indian_Control }
+		prerequisite = { focus = RAJ_British_Indian_Army }
+		x = 2
+		y = 2
+		cost = 5
+
+		available_if_capitulated = yes
+
+		available = {
+			has_country_flag = RAJ_British_Army
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Increase_British_Control"
+			add_stability = -0.05
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.5
+				uses = 1
+				category = land_doctrine
+			}
+			#			hidden_effect = {
+				#				add_to_variable = { var = raj_revolt value = 1 }
+				#			}
+		}
+	}
+
+	focus = {
+		id = RAJ_Reinforce_Command
+		icon = GFX_goal_army_guy
+		prerequisite = { focus = RAJ_Increase_British_Control }
+		x = 2
+		y = 3
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Reinforce_Command"
+			add_command_power = 50
+		}
+	}
+
+	focus = {
+		id = RAJ_British_Officers
+		icon = GFX_goal_generic_british_officers
+		prerequisite = { focus = RAJ_Reinforce_Command }
+		x = 2
+		y = 4
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_British_Officers"
+			add_doctrine_cost_reduction = { cost_reduction = 1 uses = 1 category = cat_mobile_warfare }
+			army_experience = 25
+		}
+	}
+
+	focus = {
+		id = RAJ_Indian_Military_Academy
+		icon = GFX_goal_generic_army_training
+		prerequisite = { focus = RAJ_Promote_Indian_Officers }
+		x = -2
+		y = 5
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Indian_Military_Academy"
+			army_experience = 50
+			add_command_power = 25
+			swap_ideas = { remove_idea = RAJ_poor_training add_idea = RAJ_Indian_Officers }
+		}
+	}
+
+	focus = {
+		id = RAJ_English_Superiority
+		icon = GFX_goal_generic_army_high_command
+		prerequisite = { focus = RAJ_British_Officers }
+		x = 2
+		y = 5
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_English_Superiority"
+			army_experience = 50
+			add_command_power = 25
+			swap_ideas = { remove_idea = RAJ_poor_training add_idea = RAJ_British_Officers }
+		}
+	}
+
+	focus = {
+		id = RAJ_Training_Reforms
+		icon = GFX_goal_army_guy_2
+		prerequisite = {
+			focus = RAJ_Increase_British_Control
+			focus = RAJ_Maintain_Indian_Control
+		}
+		x = 0
+		y = 3
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Training_Reforms"
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.5
+				uses = 1
+				category = land_doctrine
+			}
+		}
+	}
+
+	focus = {
+		id = RAJ_Equipment_Upgrades
+		icon = GFX_goal_generic_military_equipment
+		prerequisite = { focus = RAJ_Training_Reforms }
+		x = 0
+		y = 4
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Equipment_Upgrades"
+			add_equipment_to_stockpile = { type = infantry_equipment_0 amount = 10000 producer = RAJ }
+		}
+	}
+
+	focus = {
+		id = RAJ_Cohesive_Strategy
+		icon = GFX_goal_generic_army_grand_battleplan
+		prerequisite = { focus = RAJ_Equipment_Upgrades }
+		x = 0
+		y = 5
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Cohesive_Strategy"
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.5
+				uses = 1
+				category = land_doctrine
+			}
+		}
+	}
+
+	focus = {
+		id = RAJ_Raj_Army
+		icon = GFX_focus_RAJ_indian_gentlemen_offcers
+		prerequisite = {
+			focus = RAJ_Indian_Military_Academy
+			focus = RAJ_English_Superiority
+		}
+		prerequisite = { focus = RAJ_Cohesive_Strategy }
+		x = 0
+		y = 6
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Raj_Army"
+			add_stability = 0.05
+			army_experience = 50
+		}
+	}
+
+	#### Air Force/Navy Tree ####
+	focus = {
+		id = RAJ_New_Forces
+		icon = GFX_goal_generic_navy_carrier
+
+		x = 8
+		y = 1
+		cost = 3
+
+		prerequisite = { focus = RAJ_Logistics }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_New_Forces"
+			navy_experience = 10
+			air_experience = 10
+		}
+	}
+
+	focus = {
+		id = RAJ_Indian_Airforce
+		icon = GFX_goal_RAJ_The_Airforce
+
+		x = 6
+		y = 2
+		cost = 3
+
+		prerequisite = { focus = RAJ_New_Forces }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Indian_Airforce"
+			air_experience = 25
+		}
+	}
+
+	focus = {
+		id = RAJ_Adjust_Manufacturies
+		icon = GFX_goal_generic_air_production
+
+		x = 4
+		y = 3
+		cost = 3
+
+		prerequisite = { focus = RAJ_Indian_Airforce }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Adjust_Manufacturies"
+			add_tech_bonus = { bonus = 0.25 uses = 2 category = light_fighter }
+		}
+	}
+
+	focus = {
+		id = RAJ_Create_Command_Structure
+		icon = GFX_goal_generic_air_command
+
+		x = 4
+		y = 4
+		cost = 3
+
+		prerequisite = { focus = RAJ_Adjust_Manufacturies }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Create_Command_Structure"
+			add_command_power = 25
+		}
+	}
+
+	focus = {
+		id = RAJ_Mass_Produce_Planes
+		icon = GFX_focus_generic_multi_role_aircraft
+
+		x = 4
+		y = 5
+		cost = 3
+
+		prerequisite = { focus = RAJ_Create_Command_Structure }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Mass_Produce_Planes"
+			add_tech_bonus = { bonus = 0.5 uses = 1 category = light_fighter }
+		}
+	}
+
+	focus = {
+		id = RAJ_Wings_Over_India
+		icon = GFX_goal_generic_air_fighter2
+
+		x = 4
+		y = 6
+		cost = 3
+
+		prerequisite = { focus = RAJ_Mass_Produce_Planes }
+		prerequisite = {
+			focus = RAJ_Prioritize_Fighters
+			focus = RAJ_Prioritize_Bombers
+		}
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Wings_Over_India"
+			add_tech_bonus = { bonus = 0.5 uses = 1 category = light_fighter }
+			add_tech_bonus = { bonus = 0.5 uses = 1 category = cas_bomber }
+		}
+	}
+
+	focus = {
+		id = RAJ_Strategy_for_Skies
+		icon = GFX_goal_generic_build_airforce
+
+		x = 8
+		y = 3
+		cost = 3
+
+		prerequisite = { focus = RAJ_Indian_Airforce }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Strategy_for_Skies"
+			add_doctrine_cost_reduction = {
+				name = air_doc_bonus
+				cost_reduction = 1
+				uses = 1
+				category = air_doctrine
+			}
+		}
+	}
+
+	focus = {
+		id = RAJ_Infantry_Support
+		icon = GFX_focus_generic_license_production
+
+		x = 7
+		y = 4
+		cost = 3
+
+		prerequisite = { focus = RAJ_Strategy_for_Skies }
+		mutually_exclusive = { focus = RAJ_Independent_Operations }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Infantry_Support"
+			add_tech_bonus = { bonus = 0.25 uses = 2 category = light_fighter }
+		}
+	}
+
+	focus = {
+		id = RAJ_Prioritize_Fighters
+		icon = GFX_goal_generic_air_fighter
+
+		x = 7
+		y = 5
+		cost = 3
+
+		prerequisite = { focus = RAJ_Infantry_Support }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Prioritize_Fighters"
+			add_tech_bonus = { bonus = 0.5 uses = 1 category = light_fighter }
+		}
+	}
+
+	focus = {
+		id = RAJ_Independent_Operations
+		icon = GFX_focus_generic_cryptologic_bomb
+
+		x = 9
+		y = 4
+		cost = 3
+
+		prerequisite = { focus = RAJ_Strategy_for_Skies }
+		mutually_exclusive = { focus = RAJ_Infantry_Support }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Independent_Operations"
+			add_doctrine_cost_reduction = { cost_reduction = 0.5 uses = 1 category = cat_strategic_destruction }
+		}
+	}
+
+	focus = {
+		id = RAJ_Prioritize_Bombers
+		icon = GFX_goal_generic_air_bomber
+
+		x = 9
+		y = 5
+		cost = 3
+
+		prerequisite = { focus = RAJ_Independent_Operations }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Prioritize_Bombers"
+			add_tech_bonus = { bonus = 0.5 uses = 1 category = cat_strategic_bomber }
+		}
+	}
+
+	focus = {
+		id = RAJ_Comprehensive_Conquest
+		icon = GFX_goal_soldiers
+
+		x = 8
+		y = 6
+		cost = 3
+
+		prerequisite = { focus = RAJ_Foreign_Schematics }
+		prerequisite = {
+			focus = RAJ_Prioritize_Fighters
+			focus = RAJ_Prioritize_Bombers
+		}
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Comprehensive_Conquest"
+			air_experience = 50
+		}
+	}
+
+	focus = {
+		id = RAJ_Raj_Navy
+		icon = GFX_goal_RAJ_The_Navy
+
+		x = 13
+		y = 2
+		cost = 3
+
+		prerequisite = { focus = RAJ_New_Forces }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Raj_Navy"
+			navy_experience = 50
+		}
+	}
+
+	focus = {
+		id = RAJ_New_Dockyards
+		icon = GFX_goal_generic_construct_naval_dockyard
+
+		x = 11
+		y = 3
+		cost = 3
+
+		prerequisite = { focus = RAJ_Raj_Navy }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_New_Dockyards"
+			429 = {
+				add_building_construction = {
+					type = dockyard
+					level = 2
+					instant_build = yes
+				}
+			}
+			430 = {
+				add_building_construction = {
+					type = dockyard
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = RAJ_Shipbuilding_Techniques
+		icon = GFX_focus_generic_refit_civilian_ships
+
+		x = 11
+		y = 4
+		cost = 3
+
+		prerequisite = { focus = RAJ_New_Dockyards }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Shipbuilding_Techniques"
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.25
+				uses = 1
+				category = naval_doctrine
+			}
+			add_tech_bonus = { bonus = 0.25 uses = 1 category = bb_tech }
+		}
+	}
+
+	focus = {
+		id = RAJ_Foreign_Schematics
+		icon = GFX_goal_BEL_Battleship_Investements
+
+		x = 11
+		y = 5
+		cost = 3
+
+		prerequisite = { focus = RAJ_Shipbuilding_Techniques }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Foreign_Schematics"
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.25
+				uses = 1
+				category = naval_doctrine
+			}
+			add_tech_bonus = { bonus = 0.25 uses = 1 category = ss_tech }
+		}
+	}
+
+	focus = {
+		id = RAJ_Strategy_for_Waves
+		icon = GFX_GEA_status_of_admirality
+
+		x = 15
+		y = 3
+		cost = 3
+
+		prerequisite = { focus = RAJ_Raj_Navy }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Strategy_for_Waves"
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.25
+				uses = 1
+				category = naval_doctrine
+			}
+		}
+	}
+
+	focus = {
+		id = RAJ_Ocean_Supremacy
+		icon = GFX_goal_generic_navy_battleship
+
+		x = 14
+		y = 4
+		cost = 3
+
+		prerequisite = { focus = RAJ_Strategy_for_Waves }
+		mutually_exclusive = { focus = RAJ_Control_Deep }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Ocean_Supremacy"
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.5
+				uses = 2
+				category = cat_fleet_in_being
+			}
+		}
+	}
+
+	focus = {
+		id = RAJ_Battleship_Designs
+		icon = GFX_focus_generic_navy_battleship2
+
+		x = 14
+		y = 5
+		cost = 3
+
+		prerequisite = { focus = RAJ_Ocean_Supremacy }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Battleship_Designs"
+			add_tech_bonus = {
+				bonus = 0.75
+				uses = 1
+				category = dd_tech
+			}
+		}
+	}
+
+	focus = {
+		id = RAJ_Control_Deep
+		icon = GFX_goal_generic_navy_submarine
+
+		x = 16
+		y = 4
+		cost = 3
+
+		prerequisite = { focus = RAJ_Strategy_for_Waves }
+		mutually_exclusive = { focus = RAJ_Ocean_Supremacy }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Control_Deep"
+			add_tech_bonus = { bonus = 0.25 uses = 2 category = ss_tech }
+		}
+	}
+
+	focus = {
+		id = RAJ_Submarine_Designs
+		icon = GFX_goal_navy_decision
+
+		x = 16
+		y = 5
+		cost = 3
+
+		prerequisite = { focus = RAJ_Control_Deep }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Submarine_Designs"
+			add_tech_bonus = { bonus = 0.5 uses = 1 category = ss_tech }
+		}
+	}
+
+	focus = {
+		id = RAJ_Carrier_Ambitions
+		icon = GFX_goal_generic_coastal_navy2
+
+		x = 12
+		y = 6
+		cost = 3
+
+		prerequisite = { focus = RAJ_Foreign_Schematics }
+		prerequisite = {
+			focus = RAJ_Prioritize_Fighters
+			focus = RAJ_Prioritize_Bombers
+		}
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Carrier_Ambitions"
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.25
+				uses = 1
+				category = naval_doctrine
+			}
+		}
+	}
+
+	focus = {
+		id = RAJ_Ships_Around_India
+		icon = GFX_goal_zuiho_class
+
+		x = 16
+		y = 6
+		cost = 3
+
+		prerequisite = { focus = RAJ_Foreign_Schematics }
+		prerequisite = {
+			focus = RAJ_Battleship_Designs
+			focus = RAJ_Submarine_Designs
+		}
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Ships_Around_India"
+			navy_experience = 50
+		}
+	}
+
+
+
+	#### Industrial Tree ####
+	focus = {
+		id = RAJ_Indian_Industry
+		icon = GFX_goal_RAJ_industry
+
+		x = 22
+		y = 1
+		cost = 3
+
+		prerequisite = { focus = RAJ_Logistics }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Indian_Industry"
+		}
+	}
+
+	focus = {
+		id = RAJ_British_Exploitation
+		icon = GFX_focus_RAJ_british_investors
+
+		x = 20
+		y = 2
+		cost = 3
+
+		prerequisite = { focus = RAJ_Indian_Industry }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_British_Exploitation"
+			country_event = { id = raj.81 days = 1 }
+		}
+	}
+
+	focus = {
+		id = RAJ_Diplomatic_Channels
+		icon = GFX_goal_generic_intelligence_exchange
+		mutually_exclusive = { focus = RAJ_Immediate_Nationalization }
+
+		x = 19
+		y = 3
+		cost = 3
+
+		prerequisite = { focus = RAJ_British_Exploitation }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Diplomatic_Channels"
+			add_political_power = -50
+			429 = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = RAJ_Immediate_Nationalization
+		icon = GFX_goal_VIN_State_above_All
+		mutually_exclusive = { focus = RAJ_Diplomatic_Channels }
+
+		x = 21
+		y = 3
+		cost = 3
+
+		prerequisite = { focus = RAJ_British_Exploitation }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Immediate_Nationalization"
+			add_political_power = 25
+			429 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = RAJ_Buy_Crown_Industries
+		icon = GFX_goal_bag_of_money
+		mutually_exclusive = { focus = RAJ_Seize_Crown_Industries }
+
+		x = 19
+		y = 4
+		cost = 3
+
+		prerequisite = {
+			focus = RAJ_Diplomatic_Channels
+			focus = RAJ_Immediate_Nationalization
+		}
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Buy_Crown_Industries"
+			add_political_power = -50
+			439 = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = RAJ_Seize_Crown_Industries
+		icon = GFX_goal_manage_industries
+		mutually_exclusive = { focus = RAJ_Buy_Crown_Industries }
+
+		x = 21
+		y = 4
+		cost = 3
+
+		prerequisite = {
+			focus = RAJ_Diplomatic_Channels
+			focus = RAJ_Immediate_Nationalization
+		}
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Seize_Crown_Industries"
+			add_stability = -0.05
+			439 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = RAJ_Slow_Reform
+		icon = GFX_goal_HOL_CNA_restored_stability
+		mutually_exclusive = { focus = RAJ_Immediate_Reform }
+
+		x = 19
+		y = 5
+		cost = 6
+
+		prerequisite = {
+			focus = RAJ_Buy_Crown_Industries
+			focus = RAJ_Seize_Crown_Industries
+		}
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Slow_Reform"
+			add_stability = 0.05
+		}
+	}
+
+	focus = {
+		id = RAJ_Immediate_Reform
+		icon = GFX_socialist_constitution
+		mutually_exclusive = { focus = RAJ_Slow_Reform }
+
+		x = 21
+		y = 5
+		cost = 3
+
+		prerequisite = {
+			focus = RAJ_Buy_Crown_Industries
+			focus = RAJ_Seize_Crown_Industries
+		}
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Immediate_Reform"
+			add_political_power = -50
+			add_stability = 0.05
+		}
+	}
+
+	focus = {
+		id = RAJ_Self_Sufficiency
+		icon = GFX_goal_volunteer_alliance
+
+		x = 20
+		y = 6
+		cost = 3
+
+		prerequisite = {
+			focus = RAJ_Slow_Reform
+			focus = RAJ_Immediate_Reform
+		}
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Self_Sufficiency"
+			swap_ideas = { remove_idea = RAJ_poor_conditions add_idea = RAJ_improved_conditions }
+			hidden_effect = {
+				country_event = { id = raj.83 months = 12 }
+			}
+		}
+	}
+
+	focus = {
+		id = RAJ_EAC_Legacy
+		icon = GFX_goal_RAJ_eiclegacy
+
+		x = 24
+		y = 2
+		cost = 3
+
+		prerequisite = { focus = RAJ_Indian_Industry }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_EAC_Legacy"
+			country_event = { id = raj.82 days = 1 }
+		}
+	}
+
+	focus = {
+		id = RAJ_Embrace_British_Industry
+		icon = GFX_goal_tfv_strengthen_commonwealth_ties
+
+		x = 23
+		y = 3
+		cost = 3
+
+		prerequisite = { focus = RAJ_EAC_Legacy }
+		mutually_exclusive = { focus = RAJ_Reject_British_Industry }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Embrace_British_Industry"
+			439 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 3
+					instant_build = yes
+				}
+			}
+			429 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 3
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = RAJ_Reject_British_Industry
+		icon = GFX_goal_tfv_sever_ties_with_uk
+
+		x = 25
+		y = 3
+		cost = 3
+
+		prerequisite = { focus = RAJ_EAC_Legacy }
+		mutually_exclusive = { focus = RAJ_Embrace_British_Industry }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Reject_British_Industry"
+			add_political_power = 100
+		}
+	}
+
+	focus = {
+		id = RAJ_Petition_Parliament_Change
+		icon = GFX_goal_generic_martial_law
+
+		x = 23
+		y = 4
+		cost = 6
+
+		prerequisite = {
+			focus = RAJ_Embrace_British_Industry
+			focus = RAJ_Reject_British_Industry
+		}
+		mutually_exclusive = { focus = RAJ_Circumvent_British_Laws }
+
+		available_if_capitulated = yes
+
+		available = {
+			NOT = {
+				has_country_flag = RAJ_Independent
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Petition_Parliament_Change"
+			add_political_power = -50
+			430 = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
+			427 = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = RAJ_Circumvent_British_Laws
+		icon = GFX_focus_renounce_the_treaty_of_trianon
+
+		x = 25
+		y = 4
+		cost = 3
+
+		prerequisite = {
+			focus = RAJ_Embrace_British_Industry
+			focus = RAJ_Reject_British_Industry
+		}
+		mutually_exclusive = { focus = RAJ_Petition_Parliament_Change }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Circumvent_British_Laws"
+			439 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			429 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = RAJ_Move_On
+		icon = GFX_goal_generic_national_unity
+
+		x = 23
+		y = 5
+		cost = 3
+
+		prerequisite = {
+			focus = RAJ_Petition_Parliament_Change
+			focus = RAJ_Circumvent_British_Laws
+		}
+		mutually_exclusive = { focus = RAJ_Request_Reparations }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Move_On"
+			add_stability = 0.05
+		}
+	}
+
+	focus = {
+		id = RAJ_Request_Reparations
+		icon = GFX_focus_generic_concessions
+
+		x = 25
+		y = 5
+		cost = 3
+
+		prerequisite = {
+			focus = RAJ_Petition_Parliament_Change
+			focus = RAJ_Circumvent_British_Laws
+		}
+		mutually_exclusive = { focus = RAJ_Move_On }
+
+		available_if_capitulated = yes
+
+		available = {
+			NOT = {
+				has_country_flag = RAJ_Independent
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Request_Reparations"
+			ENG = {
+				country_event = { id = raj.84 days = 1 }
+			}
+		}
+	}
+
+	focus = {
+		id = RAJ_Industrial_Cooperation
+		icon = GFX_goal_factory_complex
+
+		x = 24
+		y = 6
+		cost = 3
+
+		prerequisite = {
+			focus = RAJ_Move_On
+			focus = RAJ_Request_Reparations
+		}
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Industrial_Cooperation"
+			every_state = {
+				limit = {
+					is_owned_by = RAJ
+					is_core_of = RAJ
+				}
+				add_state_modifier = {
+					modifier = {
+						local_building_slots_factor = 0.2
+					}
+				}
+			}
+		}
+	}
+
+	#### Pre-Revolt Tree ####
+
+	focus = {
+		id = RAJ_Coming_Revolt
+		icon = GFX_trial_of_11
+		x = 29
+		y = 0
+		cost = 3
+		available = {
+			has_country_flag = RAJ_Coming_Storm
+		}
+		allow_branch = {
+			NOT = { has_country_flag = RAJ_IS_EXILED }
+		}
+		available_if_capitulated = yes
+		bypass = {
+			OR = {
+				has_war_with = IND
+				has_country_flag = RAJ_Peace
+			}
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Coming_Revolt"
+			add_political_power = 50
+		}
+	}
+
+	focus = {
+		id = RAJ_Prepare_Industry
+		icon = GFX_goal_generic_construct_civ_factory
+
+		x = 27
+		y = 1
+		cost = 3
+
+		prerequisite = { focus = RAJ_Coming_Revolt }
+
+		available_if_capitulated = yes
+
+		bypass = {
+			OR = {
+				has_war_with = IND
+				has_country_flag = RAJ_Peace
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Prepare_Industry"
+			430 = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
+			}
+			429 = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = RAJ_Military_Focus
+		icon = GFX_goal_generic_small_arms
+
+		x = 27
+		y = 2
+		cost = 3
+
+		prerequisite = { focus = RAJ_Prepare_Industry }
+
+		available_if_capitulated = yes
+
+		bypass = {
+			OR = {
+				has_war_with = IND
+				has_country_flag = RAJ_Peace
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Military_Focus"
+			add_equipment_to_stockpile = { type = infantry_equipment_0 amount = 10000 producer = RAJ }
+		}
+	}
+
+	focus = {
+		id = RAJ_Fortify_Positions
+		icon = GFX_goal_generic_defence
+
+		x = 29
+		y = 1
+		cost = 3
+
+		prerequisite = { focus = RAJ_Coming_Revolt }
+
+		available_if_capitulated = yes
+
+		bypass = {
+			OR = {
+				has_war_with = IND
+				has_country_flag = RAJ_Peace
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Fortify_Positions"
+			add_manpower = 25000
+			439 = {
+				add_building_construction = {
+					type = bunker
+					level = 3
+					province = 2086
+					instant_build = yes
+				}
+			}
+			429 = {
+				add_building_construction = {
+					type = bunker
+					level = 3
+					province = 1349
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = RAJ_Fortress_India
+		icon = GFX_goal_nested_fortifications
+
+		x = 29
+		y = 2
+		cost = 3
+
+		prerequisite = { focus = RAJ_Fortify_Positions }
+
+		available_if_capitulated = yes
+
+		bypass = {
+			OR = {
+				has_war_with = IND
+				has_country_flag = RAJ_Peace
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Fortress_India"
+			add_manpower = 50000
+			427 = {
+				add_building_construction = {
+					type = bunker
+					level = 3
+					province = 2086
+					instant_build = yes
+				}
+			}
+			430 = {
+				add_building_construction = {
+					type = bunker
+					level = 3
+					province = 1349
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = RAJ_Strenghten_Government
+		icon = GFX_goal_COS_Ferrer_Coup
+
+		x = 31
+		y = 1
+		cost = 3
+
+		prerequisite = { focus = RAJ_Coming_Revolt }
+
+		available_if_capitulated = yes
+
+		bypass = {
+			OR = {
+				has_war_with = IND
+				has_country_flag = RAJ_Peace
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Strenghten_Government"
+			add_political_power = 100
+			add_war_support = 0.25
+			add_stability = 0.1
+		}
+	}
+
+	focus = {
+		id = RAJ_Shore_Support
+		icon = GFX_goal_volunteer_alliance
+
+		x = 31
+		y = 2
+		cost = 3
+
+		prerequisite = { focus = RAJ_Strenghten_Government }
+
+		available_if_capitulated = yes
+
+		bypass = {
+			OR = {
+				has_war_with = IND
+				has_country_flag = RAJ_Peace
+			}
+		}
+
+		completion_reward = {
+			add_popularity = { ideology = authoritarian_democrat popularity = 0.1 }
+			add_popularity = { ideology = national_populist popularity = -0.1 }
+		}
+	}
+
+	focus = {
+		id = RAJ_Prepare
+		icon = GFX_goal_generic_major_war
+
+		x = 29
+		y = 3
+		cost = 3
+
+		prerequisite = { focus = RAJ_Military_Focus }
+		prerequisite = { focus = RAJ_Fortress_India }
+		prerequisite = { focus = RAJ_Shore_Support }
+
+		available_if_capitulated = yes
+
+		bypass = {
+			OR = {
+				has_war_with = IND
+				has_country_flag = RAJ_Peace
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Prepare"
+			add_political_power = 50
+		}
+	}
+
+	focus = {
+		id = RAJ_After_Storm
+		icon = GFX_goal_generic_defence
+
+		x = 29
+		y = 4
+		cost = 3
+
+		prerequisite = { focus = RAJ_Prepare }
+
+		available = {
+			has_country_flag = RAJ_Peace
+		}
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_After_Storm"
+			add_political_power = 100
+			add_stability = 0.1
+		}
+	}
+
+	focus = {
+		id = RAJ_Rebuild
+		icon = GFX_goal_RAJ_chains
+
+		x = 29
+		y = 5
+		cost = 3
+
+		prerequisite = { focus = RAJ_After_Storm }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Rebuild"
+			430 = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
+			429 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 3
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = RAJ_Root_Out_Remnants
+		icon = GFX_goal_purge_opposition
+
+		x = 27
+		y = 6
+		cost = 3
+
+		prerequisite = { focus = RAJ_Rebuild }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Root_Out_Remnants"
+			add_political_power = 25
+			add_popularity = { ideology = national_populist popularity = -0.05 }
+		}
+	}
+
+	focus = {
+		id = RAJ_Offer_Amnesty
+		icon = GFX_goal_new_treaty
+
+		x = 27
+		y = 7
+		cost = 3
+
+		prerequisite = { focus = RAJ_Root_Out_Remnants }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Offer_Amnesty"
+			add_stability = 0.05
+			add_popularity = { ideology = authoritarian_democrat popularity = 0.05 }
+		}
+	}
+
+	focus = {
+		id = RAJ_Reconcile_British
+		icon = GFX_goal_MAF_Support_Anglos
+
+		x = 29
+		y = 6
+		cost = 3
+
+		prerequisite = { focus = RAJ_Rebuild }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Reconcile_British"
+			remove_ideas = RAJ_anti_british
+		}
+	}
+
+	focus = {
+		id = RAJ_Defense_Status
+		icon = GFX_goal_SAF_dominion
+
+		x = 29
+		y = 7
+		cost = 3
+
+		prerequisite = { focus = RAJ_Reconcile_British }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Defense_Status"
+			army_experience = 10
+			navy_experience = 10
+			air_experience = 10
+		}
+	}
+
+	focus = {
+		id = RAJ_Reconcile_Princes
+		icon = GFX_goal_tfv_strengthen_commonwealth_ties
+
+		x = 31
+		y = 6
+		cost = 3
+
+		prerequisite = { focus = RAJ_Rebuild }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Reconcile_Princes"
+			remove_ideas = RAJ_princely_states
+		}
+	}
+
+	focus = {
+		id = RAJ_Avoid_Fracture
+		icon = GFX_focus_generic_diplomatic_treaty
+
+		x = 31
+		y = 7
+		cost = 3
+
+		prerequisite = { focus = RAJ_Reconcile_Princes }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Avoid_Fracture"
+			custom_effect_tooltip = RAJ_Fracture_Down
+			add_to_variable = { var = raj_fragment value = -1 }
+		}
+	}
+
+	focus = {
+		id = RAJ_Forward
+		icon = GFX_focus_RAJ_all_india_forward_bloc
+
+		x = 29
+		y = 8
+		cost = 3
+
+		prerequisite = { focus = RAJ_Offer_Amnesty }
+		prerequisite = { focus = RAJ_Defense_Status }
+		prerequisite = { focus = RAJ_Avoid_Fracture }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Forward"
+			add_ideas = RAJ_new_nation
+		}
+	}
+
+	#### Political Tree ####
+
+	focus = {
+		id = RAJ_Troubled_Future
+		icon = GFX_goal_RAJ_coming_storm
+
+		x = 41
+		y = 0
+		cost = 5
+
+		available = {
+			has_country_flag = RAJ_Peace
+		}
+
+
+		allow_branch = {
+			NOT = { has_country_flag = RAJ_IS_EXILED }
+		}
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Troubled_Future"
+			country_event = { id = raj.60 days = 1 }
+			add_stability = 0.05
+		}
+	}
+
+	focus = {
+		id = RAJ_Reform_and_Reconciliation
+		icon = GFX_goal_MAF_Support_Anglos
+
+		x = 36
+		y = 1
+		cost = 5
+
+		prerequisite = { focus = RAJ_Troubled_Future }
+		mutually_exclusive = { focus = RAJ_Enough }
+
+		available = {
+			has_country_flag = RAJ_Dominion
+		}
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Reform_and_Reconciliation"
+			add_stability = 0.1
+		}
+	}
+
+	focus = {
+		id = RAJ_Top_Down_Reform
+		icon = GFX_goal_constitutional_guarantees
+
+		x = 35
+		y = 2
+		cost = 5
+
+		prerequisite = { focus = RAJ_Reform_and_Reconciliation }
+		mutually_exclusive = { focus = RAJ_Bottom_Up_Reform }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Top_Down_Reform"
+			add_political_power = 50
+		}
+	}
+
+	focus = {
+		id = RAJ_Administrative_Changes
+		icon = GFX_goal_DOM_End_Judicial_Corruption
+
+		x = 35
+		y = 3
+		cost = 5
+
+		prerequisite = { focus = RAJ_Top_Down_Reform }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Administrative_Changes"
+			add_popularity = { ideology = authoritarian_democrat popularity = 0.1 }
+		}
+	}
+
+	focus = {
+		id = RAJ_Bottom_Up_Reform
+		icon = GFX_goal_liberty
+
+		x = 37
+		y = 2
+		cost = 5
+
+		prerequisite = { focus = RAJ_Reform_and_Reconciliation }
+		mutually_exclusive = { focus = RAJ_Top_Down_Reform }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Bottom_Up_Reform"
+			add_stability = 0.1
+		}
+	}
+
+	focus = {
+		id = RAJ_Listen_to_People
+		icon = GFX_goal_generic_propaganda
+
+		x = 37
+		y = 3
+		cost = 5
+
+		prerequisite = { focus = RAJ_Bottom_Up_Reform }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Listen_to_People"
+			add_popularity = { ideology = social_democrat popularity = 0.1 }
+		}
+	}
+
+	focus = {
+		id = RAJ_Status_Quo
+		icon = GFX_goal_generic_dangerous_deal
+
+		x = 34
+		y = 4
+		cost = 5
+
+		prerequisite = {
+			focus = RAJ_Administrative_Changes
+			focus = RAJ_Listen_to_People
+		}
+
+		mutually_exclusive = { focus = RAJ_Dominion_Status }
+
+		available = {
+			has_country_flag = RAJ_Chose_Status_Quo
+		}
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Status_Quo"
+			add_stability = -0.05
+			add_political_power = -25
+			add_popularity = { ideology = vanguardist popularity = 0.05 }
+			add_popularity = { ideology = social_democrat popularity = 0.05 }
+			add_popularity = { ideology = national_populist popularity = 0.05 }
+			add_popularity = { ideology = authoritarian_democrat popularity = -0.15 }
+		}
+	}
+
+	focus = {
+		id = RAJ_Request_British_Assistance
+		icon = GFX_focus_generic_home_defense
+
+		x = 34
+		y = 5
+		cost = 5
+
+		prerequisite = { focus = RAJ_Status_Quo }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Request_British_Assistance"
+			add_stability = -0.05
+			add_political_power = 50
+		}
+	}
+
+	focus = {
+		id = RAJ_Restrict_Communication
+		icon = GFX_focus_generic_strike_at_democracy2
+
+		x = 34
+		y = 6
+		cost = 5
+
+		prerequisite = { focus = RAJ_Request_British_Assistance }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Restrict_Communication"
+			add_popularity = { ideology = vanguardist popularity = -0.05 }
+			add_popularity = { ideology = social_democrat popularity = -0.05 }
+			add_popularity = { ideology = national_populist popularity = -0.05 }
+			add_political_power = 50
+		}
+	}
+
+	focus = {
+		id = RAJ_Time_Tested_Solution
+		icon = GFX_goal_National_Security_Act
+
+		x = 34
+		y = 7
+		cost = 5
+
+		prerequisite = { focus = RAJ_Restrict_Communication }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Time_Tested_Solution"
+			add_popularity = { ideology = authoritarian_democrat popularity = -0.1 }
+			add_stability = 0.1
+		}
+	}
+
+	focus = {
+		id = RAJ_Gentle_Hand
+		icon = GFX_focus_generic_self_management
+
+		x = 33
+		y = 8
+		cost = 5
+
+		prerequisite = { focus = RAJ_Time_Tested_Solution }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Gentle_Hand"
+			add_popularity = { ideology = authoritarian_democrat popularity = 0.1 }
+			add_political_power = 100
+		}
+	}
+
+	focus = {
+		id = RAJ_Iron_Fist
+		icon = GFX_goal_generic_political_pressure
+
+		x = 35
+		y = 8
+		cost = 5
+
+		prerequisite = { focus = RAJ_Time_Tested_Solution }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Iron_Fist"
+			add_popularity = { ideology = authoritarian_democrat popularity = 0.1 }
+			add_stability = 0.1
+		}
+	}
+
+	focus = {
+		id = RAJ_Dominion_Status ##HAVE THIS PATH BE A LOT SHORTER THAN THE INDEPENDENCE ONE
+		icon = GFX_focus_chi_british_cooperation
+
+		x = 38
+		y = 4
+		cost = 5
+
+		prerequisite = {
+			focus = RAJ_Administrative_Changes
+			focus = RAJ_Listen_to_People
+		}
+
+		mutually_exclusive = { focus = RAJ_Status_Quo }
+
+		available = {
+			has_country_flag = RAJ_Dominion
+		}
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Dominion_Status"
+			ENG = {
+				country_event = { id = raj.100 days = 7 }
+			}
+		}
+	}
+
+	focus = {
+		id = RAJ_Simon_Commission
+		icon = GFX_goal_collaborate_local_elites
+		mutually_exclusive = { focus = RAJ_Sitaramayya_Commission }
+
+		x = 37
+		y = 5
+		cost = 5
+
+		prerequisite = { focus = RAJ_Dominion_Status }
+
+		available = {
+			has_country_flag = RAJ_Simon
+		}
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Simon_Commission"
+			add_stability = -0.1
+			add_political_power = -100
+		}
+	}
+
+	focus = {
+		id = RAJ_Sitaramayya_Commission
+		icon = GFX_goal_collaborate_local_elites
+		mutually_exclusive = { focus = RAJ_Simon_Commission }
+
+		x = 39
+		y = 5
+		cost = 5
+
+		prerequisite = { focus = RAJ_Dominion_Status }
+
+		available = {
+			has_country_flag = RAJ_Sitaramayya
+		}
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Sitaramayya_Commission"
+			add_stability = 0.1
+			add_political_power = 100
+		}
+	}
+
+	focus = {
+		id = RAJ_Subdue_Nationalists
+		icon = GFX_goal_HOL_ban_VNH
+		prerequisite = {
+			focus = RAJ_Simon_Commission
+			focus = RAJ_Sitaramayya_Commission
+		}
+
+		x = 37
+		y = 6
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Subdue_Nationalists"
+			add_popularity = { ideology = national_populist popularity = -0.1 }
+		}
+	}
+
+	focus = {
+		id = RAJ_Boost_Moderates
+		icon = GFX_focus_generic_concessions
+		prerequisite = {
+			focus = RAJ_Simon_Commission
+			focus = RAJ_Sitaramayya_Commission
+		}
+
+		x = 39
+		y = 6
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Boost_Moderates"
+			add_popularity = { ideology = market_liberal popularity = 0.05 }
+			add_popularity = { ideology = social_democrat popularity = -0.05 }
+		}
+	}
+
+	focus = {
+		id = RAJ_New_State_Apparatus
+		icon = GFX_goal_DOM_The_Trial
+		prerequisite = { focus = RAJ_Subdue_Nationalists }
+		prerequisite = { focus = RAJ_Boost_Moderates }
+
+		x = 36
+		y = 7
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_New_State_Apparatus"
+			add_stability = 0.05
+			add_political_power = 25
+		}
+	}
+
+	focus = {
+		id = RAJ_Free_Elections
+		icon = GFX_goal_generic_elections
+		prerequisite = { focus = RAJ_Subdue_Nationalists }
+		prerequisite = { focus = RAJ_Boost_Moderates }
+
+		x = 38
+		y = 7
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Free_Elections"
+			add_political_power = -100
+			add_stability = 0.2
+		}
+	}
+
+	focus = {
+		id = RAJ_Assume_Control
+		icon = GFX_goal_generic_allies_build_infantry
+
+		x = 40
+		y = 7
+		cost = 5
+
+		prerequisite = { focus = RAJ_Subdue_Nationalists }
+		prerequisite = { focus = RAJ_Boost_Moderates }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Assume_Control"
+			add_stability = 0.05
+			army_experience = 25
+		}
+	}
+
+	focus = {
+		id = RAJ_Transition
+		icon = GFX_goal_HOL_CNA_restored_stability
+
+		x = 38
+		y = 8
+		cost = 5
+
+		prerequisite = { focus = RAJ_New_State_Apparatus }
+		prerequisite = { focus = RAJ_Free_Elections }
+		prerequisite = { focus = RAJ_Assume_Control }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Transition"
+			country_event = { id = raj.85 days = 1 }
+		}
+	}
+
+	focus = {
+		id = RAJ_Enough
+		icon = GFX_focus_AST_never_gallipoli
+
+		x = 46
+		y = 1
+		cost = 5
+
+		prerequisite = { focus = RAJ_Troubled_Future }
+		mutually_exclusive = { focus = RAJ_Reform_and_Reconciliation }
+
+		available = {
+			has_country_flag = RAJ_Independence
+		}
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Enough"
+			add_stability = -0.1
+		}
+	}
+
+	focus = {
+		id = RAJ_Call_of_People
+		icon = GFX_goal_generic_propaganda
+
+		x = 45
+		y = 2
+		cost = 5
+
+		prerequisite = { focus = RAJ_Enough }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Call_of_People"
+			add_stability = -0.05
+		}
+	}
+
+	focus = {
+		id = RAJ_Untenable
+		icon = GFX_goal_flames_of_rebellion
+
+		x = 45
+		y = 3
+		cost = 5
+
+		prerequisite = { focus = RAJ_Call_of_People }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Untenable"
+			add_popularity = { ideology = authoritarian_democrat popularity = -0.1 }
+		}
+	}
+
+	focus = {
+		id = RAJ_Worth
+		icon = GFX_goal_pile_of_money
+
+		x = 47
+		y = 2
+		cost = 5
+
+		prerequisite = { focus = RAJ_Enough }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Worth"
+			add_political_power = -100
+		}
+	}
+
+	focus = {
+		id = RAJ_Withdraw
+		icon = GFX_goal_tfv_sever_ties_with_uk
+
+		x = 47
+		y = 3
+		cost = 5
+
+		prerequisite = { focus = RAJ_Worth }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Withdraw"
+			add_war_support = -0.1
+		}
+	}
+
+	focus = {
+		id = RAJ_Independence_Path
+		icon = GFX_focus_rom_abdicate
+
+		x = 46
+		y = 4
+		cost = 5
+
+		prerequisite = { focus = RAJ_Untenable }
+		prerequisite = { focus = RAJ_Withdraw }
+
+		available = {
+			has_country_flag = RAJ_Independence
+		}
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Independence_Path"
+			ENG = {
+				country_event = { id = raj.86 days = 1 }
+			}
+		}
+	}
+
+	focus = {
+		id = RAJ_Domestic_Reform
+		icon = GFX_goal_COS_Ferrer_Coup
+
+		x = 44
+		y = 5
+		cost = 10
+
+		prerequisite = { focus = RAJ_Independence_Path }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Domestic_Reform"
+			add_stability = 0.1
+		}
+	}
+
+	focus = {
+		id = RAJ_British_System
+		icon = GFX_goal_DOM_End_Judicial_Corruption
+
+		x = 43
+		y = 6
+		cost = 10
+
+		prerequisite = { focus = RAJ_Domestic_Reform }
+		mutually_exclusive = { focus = RAJ_Indian_System }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_British_System"
+			add_stability = 0.05
+		}
+	}
+
+	focus = {
+		id = RAJ_Reinforce_Legal_Codes
+		icon = GFX_goal_DOM_The_Trial
+
+		x = 43
+		y = 7
+		cost = 10
+
+		prerequisite = { focus = RAJ_British_System }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Reinforce_Legal_Codes"
+			add_political_power = 50
+		}
+	}
+
+	focus = {
+		id = RAJ_Indian_System
+		icon = GFX_goal_constitutional_guarantees
+
+		x = 45
+		y = 6
+		cost = 10
+
+		prerequisite = { focus = RAJ_Domestic_Reform }
+		mutually_exclusive = { focus = RAJ_British_System }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Indian_System"
+			add_popularity = { ideology = social_liberal popularity = 0.1 }
+		}
+	}
+
+	focus = {
+		id = RAJ_Draft_New_Codes
+		icon = GFX_goal_KTG_Bookstack
+
+		x = 45
+		y = 7
+		cost = 10
+
+		prerequisite = { focus = RAJ_Indian_System }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Draft_New_Codes"
+			add_stability = 0.1
+		}
+	}
+
+	focus = {
+		id = RAJ_Foreign_Relations
+		icon = GFX_goal_tripartite_pact
+
+		x = 48
+		y = 5
+		cost = 10
+
+		prerequisite = { focus = RAJ_Independence_Path }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Foreign_Relations"
+		}
+	}
+
+	focus = {
+		id = RAJ_Break_with_British
+		icon = GFX_focus_RAJ_clamp_down_on_corruption
+
+		x = 47
+		y = 6
+		cost = 10
+
+		prerequisite = { focus = RAJ_Foreign_Relations }
+		mutually_exclusive = { focus = RAJ_Keep_with_British }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Break_with_British"
+			add_stability = -0.05
+			add_political_power = 50
+		}
+	}
+
+	focus = {
+		id = RAJ_Leave_IPA
+		icon = GFX_goal_JAP_cut_off_british_supplies
+
+		x = 47
+		y = 7
+		cost = 10
+
+		prerequisite = { focus = RAJ_Break_with_British }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Leave_IPA"
+			leave_faction = yes
+		}
+	}
+
+	focus = {
+		id = RAJ_Keep_with_British
+		icon = GFX_goal_MAF_Support_Anglos
+
+		x = 49
+		y = 6
+		cost = 10
+
+		prerequisite = { focus = RAJ_Foreign_Relations }
+		mutually_exclusive = { focus = RAJ_Break_with_British }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Keep_with_British"
+			ENG = {
+				add_opinion_modifier = {
+					target = RAJ
+					modifier = IMP_bonds
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = RAJ_Reinforce_Foreign_Ties
+		icon = GFX_goal_generic_national_unity
+
+		x = 49
+		y = 7
+		cost = 10
+
+		prerequisite = { focus = RAJ_Keep_with_British }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Reinforce_Foreign_Ties"
+			CAN = {
+				add_opinion_modifier = {
+					target = RAJ
+					modifier = IMP_bonds
+				}
+			}
+			AST = {
+				add_opinion_modifier = {
+					target = RAJ
+					modifier = IMP_bonds
+				}
+			}
+			NZL = {
+				add_opinion_modifier = {
+					target = RAJ
+					modifier = IMP_bonds
+				}
+			}
+			SAF = {
+				add_opinion_modifier = {
+					target = RAJ
+					modifier = IMP_bonds
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = RAJ_Gradual_Independence  ##HAVE THIS PATH TAKE A LOT MORE TIME THAN THE DOMINION ONE
+		icon = GFX_goal_tfv_sever_ties_with_uk
+
+		x = 46
+		y = 8
+		cost = 20
+
+		prerequisite = {
+			focus = RAJ_Reinforce_Legal_Codes
+			focus = RAJ_Draft_New_Codes
+		}
+		prerequisite = {
+			focus = RAJ_Leave_IPA
+			focus = RAJ_Reinforce_Foreign_Ties
+		}
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Gradual_Independence"
+			country_event = { id = raj.110 days = 1 }
+		}
+	}
+
+	focus = {
+		id = RAJ_ex
+		icon = GFX_goal_RAJ_ceylon_2
+
+		allow_branch = {
+			has_country_flag = RAJ_IS_EXILED
+		}
+
+		x = 0
+		y = 0
+		cost = 3
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_ex"
+			add_stability = 0.1
+		}
+	}
+
+	focus = {
+		id = RAJ_Regroup
+		icon = GFX_goal_refugee_management
+		prerequisite = { focus = RAJ_ex }
+
+		x = -3
+		y = 1
+		cost = 3
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Regroup"
+			add_war_support = 0.1
+		}
+	}
+
+	focus = {
+		id = RAJ_Reconquer
+		icon = GFX_goal_RAJ_ceylon_3
+		prerequisite = { focus = RAJ_ex }
+
+		x = 0
+		y = 1
+		cost = 3
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Reconquer"
+			add_political_power = 60
+			set_politics = {
+				ruling_party = paternal_autocrat elections_allowed = no
+			}
+			add_popularity = { ideology = paternal_autocrat popularity = 0.5 }
+		}
+	}
+
+	focus = {
+		id = RAJ_Ceylon_Industry
+		icon = GFX_goal_generic_construct_civ_factory
+		prerequisite = { focus = RAJ_ex }
+
+		x = -4
+		y = 2
+		cost = 3
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Ceylon_Industry"
+			random_owned_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 3
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 3
+				add_building_construction = {
+					type = industrial_complex
+					level = 3
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = RAJ_Ceylon_Garrison
+		icon = GFX_goal_generic_small_arms
+		prerequisite = { focus = RAJ_Ceylon_Industry }
+
+		x = -6
+		y = 3
+		cost = 3
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Ceylon_Garrison"
+			random_owned_controlled_state = {
+				add_extra_state_shared_building_slots = 3
+				add_building_construction = {
+					type = arms_factory
+					level = 3
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = RAJ_Revive_Industry
+		icon = GFX_goal_production
+		prerequisite = { focus = RAJ_Ceylon_Industry }
+
+		x = -4
+		y = 3
+		cost = 3
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Revive_Industry"
+			random_owned_controlled_state = {
+				add_extra_state_shared_building_slots = 3
+				add_building_construction = {
+					type = arms_factory
+					level = 3
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = RAJ_Ceylon_Infrastructure
+		icon = GFX_goal_generic_construct_infrastructure
+		prerequisite = { focus = RAJ_Ceylon_Industry }
+
+		x = -2
+		y = 3
+		cost = 3
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Ceylon_Infrastructure"
+			random_owned_state = {
+				limit = {
+					free_building_slots = {
+						building = infrastructure
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = RAJ_Ceylon_Repurposed
+		icon = GFX_goal_RAJ_ceylon
+		prerequisite = { focus = RAJ_Ceylon_Garrison }
+		prerequisite = { focus = RAJ_Revive_Industry }
+		prerequisite = { focus = RAJ_Ceylon_Infrastructure }
+
+		x = -4
+		y = 4
+		cost = 3
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Ceylon_Repurposed"
+			random_owned_state = {
+				limit = {
+					free_building_slots = {
+						building = infrastructure
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = RAJ_Stockpile
+		icon = GFX_goal_military_academy
+		prerequisite = { focus = RAJ_Reconquer }
+
+		x = 0
+		y = 2
+		cost = 3
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Stockpile"
+			add_equipment_to_stockpile = {
+				type = infantry_equipment_1 amount = 500 producer = ENG
+			}
+		}
+	}
+
+	focus = {
+		id = RAJ_Training
+		icon = GFX_goal_conscription
+		prerequisite = { focus = RAJ_Stockpile }
+
+		x = 0
+		y = 3
+		cost = 3
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Training"
+			add_equipment_to_stockpile = {
+				type = infantry_equipment_1 amount = 500 producer = RAJ
+			}
+		}
+	}
+
+	focus = {
+		id = RAJ_Conscription
+		icon = GFX_goal_army_guy
+		prerequisite = { focus = RAJ_Reconquer }
+
+		x = -1
+		y = 4
+		cost = 3
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Conscription"
+			add_manpower = 20000
+		}
+	}
+
+	focus = {
+		id = RAJ_New_Army
+		icon = GFX_goal_army_guy_2
+		prerequisite = { focus = RAJ_Reconquer }
+
+		x = 1
+		y = 4
+		cost = 3
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_New_Army"
+		}
+	}
+
+	focus = {
+		id = RAJ_Against_India
+		icon = GFX_goal_authority
+		prerequisite = { focus = RAJ_Reconquer }
+
+		x = 2
+		y = 2
+		cost = 3
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Against_India"
+		}
+	}
+
+	focus = {
+		id = RAJ_Crossing_the_Straits
+		icon = GFX_goal_navy_decision
+		prerequisite = { focus = RAJ_Against_India }
+
+		x = 2
+		y = 3
+		cost = 3
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Crossing_the_Straits"
+			add_equipment_to_stockpile = { type = convoy_1 amount = 200 producer = ENG }
+		}
+	}
+
+	focus = {
+		id = RAJ_Pressure_British
+		icon = GFX_goal_british_monarchy
+		prerequisite = { focus = RAJ_ex }
+
+		x = 3
+		y = 1
+		cost = 3
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RAJ_Pressure_British"
+			ENG = {
+				country_event = raj.33
+			}
+		}
+	}
+}

@@ -1,0 +1,325 @@
+﻿### Brazillian Civil War events ###
+#by matixzun (Trimeon)#
+
+add_namespace = bcw
+
+country_event = { #Collies Rise up
+	id = bcw.1
+	immediate = {log = "[GetDateText]: [Root.GetName]: event bcw.1"}
+	title = bcw.1.t
+	desc = bcw.1.d
+	picture = GFX_report_event_tanks_mexico_city
+	fire_only_once = yes
+	trigger = {
+		tag = BRA
+		OR = {
+			882 = { is_owned_and_controlled_by = BRA } #Acre
+			495 = { is_owned_and_controlled_by = BRA } #Amazonas
+			280 = { is_owned_and_controlled_by = BRA } #Mato Grosso
+			505 = { is_owned_and_controlled_by = BRA } #Goias
+			497 = { is_owned_and_controlled_by = BRA } #Maranhao
+			498 = { is_owned_and_controlled_by = BRA } #Rio Grande
+			901 = { is_owned_and_controlled_by = BRA } #Manaus
+		}
+		has_country_flag = BCW_begins
+		NOT = { has_country_flag = BCW_collies_risen }
+	}
+	mean_time_to_happen = {
+		days = 7
+	}
+	immediate = {
+		set_country_flag = BCW_collies_risen
+		BRA = {
+			add_popularity = {
+				ideology = collectivist
+				popularity = -0.1
+			}
+		}
+		every_state = {
+			limit = {
+				OR = { is_core_of = BRA
+					is_core_of = BPS
+				}
+			}
+			add_claim_by = UBR
+		}
+		every_owned_state = {
+			limit = {
+				is_controlled_by = ROOT
+				OR = {
+					state = 882 #Acre
+					state = 495 #Amazonas
+					state = 280 #Mato Grosso
+					state = 505 #Goias
+					state = 497 #Maranhao
+					state = 498 #Rio Grande
+					state = 901 #Manaus
+				}
+			}
+			remove_claim_by = UBR
+			add_core_of = UBR
+			remove_core_of = BRA
+			add_claim_by = BRA
+			UBR = { transfer_state = PREV }
+		}
+		UBR = { transfer_technology = yes }
+	}
+	option = {
+		name = bcw.1.a #Fight for the Republic
+		if = {
+			limit = { is_ai = yes }
+		}
+		UBR = {
+			country_event = { id = bcw.2 days = 7 }
+		}
+	}
+	option = {
+		name = bcw.1.b #Fight for the workers (Play as the Union)
+		trigger = { is_ai = no }
+		UBR = {
+			country_event = { id = bcw.2 days = 7 }
+			change_tag_from = BRA
+		}
+	}
+}
+
+# Union boot event
+country_event = {
+	id = bcw.2
+	immediate = {log = "[GetDateText]: [Root.GetName]: event bcw.2"}
+	title = bcw.2.t
+	desc = bcw.2.d
+	picture = GFX_report_event_tanks_mexico_city
+
+	is_triggered_only = yes
+
+	option = {
+		name = bcw.2.a
+		load_oob = "UBR"
+
+		set_country_flag = brazilian_civil_war
+		BRA = {
+			set_country_flag = brazilian_civil_war }
+		#add_equipment_to_stockpile = { type = infantry_equipment_1 amount = 2000 producer = SOV }
+		if = {
+			limit = { owns_state = 497 }
+			set_capital = { state = 497 }
+		}
+		declare_war_on = {
+			target = BRA
+			type = annex_everything
+		}
+		if = {
+			limit = {
+				country_exists = BPS
+				NOT = { has_war_with = BPS }
+			}
+			declare_war_on = {
+				target = BPS
+				type = annex_everything
+			}
+		}
+		add_ideas = extensive_conscription
+	}
+}
+country_event = { #Staters Rise up
+	id = bcw.3
+	immediate = {log = "[GetDateText]: [Root.GetName]: event bcw.3"}
+	title = bcw.3.t
+	desc = bcw.3.d
+	picture = GFX_report_event_tanks_mexico_city
+	fire_only_once = yes
+	trigger = {
+		tag = BRA
+		OR = {
+			502 = { is_owned_and_controlled_by = BRA } #Sul
+			503 = { is_owned_and_controlled_by = BRA } #Santa Catarina
+			501 = { is_owned_and_controlled_by = BRA } #Sao Paolo
+			504 = { is_owned_and_controlled_by = BRA } #Iguacu
+		}
+		has_country_flag = BCW_begins
+		NOT = { has_country_flag = BCW_state_risen }
+	}
+	mean_time_to_happen = {
+		days = 7
+	}
+	immediate = {
+		set_country_flag = BCW_state_risen
+		BRA = {
+			add_popularity = {
+				ideology = paternal_autocrat
+				popularity = -0.1
+			}
+		}
+		every_state = {
+			limit = {
+				OR = { is_core_of = BRA
+					is_core_of = UBR
+				}
+			}
+			add_claim_by = BPS
+		}
+		every_owned_state = {
+			limit = {
+				is_controlled_by = ROOT
+				OR = {
+					state = 501 #Sao Paolo
+					state = 502 #Rio Grande do Sul
+					state = 503 #Santa Catarina
+					state = 504 #Iguaco
+				}
+			}
+			remove_claim_by = BPS
+			add_core_of = BPS
+			remove_core_of = BRA
+			add_claim_by = BRA
+			BPS = { transfer_state = PREV }
+		}
+		BPS = { transfer_technology = yes }
+		hidden_effect = { news_event = { id = fxnews.95 days = 3 } }
+	}
+	option = {
+		name = bcw.3.a #Fight for the Republic
+		if = {
+			limit = { is_ai = yes }
+			# load_oob = BCW_BRA2
+		}
+		BPS = {
+			country_event = { id = bcw.4 days = 7 }
+		}
+	}
+	option = {
+		name = bcw.4.b #Fight for the nation (Play as the State)
+		trigger = { is_ai = no }
+		# load_oob = BCW_BRA2
+		BPS = {
+			country_event = { id = bcw.4 days = 7 }
+			change_tag_from = BRA
+		}
+	}
+}
+
+# State boot event
+country_event = {
+	id = bcw.4
+	immediate = {log = "[GetDateText]: [Root.GetName]: event bcw.4"}
+	title = bcw.4.t
+	desc = bcw.4.d
+	picture = GFX_report_event_tanks_mexico_city
+
+	is_triggered_only = yes
+
+	option = {
+		name = bcw.4.a
+		load_oob = "BPS"
+
+		set_country_flag = brazilian_civil_war
+		#add_equipment_to_stockpile = { type = infantry_equipment_1 amount = 2000 producer = GER }
+		if = {
+			limit = { owns_state = 502 }
+			set_capital = { state = 502 }
+		}
+		declare_war_on = {
+			target = BRA
+			type = annex_everything
+		}
+		if = {
+			limit = {
+				country_exists = UBR
+				NOT = { has_war_with = UBR }
+			}
+			declare_war_on = {
+				target = UBR
+				type = annex_everything
+			}
+		}
+		add_ideas = extensive_conscription
+	}
+}
+
+country_event = { #test event
+	id = bcw.1337
+	immediate = {log = "[GetDateText]: [Root.GetName]: event bcw.1337"}
+	title = bcw.1337.t
+	desc = bcw.1337.d
+	picture = GFX_report_event_tanks_mexico_city
+	trigger = {
+		tag = BRA
+		has_country_flag = BRA_righties
+		has_country_flag = BRA_lefties
+	}
+	fire_only_once = yes
+	mean_time_to_happen = { days = 5}
+	option = {
+		name = bcw.1337.a
+		BRA = { set_country_flag = BCW_begins }
+	}
+}
+country_event = { #end of bcw for brazil
+	id = bcw.25
+	immediate = {log = "[GetDateText]: [Root.GetName]: event bcw.25"}
+	title = bcw.25.t
+	desc = bcw.25.d
+	picture = GFX_report_event_tanks_mexico_city
+	trigger = {
+		tag = BRA
+		has_country_flag = brazilian_civil_war
+		NOT = {
+			country_exists = UBR
+			country_exists = BPS
+		}
+	}
+	fire_only_once = yes
+	mean_time_to_happen = { days = 7 }
+	option = {
+		name = bcw.25.a
+		set_country_flag = BRA_bcw_ended
+		add_political_power = 50
+		#add_ideas = BRA_postwar_wounds
+	}
+}
+country_event = { #end of bcw for union
+	id = bcw.26
+	immediate = {log = "[GetDateText]: [Root.GetName]: event bcw.26"}
+	title = bcw.26.t
+	desc = bcw.26.d
+	picture = GFX_report_event_tanks_mexico_city
+	trigger = {
+		tag = UBR
+		has_country_flag = brazilian_civil_war
+		NOT = {
+			country_exists = BRA
+			country_exists = BPS
+		}
+	}
+	fire_only_once = yes
+	mean_time_to_happen = { days = 7 }
+	option = {
+		name = bcw.26.a
+		set_country_flag = UBR_bcw_ended
+		add_political_power = 50
+		UBR_Luis_Carlos_Prestes = { set_portraits = { civilian = { large = "gfx/leaders/UBR/Portrait_UBR_Luis_Carlos_Prestes_civilian.png" } } }
+	}
+}
+country_event = { #end of bcw for bepis
+	id = bcw.27
+	immediate = {log = "[GetDateText]: [Root.GetName]: event bcw.27"}
+	title = bcw.27.t
+	desc = bcw.27.d
+	picture = GFX_report_event_tanks_mexico_city
+	trigger = {
+		tag = BPS
+		has_country_flag = brazilian_civil_war
+		NOT = {
+			country_exists = BRA
+			country_exists = UBR
+		}
+	}
+	fire_only_once = yes
+	mean_time_to_happen = { days = 7 }
+	option = {
+		name = bcw.27.a
+		set_country_flag = BPS_bcw_ended
+		add_political_power = 50
+	}
+}

@@ -1,0 +1,699 @@
+####White Russia National Focus tree coded by fbruchmueller####
+
+
+focus_tree = {
+	id = rus_coup
+
+	country = {
+		factor = 0
+
+		modifier = {
+			add = 1
+			tag = RUS
+		}
+	}
+
+	shared_focus = RUS_army
+	shared_focus = RUS_airforce
+	shared_focus = RUS_navy
+	shared_focus = RUS_five_year_plan
+	shared_focus = RUS_control_economy
+	shared_focus = RUS_kickstart_war_economy
+	shared_focus = RUS_Prepare_Against_Soviets
+
+	continuous_focus_position = { x = 50 y = 3200 }
+
+	default = no
+
+	#############################
+	###   INTERNAL POLITICS   ###
+	#############################
+
+	focus = {
+		id = RUS_coup
+		icon = GFX_goal_COS_Ferrer_Coup
+		available = {
+		}
+		bypass = {
+			has_country_flag = RUS_coup_victorious
+		}
+		x = 3
+		y = 0
+		cost = 2
+		ai_will_do = {
+			factor = 2
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RUS_coup"
+			custom_effect_tooltip = RUS_unlock_focuses
+		}
+	}
+
+	focus = {
+		id = RUS_purge_np
+		icon = GFX_HOL_crackdown_natpop
+		available = {
+		}
+		prerequisite = {
+			focus = RUS_coup
+		}
+		bypass = {
+		}
+		x = -2
+		y = 1
+		relative_position_id = RUS_coup
+		cost = 8
+		ai_will_do = {
+			factor = 2
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RUS_purge_np"
+			add_popularity = {
+				ideology = national_populist
+				popularity = -0.20
+			}
+		}
+	}
+
+	focus = {
+		id = RUS_protect_democracy
+		icon = GFX_goal_liberty
+		available = {
+		}
+		prerequisite = {
+			focus = RUS_coup
+		}
+		bypass = {
+		}
+		x = 0
+		y = 1
+		relative_position_id = RUS_coup
+		cost = 8
+		ai_will_do = {
+			factor = 2
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RUS_protect_democracy"
+			add_stability = 0.10
+		}
+	}
+
+
+	focus = {
+		id = RUS_purge_pacifist
+		icon = GFX_goal_army_guy_2
+		available = {
+		}
+		prerequisite = {
+			focus = RUS_coup
+		}
+		bypass = {
+		}
+		x = 2
+		y = 1
+		relative_position_id = RUS_coup
+		cost = 8
+		ai_will_do = {
+			factor = 2
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RUS_purge_pacifist"
+			add_war_support = 0.10
+		}
+	}
+
+	focus = {
+		id = RUS_free_elections
+		icon = GFX_goal_big_news
+		available = {
+		}
+		mutually_exclusive = {
+			focus = RUS_cancel_elections
+		}
+		prerequisite = {
+			focus = RUS_purge_pacifist
+		}
+		prerequisite = {
+			focus = RUS_protect_democracy
+		}
+		prerequisite = {
+			focus = RUS_purge_np
+		}
+		bypass = {
+		}
+		x = -4
+		y = 1
+		relative_position_id = RUS_protect_democracy
+		cost = 8
+		ai_will_do = {
+			factor = 2
+		}
+
+		select_effect = {
+			country_event = { id = ruscoup.4 days = 7 }
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RUS_free_elections"
+			add_political_power = 50
+		}
+	}
+
+	focus = {
+		id = RUS_welfare
+		icon = GFX_goal_RAJ_India_Worker_Rights
+		available = {
+			has_government = social_liberal
+		}
+		prerequisite = {
+			focus = RUS_free_elections
+		}
+		bypass = {
+		}
+		x = -3
+		y = 1
+		relative_position_id = RUS_free_elections
+		cost = 8
+		ai_will_do = {
+			factor = 2
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RUS_welfare"
+			add_ideas = RUS_social_security
+		}
+	}
+
+	focus = {
+		id = RUS_land_redistribution_savinkov
+		icon = GFX_goal_RAJ_Decentralized_Land_Reform
+		available = {
+			has_government = social_liberal
+		}
+		prerequisite = {
+			focus = RUS_welfare
+		}
+		bypass = {
+		}
+		x = 1
+		y = 2
+		relative_position_id = RUS_welfare
+		cost = 8
+		ai_will_do = {
+			factor = 2
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RUS_land_redistribution_savinkov"
+			add_stability = 0.05
+		}
+	}
+
+	focus = {
+		id = RUS_uphold_democracy
+		icon = GFX_goal_new_treaty
+		available = {
+			OR = {
+				has_government = social_liberal
+				has_government = social_conservative
+			}
+		}
+		prerequisite = {
+			focus = RUS_welfare
+			focus = RUS_decentralize_goverment
+		}
+		bypass = {
+		}
+		x = 2
+		y = 1
+		relative_position_id = RUS_welfare
+		cost = 8
+		ai_will_do = {
+			factor = 2
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RUS_uphold_democracy"
+			increase_ruling_party_popularity_by_10 = yes
+		}
+	}
+
+	focus = {
+		id = RUS_increase_role_religion
+		icon = GFX_BEL_Improve_Catholic_Relations
+		available = {
+			has_government = social_democrat
+		}
+		prerequisite = {
+			focus = RUS_free_elections
+		}
+		bypass = {
+		}
+		x = 3
+		y = 1
+		relative_position_id = RUS_free_elections
+		cost = 8
+		ai_will_do = {
+			factor = 2
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RUS_increase_role_religion"
+			add_popularity = {
+				ideology = social_democrat
+				popularity = 0.1
+			}
+		}
+	}
+
+	focus = {
+		id = RUS_christian_socialism
+		icon = GFX_goal_RAJ_Autonomous_Industry
+		available = {
+			has_government = social_democrat
+		}
+		prerequisite = {
+			focus = RUS_increase_role_religion
+		}
+		bypass = {
+		}
+		x = -1
+		y = 2
+		relative_position_id = RUS_increase_role_religion
+		cost = 8
+		ai_will_do = {
+			factor = 2
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RUS_christian_socialism"
+			add_ideas = RUS_christian_socialism_idea
+		}
+	}
+
+
+	focus = {
+		id = RUS_decentralize_goverment
+		icon = GFX_goal_government_icon
+		available = {
+			has_government = social_conservative
+		}
+		prerequisite = {
+			focus = RUS_free_elections
+		}
+		bypass = {
+		}
+		x = 0
+		y = 1
+		relative_position_id = RUS_free_elections
+		cost = 8
+		ai_will_do = {
+			factor = 2
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RUS_decentralize_goverment"
+			add_ideas = RUS_decentralize_goverment_idea
+		}
+	}
+
+	focus = {
+		id = RUS_support_farmers
+		icon = GFX_goal_RAJ_agricultural_aid
+		available = {
+			OR = {
+				has_government = social_conservative
+				has_government = social_democrat
+			}
+		}
+		prerequisite = {
+			focus = RUS_decentralize_goverment
+			focus = RUS_increase_role_religion
+		}
+		bypass = {
+		}
+		x = 1
+		y = 1
+		relative_position_id = RUS_decentralize_goverment
+		cost = 8
+		ai_will_do = {
+			factor = 2
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RUS_support_farmers"
+			add_stability = 0.05
+		}
+	}
+
+	focus = {
+		id = RUS_long_live_democracy
+		icon = GFX_goal_liberty
+		available = {
+		}
+		prerequisite = {
+			focus = RUS_land_redistribution_savinkov
+			focus = RUS_christian_socialism
+		}
+		prerequisite = {
+			focus = RUS_support_farmers
+			focus = RUS_uphold_democracy
+		}
+		bypass = {
+		}
+		x = -1
+		y = 2
+		relative_position_id = RUS_support_farmers
+		cost = 8
+		ai_will_do = {
+			factor = 2
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RUS_long_live_democracy"
+			if = {
+				limit = {
+					has_idea = RUS_corruption
+				}
+				remove_ideas = RUS_corruption
+			}
+			else_if = {
+				add_stability = 0.10
+			}
+		}
+	}
+
+	focus = {
+		id = RUS_cancel_elections
+		icon = GFX_goal_AST_skip_plebiscite
+		available = {
+			NOT = {
+				has_country_flag = RUS_attempt_to_rule_failed
+			}
+		}
+		mutually_exclusive = {
+			focus = RUS_free_elections
+		}
+		prerequisite = {
+			focus = RUS_purge_pacifist
+		}
+		prerequisite = {
+			focus = RUS_protect_democracy
+		}
+		prerequisite = {
+			focus = RUS_purge_np
+		}
+		bypass = {
+		}
+		x = 4
+		y = 1
+		relative_position_id = RUS_protect_democracy
+		cost = 8
+		ai_will_do = {
+			factor = 2
+		}
+
+		select_effect = {
+			country_event = {
+				id = sovietpol.
+				days = 40
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RUS_cancel_elections"
+			custom_effect_tooltip = RUS_really_good_idea
+		}
+	}
+
+	focus = {
+		id = RUS_military_state
+		icon = GFX_goal_COS_War
+		available = {
+		}
+		prerequisite = {
+			focus = RUS_cancel_elections
+		}
+		bypass = {
+		}
+		x = -2
+		y = 1
+		relative_position_id = RUS_cancel_elections
+		cost = 8
+		ai_will_do = {
+			factor = 2
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RUS_military_state"
+			add_stability = 0.10
+		}
+	}
+
+	focus = {
+		id = RUS_restrict_press
+		icon = GFX_goal_skull_treaty2
+		available = {
+		}
+		prerequisite = {
+			focus = RUS_military_state
+		}
+		bypass = {
+		}
+		x = 0
+		y = 1
+		relative_position_id = RUS_military_state
+		cost = 8
+		ai_will_do = {
+			factor = 2
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RUS_restrict_press"
+			add_stability = 0.10
+		}
+	}
+
+	focus = {
+		id = RUS_purge_opposition
+		icon = GFX_goal_checkmate
+		available = {
+		}
+		prerequisite = {
+			focus = RUS_cancel_elections
+		}
+		bypass = {
+		}
+		x = 0
+		y = 1
+		relative_position_id = RUS_cancel_elections
+		cost = 8
+		ai_will_do = {
+			factor = 2
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RUS_purge_opposition"
+			add_popularity = {
+				ideology = social_conservative
+				popularity = -0.3
+			}
+			add_popularity = {
+				ideology = social_democrat
+				popularity = -0.3
+			}
+			add_popularity = {
+				ideology = social_liberal
+				popularity = -0.3
+			}
+			add_stability = -0.05
+		}
+	}
+
+	focus = {
+		id = RUS_talk_with_church
+		icon = GFX_BEL_Improve_Catholic_Relations
+		available = {
+		}
+		prerequisite = {
+			focus = RUS_restrict_press
+		}
+		bypass = {
+		}
+		x = 0
+		y = 1
+		relative_position_id = RUS_restrict_press
+		cost = 8
+		ai_will_do = {
+			factor = 2
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RUS_talk_with_church"
+			increase_ruling_party_popularity_by_10 = yes
+		}
+	}
+
+
+	focus = {
+		id = RUS_control_legislation
+		icon = GFX_goal_KTG_Elections
+		available = {
+		}
+		prerequisite = {
+			focus = RUS_purge_opposition
+		}
+		bypass = {
+		}
+		x = 0
+		y = 1
+		relative_position_id = RUS_purge_opposition
+		cost = 8
+		ai_will_do = {
+			factor = 2
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RUS_control_legislation"
+			add_war_support = 0.05
+		}
+	}
+
+	focus = {
+		id = RUS_military_safeguard
+		icon = GFX_focus_generic_treaty
+		available = {
+		}
+		prerequisite = {
+			focus = RUS_control_legislation
+		}
+		bypass = {
+		}
+		x = 0
+		y = 1
+		relative_position_id = RUS_control_legislation
+		cost = 8
+		ai_will_do = {
+			factor = 2
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RUS_military_safeguard"
+			add_stability = 0.05
+		}
+	}
+
+	focus = {
+		id = RUS_start_personality_cult
+		icon = GFX_SIA_Urban_Warfare_NF
+		available = {
+		}
+		prerequisite = {
+			focus = RUS_cancel_elections
+		}
+		bypass = {
+		}
+		x = 2
+		y = 1
+		relative_position_id = RUS_cancel_elections
+		cost = 8
+		ai_will_do = {
+			factor = 2
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RUS_start_personality_cult"
+			increase_ruling_party_popularity_by_10 = yes
+		}
+	}
+
+	focus = {
+		id = RUS_control_education
+		icon = GFX_goal_GER_nationalise_schools
+		available = {
+		}
+		prerequisite = {
+			focus = RUS_start_personality_cult
+		}
+		bypass = {
+		}
+		x = 0
+		y = 1
+		relative_position_id = RUS_start_personality_cult
+		cost = 8
+		ai_will_do = {
+			factor = 2
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RUS_control_education"
+			add_war_support = 0.10
+		}
+	}
+
+	focus = {
+		id = RUS_military_purge
+		icon = GFX_goal_purge_opposition
+		available = {
+		}
+		prerequisite = {
+			focus = RUS_control_education
+		}
+		bypass = {
+		}
+		x = 0
+		y = 1
+		relative_position_id = RUS_control_education
+		cost = 8
+		ai_will_do = {
+			factor = 2
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RUS_military_purge"
+			increase_ruling_party_popularity_by_15 = yes
+			add_stability = -0.10
+		}
+	}
+
+	focus = {
+		id = RUS_long_live_denikin
+		icon = GFX_focus_ger_bulwark_against_bolshevism
+		available = {
+		}
+		prerequisite = {
+			focus = RUS_military_purge
+		}
+		prerequisite = {
+			focus = RUS_military_safeguard
+		}
+		prerequisite = {
+			focus = RUS_talk_with_church
+		}
+		bypass = {
+		}
+		x = 0
+		y = 1
+		relative_position_id = RUS_military_safeguard
+		cost = 8
+		ai_will_do = {
+			factor = 2
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RUS_long_live_denikin"
+			if = {
+				limit = {
+					has_idea = RUS_corruption
+				}
+				remove_ideas = RUS_corruption
+			}
+			else_if = {
+				add_stability = 0.10
+			}
+		}
+	}
+}

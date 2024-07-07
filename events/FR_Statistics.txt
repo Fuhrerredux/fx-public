@@ -1,0 +1,111 @@
+﻿###########################
+# - Statistics Events
+# - By jespertjee
+###########################
+
+# add_namespace = statistics
+
+# country_event = {
+	# id = statistics.1
+	# immediate = {log = "[GetDateText]: [Root.GetName]: event statistics.1"}
+	# title = statistics.1.t
+	# desc = statistics.1.d
+
+	# immediate = {
+		# every_country = {
+			# limit = {
+				# exists = yes
+				# }
+			# set_temp_variable = { var = global.infra_@THIS value = 0 }
+			# }
+		# }
+
+	# is_triggered_only = yes
+
+	# hidden = yes
+
+	# option = {
+		# name = statistics.1.a
+
+		# country_event = { id = statistics.1 days = 1 }
+
+		# hidden_effect = {
+			# every_country = {
+				# limit = {
+					# exists = yes
+					# }
+				# #Industrial score#
+				# every_state = {
+					# limit = {
+						# is_owned_by = PREV
+						# }
+					# add_to_temp_variable = { var = global.infra_@PREV value = infrastructure_level }
+					# }
+				# set_temp_variable = { var = civfac_@THIS value = num_of_factories }
+				# set_temp_variable = { var = infra_@THIS value = global.infra_@THIS }
+				# divide_temp_variable = { var = infra_@THIS value = 5 }
+				# add_to_temp_variable = { var = civfac_@THIS value = milfac_@THIS }
+				# add_to_temp_variable = { var = civfac_@THIS value = infra_@THIS }
+				# set_variable = { var = industrial_score_@THIS value = civfac_@THIS }
+				# set_variable = { var = global.industrial_score_@THIS value = industrial_score_@THIS }
+
+				# #Manpower stuff, can be removed in MtG#
+				# set_variable = { var = max_available_manpower_@THIS value = max_available_manpower }
+
+				# if = {
+					# limit = {
+						# check_variable = { max_available_manpower_@THIS > 0 }
+						# has_country_flag = switch_number_negative_state
+						# }
+					# add_to_variable = { switch_number = 1 }
+					# clr_country_flag = switch_number_negative_state
+					# }
+				# if = {
+					# limit = {
+						# check_variable = { max_available_manpower_@THIS < 0 }
+						# NOT = {
+							# has_country_flag = switch_number_negative_state
+							# }
+						# }
+					# add_to_variable = { switch_number = 1 }
+					# set_country_flag = switch_number_negative_state
+					# }
+
+				# if = {
+					# limit = {
+						# check_variable = { max_available_manpower_@THIS < 0 }
+						# }
+					# add_to_variable = { max_available_manpower_@THIS = 2147483  }
+					# }
+
+				# divide_variable = { max_available_manpower_@THIS = 8000 }
+				# set_variable = { overflow_number = 2147483 }
+				# divide_variable = { overflow_number = 8000 }
+				# multiply_variable = { overflow_number = switch_number }
+				# add_to_variable = { max_available_manpower_@THIS = overflow_number }
+
+				# set_variable = { manpower_@THIS = manpower }
+				# divide_variable = { manpower_@THIS = 8000 }
+
+				# subtract_from_variable = { max_available_manpower_@THIS = manpower_@THIS }
+				# set_variable = { var = military_score_@THIS value = max_available_manpower_@THIS }
+				# set_variable = { var = global.military_score_@THIS value = military_score_@THIS }
+
+				# set_variable = { var = prestige_@THIS value = 0 }
+				# set_variable = { var = global.prestige_@THIS value = prestige_@THIS }
+
+				# #Total score#
+				# set_variable = { var = score_@THIS value = 0 }
+				# add_to_variable = { var = score_@THIS value = industrial_score_@THIS }
+				# add_to_variable = { var = score_@THIS value = military_score_@THIS }
+				# add_to_variable = { var = score_@THIS value = prestige_@THIS }
+				# set_variable = { var = global.score_@THIS value = score_@THIS }
+
+				# round_variable = industrial_score_@THIS
+				# round_variable = military_score_@THIS
+				# round_variable = prestige_@THIS
+				# round_variable = score_@THIS
+				# }
+			# }
+		# }
+	# }

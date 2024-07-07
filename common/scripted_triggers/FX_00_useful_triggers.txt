@@ -1,0 +1,1242 @@
+is_valid_state_for_development = {
+	impassable = no
+	NOT = {
+		has_state_category = wasteland
+		has_state_category = tiny_island
+		has_state_category = small_island
+	}
+}
+is_actual_major = {
+	AND = {
+		is_major = yes
+		OR = {
+			AND = {
+				num_of_factories > 49
+				date < 1940.1.1
+			}
+			AND = {
+				num_of_factories > 74
+				NOT = { date < 1940.1.1 }
+				date < 1942.1.1
+			}
+			AND = {
+				num_of_factories > 99
+				NOT = { date < 1942.1.1 }
+				date < 1944.1.1
+			}
+			AND = {
+				num_of_factories > 124
+				NOT = { date < 1944.1.1 }
+				date < 1946.1.1
+			}
+			num_of_factories > 149
+			tag = GER
+			tag = FRA
+			tag = ENG
+			tag = SOV
+			tag = JAP
+			tag = USA
+			tag = ITA
+		}
+	}
+}
+
+is_ally_of_ROOT = {
+	OR = {
+		is_in_faction_with = ROOT
+		is_subject_of = ROOT
+		ROOT = { is_subject_of = PREV }
+	}
+}
+
+is_ally_of_PREV = {
+	OR = {
+		is_in_faction_with = PREV
+		is_subject_of = PREV
+		PREV = { is_subject_of = PREV }
+	}
+}
+
+# Checks if the country is in a faction or a puppet
+is_ally_of_ROOT = {
+	custom_trigger_tooltip = {
+		tooltip = FX_is_an_ally
+		NOT = { tag = ROOT }
+		is_ally_with = ROOT
+	}
+}
+
+is_ally_of_PREV = {
+	custom_trigger_tooltip = {
+		tooltip = FX_is_an_ally
+		NOT = { tag = PREV }
+		is_ally_with = PREV
+	}
+}
+
+# Can be used in state scope, to check if the owner is ROOT or a subject of ROOT
+is_owned_by_ROOT_or_subject = {
+	custom_trigger_tooltip = {
+		tooltip = FX_owned_by_ROOT_or_subject
+		owner = {
+			OR = {
+				tag = ROOT
+				is_subject_of = ROOT
+			}
+		}
+	}
+}
+
+# Can be used in state scope, to check if the owner is ROOT or an ally/subject of ROOT
+is_owned_by_ROOT_or_ally = {
+	custom_trigger_tooltip = {
+		tooltip = FX_owned_by_ROOT_or_ally
+		owner = {
+			is_ally_with = ROOT
+		}
+	}
+}
+
+is_owned_by_ROOT_or_war_ally = {
+	owner = {
+		OR = {
+			is_ally_with = ROOT
+			has_war_together_with = ROOT
+		}
+	}
+}
+
+# Can be used in state scope, to check if the controller (not owner) is ROOT or a subject of ROOT
+is_controlled_by_ROOT_or_subject = {
+	custom_trigger_tooltip = {
+		tooltip = FX_controlled_by_ROOT_or_subject
+		controller = {
+			OR = {
+				tag = ROOT
+				is_subject_of = ROOT
+			}
+		}
+	}
+}
+
+# Can be used in state scope, to check if the controller (not owner) is ROOT or ally/subject of ROOT
+is_controlled_by_ROOT_or_ally = {
+	custom_trigger_tooltip = {
+		tooltip = FX_controlled_by_ROOT_or_ally
+		controller = {
+			is_ally_with = ROOT
+		}
+	}
+}
+
+# Can be used in state scope, to check if the owner and controller is ROOT or a subject of ROOT
+is_owned_and_controlled_by_ROOT_or_subject = {
+	custom_trigger_tooltip = {
+		tooltip = FX_owned_and_controlled_by_ROOT_or_subject
+		owner = {
+			controls_state = PREV
+			OR = {
+				tag = ROOT
+				is_subject_of = ROOT
+			}
+		}
+	}
+}
+
+# Can be used in state scope, to check if the owner and controller is ROOT or a subject of ROOT
+is_owned_and_controlled_by_ROOT_or_ally = {
+	custom_trigger_tooltip = {
+		tooltip = FX_owned_and_controlled_by_ROOT_or_ally
+		owner = {
+			controls_state = PREV
+			is_ally_with = ROOT
+		}
+	}
+}
+
+is_actual_neighbor_of_ROOT_or_ally = {
+	any_neighbor_country = {
+		is_owner_neighbor_of = PREV
+		is_ally_with = ROOT
+	}
+}
+
+# Used to check whether a country is eligible for peace deal events
+is_valid_peace_target = {
+	is_subject = no
+	OR = {
+		is_in_faction = no
+		is_faction_leader = yes
+	}
+}
+
+# in state scope
+is_claim_or_core_of_ROOT = {
+	OR = {
+		is_claimed_by = ROOT
+		is_core_of = ROOT
+	}
+}
+
+is_claim_or_core_of_FROM = {
+	OR = {
+		is_claimed_by = FROM
+		is_core_of = FROM
+	}
+}
+
+is_not_claim_or_core_of_ROOT = {
+	NOT = {
+		is_claimed_by = ROOT
+		is_core_of = ROOT
+	}
+}
+
+is_not_claim_or_core_of_FROM = {
+	NOT = {
+		is_claimed_by = FROM
+		is_core_of = FROM
+	}
+}
+
+is_claim_or_core_of_PREV = {
+	OR = {
+		is_claimed_by = PREV
+		is_core_of = PREV
+	}
+}
+
+is_claim_or_core_of_owner = {
+	OR = {
+		is_claimed_by = owner
+		is_core_of = owner
+	}
+}
+
+is_not_claim_or_core_of_PREV = {
+	NOT = {
+		is_claimed_by = PREV
+		is_core_of = PREV
+	}
+}
+
+# checks whether the country in scope has the same government as ROOT (the country running the event/focus)
+has_same_government_as_ROOT = {
+	OR = {
+		AND = {
+			has_government = vanguardist
+			ROOT = { has_government = vanguardist }
+		}
+		AND = {
+			has_government = collectivist
+			ROOT = { has_government = collectivist }
+		}
+		AND = {
+			has_government = libertarian_socialist
+			ROOT = { has_government = libertarian_socialist }
+		}
+		AND = {
+			has_government = social_democrat
+			ROOT = { has_government = social_democrat }
+		}
+		AND = {
+			has_government = social_liberal
+			ROOT = { has_government = social_liberal }
+		}
+		AND = {
+			has_government = market_liberal
+			ROOT = { has_government = market_liberal }
+		}
+		AND = {
+			has_government = social_conservative
+			ROOT = { has_government = social_conservative }
+		}
+		AND = {
+			has_government = authoritarian_democrat
+			ROOT = { has_government = authoritarian_democrat }
+		}
+		AND = {
+			has_government = paternal_autocrat
+			ROOT = { has_government = paternal_autocrat }
+		}
+		AND = {
+			has_government = national_populist
+			ROOT = { has_government = national_populist }
+		}
+		AND = {
+			has_government = valkist
+			ROOT = { has_government = valkist }
+		}
+	}
+}
+
+# checks for these three government types for the country in scope
+has_socialist_government = {
+	custom_trigger_tooltip = {
+		tooltip = FX_is_socialist_tt
+		OR = {
+			has_government = vanguardist
+			has_government = collectivist
+			has_government = libertarian_socialist
+		}
+	}
+}
+
+# checks for these four government types for the country in scope
+has_elected_government = {
+	custom_trigger_tooltip = {
+		tooltip = FX_is_elected_tt
+		OR = {
+			has_government = social_democrat
+			has_government = social_liberal
+			has_government = market_liberal
+			has_government = social_conservative
+		}
+	}
+}
+
+# checks for these five government types for the country in scope
+has_democratic_government = {
+	custom_trigger_tooltip = {
+		tooltip = FX_is_democratic_tt
+		OR = {
+			has_government = social_democrat
+			has_government = social_liberal
+			has_government = market_liberal
+			has_government = social_conservative
+			has_government = authoritarian_democrat
+		}
+	}
+}
+
+has_democratic_left_government = {
+	custom_trigger_tooltip = {
+		tooltip = FX_is_democratic_left_tt
+		OR = {
+			has_government = social_democrat
+			has_government = social_liberal
+		}
+	}
+}
+
+has_democratic_right_government = {
+	custom_trigger_tooltip = {
+		tooltip = FX_is_democratic_right_tt
+		OR = {
+			has_government = market_liberal
+			has_government = social_conservative
+		}
+	}
+}
+
+# checks for these two government types for the country in scope
+has_authoritarian_government = {
+	custom_trigger_tooltip = {
+		tooltip = FX_is_authoritarian_tt
+		OR = {
+			has_government = authoritarian_democrat
+			has_government = paternal_autocrat
+			has_government = national_populist
+			has_government = valkist
+		}
+	}
+}
+
+# checks for these three government types for the country in scope
+has_dictatorship_government = {
+	custom_trigger_tooltip = {
+		tooltip = FX_is_dictatorship_tt
+		OR = {
+			has_government = paternal_autocrat
+			has_government = national_populist
+			has_government = valkist
+		}
+	}
+}
+
+has_ultranationalist_government = {
+	custom_trigger_tooltip = {
+		tooltip = FX_is_ultranationalist_tt
+		OR = {
+			has_government = national_populist
+			has_government = valkist
+		}
+	}
+}
+
+# checks whether the country in scope has the same government type as ROOT (the country running the event/focus)
+# note that it's not the exact same government - just the general type, as above
+same_government_type_as_ROOT = {
+	OR = {
+		AND = {
+			has_socialist_government = yes
+			ROOT = { has_socialist_government = yes }
+		}
+		AND = {
+			has_democratic_government = yes
+			ROOT = { has_democratic_government = yes }
+		}
+		AND = {
+			has_dictatorship_government = yes
+			ROOT = { has_dictatorship_government = yes }
+		}
+	}
+}
+
+# the following triggers will check if the country in scope is on a particular continent
+# note that these are continents as per the game - asia and middle-east are considered separate continents
+is_in_asia = {
+	capital_scope = {
+		is_on_continent = asia
+	}
+}
+
+is_in_europe = {
+	capital_scope = {
+		is_on_continent = europe
+	}
+}
+
+is_in_africa = {
+	capital_scope = {
+		is_on_continent = africa
+	}
+}
+
+is_in_north_america = {
+	capital_scope = {
+		is_on_continent = north_america
+	}
+}
+
+is_in_south_america = {
+	capital_scope = {
+		is_on_continent = south_america
+	}
+}
+
+is_in_middle_east = {
+	capital_scope = {
+		is_on_continent = middle_east
+	}
+}
+
+is_in_australia = {
+	capital_scope = {
+		is_on_continent = australia
+	}
+}
+
+is_in_north_africa = {
+	capital_scope = {
+		is_on_continent = north_africa
+	}
+}
+
+is_in_south_asia = {
+	capital_scope = {
+		is_on_continent = south_asia
+	}
+}
+
+# checks whether the country in scope is in the same continent as ROOT (the country running the event)
+same_continent_as_ROOT = {
+	OR = {
+		AND = {
+			is_in_asia = yes
+			ROOT = { is_in_asia = yes }
+		}
+		AND = {
+			is_in_europe = yes
+			ROOT = { is_in_europe = yes }
+		}
+		AND = {
+			is_in_africa = yes
+			ROOT = { is_in_africa = yes }
+		}
+		AND = {
+			is_in_north_america = yes
+			ROOT = { is_in_north_america = yes }
+		}
+		AND = {
+			is_in_south_america = yes
+			ROOT = { is_in_south_america = yes }
+		}
+		AND = {
+			is_in_middle_east = yes
+			ROOT = { is_in_middle_east = yes }
+		}
+		AND = {
+			is_in_australia = yes
+			ROOT = { is_in_australia = yes }
+		}
+	}
+}
+
+# checks whether the state in scope is on the same continent as ROOT (the country running the event)
+state_same_continent_as_ROOT = {
+	OR = {
+		AND = {
+			is_on_continent = asia
+			ROOT = { is_in_asia = yes }
+		}
+		AND = {
+			is_on_continent = europe
+			ROOT = { is_in_europe = yes }
+		}
+		AND = {
+			is_on_continent = africa
+			ROOT = { is_in_africa = yes }
+		}
+		AND = {
+			is_on_continent = north_america
+			ROOT = { is_in_north_america = yes }
+		}
+		AND = {
+			is_on_continent = south_america
+			ROOT = { is_in_south_america = yes }
+		}
+		AND = {
+			is_on_continent = middle_east
+			ROOT = { is_in_middle_east = yes }
+		}
+		AND = {
+			is_on_continent = australia
+			ROOT = { is_in_australia = yes }
+		}
+	}
+}
+
+### world news triggers
+wants_world_news = {
+	# OR = {
+	# 	has_global_flag = All_News_Events
+	# 	has_global_flag = Important_News_Events
+	# }
+	always = yes
+}
+
+regional_europe_news = {
+	OR = {
+		# has_global_flag = All_News_Events
+		is_in_europe = yes
+		any_neighbor_country = { is_in_europe = yes }
+	}
+}
+
+regional_asia_news = {
+	OR = {
+		# has_global_flag = All_News_Events
+		is_in_asia = yes
+		is_in_australia = yes
+		any_neighbor_country = { is_in_asia = yes }
+		any_neighbor_country = { is_in_australia = yes }
+	}
+}
+
+regional_africa_news = {
+	OR = {
+		# has_global_flag = All_News_Events
+		is_in_africa = yes
+		any_neighbor_country = { is_in_africa = yes }
+	}
+}
+
+regional_north_america_news = {
+	OR = {
+		# has_global_flag = All_News_Events
+		is_in_north_america = yes
+		any_neighbor_country = { is_in_north_america = yes }
+	}
+}
+
+regional_south_america_news = {
+	OR = {
+		# has_global_flag = All_News_Events
+		is_in_south_america = yes
+		any_neighbor_country = { is_in_south_america = yes }
+	}
+}
+
+regional_middle_east_news = {
+	OR = {
+		# has_global_flag = All_News_Events
+		is_in_middle_east = yes
+		any_neighbor_country = { is_in_middle_east = yes }
+	}
+}
+
+# use this in state scope
+is_french_colonial_claim = {
+	OR = {
+		state = 458 # Tunisia
+		state = 665
+		state = 557 # French West Africa
+		state = 980
+		state = 979
+		state = 978
+		state = 977
+		state = 976
+		state = 925
+		state = 881
+		state = 556
+		state = 515
+		state = 272
+		state = 973
+		state = 974
+		state = 660 # French Central Africa
+		state = 539
+		state = 967
+		state = 966
+		state = 918
+		state = 771
+		state = 297
+		state = 924 # French Morocco
+		state = 923
+		state = 922
+		state = 898
+		state = 462
+		state = 461
+		state = 677 # French Syria
+		state = 553
+		state = 350
+		state = 344
+		state = 963 # French Inndochina
+		state = 962
+		state = 961
+		state = 960
+		state = 959
+		state = 958
+		state = 741
+		state = 728
+		state = 671
+		state = 670
+		state = 286
+		state = 730 # French Americas
+		state = 694
+		state = 310
+		state = 969
+		state = 514 # French Algeria
+		state = 513
+		state = 460
+		state = 459
+		state = 699
+		state = 1002
+		state = 268 # French Indian Ocean Colonies
+		state = 708
+		state = 543
+		state = 706
+		state = 713
+		state = 320
+		state = 635 # French Pacific Ocean Colonies
+		state = 641
+	}
+}
+
+is_italian_colonial_claim = {
+	OR = {
+		state = 273 # Libya
+		state = 663
+		state = 662
+		state = 661
+		state = 451
+		state = 450
+		state = 449
+		state = 448
+		state = 817 # Cameroon
+		state = 550 # Italian East Africa
+		state = 559
+		state = 164 # Italian East Mediterranean
+		state = 345
+		state = 1030
+	}
+}
+
+# use this in state scope
+is_portuguese_colonial_claim = {
+	OR = {
+		state = 702 # Cape Verde
+		state = 296 # Guinea Bissau
+		state = 296 # Guinea Bissau
+		state = 540 # Angola
+		state = 544 # Mozambique
+		state = 964 # Llindi
+		state = 321 # Goa
+		state = 721 # East Timor
+		state = 848 # West Timor
+		state = 729 # Macau
+	}
+}
+
+# use this in state scope
+is_south_african_colonial_claim = {
+	OR = {
+		region = 139
+		state = 810 #Rhodesia
+	}
+}
+
+# use this in state scope
+is_british_colonial_claim = {
+	OR = {
+		state = 813 # Egypt
+		state = 769
+		state = 745
+		state = 552
+		state = 551
+		state = 549
+		state = 457
+		state = 456
+		state = 453
+		state = 452
+		state = 447
+		state = 446
+		state = 423 # India
+		state = 424
+		state = 425
+		state = 426
+		state = 427
+		state = 428
+		state = 429
+		state = 430
+		state = 431
+		state = 432
+		state = 433
+		state = 434
+		state = 435
+		state = 436
+		state = 437
+		state = 438
+		state = 439
+		state = 440
+		state = 441
+		state = 442
+		state = 443
+		state = 444
+		state = 445
+		state = 809
+		state = 811
+		state = 814
+		state = 883
+		state = 884
+		state = 908
+		state = 952
+		state = 972
+		state = 986
+		state = 987
+		state = 988
+		state = 333 # British East Indies
+		state = 334
+		state = 335
+		state = 667
+		state = 672
+		state = 785
+		state = 790
+		state = 797
+		state = 822
+		state = 823
+		state = 943
+		state = 944
+		state = 951
+		state = 547 # British East Africa
+		state = 548
+		state = 547
+		state = 546
+		state = 545
+		state = 810
+		state = 269
+		state = 558 # British West Africa
+		state = 957
+		state = 565
+		state = 275
+		state = 994
+		state = 700
+		state = 701
+		state = 703
+		state = 704
+		state = 331 # British America
+		state = 332
+		state = 690
+		state = 693
+		state = 689
+		state = 308
+		state = 692
+		state = 691
+		state = 687
+		state = 971
+		state = 311
+		state = 299
+		state = 720
+		state = 118 # British Mediterranean
+		state = 116
+		state = 183
+		state = 659 # British Indian Ocean
+		state = 294
+		state = 658
+		state = 656
+		state = 707
+		state = 710
+		state = 281
+		state = 711
+		state = 712
+		state = 422
+		state = 733
+		state = 288 # British Burma
+		state = 640
+		state = 805
+		state = 812
+		state = 326 # British China
+		state = 894
+		state = 847 # British Pacific
+		state = 636
+		state = 643
+		state = 639
+		state = 270
+	}
+}
+is_china_proper = {
+	OR = {
+		region = 143 #Northern China
+		region = 144 #Western China
+		region = 164 #Eastern China
+		region = 165 #Southern China
+		region = 200 #Qinghai
+		region = 208 #Inner Mongolia
+	}
+}
+
+is_manchuria = {
+	OR = {
+		region = 155
+	}
+}
+
+is_xinjiang = {
+	OR = {
+		region = 145 #Xinjiang
+	}
+}
+
+is_core_china = {
+	OR = {
+		is_china_proper = yes
+		is_manchuria = yes
+		region = 208 #Inner Mongolia
+	}
+}
+
+is_china_claim_area = {
+	OR = {
+		is_china_proper = yes
+		is_manchuria = yes
+		is_xinjiang = yes
+		is_core_of = TIB
+		is_core_of = MON
+		state = 524 #Taiwan
+		state = 434 #Tawang
+	}
+}
+
+has_war_with_non_exiled_country = {
+	custom_trigger_tooltip = {
+		tooltip = has_war_with_non_exiled_country_tt
+		has_war = yes
+		any_enemy_country = {
+			is_government_in_exile = no
+		}
+	}
+}
+
+cannot_call_allies_or_join_wars = {
+	check_variable = { modifier@cannot_call_allies_or_join_wars > 0 }
+}
+
+is_balkan_state = {
+	OR = {
+		is_core_of = BUL
+		is_core_of = GRE
+		is_core_of = ALB
+		is_core_of = ROM
+		is_core_of = TUR
+		is_core_of = SER
+		state = 796
+		state = 163
+		state = 736
+		state = 917
+		state = 770
+
+	}
+	is_on_continent = europe
+	#state = 341
+}
+is_balkan_island_state = {
+	OR = {
+		state = 187
+		state = 164
+		state = 182
+	}
+
+}
+is_balkan_island_state_or_cyprus = {
+	OR = {
+		state = 187
+		state = 164
+		state = 182
+		state = 183
+	}
+}
+is_original_bulgarian_state = {
+	OR = {
+		state = 764
+		state = 48
+		state = 212
+		state = 211
+		state = 766
+	}
+}
+is_metropolis_state = {
+	OR = {
+		has_state_category = twelve
+		has_state_category = ten
+	}
+}
+
+is_valid_state_for_development = {
+	impassable = no
+	NOT = {
+		has_state_category = wasteland
+		has_state_category = tiny_island
+		has_state_category = small_island
+	}
+}
+
+prefer_home_area_states_unless_filled = {
+	OR = {
+		is_in_home_area = yes
+		NOT = {
+			owner = {
+				any_owned_state = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+					is_in_home_area = yes
+				}
+			}
+		}
+	}
+}
+
+prefer_home_area_states_unless_filled_infrastructure = {
+	OR = {
+		is_in_home_area = yes
+		NOT = {
+			owner = {
+				any_owned_state = {
+					is_in_home_area = yes
+					free_building_slots = { building = infrastructure size > 0 include_locked = yes }
+				}
+			}
+		}
+	}
+}
+
+prefer_home_area_states_unless_filled_dockyard = {
+	OR = {
+		is_in_home_area = yes
+		NOT = {
+			owner = {
+				any_owned_state = {
+					free_building_slots = {
+						building = dockyard
+						size > 0
+						include_locked = yes
+					}
+					is_in_home_area = yes
+				}
+			}
+		}
+	}
+}
+
+prefer_home_area_states_unless_filled_airbase = {
+	OR = {
+		is_in_home_area = yes
+		NOT = {
+			owner = {
+				any_owned_state = {
+					free_building_slots = {
+						building = air_base
+						size > 0
+						include_locked = yes
+					}
+					is_in_home_area = yes
+				}
+			}
+		}
+	}
+}
+
+valid_state_for_spawning_friendly_unit = {
+	is_in_home_area = yes
+	impassable = no
+}
+
+has_specialist_level_trigger = {
+	skill > 5
+	skill < 6
+}
+
+has_expert_level_trigger = {
+	skill > 6
+	skill < 7
+}
+
+has_genius_level_trigger = {
+	skill > 7
+}
+
+uses_generic_mios = {
+	NOT = {
+		original_tag = BEL
+		original_tag = JAP
+		original_tag = BLR
+		original_tag = ENG
+		original_tag = FRA
+		original_tag = GER
+		original_tag = GRE
+		original_tag = HOL
+		original_tag = ITA
+		original_tag = PHI
+		original_tag = SOV
+		original_tag = SPA
+		original_tag = SPM
+		original_tag = SPF
+		original_tag = SPR
+		original_tag = SWI
+		original_tag = USA
+	}
+}
+
+uses_generic_armour_mio = {
+	uses_generic_mios = yes
+}
+
+uses_generic_naval_mio = {
+	uses_generic_mios = yes
+}
+
+uses_generic_aircraft_mio = {
+	uses_generic_mios = yes
+	original_tag = RHI
+}
+
+uses_generic_artillery_mio = {
+	uses_generic_mios = yes
+}
+
+uses_generic_infantry_mio = {
+	uses_generic_mios = yes
+
+}
+
+uses_generic_support_mio = {
+	uses_generic_mios = yes
+	NOT = {
+		original_tag = ENG
+		original_tag = BLR
+		original_tag = HOL
+	}
+}
+
+uses_generic_motorised_mio = {
+	uses_generic_mios = yes
+}
+
+has_coalition = {
+	has_variable = coalition_partners^num
+}
+
+is_colonial_tag = {
+	OR = {
+		original_tag = NFA #ignore colonial tags
+		original_tag = NFQ #ignore colonial tags
+		original_tag = KEN #ignore colonial tags
+		original_tag = NGA #ignore colonial tags
+		original_tag = RHO #ignore colonial tags
+	}
+}
+
+
+# requires a temp variable coalition_target
+has_coalition_with_target = {
+	custom_trigger_tooltip = {
+		tooltip = has_coalition_with_target
+		has_variable = is_in_coalition_with_@var:coalition_target
+	}
+}
+
+
+#only use this in integration effects
+core_of_FROM_can_be_integrated_by_ROOT = {
+	OR = {
+		has_variable = can_integrate_@ROOT
+		NOT = {
+			any_country_with_core = {
+				is_colonial_tag = no
+				NOT = { has_variable = can_integrate_@FROM }
+				NOT = { has_variable = ROOT.can_integrate_@THIS }
+			}
+		}
+	}
+}
+
+#only use this in integration effects
+core_of_PREV_can_be_integrated_by_ROOT = {
+	OR = {
+		has_variable = can_integrate_@ROOT
+		NOT = {
+			any_country_with_core = {
+				is_colonial_tag = no
+				NOT = { has_variable = can_integrate_@PREV.PREV }
+				NOT = { has_variable = ROOT.can_integrate_@THIS }
+			}
+		}
+	}
+}
+
+at_war_with_or_justifying_wargoal_against_ROOT = {
+	OR = {
+		has_war_with = ROOT
+		has_wargoal_against = ROOT
+		is_justifying_wargoal_against = ROOT
+		ROOT = { has_wargoal_against = PREV }
+		ROOT = { is_justifying_wargoal_against = PREV }
+		any_allied_country = { has_war_with = ROOT }
+		ROOT = { any_allied_country = { has_war_with = PREV.PREV } }
+	}
+}
+
+at_war_with_or_justifying_wargoal_against_FROM = {
+	OR = {
+		has_war_with = FROM
+		has_wargoal_against = FROM
+		is_justifying_wargoal_against = FROM
+		FROM = { has_wargoal_against = PREV }
+		FROM = { is_justifying_wargoal_against = PREV }
+		any_allied_country = { has_war_with = FROM }
+		FROM = { any_allied_country = { has_war_with = PREV.PREV } }
+	}
+}
+
+at_war_with_or_justifying_wargoal_against_PREV = {
+	OR = {
+		has_war_with = PREV
+		has_wargoal_against = PREV
+		is_justifying_wargoal_against = PREV
+		PREV = { has_wargoal_against = PREV }
+		PREV = { is_justifying_wargoal_against = PREV }
+		any_allied_country = { has_war_with = PREV.PREV }
+		PREV = { any_allied_country = { has_war_with = PREV.PREV } }
+	}
+}
+
+both_socialist_or_both_not_socialist = {
+	OR = {
+		AND = {
+			has_socialist_government = yes
+			PREV = { has_socialist_government = yes }
+		}
+		AND = {
+			has_socialist_government = no
+			PREV = { has_socialist_government = no }
+		}
+	}
+}
+
+country_is_not_unfriendly_towards_PREV = {
+	exists = yes
+	OR = {
+		is_subject = no
+		is_subject_of = ROOT
+	}
+	OR = {
+		is_in_faction = no
+		is_in_faction_with = ROOT
+	}
+	has_capitulated = no
+	both_socialist_or_both_not_socialist = yes
+	at_war_with_or_justifying_wargoal_against_ROOT = no
+}
+
+all_enemy_country_workaround_trigger = {
+	custom_trigger_tooltip = {
+		tooltip = all_enemy_country_workaround_trigger
+		NOT = { any_enemy_country = { NOT = { has_war_with = var:target } } }
+	}
+}
+
+at_peace_or_same_enemies_as_TARGET = {
+	OR = {
+		AND = {
+			has_war = no
+			NOT = { any_claim = yes }
+		}
+		all_enemy_country_workaround_trigger = yes
+	}
+}
+
+at_peace_or_same_enemies_as_FROM = {
+	set_temp_variable = { target = FROM }
+	at_peace_or_same_enemies_as_TARGET = yes
+}
+
+at_peace_or_same_enemies_as_ROOT = {
+	set_temp_variable = { target = ROOT }
+	at_peace_or_same_enemies_as_TARGET = yes
+}
+
+
+italy_is_in_entente = {
+	ITA = {
+		OR = {
+			is_in_faction_with = ENT
+			AND = {
+				is_faction_leader = yes 
+				has_idea = ITA_entente_leader
+			}
+		}
+	}
+}
+
+ROOT_is_in_entente = {
+	OR = {
+		tag = ENT
+		is_in_faction_with = ENT
+		is_ally_with = ENT
+		has_idea = GEN_entente_member
+	}
+}
+
+is_in_entente_music_mod_trigger = {
+	if = { 
+        limit = { ROOT_is_in_entente = yes } 
+        always = yes
+        else_if = {
+			limit = { 
+				ROOT = { original_tag = ITA }
+				ROOT_is_in_entente = no
+			}
+			original_tag = ITA
+        }
+        else_if = {
+			limit = {
+				ROOT = { original_tag = FRA }
+				ROOT_is_in_entente = no
+			}
+			original_tag = FRA
+        }
+        else = { always = no }
+	}
+}

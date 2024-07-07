@@ -1,0 +1,494 @@
+GEO_political_decisions = {
+	conscript_women = {
+		cost = 50
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision conscript_women"
+			add_ideas = GEO_conscripted_women
+		}
+		fire_only_once = yes
+	}
+}
+GEO_trans_decisions = {
+	integrate_north_caucasia = {
+		cost = 50
+		visible = {
+			NOT = {
+				has_country_flag = GEO_caucasia_formed
+			}
+		}
+		available = {
+			AND = {
+				859 = { is_owned_by = GEO }
+				233 = { is_owned_by = GEO }
+				860 = { is_owned_by = GEO }
+				857 = { is_owned_by = GEO }
+				232 = { is_owned_by = GEO }
+			}
+			NOT = {
+				has_country_flag = GEO_caucasia_formed
+			}
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision integrate_north_caucasia"
+			every_state = {
+				limit = {
+					is_core_of = GOR
+				}
+				add_core_of = GEO
+			}
+			GEO = { set_country_flag = GEO_caucasia_formed }
+			if = {
+				limit = {
+					GEO = { has_country_flag = GEO_monarchy }
+				}
+				GEO = { set_cosmetic_tag = GEO_CAU_MON }
+				else = {
+					GEO = { set_cosmetic_tag = GEO_CAU }
+				}
+			}
+			if = {
+				limit = {
+					has_country_flag = GEO_united_menshevik_party
+				}
+				set_party_name = { ideology = libertarian_socialist long_name = GEO_CAU_menshevik_party_long name = GEO_CAU_menshevik_party}
+				set_party_name = { ideology = social_democrat long_name = GEO_CAU_menshevik_party_long name = GEO_CAU_menshevik_party}
+				else = {
+					set_party_name = { ideology = libertarian_socialist long_name = GEO_CAU_libertarian_socialist_party_long name = GEO_CAU_libertarian_socialist_party}
+					set_party_name = { ideology = social_democrat long_name = GEO_CAU_social_democrat_party_long name = GEO_CAU_social_democrat_party}
+				}
+			}
+		}
+		fire_only_once = yes
+	}
+}
+GEO_fortify_border = {
+	fort_soviet = {
+		icon = generic_construction
+		highlight_states = {
+			highlight_state_targets = {
+				state = 858
+			}
+		}
+		available = {
+			NOT = {
+				has_country_flag = building_forts
+			}
+			num_of_civilian_factories_available_for_projects > 1
+		}
+		modifier = {
+			civilian_factory_use = 3
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision fort_soviet"
+			set_country_flag = building_forts
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove fort_soviet"
+			clr_country_flag = building_forts
+			set_country_flag = fortified_soviet
+			858 = {
+				add_building_construction = { type = bunker province = 11647 level = 3 instant_build = yes }
+				add_building_construction = { type = bunker province = 11617 level = 3 instant_build = yes }
+			}
+			905 = {
+				add_building_construction = { type = bunker province = 9663 level = 3 instant_build = yes }
+			}
+			231 = {
+				add_building_construction = { type = bunker province = 1530 level = 3 instant_build = yes }
+				add_building_construction = { type = bunker province = 4534 level = 3 instant_build = yes }
+			}
+		}
+		ai_will_do = {
+			factor = 160
+		}
+		days_remove = 40
+		fire_only_once = yes
+	}
+	fort_azerbaijan = {
+		icon = generic_construction
+		highlight_states = {
+			highlight_state_targets = {
+				state = 904
+			}
+		}
+		available = {
+			NOT = {
+				has_country_flag = building_forts
+			}
+			num_of_civilian_factories_available_for_projects > 1
+		}
+		modifier = {
+			civilian_factory_use = 2
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision fort_azerbaijan"
+			set_country_flag = building_forts
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove fort_azerbaijan"
+			clr_country_flag = building_forts
+			set_country_flag = fortified_azerbaijan
+			904 = {
+				add_building_construction = { type = bunker province = 6763 level = 3 instant_build = yes }
+			}
+			231 = {
+				add_building_construction = { type = bunker province = 4605 level = 3 instant_build = yes }
+			}
+			if = {
+				limit = {
+					NOT = {
+						has_country_flag = fortified_armenia
+					}
+				}
+				231 = {
+					add_building_construction = { type = bunker province = 12309 level = 3 instant_build = yes }
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 160
+		}
+		days_remove = 40
+		fire_only_once = yes
+	}
+	fort_armenia = {
+		icon = generic_construction
+		highlight_states = {
+			highlight_state_targets = {
+				state = 902
+			}
+		}
+		available = {
+			NOT = {
+				has_country_flag = building_forts
+			}
+			num_of_civilian_factories_available_for_projects > 3
+		}
+		modifier = {
+			civilian_factory_use = 4
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision fort_armenia"
+			set_country_flag = building_forts
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove fort_armenia"
+			clr_country_flag = building_forts
+			set_country_flag = fortified_armenia
+			if = {
+				limit = {
+					NOT = {
+						has_country_flag = fortified_azerbaijan
+					}
+				}
+				231 = {
+					add_building_construction = { type = bunker province = 12309 level = 3 instant_build = yes }
+				}
+			}
+			903 = {
+				add_building_construction = { type = bunker province = 13217 level = 3 instant_build = yes }
+			}
+			231 = {
+				add_building_construction = { type = bunker province = 9702 level = 3 instant_build = yes }
+				add_building_construction = { type = bunker province = 6669 level = 3 instant_build = yes }
+			}
+			902 = {
+				add_building_construction = { type = bunker province = 10403 level = 3 instant_build = yes }
+				add_building_construction = { type = bunker province = 13216 level = 3 instant_build = yes }
+				add_building_construction = { type = bunker province = 7454 level = 3 instant_build = yes }
+			}
+		}
+		ai_will_do = {
+			factor = 160
+		}
+		fire_only_once = yes
+		days_remove = 80
+	}
+}
+GEO_new_companies = {
+	rustavi_steel = {
+		modifier = {
+			civilian_factory_use = 3
+			consumer_goods_factor = 0.05
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove rustavi_steel"
+			add_resource = {
+				type = steel
+				amount = 8
+				state = 231
+			}
+		}
+		days_remove = 60
+		fire_only_once = yes
+	}
+	tbilisi_aircraft = {
+		modifier = {
+			consumer_goods_factor = 0.15
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove tbilisi_aircraft"
+			231 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			set_country_flag = tbilisi_aircraft_open
+		}
+		days_remove = 90
+		fire_only_once = yes
+	}
+	kutaisi_auto_plant = {
+		modifier = {
+			consumer_goods_factor = 0.1
+			civilian_factory_use = 5
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove kutaisi_auto_plant"
+			231 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			set_country_flag = kutaisi_auto_plant_open
+		}
+		days_remove = 180
+		fire_only_once = yes
+	}
+}
+
+GEO_invite_alliance = {
+	invite_armenia = {
+		visible = { country_exists = ARM }
+		available = { ARM = { is_in_faction = no } }
+		cost = 30
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision invite_armenia"
+			ARM = { country_event = { id = ge.950 } }
+		}
+		fire_only_once = yes
+		ai_will_do = {
+			factor = 100
+		}
+	}
+	invite_azerbaijan = {
+		visible = { country_exists = AZR }
+		available = { AZR = { is_in_faction = no } }
+		cost = 30
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision invite_azerbaijan"
+			AZR = { country_event = { id = ge.950 } }
+		}
+		fire_only_once = yes
+		ai_will_do = {
+			factor = 100
+		}
+	}
+	invite_kurdistan = {
+		visible = { country_exists = KUR }
+		available = { KUR = { is_in_faction = no } }
+		cost = 30
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision invite_kurdistan"
+			KUR = { country_event = { id = ge.950 } }
+		}
+		fire_only_once = yes
+		ai_will_do = {
+			factor = 100
+		}
+
+	}
+	invite_ottomans = {
+		visible = { country_exists = TUR }
+		available = { TUR = { is_in_faction = no } }
+		cost = 30
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision invite_ottomans"
+			TUR = { country_event = { id = ge.950 } }
+		}
+		fire_only_once = yes
+		ai_will_do = {
+			factor = 100
+		}
+	}
+	# invite_turkey = {
+		# 	visible = { country_exists = TRT }
+		# 	available = { TRT = { is_in_faction = no } }
+		# 	cost = 30
+		# 	complete_effect = {
+			# 		log = "[GetDateText]: [Root.GetName]: Decision invite_turkey"
+			# 		TRT = { country_event = { id = ge.950 } }
+			# 	}
+		# 	fire_only_once = yes
+		# 	ai_will_do = {
+			# 		factor = 100
+			# 	}
+		# }
+	invite_mountain_republic = {
+		visible = {
+			AND = {
+				GOR = { is_puppet = no }
+				NOT = {
+					GOR = { has_autonomy_state = autonomy_dominion }
+				}
+				country_exists = GOR
+			}
+		}
+		available = { GOR = { is_in_faction = no } }
+		cost = 30
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision invite_mountain_republic"
+			GOR = { country_event = { id = ge.950 } }
+		}
+		fire_only_once = yes
+		ai_will_do = {
+			factor = 100
+		}
+	}
+}
+GEO_join_alliance = {
+	GEO_join_entente = {
+		visible = {
+			OR = {
+				FRA = { has_guaranteed = GEO }
+				AND = {
+					threat > 0.8
+					NOT = { ENG = { has_guaranteed = GEO } }
+				}
+			}
+		}
+		available = {
+			FRA = { has_war = yes }
+			FRA = { is_faction_leader = yes	}
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision GEO_join_entente"
+			FRA = { country_event = { id = ge.910 } }
+		}
+		fire_only_once = yes
+		ai_will_do = {
+			factor = 20
+		}
+	}
+	GEO_join_IPA = {
+		visible = {
+			OR = {
+				ENG = { has_guaranteed = GEO }
+				AND = {
+					threat > 0.8
+					NOT = { FRA = { has_guaranteed = GEO } }
+				}
+			}
+		}
+		available = {
+			ENG = { has_war = yes }
+			ENG = { is_faction_leader = yes	}
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision GEO_join_IPA"
+			ENG = { country_event = { id = ge.920 } }
+		}
+		fire_only_once = yes
+		ai_will_do = {
+			factor = 20
+		}
+	}
+}
+
+war_measures = {
+	promote_officers = {
+		visible = { original_tag = GEO }
+		available = {
+			OR = {
+				has_completed_focus = GEO_french_training
+				has_completed_focus = GEO_ukrainian_training
+				has_completed_focus = GEO_expand_junker_school
+			}
+		}
+		custom_cost_trigger = { has_army_experience > 5 }
+		custom_cost_text = army_xp_more_than_5
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision promote_officers"
+			hidden_effect = { army_experience = -5 }
+			if = {
+				limit = {
+					NOT = {
+						has_government = vanguardist
+						has_government = collectivist
+					}
+				}
+				set_country_flag = GEO_menshie_officers
+				add_corps_commander_role = {
+					character = GEO_Dimitri_Zedginidze_Amilakhvari
+					traits = { trait_reckless }
+					skill = 3
+					attack_skill = 2
+					defense_skill = 2
+					planning_skill = 3
+					logistics_skill = 3
+				}
+				add_corps_commander_role = {
+					character = GEO_Valerian_Tevzadze
+					skill = 3
+					attack_skill = 2
+					defense_skill = 4
+					planning_skill = 2
+					logistics_skill = 2
+				}
+				add_corps_commander_role = {
+					character = GEO_Giorgi_Mamaladze
+					skill = 2
+					attack_skill = 1
+					defense_skill = 2
+					planning_skill = 2
+					logistics_skill = 3
+				}
+				else = {
+					add_field_marshal_role = {
+						character = GEO_Pavle_Abranmidze
+						traits = { infantry_officer }
+						skill = 4
+						attack_skill = 3
+						defense_skill = 4
+						planning_skill = 3
+						logistics_skill = 3
+					}
+				}
+			}
+		}
+		fire_only_once = yes
+		ai_will_do = {
+			factor = 50
+		}
+	}
+	bring_back_kvinitadze = {
+		visible = { original_tag = GEO }
+		available = {
+			has_democratic_government = yes
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision bring_back_kvinitadze"
+			add_field_marshal_role = {
+				character = GEO_Giorgi_Kvinitadze
+				traits = { brilliant_strategist infantry_officer unyielding_defender old_guard }
+				skill = 4
+				attack_skill = 5
+				defense_skill = 3
+				planning_skill = 3
+				logistics_skill = 2
+			}
+			set_country_flag = GEO_brought_back_kvinitadze
+		}
+		cost = 50
+		fire_only_once = yes
+		ai_will_do = {
+			factor = 50
+		}
+	}
+}

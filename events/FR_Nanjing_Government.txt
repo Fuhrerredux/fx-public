@@ -1,0 +1,190 @@
+﻿# Kuomintang Events
+# created by: dax0102
+
+add_namespace = china
+add_namespace = chinan ###China New Event Under Development of Kaiczer
+
+# Warlord Chiang
+country_event = {
+	id = china.1
+	title = china.1.t
+	desc = china.1.d
+	picture = GFX_report_event_german_troops_paris
+
+	is_triggered_only = yes
+
+	option = {
+		name = china.1.a
+
+		add_ideas = KMT_socialist_opposition1
+		if = {
+			limit = {
+				NOT = {
+					has_country_leader = {
+						character = KMT_Chiang_Kai_Shek
+						ruling_only = yes
+					}
+				}
+			}
+			add_country_leader_role = {
+				character = KMT_Chiang_Kai_Shek
+				promote_leader = yes
+				country_leader = {
+					ideology = paternal_autocrat_subtype
+					traits = {}
+				}
+			}
+		}
+		set_politics = {
+			ruling_party = paternal_autocrat
+			elections_allowed = no
+		}
+		hidden_effect = {
+			add_popularity = {
+				ideology = authoritarian_democrat
+				popularity = -0.2
+			}
+
+			add_popularity = {
+				ideology = paternal_autocrat
+				popularity = 0.15
+			}
+		}
+	}
+}
+
+# Subjugate the Warlords
+country_event = {
+	id = china.2
+	title = china.2.t
+	desc = china.2.d
+	picture = GFX_report_event_german_troops_paris
+	is_triggered_only = yes
+
+	option = {
+		name = china.2.a
+		KMT = {
+			annex_country = {
+				target = PREV
+				transfer_troops = yes
+			}
+		}
+	}
+
+	option = {
+		name = china.2.b
+		KMT = { country_event = { id = china.3 } }
+	}
+}
+
+# Warlord rejects demands
+country_event = {
+	id = china.3
+	title = china.3.t
+	desc = china.3.a
+	picture = GFX_report_event_german_troops_paris
+	is_triggered_only = yes
+
+	option = {
+		name = china.3.a
+
+		create_wargoal = {
+			target = FROM
+			type = annex_everything
+		}
+	}
+}
+
+# Foreign Claims (HK, Macau, Taiwan)
+country_event = {
+	id = china.4
+	title = china.4.t
+	desc = china.4.d
+	picture = GFX_report_event_german_troops_paris
+
+	is_triggered_only = yes
+
+	option = {
+		name = china.4.a
+
+		if = {
+			limit = { PREV = { tag = ENG } }
+			KMT = { transfer_state = 326 }
+		}
+		if = {
+			limit = { PREV = { tag = POR } }
+			KMT = { transfer_state = 729 }
+		}
+		if = {
+			limit = { PREV = { tag = PRR } }
+			KMT = { transfer_state = 729 }
+		}
+		if = {
+			limit = { PREV = { tag = JAP } }
+			KMT = { transfer_state = 524 }
+		}
+	}
+
+	option = {
+		name = china.4.b
+
+		KMT = { country_event = { id = china.5 } }
+	}
+}
+
+# Westerners Reject demands
+country_event = {
+	id = china.5
+	title = china.5.t
+	desc = china.5.d
+	picture = GFX_report_event_german_troops_paris
+
+	is_triggered_only = yes
+
+	option = {
+		name = china.5.a
+
+		if = {
+			limit = { FROM = { tag = ENG } }
+			KMT = { transfer_state = 326 }
+			ENG = { country_event = { id = china.6 } }
+		}
+		if = {
+			limit = { FROM = { tag = POR } }
+			KMT = { transfer_state = 729 }
+			POR = { country_event = { id = china.6 } }
+		}
+		if = {
+			limit = { FROM = { tag = PRR } }
+			KMT = { transfer_state = 729 }
+			PRR = { country_event = { id = china.6 } }
+		}
+		if = {
+			limit = { FROM = { tag = JAP } }
+			KMT = { transfer_state = 524 }
+			JAP = { country_event = { id = china.6 } }
+		}
+	}
+}
+
+# China steals territories
+country_event = {
+	id = china.6
+	title = china.6.t
+	desc = china.6.d
+	is_triggered_only = yes
+
+	option = {
+		name = china.6.a
+		add_political_power = -100
+	}
+
+	option = {
+		name = china.6.b
+
+		declare_war_on = {
+			target = KMT
+			type = annex_everything
+		}
+	}
+}

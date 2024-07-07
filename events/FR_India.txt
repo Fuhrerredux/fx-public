@@ -1,0 +1,786 @@
+###########################
+# - Indian Events
+# - By Santander
+###########################
+
+add_namespace = india
+add_namespace = ind
+add_namespace = indrev
+add_namespace = natind
+add_namespace = kas
+add_namespace = prince
+
+###########################
+# - Revolt Events
+###########################
+
+
+country_event = { #Revolt Intro
+	id = indrev.1
+	immediate = {log = "[GetDateText]: [Root.GetName]: event indrev.1"}
+	title = indrev.1.t
+	desc = indrev.1.d
+
+	trigger = {
+		original_tag = IND
+		has_country_flag = IND_Revolt
+		has_war_with = RAJ
+	}
+
+	fire_only_once = yes
+
+	mean_time_to_happen = { days = 1 }
+
+	option = {
+		name = indrev.1.a
+		add_political_power = 50
+		add_manpower = 25000
+		add_war_support = 0.5
+	}
+}
+
+country_event = { #Victory!
+	id = indrev.2
+	immediate = {log = "[GetDateText]: [Root.GetName]: event indrev.2"}
+	title = indrev.2.t
+	desc = indrev.2.d
+
+	trigger = {
+		original_tag = IND
+		has_country_flag = IND_Revolt
+		NOT = {
+			has_war_with = RAJ
+		}
+	}
+
+	fire_only_once = yes
+
+	mean_time_to_happen = { days = 1 }
+
+	option = {
+		name = indrev.2.a
+		add_stability = 0.5
+		remove_ideas = {
+			IND_indian_rebels
+			revolutionary_movement
+		}
+		add_ideas = {
+			parliamentary_republic
+		}
+		hidden_effect = {
+			country_event = { id = india.1 days = 14 }
+		}
+	}
+}
+
+country_event = { #Nearing Defeat
+	id = indrev.3
+	immediate = {log = "[GetDateText]: [Root.GetName]: event indrev.3"}
+	title = indrev.3.t
+	desc = indrev.3.d
+
+	trigger = {
+		original_tag = IND
+		has_country_flag = IND_Revolt
+		has_war_with = RAJ
+		surrender_progress > 0.6
+	}
+
+	fire_only_once = yes
+
+	mean_time_to_happen = { days = 1 }
+
+	option = {
+		name = indrev.3.a
+	}
+}
+
+
+country_event = { #French Aid
+	id = indrev.11
+	immediate = {log = "[GetDateText]: [Root.GetName]: event indrev.11"}
+	title = indrev.11.t
+	desc = indrev.11.d
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		name = indrev.11.a
+		add_equipment_to_stockpile = { type = infantry_equipment_0 amount = -50000 producer = FRA }
+		IND = {
+			add_equipment_to_stockpile = { type = infantry_equipment_0 amount = 50000 producer = FRA }
+		}
+	}
+}
+
+country_event = { #Soviet Aid
+	id = indrev.12
+	immediate = {log = "[GetDateText]: [Root.GetName]: event indrev.12"}
+	title = indrev.12.t
+	desc = indrev.12.d
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		name = indrev.12.a
+		add_equipment_to_stockpile = { type = infantry_equipment_0 amount = -25000 producer = SOV }
+		add_manpower = -10000
+		IND = {
+			add_equipment_to_stockpile = { type = infantry_equipment_0 amount = 25000 producer = SOV }
+			add_manpower = 10000
+		}
+	}
+}
+
+country_event = { #German Aid
+	id = indrev.13
+	immediate = {log = "[GetDateText]: [Root.GetName]: event indrev.13"}
+	title = indrev.13.t
+	desc = indrev.13.d
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		name = indrev.13.a
+		add_equipment_to_stockpile = { type = infantry_equipment_0 amount = -25000 producer = GER }
+		add_manpower = -10000
+		IND = {
+			add_equipment_to_stockpile = { type = infantry_equipment_0 amount = 25000 producer = GER }
+			add_manpower = 10000
+		}
+	}
+}
+
+
+###########################
+# - Pre-Collapse Events
+###########################
+
+
+country_event = { #Elections?
+	id = india.1
+	immediate = {log = "[GetDateText]: [Root.GetName]: event india.1"}
+	title = india.1.t
+	desc = india.1.d
+
+	trigger = {
+		original_tag = IND
+		NOT = { has_war_with = RAJ }
+		is_subject = no
+	}
+
+	fire_only_once = yes
+
+	mean_time_to_happen = { days = 7 }
+
+	option = {
+		name = india.1.a
+		add_political_power = 50
+		add_stability = 0.05
+		hidden_effect = {
+			country_event = { id = india.2 days = 3 }
+			country_event = { id = india.3 days = 7 }
+			set_country_flag = IND_elections
+		}
+	}
+
+	option = {
+		name = india.1.b
+		add_political_power = -50
+		add_stability = -0.05
+		hidden_effect = {
+			country_event = { id = india.2 days = 3 }
+			country_event = { id = india.3 days = 7 }
+			set_country_flag = IND_no_elections
+		}
+	}
+}
+
+country_event = {
+	id = india.2
+	immediate = {log = "[GetDateText]: [Root.GetName]: event india.2"}
+	title = "The Princes Make Their Move"
+	desc = india.2.d
+
+	is_triggered_only = yes
+
+	option = {
+		name = "What are they up to?"
+		add_stability = -0.10
+	}
+}
+
+country_event = {
+	id = india.3
+	immediate = {log = "[GetDateText]: [Root.GetName]: event india.3"}
+	title = "The First Meeting Of The Provisional Government"
+	desc = india.3.d
+
+	is_triggered_only = yes
+
+	option = {
+		name = "Despite our differences, we must work together for all of India"
+		add_political_power = 50
+		add_stability = 0.05
+		hidden_effect = {
+			country_event = { id = india.4 days = 1 }
+		}
+	}
+}
+
+country_event = {
+	id = india.4
+	immediate = {log = "[GetDateText]: [Root.GetName]: event india.4"}
+	title = "Miltia Leaders refuse to disarm"
+	desc = india.4.d
+
+	is_triggered_only = yes
+
+	option = {
+		name = "We cannot allow roving bands of armed marauders to terrorise our people"
+		add_stability = -0.10
+		add_war_support = -0.05
+		hidden_effect = {
+			country_event = { id = india.5 days = 1 }
+		}
+	}
+}
+
+country_event = {
+	id = india.5
+	immediate = {log = "[GetDateText]: [Root.GetName]: event india.5"}
+	title = "Disagreements in Delhi"
+	desc = india.5.d
+
+	is_triggered_only = yes
+
+	option = {
+		name = "Some differences cannot be overcome with words"
+		add_stability = -0.05
+		hidden_effect = {
+			country_event = { id = india.6 days = 7 }
+		}
+	}
+}
+
+country_event = {
+	id = india.6
+	immediate = {log = "[GetDateText]: [Root.GetName]: event india.6"}
+	title = "The People's Assembly in Calcutta"
+	desc = india.6.d
+
+	is_triggered_only = yes
+
+	option = {
+		name = "We will not recognise such a ridiculous institution"
+		add_stability = -0.20
+		hidden_effect = {
+			country_event = { id = india.7 days = 14 }
+		}
+	}
+}
+
+country_event = {
+	id = india.7
+	immediate = {log = "[GetDateText]: [Root.GetName]: event india.7"}
+	title = "The Collapse Begins"
+	desc = india.7.d
+	picture = GFX_report_event_generic_parliament
+
+	is_triggered_only = yes
+
+	option = {
+		name = "We must defeat these pretenders!"
+		add_war_support = 0.20
+		hidden_effect = {
+			NEP = {
+				transfer_state = 811
+			}
+			PUN = {
+				add_state_core = 883
+				add_state_core = 440
+				set_country_flag = ind_revolter
+			}
+			release = PUN
+			KAS = {
+				add_state_core = 441
+				set_country_flag = ind_revolter
+			}
+			release = KAS
+			BAL = {
+				add_state_core = 444
+				add_state_core = 443
+				add_state_core = 954
+				set_country_flag = ind_revolter
+			}
+			release = BAL
+			RJH = {
+				add_state_core = 433
+				add_state_core = 437
+				add_state_core = 443
+				add_state_core = 884
+				set_country_flag = ind_revolter
+			}
+			release = RJH
+			BOM = {
+				add_state_core = 429
+				set_country_flag = ind_revolter
+			}
+			release = BOM
+			MYS = {
+				add_state_core = 425
+				set_country_flag = ind_revolter
+			}
+			release = MYS
+			TRV = {
+				add_state_core = 423
+				add_state_core = 952
+				set_country_flag = ind_revolter
+			}
+			release = TRV
+			HYD = {
+				add_state_core = 427
+				add_state_core = 809
+				add_state_core = 814
+				set_country_flag = ind_revolter
+			}
+			release = HYD
+			MDR = {
+				add_state_core = 424
+				set_country_flag = ind_revolter
+			}
+			release = MDR
+			INC = {
+				add_state_core = 430
+				add_state_core = 431
+				add_state_core = 432
+				add_state_core = 434
+				set_country_flag = ind_commies
+			}
+			release = INC
+			ORI = {
+				add_state_core = 426
+				add_state_core = 436
+				set_country_flag = ind_revolter
+			}
+			release = ORI
+			BIH = {
+				add_state_core = 435
+				set_country_flag = ind_revolter
+			}
+			release = BIH
+			AFG = {
+				transfer_state = 442
+				transfer_state = 445
+			}
+			country_event = { id = natind.1 days = 1 }
+			ENG = { country_event = { id = uk.88 } }
+			INC = { country_event = { id = comind.1 days = 1 } }
+			effect_tooltip = {
+				IND_Mohan_Singh = { remove_unit_leader_role = yes }
+				IND_Prem_Sahgal = { remove_unit_leader_role = yes }
+				IND_Raja_Habib_ur_Rahman_Khan = { remove_unit_leader_role = yes }
+			}
+			hidden_effect = {
+				IND_Mohan_Singh = { set_nationality = XXB }
+				IND_Prem_Sahgal = { set_nationality = XXB }
+				IND_Raja_Habib_ur_Rahman_Khan = { set_nationality = XXB }
+			}
+			every_country = {
+				limit = {
+					has_country_flag = ind_revolter
+				}
+				country_event = { id = prince.1 days = 1 }
+			}
+		}
+	}
+}
+
+###Nationalists
+
+country_event = {
+	id = natind.1
+	immediate = {log = "[GetDateText]: [Root.GetName]: event natind.1"}
+	title = "Forming the National Government"
+	desc = natind.1.d
+	is_triggered_only = yes
+
+	option = {
+		name = "Finally we can make progress without those traitors holding us back"
+		add_stability = 0.20
+		add_ideas = one_party_dictatorship
+		set_politics = {
+			ruling_party = authoritarian_democrat
+			elections_allowed = no
+		}
+		add_ideas = IND_provisional_rule
+
+		hidden_effect = {
+			country_event = { id = natind.2 days = 14 }
+			add_popularity = {
+				ideology = authoritarian_democrat
+				popularity = 0.10
+			}
+
+			random_owned_state = {
+				limit = {
+					is_core_of = ROOT
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_state = {
+				limit = {
+					is_core_of = ROOT
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_state = {
+				limit = {
+					is_core_of = ROOT
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = natind.2
+	immediate = {log = "[GetDateText]: [Root.GetName]: event natind.2"}
+	title = "Reorganising the Nation"
+	desc = natind.2.d
+
+	is_triggered_only = yes
+
+	option = {
+		name = "We are rebels no more!"
+		add_stability = 0.05
+		add_war_support = 0.05
+		remove_ideas = IND_indian_rebels
+		hidden_effect = {
+			country_event = { id = natind.3 days = 14 }
+		}
+	}
+}
+
+country_event = {
+	id = natind.3
+	immediate = {log = "[GetDateText]: [Root.GetName]: event natind.3"}
+	title = "Imposing Authority"
+	desc = natind.3.d
+
+	is_triggered_only = yes
+
+	option = {
+		name = "How can we claim to rule if the people do not respect to our laws?"
+		add_stability = 0.10
+		add_war_support = 0.05
+		hidden_effect = {
+			country_event = { id = natind.4 days = 14 }
+		}
+	}
+}
+
+country_event = {
+	id = natind.4
+	immediate = {log = "[GetDateText]: [Root.GetName]: event natind.4"}
+	title = "Laying Claim"
+	desc = natind.4.d
+
+	is_triggered_only = yes
+
+	option = {
+		name = "All of India will be ours again!"
+		add_war_support = 0.10
+		hidden_effect = {
+			country_event = { id = natind.5 days = 14 }
+		}
+	}
+}
+
+country_event = {
+	id = natind.5
+	immediate = {log = "[GetDateText]: [Root.GetName]: event natind.5"}
+	title = "National Language"
+	desc = natind.5.d
+
+	is_triggered_only = yes
+
+	option = {
+		name = "Hindi, to remind us of our roots!"
+		ai_chance = {
+			base = 50
+		}
+		add_ideas = IND_hindi_language
+		hidden_effect = {
+			set_country_flag = gov_setup
+		}
+	}
+
+	option = {
+		name = "English, to unite the nation"
+		ai_chance = {
+			base = 50
+		}
+		add_ideas = IND_english_language
+		hidden_effect = {
+			set_country_flag = gov_setup
+		}
+	}
+}
+
+country_event = {
+	id = natind.6
+	immediate = {log = "[GetDateText]: [Root.GetName]: event natind.6"}
+	title = "Border Skirmishes"
+	desc = natind.6.d
+
+	trigger = {
+		original_tag = IND
+		has_country_flag = gov_setup
+		has_war = no
+	}
+
+	mean_time_to_happen = { months = 3 }
+
+	option = {
+		name = "Punish them!"
+		ai_chance = {
+			base = 75
+		}
+		random_neighbor_country = {
+			limit = {
+				has_country_flag = ind_revolter
+				NOT = { has_war_with = ROOT }
+			}
+			country_event = { id = natind.7 hours = 8 }
+		}
+	}
+
+	option = {
+		name = "We cannot provoke them"
+		ai_chance = {
+			base = 25
+		}
+		add_war_support = -0.10
+	}
+}
+
+country_event = {
+	id = natind.7
+	immediate = {log = "[GetDateText]: [Root.GetName]: event natind.7"}
+	title = "Border Skirmishes"
+	desc = natind.7.d
+
+	is_triggered_only = yes
+
+	option = {
+		name = "Fight back!"
+		ai_chance = {
+			base = 100
+		}
+		declare_war_on = {
+			target = IND
+			type = annex_everything
+		}
+	}
+
+	option = {
+		name = "Ignore this attack"
+		ai_chance = {
+			base = 0
+		}
+		add_war_support = -0.10
+	}
+}
+
+###Princes
+
+country_event = {
+	id = kas.1
+	immediate = {log = "[GetDateText]: [Root.GetName]: event kas.1"}
+	title = "The Muslim Comitte's Coup"
+	desc = kas.1.d
+
+	is_triggered_only = yes
+
+	option = {
+		name = "There is nothing we can do"
+		set_politics = {
+			ruling_party = national_populist
+			elections_allowed = no
+		}
+		add_popularity = {
+			ideology = national_populist
+			popularity = 0.45
+		}
+		add_stability = 0.20
+		add_war_support = 0.10
+	}
+}
+
+country_event = {
+	id = prince.1
+	immediate = {log = "[GetDateText]: [Root.GetName]: event prince.1"}
+	title = "The Formation of our Nation"
+	desc = prince.1.d
+
+	is_triggered_only = yes
+
+	option = {
+		name = "We have entered onto the world stage at last"
+		add_stability = 0.10
+		add_war_support = 0.10
+		if = {
+			limit = {
+				tag = ORI
+			}
+			load_oob = ORI
+		}
+		if = {
+			limit = {
+				tag = HYD
+			}
+			load_oob = HYD
+		}
+		if = {
+			limit = {
+				tag = RJH
+			}
+			load_oob = RJH
+		}
+		if = {
+			limit = {
+				tag = BAL
+			}
+			load_oob = BAL
+		}
+		if = {
+			limit = {
+				tag = PUN
+			}
+			load_oob = PUN
+		}
+		if = {
+			limit = {
+				tag = BOM
+			}
+			load_oob = BOM
+		}
+		if = {
+			limit = {
+				tag = BIH
+			}
+			load_oob = BIH
+		}
+		if = {
+			limit = {
+				tag = MDR
+			}
+			load_oob = MDR
+		}
+		if = {
+			limit = {
+				tag = TRV
+			}
+			load_oob = TRV
+		}
+		if = {
+			limit = {
+				tag = MYS
+			}
+			load_oob = MYS
+		}
+		if = {
+			limit = {
+				tag = KAS
+			}
+			load_oob = KAS
+		}
+	}
+}
+
+country_event = {
+	id = prince.2
+	immediate = {log = "[GetDateText]: [Root.GetName]: event prince.2"}
+	desc = prince.2.d
+	title = "Formation of the Princely Pact"
+
+	is_triggered_only = yes
+
+	option = {
+		name = "We cannot hope to overcome the nationalists and communists alone."
+		ai_chance = {
+			base = 40
+		}
+		add_war_support = 0.05
+		add_stability = 0.05
+		set_country_flag = princely_pact
+		#add_ideas = PRN_princely_pact
+		HYD = { add_to_faction = ROOT }
+		hidden_effect = {
+			HYD = { country_event = { id = prince.3 days = 1 } }
+		}
+	}
+
+	option = {
+		name = "We shall stand alone!"
+		ai_chance = {
+			base = 60
+		}
+		add_war_support = 0.10
+		add_opinion_modifier = { target = HYD modifier = PRN_pact_refused }
+		hidden_effect = {
+			HYD = { country_event = { id = prince.4 days = 1 } }
+		}
+	}
+}
+
+country_event = {
+	id = prince.3
+	immediate = {log = "[GetDateText]: [Root.GetName]: event prince.3"}
+	desc = prince.3.d
+	title = "The Prince joins the pact"
+	is_triggered_only = yes
+
+	option = {
+		name = "Together, we shall crush those who threaten us!"
+		add_war_support = 0.05
+	}
+}
+
+country_event = {
+	id = prince.4
+	immediate = {log = "[GetDateText]: [Root.GetName]: event prince.4"}
+	desc = prince.4.d
+	title = "The Prince refuses our invite"
+
+	is_triggered_only = yes
+
+	option = {
+		name = "They are making a grave mistake"
+		add_political_power = -50
+	}
+}
+

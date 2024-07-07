@@ -1,0 +1,385 @@
+debug_decisions = {
+
+	turn_off_stt_debug = {
+		icon = generic_flags
+
+		visible = {
+			OR = {
+				is_debug = yes
+				has_global_flag = FX_state_transfer_tool_active
+				has_global_flag = debug_decisons_on
+			}
+			has_global_flag = stt_enabled
+		}
+
+		fire_only_once = no
+		cost = 0
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision turn_off_stt_debug"
+			clr_global_flag = stt_enabled
+			clear_variable = ROOT.update_stt_gui
+		}
+	}
+
+	turn_on_stt_debug = {
+		icon = generic_flags
+
+		visible = {
+			OR = {
+				is_debug = yes
+				has_global_flag = FX_state_transfer_tool_active
+				has_global_flag = debug_decisons_on
+			}
+			NOT = { has_global_flag = stt_enabled }
+		}
+
+		fire_only_once = no
+		cost = 0
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision turn_on_stt_debug"
+			set_global_flag = stt_enabled
+			clear_variable = ROOT.update_stt_gui
+		}
+	}
+
+	stt_highlight_states = {
+		icon = hand_grab
+
+		highlight_states = {
+			highlight_states_trigger = { has_state_flag = marked_for_transfer }
+			highlight_color_while_active = 4
+		}
+
+		allowed = {
+			always = no
+		}
+
+		available = {
+			hidden_trigger = { always = no }
+		}
+
+		visible = {
+			hidden_trigger = {
+				is_ai = no
+				check_variable = { ROOT.marked_states^num > 0 }
+			}
+		}
+
+		fire_only_once = no
+		on_map_mode = map_only
+		cancel_if_not_visible = yes
+		days_mission_timeout = 7
+		is_good = yes
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision stt_highlight_states"
+		}
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout stt_highlight_states"
+			hidden_effect = {
+				for_each_scope_loop = {
+					array = ROOT.marked_states
+					clr_state_flag = marked_for_transfer
+				}
+				clear_array = ROOT.marked_states
+				clear_variable = ROOT.update_stt_gui
+			}
+		}
+	}
+
+	## PLPC
+	turn_off_plpc_debug = {
+		icon = generic_flags
+
+		available = {
+			has_global_flag = FX_player_leads_conferences
+		}
+
+		visible = {
+			has_global_flag = FX_player_leads_conferences
+			NOT = { has_global_flag = FX_plpc_turned_off }
+		}
+
+		fire_only_once = no
+		cost = 0
+
+		complete_effect = {
+			custom_effect_tooltip = KR_plpc_disable_tt
+			set_global_flag = FX_plpc_turned_off
+		}
+
+	}
+
+	turn_on_plpc_debug = {
+		icon = generic_flags
+
+		available = {
+			has_global_flag = FX_plpc_turned_off
+		}
+
+		visible = {
+			has_global_flag = FX_player_leads_conferences
+			has_global_flag = FX_plpc_turned_off
+		}
+
+		fire_only_once = no
+		cost = 0
+
+		complete_effect = {
+			custom_effect_tooltip = KR_plpc_enable_tt
+			clr_global_flag = FX_plpc_turned_off
+		}
+	}
+
+
+	## American Collapse ##
+
+	trigger_american_collapse = {
+		icon = generic_flags
+
+		available = {
+			NOT = {
+				any_country = {
+					has_country_flag = USA_union_collapsed
+				}
+			}
+		}
+
+		visible = {
+			OR = {
+				is_debug = yes
+				has_global_flag = debug_decisons_on
+			}
+		}
+
+		fire_only_once = no
+		cost = 0
+
+		complete_effect = {
+			MEX = {
+				country_event = usa.27
+			}
+			USA = {
+				country_event = usa.100
+			}
+			hidden_effect = {
+				PHI = {
+					country_event = philippines.1
+				}
+				USA = {
+					set_autonomy = {
+						target = HAI
+						autonomy_state = autonomy_free
+					}
+				}
+			}
+		}
+	}
+
+	add_efficiency_growth_debug = {
+		icon = generic_research
+
+		available = {
+			is_ai = no
+			is_debug = yes
+		}
+
+		visible = {
+			is_ai = no
+			is_debug = yes
+
+		}
+
+		fire_only_once = no
+		cost = 0
+
+		complete_effect = {
+			add_ideas = add_production_efficiency
+		}
+	}
+		
+	remove_efficiency_growth_debug = {
+		icon = generic_research
+
+		available = {
+			is_ai = no
+			is_debug = yes
+		}
+
+		visible = {
+			is_ai = no
+			is_debug = yes
+
+		}
+
+		fire_only_once = no
+		cost = 0
+
+		complete_effect = {
+			if = {
+				limit = {
+					has_idea = add_production_efficiency
+				}
+				remove_ideas = add_production_efficiency
+			}
+			if = {
+				limit = {
+					has_idea = decrease_production_efficiency
+				}
+				remove_ideas = decrease_production_efficiency
+			}	
+		}
+	}
+		
+	decrease_efficiency_growth_debug = {
+		icon = generic_research
+
+		available = {
+			is_ai = no
+			is_debug = yes
+		}
+
+		visible = {
+			is_ai = no
+			is_debug = yes
+
+		}
+
+		fire_only_once = no
+		cost = 0
+
+		complete_effect = {
+			add_ideas = decrease_production_efficiency
+		}
+
+		ai_will_do = {
+			base = 0
+		}
+	}
+
+	slot_machine = { # we pegi 18 now
+		available = {
+			is_ai = no
+		}
+
+		visible = {
+			is_ai = no
+			is_debug = yes
+
+		}
+
+		days_remove = 777
+
+		modifier = {
+			operative_slot = 99
+		}
+	}
+
+	decryption_tech_1 = {
+		available = {
+			is_ai = no
+		}
+
+		visible = {
+			is_ai = no
+			is_debug = yes
+
+		}
+		days_remove = 100
+		modifier = {
+			decryption = 1
+		}
+	}
+
+	decryption_tech_2 = {
+		available = {
+			is_ai = no
+		}
+
+		visible = {
+			is_ai = no
+			is_debug = yes
+
+		}
+		days_remove = 100
+		modifier = {
+			decryption = 1
+		}
+	}
+
+	decryption_tech_3 = {
+		available = {
+			is_ai = no
+		}
+
+		visible = {
+			is_ai = no
+			is_debug = yes
+
+		}
+		days_remove = 100
+		modifier = {
+			decryption = 1
+		}
+	}
+
+	encryption_tech_1 = {
+		available = {
+			is_ai = no
+		}
+
+		visible = {
+			is_ai = no
+			is_debug = yes
+
+		}
+		days_remove = 100
+		modifier = {
+			encryption = 1
+		}
+	}
+
+	encryption_tech_2 = {
+		available = {
+			is_ai = no
+		}
+
+		visible = {
+			is_ai = no
+			is_debug = yes
+
+		}
+		days_remove = 100
+		modifier = {
+			encryption = 1
+		}
+	}
+
+	encryption_tech_3 = {
+		available = {
+			is_ai = no
+		}
+
+		visible = {
+			is_ai = no
+			is_debug = yes
+
+		}
+		days_remove = 100
+		modifier = {
+			encryption = 1
+		}
+	}
+
+	give_research_slots = {
+		available = { is_ai = no }
+		visible = { is_ai = no is_debug = yes }
+		complete_effect = {
+			add_research_slot = 99
+		}
+	}
+
+	
+}

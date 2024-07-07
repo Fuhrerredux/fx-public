@@ -1,0 +1,71 @@
+on_actions = {
+  on_new_term_election = {
+    effect = {
+      if = {
+        limit = { tag = HEJ }
+        country_event = hejaz.38 # General Elections
+      }
+    }
+  }
+  on_state_control_changed = {
+    effect = {
+      if = {
+        limit = {
+          ROOT = { tag = SAU }
+          FROM = { tag = YEM }
+          FROM.FROM = { state = 831 }
+        }
+        ROOT = {
+          country_event = saudi.20
+        }
+      }
+    }
+  }
+  # ROOT is the winner
+  # FROM gets annexed
+  on_civil_war_end = {
+    effect = {
+      # if Hashemite annexed Saudi/Rashid
+      if = {
+        limit = {
+          FROM = {
+            OR = {
+              tag = RAS
+              tag = SAU
+            }
+          }
+          ROOT = { tag = HEJ }
+        }
+        country_event = hejaz.19
+      }
+
+      # if Saudi annexed Hashemite/Rashid
+      if = {
+        limit = {
+          FROM = {
+            OR = {
+              tag = HEJ
+              tag = RAS
+            }
+          }
+          ROOT = { tag = SAU }
+        }
+        country_event = saudi.2
+      }
+
+      # if Rashid annexed Hashemite/Saudi
+      if = {
+        limit = {
+          FROM = {
+            OR = {
+              tag = HEJ
+              tag = SAU
+            }
+          }
+          ROOT = { tag = RAS }
+        }
+        country_event = rashid.101
+      }
+    }
+  }
+}

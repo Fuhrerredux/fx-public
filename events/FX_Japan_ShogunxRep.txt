@@ -1,0 +1,2057 @@
+# Japanese Shogunate Events
+# Contributed by Kaiczer
+
+add_namespace = jap_shogun #Politics
+add_namespace = jap_shogundom #Domestic
+add_namespace = jap_rep #Republic
+add_namespace = jap_foreign #Foreign
+
+country_event = { #Response the Japanese Martial Law
+	id = jap_shogun.1
+	title = jap_shogun.1.t
+	desc = jap_shogun.1.d
+
+	trigger = {
+		tag = JAP
+		has_completed_focus = jap_allow_marshall_law
+	}
+	mean_time_to_happen = { days = 7 }
+	fire_only_once = yes
+
+	option = {
+		name = jap_shogun.1.a
+		add_stability = -0.02
+		country_event = {
+			id = jap_shogun.2
+			days = 30
+		}
+	}
+}
+country_event = { #Resignation of Prince Fumimaro
+	id = jap_shogun.2
+	title = jap_shogun.2.t
+	desc = jap_shogun.2.d
+
+	is_triggered_only = yes
+
+	option = {
+		name = jap_shogun.2.a
+		custom_effect_tooltip = "Prince Iesato's been reappointed the presidency"
+		add_popularity = {
+			ideology = authoritarian_democrat
+			popularity = 0.05
+		}
+		hidden_effect = {
+			country_event = {
+				id = jap_shogun.3
+				days = 20
+			}
+		}
+	}
+	option = {
+		name = jap_shogun.2.b
+		custom_effect_tooltip = "Prince Kuniyuki's been appointed the presidency"
+		add_popularity = {
+			ideology = paternal_autocrat
+			popularity = 0.05
+		}
+		hidden_effect = {
+			country_event = {
+				id = jap_shogun.3
+				days = 20
+			}
+		}
+	}
+}
+country_event = { #Preparation of Anti-Militarist
+	id = jap_shogun.3
+	title = jap_shogun.3.t
+	desc = jap_shogun.3.d
+
+	is_triggered_only = yes
+
+	option = {
+		name = jap_shogun.3.a
+		add_popularity = {
+			ideology = authoritarian_democrat
+			popularity = 0.03
+		}
+		add_stability = -0.05
+	}
+}
+#####################
+#Constitution Crisis#
+#####################
+country_event = { #Lord President / Tairo vs. Prime Minister Argument
+	id = jap_shogun.4
+	title = jap_shogun.4.t
+	desc = jap_shogun.4.d
+
+	trigger = {
+		tag = JAP
+		OR = {
+			has_completed_focus = jap_the_admiral_plot
+			has_completed_focus = jap_the_army_coup
+		}
+	}
+	mean_time_to_happen = { days = 3 }
+	fire_only_once = yes
+
+	option = {
+		name = jap_shogun.4.a
+		add_popularity = {
+			ideology = authoritarian_democrat
+			popularity = 0.05
+		}
+		hidden_effect = {
+			country_event = {
+				id = jap_shogun.5
+				days = 70
+			}
+		}
+	}
+}
+####### Army Coup / Navy Coup #######
+country_event = { #Korean Righteous Army / Taiwanese Anarchy / Recalling Governor-Generals
+	#Army - Jap.11 > Jap.13 > Jappol.6
+	#Navy - Jap.12 > Jappol.1 > Jappol.2/3
+	id = jap_shogun.5
+	title = jap_shogun.5.t
+	desc = jap_shogun.5.d
+
+	is_triggered_only = yes
+	immediate = {
+		hidden_effect = {
+			country_event = {
+				id = jap_shogun.6
+				days = 5
+			}
+		}
+	}
+
+	option = {
+		name = jap_shogun.5.a
+		add_political_power = -300
+		add_stability = -0.5
+		custom_effect_tooltip = "The empire will no longer be the empire we'd ever known"
+		add_ideas = JAP_fallen_god
+		hidden_effect = {
+			every_controlled_state = {
+				limit = {
+					OR = {
+						NOT = { is_core_of = JAP }
+						is_core_of = KOR
+						is_core_of = KMT
+						is_core_of = INS
+					}
+				}
+				set_demilitarized_zone = yes
+			}
+			every_owned_state = {
+				limit = {
+					is_core_of = JAP
+					NOT = {
+						state = 282
+					}
+				}
+				set_demilitarized_zone = yes
+			}
+		}
+	}
+}
+country_event = { #March of Three Raven
+	id = jap_shogun.6
+	title = jap_shogun.6.t
+	desc = jap_shogun.6.d
+
+	is_triggered_only = yes
+
+	option = {
+		name = "How do we stop them?"
+		add_political_power = -100
+		hidden_effect = {
+			news_event = fxnews.65
+		}
+	}
+
+}
+country_event = { #Political Turmoil
+	id = jap_shogun.7
+	title = jap_shogun.7.t
+	desc = jap_shogun.7.d
+
+	trigger = {
+		tag = JAP
+		AND = {
+			or = {
+				has_completed_focus = jap_the_army_coup
+				has_completed_focus = jap_the_admiral_plot
+			}
+			has_completed_focus = jap_ally_the_military
+		}
+	}
+	mean_time_to_happen = { days = 7 }
+	fire_only_once = yes
+
+	option = {
+		name = jap_shogun.7.a
+		set_cosmetic_tag = JAP_Shogunate
+		set_politics = {
+			ruling_party = authoritarian_democrat
+			elections_allowed = no
+		}
+		add_popularity = {
+			ideology = authoritarian_democrat
+			popularity = 0.1
+		}
+		add_popularity = {
+			ideology = valkist
+			popularity = 0.1
+		}
+		add_popularity = {
+			ideology = paternal_autocrat
+			popularity = 0.1
+		}
+		set_temp_variable = { coalition_partner_var = token:national_populist }
+		add_to_coalition = yes
+		set_temp_variable = { coalition_partner_var = token:valkist }
+		add_to_coalition = yes
+		set_temp_variable = { coalition_partner_var = token:paternal_autocrat }
+		add_to_coalition = yes
+		set_party_name = {
+			ideology = authoritarian_democrat
+			long_name = JAP_authoritarian_democrat_party_shogun_long
+			name = JAP_authoritarian_democrat_party_shogun
+		}
+		remove_every_minister = yes
+		activate_advisor = JAP_Tokugawa_Kuniyuki_hog_pau
+		activate_advisor = JAP_Inoue_Nissho_sec_val
+		activate_advisor = JAP_Nakano_Seigo_eco_npo
+		activate_advisor = JAP_Naotake_Sato_for_sco
+		hidden_effect = {
+			remove_ideas = JAP_fallen_god
+			every_controlled_state = {
+				limit = {
+					is_controlled_by = JAP
+				}
+				set_demilitarized_zone = no
+			}
+			country_event = {
+				id = jap_shogun.8
+				days = 75
+			}
+			release = KOR
+			KMT = { transfer_state = 524 }
+			ZHI = { transfer_state = 869 }
+			FNG = { transfer_state = 793 }
+			if = {
+				limit = {
+					BEA = {
+						exists = yes
+						NOT = {
+							has_war_with = INS
+						}
+					}
+				}
+				BEA = { transfer_state = 673 }
+			}
+			else_if = {
+				limit = {
+					INS = {
+						exists = yes
+						NOT = {
+							has_war_with = BEA
+						}
+					}
+				}
+				INS = { transfer_state = 673 }
+			}
+			AST = { transfer_state = 668 }
+			set_country_flag = JAP_unlock_shog_ft
+			mark_focus_tree_layout_dirty = yes
+			set_country_flag = JAP_shogunate_focus_unlock
+			set_country_flag = JAP_counter_coup_win
+			set_country_flag = JAP_Tokugawa_Iesato_Not_Dead
+			set_country_flag = JAP_Shogun_Regime
+			set_country_flag = HOG_veiw
+			set_country_flag = LEADER_GUI_VISIBLE
+			add_country_leader_role = {
+				character = JAP_Hirohito
+				promote_leader = yes
+				country_leader = {
+					ideology = auth_duumvirism_subtype
+					expire = "1965.1.1"
+					traits = {  }
+				}
+			}
+			add_country_leader_role = {
+				character = JAP_Hirohito
+				promote_leader = yes
+				country_leader = {
+					ideology = pat_duumvirism_subtype
+					expire = "1965.1.1"
+					traits = {  }
+				}
+			}
+			add_country_leader_role = {
+				character = JAP_Nakano_Seigo
+				promote_leader = yes
+				country_leader = {
+					ideology = statist_showaist_subtype
+					expire = "1965.1.1"
+					traits = {  }
+				}
+			}
+			set_party_name = {
+				ideology = national_populist
+				long_name = JAP_national_populist_party_shogun_long
+				name = JAP_national_populist_party_shogun
+			}
+			set_party_name = {
+				ideology = paternal_autocrat
+				long_name = JAP_paternal_autocrat_party_shogun_long
+				name = JAP_paternal_autocrat_party_shogun
+			}
+		}
+	}
+	option = {
+		name = jap_shogun.7.b
+		add_political_power = 100
+		remove_ideas = JAP_fallen_god
+		every_controlled_state = {
+			limit = {
+				is_controlled_by = JAP
+			}
+			set_demilitarized_zone = no
+		}
+	}
+}
+country_event = { #Kuniyuki visits USA
+	id = jap_shogun.8
+	title = jap_shogun.8.t
+	desc = jap_shogun.8.d
+
+	is_triggered_only = yes
+
+	option = {
+		name = jap_shogun.8.a
+		add_opinion_modifier = {
+			target = USA
+			modifier = JAP_kuniyuki_visits_usa
+		}
+		reverse_add_opinion_modifier = {
+			target = USA
+			modifier = JAP_kuniyuki_visits_usa
+		}
+	}
+}
+country_event = { #Shogun Visit Kyoto
+	id = jap_shogun.9
+	title = jap_shogun.9.t
+	desc = jap_shogun.9.d
+
+	trigger = {
+		tag = JAP
+		AND = {
+			has_country_flag = JAP_Shogun_Regime
+			has_country_flag = JAP_Tokugawa_Iesato_Not_Dead
+			has_completed_focus = JAP_iesato_government
+		}
+		OR = {
+			AND = {
+				has_completed_focus = JAP_to_our_nostalgic_period
+				has_completed_focus = JAP_kokutai_minshu_unity
+			}
+			AND = {
+				has_completed_focus = JAP_to_the_new_golden_age
+				has_completed_focus = JAP_kokutai_minshu_unity
+			}
+		}
+	}
+	mean_time_to_happen = { days = 7 }
+	fire_only_once = yes
+
+	immediate = {
+		hidden_effect = {
+			country_event = {
+				id = jap_shogun.10
+				days = 14
+			}
+		}
+	}
+
+	option = {
+		name = jap_shogun.9.a
+		add_political_power = 30
+		add_stability = 0.03
+	}
+}
+country_event = { #Shogun Assassination Attempt
+	id = jap_shogun.10
+	title = jap_shogun.10.t
+	desc = jap_shogun.10.d
+
+	is_triggered_only = yes
+
+	option = {
+		name = jap_shogun.10.a
+		hidden_effect = {
+			clr_country_flag = JAP_Tokugawa_Iesato_Not_Dead
+			remove_ideas = JAP_great_council_of_state_idea
+			set_country_flag = JAP_Tri_Edo_Commissioner
+			set_country_flag = JAP_Iesato_Death
+		}
+		mark_focus_tree_layout_dirty = yes
+		add_popularity = {
+			ideology = var:current_party_ideology_group
+			popularity = -0.1
+		}
+		add_political_power = -100
+		add_stability = -0.15
+		end_coalition = yes
+		retire_character = JAP_Tokugawa_Iesato
+		remove_ideas = {
+			JAP_kyujidai_idea_3
+			JAP_shinjidai_idea_3
+			JAP_first_amongs_equal
+		}
+	}
+}
+country_event = { #Assassination Investigation
+	id = jap_shogun.11
+	title = jap_shogun.11.t
+	desc = jap_shogun.11.d
+
+	is_triggered_only = yes
+	option = {
+		name = jap_shogun.11.a
+		country_event = {
+			id = jap_shogun.13
+			days = 7
+		}
+		hidden_effect = {
+			country_event = {
+				id = jap_shogun.12
+				days = 18
+			}
+		}
+	}
+}
+country_event = { #Rumor of lost claimant
+	id = jap_shogun.12
+	title = jap_shogun.12.t
+	desc = jap_shogun.12.d
+
+	is_triggered_only = yes
+	option = {
+		name = jap_shogun.12.a
+		add_stability = -0.05
+		set_country_flag = {
+			flag = JAP_southern_claim_prevent
+			value = 1
+		}
+	}
+	option = {
+		name = "Just ignore him"
+		add_stability = -0.05
+		trigger = {
+			has_country_flag = JAP_unlock_unexpected_situation
+		}
+		set_country_flag = {
+			flag = JAP_southern_claim_prevent
+			value = 0
+		}
+	}
+}
+country_event = { #Socialist League
+	id = jap_shogun.13
+	title = jap_shogun.13.t
+	desc = jap_shogun.13.d
+
+	is_triggered_only = yes
+	option = {
+		name = jap_shogun.13.a
+		add_stability = -0.05
+		set_country_flag = {
+			flag = JAP_socialist_coup_prevent
+			value = 1
+		}
+	}
+	option = {
+		name = "We don't think they were doing this stuff"
+		trigger = {
+			has_country_flag = JAP_unlock_unexpected_situation
+		}
+		add_stability = -0.05
+		set_country_flag = {
+			flag = JAP_socialist_coup_prevent
+			value = 0
+		}
+	}
+}
+country_event = { #Convene of Grand Triumvirate, Daijo-kan and Parliament
+	id = jap_shogun.14
+	title = jap_shogun.14.t
+	desc = jap_shogun.14.d
+
+	is_triggered_only = yes
+	option = {
+		name = jap_shogun.14.a
+		add_stability = 0.1
+
+		hidden_effect = {
+			if = {
+				limit = {
+					AND = {
+						has_country_flag = {
+							flag = JAP_socialist_coup_prevent
+							value = 1
+						}
+						has_country_flag = {
+							flag = JAP_southern_claim_prevent
+							value = 1
+						}
+					}
+				}
+				JAP = {
+					country_event = {
+						id = jap_shogun.16
+						days = 14
+					}
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						has_country_flag = {
+							flag = JAP_socialist_coup_prevent
+							value = 0
+						}
+						has_country_flag = {
+							flag = JAP_southern_claim_prevent
+							value = 0
+						}
+					}
+				}
+				JAP = {
+					country_event = {
+						id = jap_shogun.15
+						days = 14
+					}
+				}
+			}
+		}
+	}
+}
+country_event = { #Unbelievable Situation - Edo Castle Storming
+	id = jap_shogun.15
+	title = jap_shogun.15.t
+	desc = jap_shogun.15.d
+
+	is_triggered_only = yes
+
+	option = {
+		name = "We shoot the bald first"
+		add_stability = -0.2
+		add_political_power = -100
+		add_popularity = {
+			ideology = var:current_party_ideology_group
+			popularity = -0.20
+		}
+		hidden_effect = {
+			JAP = {
+				country_event = jap_shogun.18
+			}
+		}
+	}
+	option = {
+		name = "We shoot the militia first"
+		add_stability = -0.2
+		add_political_power = -100
+		add_popularity = {
+			ideology = var:current_party_ideology_group
+			popularity = -0.20
+		}
+		hidden_effect = {
+			JAP = {
+				country_event = jap_shogun.17
+			}
+		}
+	}
+	option = {
+		name = "Sike, shoot them all!!"
+		add_stability = -0.2
+		add_political_power = -100
+		add_popularity = {
+			ideology = var:current_party_ideology_group
+			popularity = -0.20
+		}
+		hidden_effect = {
+			JAP = {
+				country_event = jap_shogun.16
+			}
+		}
+	}
+}
+country_event = { #Unbelievable Situation - Fate of Daijo-Kan
+	id = jap_shogun.16
+	title = jap_shogun.16.t
+	desc = jap_shogun.16.d
+
+	is_triggered_only = yes
+	option = { #The Kingmaker Elected
+		name = jap_shogun.16.a
+		clr_country_flag = JAP_Tri_Edo_Commissioner
+		add_popularity = {
+			ideology = paternal_autocrat
+			popularity = 0.37
+		}
+		set_politics = {
+			ruling_party = paternal_autocrat
+			elections_allowed = no
+			long_name = JAP_Shogun_New_paternal_autocrat_party_long
+			name = JAP_Shogun_New_paternal_autocrat_party
+		}
+		set_cosmetic_tag = JAP_Shogunate_Kuniyuki
+		set_country_flag = JAP_sgrp_foreign_unlock
+		mark_focus_tree_layout_dirty = yes
+		add_country_leader_role = {
+			character = JAP_Tokugawa_Kuniyuki
+			promote_leader = yes
+			country_leader = {
+				ideology = samurai_dictatorship_subtype
+				expire = "1965.1.1"
+			}
+		}
+		activate_advisor = JAP_Tokugawa_Kuniyuki_hog_pau
+		hidden_effect = {
+			set_country_flag = JAP_Hirohito_hos
+			set_country_flag = JAP_kuniyuki_reign
+		}
+	}
+	option = { #The Manager Elected
+		name = jap_shogun.16.b
+		add_popularity = {
+			ideology = national_populist
+			popularity = 0.37
+		}
+		clr_country_flag = JAP_Tri_Edo_Commissioner
+		set_politics = {
+			ruling_party = national_populist
+			elections_allowed = no
+			long_name = JAP_Toho_national_populist_party_long
+			name = JAP_Toho_national_populist_party
+		}
+		set_cosmetic_tag = JAP_tohokai
+		set_country_flag = JAP_sgrp_foreign_unlock
+		mark_focus_tree_layout_dirty = yes
+		add_country_leader_role = {
+			character = JAP_Nakano_Seigo
+			promote_leader = yes
+			country_leader = {
+				ideology = statist_showaist_subtype
+				expire = "1965.1.1"
+			}
+		}
+		activate_advisor = JAP_Nakano_Seigo_hog_npo
+		hidden_effect = {
+			set_country_flag = JAP_Hirohito_hos
+			set_country_flag = JAP_nakano_reign
+		}
+	}
+	option = { #The Protector Elected
+		name = jap_shogun.16.c
+		add_popularity = {
+			ideology = valkist
+			popularity = 0.37
+		}
+		clr_country_flag = JAP_Shogun_Regime
+		clr_country_flag = JAP_Tri_Edo_Commissioner
+		set_country_flag = JAP_sgrp_foreign_unlock
+		set_politics = {
+			ruling_party = valkist
+			elections_allowed = no
+			long_name = JAP_Purist_valkist_party_long
+			name = JAP_Purist_valkist_party
+		}
+		drop_cosmetic_tag = yes
+		set_cosmetic_tag = JAP_valkist
+		mark_focus_tree_layout_dirty = yes
+		add_country_leader_role = {
+			character = JAP_Inoue_Nissho
+			promote_leader = yes
+			country_leader = {
+				ideology = panasian_nichirenist_subtype
+				expire = "1965.1.1"
+			}
+		}
+		activate_advisor = JAP_Inoue_Nissho_hog_val
+		hidden_effect = {
+			set_country_flag = JAP_Hirohito_hos
+			set_country_flag = JAP_inoue_reign
+		}
+	}
+}
+country_event = { #Unbelievable Situation - Southern Emperor Proclamation / No Daijo-Daijin Appointed
+	id = jap_shogun.17
+	title = jap_shogun.17.t
+	desc = jap_shogun.17.d
+
+	is_triggered_only = yes
+
+	option = {
+		name = "Everything under chaotic situation, only monk stills alive"
+		add_popularity = {
+			ideology = paternal_autocrat
+			popularity = 0.2
+		}
+		clr_country_flag = JAP_Shogun_Regime
+		clr_country_flag = HOG_veiw
+		clr_country_flag = LEADER_GUI_VISIBLE
+		clr_country_flag = JAP_Tri_Edo_Commissioner
+		set_politics = {
+			ruling_party = paternal_autocrat
+			elections_allowed = no
+			long_name = JAP_Southern_Court_paternal_autocrat_party_long
+			name = JAP_Southern_Court_paternal_autocrat_party
+		}
+		set_country_flag = JAP_southern_court_stepped_in
+		set_cosmetic_tag = JAP_Kumazawa_cosmetic
+		load_focus_tree = FX_Southern_Court_Tree
+		mark_focus_tree_layout_dirty = yes
+		retire_character = JAP_Tokugawa_Kuniyuki
+		retire_character = JAP_Tokugawa_Iemasa
+		retire_character = JAP_Matsudaira_Tsuneo
+		retire_character = JAP_Nakano_Seigo
+		retire_character = JAP_Inoue_Nissho
+		add_country_leader_role = {
+			character = JAP_Kumazawa_Emperor
+			promote_leader = yes
+			country_leader = {
+				ideology = absolute_mon_subtype
+				expire = "1965.1.1"
+				traits = {
+					#yamato_ogosho
+					#protector_of_tradition
+				}
+			}
+		}
+	}
+}
+country_event = { #Unbelievable Situation - Burakumin - Socialist Revolution / Death of Grand Triumvirate
+	id = jap_shogun.18
+	title = jap_shogun.18.t
+	desc = jap_shogun.18.d
+
+	is_triggered_only = yes
+	option = {
+		name = "The red militia shot everyone dead, even the bald man"
+		add_popularity = {
+			ideology = libertarian_socialist
+			popularity = 0.37
+		}
+		add_popularity = {
+			ideology = collectivist
+			popularity = 0.1
+		}
+		add_popularity = {
+			ideology = vanguardist
+			popularity = 0.1
+		}
+		add_popularity = {
+			ideology = social_democrat
+			popularity = 0.07
+		}
+		clr_country_flag = JAP_Shogun_Regime
+		clr_country_flag = HOG_veiw
+		clr_country_flag = LEADER_GUI_VISIBLE
+		clr_country_flag = JAP_Tri_Edo_Commissioner
+		retire_character = JAP_Tokugawa_Kuniyuki
+		retire_character = JAP_Tokugawa_Iemasa
+		retire_character = JAP_Matsudaira_Tsuneo
+		retire_character = JAP_Nakano_Seigo
+		retire_character = JAP_Inoue_Nissho
+		load_focus_tree = FX_Japan_Republic_Tree
+		mark_focus_tree_layout_dirty = yes
+		set_politics = {
+			ruling_party = libertarian_socialist
+			elections_allowed = no
+		}
+		set_temp_variable = { coalition_partner_var = token:collectivist }
+		add_to_coalition = yes
+		set_temp_variable = { coalition_partner_var = token:vanguardist }
+		add_to_coalition = yes
+		set_temp_variable = { coalition_partner_var = token:social_democrat }
+		add_to_coalition = yes
+		set_country_flag = JAP_republic_was_proclaimed
+		set_cosmetic_tag = JAP_socialist_league
+		add_country_leader_role = {
+			character = JAP_Jiichiro_Matsumoto
+			promote_leader = yes
+			country_leader = {
+				ideology = libsoc_utopian_socialism_subtype
+				expire = "1965.1.1"
+				traits = {
+					#the_liberator
+					#father_of_suiheisha
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = jap_shogundom.1
+	title = jap_shogundom.1.t
+	desc = jap_shogundom.1.d
+
+	is_triggered_only = yes
+
+	option = {
+		name = jap_shogundom.1.a
+		custom_effect_tooltip = "This event will launch the chain event about Nagasaki Supreme Tribunal"
+		hidden_effect = {
+			country_event = {
+				id = jap_shogundom.2
+				days = 30
+			}
+		}
+	}
+}
+country_event = {
+	id = jap_shogundom.2
+	title = jap_shogundom.2.t
+	desc = jap_shogundom.2.d
+
+	is_triggered_only = yes
+
+	option = {
+		name = jap_shogundom.2.a
+		set_country_flag = JAP_ultraroy_1
+		retire_character = JAP_Akira_Muto
+		retire_character = JAP_Sadao_Araki
+		retire_character = JAP_Shigeru_Honjo
+		retire_character = JAP_Masaki_Jinzaburo
+		hidden_effect = {
+			retire_character = JAP_Araki_Sadao
+		}
+		country_event = {
+			id = jap_shogundom.3
+			days = 1
+		}
+	}
+	option = {
+		name = jap_shogundom.2.b
+		set_country_flag = JAP_ultraroy_2
+		retire_character = JAP_Sadao_Araki
+		retire_character = JAP_Masaki_Jinzaburo
+		hidden_effect = {
+			retire_character = JAP_Araki_Sadao
+		}
+		country_event = {
+			id = jap_shogundom.3
+			days = 1
+		}
+	}
+}
+country_event = {
+	id = jap_shogundom.3
+	title = jap_shogundom.3.t
+	desc = jap_shogundom.3.d
+
+	is_triggered_only = yes
+
+	option = {
+		name = jap_shogundom.3.a
+		set_country_flag = JAP_ultranat_1
+		retire_character = JAP_Kenji_Doihara
+		retire_character = JAP_Konoe_Fumimaro
+		country_event = {
+			id = jap_shogundom.4
+			days = 1
+		}
+	}
+	option = {
+		name = jap_shogundom.3.b
+		set_country_flag = JAP_ultranat_2
+		retire_character = JAP_Kenji_Doihara
+		country_event = {
+			id = jap_shogundom.4
+			days = 1
+		}
+	}
+}
+country_event = {
+	id = jap_shogundom.4
+	title = jap_shogundom.4.t
+	desc = jap_shogundom.4.d
+
+	is_triggered_only = yes
+
+	option = {
+		name = jap_shogundom.4.a
+		JAP_Tokugawa_Iesato = {
+			add_naval_commander_role = {
+				skill = 1
+				attack_skill = 1
+				defense_skill = 1
+				coordination_skill = 1
+				maneuvering_skill = 1
+			}
+		}
+		set_country_flag = JAP_admiralty_1
+	}
+	option = {
+		name = jap_shogundom.4.b
+		JAP_Tokugawa_Kuniyuki = {
+			add_naval_commander_role = {
+				skill = 2
+				attack_skill = 2
+				defense_skill = 1
+				coordination_skill = 1
+				maneuvering_skill = 1
+			}
+		}
+		set_country_flag = JAP_admiralty_2
+	}
+}
+country_event = {
+	id = jap_shogundom.5
+	title = "The Last Answer"
+	desc = jap_shogundom.5.d
+
+	is_triggered_only = yes
+
+	option = {
+		name = jap_shogundom.5.a
+		JAP_nagasaki_tribunal_court_idea = yes
+	}
+}
+country_event = {
+	id = jap_shogundom.6
+	title = "Visit the Imperial Palace"
+	desc = jap_shogundom.6.d
+
+	is_triggered_only = yes
+
+	option = {
+		name = jap_shogundom.6.a
+		add_political_power = 150
+		add_stability = 0.25
+		add_popularity = {
+			ideology = authoritarian_democrat
+			popularity = 0.1
+		}
+	}
+}
+country_event = {
+	id = jap_shogundom.7
+	title = "City Renaming - Tokyo"
+	desc = jap_shogundom.7.d
+
+	is_triggered_only = yes
+
+	option = {
+		name = jap_shogundom.7.a
+		set_province_name = { id = 1182 name = "Edo" }
+		add_political_power = 25
+		add_stability = 0.05
+	}
+	option = {
+		name = jap_shogundom.7.b
+		set_province_name = { id = 1182 name = "Tokyo" }
+		add_political_power = 25
+		add_stability = 0.05
+	}
+}
+country_event = {
+	id = jap_shogundom.8
+	title = "City Renaming - Nagoya"
+	desc = jap_shogundom.8.d
+
+	is_triggered_only = yes
+
+	option = {
+		name = jap_shogundom.8.a
+		set_province_name = { id = 10125 name = "Mikawa" }
+		add_political_power = 25
+		add_stability = 0.05
+	}
+	option = {
+		name = jap_shogundom.8.b
+		set_province_name = { id = 10125 name = "Nagoya" }
+		add_political_power = 25
+		add_stability = 0.05
+	}
+}
+country_event = {
+	id = jap_shogundom.9
+	title = jap_shogundom.9.t
+	desc = jap_shogundom.9.d
+
+	is_triggered_only = yes
+
+	option = {
+		name = jap_shogundom.9.a
+		trigger = {
+			JAP = {
+				has_completed_focus = JAP_mikawahan_faction
+			}
+		}
+		add_stability = 0.05
+		add_political_power = 25
+	}
+	option = {
+		name = jap_shogundom.9.b
+		trigger = {
+			JAP = {
+				has_completed_focus = JAP_oniwahan_faction
+			}
+		}
+		add_stability = 0.05
+		add_political_power = 35
+	}
+}
+country_event = {
+	id = jap_shogundom.10
+	title = jap_shogundom.10.t
+	desc = jap_shogundom.10.d
+
+	is_triggered_only = yes
+
+	option = {
+		name = jap_shogundom.10.a
+		trigger = {
+			JAP = {
+				has_completed_focus = JAP_mikawahan_faction
+			}
+		}
+		add_stability = 0.05
+		add_political_power = 30
+	}
+	option = {
+		name = jap_shogundom.10.b
+		trigger = {
+			JAP = {
+				has_completed_focus = JAP_oniwahan_faction
+			}
+		}
+		add_stability = 0.05
+		add_political_power = 25
+	}
+}
+country_event = {
+	id = jap_shogundom.11
+	title = jap_shogundom.11.t
+	desc = jap_shogundom.11.d
+
+	is_triggered_only = yes
+
+	option = {
+		name = jap_shogundom.11.a
+		trigger = {
+			JAP = {
+				has_completed_focus = JAP_mikawahan_faction
+			}
+		}
+		add_stability = 0.05
+		add_political_power = 25
+	}
+	option = {
+		name = jap_shogundom.11.b
+		trigger = {
+			JAP = {
+				has_completed_focus = JAP_oniwahan_faction
+			}
+		}
+		add_stability = 0.05
+		add_political_power = 35
+	}
+}
+country_event = {
+	id = jap_shogundom.12
+	title = jap_shogundom.12.t
+	desc = jap_shogundom.12.d
+
+	is_triggered_only = yes
+
+	option = {
+		name = jap_shogundom.12.a
+		swap_ideas = {
+			remove_idea = JAP_local_cooperative_center_ideas
+			add_idea = JAP_local_cooperative_center_imperial_diet
+		}
+	}
+	option = {
+		name = jap_shogundom.12.b
+		swap_ideas = {
+			remove_idea = JAP_local_cooperative_center_ideas
+			add_idea = JAP_local_cooperative_center_coop_directory
+		}
+	}
+}
+country_event = {
+	id = jap_shogundom.13
+	title = jap_shogundom.13.t
+	desc = jap_shogundom.13.d
+
+	is_triggered_only = yes
+
+	option = {
+		name = jap_shogundom.13.a
+		add_stability = 0.1
+		add_political_power = 50
+	}
+}
+country_event = {
+	id = jap_shogundom.14
+	title = jap_shogundom.14.t
+	desc = jap_shogundom.14.d
+
+	is_triggered_only = yes
+
+	option = {
+		name = jap_shogundom.14.a
+		add_political_power = -150
+		add_tech_bonus = {
+			bonus = 0.75
+			uses = 2
+			category = industry
+		}
+	}
+}
+country_event = {
+	id = jap_shogundom.15
+	title = jap_shogundom.15.t
+	desc = jap_shogundom.15.d
+
+	is_triggered_only = yes
+
+	option = {
+		name = jap_shogundom.15.a
+		add_ideas = JAP_holy_workers_policy_act
+	}
+}
+country_event = {
+	id = jap_shogundom.16
+	title = jap_shogundom.16.t
+	desc = jap_shogundom.16.d
+
+	is_triggered_only = yes
+
+	option = {
+		name = jap_shogundom.16.a
+		add_popularity = {
+			ideology = valkist
+			popularity = 0.1
+		}
+	}
+}
+country_event = {
+	id = jap_shogundom.17
+	title = jap_shogundom.17.t
+	desc = jap_shogundom.17.d
+
+	is_triggered_only = yes
+
+	option = {
+		name = jap_shogundom.17.a
+		add_political_power = 100
+	}
+}
+country_event = {
+	id = jap_shogundom.18
+	title = jap_shogundom.18.t
+	desc = jap_shogundom.18.d
+
+	is_triggered_only = yes
+
+	option = {
+		name = jap_shogundom.18.a
+		add_ideas = JAP_ministry_true_faith
+	}
+}
+country_event = {
+	id = jap_shogundom.19
+	title = jap_shogundom.19.t
+	desc = jap_shogundom.19.d
+
+	is_triggered_only = yes
+
+	option = {
+		name = jap_shogundom.19.a
+		add_ideas = JAP_bureau_ftip
+	}
+}
+country_event = {
+	id = jap_shogundom.20
+	title = jap_shogundom.20.t
+	desc = jap_shogundom.20.d
+
+	is_triggered_only = yes
+
+	option = {
+		name = jap_shogundom.20.a
+		add_popularity = {
+			ideology = valkist
+			popularity = -0.1
+		}
+	}
+}
+country_event = {
+	id = jap_shogundom.21
+	title = jap_shogundom.21.t
+	desc = jap_shogundom.21.d
+
+	is_triggered_only = yes
+
+	option = {
+		name = jap_shogundom.21.a
+		add_political_power = 50
+	}
+}
+#########################
+##  Republic of Japan  ##
+#########################
+country_event = {
+	id = jap_rep.1
+	title = "Provisional Congress of Socialist League"
+	desc = jap_rep.1.d
+
+	is_triggered_only = yes
+	option = {
+		name = "Please celebrate to our glorious revolution!!"
+		add_stability = 0.02
+	}
+}
+country_event = {
+	id = jap_rep.2
+	title = "Popular Front Address the Congress"
+	desc = jap_rep.2.d
+
+	is_triggered_only = yes
+	option = {
+		name = "...and we thank you for your sacrifice"
+		add_stability = 0.02
+	}
+}
+country_event = {
+	id = jap_rep.3
+	title = "Vanguard Front Address the Congress"
+	desc = jap_rep.3.d
+
+	is_triggered_only = yes
+	option = {
+		name = "...and we thank you for your sacrifice"
+		add_war_support = 0.02
+	}
+}
+country_event = {
+	id = jap_rep.4
+	title = "Election of Interim President"
+	desc = jap_rep.2.d
+
+	is_triggered_only = yes
+	option = {
+		name = "Father of Suiseisha, Jiichiro Matsumoto"
+		set_politics = {
+			ruling_party = libertarian_socialist
+			elections_allowed = no
+		}
+		add_country_leader_role = {
+			character = JAP_Jiichiro_Matsumoto
+			promote_leader = yes
+			country_leader = {
+				ideology = libsoc_utopian_socialism_subtype
+				expire = "1965.1.1"
+			}
+		}
+		set_cosmetic_tag = JAP_Republican
+		set_cosmetic_tag = JAP_Suiheisha_temp
+		add_popularity = {
+			ideology = var:current_party_ideology_group
+			popularity = 0.1
+		}
+		set_party_name = {
+			ideology = libertarian_socialist
+			long_name = JAP_Suiheisha_libertarian_socialist_party_long
+			name = JAP_Suiheisha_libertarian_socialist_party
+		}
+		set_party_name = {
+			ideology = collectivist
+			long_name = JAP_Republican_collectivist_party_long
+			name = JAP_Republican_collectivist_party
+		}
+		set_party_name = {
+			ideology = vanguardist
+			long_name = JAP_Republican_vanguardist_party_long
+			name = JAP_Republican_vanguardist_party
+		}
+	}
+	option = {
+		name = "Leader of Sustainer Clique, Yamakawa Hitoshi"
+		set_temp_variable = { coalition_partner_var = token:social_democrat }
+		remove_from_coalition = yes
+		set_politics = {
+			ruling_party = vanguardist
+			elections_allowed = no
+		}
+		add_popularity = {
+			ideology = var:current_party_ideology_group
+			popularity = 0.2
+		}
+		add_country_leader_role = {
+			character = JAP_Yamakawa_Hitoshi
+			promote_leader = yes
+			country_leader = {
+				ideology = vanguardist_subtype
+				expire = "1965.1.1"
+			}
+		}
+		set_cosmetic_tag = JAP_Republican
+		set_party_name = {
+			ideology = libertarian_socialist
+			long_name = JAP_Suiheisha_libertarian_socialist_party_long
+			name = JAP_Suiheisha_libertarian_socialist_party
+		}
+		set_party_name = {
+			ideology = collectivist
+			long_name = JAP_Republican_collectivist_party_long
+			name = JAP_Republican_collectivist_party
+		}
+		set_party_name = {
+			ideology = vanguardist
+			long_name = JAP_Republican_vanguardist_party_long
+			name = JAP_Republican_vanguardist_party
+		}
+	}
+	option = {
+		name = "The Shining of JCP, Oyama Ikuo"
+		set_temp_variable = { coalition_partner_var = token:social_democrat }
+		remove_from_coalition = yes
+		set_politics = {
+			ruling_party = collectivist
+			elections_allowed = no
+		}
+		add_popularity = {
+			ideology = var:current_party_ideology_group
+			popularity = 0.2
+		}
+		add_country_leader_role = {
+			character = JAP_Oyama_Ikuo
+			promote_leader = yes
+			country_leader = {
+				ideology = collectivist_subtype
+				expire = "1965.1.1"
+			}
+		}
+		set_cosmetic_tag = JAP_Republican
+		set_party_name = {
+			ideology = libertarian_socialist
+			long_name = JAP_Suiheisha_libertarian_socialist_party_long
+			name = JAP_Suiheisha_libertarian_socialist_party
+		}
+		set_party_name = {
+			ideology = collectivist
+			long_name = JAP_Republican_collectivist_party_long
+			name = JAP_Republican_collectivist_party
+		}
+		set_party_name = {
+			ideology = vanguardist
+			long_name = JAP_Republican_vanguardist_party_long
+			name = JAP_Republican_vanguardist_party
+		}
+	}
+}
+country_event = {
+	id = jap_rep.5
+	title = "Fate of Monarchy"
+	desc = jap_rep.5.d
+
+	is_triggered_only = yes
+	option = {
+		name = "Send them somewhere else faraway from Japan"
+		set_country_flag = JAP_secret_hide_monarchy
+		add_stability = -0.05
+	}
+	option = {
+		name = "Execute them all"
+		set_country_flag = JAP_empty_throne
+		add_stability = -0.15
+	}
+}
+country_event = {
+	id = jap_rep.6
+	title = "Fate of Peerage"
+	desc = jap_rep.6.d
+
+	is_triggered_only = yes
+	option = {
+		name = "Abolish all titles immediately"
+		add_political_power = -75
+	}
+}
+country_event = {
+	id = jap_rep.7
+	title = "Election of 1st People's Congress"
+	desc = jap_rep.7.d
+
+	immediate = {
+		hidden_effect = {
+			set_country_flag = JAP_sgrp_foreign_unlock
+			mark_focus_tree_layout_dirty = yes
+		}
+	}
+	is_triggered_only = yes
+	option = {
+		name = "Father of Suiseisha, Jiichiro Matsumoto"
+		trigger = {
+			has_completed_focus = JAP_stabilize_socialist_empire
+		}
+		complete_national_focus = JAP_sustainers_secure_presidency
+		complete_national_focus = JAP_matsumoto_presidency
+		if = {
+			limit = {
+				libertarian_socialist < 0.3
+			}
+			add_popularity = {
+				ideology = libertarian_socialist
+				popularity = 0.2
+			}
+		}
+		end_coalition = yes
+		set_politics = {
+			ruling_party = libertarian_socialist
+			elections_allowed = no
+		}
+		add_country_leader_role = {
+			character = JAP_Jiichiro_Matsumoto
+			promote_leader = yes
+			country_leader = {
+				ideology = libsoc_utopian_socialism_subtype
+				expire = "1965.1.1"
+			}
+		}
+		set_cosmetic_tag = JAP_MATSUMOTO
+	}
+	option = {
+		name = "The Feminist Fighter, Yamakawa Kikue"
+		trigger = {
+			OR = {
+				has_completed_focus = JAP_stabilize_socialist_empire
+				has_completed_focus = JAP_secure_the_people_revolution
+			}
+		}
+		if = {
+			limit = {
+				has_completed_focus = JAP_maintain_tennoism
+			}
+			complete_national_focus = JAP_sustainers_secure_presidency
+			set_cosmetic_tag = JAP_KIKUE
+		}
+		if = {
+			limit = {
+				has_completed_focus = JAP_fate_of_monarchy
+			}
+			complete_national_focus = JAP_revolutionary_secure_presidency
+			set_cosmetic_tag = JAP_Republican_Fem
+		}
+		complete_national_focus = JAP_kikue_presidency
+		if = {
+			limit = {
+				libertarian_socialist < 0.3
+			}
+			add_popularity = {
+				ideology = libertarian_socialist
+				popularity = 0.2
+			}
+		}
+		end_coalition = yes
+		set_politics = {
+			ruling_party = libertarian_socialist
+			elections_allowed = no
+		}
+		add_country_leader_role = {
+			character = JAP_Yamakawa_Kikue
+			promote_leader = yes
+			country_leader = {
+				ideology = socialist_feminist_subtype
+				expire = "1965.1.1"
+			}
+		}
+		set_party_name = {
+			ideology = libertarian_socialist
+			long_name = JAP_Social_Fem_libertarian_socialist_party_long
+			name = JAP_Social_Fem_libertarian_socialist_party
+		}
+	}
+	option = {
+		name = "The Old Officer, Hachimoto Kingoro"
+		trigger = {
+			has_completed_focus = JAP_stabilize_socialist_empire
+		}
+		complete_national_focus = JAP_sustainers_secure_presidency
+		complete_national_focus = JAP_kingoro_presidency
+		if = {
+			limit = {
+				vanguardist < 0.3
+			}
+			add_popularity = {
+				ideology = vanguardist
+				popularity = 0.2
+			}
+		}
+		end_coalition = yes
+		set_politics = {
+			ruling_party = vanguardist
+			elections_allowed = no
+		}
+		add_country_leader_role = {
+			character = JAP_Hashimoto_Kingoro
+			promote_leader = yes
+			country_leader = {
+				ideology = revolutionary_showaist_subtype
+				expire = "1965.1.1"
+			}
+		}
+		set_party_name = {
+			ideology = vanguardist
+			long_name = JAP_Red_Empire_vanguardist_party_long
+			name = JAP_Red_Empire_vanguardist_party
+		}
+		set_cosmetic_tag = JAP_KINGORO
+	}
+	option = {
+		name = "The Progenitor, Sanzo Nosaka"
+		trigger = {
+			has_completed_focus = JAP_stabilize_socialist_empire
+		}
+		complete_national_focus = JAP_sustainers_secure_presidency
+		complete_national_focus = JAP_nosaka_presidency
+		if = {
+			limit = {
+				collectivist < 0.3
+			}
+			add_popularity = {
+				ideology = collectivist
+				popularity = 0.2
+			}
+		}
+		end_coalition = yes
+		set_politics = {
+			ruling_party = collectivist
+			elections_allowed = no
+		}
+		add_country_leader_role = {
+			character = JAP_Sanzo_Nosaka
+			promote_leader = yes
+			country_leader = {
+				ideology = monsoc_subtype
+				expire = "1965.1.1"
+			}
+		}
+		set_party_name = {
+			ideology = collectivist
+			long_name = JAP_Republican_collectivist_party_long
+			name = JAP_Republican_collectivist_party
+		}
+		set_cosmetic_tag = JAP_NOSAKA
+	}
+	option = {
+		name = "The Centralist, Aso Hisashi"
+		trigger = {
+			has_completed_focus = JAP_secure_the_people_revolution
+		}
+		complete_national_focus = JAP_revolutionary_secure_presidency
+		complete_national_focus = JAP_hisashi_presidency
+		if = {
+			limit = {
+				libertarian_socialist < 0.3
+			}
+			add_popularity = {
+				ideology = libertarian_socialist
+				popularity = 0.2
+			}
+		}
+		end_coalition = yes
+		set_politics = {
+			ruling_party = libertarian_socialist
+			elections_allowed = no
+		}
+		promote_character = {
+			character = JAP_Aso_Hisashi
+			ideology = libertarian_socialist_subtype
+		}
+		set_party_name = {
+			ideology = libertarian_socialist
+			long_name = JAP_Republican_libertarian_socialist_party_long
+			name = JAP_Republican_libertarian_socialist_party
+		}
+		drop_cosmetic_tag = yes
+		set_cosmetic_tag = JAP_HISASHI_Reformed
+	}
+	option = {
+		name = "Founding Father of JCP, Arahata Kanson"
+		trigger = {
+			has_completed_focus = JAP_secure_the_people_revolution
+		}
+		complete_national_focus = JAP_revolutionary_secure_presidency
+		complete_national_focus = JAP_kanson_presidency
+		if = {
+			limit = {
+				libertarian_socialist < 0.3
+			}
+			add_popularity = {
+				ideology = libertarian_socialist
+				popularity = 0.2
+			}
+		}
+		end_coalition = yes
+		set_politics = {
+			ruling_party = libertarian_socialist
+			elections_allowed = no
+		}
+		add_country_leader_role = {
+			character = JAP_Arahata_Kanson
+			promote_leader = yes
+			country_leader = {
+				ideology = anarcho_syndicalism_subtype
+				expire = "1965.1.1"
+			}
+		}
+		set_party_name = {
+			ideology = libertarian_socialist
+			long_name = JAP_Republican_Kanson_party_long
+			name = JAP_Republican_Kanson_party
+		}
+		drop_cosmetic_tag = yes
+		set_cosmetic_tag = JAP_KANSON
+	}
+}
+
+###########
+# Foreign #
+###########
+country_event = {
+	id = jap_foreign.1
+	title = jap_foreign.1.t
+	desc = jap_foreign.1.d
+
+	is_triggered_only = yes
+
+	option = {
+		name = jap_foreign.1.a
+		GER = { add_to_faction = JAP }
+	}
+}
+country_event = {
+	id = jap_foreign.2
+	title = jap_foreign.2.t
+	desc = jap_foreign.2.d
+
+	is_triggered_only = yes
+
+	option = {
+		name = jap_foreign.2.a
+		ENG = { add_to_faction = JAP }
+	}
+}
+country_event = {
+	id = jap_foreign.3
+	title = jap_foreign.3.t
+	desc = jap_foreign.3.d
+
+	is_triggered_only = yes
+
+	option = {
+		name = jap_foreign.3.a
+		SOV = { add_to_faction = JAP }
+	}
+}
+country_event = {
+	id = jap_foreign.4
+	title = jap_foreign.4.t
+	desc = jap_foreign.4.d
+
+	is_triggered_only = yes
+
+	option = {
+		name = jap_foreign.4.a
+		ai_chance = {
+			base = 50
+			modifier = {
+				add = 50
+				SIA = { is_faction_leader = no }
+			}
+		}
+		JAP = {
+			country_event = jap_foreign.5
+		}
+		if = {
+			limit = {
+				JAP = {
+					is_faction_leader = yes
+				}
+			}
+			JAP = { add_to_faction = SIA }
+		}
+		else_if = {
+			limit = {
+				any_country = {
+					AND = {
+						is_in_faction_with = JAP
+						is_faction_leader = yes
+						is_major = yes
+					}
+				}
+			}
+			random_country = {
+				limit = {
+					AND = {
+						is_in_faction_with = JAP
+						is_faction_leader = yes
+						is_major = yes
+					}
+				}
+				add_to_faction = SIA
+			}
+		}
+	}
+	option = {
+		name = jap_foreign.4.b
+		add_stability = -0.03
+		ai_chance = {
+			base = 50
+			modifier = {
+				add = 50
+				SIA = { is_faction_leader = yes }
+			}
+		}
+		JAP = {
+			country_event = jap_foreign.6
+		}
+	}
+}
+country_event = {
+	id = jap_foreign.5
+	title = jap_foreign.5.t
+	desc = jap_foreign.5.d
+
+	is_triggered_only = yes
+
+	option = {
+		name = jap_foreign.5.a
+		add_stability = 0.01
+	}
+}
+country_event = {
+	id = jap_foreign.6
+	title = jap_foreign.6.t
+	desc = jap_foreign.6.d
+
+	is_triggered_only = yes
+
+	option = {
+		name = jap_foreign.6.a
+		add_stability = -0.01
+		ai_chance = {
+			base = 50
+		}
+	}
+	option = {
+		name = jap_foreign.6.b
+		ai_chance = {
+			base = 50
+		}
+		add_stability = -0.10
+		create_wargoal = {
+			type = annex_everything
+			target = SIA
+		}
+	}
+}
+country_event = {
+	id = jap_foreign.7
+	title = jap_foreign.7.t
+	desc = jap_foreign.7.d
+
+	is_triggered_only = yes
+
+	option = {
+		name = jap_foreign.7.a
+		ai_chance = {
+			base = 50
+			modifier = {
+				add = 10
+				RUS = {
+					OR = {
+						has_dictatorship_government = yes
+						has_democratic_right_government = yes
+					}
+				}
+			}
+		}
+		JAP = {
+			set_autonomy = {
+				target = RUS
+				autonomy_state = autonomy_puppet
+			}
+		}
+	}
+	option = {
+		name = jap_foreign.7.b
+		ai_chance = {
+			base = 50
+			modifier = {
+				add = 10
+				RUS = {
+					NOT = {
+						OR = {
+							has_dictatorship_government = yes
+							has_democratic_right_government = yes
+						}
+					}
+				}
+			}
+		}
+		JAP = {
+			create_wargoal = {
+				type = annex_everything
+				target = RUS
+			}
+		}
+	}
+}
+country_event = {
+	id = jap_foreign.8
+	title = jap_foreign.8.t
+	desc = jap_foreign.8.d
+
+	is_triggered_only = yes
+
+	option = {
+		name = jap_foreign.8.a
+		add_to_array = {
+			array = global.harbin_conference_joined
+			var = JAP.id
+		}
+		set_variable = { harbin_topic = 3 }
+		set_variable = { harbin_railroad = 0 }
+		set_variable = { harbin_trade = 0 }
+		set_variable = { harbin_currency = 0 }
+		every_country = {
+			limit = {
+				OR = {
+					AND = {
+						exists = yes
+						tag = RUS
+					}
+					AND = {
+						exists = yes
+						tag = FNG
+					}
+				}
+			}
+			country_event = {
+				id = jap_foreign.9
+				days = 7
+			}
+		}
+	}
+}
+country_event = { #Meeting in Harbin - Telegram Invitation
+	id = jap_foreign.9
+	title = jap_foreign.9.t
+	desc = jap_foreign.9.d
+
+	is_triggered_only = yes
+
+	option = {
+		name = jap_foreign.9.a
+		ai_chance = {
+			base = 50
+		}
+		add_to_array = {
+			array = harbin_conference_joined
+			var = ROOT.id
+		}
+		country_event = {
+			id = jap_foreign.10
+			days = 3
+		}
+		add_stability = 0.01
+		add_political_power = 10
+	}
+	option = {
+		name = jap_foreign.9.b
+		ai_chance = {
+			base = 50
+		}
+		add_stability = -0.01
+		add_political_power = -10
+	}
+}
+country_event = { #Harbin Conference - Railroad Income Tax
+	id = jap_foreign.10
+	title = jap_foreign.10.t
+	desc = jap_foreign.10.d
+
+	is_triggered_only = yes
+	option = {
+		name = jap_foreign.10.a
+		ai_chance = {
+			base = 50
+		}
+		country_event = {
+			id = jap_foreign.11
+			days = 3
+		}
+		add_stability = 0.01
+		add_political_power = 10
+		JAP = {
+			add_to_variable = {
+				var = harbin_railroad
+				value = 1
+			}
+		}
+	}
+	option = {
+		name = jap_foreign.10.b
+		ai_chance = {
+			base = 50
+		}
+		add_stability = 0.01
+		add_political_power = 10
+		country_event = {
+			id = jap_foreign.11
+			days = 3
+		}
+	}
+}
+country_event = { #Harbin Conference - Currency Support
+	id = jap_foreign.11
+	title = jap_foreign.11.t
+	desc = jap_foreign.11.d
+
+	is_triggered_only = yes
+	option = {
+		name = jap_foreign.11.a
+		JAP = {
+			add_to_variable = {
+				var = harbin_currency
+				value = 1
+			}
+		}
+		country_event = {
+			id = jap_foreign.12
+			days = 3
+		}
+		add_stability = 0.01
+		add_political_power = 10
+	}
+	option = {
+		name = jap_foreign.11.b
+		country_event = {
+			id = jap_foreign.12
+			days = 3
+		}
+		add_stability = 0.01
+		add_political_power = 10
+	}
+}
+country_event = { #Harbin Conference - Resource and Trading
+	id = jap_foreign.12
+	title = jap_foreign.12.t
+	desc = jap_foreign.12.d
+
+	is_triggered_only = yes
+	option = {
+		name = jap_foreign.12.a
+		JAP = {
+			add_to_variable = {
+				var = harbin_trade
+				value = 1
+			}
+		}
+		country_event = {
+			id = jap_foreign.13
+			days = 3
+		}
+		add_stability = 0.01
+		add_political_power = 10
+	}
+	option = {
+		name = jap_foreign.12.b
+		country_event = {
+			id = jap_foreign.13
+			days = 3
+		}
+		add_stability = 0.01
+		add_political_power = 10
+	}
+}
+country_event = { #Harbin Conference - Conclusion
+	id = jap_foreign.13
+	title = jap_foreign.13.t
+	desc = jap_foreign.13.d
+
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			JAP = {
+				set_temp_variable = { temp = harbin_railroad }
+				add_to_temp_variable = { temp = harbin_currency }
+				add_to_temp_variable = { temp = harbin_trade }
+				multiply_temp_variable = { temp = harbin_topic }
+
+				set_variable = { harbin_vote = temp }
+
+				set_variable = { harbin_quorum = harbin_topic }
+				multiply_variable = { harbin_quorum = 0.6 }
+
+				divide_variable = { harbin_vote = var:global.harbin_conference_joined }
+
+				clear_variable = harbin_railroad
+				clear_variable = harbin_currency
+				clear_variable = harbin_trade
+				clear_variable = harbin_topic
+				if = {
+					limit = {
+						check_variable = {
+							var = harbin_vote
+							value = harbin_quorum
+							compare = greater_than_or_equals
+						}
+					}
+					set_country_flag = JAP_harbin_conference_ended
+				}
+				else_if = {
+					limit = {
+						check_variable = {
+							var = harbin_vote
+							value = harbin_quorum
+							compare = less_than
+						}
+					}
+					set_country_flag = JAP_harbin_conference_failed
+				}
+				else_if = {
+					limit = {
+						check_variable = { harbin_conference = 1 }
+					}
+					set_country_flag = JAP_harbin_conference_failed
+				}
+				clear_variable = harbin_conference
+				clear_variable = harbin_vote
+				clear_variable = harbin_quorum
+			}
+		}
+	}
+
+	option = {
+		name = jap_foreign.13.a
+		add_stability = 0.01
+		add_political_power = 10
+	}
+}

@@ -1,0 +1,249 @@
+focus_tree = {
+	id = FR_Socialist_Spain_Ramos
+	country = {
+		factor = 0
+		modifier = {
+			add = 10
+			tag = SPA
+		}
+	}
+	default = no
+	continuous_focus_position = { x = 50 y = 1350 }
+
+	shared_focus = SPA_spanish_peoples_navy
+	shared_focus = SPA_spanish_peoples_air_force
+	shared_focus = SPA_spanish_peoples_army
+	shared_focus = SPA_recover_from_capitalism
+
+	focus = {
+		id = SPA_chairman_ramos
+		icon = GFX_goal_SPA_Chairman_Ramos
+		cost = 5.00
+		x = 30
+		y = 0
+
+		bypass = {
+			always = yes
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPA_chairman_ramos"
+		}
+
+	}
+	focus = {
+		id = SPA_RAM_workplace_democracy
+		icon = GFX_goal_RAJ_India_Worker_Rights
+		cost = 8.00
+		prerequisite = {
+			focus = SPA_chairman_ramos
+		}
+		x = 27
+		y = 1
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPA_RAM_workplace_democracy"
+			add_ideas = SPA_RAM_workplace_democracy_idea
+		}
+
+	}
+	focus = {
+		id = SPA_RAM_enlighten_workers
+		icon = GFX_goal_great_science
+		cost = 8.00
+		prerequisite = {
+			focus = SPA_RAM_workplace_democracy
+		}
+		x = 27
+		y = 2
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPA_RAM_enlighten_workers"
+			swap_ideas = {
+				remove_idea = SPA_RAM_workplace_democracy_idea
+				add_idea = SPA_RAM_enlighten_workers_idea
+			}
+		}
+
+	}
+	focus = {
+		id = SPA_RAM_land_reform
+		icon = GFX_goal_RAJ_Decentralized_Land_Reform
+		cost = 8.00
+		prerequisite = {
+			focus = SPA_chairman_ramos
+		}
+		x = 29
+		y = 1
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPA_RAM_land_reform"
+			random_owned_state = {
+				limit = {
+					is_controlled_by = SPA
+					is_core_of = SPA
+					OR = {
+						industrial_complex > 0
+						arms_factory > 0
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_state = {
+				limit = {
+					is_controlled_by = SPA
+					is_core_of = SPA
+					OR = {
+						industrial_complex > 0
+						arms_factory > 0
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = SPA_RAM_collectivization_question
+		icon = GFX_goal_RAJ_Workers_Paradise
+		cost = 8.00
+		prerequisite = {
+			focus = SPA_RAM_land_reform
+		}
+		prerequisite = {
+			focus = SPA_RAM_enlighten_workers
+		}
+		x = 28
+		y = 3
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPA_RAM_collectivization_question"
+			swap_ideas = {
+				remove_idea = SPA_RAM_workplace_democracy_idea
+				add_idea = SPA_RAM_collectivization_question_idea
+			}
+		}
+
+	}
+	focus = {
+		id = SPA_RAM_only_one_true_socialism
+		icon = GFX_focus_eng_crush_the_dream
+		cost = 8.00
+		prerequisite = {
+			focus = SPA_chairman_ramos
+		}
+		x = 31
+		y = 1
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPA_RAM_only_one_true_socialism"
+			add_stability = 0.05
+			add_popularity = { ideology = collectivist popularity = 0.05 }
+		}
+
+	}
+	focus = {
+		id = SPA_RAM_leninist_secret_police
+		icon = GFX_goal_RAJ_Establish_The_Peoples_Police
+		cost = 8.00
+		prerequisite = {
+			focus = SPA_RAM_only_one_true_socialism
+		}
+		x = 31
+		y = 3
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPA_RAM_leninist_secret_police"
+			add_stability = 0.05
+			add_ideas = SPA_RAM_leninist_secret_police_idea
+		}
+
+	}
+	focus = {
+		id = SPA_RAM_communist_status_quo
+		icon = GFX_goal_ideology_collectivist
+		cost = 5.00
+		prerequisite = {
+			focus = SPA_RAM_collectivization_question
+		}
+		prerequisite = {
+			focus = SPA_RAM_leninist_secret_police
+		}
+		x = 30
+		y = 4
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPA_RAM_communist_status_quo"
+			add_stability = 0.03
+			add_war_support = 0.03
+			increase_ruling_party_popularity_by_5 = yes
+			hidden_effect = {
+				remove_ideas = SPA_disunity_among_left_idea
+			}
+		}
+
+	}
+	focus = {
+		id = SPA_RAM_communist_united_front
+		icon = GFX_focus_generic_anti_fascist_diplomacy
+		cost = 8.00
+		prerequisite = {
+			focus = SPA_RAM_only_one_true_socialism
+		}
+		x = 32
+		y = 2
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPA_RAM_communist_united_front"
+			add_war_support = 0.05
+			add_popularity = { ideology = collectivist popularity = 0.05 }
+		}
+
+	}
+}

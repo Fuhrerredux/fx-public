@@ -1,0 +1,247 @@
+############
+#
+# Infantry
+#
+############
+
+#0-1
+
+entity = {
+	name = "JAP_infantry_entity"
+	pdxmesh = "JP_generic_infantry_rifle_mesh"
+	clone = "KR_infantry_AS1_entity"
+}
+
+entity = {
+	name = "JAP_infantry_desert_entity"
+	pdxmesh = "JP_generic_infantry_rifle_desert_mesh"
+	clone = "KR_infantry_AS1_entity"
+}
+
+entity = {
+	name = "JAP_infantry_snow_entity"
+	pdxmesh = "JP_generic_infantry_rifle_snow_mesh"
+	clone = "KR_infantry_AS1_entity"
+}
+
+#2
+
+entity = {
+	name = "JAP_infantry_2_entity"
+	pdxmesh = "JP_generic_infantry_mg_mesh"
+	clone = "KR_infantry_EE2_entity"
+}
+
+entity = {
+	name = "JAP_infantry_desert_2_entity"
+	pdxmesh = "JP_generic_infantry_mg_desert_mesh"
+	clone = "KR_infantry_EE2_entity"
+}
+
+entity = {
+	name = "JAP_infantry_snow_2_entity"
+	pdxmesh = "JP_generic_infantry_mg_snow_mesh"
+	clone = "KR_infantry_EE2_entity"
+}
+
+#3
+
+entity = {
+	name = "JAP_infantry_3_entity"
+	pdxmesh = "JP_generic_infantry_mg_2_mesh"
+	clone = "KR_infantry_AS2_entity"
+}
+
+entity = {
+	name = "JAP_infantry_desert_3_entity"
+	pdxmesh = "JP_generic_infantry_mg_2_desert_mesh"
+	clone = "KR_infantry_AS2_entity"
+}
+
+entity = {
+	name = "JAP_infantry_snow_3_entity"
+	pdxmesh = "JP_generic_infantry_mg_2_snow_mesh"
+	clone = "KR_infantry_AS2_entity"
+}
+
+
+############
+#
+# Cavalry
+#
+############
+
+entity = {
+	clone = "infantry_rider_entity"
+	name = "JAP_infantry_rider_entity"
+	pdxmesh = "JP_generic_infantry_rifle_mesh"
+
+	attach = { name = "rifle1"	Right_Hand_node = "MI_CHI_infantry_weapon_rifle_T88_right_entity" }
+	attach = { name = "rifle2"	Left_Hand_node = "MI_CHI_infantry_weapon_rifle_T88_left_entity" }
+	attach = { name = "rifle4"	Root_node_2 = "MI_CHI_infantry_weapon_rifle_T88_right_entity" }
+}
+
+entity = {
+	clone = "generic_infantry_mg_rider_entity"
+	name = "JAP_infantry_mg_rider_entity"
+	pdxmesh = "JP_generic_infantry_mg_mesh"
+
+	attach = { name = "rifle1"	Right_Hand_node = "MI_GER_infantry_weapon_mg_MP38_right_entity" }
+	attach = { name = "rifle2"	Left_Hand_node = "MI_GER_infantry_weapon_mg_MP38_left_entity" }
+	attach = { name = "rifle4"	Root_node_2 = "MI_GER_infantry_weapon_rifle_98k_right_entity" }
+}
+
+entity = {
+	clone = "generic_cavalry_rifle_combined_entity"
+	name = "JAP_cavalry_rifle_combined_entity"
+
+	attach = { name = "infantry_unit"		Saddle_Node = "JAP_infantry_rider_entity" }
+}
+
+entity = {
+	clone = "generic_cavalry_mg_combined_entity"
+	name = "JAP_cavalry_mg_combined_entity"
+
+	attach = { name = "infantry_unit"		Saddle_Node = "JAP_infantry_mg_rider_entity" }
+}
+
+entity = {
+	clone = "cavalry_entity"
+	name = "JAP_cavalry_entity"
+
+	attach = { name = "infantry"		infantry = "JAP_infantry_rider_entity" }
+	attach = { name = "cavalry"		cavalry = "JAP_cavalry_rifle_combined_entity" }
+}
+
+entity = {
+	clone = "cavalry_entity"
+	name = "JAP_cavalry_2_entity"
+
+	attach = { name = "infantry"		infantry = "JAP_infantry_mg_rider_entity" }
+	attach = { name = "cavalry"		cavalry = "JAP_cavalry_mg_combined_entity" }
+}
+
+############
+#
+# Vehicles
+#
+############
+
+entity = {
+	clone = "motorized_entity"
+	name = "JAP_motorized_entity"
+
+	attach = { name = "infantry" 	infantry = "JAP_infantry_entity" }
+}
+
+entity = {
+	clone = "motorized_entity"
+	name = "JAP_mechanized_entity"
+
+	attach = { name = "vehicle" 	vehicle = "mechanized_vehicle_0_entity" }
+	attach = { name = "infantry" 	infantry = "JAP_infantry_entity" }
+}
+
+entity = {
+	clone = "artillery_entity"
+	name = "JAP_artillery_entity"
+
+	attach = { name = infantry		infantry = "JAP_infantry_entity" }
+}
+
+entity = {
+	clone = "anti_tank_entity"
+	name = "JAP_anti_tank_entity"
+
+	attach = { name = infantry			infantry = "JAP_infantry_entity" }
+}
+
+
+
+
+###############
+### Vanilla ###
+###############
+
+entity = {
+	name = "JAP_infantry_weapon_mg_left_entity"
+	pdxmesh = "JAP_infantry_weapon_mg_mesh"
+	scale = 1.0
+}
+
+entity = {
+	name = "JAP_infantry_weapon_mg_right_entity"
+	pdxmesh = "JAP_infantry_weapon_mg_mesh"
+	scale = 1.0
+
+	get_state_from_parent = yes
+	default_state = "idle"
+	state = { name = "idle" }
+	state = { name = "move"	}
+
+	state = { name = "attack"	animation = "attack"
+		event = { time = 0.5 node="muzzle" particle = "mg_muzzle_particle"  keep_particle = yes   light = "mg_muzzle_flash" sound = { soundeffect = infantry_mg_attack } }
+		event = { time = 0.5 node="muzzle" particle = "mg_muzzle_smoke_particle"  keep_particle = yes   light = "mg_muzzle_flash" sound = { soundeffect = infantry_mg_attack } }
+		event = { time = 0.5 node="cartridge" particle = "mg_cartridge_particle"  keep_particle = yes }
+	}
+
+	state = { name = "defend"
+		event = { time = 0 node="muzzle" particle = "mg_muzzle_particle"  keep_particle = yes   light = "mg_muzzle_flash" sound = { soundeffect = infantry_mg_attack } }
+		event = { time = 0 node="muzzle" particle = "mg_muzzle_smoke_particle"  keep_particle = yes   light = "mg_muzzle_flash" sound = { soundeffect = infantry_mg_attack } }
+		event = { time = 0 node="cartridge" particle = "mg_cartridge_particle"  keep_particle = yes }
+	}
+
+	state = {
+		name = "support_attack"	animation = "support_attack"
+		event = { time = 0 node="muzzle" particle = "mg_muzzle_particle"  keep_particle = yes light = "mg_muzzle_flash" sound = { soundeffect = infantry_mg_attack } }
+		event = { time = 0 node="muzzle" particle = "mg_muzzle_smoke_particle"  keep_particle = yes light = "mg_muzzle_flash" sound = { soundeffect = infantry_mg_attack } }
+		event = { time = 0 node="cartridge" particle = "mg_cartridge_particle"  keep_particle = yes }
+	}
+}
+
+entity = {
+	name = "JAP_infantry_weapon_mg_long_idle_entity"
+	pdxmesh = "JAP_infantry_weapon_mg_mesh"
+	scale = 1.0
+}
+
+entity = {
+	name = "JAP_infantry_weapon_rifle_right_entity"
+	pdxmesh = "JAP_infantry_weapon_rifle_mesh"
+	scale = 1.0
+}
+
+entity = {
+	name = "JAP_infantry_weapon_rifle_left_entity"
+	pdxmesh = "JAP_infantry_weapon_rifle_mesh"
+	scale = 1.0
+
+	get_state_from_parent = yes
+	default_state = "idle"
+	state = { name = "idle" }
+	state = { name = "move"	}
+
+	state = {
+		name = "attack"	animation = "attack"
+		event = { time = 1.15 node="muzzle" particle = "rifle_muzzle_particle"  keep_particle = yes light = "muzzle_flash" sound = { soundeffect = infantry_rifle_attack } }
+		event = { time = 2.2 node="cartridge" particle = "rifle_cartridge_particle"  keep_particle = yes sound = { soundeffect = infantry_rifle_cartridge } }
+	}
+
+	state = {
+		name = "defend"
+		event = { time = 0 node="muzzle" particle = "rifle_muzzle_particle"  keep_particle = yes light = "muzzle_flash" sound = { soundeffect = infantry_rifle_attack } }
+		event = { time = 1.2 node="cartridge" particle = "rifle_cartridge_particle"  keep_particle = yes sound = { soundeffect = infantry_rifle_cartridge } }
+	}
+
+	state = {
+		name = "support_attack"	animation = "support_attack"
+		event = { time = 0 node="muzzle" particle = "rifle_muzzle_particle"  keep_particle = yes light = "muzzle_flash" sound = { soundeffect = infantry_rifle_attack } }
+		event = { time = 1.2 node="cartridge" particle = "rifle_cartridge_particle"  keep_particle = yes sound = { soundeffect = infantry_rifle_cartridge } }
+	}
+}
+
+entity = {
+	name = "JAP_infantry_weapon_rifle_long_idle_entity"
+	pdxmesh = "JAP_infantry_weapon_rifle_mesh"
+	scale = 1.0
+}

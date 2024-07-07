@@ -1,0 +1,3050 @@
+﻿add_namespace = romania
+
+country_event = { # Intro
+	id = romania.0
+	immediate = {log = "[GetDateText]: [Root.GetName]: event romania.0"}
+	title = romania.0.t
+	desc = romania.0.d
+	picture = GFX_report_event_carol_party
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetDateText]: [Root.GetName]: event romania.0 option romania.0.a"
+		name = romania.0.a
+	}
+}
+
+country_event = { # The New Regent
+	id = romania.1
+	immediate = {log = "[GetDateText]: [Root.GetName]: event romania.1"}
+	title = romania.1.t
+	desc = romania.1.d
+	picture = GFX_report_event_romania_poland_visit
+	is_triggered_only = yes
+
+	option = { # Appoint from the ruling party
+		log = "[GetDateText]: [Root.GetName]: event romania.1 option romania.1.a"
+		name = romania.1.a
+		ai_chance = {
+			factor = 20
+			modifier = {
+				factor = 100
+				has_country_flag = ROM_democratic_behavior
+			}
+		}
+		remove_ideas_with_trait = head_of_government
+		activate_advisor = ROM_Armand_Calinescu_hog_ade
+		set_country_flag = ROM_selected_regent
+		set_country_flag = ROM_status_quo_regent
+		hidden_effect = {
+			country_event = { id = romania.29 days = 100 }
+			country_event = { id = romania.50 days = 200 }
+		}
+	}
+	option = { # Try courting the PNL
+		log = "[GetDateText]: [Root.GetName]: event romania.1 option romania.1.b"
+		name = romania.1.b
+		ai_chance = {
+			factor = 20
+			modifier = {
+				factor = 100
+				has_country_flag = ROM_democratic_behavior
+			}
+		}
+		remove_ideas_with_trait = head_of_government
+		activate_advisor = ROM_Constantin_Bratianu_hog_mli
+		set_country_flag = ROM_selected_regent
+		set_country_flag = ROM_liberal_regent
+		add_popularity = {
+			ideology = social_liberal
+			popularity = 0.05
+		}
+		add_popularity = {
+			ideology = market_liberal
+			popularity = 0.05
+		}
+		add_popularity = {
+			ideology = social_conservative
+			popularity = 0.05
+		}
+		hidden_effect = {
+			country_event = { id = romania.8 days = 140 }
+			country_event = { id = romania.50 days = 200 }
+		}
+	}
+	option = { # Maybe a coalition with PSDR won't hurt
+		log = "[GetDateText]: [Root.GetName]: event romania.1 option romania.1.c"
+		name = romania.1.c
+		ai_chance = {
+			factor = 20
+			modifier = {
+				factor = 100
+				has_country_flag = ROM_democratic_behavior
+			}
+			modifier = {
+				factor = 1000
+				has_country_flag = ROM_socialist_behavior
+			}
+		}
+		remove_ideas_with_trait = head_of_government
+		activate_advisor = ROM_Virgil_Madgearu_hog_sde
+		set_country_flag = ROM_selected_regent
+		set_country_flag = ROM_leftist_regent
+		add_popularity = {
+			ideology = social_democrat
+			popularity = 0.05
+		}
+		hidden_effect = {
+			country_event = { id = romania.7 days = 140 }
+			country_event = { id = romania.50 days = 200 }
+		}
+	}
+}
+
+country_event = { # Michael's Coronation
+	id = romania.2
+	immediate = {log = "[GetDateText]: [Root.GetName]: event romania.2"}
+	title = romania.2.t
+	desc = romania.2.d
+	picture = GFX_report_event_german_reichstag_gathering
+	is_triggered_only = yes
+
+	trigger = {
+		tag = ROM
+		NOT = {
+			OR = {
+				has_country_flag = ROM_michael_assassinated
+				has_completed_focus = ROM_abolish_the_monarchy
+				has_government = valkist
+			}
+		}
+	}
+
+	option = {
+		log = "[GetDateText]: [Root.GetName]: event romania.2 option romania.2.a"
+		name = romania.2.a
+		hidden_effect = {
+			ROM_make_michael_king = yes
+			random_other_country = {
+				news_event = { id = fxnews.29 hours = 8 }
+			}
+		}
+	}
+}
+
+country_event = { # London Stock Market Crash
+	id = romania.3
+	immediate = {log = "[GetDateText]: [Root.GetName]: event romania.3"}
+	title = romania.3.t
+	desc = romania.3.d
+	picture = GFX_report_event_worker_protests
+	fire_only_once = yes
+
+	trigger = {
+		tag = ROM
+		ENG = { has_country_flag = ENG_stock_crash }
+	}
+	mean_time_to_happen = {
+		days = 1
+	}
+
+	immediate = {
+		hidden_effect = { add_ideas = ROM_black_wednesday_0 }
+		set_country_flag = ROM_black_wednesday
+	}
+
+	option = {
+		log = "[GetDateText]: [Root.GetName]: event romania.3 option romania.3.a"
+		name = romania.3.a
+		hidden_effect = {
+			country_event = { id = romania.16 days = 30 }
+		}
+	}
+}
+
+country_event = { # Effects of Black Wednesday Dissapearing
+	id = romania.4
+	immediate = {log = "[GetDateText]: [Root.GetName]: event romania.4"}
+	title = romania.4.t
+	desc = romania.4.d
+	picture = GFX_report_event_canada_ronnie
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetDateText]: [Root.GetName]: event romania.4 option romania.4.a"
+		name = romania.4.a
+		clr_country_flag = ROM_black_wednesday
+		remove_ideas = ROM_economic_expansion
+		if = {
+			limit = { has_idea = ROM_black_wednesday_recovering }
+			remove_ideas = ROM_black_wednesday_recovering
+		}
+	}
+}
+
+country_event = { # Tensions in Transylvania
+	id = romania.5
+	immediate = {log = "[GetDateText]: [Root.GetName]: event romania.5"}
+	title = romania.5.t
+	desc = romania.5.d
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetDateText]: [Root.GetName]: event romania.5 option romania.5.a"
+		name = romania.5.a
+		add_ideas = ROM_tensions_in_transylvania
+		every_owned_state = {
+			limit = {
+				is_controlled_by = ROM
+				OR = {
+					state = 762
+					state = 154
+					state = 84
+					state = 83
+					state = 82
+					state = 76
+				}
+			}
+
+			add_dynamic_modifier = {
+				modifier = ROM_hungarian_resistance
+			}
+		}
+		hidden_effect = {
+			HUN = {
+				country_event = { id = romania.61 days = 2 }
+			}
+		}
+	}
+}
+
+country_event = { # Railroad Explosion in Transylvania
+	id = romania.6
+	immediate = {log = "[GetDateText]: [Root.GetName]: event romania.6"}
+	title = romania.6.t
+	desc = romania.6.d
+	picture = GFX_report_event_german_polish_border
+	is_triggered_only = yes
+
+	trigger = {
+		tag = ROM
+		has_idea = ROM_tensions_in_transylvania
+	}
+
+	option = {
+		log = "[GetDateText]: [Root.GetName]: event romania.6 option romania.6.a"
+		name = romania.6.a
+		random_owned_controlled_state = {
+			damage_building = {
+				type = infrastructure
+				damage = 3
+			}
+		}
+	}
+}
+
+country_event = { # A Possible Coalition?
+	id = romania.7
+	immediate = {log = "[GetDateText]: [Root.GetName]: event romania.7"}
+	title = romania.7.t
+	desc = romania.7.d
+	picture = GFX_report_event_generic_sign_treaty2
+	is_triggered_only = yes
+
+	option = { # The coalition is created
+		log = "[GetDateText]: [Root.GetName]: event romania.7 option romania.7.a"
+		name = romania.7.a
+		ai_chance = {
+			factor = 20
+			modifier = {
+				factor = 100
+				has_country_flag = ROM_socialist_behavior
+			}
+		}
+		set_country_flag = ROM_leftist_coalition
+		hidden_effect = {
+			country_event = { id = romania.10 days = 21 }
+		}
+	}
+	option = { # Madgearu decides against it.
+		log = "[GetDateText]: [Root.GetName]: event romania.7 option romania.7.b"
+		name = romania.7.b
+		ai_chance = {
+			factor = 20
+			modifier = {
+				factor = 100
+				has_country_flag = ROM_democratic_behavior
+			}
+		}
+	}
+}
+
+country_event = { # Meeting with the Georgist Faction
+	id = romania.8
+	immediate = {log = "[GetDateText]: [Root.GetName]: event romania.8"}
+	title = romania.8.t
+	desc = romania.8.d
+	picture = GFX_report_event_generic_sign_treaty2
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetDateText]: [Root.GetName]: event romania.8 option romania.8.a"
+		name = romania.8.a
+		ai_chance = {
+			factor = 50
+		}
+		add_popularity = {
+			ideology = social_conservative
+			popularity = 0.05
+		}
+		set_country_flag = ROM_conservative_coalition
+		hidden_effect = {
+			country_event = { id = romania.9 days = 14 }
+		}
+	}
+	option = {
+		log = "[GetDateText]: [Root.GetName]: event romania.8 option romania.8.b"
+		name = romania.8.b
+		ai_chance = {
+			factor = 50
+		}
+		add_political_power = 20
+		hidden_effect = {
+			country_event = { id = romania.9 days = 14 }
+		}
+	}
+}
+
+country_event = { # Meeting with the Progressives
+	id = romania.9
+	immediate = {log = "[GetDateText]: [Root.GetName]: event romania.9"}
+	title = romania.9.t
+	picture = GFX_report_event_generic_sign_treaty2
+	is_triggered_only = yes
+
+	desc = {
+		text = romania.9.d1
+		trigger = {
+			NOT = { has_country_flag = ROM_conservative_coalition }
+		}
+	}
+	desc = {
+		text = romania.9.d2
+		trigger = {
+			NOT = { has_country_flag = ROM_progressive_coalition }
+		}
+	}
+
+	option = {
+		log = "[GetDateText]: [Root.GetName]: event romania.9 option romania.9.a"
+		name = romania.9.a
+		ai_chance = {
+			factor = 10
+		}
+		add_popularity = {
+			ideology = social_liberal
+			popularity = 0.05
+		}
+		set_country_flag = ROM_progressive_coalition
+		hidden_effect = {
+			country_event = { id = romania.28 days = 21 }
+			if = {
+				limit = { has_country_flag = ROM_conservative_coalition }
+				set_variable = {
+					var = rom_conservative_strength
+					value = 5
+				}
+				set_variable = {
+					var = rom_progressive_strength
+					value = 5
+				}
+			}
+		}
+	}
+	option = {
+		log = "[GetDateText]: [Root.GetName]: event romania.9 option romania.9.b"
+		name = romania.9.b
+		add_political_power = 20
+		trigger = {
+			has_country_flag = ROM_conservative_coalition
+		}
+	}
+	option = {
+		log = "[GetDateText]: [Root.GetName]: event romania.9 option romania.9.c"
+		name = romania.9.c
+		ai_chance = {
+			factor = 80
+		}
+		add_political_power = 20
+		trigger = {
+			NOT = { has_country_flag = ROM_conservative_coalition }
+		}
+	}
+}
+
+country_event = { # Madgearu Proposes Reforms
+	id = romania.10
+	immediate = {log = "[GetDateText]: [Root.GetName]: event romania.10"}
+	title = romania.10.t
+	desc = romania.10.d
+	picture = GFX_report_event_king_speech
+	is_triggered_only = yes
+
+	option = { # The Regent Accepts the Reforms
+		log = "[GetDateText]: [Root.GetName]: event romania.10 option romania.10.a"
+		name = romania.10.a
+		ai_chance = {
+			factor = 200
+			modifier = {
+				factor = 10
+				has_country_flag = ROM_socialist_behavior
+			}
+		}
+		add_ideas = ROM_madgearus_reforms
+	}
+	option = { # It's too radical for a reform
+		log = "[GetDateText]: [Root.GetName]: event romania.10 option romania.10.b"
+		name = romania.10.b
+		ai_chance = {
+			factor = 200
+		}
+		hidden_effect = {
+			country_event = { id = romania.11 days = 3 }
+		}
+	}
+}
+
+country_event = { # PDaT Backs Out of Proposed Coalition
+	id = romania.11
+	immediate = {log = "[GetDateText]: [Root.GetName]: event romania.11"}
+	title = romania.11.t
+	desc = romania.11.d
+	picture = GFX_report_event_communist_leader
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetDateText]: [Root.GetName]: event romania.11 option romania.11.a"
+		name = romania.11.a
+		clr_country_flag = ROM_leftist_coalition
+	}
+}
+
+country_event = { # Tensions in the Coalition
+	id = romania.12
+	immediate = {log = "[GetDateText]: [Root.GetName]: event romania.12"}
+	title = romania.12.t
+	desc = romania.12.d
+	picture = GFX_report_event_generic_sign_treaty3
+	fire_only_once = yes
+
+	trigger = {
+		tag = ROM
+		has_country_flag = ROM_progressive_coalition
+		has_country_flag = ROM_conservative_coalition
+		check_variable = { rom_conservative_strength = rom_progressive_strength }
+	}
+
+	mean_time_to_happen = { days = 1 }
+
+	option = { # Side with the Georgists
+		log = "[GetDateText]: [Root.GetName]: event romania.12 option romania.12.a"
+		name = romania.12.a
+		ai_chance = {
+			factor = 20
+		}
+		add_political_power = -10
+		ROM_increase_conservative_strength = yes
+	}
+	option = { # Side with the Maniu Faction
+		log = "[GetDateText]: [Root.GetName]: event romania.12 option romania.12.b"
+		name = romania.12.b
+		ai_chance = {
+			factor = 20
+		}
+		add_political_power = -10
+		ROM_increase_progressive_strength = yes
+	}
+	option = { # Force a compromise
+		log = "[GetDateText]: [Root.GetName]: event romania.12 option romania.12.c"
+		name = romania.12.c
+		ai_chance = {
+			factor = 40
+		}
+		add_political_power = -50
+	}
+}
+
+country_event = { # Georgists Leaves the Coalition
+	id = romania.13
+	immediate = {log = "[GetDateText]: [Root.GetName]: event romania.13"}
+	title = romania.13.t
+	desc = romania.13.d
+	picture = GFX_report_event_canada_patriation
+	fire_only_once = yes
+
+	trigger = {
+		tag = ROM
+		set_temp_variable = { offset = rom_progressive_strength }
+		subtract_from_temp_variable = { offset = 2 }
+		check_variable = {
+			var = rom_conservative_strength
+			value = offset
+			compare = less_than_or_equals
+		}
+	}
+
+	mean_time_to_happen = {
+		days = 7
+	}
+
+	option = {
+		log = "[GetDateText]: [Root.GetName]: event romania.13 option romania.13.a"
+		name = romania.13.a
+		add_popularity = {
+			ideology = social_liberal
+			popularity = 0.025
+		}
+		clr_country_flag = ROM_conservative_coalition
+	}
+}
+country_event = { # Maniu Faction Leaves the Coalition
+	id = romania.14
+	immediate = {log = "[GetDateText]: [Root.GetName]: event romania.14"}
+	title = romania.14.t
+	desc = romania.14.d
+	picture = GFX_report_event_canada_patriation
+	fire_only_once = yes
+
+	trigger = {
+		tag = ROM
+		set_temp_variable = { offset = rom_conservative_strength }
+		subtract_from_temp_variable = { offset = 2 }
+		check_variable = {
+			var = rom_progressive_strength
+			value = offset
+			compare = less_than_or_equals
+		}
+	}
+
+	mean_time_to_happen = {
+		days = 7
+	}
+
+	option = {
+		log = "[GetDateText]: [Root.GetName]: event romania.14 option romania.14.a"
+		name = romania.14.a
+		add_popularity = {
+			ideology = social_conservative
+			popularity = 0.025
+		}
+		clr_country_flag = ROM_progressive_coalition
+	}
+}
+
+country_event = { # Peasant Unrest in Bucharest
+	id = romania.15
+	immediate = {log = "[GetDateText]: [Root.GetName]: event romania.15"}
+	title = romania.15.t
+	desc = romania.15.d
+	picture = GFX_report_event_worker_protests
+	fire_only_once = yes
+
+	trigger = {
+		tag = ROM
+		date > 1936.10.12
+	}
+
+	option = {
+		log = "[GetDateText]: [Root.GetName]: event romania.15 option romania.15.a"
+		name = romania.15.a
+		add_political_power = -50
+	}
+	option = {
+		log = "[GetDateText]: [Root.GetName]: event romania.15 option romania.15.b"
+		name = romania.15.b
+		add_stability = -0.05
+	}
+}
+
+country_event = { # Nationalization of Foreign Corporations
+	id = romania.16
+	immediate = {log = "[GetDateText]: [Root.GetName]: event romania.16"}
+	title = romania.16.t
+	desc = romania.16.d
+	picture = GFX_report_event_generic_sign_treaty3
+	is_triggered_only = yes
+
+	option = { # Nationalize it.
+		log = "[GetDateText]: [Root.GetName]: event romania.16 option romania.16.a"
+		name = romania.16.a
+		add_political_power = -50
+		add_offsite_building = {
+			type = industrial_complex
+			level = 3
+		}
+	}
+	option = { # Continue
+		log = "[GetDateText]: [Root.GetName]: event romania.16 option romania.16.b"
+		name = romania.16.b
+		add_offsite_building = {
+			type = industrial_complex
+			level = 2
+		}
+	}
+}
+
+country_event = { # 1937 General Elections
+	id = romania.17
+	immediate = {log = "[GetDateText]: [Root.GetName]: event romania.17"}
+	title = romania.17.t
+	picture = GFX_report_event_election_vote
+	is_triggered_only = yes
+
+	desc = {
+		text = romania.17.d1
+		trigger = {
+			NOT = { has_country_flag = ROM_iron_guard_banned }
+		}
+	}
+	desc = {
+		text = romania.17.d2
+		trigger = {
+			has_country_flag = ROM_iron_guard_banned
+		}
+	}
+
+	trigger = {
+		tag = ROM
+		date > 1937.1.1
+		date < 1938.1.1
+		NOT = {
+			OR = {
+				has_country_flag = ROM_had_1937_elections
+				has_country_flag = ROM_direct_rule_from_bucharest
+				has_country_flag = ROM_valkist_romania
+			}
+		}
+	}
+
+	option = { # Peasants Party
+		log = "[GetDateText]: [Root.GetName]: event romania.17 option romania.17.a"
+		name = romania.17.a
+		ai_chance = {
+			factor = 10
+			modifier = {
+				factor = 4
+				has_country_flag = ROM_democratic_behavior
+			}
+		}
+		set_politics = {
+			ruling_party = authoritarian_democrat
+			elections_allowed = yes
+		}
+		set_country_flag = ROM_had_1937_elections
+		set_country_flag = ROM_status_quo_election
+		remove_every_minister = yes
+
+		activate_advisor = ROM_Armand_Calinescu_hog_ade
+		activate_advisor = ROM_Grigore_Niculescu_Buzesti_for_ade
+		activate_advisor = ROM_Gheorghe_Potopeanu_eco_pau
+		activate_advisor = ROM_Aurel_Aldea_sec_sco
+
+		hidden_effect = {
+			mark_focus_tree_layout_dirty = yes
+			random_other_country = {
+				news_event = { id = fxnews.24 hours = 8 }
+			}
+			set_country_flag = ROM_democratic_romania
+			country_event = { id = romania.25 days = 100 }
+			country_event = { id = romania.59 days = 5 }
+		}
+	}
+	option = { # PNL - MarLib
+		log = "[GetDateText]: [Root.GetName]: event romania.17 option romania.17.b"
+		name = romania.17.b
+		ai_chance = {
+			factor = 10
+			modifier = {
+				factor = 40
+				has_country_flag = ROM_socialist_behavior
+			}
+			modifier = {
+				factor = 20
+				OR = {
+					has_country_flag = ROM_conservative_coalition
+					has_country_flag = ROM_progressive_coalition
+				}
+			}
+		}
+		set_politics = {
+			ruling_party = market_liberal
+			elections_allowed = yes
+		}
+		increase_ruling_party_popularity_by_15 = yes
+		set_country_flag = ROM_had_1937_elections
+		set_country_flag = ROM_liberal_election
+		remove_every_minister = yes
+		if = {
+			limit = {
+				has_country_flag = ROM_conservative_coalition
+				has_country_flag = ROM_progressive_coalition
+			}
+			add_coalition_social_liberal = yes
+			add_coalition_social_conservative = yes
+
+			activate_advisor = ROM_Constantin_Bratianu_hog_mli
+			activate_advisor = ROM_Grigore_Gafencu_for_sli
+			activate_advisor = ROM_Gheorghe_Mironescu_eco_sco
+			activate_advisor = ROM_Victor_Iamandi_sec_mli
+
+			add_popularity = {
+				ideology = social_liberal
+				popularity = 0.05
+			}
+			add_popularity = {
+				ideology = social_conservative
+				popularity = 0.05
+			}
+		}
+		else_if = {
+			limit = { has_country_flag = ROM_conservative_coalition }
+			add_coalition_social_conservative = yes
+
+			activate_advisor = ROM_Constantin_Bratianu_hog_mli
+			activate_advisor = ROM_Viorel_Tilea_for_sco
+			activate_advisor = ROM_Mitita_Constantinescu_eco_mli
+			activate_advisor = ROM_Mihail_Ghelmegeanu_sec_sco
+
+			add_popularity = {
+				ideology = social_conservative
+				popularity = 0.1
+			}
+		}
+		else_if = {
+			limit = { has_country_flag = ROM_progressive_coalition }
+			add_coalition_social_liberal = yes
+
+			activate_advisor = ROM_Constantin_Bratianu_hog_mli
+			activate_advisor = ROM_Grigore_Gafencu_for_sli
+			activate_advisor = ROM_Victor_Slavescu_eco_mli
+			activate_advisor = ROM_Richard_Franasovici_sec_mli
+
+			add_popularity = {
+				ideology = social_liberal
+				popularity = 0.1
+			}
+		}
+		else = {
+
+			activate_advisor = ROM_Constantin_Bratianu_hog_mli
+			activate_advisor = ROM_Savel_Radulescu_for_mli
+			activate_advisor = ROM_Mitita_Constantinescu_eco_mli
+			activate_advisor = ROM_Victor_Iamandi_sec_mli
+
+		}
+		hidden_effect = {
+			mark_focus_tree_layout_dirty = yes
+			random_other_country = {
+				news_event = { id = fxnews.22 hours = 8 }
+			}
+			set_country_flag = ROM_democratic_romania
+			country_event = { id = romania.25 days = 100 }
+			country_event = { id = romania.59 days = 5 }
+		}
+	}
+	option = { # PSDR
+		log = "[GetDateText]: [Root.GetName]: event romania.17 option romania.17.c"
+		name = romania.17.c
+		ai_chance = {
+			factor = 20
+			modifier = {
+				factor = 10
+				has_country_flag = ROM_democratic_behavior
+			}
+			modifier = {
+				factor = 10
+				has_country_flag = ROM_socialist_behavior
+			}
+		}
+		set_politics = {
+			ruling_party = social_democrat
+			elections_allowed = yes
+		}
+		increase_ruling_party_popularity_by_15 = yes
+		set_country_flag = ROM_had_1937_elections
+		set_country_flag = ROM_leftist_election
+		remove_every_minister = yes
+		if = {
+			limit = { has_country_flag = ROM_leftist_coalition }
+			add_coalition_libertarian_socialist = yes
+
+			activate_advisor = ROM_Virgil_Madgearu_hog_sde
+			activate_advisor = ROM_Ana_Pauker_for_col
+			activate_advisor = ROM_Ion_Mihalache_eco_sde
+			activate_advisor = ROM_Pantelimon_Halippa_sec_sde
+
+		}
+		else = {
+
+			activate_advisor = ROM_Virgil_Madgearu_hog_sde
+			activate_advisor = ROM_Grigore_Gafencu_for_sli
+			activate_advisor = ROM_Ion_Mihalache_eco_sde
+			activate_advisor = ROM_Pantelimon_Halippa_sec_sde
+
+		}
+		hidden_effect = {
+			mark_focus_tree_layout_dirty = yes
+			random_other_country = {
+				news_event = { id = fxnews.23 hours = 8 }
+			}
+			set_country_flag = ROM_democratic_romania
+			country_event = { id = romania.24 days = 100 }
+			country_event = { id = romania.59 days = 5 }
+		}
+	}
+	option = { # Iron Guard
+		log = "[GetDateText]: [Root.GetName]: event romania.17 option romania.17.e"
+		name = romania.17.e
+		ai_chance = {
+			factor = 10
+			modifier = {
+				factor = 200
+				has_country_flag = ROM_valkist_behavior
+			}
+		}
+		trigger = {
+			NOT = { has_country_flag = ROM_iron_guard_banned }
+			NOT = { has_country_flag = ROM_banned_radicals }
+		}
+		if = {
+			limit = { has_idea = ROM_the_iron_guard }
+			remove_ideas = ROM_the_iron_guard
+		}
+		set_politics = {
+			ruling_party = valkist
+			elections_allowed = no
+		}
+		increase_ruling_party_popularity_by_15 = yes
+		set_country_flag = ROM_had_1937_elections
+		remove_every_minister = yes
+
+		activate_advisor = ROM_Corneliu_Zelea_Codreanu_hog_val
+		activate_advisor = ROM_Ion_Mota_for_val
+		activate_advisor = ROM_Gheorghe_Clime_eco_val
+		activate_advisor = ROM_Ion_Belgea_sec_val
+
+		hidden_effect = {
+			set_country_flag = ROM_valkist_romania
+			mark_focus_tree_layout_dirty = yes
+			swap_ideas = {
+				remove_idea = constitutional_monarchy
+				add_idea = one_party_dictatorship
+			}
+			random_other_country = {
+				news_event = { id = fxnews.31 hours = 8 }
+			}
+		}
+	}
+	option = { # PNC
+		log = "[GetDateText]: [Root.GetName]: event romania.17 option romania.17.f"
+		name = romania.17.f
+		ai_chance = { factor = 0 } # Easter Egg
+		trigger = {
+			has_country_flag = ROM_iron_guard_banned
+			NOT = { has_country_flag = ROM_banned_radicals }
+		}
+		set_politics = {
+			ruling_party = national_populist
+			elections_allowed = no
+		}
+		increase_ruling_party_popularity_by_15 = yes
+		set_country_flag = ROM_had_1937_elections
+		remove_every_minister = yes
+
+		activate_advisor = ROM_Horia_Sima_hog_npo
+		activate_advisor = ROM_Mihail_Sturdza_for_npo
+		activate_advisor = ROM_Ilie_Garneata_eco_npo
+		activate_advisor = ROM_Horia_Sima_sec_npo
+
+		hidden_effect = {
+			set_country_flag = ROM_natpop_romania
+			mark_focus_tree_layout_dirty = yes
+			random_other_country = {
+				news_event = { id = fxnews.25 hours = 8 }
+			}
+		}
+	}
+}
+
+country_event = { # North Railway Station Fire
+	id = romania.18
+	immediate = {log = "[GetDateText]: [Root.GetName]: event romania.18"}
+	title = romania.18.t
+	desc = romania.18.d
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	option = { # Tell the press the truth
+		log = "[GetDateText]: [Root.GetName]: event romania.18 option romania.18.a"
+		name = romania.18.a
+		add_political_power = -10
+	}
+	option = { # Blame Hungarian Nationalists
+		log = "[GetDateText]: [Root.GetName]: event romania.18 option romania.18.b"
+		name = romania.18.b
+		trigger = {
+			NOT = { is_subject_of = HUN }
+		}
+		increase_ruling_party_popularity_by_5 = yes
+	}
+	option = { # Blame the Iron Guard
+		log = "[GetDateText]: [Root.GetName]: event romania.18 option romania.18.c"
+		name = romania.18.c
+		trigger = {
+			NOT = { has_government = valkist }
+		}
+		add_popularity = {
+			ideology = valkist
+			popularity = -0.05
+		}
+	}
+}
+
+country_event = { # Deploying troops in Transylvania
+	id = romania.19
+	immediate = {log = "[GetDateText]: [Root.GetName]: event romania.19"}
+	title = romania.19.t
+	desc = romania.19.d
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	option = { # Deploy the reserves
+		log = "[GetDateText]: [Root.GetName]: event romania.19 option romania.19.a"
+		name = romania.19.a
+		ai_chance = {
+			factor = 10
+			modifier = {
+				factor = 100
+				has_country_flag = ROM_autocrat_behavior
+			}
+		}
+		hidden_effect = {
+			country_event = { id = romania.20 days = 18 }
+		}
+	}
+	option = { # Send some of the reserves
+		log = "[GetDateText]: [Root.GetName]: event romania.19 option romania.19.b"
+		name = romania.19.b
+		ai_chance = {
+			factor = 10
+			modifier = {
+				factor = 100
+				has_country_flag = ROM_autocrat_behavior
+			}
+		}
+		set_country_flag = ROM_deployed_some_of_troops
+		hidden_effect = {
+			country_event = { id = romania.20 days = 18 }
+		}
+	}
+	option = { # Let the local authorities handle it
+		log = "[GetDateText]: [Root.GetName]: event romania.19 option romania.19.c"
+		name = romania.19.c
+		ai_chance = {
+			factor = 80
+			modifier = {
+				factor = 20
+				NOT = {
+					has_country_flag = ROM_autocrat_behavior
+				}
+			}
+		}
+		add_political_power = -50
+	}
+}
+
+country_event = { # Prince Michael Assassinated!
+	id = romania.20
+	immediate = {log = "[GetDateText]: [Root.GetName]: event romania.20"}
+	title = romania.20.t
+	picture = GFX_report_event_europe_funeral
+	is_triggered_only = yes
+
+	desc = {
+		text = romania.20.d1
+		trigger = {
+			NOT = { has_country_flag = ROM_deployed_some_of_troops }
+		}
+	}
+	desc = {
+		text = romania.20.d2
+		trigger = {
+			has_country_flag = ROM_deployed_some_of_troops
+		}
+	}
+
+	option = { # The kingdom mourns...
+		log = "[GetDateText]: [Root.GetName]: event romania.20 option romania.20.a"
+		name = romania.20.a
+		set_country_flag = ROM_michael_assassinated
+		hidden_effect = {
+			retire_character = ROM_Michael_von_Hohenzollern_Sigmaringen
+			country_event = { id = romania.32 days = 7 } # The Empty Romanian Throne
+		}
+	}
+}
+
+country_event = { # Coronation of Nicholas I
+	id = romania.21
+	immediate = {log = "[GetDateText]: [Root.GetName]: event romania.21"}
+	title = romania.21.t
+	desc = romania.21.d
+	picture = GFX_report_event_german_speech
+	is_triggered_only = yes
+
+	option = { # God Save the King!
+		log = "[GetDateText]: [Root.GetName]: event romania.21 option romania.21.a"
+		name = romania.21.a
+		hidden_effect = {
+			if = {
+				limit = { has_country_flag = ROM_deployed_some_of_troops }
+				country_event = { id = romania.22 days = 14 }
+			}
+			ROM_make_nicholas_king = yes
+			random_other_country = {
+				news_event = { id = fxnews.30 hours = 8 }
+			}
+		}
+	}
+}
+
+country_event = { # Iron Guard Behind Assassination
+	id = romania.22
+	immediate = {log = "[GetDateText]: [Root.GetName]: event romania.22"}
+	title = romania.22.t
+	desc = romania.22.d
+	picture = GFX_report_event_romanian_soldiers
+	is_triggered_only = yes
+
+	trigger = {
+		tag = ROM
+		NOT = { has_government = valkist }
+	}
+
+	option = { # Ban the Iron Guard
+		log = "[GetDateText]: [Root.GetName]: event romania.22 option romania.22.a"
+		name = romania.22.a
+		add_stability = 0.05
+		set_country_flag = ROM_iron_guard_banned
+		if = {
+			limit = { has_idea = ROM_the_iron_guard }
+			remove_ideas = ROM_the_iron_guard
+		}
+		add_popularity = {
+			ideology = valkist
+			popularity = -0.25
+		}
+		hidden_effect = {
+			country_event = { id = romania.23 days = 3 }
+		}
+	}
+	option = { # Exile Codreanu
+		log = "[GetDateText]: [Root.GetName]: event romania.22 option romania.22.b"
+		name = romania.22.b
+		add_political_power = 100
+		set_country_flag = ROM_codreanu_exiled
+		retire_character = ROM_Corneliu_Zelea_Codreanu
+		add_country_leader_role = {
+			character = ROM_Ion_Mota
+			promote_leader = yes
+			country_leader = {
+				ideology = valkist_subtype
+				traits = {}
+			}
+		}
+		hidden_effect = {
+			country_event = { id = romania.23 days = 3 }
+			GER = {
+				country_event = { id = romania.31 days = 2 }
+			}
+		}
+	}
+}
+
+country_event = { # The King's and Romania's Safety
+	id = romania.23
+	immediate = {log = "[GetDateText]: [Root.GetName]: event romania.23"}
+	title = romania.23.t
+	desc = romania.23.d
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	trigger = {
+		tag = ROM
+		NOT = { has_government = valkist }
+	}
+
+	option = { # The King orders the abolishment of Parliament
+		log = "[GetDateText]: [Root.GetName]: event romania.23 option romania.23.a"
+		name = romania.23.a
+		ai_chance = {
+			factor = 10
+			modifier = {
+				factor = 100
+				has_country_flag = ROM_autocrat_behavior
+			}
+		}
+		remove_coalition_social_conservative = yes
+		remove_coalition_social_liberal = yes
+		remove_coalition_libertarian_socialist = yes
+		set_politics = {
+			ruling_party = paternal_autocrat
+			elections_allowed = no
+		}
+		increase_ruling_party_popularity_by_25 = yes
+		set_country_flag = ROM_direct_rule_from_bucharest
+		clr_country_flag = ROM_democratic_romania
+		remove_every_minister = yes
+
+		activate_advisor = ROM_Alexandru_Cantacuzino_hog_pau
+		activate_advisor = ROM_Grigore_Niculescu_Buzesti_for_ade
+		activate_advisor = ROM_Gheorghe_Potopeanu_eco_pau
+		activate_advisor = ROM_Horia_Sima_sec_npo
+
+		hidden_effect = {
+			mark_focus_tree_layout_dirty = yes
+			swap_ideas = {
+				remove_idea = constitutional_monarchy
+				add_idea = absolute_monarchy
+			}
+		}
+	}
+	option = { # The King orders the banning of radical parties
+		log = "[GetDateText]: [Root.GetName]: event romania.23 option romania.23.b"
+		name = romania.23.b
+		add_stability = 0.15
+		set_country_flag = ROM_banned_radicals
+		add_popularity = {
+			ideology = vanguardist
+			popularity = -0.15
+		}
+		add_popularity = {
+			ideology = collectivist
+			popularity = -0.15
+		}
+		add_popularity = {
+			ideology = libertarian_socialist
+			popularity = -0.15
+		}
+		add_popularity = {
+			ideology = national_populist
+			popularity = -0.15
+		}
+		add_popularity = {
+			ideology = valkist
+			popularity = -0.15
+		}
+	}
+}
+
+country_event = { # Prime Minister Assassinated!
+	id = romania.24
+	immediate = {log = "[GetDateText]: [Root.GetName]: event romania.24"}
+	title = romania.24.t
+	desc = romania.24.d
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	trigger = {
+		tag = ROM
+		NOT = {
+			OR = {
+				has_country_flag = ROM_iron_guard_banned
+				has_completed_focus = ROM_ban_the_radical_far_right
+				has_completed_focus = ROM_hunt_down_the_iron_guard
+			}
+		}
+	}
+
+	option = { # PDaT Assumes Control
+		log = "[GetDateText]: [Root.GetName]: event romania.24 option romania.24.a"
+		name = romania.24.a
+		ai_chance = {
+			factor = 10
+			modifier = {
+				factor = 100
+				has_country_flag = ROM_socialist_behavior
+			}
+		}
+		trigger = {
+			has_country_flag = ROM_leftist_coalition
+		}
+		set_politics = {
+			ruling_party = libertarian_socialist
+			elections_allowed = no
+		}
+		increase_ruling_party_popularity_by_25 = yes
+		remove_every_minister = yes
+
+		activate_advisor = ROM_Gheorghe_Apostol_hog_col
+		activate_advisor = ROM_Ana_Pauker_for_col
+		activate_advisor = ROM_Miron_Constantinescu_eco_van
+		activate_advisor = ROM_Teohari_Georgescu_sec_van
+
+		hidden_effect = {
+			set_country_flag = ROM_socialist_romania
+			clr_country_flag = ROM_democratic_romania
+			remove_coalition_libertarian_socialist = yes
+			mark_focus_tree_layout_dirty = yes
+			country_event = { id = romania.30 days = 2 }
+		}
+	}
+	option = { # Suprise Iron Guard Coup
+		ai_chance = {
+			base = 0
+		}
+		log = "[GetDateText]: [Root.GetName]: event romania.24 option romania.24.b"
+		name = romania.24.b
+		set_politics = {
+			ruling_party = valkist
+			elections_allowed = no
+		}
+		increase_ruling_party_popularity_by_10 = yes
+		remove_every_minister = yes
+
+		activate_advisor = ROM_Corneliu_Zelea_Codreanu_hog_val
+		activate_advisor = ROM_Ion_Mota_for_val
+		activate_advisor = ROM_Gheorghe_Clime_eco_val
+		activate_advisor = ROM_Ion_Belgea_sec_val
+
+		hidden_effect = {
+			set_country_flag = ROM_valkist_romania
+			clr_country_flag = ROM_democratic_romania
+			mark_focus_tree_layout_dirty = yes
+			add_ideas = one_party_dictatorship
+			random_other_country = {
+				news_event = { id = fxnews.26 hours = 8 }
+			}
+		}
+	}
+}
+
+country_event = { # Iron Guard Coups the Government!
+	id = romania.25
+	immediate = {log = "[GetDateText]: [Root.GetName]: event romania.25"}
+	title = romania.25.t
+	desc = romania.25.d
+	picture = GFX_report_event_french_resistance_01
+	is_triggered_only = yes
+
+	trigger = {
+		tag = ROM
+		NOT = {
+			OR = {
+				has_country_flag = ROM_iron_guard_banned
+				has_completed_focus = ROM_disarm_the_extremists
+			}
+		}
+	}
+
+	option = { # Loyal Units Suppressed Valkist Militias
+		log = "[GetDateText]: [Root.GetName]: event romania.25 option romania.25.a"
+		name = romania.25.a
+		add_political_power = 100
+		ai_chance = {
+			base = 10
+			modifier = {
+				add = 100
+				has_country_flag = ROM_democratic_behavior
+			}
+		}
+		hidden_effect = {
+			country_event = { id = romania.30 days = 2 }
+		}
+	}
+	option = { # The Prime Minister is assassinated, but militias were stopped
+		log = "[GetDateText]: [Root.GetName]: event romania.25 option romania.25.b"
+		name = romania.25.b
+		trigger = {
+			has_country_flag = ROM_liberal_regent
+		}
+		hidden_effect = {
+			country_event = { id = romania.30 days = 2 }
+		}
+		ai_chance = {
+			factor = 10
+			modifier = {
+				factor = 100
+				has_country_flag = ROM_democratic_behavior
+			}
+		}
+
+		if = {
+			limit = {
+				has_country_flag = ROM_conservative_coalition
+				has_country_flag = ROM_progressive_coalition
+				check_variable = { rom_conservative_strength > rom_progressive_strength }
+			}
+			remove_coalition_social_liberal = yes
+			set_politics = {
+				ruling_party = social_conservative
+				elections_allowed = yes
+			}
+			increase_ruling_party_popularity_by_15 = yes
+			remove_every_minister = yes
+
+			activate_advisor = ROM_Alexandru_Vaida_Voevod_hog_sco
+			activate_advisor = ROM_Viorel_Tilea_for_sco
+			activate_advisor = ROM_Gheorghe_Mironescu_eco_sco
+			activate_advisor = ROM_Alexandru_Vaida_Voevod_sec_sco
+
+			clear_variable = rom_conservative_strength
+			clear_variable = rom_progressive_strength
+			clr_country_flag = ROM_conservative_coalition
+			clr_country_flag = ROM_progressive_coalition
+			set_country_flag = ROM_conservative_pnl
+		}
+		else_if = {
+			limit = {
+				has_country_flag = ROM_conservative_coalition
+				has_country_flag = ROM_progressive_coalition
+				check_variable = { rom_progressive_strength > rom_conservative_strength }
+			}
+			remove_coalition_social_conservative = yes
+			set_politics = {
+				ruling_party = social_liberal
+				elections_allowed = yes
+			}
+			increase_ruling_party_popularity_by_15 = yes
+			remove_every_minister = yes
+
+			activate_advisor = ROM_Iuliu_Maniu_hog_sli
+			activate_advisor = ROM_Grigore_Gafencu_for_sli
+			activate_advisor = ROM_Gheorghe_Tatarescu_eco_mli
+			activate_advisor = ROM_Victor_Iamandi_sec_mli
+
+			clear_variable = rom_conservative_strength
+			clear_variable = rom_progressive_strength
+			clr_country_flag = ROM_conservative_coalition
+			clr_country_flag = ROM_progressive_coalition
+			set_country_flag = ROM_progressive_pnl
+		}
+		else = {
+			remove_ideas_with_trait = head_of_government
+			add_ideas = ROM_Constantin_Angelescu_hog_mli
+			clear_variable = rom_conservative_strength
+			clear_variable = rom_progressive_strength
+			clr_country_flag = ROM_conservative_coalition
+			clr_country_flag = ROM_progressive_coalition
+		}
+	}
+	option = { # The Coup Succeeds
+		log = "[GetDateText]: [Root.GetName]: event romania.25 option romania.25.c"
+		name = romania.25.c
+		ai_chance = {
+			base = 0
+		}
+		remove_coalition_social_conservative = yes
+		remove_coalition_social_liberal = yes
+		set_politics = {
+			ruling_party = valkist
+			elections_allowed = no
+		}
+		increase_ruling_party_popularity_by_10 = yes
+		remove_every_minister = yes
+
+		activate_advisor = ROM_Corneliu_Zelea_Codreanu_hog_val
+		activate_advisor = ROM_Ion_Mota_for_val
+		activate_advisor = ROM_Gheorghe_Clime_eco_val
+		activate_advisor = ROM_Ion_Belgea_sec_val
+
+		hidden_effect = {
+			add_ideas = one_party_dictatorship
+			random_other_country = {
+				news_event = { id = fxnews.31 hours = 8 }
+			}
+			set_country_flag = ROM_valkist_romania
+			clr_country_flag = ROM_democratic_romania
+			mark_focus_tree_layout_dirty = yes
+		}
+	}
+}
+
+country_event = { # The Monarch
+	id = romania.26
+	immediate = {log = "[GetDateText]: [Root.GetName]: event romania.26"}
+	title = romania.26.t
+	desc = romania.26.d
+	picture = GFX_report_event_generic_sign_treaty3
+
+	trigger = {
+		tag = ROM
+		has_country_flag = ROM_had_1937_elections
+		has_country_flag = ROM_empty_throne
+		NOT = {
+			OR = {
+				has_government = vanguardist
+				has_government = collectivist
+				has_government = libertarian_socialist
+				has_government = valkist
+			}
+		}
+		ROM_Regency_Council = {
+			is_country_leader = yes
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 1
+	}
+
+	option = {
+		log = "[GetDateText]: [Root.GetName]: event romania.26 option romania.26.a"
+		name = romania.26.a
+		ai_chance = {
+			factor = 10
+			modifier = {
+				factor = 100
+				has_country_flag = ROM_autocrat_behavior
+			}
+		}
+		hidden_effect = {
+			country_event = { id = romania.21 days = 2 }
+		}
+	}
+	option = {
+		log = "[GetDateText]: [Root.GetName]: event romania.26 option romania.26.b"
+		name = romania.26.b
+		ai_chance = {
+			factor = 0
+		}
+		hidden_effect = {
+			country_event = { id = romania.27 days = 2 }
+		}
+	}
+}
+
+country_event = { # Coronation of Alexander I
+	id = romania.27
+	immediate = {log = "[GetDateText]: [Root.GetName]: event romania.27"}
+	title = romania.27.t
+	desc = romania.27.d
+	picture = GFX_report_event_german_speech
+	is_triggered_only = yes
+
+	option = { # God Save the King!
+		log = "[GetDateText]: [Root.GetName]: event romania.27 option romania.27.a"
+		name = romania.27.a
+		add_country_leader_role = {
+			character = ROM_Alexandru_Cantacuzino
+			promote_leader = yes
+			country_leader = {
+				ideology = vanguardist_subtype
+				traits = {}
+			}
+		}
+		add_country_leader_role = {
+			character = ROM_Alexandru_Cantacuzino
+			promote_leader = yes
+			country_leader = {
+				ideology = collectivist_subtype
+				traits = {}
+			}
+		}
+		add_country_leader_role = {
+			character = ROM_Alexandru_Cantacuzino
+			promote_leader = yes
+			country_leader = {
+				ideology = libertarian_socialist_subtype
+				traits = {}
+			}
+		}
+		add_country_leader_role = {
+			character = ROM_Alexandru_Cantacuzino
+			promote_leader = yes
+			country_leader = {
+				ideology = social_democrat_subtype
+				traits = {}
+			}
+		}
+		add_country_leader_role = {
+			character = ROM_Alexandru_Cantacuzino
+			promote_leader = yes
+			country_leader = {
+				ideology = social_liberal_subtype
+				traits = {}
+			}
+		}
+		add_country_leader_role = {
+			character = ROM_Alexandru_Cantacuzino
+			promote_leader = yes
+			country_leader = {
+				ideology = market_liberal_subtype
+				traits = {}
+			}
+		}
+		add_country_leader_role = {
+			character = ROM_Alexandru_Cantacuzino
+			promote_leader = yes
+			country_leader = {
+				ideology = social_conservative_subtype
+				traits = {}
+			}
+		}
+		add_country_leader_role = {
+			character = ROM_Alexandru_Cantacuzino
+			promote_leader = yes
+			country_leader = {
+				ideology = authoritarian_democrat_subtype
+				traits = {}
+			}
+		}
+		add_country_leader_role = {
+			character = ROM_Alexandru_Cantacuzino
+			promote_leader = yes
+			country_leader = {
+				ideology = paternal_autocrat_subtype
+				traits = {}
+			}
+		}
+		add_country_leader_role = {
+			character = ROM_Alexandru_Cantacuzino
+			promote_leader = yes
+			country_leader = {
+				ideology = national_populist_subtype
+				traits = {}
+			}
+		}
+	}
+}
+
+country_event = { # Economic Plan
+	id = romania.28
+	immediate = {log = "[GetDateText]: [Root.GetName]: event romania.28"}
+	title = romania.28.t
+	desc = romania.28.d
+	picture = GFX_report_event_carol_meeting
+	is_triggered_only = yes
+
+	option = { # Conservative Economic Plan
+		log = "[GetDateText]: [Root.GetName]: event romania.28 option romania.28.a"
+		name = romania.28.a
+		ROM_increase_conservative_strength = yes
+	}
+	option = { # Progressive Economic Plan
+		log = "[GetDateText]: [Root.GetName]: event romania.28 option romania.28.b"
+		name = romania.28.b
+		ROM_increase_progressive_strength = yes
+	}
+}
+
+country_event = { # PDaT and PSDR Failed Coalition
+	id = romania.29
+	immediate = {log = "[GetDateText]: [Root.GetName]: event romania.29"}
+	title = romania.29.t
+	desc = romania.29.d
+	picture = GFX_report_event_generic_sign_treaty1
+	is_triggered_only = yes
+
+	option = { # They may be socialists but they are nothing alike...
+		log = "[GetDateText]: [Root.GetName]: event romania.29 option romania.29.a"
+		name = romania.29.a
+		add_political_power = 150
+	}
+}
+
+country_event = { # Status of the Iron Guard
+	id = romania.30
+	immediate = {log = "[GetDateText]: [Root.GetName]: event romania.30"}
+	title = romania.30.t
+	desc = romania.30.d
+	picture = GFX_report_event_french_resistance_01
+	is_triggered_only = yes
+
+	trigger = {
+		tag = ROM
+		NOT = { has_government = valkist }
+	}
+
+	option = { # Ban them
+		log = "[GetDateText]: [Root.GetName]: event romania.30 option romania.30.a"
+		name = romania.30.a
+		add_stability = 0.05
+		set_country_flag = ROM_iron_guard_banned
+		if = {
+			limit = { has_idea = ROM_the_iron_guard }
+			remove_ideas = ROM_the_iron_guard
+		}
+		add_popularity = {
+			ideology = valkist
+			popularity = -0.25
+		}
+	}
+	option = { # Exile the prominent leaders
+		log = "[GetDateText]: [Root.GetName]: event romania.30 option romania.30.b"
+		name = romania.30.b
+		trigger = {
+			GER = { has_government = valkist }
+		}
+		add_political_power = 30
+		GER = {
+			country_event = { id = romania.31 days = 3 }
+		}
+	}
+}
+
+country_event = { # Codreanu Arrives in Berlin
+	id = romania.31
+	immediate = {log = "[GetDateText]: [Root.GetName]: event romania.31"}
+	title = romania.31.t
+	desc = romania.31.d
+	picture = GFX_report_event_germany_politician_handshake
+	is_triggered_only = yes
+
+	trigger = {
+		tag = GER
+		has_government = valkist
+	}
+
+	option = {
+		log = "[GetDateText]: [Root.GetName]: event romania.31 option romania.31.a"
+		name = romania.31.a
+		add_political_power = 50
+	}
+}
+
+country_event = { # The Empty Romanian Throne
+	id = romania.32
+	immediate = {log = "[GetDateText]: [Root.GetName]: event romania.32"}
+	title = romania.32.t
+	desc = romania.32.d
+	picture = GFX_report_event_germany_politician_handshake
+	is_triggered_only = yes
+
+	option = { # Invite Prince Nicholas to assume the throne
+		log = "[GetDateText]: [Root.GetName]: event romania.32 option romania.32.a"
+		name = romania.32.a
+		hidden_effect = {
+			country_event = { id = romania.21 days = 2 }
+		}
+	}
+	option = { # Let's do this after the elections
+		log = "[GetDateText]: [Root.GetName]: event romania.32 option romania.32.b"
+		name = romania.32.b
+		set_country_flag = ROM_empty_throne
+	}
+}
+
+country_event = { # Iron Guard Hostile to New Socialist Government
+	id = romania.33
+	immediate = {log = "[GetDateText]: [Root.GetName]: event romania.33"}
+	title = romania.33.t
+	desc = romania.33.d
+	picture = GFX_report_event_french_resistance_02
+	is_triggered_only = yes
+
+	option = { # Raid their headquarters
+		log = "[GetDateText]: [Root.GetName]: event romania.33 option romania.33.a"
+		name = romania.33.a
+		add_political_power = -50
+	}
+	option = { # Arrest the members from their homes
+		log = "[GetDateText]: [Root.GetName]: event romania.33 option romania.33.b"
+		name = romania.33.b
+		add_political_power = -20
+	}
+}
+
+country_event = { # Iron Guard Suppressed
+	id = romania.34
+	immediate = {log = "[GetDateText]: [Root.GetName]: event romania.34"}
+	title = romania.34.t
+	desc = romania.34.d
+	picture = GFX_report_event_french_resistance_02
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetDateText]: [Root.GetName]: event romania.34 option romania.34.a"
+		name = romania.34.a
+		add_stability = 0.05
+		if = {
+			limit = { has_idea = ROM_the_iron_guard }
+			remove_ideas = ROM_the_iron_guard
+		}
+		add_popularity = {
+			ideology = valkist
+			popularity = -0.2
+		}
+	}
+}
+
+country_event = { # Iron Guard Launches Revolt
+	id = romania.35
+	title = romania.35.t
+	desc = romania.35.d
+	picture = GFX_report_event_french_resistance_02
+	is_triggered_only = yes
+
+	immediate = {
+		log = "[GetDateText]: [Root.GetName]: event romania.35"
+		hidden_effect = {
+			delete_unit = { state = 78 disband = yes }
+			delete_unit = { state = 79 disband = yes }
+			delete_unit = { state = 853 disband = yes }
+			ROR = {
+				add_state_core = 78
+				add_state_core = 79
+				add_state_core = 853
+				transfer_state = 78
+				transfer_state = 79
+				transfer_state = 853
+				load_oob = "ROR"
+				declare_war_on = {
+					target = ROOT
+					type = annex_everything
+				}
+			}
+			add_civil_war_target = ROR
+		}
+	}
+
+	option = {
+		log = "[GetDateText]: [Root.GetName]: event romania.35 option romania.35.a"
+		name = romania.35.a
+		hidden_effect = {
+			random_other_country = {
+				news_event = { id = fxnews.28 hours = 8 }
+			}
+		}
+	}
+}
+
+country_event = { # Royalists Launches Revolt
+	id = romania.36
+	title = romania.36.t
+	desc = romania.36.d
+	picture = GFX_report_event_french_resistance_02
+	is_triggered_only = yes
+
+	immediate = {
+		log = "[GetDateText]: [Root.GetName]: event romania.36"
+		hidden_effect = {
+			delete_unit = { state = 76 disband = yes }
+			delete_unit = { state = 83 disband = yes }
+			delete_unit = { state = 84 disband = yes }
+			ROR = {
+				set_capital = { state = 84 }
+
+				set_politics = {
+					ruling_party = paternal_autocrat
+					elections_allowed = no
+				}
+				add_popularity = {
+					ideology = valkist
+					popularity = -0.5
+				}
+				add_popularity = {
+					ideology = paternal_autocrat
+					popularity = 0.45
+				}
+				remove_every_minister = yes
+
+				add_state_core = 76
+				add_state_core = 83
+				add_state_core = 84
+				transfer_state = 76
+				transfer_state = 83
+				transfer_state = 84
+				load_oob = "ROR_royalist"
+				declare_war_on = {
+					target = ROOT
+					type = annex_everything
+				}
+			}
+			add_civil_war_target = ROR
+		}
+	}
+
+	option = {
+		log = "[GetDateText]: [Root.GetName]: event romania.36 option romania.36.a"
+		name = romania.36.a
+		hidden_effect = {
+			random_other_country = {
+				news_event = { id = fxnews.27 hours = 8 }
+			}
+		}
+	}
+}
+
+country_event = { # Civil War Over
+	id = romania.37
+	immediate = {log = "[GetDateText]: [Root.GetName]: event romania.37"}
+	title = romania.37.t
+	is_triggered_only = yes
+
+	desc = {
+		text = romania.37.d1
+		trigger = {
+			ROR = { has_government = valkist }
+		}
+	}
+	desc = {
+		text = romania.37.d2
+		trigger = {
+			ROR = { has_government = paternal_autocrat }
+		}
+	}
+
+	option = {
+		log = "[GetDateText]: [Root.GetName]: event romania.37 option romania.37.t"
+		name = romania.37.t
+		every_owned_state = {
+			limit = { is_core_of = ROR }
+			remove_core_of = ROR
+		}
+		hidden_effect = {
+			if = {
+				limit = { has_government = paternal_autocrat }
+				country_event = { id = romania.56 days = 3 }
+			}
+			else_if = {
+				limit = { has_government = libertarian_socialist }
+				country_event = { id = romania.57 days = 3 }
+			}
+			else_if = {
+				limit = { has_government = valkist }
+				country_event = { id = romania.58 days = 3 }
+			}
+		}
+	}
+}
+
+country_event = { # Join Faction
+	id = romania.38
+	immediate = {log = "[GetDateText]: [Root.GetName]: event romania.38"}
+	title = romania.38.t
+	picture = GFX_report_event_generic_read_write
+	is_triggered_only = yes
+
+	trigger = {
+		is_faction_leader = yes
+	}
+
+	desc = {
+		text = romania.38.d.entente
+		trigger = { tag = FRA }
+	}
+	desc = {
+		text = romania.38.d.stahlpakt
+		trigger = { tag = GER }
+	}
+	desc = {
+		text = romania.38.d.internationale
+		trigger = { tag = SOV }
+	}
+
+	option = {
+		log = "[GetDateText]: [Root.GetName]: event romania.38 option romania.38.a"
+		name = romania.38.a
+		trigger = { tag = FRA }
+		add_political_power = 20
+
+		ROM = { country_event = { id = romania.39 days = 1 } }
+	}
+	option = {
+		log = "[GetDateText]: [Root.GetName]: event romania.38 option romania.38.b"
+		name = romania.38.b
+		trigger = { tag = FRA }
+		add_political_power = -20
+
+		ROM = { country_event = { id = romania.40 days = 1 } }
+	}
+	option = {
+		log = "[GetDateText]: [Root.GetName]: event romania.38 option romania.38.c"
+		name = romania.38.c
+		trigger = { tag = GER }
+		add_political_power = 20
+
+		ROM = { country_event = { id = romania.39 days = 1 } }
+	}
+	option = {
+		log = "[GetDateText]: [Root.GetName]: event romania.38 option romania.38.e"
+		name = romania.38.e
+		trigger = { tag = GER }
+		add_political_power = -20
+
+		ROM = { country_event = { id = romania.40 days = 1 } }
+	}
+	option = {
+		log = "[GetDateText]: [Root.GetName]: event romania.38 option romania.38.f"
+		name = romania.38.f
+		trigger = { tag = SOV }
+		add_political_power = 20
+
+		ROM = { country_event = { id = romania.39 days = 1 } }
+	}
+	option = {
+		log = "[GetDateText]: [Root.GetName]: event romania.38 option romania.38.g"
+		name = romania.38.g
+		trigger = { tag = SOV }
+		add_political_power = -20
+
+		ROM = { country_event = { id = romania.40 days = 1 } }
+	}
+}
+
+country_event = { # Accepted Faction Join
+	id = romania.39
+	title = romania.39.t
+	desc = romania.39.d
+	picture = GFX_report_event_generic_read_write
+	is_triggered_only = yes
+
+	immediate = {
+		log = "[GetDateText]: [Root.GetName]: event romania.39"
+		hidden_effect = {
+			if = {
+				limit = { is_in_faction = yes }
+				ROOT = {
+					faction_leader = {
+						remove_from_faction = ROOT
+						if = {
+							limit = { 
+								has_war = yes 
+								has_capitulated = no
+							}
+							every_enemy_country = {
+								white_peace = ROOT
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	option = {
+		log = "[GetDateText]: [Root.GetName]: event romania.39 option romania.39.a"
+		name = romania.39.a
+		trigger = { 
+			FROM = { tag = FRA }
+		}
+
+		FROM = {
+			add_to_faction = ROOT
+		}
+	}
+	option = {
+		log = "[GetDateText]: [Root.GetName]: event romania.39 option romania.39.b"
+		name = romania.39.b
+		trigger = { 
+			FROM = { tag = GER }
+		}
+
+		FROM = {
+			add_to_faction = ROOT
+		}
+	}
+	option = {
+		log = "[GetDateText]: [Root.GetName]: event romania.39 option romania.39.c"
+		name = romania.39.c
+		trigger = { 
+			FROM = { tag = SOV }
+		}
+
+		FROM = {
+			add_to_faction = ROOT
+		}
+	}
+}
+
+country_event = { # Rejected Faction Join
+	id = romania.40
+	immediate = {log = "[GetDateText]: [Root.GetName]: event romania.40"}
+	title = romania.40.t
+	desc = romania.40.d
+	picture = GFX_report_event_generic_read_write
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetDateText]: [Root.GetName]: event romania.40 option romania.40.a"
+		name = romania.40.a
+	}
+}
+
+country_event = { # The Athens Conference
+	id = romania.41
+	immediate = {log = "[GetDateText]: [Root.GetName]: event romania.41"}
+	title = romania.41.t
+	desc = romania.41.d
+	picture = GFX_report_event_romania_parliament
+	is_triggered_only = yes
+
+	option = { # Let's do it
+		log = "[GetDateText]: [Root.GetName]: event romania.41 option romania.41.a"
+		name = romania.41.a
+		ROM = {
+			annex_country = {
+				target = PREV
+				transfer_troops = yes
+			}
+		}
+	}
+	option = { # We have other ideas
+		log = "[GetDateText]: [Root.GetName]: event romania.41 option romania.41.b"
+		name = romania.41.b
+		FROM = {
+			country_event = { id = romania.42 hours = 8 }
+		}
+	}
+	option = { # No
+		log = "[GetDateText]: [Root.GetName]: event romania.41 option romania.41.c"
+		name = romania.41.c
+		add_political_power = -50
+		set_country_flag = ROM_failed_conference
+	}
+}
+
+country_event = { # Reverse Uno Card
+	id = romania.42
+	immediate = {log = "[GetDateText]: [Root.GetName]: event romania.42"}
+	title = romania.42.t
+	desc = romania.42.d
+	picture = GFX_report_event_romanian_soldiers
+	is_triggered_only = yes
+
+	option = { # Romania is annexed
+		log = "[GetDateText]: [Root.GetName]: event romania.42 option romania.42.a"
+		name = romania.42.a
+		GRE = {
+			annex_country = {
+				target = PREV
+				transfer_troops = yes
+			}
+		}
+	}
+	option = { # Romania says no
+		log = "[GetDateText]: [Root.GetName]: event romania.42 option romania.42.b"
+		name = romania.42.b
+		country_event = { id = romania.43 hours = 0 }
+	}
+	option = { # Enough of this, we'll strike first
+		log = "[GetDateText]: [Root.GetName]: event romania.42 option romania.42.c"
+		name = romania.42.c
+		declare_war_on = {
+			target = FROM
+			type = annex_everything
+		}
+	}
+}
+
+country_event = { # Greece: Romania said no
+	id = romania.43
+	immediate = {log = "[GetDateText]: [Root.GetName]: event romania.43"}
+	title = romania.43.t
+	desc = romania.43.d
+	picture = GFX_report_event_romanian_soldiers
+	is_triggered_only = yes
+
+	option = { # Shame
+		log = "[GetDateText]: [Root.GetName]: event romania.43 option romania.43.a"
+		name = romania.43.a
+		add_political_power = -100
+		set_country_flag = ROM_failed_conference
+	}
+	option = { # We'll strike first
+		log = "[GetDateText]: [Root.GetName]: event romania.43 option romania.43.b"
+		name = romania.43.b
+		declare_war_on = {
+			target = FROM
+			type = annex_everything
+		}
+	}
+}
+
+country_event = { # 1941 Elections
+	id = romania.44
+	title = romania.44.t
+	desc = romania.44.d
+	picture = GFX_report_event_election_vote
+	is_triggered_only = yes
+
+	trigger = {
+		tag = ROM
+		date > 1941.1.1
+		date < 1942.1.1
+		has_elections = yes
+		NOT = { has_country_flag = ROM_had_1941_elections }
+	}
+
+	immediate = {
+		log = "[GetDateText]: [Root.GetName]: event romania.44"
+		hidden_effect = {
+			clr_country_flag = ROM_leftist_coalition
+			remove_coalition_social_conservative = yes
+			remove_coalition_social_liberal = yes
+			remove_coalition_libertarian_socialist = yes
+		}
+	}
+
+	option = { # PNT
+		log = "[GetDateText]: [Root.GetName]: event romania.44 option romania.44.a"
+		name = romania.44.a
+		set_politics = {
+			ruling_party = authoritarian_democrat
+			elections_allowed = yes
+		}
+		increase_ruling_party_popularity_by_15 = yes
+		remove_every_minister = yes
+		set_country_flag = ROM_had_1941_elections
+
+		activate_advisor = ROM_Armand_Calinescu_hog_ade
+		activate_advisor = ROM_Grigore_Niculescu_Buzesti_for_ade
+		activate_advisor = ROM_Gheorghe_Potopeanu_eco_pau
+		activate_advisor = ROM_Aurel_Aldea_sec_sco
+
+		hidden_effect = {
+			country_event = { id = romania.49 days = 5 }
+		}
+	}
+	option = { # PNL
+		log = "[GetDateText]: [Root.GetName]: event romania.44 option romania.44.b"
+		name = romania.44.b
+		if = {
+			limit = { has_country_flag = ROM_conservative_pnl }
+			set_politics = {
+				ruling_party = social_conservative
+				elections_allowed = yes
+			}
+			increase_ruling_party_popularity_by_15 = yes
+			remove_every_minister = yes
+
+			activate_advisor = ROM_Alexandru_Vaida_Voevod_hog_sco
+			activate_advisor = ROM_Savel_Radulescu_for_mli
+			activate_advisor = ROM_Mitita_Constantinescu_eco_mli
+			activate_advisor = ROM_Mihail_Ghelmegeanu_sec_sco
+
+			set_country_flag = ROM_had_1941_elections
+		}
+		else_if = {
+			limit = { has_country_flag = ROM_progressive_pnl }
+			set_politics = {
+				ruling_party = social_liberal
+				elections_allowed = yes
+			}
+			increase_ruling_party_popularity_by_15 = yes
+			remove_every_minister = yes
+
+			activate_advisor = ROM_Iuliu_Maniu_hog_sli
+			activate_advisor = ROM_Grigore_Gafencu_for_sli
+			activate_advisor = ROM_Gheorghe_Tatarescu_eco_mli
+			activate_advisor = ROM_Richard_Franasovici_sec_mli
+
+			set_country_flag = ROM_had_1941_elections
+		}
+		else = {
+			set_politics = {
+				ruling_party = market_liberal
+				elections_allowed = yes
+			}
+			increase_ruling_party_popularity_by_15 = yes
+			remove_every_minister = yes
+
+			activate_advisor = ROM_Constantin_Angelescu_hog_mli
+			activate_advisor = ROM_Grigore_Gafencu_for_sli
+			activate_advisor = ROM_Victor_Slavescu_eco_mli
+			activate_advisor = ROM_Mihail_Ghelmegeanu_sec_sco
+
+			set_country_flag = ROM_had_1941_elections
+			add_coalition_social_liberal = yes
+			add_coalition_social_conservative = yes
+		}
+		hidden_effect = {
+			country_event = { id = romania.49 days = 5 }
+		}
+	}
+	option = { # PSDR
+		log = "[GetDateText]: [Root.GetName]: event romania.44 option romania.44.c"
+		name = romania.44.c
+		set_politics = {
+			ruling_party = social_democrat
+			elections_allowed = yes
+		}
+		remove_every_minister = yes
+
+		activate_advisor = ROM_Virgil_Madgearu_hog_sde
+		activate_advisor = ROM_Grigore_Gafencu_for_sli
+		activate_advisor = ROM_Ion_Mihalache_eco_sde
+		activate_advisor = ROM_Pantelimon_Halippa_sec_sde
+
+		set_country_flag = ROM_had_1941_elections
+		hidden_effect = {
+			country_event = { id = romania.49 days = 5 }
+		}
+	}
+}
+
+country_event = { # 1945 Elections
+	id = romania.45
+	title = romania.45.t
+	desc = romania.45.d
+	picture = GFX_report_event_election_vote
+	is_triggered_only = yes
+
+	trigger = {
+		tag = ROM
+		date > 1945.1.1
+		date < 1946.1.1
+		has_elections = yes
+		NOT = { has_country_flag = ROM_had_1945_elections }
+	}
+
+	immediate = {
+		log = "[GetDateText]: [Root.GetName]: event romania.45"
+		hidden_effect = {
+			clr_country_flag = ROM_leftist_coalition
+			remove_coalition_social_conservative = yes
+			remove_coalition_social_liberal = yes
+			remove_coalition_libertarian_socialist = yes
+		}
+	}
+
+	option = { # PNT
+		log = "[GetDateText]: [Root.GetName]: event romania.45 option romania.45.a"
+		name = romania.45.a
+		set_politics = {
+			ruling_party = authoritarian_democrat
+			elections_allowed = yes
+		}
+		increase_ruling_party_popularity_by_15 = yes
+		remove_every_minister = yes
+		set_country_flag = ROM_had_1945_elections
+
+		activate_advisor = ROM_Armand_Calinescu_hog_ade
+		activate_advisor = ROM_Grigore_Niculescu_Buzesti_for_ade
+		activate_advisor = ROM_Gheorghe_Potopeanu_eco_pau
+		activate_advisor = ROM_Aurel_Aldea_sec_sco
+
+	}
+	option = { # PNL
+		log = "[GetDateText]: [Root.GetName]: event romania.45 option romania.45.b"
+		name = romania.45.b
+		if = {
+			limit = { has_country_flag = ROM_conservative_pnl }
+			set_politics = {
+				ruling_party = social_conservative
+				elections_allowed = yes
+			}
+			increase_ruling_party_popularity_by_15 = yes
+			remove_every_minister = yes
+
+			activate_advisor = ROM_Alexandru_Vaida_Voevod_hog_sco
+			activate_advisor = ROM_Savel_Radulescu_for_mli
+			activate_advisor = ROM_Mitita_Constantinescu_eco_mli
+			activate_advisor = ROM_Mihail_Ghelmegeanu_sec_sco
+
+			set_country_flag = ROM_had_1945_elections
+		}
+		else_if = {
+			limit = { has_country_flag = ROM_progressive_pnl }
+			set_politics = {
+				ruling_party = social_liberal
+				elections_allowed = yes
+			}
+			increase_ruling_party_popularity_by_15 = yes
+			remove_every_minister = yes
+
+			activate_advisor = ROM_Iuliu_Maniu_hog_sli
+			activate_advisor = ROM_Grigore_Gafencu_for_sli
+			activate_advisor = ROM_Gheorghe_Tatarescu_eco_mli
+			activate_advisor = ROM_Richard_Franasovici_sec_mli
+
+			set_country_flag = ROM_had_1945_elections
+		}
+		else = {
+			set_politics = {
+				ruling_party = market_liberal
+				elections_allowed = yes
+			}
+			increase_ruling_party_popularity_by_15 = yes
+			remove_every_minister = yes
+
+			activate_advisor = ROM_Constantin_Angelescu_hog_mli
+			activate_advisor = ROM_Grigore_Gafencu_for_sli
+			activate_advisor = ROM_Victor_Slavescu_eco_mli
+			activate_advisor = ROM_Mihail_Ghelmegeanu_sec_sco
+
+			set_country_flag = ROM_had_1945_elections
+			add_coalition_social_liberal = yes
+			add_coalition_social_conservative = yes
+		}
+
+	}
+	option = { # PSDR
+		log = "[GetDateText]: [Root.GetName]: event romania.45 option romania.45.c"
+		name = romania.45.c
+		set_politics = {
+			ruling_party = social_democrat
+			elections_allowed = yes
+		}
+		remove_every_minister = yes
+
+		activate_advisor = ROM_Virgil_Madgearu_hog_sde
+		activate_advisor = ROM_Grigore_Gafencu_for_sli
+		activate_advisor = ROM_Ion_Mihalache_eco_sde
+		activate_advisor = ROM_Pantelimon_Halippa_sec_sde
+
+		set_country_flag = ROM_had_1945_elections
+	}
+}
+
+country_event = { # 1949 Elections
+	id = romania.46
+	title = romania.46.t
+	desc = romania.46.d
+	picture = GFX_report_event_election_vote
+	is_triggered_only = yes
+
+	trigger = {
+		tag = ROM
+		date > 1949.1.1
+		date < 1950.1.1
+		has_elections = yes
+		NOT = { has_country_flag = ROM_had_1949_elections }
+	}
+
+	immediate = {
+		log = "[GetDateText]: [Root.GetName]: event romania.46"
+		hidden_effect = {
+			clr_country_flag = ROM_leftist_coalition
+			remove_coalition_social_conservative = yes
+			remove_coalition_social_liberal = yes
+			remove_coalition_libertarian_socialist = yes
+		}
+	}
+
+	option = { # PNT
+		log = "[GetDateText]: [Root.GetName]: event romania.46 option romania.46.a"
+		name = romania.46.a
+		set_politics = {
+			ruling_party = authoritarian_democrat
+			elections_allowed = yes
+		}
+		increase_ruling_party_popularity_by_15 = yes
+		remove_every_minister = yes
+		set_country_flag = ROM_had_1949_elections
+
+		activate_advisor = ROM_Armand_Calinescu_hog_ade
+		activate_advisor = ROM_Grigore_Niculescu_Buzesti_for_ade
+		activate_advisor = ROM_Gheorghe_Potopeanu_eco_pau
+		activate_advisor = ROM_Aurel_Aldea_sec_sco
+	}
+	option = { # PNL
+		log = "[GetDateText]: [Root.GetName]: event romania.46 option romania.46.b"
+		name = romania.46.b
+		if = {
+			limit = { has_country_flag = ROM_conservative_pnl }
+			set_politics = {
+				ruling_party = social_conservative
+				elections_allowed = yes
+			}
+			increase_ruling_party_popularity_by_15 = yes
+			remove_every_minister = yes
+
+			activate_advisor = ROM_Alexandru_Vaida_Voevod_hog_sco
+			activate_advisor = ROM_Savel_Radulescu_for_mli
+			activate_advisor = ROM_Mitita_Constantinescu_eco_mli
+			activate_advisor = ROM_Mihail_Ghelmegeanu_sec_sco
+
+			set_country_flag = ROM_had_1949_elections
+		}
+		else_if = {
+			limit = { has_country_flag = ROM_progressive_pnl }
+			set_politics = {
+				ruling_party = social_liberal
+				elections_allowed = yes
+			}
+			increase_ruling_party_popularity_by_15 = yes
+			remove_every_minister = yes
+
+			activate_advisor = ROM_Iuliu_Maniu_hog_sli
+			activate_advisor = ROM_Grigore_Gafencu_for_sli
+			activate_advisor = ROM_Gheorghe_Tatarescu_eco_mli
+			activate_advisor = ROM_Richard_Franasovici_sec_mli
+
+			set_country_flag = ROM_had_1949_elections
+		}
+		else = {
+			set_politics = {
+				ruling_party = market_liberal
+				elections_allowed = yes
+			}
+			increase_ruling_party_popularity_by_15 = yes
+			remove_every_minister = yes
+
+			activate_advisor = ROM_Constantin_Angelescu_hog_mli
+			activate_advisor = ROM_Grigore_Gafencu_for_sli
+			activate_advisor = ROM_Victor_Slavescu_eco_mli
+			activate_advisor = ROM_Mihail_Ghelmegeanu_sec_sco
+
+			set_country_flag = ROM_had_1949_elections
+			add_coalition_social_liberal = yes
+			add_coalition_social_conservative = yes
+		}
+
+	}
+	option = { # PSDR
+		log = "[GetDateText]: [Root.GetName]: event romania.46 option romania.46.c"
+		name = romania.46.c
+		set_politics = {
+			ruling_party = social_democrat
+			elections_allowed = yes
+		}
+		remove_every_minister = yes
+		increase_ruling_party_popularity_by_15 = yes
+
+		activate_advisor = ROM_Virgil_Madgearu_hog_sde
+		activate_advisor = ROM_Grigore_Gafencu_for_sli
+		activate_advisor = ROM_Ion_Mihalache_eco_sde
+		activate_advisor = ROM_Pantelimon_Halippa_sec_sde
+
+		set_country_flag = ROM_had_1949_elections
+	}
+}
+
+country_event = { # 1953 Elections
+	id = romania.47
+	title = romania.47.t
+	desc = romania.47.d
+	picture = GFX_report_event_election_vote
+	is_triggered_only = yes
+
+	trigger = {
+		tag = ROM
+		date > 1953.1.1
+		date < 1954.1.1
+		has_elections = yes
+		NOT = { has_country_flag = ROM_had_1953_elections }
+	}
+
+	immediate = {
+		log = "[GetDateText]: [Root.GetName]: event romania.47"
+		hidden_effect = {
+			clr_country_flag = ROM_leftist_coalition
+			remove_coalition_social_conservative = yes
+			remove_coalition_social_liberal = yes
+			remove_coalition_libertarian_socialist = yes
+		}
+	}
+
+	option = { # PNT
+		log = "[GetDateText]: [Root.GetName]: event romania.47 option romania.47.a"
+		name = romania.47.a
+		set_politics = {
+			ruling_party = authoritarian_democrat
+			elections_allowed = yes
+		}
+		increase_ruling_party_popularity_by_15 = yes
+		remove_every_minister = yes
+		set_country_flag = ROM_had_1953_elections
+
+		activate_advisor = ROM_Armand_Calinescu_hog_ade
+		activate_advisor = ROM_Grigore_Niculescu_Buzesti_for_ade
+		activate_advisor = ROM_Gheorghe_Potopeanu_eco_pau
+		activate_advisor = ROM_Aurel_Aldea_sec_sco
+
+	}
+	option = { # PNL
+		log = "[GetDateText]: [Root.GetName]: event romania.47 option romania.47.b"
+		name = romania.47.b
+		if = {
+			limit = { has_country_flag = ROM_conservative_pnl }
+			set_politics = {
+				ruling_party = social_conservative
+				elections_allowed = yes
+			}
+			increase_ruling_party_popularity_by_15 = yes
+			remove_every_minister = yes
+
+			activate_advisor = ROM_Alexandru_Vaida_Voevod_hog_sco
+			activate_advisor = ROM_Savel_Radulescu_for_mli
+			activate_advisor = ROM_Mitita_Constantinescu_eco_mli
+			activate_advisor = ROM_Mihail_Ghelmegeanu_sec_sco
+
+			set_country_flag = ROM_had_1953_elections
+		}
+		else_if = {
+			limit = { has_country_flag = ROM_progressive_pnl }
+			set_politics = {
+				ruling_party = social_liberal
+				elections_allowed = yes
+			}
+			increase_ruling_party_popularity_by_15 = yes
+			remove_every_minister = yes
+
+			activate_advisor = ROM_Iuliu_Maniu_hog_sli
+			activate_advisor = ROM_Grigore_Gafencu_for_sli
+			activate_advisor = ROM_Gheorghe_Tatarescu_eco_mli
+			activate_advisor = ROM_Richard_Franasovici_sec_mli
+
+			set_country_flag = ROM_had_1953_elections
+		}
+		else = {
+			set_politics = {
+				ruling_party = market_liberal
+				elections_allowed = yes
+			}
+			increase_ruling_party_popularity_by_15 = yes
+			remove_every_minister = yes
+
+			activate_advisor = ROM_Constantin_Angelescu_hog_mli
+			activate_advisor = ROM_Grigore_Gafencu_for_sli
+			activate_advisor = ROM_Victor_Slavescu_eco_mli
+			activate_advisor = ROM_Mihail_Ghelmegeanu_sec_sco
+
+			set_country_flag = ROM_had_1953_elections
+			add_coalition_social_liberal = yes
+			add_coalition_social_conservative = yes
+		}
+
+	}
+	option = { # PSDR
+		log = "[GetDateText]: [Root.GetName]: event romania.47 option romania.47.c"
+		name = romania.47.c
+		set_politics = {
+			ruling_party = social_democrat
+			elections_allowed = yes
+		}
+		increase_ruling_party_popularity_by_15 = yes
+		remove_every_minister = yes
+
+		activate_advisor = ROM_Virgil_Madgearu_hog_sde
+		activate_advisor = ROM_Grigore_Gafencu_for_sli
+		activate_advisor = ROM_Ion_Mihalache_eco_sde
+		activate_advisor = ROM_Pantelimon_Halippa_sec_sde
+
+		set_country_flag = ROM_had_1953_elections
+	}
+}
+
+country_event = { # 1957 Elections
+	id = romania.48
+	title = romania.48.t
+	desc = romania.48.d
+	picture = GFX_report_event_election_vote
+	is_triggered_only = yes
+
+	trigger = {
+		tag = ROM
+		date > 1957.1.1
+		date < 1958.1.1
+		has_elections = yes
+		NOT = { has_country_flag = ROM_had_1957_elections }
+	}
+
+	immediate = {
+		log = "[GetDateText]: [Root.GetName]: event romania.48"
+		hidden_effect = {
+			clr_country_flag = ROM_leftist_coalition
+			remove_coalition_social_conservative = yes
+			remove_coalition_social_liberal = yes
+			remove_coalition_libertarian_socialist = yes
+		}
+	}
+
+	option = { # PNT
+		log = "[GetDateText]: [Root.GetName]: event romania.48 option romania.48.a"
+		name = romania.48.a
+		set_politics = {
+			ruling_party = authoritarian_democrat
+			elections_allowed = yes
+		}
+		increase_ruling_party_popularity_by_15 = yes
+		remove_every_minister = yes
+		set_country_flag = ROM_had_1957_elections
+		activate_advisor = ROM_Armand_Calinescu_hog_ade
+		activate_advisor = ROM_Grigore_Niculescu_Buzesti_for_ade
+		activate_advisor = ROM_Gheorghe_Potopeanu_eco_pau
+		activate_advisor = ROM_Aurel_Aldea_sec_sco
+
+	}
+	option = { # PNL
+		log = "[GetDateText]: [Root.GetName]: event romania.48 option romania.48.b"
+		name = romania.48.b
+		if = {
+			limit = { has_country_flag = ROM_conservative_pnl }
+			set_politics = {
+				ruling_party = social_conservative
+				elections_allowed = yes
+			}
+			increase_ruling_party_popularity_by_15 = yes
+			remove_every_minister = yes
+
+			activate_advisor = ROM_Alexandru_Vaida_Voevod_hog_sco
+			activate_advisor = ROM_Savel_Radulescu_for_mli
+			activate_advisor = ROM_Mitita_Constantinescu_eco_mli
+			activate_advisor = ROM_Mihail_Ghelmegeanu_sec_sco
+
+			set_country_flag = ROM_had_1957_elections
+		}
+		else_if = {
+			limit = { has_country_flag = ROM_progressive_pnl }
+			set_politics = {
+				ruling_party = social_liberal
+				elections_allowed = yes
+			}
+			increase_ruling_party_popularity_by_15 = yes
+			remove_every_minister = yes
+
+			activate_advisor = ROM_Iuliu_Maniu_hog_sli
+			activate_advisor = ROM_Grigore_Gafencu_for_sli
+			activate_advisor = ROM_Gheorghe_Tatarescu_eco_mli
+			activate_advisor = ROM_Richard_Franasovici_sec_mli
+
+			set_country_flag = ROM_had_1957_elections
+		}
+		else = {
+			set_politics = {
+				ruling_party = market_liberal
+				elections_allowed = yes
+			}
+			increase_ruling_party_popularity_by_15 = yes
+			remove_every_minister = yes
+
+			activate_advisor = ROM_Constantin_Angelescu_hog_mli
+			activate_advisor = ROM_Grigore_Gafencu_for_sli
+			activate_advisor = ROM_Victor_Slavescu_eco_mli
+			activate_advisor = ROM_Mihail_Ghelmegeanu_sec_sco
+
+			set_country_flag = ROM_had_1957_elections
+			add_coalition_social_liberal = yes
+			add_coalition_social_conservative = yes
+		}
+
+	}
+	option = { # PSDR
+		log = "[GetDateText]: [Root.GetName]: event romania.48 option romania.48.c"
+		name = romania.48.c
+		set_politics = {
+			ruling_party = social_democrat
+			elections_allowed = yes
+		}
+		increase_ruling_party_popularity_by_15 = yes
+		remove_every_minister = yes
+
+		activate_advisor = ROM_Virgil_Madgearu_hog_sde
+		activate_advisor = ROM_Grigore_Gafencu_for_sli
+		activate_advisor = ROM_Ion_Mihalache_eco_sde
+		activate_advisor = ROM_Pantelimon_Halippa_sec_sde
+
+		set_country_flag = ROM_had_1957_elections
+	}
+}
+
+country_event = { # King Meets with the New Governemnt
+	id = romania.49
+	immediate = {log = "[GetDateText]: [Root.GetName]: event romania.49"}
+	title = romania.49.t
+	desc = romania.40.d
+	picture = GFX_report_event_romania_parliament
+	is_triggered_only = yes
+
+	trigger = {
+		NOT = {
+			has_country_leader = {
+				name = "Regency Council"
+				ruling_only = no
+			}
+		}
+		NOT = {
+			OR = {
+				has_government = libertarian_socialist
+				has_government = valkist
+			}
+		}
+	}
+
+	option = {
+		log = "[GetDateText]: [Root.GetName]: event romania.49 option romania.49.a"
+		name = romania.49.a
+		add_stability = 0.025
+	}
+}
+
+country_event = { # Codreanu Criticises the Government
+	id = romania.50
+	immediate = {log = "[GetDateText]: [Root.GetName]: event romania.50"}
+	title = {
+		text = romania.50.t
+		trigger = {
+			NOT = { has_country_flag = ROM_codreanu_exiled }
+		}
+	}
+	title = {
+		text = romania.50.t_mota
+		trigger = {
+			has_country_flag = ROM_codreanu_exiled
+		}
+	}
+	desc = {
+		text = romania.50.d
+		trigger = {
+			NOT = { has_country_flag = ROM_codreanu_exiled }
+		}
+	}
+	desc = {
+		text = romania.50.d_mota
+		trigger = {
+			has_country_flag = ROM_codreanu_exiled
+		}
+	}
+	picture = GFX_report_event_carol_meeting
+
+	trigger = {
+		tag = ROM
+		NOT = { has_country_flag = ROM_had_1937_elections }
+		NOT = { has_country_flag = ROM_codreanu_exiled }
+		NOT = {
+			OR = {
+				has_government = libertarian_socialist
+				has_government = valkist
+			}
+		}
+	}
+	mean_time_to_happen = {
+		days = 4
+	}
+	fire_only_once = yes
+	option = {
+		log = "[GetDateText]: [Root.GetName]: event romania.50 option romania.50.a"
+		name = romania.50.a
+		add_political_power = -20
+	}
+}
+
+country_event = { # Michael Tours Romania
+	id = romania.51
+	immediate = {log = "[GetDateText]: [Root.GetName]: event romania.51"}
+	title = romania.51.t
+	desc = romania.51.d
+	picture = GFX_report_event_romania_poland_visit
+	fire_only_once = yes
+
+	trigger = {
+		tag = ROM
+		date > 1938.3.1
+		NOT = { has_country_flag = ROM_michael_assassinated }
+		NOT = {
+			OR = {
+				has_government = libertarian_socialist
+				has_government = valkist
+			}
+		}
+	}
+	mean_time_to_happen = { days = 2 }
+
+	option = {
+		log = "[GetDateText]: [Root.GetName]: event romania.51 option romania.51.a"
+		name = romania.51.a
+		add_stability = 0.05
+	}
+}
+
+country_event = { # Marraige of Michael I
+	id = romania.52
+	immediate = {log = "[GetDateText]: [Root.GetName]: event romania.52"}
+	title = romania.52.a
+	desc = romania.52.d
+	picture = GFX_report_event_romania_poland_visit
+	fire_only_once = yes
+
+	trigger = {
+		tag = ROM
+		has_country_leader = {
+			name = "Michael I"
+			ruling_only = yes
+		}
+		date > 1948.6.10
+	}
+
+	option = {
+		log = "[GetDateText]: [Root.GetName]: event romania.52 option romania.52.a"
+		name = romania.52.a
+		add_political_power = 150
+	}
+}
+
+country_event = { # Create Alliance with Ukraine
+	id = romania.53
+	immediate = {log = "[GetDateText]: [Root.GetName]: event romania.53"}
+	title = romania.53.t
+	desc = romania.53.d
+	picture = GFX_report_event_soviet_german_soldier_handshake
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetDateText]: [Root.GetName]: event romania.53 option romania.53.a"
+		name = romania.53.a
+		add_political_power = 50
+		FROM = {
+			country_event = { id = romania.54 hours = 12 }
+		}
+	}
+	option = {
+		log = "[GetDateText]: [Root.GetName]: event romania.53 option romania.53.b"
+		name = romania.53.b
+		FROM = {
+			country_event = { id = romania.55 hours = 12 }
+		}
+	}
+}
+
+country_event = { # Serbia Accepts
+	id = romania.54
+	immediate = {log = "[GetDateText]: [Root.GetName]: event romania.54"}
+	title = romania.54.t
+	desc = romania.54.d
+	picture = GFX_report_event_soviet_german_soldier_handshake
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetDateText]: [Root.GetName]: event romania.54 option romania.54.t"
+		name = romania.54.t
+		create_faction = "Balkan Pact"
+		add_to_faction = FROM
+	}
+}
+
+country_event = { # Serbia Refuses
+	id = romania.55
+	immediate = {log = "[GetDateText]: [Root.GetName]: event romania.55"}
+	title = romania.55.t
+	desc = romania.55.d
+	picture = GFX_report_event_soviet_german_soldier_handshake
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetDateText]: [Root.GetName]: event romania.55 option romania.55.t"
+		name = romania.55.t
+		add_political_power = -20
+	}
+}
+
+country_event = { # Civil War - Royalist Victory
+	id = romania.56
+	immediate = {log = "[GetDateText]: [Root.GetName]: event romania.56"}
+	title = romania.56.t
+	desc = romania.56.d
+	picture = GFX_report_event_romanian_soldiers
+	is_triggered_only = yes
+
+	trigger = {
+		tag = ROM
+		has_government = paternal_autocrat
+	}
+
+	option = { # Execute the leaders, imprison the rest
+		log = "[GetDateText]: [Root.GetName]: event romania.56 option romania.56.a"
+		name = romania.56.a
+		add_stability = -0.025
+		add_political_power = 50
+	}
+	option = { # Punish the leaders, release the rest
+		log = "[GetDateText]: [Root.GetName]: event romania.56 option romania.56.b"
+		name = romania.56.b
+		add_stability = 0.025
+		add_political_power = 50
+	}
+	option = { # Hang everyone involved
+		log = "[GetDateText]: [Root.GetName]: event romania.56 option romania.56.c"
+		name = romania.56.c
+		add_stability = 0.05
+		add_political_power = -100
+	}
+}
+
+country_event = { # Civil War - Socialist Victory
+	id = romania.57
+	immediate = {log = "[GetDateText]: [Root.GetName]: event romania.57"}
+	title = romania.57.t
+	desc = romania.57.d
+	picture = GFX_report_event_romanian_soldiers
+	is_triggered_only = yes
+
+	trigger = {
+		tag = ROM
+		has_government = libertarian_socialist
+	}
+
+	option = { # Reeducate them!
+		log = "[GetDateText]: [Root.GetName]: event romania.57 option romania.57.a"
+		name = romania.57.a
+		add_political_power = -50
+	}
+	option = { # Imprison them!
+		log = "[GetDateText]: [Root.GetName]: event romania.57 option romania.57.b"
+		name = romania.57.b
+		add_stability = 0.025
+	}
+	option = { # Hang them all!
+		log = "[GetDateText]: [Root.GetName]: event romania.57 option romania.57.c"
+		name = romania.57.c
+		add_political_power = -100
+		add_stability = 0.05
+	}
+}
+
+country_event = { # Civil War - Iron Guard Victory
+	id = romania.58
+	immediate = {log = "[GetDateText]: [Root.GetName]: event romania.58"}
+	title = romania.58.t
+	desc = romania.58.d
+	picture = GFX_report_event_romanian_soldiers
+	is_triggered_only = yes
+
+	trigger = {
+		tag = ROM
+		has_government = valkist
+	}
+
+	option = { # Send them to work camps!
+		log = "[GetDateText]: [Root.GetName]: event romania.58 option romania.58.a"
+		name = romania.58.a
+		add_offsite_building = {
+			type = industrial_complex
+			level = 1
+		}
+		add_political_power = -100
+	}
+	option = { # Imprison them
+		log = "[GetDateText]: [Root.GetName]: event romania.58 option romania.58.b"
+		name = romania.58.b
+		add_political_power = 50
+	}
+	option = { # Execute them
+		log = "[GetDateText]: [Root.GetName]: event romania.58 option romania.58.c"
+		name = romania.58.c
+		add_stability = 0.05
+	}
+}
+
+country_event = { # Prince Michael Congratulates the Winners
+	id = romania.59
+	immediate = {log = "[GetDateText]: [Root.GetName]: event romania.59"}
+	title = romania.59.t
+	desc = romania.59.d
+	picture = GFX_report_event_carol_party
+	is_triggered_only = yes
+
+	trigger = {
+		tag = ROM
+		NOT = { has_country_flag = ROM_michael_assassinated }
+	}
+
+	option = {
+		log = "[GetDateText]: [Root.GetName]: event romania.59 option romania.59.a"
+		name = romania.59.a
+		add_political_power = 150
+	}
+}
+
+country_event = { # Reports from Transylvania
+	id = romania.60
+	immediate = {log = "[GetDateText]: [Root.GetName]: event romania.60"}
+	title = romania.60.t
+	desc = romania.60.d
+	picture = GFX_report_event_romanian_soldiers
+	is_triggered_only = yes
+
+	option = { # Order the troops to calm down
+		log = "[GetDateText]: [Root.GetName]: event romania.60 option romania.60.a"
+		name = romania.60.a
+		add_political_power = 100
+	}
+	option = { # Censor this report!
+		log = "[GetDateText]: [Root.GetName]: event romania.60 option romania.60.b"
+		name = romania.60.b
+		add_stability = 0.05
+	}
+}
+
+country_event = { # Hungary - Tensions in Transylvania
+	id = romania.61
+	immediate = {log = "[GetDateText]: [Root.GetName]: event romania.61"}
+	title = romania.61.t
+	desc = romania.61.d
+	picture = GFX_report_event_hungary_gains_transylvania
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetDateText]: [Root.GetName]: event romania.61 option romania.61.a"
+		name = romania.61.a
+		add_equipment_to_stockpile = {
+			type = infantry_equipment
+			amount = -2000
+			producer = HUN
+		}
+		hidden_effect = {
+			every_owned_state = {
+				limit = {
+					is_controlled_by = ROM
+					OR = {
+						state = 762
+						state = 154
+						state = 84
+						state = 83
+						state = 82
+						state = 76
+					}
+				}
+
+				remove_dynamic_modifier = { modifier = ROM_hungarian_resistance}
+				add_dynamic_modifier = { modifier = ROM_hungarian_resistance_1 }
+			}
+		}
+	}
+	option = {
+		log = "[GetDateText]: [Root.GetName]: event romania.61 option romania.61.b"
+		name = romania.61.b
+		decrease_ruling_party_popularity_by_5 = yes
+	}
+}
+
+country_event = { # Hungary Supported Transylvanian Riots
+	id = romania.62
+	immediate = {log = "[GetDateText]: [Root.GetName]: event romania.62"}
+	title = romania.62.t
+	desc = romania.62.d
+	picture = GFX_report_event_romanian_soldiers
+	is_triggered_only = yes
+
+	option = { # Cut off diplomatic ties!
+		log = "[GetDateText]: [Root.GetName]: event romania.62 option romania.62.a"
+		name = romania.62.a
+		reverse_add_opinion_modifier = {
+			target = HUN
+			modifier = ROM_cut_off_relations
+		}
+		HUN = {
+			country_event = { id = romania.63 days = 1 }
+		}
+	}
+}
+
+country_event = {
+	id = romania.63
+	immediate = {log = "[GetDateText]: [Root.GetName]: event romania.63"}
+	title = romania.63.t
+	desc = romania.63.d
+	picture = GFX_report_event_romanian_soldiers
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetDateText]: [Root.GetName]: event romania.63 option romania.63.a"
+		name = romania.63.a
+		reverse_add_opinion_modifier = {
+			target = ROM
+			modifier = ROM_cut_off_relations
+		}
+	}
+}

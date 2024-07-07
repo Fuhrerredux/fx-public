@@ -1,0 +1,176 @@
+# Australian Decisions
+# created by: dax0102
+
+foreign_politics = {
+	AST_join_alliance_sov = {
+		name = AST_join_alliance
+		icon = GFX_decision_generic_tank
+		fire_only_once = yes
+		ai_will_do = {
+			base = 800
+		}
+		targets = { SOV }
+		allowed = { original_tag = AST }
+		visible = {
+			has_completed_focus = AST_our_soviet_comrades
+			is_in_faction = no
+		}
+		available = {
+			is_subject = no
+			has_capitulated = no
+			country_exists = SOV
+			SOV = { is_faction_leader = yes }
+		}
+		complete_effect = {
+			SOV = {
+				country_event = { id = australia.51 days = 1 }
+			}
+		}
+	}
+	AST_join_alliance_jap = {
+		name = AST_join_alliance
+		icon = GFX_decision_generic_tank
+		fire_only_once = yes
+		ai_will_do = {
+			base = 800
+		}
+		targets = { JAP }
+		allowed = { original_tag = AST }
+		visible = {
+			is_in_faction = no
+			has_completed_focus = AST_deepen_japanese_cooperation
+		}
+		available = {
+			is_subject = no
+			has_capitulated = no
+			country_exists = JAP
+			JAP = { is_faction_leader = yes }
+		}
+		complete_effect = {
+			JAP = {
+				country_event = { id = australia.51 days = 1 }
+			}
+		}
+	}
+	AST_join_alliance_usa = {
+		name = AST_join_alliance
+		icon = GFX_decision_generic_tank
+		fire_only_once = yes
+		ai_will_do = {
+			base = 800
+		}
+		targets = { USA }
+		allowed = { original_tag = AST }
+		visible = {
+			has_completed_focus = AST_approach_americans
+			is_in_faction = no
+		}
+		available = {
+			is_subject = no
+			has_capitulated = no
+			country_exists = USA
+			USA = { is_faction_leader = yes }
+		}
+		complete_effect = {
+			USA = {
+				country_event = { id = australia.51 days = 1 }
+			}
+		}
+	}
+}
+
+operations = {
+	AST_defeat_australia = {
+		icon = generic_ignite_civil_war
+		is_good = no
+		fire_only_once = no
+		days_mission_timeout = 180
+		allowed = { tag = ENG }
+		activation = {
+			has_war_with = AST
+			is_valid_peace_target = yes
+			AST = {
+				is_valid_peace_target = yes
+				surrender_progress < 0.1
+			}
+		}
+		available = {
+			AST = { surrender_progress > 0.1 }
+		}
+		cancel_trigger = {
+			OR = {
+				AST = { is_valid_peace_target = no }
+				is_valid_peace_target = no
+				NOT = { has_war_with = AST }
+			}
+		}
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout AST_defeat_australia"
+			effect_tooltip = {
+				AST = {
+					if = {
+						limit = {
+							NZL = {
+								has_war_with = AST
+								is_in_faction_with = ROOT
+								has_capitulated = yes
+							}
+							controls_state = 284 #New Zealand
+							controls_state = 723 #South Island
+						}
+						country_event = australia.29
+					}
+					else = {
+						country_event = australia.32
+					}
+				}
+			}
+		}
+	}
+	AST_hold_out_vs_britain = {
+		icon = generic_ignite_civil_war
+		is_good = yes
+		fire_only_once = no
+		days_mission_timeout = 180
+
+		allowed = { tag = AST }
+
+		activation = {
+			has_war_with = ENG
+			is_valid_peace_target = yes
+			ENG = { is_valid_peace_target = yes }
+			surrender_progress < 0.1
+		}
+
+		available = {
+			surrender_progress > 0.1
+		}
+
+		cancel_trigger = {
+			OR = {
+				ENG = { is_valid_peace_target = no }
+				is_valid_peace_target = no
+				NOT = { has_war_with = ENG }
+			}
+		}
+
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout AST_hold_out_vs_entente"
+			if = {
+				limit = {
+					NZL = {
+						has_war_with = ROOT
+						is_in_faction_with = ENG
+						has_capitulated = yes
+					}
+					controls_state = 284 #New Zealand
+					controls_state = 723 #South Island
+				}
+				country_event = australia.29
+			}
+			else = {
+				country_event = australia.32
+			}
+		}
+	}
+}

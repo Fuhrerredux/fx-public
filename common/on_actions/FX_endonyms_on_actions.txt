@@ -1,0 +1,223 @@
+
+#### ENDONYMS
+## MECHANIC CREATED BY THANASISLANARAS
+#I used a more user-friendly approach,
+#it takes more time, but it is a lot easier than you might think
+# I'll try to explain as best as I can
+# there will be a scripted trigger entry, for each language speaking group, f.e
+# is_english_speaking_country = {
+# 	OR = {
+# 		tag = ENG
+# 		tag = USA
+# 		tag = AST
+# 		tag = NZL
+#   }
+#}  
+
+# Then, using a scripted effect called activate endonyms, endonym's of each language will be added
+# for example: 
+	# if = { 
+	# 	limit = { 
+	# 		owner = { 
+	# 			is_english_speaking_country = yes 
+	# 		} 
+	# 	}
+	# 	apply_english_endonyms = yes
+	# }
+	#rest added with else_if
+#
+# each apply_insert-language/country-name-here, will link to another scripted effect, that will have an entry
+# like the following
+# apply_english_endonyms = {
+# 	if = {
+# 		limit = {
+# 			state = 1
+# 			NOT = { has_state_flag = state_name_english }
+# 		}
+# 		set_state_name = "Corsica"
+# 		set_state_flag = state_name_english
+
+# 		clr_state_flag = state_name_italian
+# 		clr_state_flag = state_name_czech
+# 		clr_state_flag = state_name_turkish
+# 		clr_state_flag = state_name_french
+# 		clr_state_flag = state_name_albanian
+# 		clr_state_flag = state_name_korean
+# 		etc etc etc for all languages
+#
+# 		set_province_name = { id = 3838 name = "Ajaccio" }
+# 	}
+# }
+
+
+
+# on_actions = {
+# 	on_startup = {
+# 		effect = {
+# 			if = { #if a country doesn't have endonyms enabled, activate them on the start
+# 				limit = {
+# 					NOT = {
+# 						has_global_flag = endonyms_enabled
+# 					}
+# 				}
+# 				set_global_flag = endonyms_enabled
+# 				every_state = {
+# 					activate_endonyms = yes
+# 				}
+# 			}
+# 		}
+# 	}
+# 	on_weekly = {
+# 		effect = {
+# 			if = {
+# 				limit = {
+# 					NOT = {
+# 						has_global_flag = endonyms_enabled
+# 					}
+# 				}
+# 				set_global_flag = endonyms_enabled
+# 				every_state = {
+# 					activate_endonyms = yes
+# 				}
+# 			}
+# 		}
+# 	}
+# 	on_government_change = { #change names of cities according to ideology
+# 		effect = {
+# 			if = { #soviet union, state Leningrad
+# 				limit = {
+# 					SOV = {
+# 						controls_state = 195
+# 						OR = {
+# 							has_government = paternal_autocrat
+# 							has_government = authoritarian_democrat
+# 							has_government = national_populist
+# 						}
+# 					}
+# 				}
+# 				set_province_name = {
+# 					id = 3151
+# 					name = "Petrograd"
+# 				}
+# 				195 = {
+# 					set_state_name = "Petrograd"
+# 				}
+# 			}
+# 			else_if = {
+# 				limit = {
+# 					SOV = {
+# 						controls_state = 195
+# 						OR = {
+# 							has_government = collectivist
+# 							has_government = libertarian_socialist
+# 							has_government = vanguardist
+# 						}
+# 					}
+# 				}
+# 				195 = {
+# 					set_state_name = "Leningrad"
+# 				}
+# 				set_province_name = {
+# 					id = 3151
+# 					name = "Leningrad"
+# 				}
+# 			}
+# 			else = {
+# 				195 = {
+# 					set_state_name = "St. Peterburg"
+# 				}
+# 				set_province_name = {
+# 					id = 3151
+# 					name = "St. Peterburg"
+# 				}
+# 			}
+# 			if = { #change name of stalingrad accordingly
+# 				limit = {
+# 					SOV = {
+# 						controls_state = 195
+# 						NOT = {
+# 							OR = {
+# 								has_government = collectivist
+# 								has_government = libertarian_socialist
+# 								has_government = vanguardist
+# 							}
+# 						}
+# 					}
+# 				}
+# 				set_province_name = {
+# 					id = 3529
+# 					name = "Volgograd"
+# 				}
+# 				217 = {
+# 					set_state_name = "Volgograd"
+# 				}
+# 			}
+# 			else = {
+# 				217 = {
+# 					set_state_name = "Stalingrad"
+# 				}
+# 				set_province_name = {
+# 					id = 3529
+# 					name = "Stalingrad"
+# 				}
+# 			}
+# 			#TODO : ADD 
+# 			# Kuibyshev (communism) -> Samara (not communism)
+# 		}
+# 	}
+# 	on_state_control_changed = {
+# 		effect = {
+# 			if = {
+# 				limit = {
+# 					has_global_flag = endonyms_enabled
+# 				}
+# 				FROM.FROM = {
+# 					activate_endonyms = yes
+# 				}
+# 			}
+# 		}
+# 	}
+# 	on_capitulation = {
+# 		effect = {
+# 			if = {
+# 				limit = {
+# 					has_global_flag = endonyms_enabled
+# 				}
+# 				ROOT = {
+# 					every_state = {
+# 						activate_endonyms = yes
+# 					}
+# 				}
+# 			}
+# 		}
+# 	}
+# 	on_peaceconference_ended = {
+# 		effect = {
+# 			if = {
+# 				limit = {
+# 					has_global_flag = endonyms_enabled
+# 				}
+# 				FROM.FROM = { #FROM.FROM = STATE ID
+# 					every_state = {
+# 						activate_endonyms = yes
+# 					}
+# 				}
+# 			}
+# 		}
+# 	}
+# 	on_annex = { 
+# 		#ROOT IS WINNER, FROM GETS ANNEXED
+# 		effect = {
+# 			if = {
+# 				limit = {
+# 					has_global_flag = endonyms_enabled
+# 				}
+# 				FROM.FROM = {
+# 					every_state = {
+# 						activate_endonyms = yes
+# 					}
+# 				}
+# 			}
+# 		}
+# 	}
+# }

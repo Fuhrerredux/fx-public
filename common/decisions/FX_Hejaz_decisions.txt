@@ -1,0 +1,671 @@
+foreign_politics = {
+	HEJ_punish_idris = {
+		allowed = { original_tag = ITA }
+		icon = GFX_decision_generic_ignite_civil_war
+		fire_only_once = yes
+		days_mission_timeout = 230
+		selectable_mission = no
+		is_good = no
+		available = {
+			LBA = { has_capitulated = yes }
+			custom_trigger_tooltip = {
+				tooltip = HEJ_punish_idris_tt
+				any_of = {
+					array = HEJ.core_states
+					var:v = {
+						controller = {
+							tag = ROOT
+						}
+					}
+				}
+			}
+		}
+		activation = {
+			has_country_flag = HEJ_punish_idris_flag
+			has_war_with = HEJ
+		}
+		target_trigger = {
+			FROM = {
+				tag = HEJ
+				has_war_with = ROOT
+			}
+		}
+		visible = {
+			country_exists = FROM
+			has_war_with = FROM
+		}
+		timeout_effect = {
+			white_peace = HEJ
+			every_enemy_country = {
+				limit = {
+					is_in_faction_with = HEJ
+				}
+				white_peace = ROOT
+			}
+			clr_country_flag = HEJ_punish_idris_flag
+		}
+		complete_effect = {
+			clr_country_flag = HEJ_punish_idris_flag
+		}
+	}
+	HEJ_protect_jerusalem = {
+		allowed = { original_tag = ENG }
+		icon = GFX_decision_generic_ignite_civil_war
+		fire_only_once = yes
+		days_mission_timeout = 160
+		selectable_mission = no
+		is_good = no
+		available = {
+			ISR = {
+				has_capitulated = no
+			}
+			custom_trigger_tooltip = {
+				tooltip = HEJ_protect_jerusalem_tt
+				any_of = {
+					array = HEJ.core_states
+					var:v = {
+						controller = {
+							tag = ROOT
+						}
+					}
+				}
+			}
+		}
+		activation = {
+			has_country_flag = HEJ_protect_jerusalem_flag
+			has_war_with = HEJ
+		}
+		target_trigger = {
+			FROM = {
+				tag = HEJ
+				has_war_with = ROOT
+			}
+		}
+		visible = {
+			country_exists = FROM
+			has_war_with = FROM
+		}
+		timeout_effect = {
+			white_peace = HEJ
+			every_enemy_country = {
+				limit = {
+					is_in_faction_with = HEJ
+				}
+				white_peace = ROOT
+			}
+			clr_country_flag = HEJ_protect_jerusalem_flag
+		}
+		complete_effect = {
+			clr_country_flag = HEJ_protect_jerusalem_flag
+		}
+	}
+	HEJ_punish_the_hashemites = {
+		allowed = { original_tag = ENG }
+		icon = GFX_decision_generic_ignite_civil_war
+		fire_only_once = yes
+		days_mission_timeout = 160
+		selectable_mission = no
+		is_good = no
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = HEJ_punish_the_hashemites_tt
+				any_of = {
+					array = HEJ.core_states
+					var:v = {
+						controller = {
+							tag = ROOT
+						}
+					}
+				}
+			}
+		}
+		activation = {
+			has_country_flag = ENG_punish_hashemites_flag
+		}
+		target_trigger = {
+			FROM = {
+				tag = HEJ
+				has_war_with = ROOT
+			}
+		}
+		visible = {
+			country_exists = FROM
+			has_war_with = FROM
+		}
+		timeout_effect = {
+			white_peace = HEJ
+			every_enemy_country = {
+				limit = {
+					is_in_faction_with = HEJ
+				}
+				white_peace = ROOT
+			}
+			clr_country_flag = ENG_punish_hashemites_flag
+		}
+		complete_effect = {
+			clr_country_flag = ENG_punish_hashemites_flag
+		}
+	}
+}
+foreign_politics = {
+	HEJ_operation_khnum = {
+		allowed = { original_tag = HEJ }
+		cost = 50
+		icon = GFX_decision_generic_tank
+		days_remove = 60
+		fire_only_once = yes
+		war_with_target_on_remove = yes
+		ai_will_do = {
+			factor = 100
+		}
+		visible = {
+			has_completed_focus = HEJ_snatch_the_trucial_states
+		}
+		target_trigger = {
+			FROM = { tag = ENG }
+		}
+		remove_effect = {
+			ENG = {
+				country_event = hejaz.24
+			}
+		}
+	}
+	HEJ_reclaim_jerusalem = {
+		allowed = { original_tag = HEJ }
+		cost = 50
+		icon = GFX_decision_generic_tank
+		days_remove = 30
+		fire_only_once = yes
+		war_with_target_on_remove = yes
+		ai_will_do = {
+			factor = 100
+		}
+		visible = {
+			has_completed_focus = HEJ_crush_commonwealth
+		}
+		target_trigger = {
+			FROM = { tag = ISR }
+		}
+		remove_effect = {
+			declare_war_on = {
+				target = FROM
+				type = annex_everything
+			}
+			hidden_effect = {
+				ENG = {
+					set_country_flag = HEJ_protect_jerusalem_flag
+				}
+			}
+		}
+	}
+}
+
+HEJ_foreign_weapons_imports = {
+	HEJ_import_from = {
+		cost = 10
+		icon = GFX_decision_generic_construction
+		days_remove = 14
+		fire_only_once = yes
+		target_trigger = {
+			FROM = {
+				OR = {
+					tag = ENG
+					tag = FRA
+					tag = ITA
+					tag = USA
+					tag = GER
+					tag = SOV
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 100
+		}
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = HEJ_not_importing_weapons_tt
+				NOT = { has_country_flag = HEJ_importing_weapons }
+			}
+		}
+		modifier = {
+			consumer_goods_factor = 0.05
+		}
+		complete_effect = {
+			set_country_flag = HEJ_importing_weapons
+		}
+		remove_effect = {
+			clr_country_flag = HEJ_importing_weapons
+			add_equipment_to_stockpile = {
+				type = infantry_equipment
+				amount = 100
+				producer = FROM
+			}
+		}
+	}
+}
+
+HEJ_war_of_arabian_reunification = {
+	HEJ_integrate_jabal_shammar = {
+		icon = GFX_decision_generic_form_nation
+		cost = 20
+		days_remove = 30
+		state_target = yes
+		on_map_mode = map_and_decisions_view
+		ai_will_do = {
+			factor = 100
+		}
+		target_trigger = {
+			owns_state = FROM
+			FROM = {
+				is_core_of = RAS
+			}
+		}
+		targets = {
+			945 946
+		}
+		available = {
+			has_full_control_of_state = FROM
+		}
+		visible = {
+			FROM = {
+				NOT = { is_core_of = ROOT }
+			}
+			owns_state = FROM
+			has_completed_focus = HEJ_discredit_the_rashidis
+		}
+		remove_effect = {
+			FROM = {
+				remove_core_of = RAS
+				remove_claim_by = ROOT
+				add_core_of = ROOT
+			}
+		}
+	}
+	HEJ_integrate_nejd = {
+		icon = GFX_decision_generic_form_nation
+		cost = 20
+		days_remove = 30
+		state_target = yes
+		on_map_mode = map_and_decisions_view
+		ai_will_do = {
+			factor = 100
+		}
+		target_trigger = {
+			owns_state = FROM
+			FROM = {
+				is_core_of = SAU
+			}
+		}
+		targets = {
+			744 292 1032 678
+		}
+		available = {
+			has_full_control_of_state = FROM
+		}
+		visible = {
+			FROM = {
+				NOT = { is_core_of = ROOT }
+			}
+			owns_state = FROM
+			has_completed_focus = HEJ_discredit_the_saudis
+		}
+		remove_effect = {
+			FROM = {
+				remove_core_of = SAU
+				remove_claim_by = ROOT
+				add_core_of = ROOT
+			}
+		}
+	}
+	HEJ_appeal_support = {
+		target_trigger = {
+			FROM = { tag = ENG }
+		}
+		icon = GFX_decision_eng_install_government
+		fire_only_once = yes
+		cost = 20
+		ai_will_do = {
+			factor = 100
+		}
+		available = {
+			has_capitulated = no
+			custom_trigger_tooltip = {
+				tooltip = HEJ_civil_war_end_tt
+				NOT = {
+					has_country_flag = HEJ_civil_war_end
+				}
+			}
+		}
+		visible = {
+			OR = {
+				has_war_with = SAU
+				has_war_with = RAS
+			}
+		}
+		complete_effect = {
+			ENG = {
+				country_event = hejaz.15
+			}
+		}
+	}
+	HEJ_saudi_revolt = {
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = HEJ_saudi_revolt_tt
+				always = no
+			}
+		}
+		activation = {
+			has_country_flag = HEJ_revolt_trigger
+		}
+		days_mission_timeout = 30
+		is_good = no
+		selectable_mission = no
+		icon = GFX_decision_generic_civil_support
+		timeout_effect = {
+			clr_country_flag = HEJ_revolt_trigger
+			country_event = { id = hejaz.13 days = 1 }
+		}
+	}
+	HEJ_raise_militia = {
+		icon = GFX_decision_generic_military
+		fire_only_once = yes
+		days_remove = 14
+		state_target = yes
+		on_map_mode = map_and_decisions_view
+		ai_will_do = {
+			factor = 1000
+		}
+		targets = {
+			1031 679
+		}
+		target_trigger = { owns_state = FROM }
+		visible = {
+			has_country_flag = HEJ_revolt
+			has_war = yes
+			NOT = { has_country_flag = HEJ_civil_war_end }
+		}
+		available = {
+			has_full_control_of_state = FROM
+			custom_trigger_tooltip = {
+				tooltip = HEJ_not_raising_division_tt
+				NOT = {
+					has_country_flag = HEJ_raising_division
+				}
+			}
+		}
+		remove_effect = {
+			clr_country_flag = HEJ_raising_division
+			FROM = {
+				create_unit = {
+					division = "name = \"Banu Thaqif Militia\" division_template = \"Qasam Milishia\" start_experience_factor = 0.5"
+					owner = HEJ
+				}
+			}
+		}
+		complete_effect = {
+			set_country_flag = HEJ_raising_division
+		}
+	}
+	HEJ_raise_cavalry = {
+		icon = GFX_decision_generic_cavalry
+		fire_only_once = yes
+		days_remove = 14
+		state_target = yes
+		on_map_mode = map_and_decisions_view
+		ai_will_do = {
+			factor = 1000
+		}
+		targets = {
+			1031 679
+		}
+		target_trigger = { owns_state = FROM }
+		visible = {
+			has_country_flag = HEJ_revolt
+			has_war = yes
+			NOT = { has_country_flag = HEJ_civil_war_end }
+		}
+		available = {
+			has_full_control_of_state = FROM
+			custom_trigger_tooltip = {
+				tooltip = HEJ_not_raising_division_tt
+				NOT = {
+					has_country_flag = HEJ_raising_division
+				}
+			}
+		}
+		remove_effect = {
+			clr_country_flag = HEJ_raising_division
+			FROM = {
+				create_unit = {
+					division = "name = \"Hashemite Calvary\" division_template = \"Firqat Alfursan\" start_experience_factor = 1.0"
+					owner = HEJ
+				}
+			}
+		}
+		complete_effect = {
+			set_country_flag = HEJ_raising_division
+		}
+	}
+}
+
+HEJ_british_mandate = {
+	HEJ_cement_our_authority = {
+		allowed = { original_tag = HEJ }
+		available = {
+			has_completed_focus = HEJ_silence_the_traditionalists
+		}
+		activation = {
+			has_country_flag = HEJ_british_mandate_flag
+		}
+		ai_will_do = {
+			factor = 200
+		}
+		icon = GFX_decision_generic_police_action
+		is_good = no
+		selectable_mission = no
+		days_mission_timeout = 200
+		timeout_effect = {
+			country_event = hejaz.41
+		}
+		complete_effect = {
+			hidden_effect = {
+				country_event = { id = hejaz.42 days = 140 }
+			}
+		}
+	}
+	HEJ_construct_pipe_al_hasa = {
+		icon = GFX_decision_generic_cement_mixer
+		days_remove = 60
+		fire_only_once = yes
+		state_target = yes
+		ai_will_do = {
+			factor = 200
+		}
+		target_trigger = {
+			FROM = { state = 744 }
+		}
+		available = { has_full_control_of_state = FROM }
+		visible = { has_completed_focus = HEJ_transarabian_pipeline }
+		remove_effect = {
+			set_country_flag = HEJ_constructed_pipe_at_al_hasa
+			FROM = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	HEJ_construct_pipe_nejd = {
+		icon = GFX_decision_generic_cement_mixer
+		days_remove = 60
+		fire_only_once = yes
+		state_target = yes
+		target_trigger = {
+			FROM = { state = 292 }
+		}
+		ai_will_do = {
+			factor = 200
+		}
+		available = {
+			has_full_control_of_state = FROM
+			has_country_flag = HEJ_constructed_pipe_at_al_hasa
+		}
+		visible = { has_country_flag = HEJ_constructed_pipe_at_al_hasa }
+		remove_effect = {
+			set_country_flag = HEJ_constructed_pipe_at_nejd
+			FROM = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	HEJ_construct_pipe_qassim = {
+		icon = GFX_decision_generic_cement_mixer
+		days_remove = 60
+		fire_only_once = yes
+		state_target = yes
+		target_trigger = {
+			FROM = { state = 1032 }
+		}
+		ai_will_do = {
+			factor = 200
+		}
+		available = {
+			has_full_control_of_state = FROM
+			has_country_flag = HEJ_constructed_pipe_at_nejd
+		}
+		visible = { has_country_flag = HEJ_constructed_pipe_at_nejd }
+		remove_effect = {
+			set_country_flag = HEJ_constructed_pipe_at_qassim
+			FROM = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	HEJ_construct_pipe_hejaz = {
+		icon = GFX_decision_generic_cement_mixer
+		days_remove = 60
+		fire_only_once = yes
+		state_target = yes
+		target_trigger = {
+			FROM = { state = 1031 }
+		}
+		ai_will_do = {
+			factor = 200
+		}
+		available = {
+			has_full_control_of_state = FROM
+			has_country_flag = HEJ_constructed_pipe_at_qassim
+		}
+		visible = { has_country_flag = HEJ_constructed_pipe_at_qassim }
+		remove_effect = {
+			set_country_flag = HEJ_constructed_pipe_at_hejaz
+			FROM = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	HEJ_construct_pipe_mecca = {
+		icon = GFX_decision_generic_cement_mixer
+		days_remove = 60
+		fire_only_once = yes
+		state_target = yes
+		target_trigger = {
+			FROM = { state = 679 }
+		}
+		ai_will_do = {
+			factor = 200
+		}
+		available = {
+			has_full_control_of_state = FROM
+			has_country_flag = HEJ_constructed_pipe_at_hejaz
+		}
+		visible = { has_country_flag = HEJ_constructed_pipe_at_qassim }
+		remove_effect = {
+			set_country_flag = HEJ_constructed_pipe_at_mecca
+			FROM = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	HEJ_expand_market = {
+		cost = 20
+		icon = GFX_decision_generic_tank
+		fire_only_once = yes
+		war_with_target_on_remove = yes
+		target_trigger = {
+			FROM = {
+				OR = {
+					tag = IRQ
+					tag = YEM
+					tag = PER
+					tag = EGY
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 2000
+		}
+		available = {
+			can_declare_war_on = FROM
+			is_neighbor_of = FROM
+		}
+		visible = {
+			has_completed_focus = HEJ_expansion_of_market
+		}
+		remove_effect = {
+			declare_war_on = {
+				target = FROM
+				type = annex_everything
+			}
+		}
+	}
+}

@@ -1,0 +1,530 @@
+﻿add_namespace = gov
+
+country_event = { # looping event that determines which nations become failed states
+	id = gov.0
+	immediate = {log = "[GetDateText]: [Root.GetName]: event gov.0"}
+
+	is_triggered_only = yes
+
+	hidden = yes
+
+	immediate = {
+		random_country = {
+			limit = {
+				exists = yes
+			}
+			country_event = { id = gov.0 days = 7 } # loops the event every week
+		}
+	}
+
+	option = {
+		every_country = {
+			limit = {
+				exists = yes
+				has_stability < 0.1
+				NOT = {
+					OR = {
+						has_country_flag = GEN_no_anarchy # Set this flag if you  don't want your nation to get this event
+						has_idea = failed_state
+					}
+				}
+			}
+			country_event = gov.1
+		}
+
+		every_country = {
+			limit = {
+				exists = yes
+				has_stability > 0.2
+				has_idea = failed_state
+				NOT = {
+					has_country_flag = GEN_dont_remove_anarchy # Set this flag if you want to manually remove the failed_state idea
+				}
+			}
+			country_event = gov.2
+		}
+
+		# For 0.5
+		# every_country = {
+			# limit = {
+				# exists = yes
+				# has_idea = presidential_republic
+				# has_idea = semi_presidential_republic
+				# has_idea = parliamentary_republic
+				# has_idea = theocratic_republic
+				# has_idea = constitutional_monarchy
+				# }
+			# if = {
+				# limit = {
+					# THIS = {
+						# check_variable = { senators_support > 0 }
+						# check_variable = { senators_support < 20 }
+						# }
+					# }
+				# add_ideas = very_low_legislature
+				# }
+			# else_if = {
+				# limit = {
+					# THIS = {
+						# check_variable = { senators_support > 19 }
+						# check_variable = { senators_support < 40 }
+						# }
+					# }
+				# add_ideas = low_legislature
+				# }
+			# else_if = {
+				# limit = {
+					# THIS = {
+						# check_variable = { senators_support > 39 }
+						# check_variable = { senators_support < 50 }
+						# }
+					# }
+				# add_ideas = medium_low_legislature
+				# }
+			# else_if = {
+				# limit = {
+					# THIS = {
+						# check_variable = { senators_support > 49 }
+						# check_variable = { senators_support < 60 }
+						# }
+					# }
+				# add_ideas = medium_high_legislature
+				# }
+			# else_if = {
+				# limit = {
+					# THIS = {
+						# check_variable = { senators_support > 59 }
+						# check_variable = { senators_support < 80 }
+						# }
+					# }
+				# add_ideas = high_legislature
+				# }
+			# else_if = {
+				# limit = {
+					# THIS = {
+						# check_variable = { senators_support > 79 }
+						# }
+					# }
+				# add_ideas = very_high_legislature
+				# }
+			# }
+	}
+}
+
+country_event = {
+	id = gov.1
+	immediate = {log = "[GetDateText]: [Root.GetName]: event gov.1"}
+	title = gov.1.t
+	desc = gov.1.d
+	picture = GFX_report_event_generic_riot
+
+	trigger = {
+		has_stability < 0.1
+		NOT = {
+			OR = {
+				has_country_flag = GEN_no_anarchy # Set this flag if you  don't want your nation to get this event
+				has_idea = failed_state
+			}
+		}
+	}
+
+	is_triggered_only = yes
+
+	option = {
+		name = gov.1.a
+		# Resets government type flags in case govt type changes while you still have failed_state idea.
+		# This allows the event to properly update which govt type to keep track of for when you return to your proper govt type
+		if = {
+			limit = {
+				has_country_flag = GEN_direct_democracy
+			}
+			clr_country_flag = GEN_direct_democracy
+		}
+		if = {
+			limit = {
+				has_country_flag = GEN_presidential_republic
+			}
+			clr_country_flag = GEN_presidential_republic
+		}
+		if = {
+			limit = {
+				has_country_flag = GEN_semi_presidential_republic
+			}
+			clr_country_flag = GEN_semi_presidential_republic
+		}
+		if = {
+			limit = {
+				has_country_flag = GEN_parliamentary_republic
+			}
+			clr_country_flag = GEN_parliamentary_republic
+		}
+		if = {
+			limit = {
+				has_country_flag = GEN_republican_dictatorship
+			}
+			clr_country_flag = GEN_republican_dictatorship
+		}
+		if = {
+			limit = {
+				has_country_flag = GEN_theocratic_republic
+			}
+			clr_country_flag = GEN_theocratic_republic
+		}
+		if = {
+			limit = {
+				has_country_flag = GEN_theocratic_dictatorship
+			}
+			clr_country_flag = GEN_theocratic_dictatorship
+		}
+		if = {
+			limit = {
+				has_country_flag = GEN_one_party_dictatorship
+			}
+			clr_country_flag = GEN_one_party_dictatorship
+		}
+		if = {
+			limit = {
+				has_country_flag = GEN_workers_republic
+			}
+			clr_country_flag = GEN_workers_republic
+		}
+		if = {
+			limit = {
+				has_country_flag = GEN_communist_state
+			}
+			clr_country_flag = GEN_communist_state
+		}
+		if = {
+			limit = {
+				has_country_flag = GEN_colonial_government
+			}
+			clr_country_flag = GEN_colonial_government
+		}
+		if = {
+			limit = {
+				has_country_flag = GEN_absolute_monarchy
+			}
+			clr_country_flag = GEN_absolute_monarchy
+		}
+		if = {
+			limit = {
+				has_country_flag = GEN_constitutional_monarchy
+			}
+			clr_country_flag = GEN_constitutional_monarchy
+		}
+		if = {
+			limit = {
+				has_country_flag = GEN_elective_monarchy
+			}
+			clr_country_flag = GEN_elective_monarchy
+		}
+		if = {
+			limit = {
+				has_country_flag = GEN_military_junta
+			}
+			clr_country_flag = GEN_military_junta
+		}
+
+		# Sets a flag to keep track of your nation's actual govt type before giving you the failed_state govt idea
+		if = {
+			limit = {
+				has_idea = direct_democracy
+			}
+			set_country_flag = GEN_direct_democracy
+		}
+		if = {
+			limit = {
+				has_idea = presidential_republic
+			}
+			set_country_flag = GEN_presidential_republic
+		}
+		if = {
+			limit = {
+				has_idea = semi_presidential_republic
+			}
+			set_country_flag = GEN_semi_presidential_republic
+		}
+		if = {
+			limit = {
+				has_idea = parliamentary_republic
+			}
+			set_country_flag = GEN_parliamentary_republic
+		}
+		if = {
+			limit = {
+				has_idea = republican_dictatorship
+			}
+			set_country_flag = GEN_republican_dictatorship
+		}
+		if = {
+			limit = {
+				has_idea = theocratic_republic
+			}
+			set_country_flag = GEN_theocratic_republic
+		}
+		if = {
+			limit = {
+				has_idea = theocratic_dictatorship
+			}
+			set_country_flag = GEN_theocratic_dictatorship
+		}
+		if = {
+			limit = {
+				has_idea = one_party_dictatorship
+			}
+			set_country_flag = GEN_one_party_dictatorship
+		}
+		if = {
+			limit = {
+				has_idea = workers_republic
+			}
+			set_country_flag = GEN_workers_republic
+		}
+		if = {
+			limit = {
+				has_idea = communist_state
+			}
+			set_country_flag = GEN_communist_state
+		}
+		if = {
+			limit = {
+				has_idea = colonial_government
+			}
+			set_country_flag = GEN_colonial_government
+		}
+		if = {
+			limit = {
+				has_idea = absolute_monarchy
+			}
+			set_country_flag = GEN_absolute_monarchy
+		}
+		if = {
+			limit = {
+				has_idea = constitutional_monarchy
+			}
+			set_country_flag = GEN_constitutional_monarchy
+		}
+		if = {
+			limit = {
+				has_idea = elective_monarchy
+			}
+			set_country_flag = GEN_elective_monarchy
+		}
+		if = {
+			limit = {
+				has_idea = military_junta
+			}
+			set_country_flag = GEN_military_junta
+		}
+
+		add_ideas = failed_state
+	}
+}
+
+country_event = {
+	id = gov.2
+	immediate = {log = "[GetDateText]: [Root.GetName]: event gov.2"}
+	title = gov.2.t
+	desc = gov.2.d
+	picture = GFX_report_event_SRI_arrests
+
+	trigger = {
+		has_stability > 0.2
+		has_idea = failed_state
+		NOT = {
+			has_country_flag = GEN_dont_remove_anarchy # Set this flag if you want to manually remove the failed_state idea
+		}
+	}
+
+	is_triggered_only = yes
+
+	option = {
+		name = gov.2.a
+		# This event returns you to your proper government type
+		if = {
+			limit = {
+				has_country_flag = GEN_direct_democracy
+			}
+			add_ideas = direct_democracy
+		}
+		else_if = {
+			limit = {
+				has_country_flag = GEN_presidential_republic
+			}
+			add_ideas = presidential_republic
+		}
+		else_if = {
+			limit = {
+				has_country_flag = GEN_semi_presidential_republic
+			}
+			add_ideas = semi_presidential_republic
+		}
+		else_if = {
+			limit = {
+				has_country_flag = GEN_parliamentary_republic
+			}
+			add_ideas = parliamentary_republic
+		}
+		else_if = {
+			limit = {
+				has_country_flag = GEN_republican_dictatorship
+			}
+			add_ideas = republican_dictatorship
+		}
+		else_if = {
+			limit = {
+				has_country_flag = GEN_theocratic_republic
+			}
+			add_ideas = theocratic_republic
+		}
+		else_if = {
+			limit = {
+				has_country_flag = GEN_theocratic_dictatorship
+			}
+			add_ideas = theocratic_dictatorship
+		}
+		else_if = {
+			limit = {
+				has_country_flag = GEN_one_party_dictatorship
+			}
+			add_ideas = one_party_dictatorship
+		}
+		else_if = {
+			limit = {
+				has_country_flag = GEN_workers_republic
+			}
+			add_ideas = workers_republic
+		}
+		else_if = {
+			limit = {
+				has_country_flag = GEN_communist_state
+			}
+			add_ideas = communist_state
+		}
+		else_if = {
+			limit = {
+				has_country_flag = GEN_colonial_government
+			}
+			add_ideas = colonial_government
+		}
+		else_if = {
+			limit = {
+				has_country_flag = GEN_absolute_monarchy
+			}
+			add_ideas = absolute_monarchy
+		}
+		else_if = {
+			limit = {
+				has_country_flag = GEN_constitutional_monarchy
+			}
+			add_ideas = constitutional_monarchy
+		}
+		else_if = {
+			limit = {
+				has_country_flag = GEN_elective_monarchy
+			}
+			add_ideas = elective_monarchy
+		}
+		else_if = {
+			limit = {
+				has_country_flag = GEN_military_junta
+			}
+			add_ideas = military_junta
+		}
+		else = {
+			add_ideas = generic_government
+		}
+
+		# Fail safe. resets govt type tracker flags like in the first event.
+		if = {
+			limit = {
+				has_country_flag = GEN_direct_democracy
+			}
+			clr_country_flag = GEN_direct_democracy
+		}
+		if = {
+			limit = {
+				has_country_flag = GEN_presidential_republic
+			}
+			clr_country_flag = GEN_presidential_republic
+		}
+		if = {
+			limit = {
+				has_country_flag = GEN_semi_presidential_republic
+			}
+			clr_country_flag = GEN_semi_presidential_republic
+		}
+		if = {
+			limit = {
+				has_country_flag = GEN_parliamentary_republic
+			}
+			clr_country_flag = GEN_parliamentary_republic
+		}
+		if = {
+			limit = {
+				has_country_flag = GEN_republican_dictatorship
+			}
+			clr_country_flag = GEN_republican_dictatorship
+		}
+		if = {
+			limit = {
+				has_country_flag = GEN_theocratic_republic
+			}
+			clr_country_flag = GEN_theocratic_republic
+		}
+		if = {
+			limit = {
+				has_country_flag = GEN_theocratic_dictatorship
+			}
+			clr_country_flag = GEN_theocratic_dictatorship
+		}
+		if = {
+			limit = {
+				has_country_flag = GEN_one_party_dictatorship
+			}
+			clr_country_flag = GEN_one_party_dictatorship
+		}
+		if = {
+			limit = {
+				has_country_flag = GEN_workers_republic
+			}
+			clr_country_flag = GEN_workers_republic
+		}
+		if = {
+			limit = {
+				has_country_flag = GEN_communist_state
+			}
+			clr_country_flag = GEN_communist_state
+		}
+		if = {
+			limit = {
+				has_country_flag = GEN_colonial_government
+			}
+			clr_country_flag = GEN_colonial_government
+		}
+		if = {
+			limit = {
+				has_country_flag = GEN_absolute_monarchy
+			}
+			clr_country_flag = GEN_absolute_monarchy
+		}
+		if = {
+			limit = {
+				has_country_flag = GEN_constitutional_monarchy
+			}
+			clr_country_flag = GEN_constitutional_monarchy
+		}
+		if = {
+			limit = {
+				has_country_flag = GEN_elective_monarchy
+			}
+			clr_country_flag = GEN_elective_monarchy
+		}
+		if = {
+			limit = {
+				has_country_flag = GEN_military_junta
+			}
+			clr_country_flag = GEN_military_junta
+		}
+	}
+}

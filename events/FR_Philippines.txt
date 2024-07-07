@@ -1,0 +1,3437 @@
+# Philippine Events
+# created by: dax0102
+
+add_namespace = philippines
+
+country_event = { # The Pearl of the Orient, 1936
+	id = philippines.0
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.0"}
+	title = philippines.0.t
+	desc = philippines.0.d
+	picture = GFX_report_event_PHI_intro
+	is_triggered_only = yes
+
+	option = { # Mabuhay ang Pilipinas!
+		log = "[GetDateText]: [Root.GetName]: event philippines.0 option philippines.0.a"
+		name = philippines.0.a
+	}
+}
+
+country_event = { # Independence At Last
+	id = philippines.1
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.1"}
+	title = philippines.1.t
+	desc = philippines.1.d
+	picture = GFX_report_event_PHI_independence
+	is_triggered_only = yes
+
+	option = { # Mabuhay ang Pilipinas!
+		log = "[GetDateText]: [Root.GetName]: event philippines.1 option philippines.1.a"
+		name = philippines.1.a
+		drop_cosmetic_tag = yes
+		USA = {
+			diplomatic_relation = { country = PHI relation = non_aggression_pact }
+		}
+		hidden_effect = {
+			if = {
+				limit = { has_character = USA_Douglas_MacArthur }
+				USA_Douglas_MacArthur = {
+					unit_leader_event = { id = philippines.112 days = 1 }
+				}
+			}
+			random_other_country = {
+				news_event = { id = fxnews.1 days = 2 }
+			}
+		}
+	}
+}
+
+country_event = { # An Open Door Policy?
+	id = philippines.2
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.2"}
+	title = philippines.2.t
+	desc = philippines.2.d
+	picture = GFX_report_event_GER_konrad_henlein
+	fire_only_once = yes
+
+	trigger = {
+		tag = PHI
+		GER = { has_completed_focus = GER_form_govt }
+	}
+
+	option = { # Give them the entry visas
+		log = "[GetDateText]: [Root.GetName]: event philippines.2 option philippines.2.a"
+		name = philippines.2.a
+		add_political_power = -50
+		add_timed_idea = {
+			idea = PHI_german_refugees
+			days = 480
+		}
+		set_country_flag = PHI_has_open_door_policy
+		hidden_effect = {
+			country_event = { id = philippines.3 days = 12 }
+		}
+	}
+	option = { # We have more problems to deal with
+		log = "[GetDateText]: [Root.GetName]: event philippines.2 option philippines.2.b"
+		name = philippines.2.b
+		add_stability = -0.05
+		hidden_effect = {
+			country_event = { id = philippines.3 days = 12 }
+		}
+	}
+}
+
+country_event = { # Aguinaldo Critises the Government
+	id = philippines.3
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.3"}
+	title = philippines.3.t
+	desc = {
+		text = philippines.3.d.1
+		trigger = { has_idea = PHI_german_refugees }
+	}
+	desc = {
+		text = philippines.3.d.2
+		trigger = {
+			NOT = { has_idea = PHI_german_refugees }
+		}
+	}
+	picture = GFX_report_event_PHI_aguinaldo_quezon
+	is_triggered_only = yes
+
+	option = { # Such hypocrite!
+		log = "[GetDateText]: [Root.GetName]: event philippines.3 option philippines.3.a"
+		name = philippines.3.a
+	}
+}
+
+country_event = { # Investments in the Philippines?
+	id = philippines.4
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.4"}
+	title = philippines.4.t
+	desc = philippines.4.d
+	picture = GFX_report_event_generic_sign_treaty1
+	is_triggered_only = yes
+
+	option = { #
+		log = "[GetDateText]: [Root.GetName]: event philippines.4 option philippines.4.a"
+		name = philippines.4.a
+		FROM = {
+			country_event = { id = philippines.5 days = 2 }
+			add_opinion_modifier = {
+				target = ROOT
+				modifier = PHI_provided_investment
+			}
+		}
+		hidden_effect = {
+			country_event = { id = philippines.8 days = 360 }
+		}
+	}
+	option = { # It's not worth it
+		log = "[GetDateText]: [Root.GetName]: event philippines.4 option philippines.4.b"
+		name = philippines.4.b
+		FROM = {
+			country_event = { id = philippines.6 days = 2 }
+		}
+	}
+}
+
+country_event = { # FROM invests in the Philippines
+	id = philippines.5
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.5"}
+	title = philippines.5.t
+	desc = philippines.5.d
+	picture = GFX_report_event_generic_sign_treaty1
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetDateText]: [Root.GetName]: event philippines.5 option philippines.5.a"
+		name = philippines.5.a
+		custom_effect_tooltip = PHI_companies_available_tt
+		FROM = { set_country_flag = PHI_investments }
+		add_offsite_building = {
+			type = industrial_complex
+			level = 1
+		}
+		hidden_effect = {
+			if = {
+				limit = { 
+					FROM = { tag = GER }
+				}
+				ROOT = {
+					set_country_flag = has_invited_mauser
+					set_country_flag = has_invited_daimler_benz
+					set_country_flag = has_invited_junkers
+					set_country_flag = has_invited_blohm_voss
+				}
+			}
+			else_if = {
+				limit = {
+					FROM = { tag = ENG }
+				}
+				ROOT = {
+					set_country_flag = has_invited_rolls_royce
+					set_country_flag = has_invited_harland_wolff
+					set_country_flag = has_invited_hawker
+				}
+			}
+			else_if = {
+				limit = {
+					FROM = { tag = FRA }
+				}
+				ROOT = {
+					set_country_flag = has_invited_mas
+					set_country_flag = has_invited_brandt
+					set_country_flag = has_invited_morane_saulnier
+					set_country_flag = has_invited_fcm
+				}
+			}
+			else_if = {
+				limit = {
+					FROM = { tag = USA }
+				}
+				ROOT = {
+					set_country_flag = has_invited_ford
+					set_country_flag = has_invited_remington
+					set_country_flag = has_invited_higgins
+					set_country_flag = has_invited_lockheed
+				}
+			}
+		}
+	}
+}
+
+country_event = { # FROM not invest in the Philippines
+	id = philippines.6
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.6"}
+	title = philippines.6.t
+	desc = philippines.6.d
+	picture = GFX_report_event_generic_sign_treaty1
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetDateText]: [Root.GetName]: event philippines.6 option philippines.6.a"
+		name = philippines.6.a
+	}
+}
+
+country_event = { # Removes investments from Philippines
+	id = philippines.7
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.7"}
+	title = philippines.7.t
+	desc = philippines.7.d
+	picture = GFX_report_event_generic_sign_treaty1
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetDateText]: [Root.GetName]: event philippines.7 option philippines.7.a"
+		name = philippines.7.a
+		hidden_effect = {
+			add_offsite_building = {
+				type = industrial_complex
+				level = -1
+			}
+		}
+	}
+}
+
+country_event = { # Profits from the Philippines
+	id = philippines.8
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.8"}
+	title = philippines.8.t
+	desc = philippines.8.d
+	picture = GFX_report_event_PHI_intro
+	is_triggered_only = yes
+
+	trigger = {
+		has_country_flag = PHI_investments
+	}
+
+	option = { # Let the money flow
+		log = "[GetDateText]: [Root.GetName]: event philippines.8 option philippines.8.a"
+		name = philippines.8.a
+		add_offsite_building = {
+			type = industrial_complex
+			level = 1
+		}
+	}
+}
+
+country_event = { # The Envelope
+	id = philippines.9
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.9"}
+	title = philippines.9.t
+	desc = philippines.9.d
+	picture = GFX_report_event_PHI_aquino_speech
+	is_triggered_only = yes
+
+	option = { # Summon Aquino Now!
+		log = "[GetDateText]: [Root.GetName]: event philippines.9 option philippines.9.a"
+		name = philippines.9.a
+		hidden_effect = {
+			country_event = { id = philippines.10 days = 7 }
+		}
+	}
+}
+
+country_event = { # The Arrival of the Crook
+	id = philippines.10
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.10"}
+	title = philippines.10.t
+	desc = philippines.10.d
+	picture = GFX_report_event_PHI_malacanan
+	is_triggered_only = yes
+
+	option = { # Let's hope this won't get ugly.
+		log = "[GetDateText]: [Root.GetName]: event philippines.10 option philippines.10.a"
+		name = philippines.10.a
+		deactivate_advisor = PHI_Benigno_Aquino_Sr_eco_sco
+		activate_advisor = PHI_Jose_G_David_eco_sco
+		hidden_effect = {
+			country_event = { id = philippines.11 days = 12 }
+		}
+	}
+}
+
+country_event = { # Sakdalista Popularity Growing
+	id = philippines.11
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.11"}
+	title = philippines.11.t
+	desc = philippines.11.d
+	picture = GFX_report_event_PHI_crowd_1
+	is_triggered_only = yes
+
+	option = { # Let's hope that their popularity stops rising
+		log = "[GetDateText]: [Root.GetName]: event philippines.11 option philippines.11.a"
+		name = philippines.11.a
+		add_popularity = {
+			ideology = social_democrat
+			popularity = 0.05
+		}
+		hidden_effect = {
+			country_event = { id = philippines.12 days = 12 }
+		}
+	}
+}
+
+country_event = { # Aguinaldo Publishes Criticisms
+	id = philippines.12
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.12"}
+	title = philippines.12.t
+	desc = philippines.12.d
+	picture = GFX_report_event_PHI_crowd_2
+	is_triggered_only = yes
+
+	option = { # This old man won't keep mouth shut.
+		log = "[GetDateText]: [Root.GetName]: event philippines.12 option philippines.12.a"
+		name = philippines.12.a
+		hidden_effect = {
+			country_event = { id = philippines.13 days = 42 }
+		}
+	}
+	option = { # He may have a point
+		log = "[GetDateText]: [Root.GetName]: event philippines.12 option philippines.12.b"
+		name = philippines.12.b
+		add_popularity = {
+			ideology = authoritarian_democrat
+			popularity = 0.05
+		}
+		hidden_effect = {
+			country_event = { id = philippines.13 days = 42 }
+		}
+	}
+}
+
+country_event = { # Proclamation of the Liberal Party
+	id = philippines.13
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.13"}
+	title = philippines.13.t
+	desc = philippines.13.d
+	picture = GFX_report_event_PHI_roxas_quirino
+	is_triggered_only = yes
+
+	option = { # Dude... uncool...
+		log = "[GetDateText]: [Root.GetName]: event philippines.13 option philippines.13.a"
+		name = philippines.13.a
+		end_coalition = yes
+		hidden_effect = {
+			if = {
+				limit = {
+					has_country_flag = PHI_has_open_door_policy
+				}
+				country_event = { id = philippines.14 days = 18 }
+			}
+
+			add_popularity = { ideology = market_liberal popularity = 0.05 }
+			add_popularity = { ideology = social_liberal popularity = 0.05 }
+
+			set_party_name = {
+				ideology = market_liberal
+				name = PHI_new_liberal_party
+				long_name = PHI_new_liberal_party_long
+			}
+			set_party_name = {
+				ideology = social_liberal
+				name = PHI_new_liberal_party
+				long_name = PHI_new_liberal_party_long
+			}
+		}
+	}
+}
+
+country_event = { # Roxas Advocates for Early Elections
+	id = philippines.14
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.14"}
+	title = philippines.14.t
+	desc = philippines.14.d
+	is_triggered_only = yes
+	picture = GFX_report_event_PHI_roxas_quirino
+
+	option = { # That's absurd!
+		log = "[GetDateText]: [Root.GetName]: event philippines.14 option philippines.14.a"
+		name = philippines.14.a
+		hidden_effect = {
+			country_event = { id = philippines.15 days = 2 }
+		}
+	}
+}
+
+country_event = { # Aguinaldo Supports Early Elections
+	id = philippines.15
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.15"}
+	title = philippines.15.t
+	desc = philippines.15.d
+	picture = GFX_report_event_PHI_malacanan
+	is_triggered_only = yes
+
+	option = { # Just try and try Miong...
+		log = "[GetDateText]: [Root.GetName]: event philippines.15 option philippines.15.a"
+		name = philippines.15.a
+		hidden_effect = {
+			country_event = { id = philippines.16 days = 4 }
+		}
+	}
+}
+
+country_event = { # Benigno Ramos Arrives from Tokyo
+	id = philippines.16
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.16"}
+	title = philippines.16.t
+	desc = philippines.16.d
+	picture = GFX_report_event_PHI_benigno_ramos
+	is_triggered_only = yes
+
+	option = { # Not you too...
+		log = "[GetDateText]: [Root.GetName]: event philippines.16 option philippines.16.a"
+		name = philippines.16.a
+		hidden_effect = {
+			country_event = { id = philippines.17 days = 3 }
+		}
+	}
+}
+
+country_event = { # Government Response
+	id = philippines.17
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.17"}
+	title = philippines.17.t
+	desc = philippines.17.d
+	picture = GFX_report_event_PHI_malacanan
+	is_triggered_only = yes
+
+	option = { # Now we wait
+		log = "[GetDateText]: [Root.GetName]: event philippines.17 option philippines.17.a"
+		name = philippines.17.a
+		hidden_effect = {
+			country_event = { id = philippines.18 days = 2 }
+		}
+	}
+}
+
+country_event = { # Anti-Government Protests in Tarlac
+	id = philippines.18
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.18"}
+	title = philippines.18.t
+	desc = philippines.18.d
+	picture = GFX_report_event_gathering_protest
+	is_triggered_only = yes
+
+	option = { # Oh no...
+		log = "[GetDateText]: [Root.GetName]: event philippines.18 option philippines.18.a"
+		name = philippines.18.a
+		decrease_ruling_party_popularity_by_10 = yes
+	}
+}
+
+country_event = { # London Stock Market Crash
+	id = philippines.19
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.19"}
+	title = philippines.19.t
+	desc = philippines.19.d
+	picture = GFX_report_event_gathering_protest
+	is_triggered_only = yes
+
+	option = { # Diyos ko!
+		log = "[GetDateText]: [Root.GetName]: event philippines.19 option philippines.19.a"
+		name = philippines.19.a
+		add_ideas = PHI_hindered_british_trade
+		hidden_effect = {
+			country_event = { id = philippines.20 days = 8 }
+		}
+	}
+}
+
+country_event = { # Protests in Manila
+	id = philippines.20
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.20"}
+	title = philippines.20.t
+	desc = philippines.20.d
+	picture = GFX_report_event_PHI_protests
+	is_triggered_only = yes
+
+	option = { # Let them protest
+		log = "[GetDateText]: [Root.GetName]: event philippines.20 option philippines.20.a"
+		name = philippines.20.a
+
+		add_popularity = {
+			ideology = social_democrat
+			popularity = 0.05
+		}
+		add_popularity = {
+			ideology = authoritarian_democrat
+			popularity = 0.05
+		}
+		
+		hidden_effect = {
+			country_event = { id = philippines.23 days = 8 }
+		}
+	}
+	option = { # Try to talk to the protesters
+		log = "[GetDateText]: [Root.GetName]: event philippines.20 option philippines.20.b"
+		name = philippines.20.b
+
+		add_political_power = 50
+
+		hidden_effect = {
+			country_event = { id = philippines.21 days = 8 }
+		}
+	}
+}
+
+country_event = { # Farmers Demands Government Help
+	id = philippines.21
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.21"}
+	title = philippines.21.t
+	desc = philippines.21.d
+	picture = GFX_report_event_PHI_protests
+	is_triggered_only = yes
+
+	option = { # Accept
+		log = "[GetDateText]: [Root.GetName]: event philippines.21 option philippines.21.a"
+		name = philippines.21.a
+		add_timed_idea = {
+			idea = PHI_farmer_help
+			days = 30
+		}
+		hidden_effect = {
+			country_event = { id = philippines.22 days = 2 }
+		}
+	}
+	option = { # Refuse
+		log = "[GetDateText]: [Root.GetName]: event philippines.21 option philippines.21.b"
+		name = philippines.21.b
+		add_stability = -0.15
+		add_popularity = {
+			ideology = social_democrat
+			popularity = 0.15
+		}
+		add_popularity = {
+			ideology = libertarian_socialist
+			popularity = 0.1
+		}
+		add_popularity = {
+			ideology = collectivist
+			popularity = 0.05
+		}
+		add_popularity = {
+			ideology = vanguardist
+			popularity = 0.05
+		}
+		hidden_effect = {
+			country_event = { id = philippines.23 days = 7 }
+		}
+	}
+}
+
+country_event = { # Protests Losing Momentum
+	id = philippines.22
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.22"}
+	title = philippines.22.t
+	desc = philippines.22.d
+	picture = GFX_report_event_PHI_protests
+	is_triggered_only = yes
+
+	option = { # Excellent
+		log = "[GetDateText]: [Root.GetName]: event philippines.22 option philippines.22.a"
+		name = philippines.22.a
+		add_popularity = {
+			ideology = social_democrat
+			popularity = -0.05
+		}
+		add_popularity = {
+			ideology = authoritarian_democrat
+			popularity = -0.05
+		}
+	}
+}
+
+country_event = { # Protests Expands to Other Areas
+	id = philippines.23
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.23"}
+	title = philippines.23.t
+	desc = philippines.23.d
+	picture = GFX_report_event_PHI_quezon
+	is_triggered_only = yes
+
+	option = { # Evacuate the President, now!
+		log = "[GetDateText]: [Root.GetName]: event philippines.23 option philippines.23.a"
+		name = philippines.23.a
+		add_popularity = {
+			ideology = authoritarian_democrat
+			popularity = 0.05
+		}
+		add_popularity = {
+			ideology = social_democrat
+			popularity = 0.05
+		}
+		hidden_effect = {
+			country_event = { id = philippines.24 days = 7 }
+		}
+	}
+
+	option = { # It will be fine...
+		log = "[GetDateText]: [Root.GetName]: event philippines.23 option philippines.23.b"
+		name = philippines.23.b
+		hidden_effect = {
+			country_event = { id = philippines.101 days = 8 }
+		}
+	}
+}
+
+country_event = { # Scouts Expel Protesters in Mendiola
+	id = philippines.24
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.24"}
+	title = philippines.24.t
+	desc = philippines.24.d
+	picture = GFX_report_event_PHI_protests
+	is_triggered_only = yes
+
+	option = { # This is not good.
+		log = "[GetDateText]: [Root.GetName]: event philippines.24 option philippines.24.a"
+		name = philippines.24.a
+		add_manpower = -50
+		add_popularity = {
+			ideology = libertarian_socialist
+			popularity = 0.1
+		}
+		add_popularity = {
+			ideology = collectivist
+			popularity = 0.05
+		}
+		add_popularity = {
+			ideology = vanguardist
+			popularity = 0.05
+		}
+		hidden_effect = {
+			set_country_flag = PHI_farmers_expelled
+			if = {
+				limit = {
+					NOT = { has_government = paternal_autocrat }
+				}
+				country_event = { id = philippines.25 days = 12 }
+			}
+		}
+	}
+}
+
+country_event = { # Roxas Calls for Investigation
+	id = philippines.25
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.25"}
+	title = philippines.25.t
+	desc = philippines.25.d
+	picture = GFX_report_event_PHI_roxas_quirino
+	is_triggered_only = yes
+
+	option = { # Just stop already...
+		log = "[GetDateText]: [Root.GetName]: event philippines.25 option philippines.25.a"
+		name = philippines.25.a
+		add_popularity = {
+			ideology = market_liberal
+			popularity = 0.05
+		}
+		hidden_effect = {
+			country_event = { id = philippines.26 days = 7 }
+		}
+	}
+}
+
+country_event = { # Ramos and Aguinaldo Slams the Government
+	id = philippines.26
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.26"}
+	title = philippines.26.t
+	desc = philippines.26.d
+	picture = GFX_report_event_PHI_benigno_ramos
+	is_triggered_only = yes
+
+	option = { # Getting tired of their sh...
+		log = "[GetDateText]: [Root.GetName]: event philippines.26 option philippines.26.a"
+		name = philippines.26.a
+		add_popularity = {
+			ideology = authoritarian_democrat
+			popularity = 0.05
+		}
+		add_popularity = {
+			ideology = social_democrat
+			popularity = 0.05
+		}
+		hidden_effect = {
+			country_event = { id = philippines.29 days = 7 }
+		}
+	}
+}
+
+country_event = { # Feast of the Black Nazarene
+	id = philippines.27
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.27"}
+	title = philippines.27.t
+	desc = philippines.27.d
+	picture = GFX_report_event_PHI_black_nazarene
+	is_triggered_only = yes
+
+	option = { # Everything went smoothly it seems...
+		log = "[GetDateText]: [Root.GetName]: event philippines.27 option philippines.27.a"
+		name = philippines.27.a
+	}
+}
+
+country_event = { # The Annual Latern Festival
+	id = philippines.28
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.28"}
+	title = philippines.28.t
+	desc = philippines.28.d
+	picture = GFX_report_event_PHI_pampanga_lantern
+	is_triggered_only = yes
+
+	option = { # So bright!
+		log = "[GetDateText]: [Root.GetName]: event philippines.28 option philippines.28.a"
+		name = philippines.28.a
+	}
+}
+
+country_event = { # The Secretary's Suggestions
+	id = philippines.29
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.29"}
+	title = philippines.29.t
+	desc = philippines.29.d
+	picture = GFX_report_event_PHI_malacanan
+	is_triggered_only = yes
+
+	option = { # The President agrees
+		log = "[GetDateText]: [Root.GetName]: event philippines.29 option philippines.29.a"
+		name = philippines.29.a
+		hidden_effect = {
+			country_event = { id = philippines.30 days = 3 }
+		}
+	}
+	option = { # Stop wasting my time!
+		log = "[GetDateText]: [Root.GetName]: event philippines.29 option philippines.29.b"
+		name = philippines.29.b
+	}
+}
+
+country_event = { # The Presidential Visit
+	id = philippines.30
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.30"}
+	title = philippines.30.t
+	desc = philippines.30.d
+	picture = GFX_report_event_PHI_malacanan
+	is_triggered_only = yes
+
+	option = { # Condolences
+		log = "[GetDateText]: [Root.GetName]: event philippines.30 option philippines.30.a"
+		name = philippines.30.a
+		increase_ruling_party_popularity_by_10 = yes
+	}
+}
+
+country_event = { # Misa de Gallo
+	id = philippines.31
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.31"}
+	title = philippines.31.t
+	desc = philippines.31.d
+	picture = GFX_report_event_PHI_misa_de_gallo
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetDateText]: [Root.GetName]: event philippines.31 option philippines.31.a"
+		name = philippines.31.a
+	}
+}
+
+country_event = { # Bonifacio Day
+	id = philippines.32
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.32"}
+	title = philippines.32.t
+	desc = philippines.32.d
+	picture = GFX_report_event_PHI_bonifacio
+	is_triggered_only = yes
+
+	option = { # Mabuhay ang Supremo!
+		log = "[GetDateText]: [Root.GetName]: event philippines.32 option philippines.32.a"
+		name = philippines.32.a
+		increase_ruling_party_popularity_by_5 = yes
+	}
+}
+
+country_event = { # Opening of the Campaign Season
+	id = philippines.33
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.33"}
+	title = philippines.33.t
+	desc = philippines.33.d
+	picture = GFX_report_event_PHI_crowd_1
+	is_triggered_only = yes
+
+	trigger = {
+		NOT = {
+			has_government = paternal_autocrat
+		}
+	}
+
+	option = { # Your campaign jingles are too loud!
+		log = "[GetDateText]: [Root.GetName]: event philippines.33 option philippines.33.a"
+		name = philippines.33.a
+		add_political_power = 20
+	}
+}
+
+country_event = { # Elections of 1937
+	id = philippines.34
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.34"}
+	title = philippines.34.t
+	desc = philippines.34.d
+	picture = GFX_report_event_PHI_malacanan
+	is_triggered_only = yes
+
+	trigger = {
+		tag = PHI
+		date > 1937.1.1
+		date < 1938.1.1
+		NOT = {
+			has_country_flag = PHI_has_1937_elections
+			has_country_flag = PHI_junta_in_control
+		}
+	}
+
+	option = { # Liberal
+		log = "[GetDateText]: [Root.GetName]: event philippines.34 option philippines.34.a"
+		name = philippines.34.a
+		ai_chance = {
+			base = 200
+			modifier = {
+				factor = 2
+				has_country_flag = PHI_west_focus
+			}
+			modifier = {
+				factor = 2
+				has_country_flag = PHI_usa_focus
+			}
+		}
+		set_politics = {
+			ruling_party = market_liberal
+			elections_allowed = yes
+		}
+		increase_ruling_party_popularity_by_20 = yes
+		remove_every_minister = yes
+
+		activate_advisor = PHI_Manuel_Roxas_hog_mli
+		activate_advisor = PHI_Elpidio_Quirino_for_sli
+		activate_advisor = PHI_Mariano_Garchitorena_eco_mli
+		activate_advisor = PHI_Jose_Zulueta_sec_mli
+
+		hidden_effect = {
+			add_stability = 0.15
+			random_other_country = {
+				news_event = { id = fxnews.3 days = 2 }
+			}
+			country_event = { id = philippines.55 days = 230 }
+			country_event = { id = philippines.95 days = 14 }
+			set_country_flag = PHI_has_1937_elections
+			set_country_flag = PHI_liberal_party_victory
+		}
+	}
+	option = { # Nacionalista
+		log = "[GetDateText]: [Root.GetName]: event philippines.34 option philippines.34.b"
+		name = philippines.34.b
+		ai_chance = {
+			base = 200
+			modifier = {
+				factor = 2
+				has_country_flag = PHI_west_focus
+			}
+			modifier = {
+				factor = 2
+				has_country_flag = PHI_usa_focus
+			}
+		}
+		set_politics = {
+			ruling_party = social_conservative
+			elections_allowed = yes
+		}
+		increase_ruling_party_popularity_by_5 = yes
+		remove_every_minister = yes
+
+		activate_advisor = PHI_Manuel_Luis_Quezon_hog_sco
+		activate_advisor = PHI_Sergio_P_Osmena_for_sco
+		activate_advisor = PHI_Andres_Soriano_eco_sco
+		activate_advisor = PHI_Basilio_J_Valdez_sec_sco
+
+		hidden_effect = {
+			add_stability = 0.15
+			random_other_country = {
+				news_event = { id = fxnews.2 days = 2 }
+			}
+			country_event = { id = philippines.55 days = 230 }
+			country_event = { id = philippines.95 days = 14 }
+			set_country_flag = PHI_has_1937_elections
+			set_country_flag = PHI_nacionalista_party_victory
+		}
+	}
+	option = { # Progressista
+		log = "[GetDateText]: [Root.GetName]: event philippines.34 option philippines.34.c"
+		name = philippines.34.c
+		set_politics = {
+			ruling_party = authoritarian_democrat
+			elections_allowed = yes
+		}
+		ai_chance = {
+			base = 200
+			modifier = {
+				factor = 2
+				has_country_flag = PHI_japan_focus
+			}
+		}
+		increase_ruling_party_popularity_by_20 = yes
+		remove_every_minister = yes
+
+		activate_advisor = PHI_Emilio_Aguinaldo_hog_npo
+		activate_advisor = PHI_Claro_M_Recto_for_ade
+		activate_advisor = PHI_Serafin_Fausto_eco_ade
+		activate_advisor = PHI_Benigno_Aquino_Sr_sec_ade
+
+		hidden_effect = {
+			add_stability = 0.15
+			random_other_country = {
+				news_event = { id = fxnews.4 days = 2 }
+			}
+			country_event = { id = philippines.93 days = 60 }
+			country_event = { id = philippines.94 days = 14 }
+			set_country_flag = PHI_has_1937_elections
+			set_country_flag = PHI_progressista_party_victory
+		}
+	}
+	option = { # Sakdalista
+		log = "[GetDateText]: [Root.GetName]: event philippines.34 option philippines.34.e"
+		name = philippines.34.e
+		ai_chance = {
+			base = 200
+			modifier = {
+				factor = 2
+				has_country_flag = PHI_japan_focus
+			}
+		}
+		set_politics = {
+			ruling_party = social_democrat
+			elections_allowed = no
+		}
+		increase_ruling_party_popularity_by_20 = yes
+		remove_every_minister = yes
+
+		activate_advisor = PHI_Benigno_Ramos_hog_sde
+		activate_advisor = PHI_Rafael_Liwanag_for_sde
+		activate_advisor = PHI_Carlos_P_Garcia_eco_sde
+		activate_advisor = PHI_Pardo_de_Tavera_sec_sde
+
+		hidden_effect = {
+			add_stability = 0.15
+			random_other_country = {
+				news_event = { id = fxnews.5 days = 2 }
+			}
+			country_event = { id = philippines.55 days = 230 }
+			country_event = { id = philippines.93 days = 60 }
+			country_event = { id = philippines.94 days = 14 }
+			remove_ideas = PHI_lingering_sakdalistas
+			set_country_flag = PHI_has_1937_elections
+			set_country_flag = PHI_sakdalista_party_victory
+		}
+	}
+	option = {
+		log = "[GetDateText]: [Root.GetName]: event philippines.34 option philippines.34.f"
+		name = philippines.34.f
+		trigger = {
+			has_country_flag = PHI_farmers_expelled
+		}
+		set_politics = {
+			ruling_party = libertarian_socialist
+			elections_allowed = no
+		}
+		increase_ruling_party_popularity_by_20 = yes
+		remove_every_minister = yes
+
+		activate_advisor = PHI_Crisanto_Evangelista_hog_lib
+		activate_advisor = PHI_Guillermo_Capadocia_for_col
+		activate_advisor = PHI_Carlos_P_Garcia_eco_sde
+		activate_advisor = PHI_Mariano_Balgos_sec_lib
+
+		hidden_effect = {
+			country_event = { id = philippines.102 days = 48 }
+			random_other_country = {
+				news_event = { id = fxnews.46 days = 2 }
+			}
+			set_country_flag = PHI_has_1937_elections
+			set_country_flag = PHI_socialists_in_control
+			mark_focus_tree_layout_dirty = yes
+			add_popularity = {
+				ideology = collectivist
+				popularity = 0.1
+			}
+			add_popularity = {
+				ideology = vanguardist
+				popularity = 0.1
+			}
+		}
+	}
+}
+
+country_event = { # Operation Merdeka
+	id = philippines.35
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.35"}
+	title = philippines.35.t
+	desc = philippines.35.d
+	picture = GFX_report_event_japanese_soldiers_01
+	is_triggered_only = yes
+
+	option = { # Greenlight the operation...
+		log = "[GetDateText]: [Root.GetName]: event philippines.35 option philippines.35.a"
+		name = philippines.35.a
+		ai_chance = {
+			base = 200
+		}
+		add_political_power = 30
+		hidden_effect = {
+			country_event = { id = philippines.36 days = 30 }
+		}
+	}
+	option = { # It's too risky...
+		log = "[GetDateText]: [Root.GetName]: event philippines.35 option philippines.35.b"
+		name = philippines.35.b
+		trigger = {
+			is_ai = no
+		}
+		ai_chance = {
+			base = 0
+		}
+		increase_ruling_party_popularity_by_5 = yes
+	}
+}
+
+country_event = { # Operation Merdeka - Successfull
+	id = philippines.36
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.36"}
+	title = philippines.36.t
+	desc = philippines.36.d
+	picture = GFX_report_event_japanese_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			transfer_state = 785
+			random_other_country = {
+				news_event = { id = fxnews.6 days = 1 }
+			}
+			add_named_threat = {
+				name = threat_north_borneo_occupation
+				threat = 10
+			}
+		}
+	}
+
+	option = { # Excellent...
+		log = "[GetDateText]: [Root.GetName]: event philippines.36 option philippines.36.a"
+		name = philippines.36.a
+		increase_ruling_party_popularity_by_5 = yes
+		INS = { country_event = { id = philippines.37 days = 2 } }
+		BEA = { country_event = { id = philippines.37 days = 2 } }
+		ENG = { country_event = { id = philippines.38 days = 2 } }
+	}
+}
+
+country_event = { # Filipino Troops Occupies North Borneo
+	id = philippines.37
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.37"}
+	title = philippines.37.t
+	desc = philippines.37.d
+	picture = GFX_report_event_japanese_soldiers_01
+	is_triggered_only = yes
+
+	option = { # We'll get them back
+		log = "[GetDateText]: [Root.GetName]: event philippines.37 option philippines.37.a"
+		name = philippines.37.a
+		add_opinion_modifier = {
+			target = PHI
+			modifier = ITA_outraged
+		}
+	}
+}
+
+country_event = { # Philippine Seizes North Borneo
+	id = philippines.38
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.38"}
+	title = philippines.38.t
+	desc = philippines.38.d
+	picture = GFX_report_event_japanese_soldiers_01
+	is_triggered_only = yes
+
+	option = { # What?!
+		log = "[GetDateText]: [Root.GetName]: event philippines.38 option philippines.38.a"
+		name = philippines.38.a
+		add_opinion_modifier = {
+			target = PHI
+			modifier = ITA_outraged
+		}
+	}
+}
+
+country_event = { # Filipino Equipment Arrives
+	id = philippines.39
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.39"}
+	title = philippines.39.t
+	desc = philippines.39.d
+	picture = GFX_report_event_japanese_soldiers_01
+	is_triggered_only = yes
+
+	option = { # Much needed!
+		log = "[GetDateText]: [Root.GetName]: event philippines.39 option philippines.39.a"
+		name = philippines.39.a
+		effect_tooltip = {
+			add_equipment_to_stockpile = {
+				type = infantry_equipment
+				amount = 1000
+				producer = FROM
+			}
+		}
+	}
+}
+
+country_event = { # Filipino Volunteers
+	id = philippines.40
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.40"}
+	title = philippines.40.t
+	desc = philippines.40.d
+	picture = GFX_report_event_japanese_soldiers_01
+	is_triggered_only = yes
+
+	option = { # Send the volunteers
+		log = "[GetDateText]: [Root.GetName]: event philippines.40 option philippines.40.a"
+		name = philippines.40.a
+		INS = {
+			country_event = { id = philippines.41 days = 3 }
+		}
+	}
+	option = { # Equipment are already enough
+		log = "[GetDateText]: [Root.GetName]: event philippines.40 option philippines.40.b"
+		name = philippines.40.b
+		add_political_power = 50
+	}
+}
+
+country_event = { # Filipino Volunteers Sent
+	id = philippines.41
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.41"}
+	title = philippines.41.t
+	desc = philippines.41.d
+	picture = GFX_report_event_japanese_soldiers_01
+	is_triggered_only = yes
+
+	option = { # Excellent.
+		log = "[GetDateText]: [Root.GetName]: event philippines.41 option philippines.41.a"
+		name = philippines.41.a
+		random_owned_controlled_state = {
+			create_unit = {
+				division = "name = \"Filipino Volunteers\" division_template = \"Divisi Infanteri\" start_experience_factor = 0.5 start_equipment_factor = 0.5 start_manpower_factor = 0.5"
+				owner = INS
+			}
+			create_unit = {
+				division = "name = \"Filipino Volunteers\" division_template = \"Divisi Infanteri\" start_experience_factor = 0.5 start_equipment_factor = 0.5 start_manpower_factor = 0.5"
+				owner = INS
+			}
+		}
+	}
+}
+
+country_event = { # Aftermath of Typhoon Seling
+	id = philippines.42
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.42"}
+	title = philippines.42.t
+	desc = philippines.42.d
+	is_triggered_only = yes
+	picture = GFX_report_event_PHI_floods
+
+	option = { # Send help immediately!
+		log = "[GetDateText]: [Root.GetName]: event philippines.42 option philippines.42.a"
+		name = philippines.42.a
+		628 = {
+			damage_building = {
+				type = infrastructure
+				damage = 1
+			}
+		}
+		625 = {
+			damage_building = {
+				type = infrastructure
+				damage = 1
+			}
+		}
+		add_political_power = 50
+	}
+}
+
+country_event = { # Quezon Seeks Medical Care in the US
+	id = philippines.43
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.43"}
+	title = philippines.43.t
+	desc = philippines.43.d
+	is_triggered_only = yes
+	picture = GFX_report_event_PHI_quezon
+
+	trigger = {
+		has_character = PHI_Manuel_Luis_Quezon
+		NOT = {
+			has_government = social_conservative
+		}
+	}
+
+	option = { # Have a safe flight!
+		log = "[GetDateText]: [Root.GetName]: event philippines.43 option philippines.43.a"
+		name = philippines.43.a
+		set_country_flag = PHI_quezon_in_the_usa
+		remove_country_leader_role = {
+			character = PHI_Manuel_Luis_Quezon
+			ideology = filipino_nationalism_subtype
+		}
+		add_country_leader_role = {
+			character = PHI_Sergio_P_Osmena
+			promote_leader = yes
+			country_leader = {
+				ideology = christian_democracy_subtype
+				traits = {}
+			}
+		}
+	}
+}
+
+country_event = { # President Tours the Farmlands
+	id = philippines.44
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.44"}
+	title = philippines.44.t
+	desc = philippines.44.d
+	picture = GFX_report_event_PHI_malacanan
+	is_triggered_only = yes
+
+	option = { # Magtanim ay hindi biro...
+		log = "[GetDateText]: [Root.GetName]: event philippines.44 option philippines.44.a"
+		name = philippines.44.a
+		increase_ruling_party_popularity_by_5 = yes
+	}
+}
+
+country_event = { # The Filipino Language
+	id = philippines.45
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.45"}
+	title = philippines.45.t
+	desc = philippines.45.d
+	picture = GFX_report_event_PHI_school
+	is_triggered_only = yes
+
+	option = { # Mabuhay ang Pilipinas!
+		log = "[GetDateText]: [Root.GetName]: event philippines.45 option philippines.45.a"
+		name = philippines.45.a
+		if = {
+			limit = {
+				has_country_leader = {
+					character = PHI_Manuel_Luis_Quezon
+					ruling_only = yes
+				}
+			}
+
+			add_country_leader_trait = PHI_father_of_the_filipino_language
+		}
+	}
+}
+
+country_event = { # Crucifixion in San Fernando, Pampanga
+	id = philippines.46
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.46"}
+	title = philippines.46.t
+	desc = philippines.46.d
+	picture = GFX_report_event_PHI_holy_week
+	is_triggered_only = yes
+
+	option = { # That's got to hurt...
+		log = "[GetDateText]: [Root.GetName]: event philippines.46 option philippines.46.a"
+		name = philippines.46.a
+	}
+}
+
+country_event = { # Border Clash in North Borneo
+	id = philippines.47
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.47"}
+	title = philippines.47.t
+	desc = philippines.47.d
+	picture = GFX_report_event_PHI_scouts_1
+	is_triggered_only = yes
+
+	trigger = {
+		has_global_flag = insulindian_uprising_crushed
+		PHI = {
+			controls_state = 785
+			is_neighbor_of = BEA
+			NOT = {
+				has_war_with = ENG
+				is_in_faction_with = ENG
+			}
+		}
+	}
+
+	option = { # Summon the British Ambassador now!
+		log = "[GetDateText]: [Root.GetName]: event philippines.47 option philippines.47.a"
+		name = philippines.47.a
+		add_war_support = 0.05
+		ENG = {
+			country_event = { id = philippines.48 days = 1 }
+		}
+	}
+}
+
+country_event = { # Border Clash in North Borneo
+	id = philippines.48
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.48"}
+	title = philippines.48.t
+	desc = philippines.48.d
+	picture = GFX_report_event_PHI_scouts_1
+	is_triggered_only = yes
+
+	option = { # We have to accept
+		log = "[GetDateText]: [Root.GetName]: event philippines.48 option philippines.48.a"
+		name = philippines.48.a
+		FROM = {
+			country_event = { id = philippines.49 days = 1 }
+		}
+	}
+	option = { # It ain't our fault
+		log = "[GetDateText]: [Root.GetName]: event philippines.48 option philippines.48.b"
+		name = philippines.48.b
+		FROM = {
+			country_event = { id = philippines.50 days = 1 }
+		}
+	}
+}
+
+country_event = { # The From Accepts Our Demands
+	id = philippines.49
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.49"}
+	title = philippines.49.t
+	desc = philippines.49.d
+	picture = GFX_report_event_PHI_scouts_1
+	is_triggered_only = yes
+
+	option = { # Excellent
+		log = "[GetDateText]: [Root.GetName]: event philippines.49 option philippines.49.a"
+		name = philippines.49.a
+		increase_ruling_party_popularity_by_5 = yes
+		add_political_power = 100
+	}
+}
+
+country_event = { # The From Refuses Our Demands
+	id = philippines.50
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.50"}
+	title = philippines.50.t
+	desc = philippines.50.d
+	picture = GFX_report_event_PHI_scouts_1
+	is_triggered_only = yes
+
+	option = { # Dissapointing...
+		log = "[GetDateText]: [Root.GetName]: event philippines.50 option philippines.50.a"
+		name = philippines.50.a
+	}
+}
+
+country_event = { # Garrisons Attacked in North Borneo
+	id = philippines.51
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.51"}
+	title = philippines.51.t
+	desc = philippines.51.d
+	picture = GFX_report_event_PHI_scouts_2
+	is_triggered_only = yes
+
+	trigger = {
+		has_global_flag = insulindian_uprising_success
+		PHI = {
+			controls_state = 785
+			is_neighbor_of = INS
+			NOT = {
+				has_war_with = INS
+				is_in_faction_with = INS
+			}
+		}
+	}
+
+	option = { # What?!
+		log = "[GetDateText]: [Root.GetName]: event philippines.51 option philippines.51.a"
+		name = philippines.51.a
+	}
+}
+
+country_event = { # Nacionalistas Critices Private-Public Partnership Program
+	id = philippines.52
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.52"}
+	title = philippines.52.t
+	desc = philippines.52.d
+	picture = GFX_report_event_PHI_malacanan
+	is_triggered_only = yes
+
+	option = { # Quite nonsense...
+		log = "[GetDateText]: [Root.GetName]: event philippines.52 option philippines.52.a"
+		name = philippines.52.a
+		add_popularity = {
+			ideology = social_conservative
+			popularity = 0.05
+		}
+	}
+}
+
+country_event = { # Sakdalista Movement Losing Support
+	id = philippines.53
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.53"}
+	title = philippines.53.t
+	desc = philippines.53.d
+	picture = GFX_report_event_PHI_crowd_1
+	is_triggered_only = yes
+
+	option = { # All according to plan...
+		log = "[GetDateText]: [Root.GetName]: event philippines.53 option philippines.53.a"
+		name = philippines.53.a
+		remove_ideas = PHI_lingering_sakdalistas
+	}
+}
+
+country_event = { # Land Reform Finished
+	id = philippines.54
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.54"}
+	title = philippines.54.t
+	desc = philippines.54.d
+	picture = GFX_report_event_PHI_crowd_1
+	is_triggered_only = yes
+
+	option = { # Great!
+		log = "[GetDateText]: [Root.GetName]: event philippines.54 option philippines.54.a"
+		name = philippines.54.a
+		327 = {
+			if = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+			}
+		}
+		623 = {
+			if = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+			}
+		}
+		624 = {
+			if = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+			}
+		}
+		627 = {
+			if = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+			}
+		}
+	}
+}
+
+country_event = { # Aguinaldo Retires from Politics
+	id = philippines.55
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.55"}
+	title = philippines.55.t
+	desc = {
+		text = philippines.55.d
+		trigger = {
+			NOT = {
+				has_government = social_conservative
+			}
+		}
+	}
+	desc = {
+		text = philippines.55.d.1
+		trigger = {
+			has_government = social_conservative
+		}
+	}
+	picture = GFX_report_event_PHI_aguinaldo_quezon
+	is_triggered_only = yes
+
+	option = { # Happy retirement, Miong!
+		log = "[GetDateText]: [Root.GetName]: event philippines.55 option philippines.55.a"
+		name = philippines.55.a
+		retire_character = PHI_Emilio_Aguinaldo
+		add_popularity = {
+			ideology = authoritarian_democrat
+			popularity = -0.15
+		}
+		add_country_leader_role = {
+			character = PHI_Benigno_Aquino_Sr
+			promote_leader = yes
+			country_leader = {
+				ideology = authdem_national_conservative_subtype
+				traits = { }
+			}
+		}
+	}
+}
+
+country_event = { # 1941 Presidential Elections
+	id = philippines.56
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.56"}
+	title = philippines.56.t
+	desc = {
+		text = philippines.56.d
+		trigger = {
+			NOT = { has_government = market_liberal }
+		}
+	}
+	desc = {
+		text = philippines.56.d.1
+		trigger = {
+			has_government = market_liberal
+		}
+	}
+	picture = GFX_report_event_election_vote
+	is_triggered_only = yes
+
+	trigger = {
+		tag = PHI
+		date > 1941.1.1
+		date < 1942.1.1
+		NOT = { has_country_flag = PHI_has_1941_elections }
+	}
+
+	option = { # Sergio Osmena
+		log = "[GetDateText]: [Root.GetName]: event philippines.56 option philippines.56.a"
+		name = philippines.56.a
+		if = {
+			limit = {
+				NOT = { has_country_flag = PHI_quezon_in_the_usa }
+			}
+			remove_country_leader_role = {
+				character = PHI_Manuel_Luis_Quezon
+				ideology = filipino_nationalism_subtype
+			}
+			add_country_leader_role = {
+				character = PHI_Sergio_P_Osmena
+				promote_leader = yes
+				country_leader = {
+					ideology = christian_democracy_subtype
+					traits = {}
+				}
+			}
+		}
+		set_politics = {
+			ruling_party = social_conservative
+			elections_allowed = yes
+		}
+		remove_every_minister = yes
+
+		activate_advisor = PHI_Sergio_P_Osmena_hog_sco
+		activate_advisor = PHI_Manuel_Quadrino_for_sco
+		activate_advisor = PHI_Andres_Soriano_eco_sco
+		activate_advisor = PHI_Jose_Yulo_sec_sco
+
+		hidden_effect = {
+			set_country_flag = PHI_has_1941_elections
+			if = {
+				limit = { social_conservative < 0.1 }
+				increase_ruling_party_popularity_by_20 = yes
+			}
+			else_if = {
+				limit = { social_conservative < 0.2 }
+				increase_ruling_party_popularity_by_15 = yes
+			}
+			else = {
+				increase_ruling_party_popularity_by_10 = yes
+			}
+		}
+	}
+
+	option = { # Manuel A. Roxas
+		log = "[GetDateText]: [Root.GetName]: event philippines.56 option philippines.56.b"
+		name = philippines.56.b
+		set_politics = {
+			ruling_party = market_liberal
+			elections_allowed = yes
+		}
+		increase_ruling_party_popularity_by_10 = yes
+		remove_every_minister = yes
+
+		activate_advisor = PHI_Manuel_Roxas_hog_mli
+		activate_advisor = PHI_Quentin_Paredes_for_mli
+		activate_advisor = PHI_Mariano_Garchitorena_eco_mli
+		activate_advisor = PHI_Jose_Zulueta_sec_mli
+
+		hidden_effect = {
+			set_country_flag = PHI_has_1941_elections
+			if = {
+				limit = { market_liberal < 0.1 }
+				increase_ruling_party_popularity_by_20 = yes
+			}
+			else_if = {
+				limit = { market_liberal < 0.2 }
+				increase_ruling_party_popularity_by_15 = yes
+			}
+			else = {
+				increase_ruling_party_popularity_by_10 = yes
+			}
+		}
+	}
+}
+
+country_event = { # 1945 Presidential Elections
+	id = philippines.57
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.57"}
+	title = philippines.57.t
+	desc = {
+		text = philippines.57.d
+		trigger = {
+			NOT = { has_government = market_liberal }
+		}
+	}
+	desc = {
+		text = philippines.57.d.1
+		trigger = {
+			has_government = market_liberal
+		}
+	}
+	picture = GFX_report_event_election_vote
+	is_triggered_only = yes
+
+	trigger = {
+		tag = PHI
+		date > 1945.1.1
+		date < 1946.1.1
+		NOT = { has_country_flag = PHI_has_1945_elections }
+	}
+
+	option = { # Sergio Osmena
+		log = "[GetDateText]: [Root.GetName]: event philippines.57 option philippines.57.a"
+		name = philippines.57.a
+		set_politics = {
+			ruling_party = social_conservative
+			elections_allowed = yes
+		}
+		increase_ruling_party_popularity_by_10 = yes
+		remove_every_minister = yes
+
+		activate_advisor = PHI_Sergio_P_Osmena_hog_sco
+		activate_advisor = PHI_Manuel_Quadrino_for_sco
+		activate_advisor = PHI_Andres_Soriano_eco_sco
+		activate_advisor = PHI_Jose_Yulo_sec_sco
+
+		hidden_effect = {
+			set_country_flag = PHI_has_1945_elections
+		}
+	}
+
+	option = { # Elpidio Quirino
+		log = "[GetDateText]: [Root.GetName]: event philippines.57 option philippines.57.b"
+		name = philippines.57.b
+		set_politics = {
+			ruling_party = social_liberal
+			elections_allowed = yes
+		}
+		increase_ruling_party_popularity_by_10 = yes
+		remove_every_minister = yes
+
+		activate_advisor = PHI_Elpidio_Quirino_hog_sli
+		activate_advisor = PHI_Joaquin_Elizalde_for_sli
+		activate_advisor = PHI_Antonio_de_las_Alas_eco_sli
+		activate_advisor = PHI_Alberto_Ramos_sec_sli
+
+		hidden_effect = {
+			set_country_flag = PHI_has_1945_elections
+		}
+	}
+
+	option = { # Juan Sumulong
+		log = "[GetDateText]: [Root.GetName]: event philippines.57 option philippines.57.c"
+		name = philippines.57.c
+		set_politics = {
+			ruling_party = social_democrat
+			elections_allowed = yes
+		}
+		increase_ruling_party_popularity_by_10 = yes
+		remove_every_minister = yes
+
+		activate_advisor = PHI_Juan_Sumulong_hog_sde
+		activate_advisor = PHI_Rafael_Liwanag_for_sde
+		activate_advisor = PHI_Carlos_P_Garcia_eco_sde
+		activate_advisor = PHI_Pardo_de_Tavera_sec_sde
+
+		hidden_effect = {
+			set_country_flag = PHI_has_1945_elections
+		}
+	}
+}
+
+country_event = { # 1949 Presidential Elections
+	id = philippines.58
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.58"}
+	title = philippines.58.t
+	desc = philippines.58.d
+	picture = GFX_report_event_election_vote
+	is_triggered_only = yes
+
+	trigger = {
+		tag = PHI
+		date > 1949.1.1
+		date < 1950.1.1
+		NOT = { has_country_flag = PHI_has_1949_elections }
+	}
+
+	option = { # Eulogio Rodriguez Sr
+		log = "[GetDateText]: [Root.GetName]: event philippines.58 option philippines.58.a"
+		name = philippines.58.a
+		set_politics = {
+			ruling_party = social_conservative
+			elections_allowed = yes
+		}
+		increase_ruling_party_popularity_by_10 = yes
+		remove_every_minister = yes
+
+		activate_advisor = PHI_Eulogio_Rodriguez_Sr_hog_sco
+		activate_advisor = PHI_Manuel_Quadrino_for_sco
+		activate_advisor = PHI_Andres_Soriano_eco_sco
+		activate_advisor = PHI_Jose_Yulo_sec_sco
+
+		hidden_effect = {
+			set_country_flag = PHI_has_1949_elections
+			remove_country_leader_role = {
+				character = PHI_Sergio_P_Osmena
+				ideology = national_conservative_subtype
+			}
+			add_country_leader_role = {
+				character = PHI_Eulogio_Rodriguez_Sr
+				promote_leader = yes
+				country_leader = {
+					ideology = christian_democracy_subtype
+					traits = { }
+				}
+			}
+		}
+	}
+
+	option = { # Elpidio Quirino
+		log = "[GetDateText]: [Root.GetName]: event philippines.58 option philippines.58.b"
+		name = philippines.58.b
+		set_politics = {
+			ruling_party = social_liberal
+			elections_allowed = yes
+		}
+		increase_ruling_party_popularity_by_10 = yes
+		remove_every_minister = yes
+
+		activate_advisor = PHI_Elpidio_Quirino_hog_sli
+		activate_advisor = PHI_Joaquin_Elizalde_for_sli
+		activate_advisor = PHI_Antonio_de_las_Alas_eco_sli
+		activate_advisor = PHI_Alberto_Ramos_sec_sli
+
+		hidden_effect = {
+			set_country_flag = PHI_has_1949_elections
+		}
+	}
+
+	option = { # Claro M. Recto
+		log = "[GetDateText]: [Root.GetName]: event philippines.58 option philippines.58.c"
+		name = philippines.58.c
+		set_politics = {
+			ruling_party = social_democrat
+			elections_allowed = yes
+		}
+		increase_ruling_party_popularity_by_10 = yes
+		remove_every_minister = yes
+
+		activate_advisor = PHI_Claro_M_Recto_hog_sde
+		activate_advisor = PHI_Rafael_Liwanag_for_sde
+		activate_advisor = PHI_Carlos_P_Garcia_eco_sde
+		activate_advisor = PHI_Pardo_de_Tavera_sec_sde
+
+		hidden_effect = {
+			set_country_flag = PHI_has_1949_elections
+			remove_country_leader_role = {
+				character = PHI_Juan_Sumulong
+				ideology = socdem_christian_socialism_subtype
+			}
+			add_country_leader_role = {
+				character = PHI_Claro_M_Recto
+				promote_leader = yes
+				country_leader = {
+					ideology = socdem_left_nationalism_subtype
+					traits = { }
+				}
+			}
+		}
+	}
+}
+
+country_event = { # 1953 Presidential Elections
+	id = philippines.59
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.59"}
+	title = philippines.59.t
+	desc = philippines.59.d
+	picture = GFX_report_event_election_vote
+	is_triggered_only = yes
+
+	trigger = {
+		tag = PHI
+		date > 1953.1.1
+		date < 1954.1.1
+		NOT = { has_country_flag = PHI_has_1953_elections }
+	}
+
+	option = { # Eulogio Rodriguez Sr
+		log = "[GetDateText]: [Root.GetName]: event philippines.59 option philippines.59.a"
+		name = philippines.59.a
+		set_politics = {
+			ruling_party = social_conservative
+			elections_allowed = yes
+		}
+		increase_ruling_party_popularity_by_10 = yes
+		remove_every_minister = yes
+
+		activate_advisor = PHI_Eulogio_Rodriguez_Sr_hog_sco
+		activate_advisor = PHI_Manuel_Quadrino_for_sco
+		activate_advisor = PHI_Andres_Soriano_eco_sco
+		activate_advisor = PHI_Jose_Yulo_sec_sco
+
+		hidden_effect = {
+			set_country_flag = PHI_has_1953_elections
+		}
+	}
+
+	option = { # J. Antonio Araneta
+		log = "[GetDateText]: [Root.GetName]: event philippines.59 option philippines.59.b"
+		name = philippines.59.b
+		set_politics = {
+			ruling_party = market_liberal
+			elections_allowed = yes
+		}
+		increase_ruling_party_popularity_by_10 = yes
+		remove_every_minister = yes
+
+		activate_advisor = PHI_J_Antonio_Araneta_hog_mli
+		activate_advisor = PHI_Quentin_Paredes_for_mli
+		activate_advisor = PHI_Ramon_Magsaysay_eco_mli
+		activate_advisor = PHI_Jose_Zulueta_sec_mli
+
+		hidden_effect = {
+			set_country_flag = PHI_has_1953_elections
+			remove_country_leader_role = {
+				character = PHI_Manuel_Roxas
+				ideology = marlib_classical_liberalism_subtype
+			}
+			add_country_leader_role = {
+				character = PHI_J_Antonio_Araneta
+				promote_leader = yes
+				country_leader = {
+					ideology = liberal_conservative_subtype
+					traits = { }
+				}
+			}
+		}
+	}
+
+	option = { # Claro M. Recto
+		log = "[GetDateText]: [Root.GetName]: event philippines.59 option philippines.59.c"
+		name = philippines.59.c
+		set_politics = {
+			ruling_party = social_democrat
+			elections_allowed = yes
+		}
+		increase_ruling_party_popularity_by_10 = yes
+		remove_every_minister = yes
+
+		activate_advisor = PHI_Claro_M_Recto_hog_sde
+		activate_advisor = PHI_Rafael_Liwanag_for_sde
+		activate_advisor = PHI_Carlos_P_Garcia_eco_sde
+		activate_advisor = PHI_Pardo_de_Tavera_sec_sde
+
+		hidden_effect = {
+			set_country_flag = PHI_has_1953_elections
+		}
+	}
+}
+
+country_event = { # 1957 Presidential Elections
+	id = philippines.60
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.60"}
+	title = philippines.60.t
+	desc = philippines.60.d
+	picture = GFX_report_event_election_vote
+	is_triggered_only = yes
+
+	trigger = {
+		tag = PHI
+		date > 1957.1.1
+		date < 1958.1.1
+		NOT = { has_country_flag = PHI_has_1957_elections }
+	}
+
+	option = { # Camilio Osias
+		log = "[GetDateText]: [Root.GetName]: event philippines.60 option philippines.60.a"
+		name = philippines.60.a
+		set_politics = {
+			ruling_party = social_conservative
+			elections_allowed = yes
+		}
+		increase_ruling_party_popularity_by_10 = yes
+		remove_every_minister = yes
+
+		activate_advisor = PHI_Camilio_Osias_hog_sco
+		activate_advisor = PHI_Manuel_Quadrino_for_sco
+		activate_advisor = PHI_Andres_Soriano_eco_sco
+		activate_advisor = PHI_Jose_Yulo_sec_sco
+
+		hidden_effect = {
+			set_country_flag = PHI_has_1953_elections
+			remove_country_leader_role = {
+				character = PHI_Eulogio_Rodriguez_Sr
+				ideology = christian_democracy_subtype
+			}
+			add_country_leader_role = {
+				character = PHI_Camilio_Osias
+				promote_leader = yes
+				country_leader = {
+					ideology = christian_democracy_subtype
+					traits = { }
+				}
+			}
+		}
+	}
+
+	option = { # J. Antonio Araneta
+		log = "[GetDateText]: [Root.GetName]: event philippines.60 option philippines.60.b"
+		name = philippines.60.b
+		set_politics = {
+			ruling_party = market_liberal
+			elections_allowed = yes
+		}
+		increase_ruling_party_popularity_by_10 = yes
+		remove_every_minister = yes
+
+		activate_advisor = PHI_J_Antonio_Araneta_hog_mli
+		activate_advisor = PHI_Quentin_Paredes_for_mli
+		activate_advisor = PHI_Ramon_Magsaysay_eco_mli
+		activate_advisor = PHI_Jose_Zulueta_sec_mli
+
+		hidden_effect = {
+			set_country_flag = PHI_has_1957_elections
+		}
+	}
+
+	option = { # Lope K. Santos
+		log = "[GetDateText]: [Root.GetName]: event philippines.60 option philippines.60.c"
+		name = philippines.60.c
+		set_politics = {
+			ruling_party = social_democrat
+			elections_allowed = yes
+		}
+		increase_ruling_party_popularity_by_10 = yes
+		remove_every_minister = yes
+
+		activate_advisor = PHI_Claro_M_Recto_hog_sde
+		activate_advisor = PHI_Rafael_Liwanag_for_sde
+		activate_advisor = PHI_Carlos_P_Garcia_eco_sde
+		activate_advisor = PHI_Pardo_de_Tavera_sec_sde
+
+		hidden_effect = {
+			set_country_flag = PHI_has_1957_elections
+			remove_country_leader_role = {
+				character = PHI_Claro_M_Recto
+				ideology = socdem_left_nationalism_subtype
+			}
+			add_country_leader_role = {
+				character = PHI_Lope_K_Santos
+				promote_leader = yes
+				country_leader = {
+					ideology = socdem_democratic_socialism_subtype
+					traits = { }
+				}
+			}
+		}
+	}
+}
+
+country_event = { # Philippine Entry to the Entente
+	id = philippines.61
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.61"}
+	title = philippines.61.t
+	desc = philippines.61.d
+	picture = GFX_report_event_PHI_malacanan
+	is_triggered_only = yes
+
+	option = { # Accept
+		log = "[GetDateText]: [Root.GetName]: event philippines.61 option philippines.61.a"
+		name = philippines.61.a
+		ai_chance = {
+			base = 200
+		}
+		FROM = {
+			country_event = { id = philippines.62 days = 2 }
+		}
+		hidden_effect = {
+			if = {
+				limit = { tag = SOV }
+				random_other_country = {
+					news_event = { id = fxnews.7 days = 2 }
+				}
+			}
+		}
+	}
+	option = { # Refuse
+		log = "[GetDateText]: [Root.GetName]: event philippines.61 option philippines.61.b"
+		name = philippines.61.b
+		ai_chance = {
+			base = 20
+		}
+		FROM = {
+			country_event = { id = philippines.63 days = 2 }
+		}
+	}
+}
+
+country_event = { # France Accepts Philippines to the Entente
+	id = philippines.62
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.62"}
+	title = philippines.62.t
+	desc = philippines.62.d
+	picture = GFX_report_event_PHI_malacanan
+	is_triggered_only = yes
+
+	option = { # Great!
+		log = "[GetDateText]: [Root.GetName]: event philippines.62 option philippines.62.a"
+		name = philippines.62.a
+		FROM = {
+			add_to_faction = ROOT
+		}
+		mark_focus_tree_layout_dirty = yes
+	}
+}
+
+country_event = { # France Refuses Philippines to the Entente
+	id = philippines.63
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.63"}
+	title = philippines.63.t
+	desc = philippines.63.d
+	picture = GFX_report_event_PHI_malacanan
+	is_triggered_only = yes
+
+	option = { # Great!
+		log = "[GetDateText]: [Root.GetName]: event philippines.63 option philippines.63.a"
+		name = philippines.63.a
+		if = {
+			limit = {
+				FROM = { tag = FRA }
+			}
+			mark_focus_tree_layout_dirty = yes
+			uncomplete_national_focus = {
+				focus = PHI_look_to_the_west
+				uncomplete_children = yes
+				refund_political_power = no
+			}
+		}
+		else_if = {
+			limit = {
+				FROM = { tag = JAP }
+			}
+			mark_focus_tree_layout_dirty = yes
+			uncomplete_national_focus = {
+				focus = PHI_pivot_to_japan
+				uncomplete_children = yes
+				refund_political_power = no
+			}
+		}
+	}
+}
+
+country_event = { # Philippines Proposes Alliance
+	id = philippines.64
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.64"}
+	title = philippines.64.t
+	desc = philippines.64.d
+	picture = GFX_report_event_PHI_malacanan
+	is_triggered_only = yes
+
+	option = { # Accept
+		log = "[GetDateText]: [Root.GetName]: event philippines.64 option philippines.64.a"
+		name = philippines.64.a
+		ai_chance = {
+			base = 40
+			modifier = {
+				factor = 100
+				has_democratic_government = yes
+			}
+		}
+
+		if = {
+			limit = { is_faction_leader = yes }
+			add_to_faction = FROM
+
+			else = {
+				create_faction = washington_accord
+			}
+		}
+
+		FROM = {
+			country_event = { id = philippines.65 days = 2 }
+		}
+	}
+	option = { # Refuse
+		log = "[GetDateText]: [Root.GetName]: event philippines.64 option philippines.64.b"
+		name = philippines.64.b
+		ai_chance = {
+			base = 20
+		}
+		FROM = {
+			country_event = { id = philippines.66 days = 2 }
+		}
+	}
+}
+
+country_event = { # US Accepts Philippine Alliance
+	id = philippines.65
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.65"}
+	title = philippines.65.t
+	desc = philippines.65.d
+	picture = GFX_report_event_PHI_malacanan
+	is_triggered_only = yes
+
+	option = { # Great!
+		log = "[GetDateText]: [Root.GetName]: event philippines.65 option philippines.65.a"
+		name = philippines.65.a
+
+		if = {
+			limit = {
+				NOT = { is_in_faction_with = FROM }
+			}
+
+			FROM = {
+				add_to_faction = ROOT
+			}
+		}
+	}
+}
+
+country_event = { # US Refuses Philippine Alliance
+	id = philippines.66
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.66"}
+	title = philippines.66.t
+	desc = philippines.66.d
+	picture = GFX_report_event_PHI_malacanan
+	is_triggered_only = yes
+
+	option = { # Great!
+		log = "[GetDateText]: [Root.GetName]: event philippines.66 option philippines.66.a"
+		name = philippines.66.a
+		uncomplete_national_focus = {
+			focus = PHI_maintain_american_relations
+			uncomplete_children = yes
+			refund_political_power = no
+		}
+	}
+}
+
+country_event = { # Philippines Proposes Alliance
+	id = philippines.67
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.67"}
+	title = philippines.67.t
+	desc = philippines.67.d
+	picture = GFX_report_event_PHI_malacanan
+	is_triggered_only = yes
+
+	option = { # Accept
+		log = "[GetDateText]: [Root.GetName]: event philippines.67 option philippines.67.a"
+		name = philippines.67.a
+		ai_chance = {
+			base = 100
+		}
+		create_faction = co_prosperity_sphere
+		FROM = {
+			country_event = { id = philippines.68 days = 2 }
+		}
+		hidden_effect = {
+			random_other_country = {
+				news_event = { id = fxnews.40 days = 2 }
+			}
+		}
+	}
+	option = { # Refuse
+		log = "[GetDateText]: [Root.GetName]: event philippines.67 option philippines.67.b"
+		name = philippines.67.b
+		ai_chance = {
+			base = 20
+		}
+		FROM = {
+			country_event = { id = philippines.69 days = 2 }
+		}
+	}
+}
+
+country_event = { # Japan Accepts Philippine Alliance
+	id = philippines.68
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.68"}
+	title = philippines.68.t
+	desc = philippines.68.d
+	picture = GFX_report_event_PHI_malacanan
+	is_triggered_only = yes
+
+	option = { # Great!
+		log = "[GetDateText]: [Root.GetName]: event philippines.68 option philippines.68.a"
+		name = philippines.68.a
+		FROM = {
+			add_to_faction = ROOT
+		}
+	}
+}
+
+country_event = { # Japan Refuses Philippine Alliance
+	id = philippines.69
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.69"}
+	title = philippines.69.t
+	desc = philippines.69.d
+	picture = GFX_report_event_PHI_malacanan
+	is_triggered_only = yes
+
+	option = { # Great!
+		log = "[GetDateText]: [Root.GetName]: event philippines.69 option philippines.69.a"
+		name = philippines.69.a
+		uncomplete_national_focus = {
+			focus = PHI_pivot_to_japan
+			uncomplete_children = yes
+			refund_political_power = no
+		}
+	}
+}
+
+country_event = { # Philippines Invites us to their Alliance
+	id = philippines.70
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.70"}
+	title = philippines.70.t
+	desc = philippines.70.d
+	picture = GFX_report_event_PHI_malacanan
+	is_triggered_only = yes
+
+	option = { # Accept
+		log = "[GetDateText]: [Root.GetName]: event philippines.70 option philippines.70.a"
+		name = philippines.70.a
+		ai_chance = {
+			base = 40
+		}
+		FROM = {
+			country_event = { id = philippines.71 days = 2 }
+		}
+	}
+	option = { # Refuse
+		log = "[GetDateText]: [Root.GetName]: event philippines.70 option philippines.70.b"
+		name = philippines.70.b
+		ai_chance = {
+			base = 20
+		}
+		FROM = {
+			country_event = { id = philippines.72 days = 2 }
+		}
+	}
+}
+
+country_event = { # Country Accepts Invitation
+	id = philippines.71
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.71"}
+	title = philippines.71.t
+	desc = philippines.71.d
+	picture = GFX_report_event_PHI_malacanan
+	is_triggered_only = yes
+
+	option = { # Great!
+		log = "[GetDateText]: [Root.GetName]: event philippines.71 option philippines.71.a"
+		name = philippines.71.a
+		faction_leader = { add_to_faction = FROM }
+	}
+}
+
+country_event = { # Country Refuses Invitation
+	id = philippines.72
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.72"}
+	title = philippines.72.t
+	desc = philippines.72.d
+	picture = GFX_report_event_PHI_malacanan
+	is_triggered_only = yes
+
+	option = { # Shame...
+		log = "[GetDateText]: [Root.GetName]: event philippines.72 option philippines.72.a"
+		name = philippines.72.a
+		add_political_power = 20
+	}
+	option = { # We will force them into the alliance!
+		log = "[GetDateText]: [Root.GetName]: event philippines.72 option philippines.72.b"
+		name = philippines.72.b
+		create_wargoal = {
+			target = FROM
+			type = annex_everything
+		}
+	}
+}
+
+country_event = { # Philippines Demands Burma
+	id = philippines.73
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.73"}
+	title = philippines.73.t
+	desc = philippines.73.d
+	picture = GFX_report_event_PHI_malacanan
+	is_triggered_only = yes
+
+	option = { # Accept
+		log = "[GetDateText]: [Root.GetName]: event philippines.73 option philippines.73.a"
+		name = philippines.73.a
+		ai_chance = {
+			base = 40
+		}
+		FROM = {
+			country_event = { id = philippines.74 days = 2 }
+		}
+	}
+	option = { # Refuse
+		log = "[GetDateText]: [Root.GetName]: event philippines.73 option philippines.73.b"
+		name = philippines.73.b
+		ai_chance = {
+			base = 20
+		}
+		FROM = {
+			country_event = { id = philippines.75 days = 2 }
+		}
+	}
+}
+
+country_event = { # Country Accepts Invitation
+	id = philippines.74
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.74"}
+	title = philippines.74.t
+	desc = philippines.74.d
+	picture = GFX_report_event_PHI_malacanan
+	is_triggered_only = yes
+
+	option = { # Great!
+		log = "[GetDateText]: [Root.GetName]: event philippines.74 option philippines.74.a"
+		name = philippines.74.a
+		transfer_state = 288 # Rangoon
+		transfer_state = 640
+		transfer_state = 812
+		transfer_state = 1007
+		if = {
+			limit = { owns_state = 805 }
+			transfer_state = 805
+		}
+		if = {
+			limit = { owns_state = 1059 }
+			transfer_state = 1059
+		}
+	}
+}
+
+country_event = { # Country Refuses Invitation
+	id = philippines.75
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.75"}
+	title = philippines.75.t
+	desc = philippines.75.d
+	picture = GFX_report_event_PHI_malacanan
+	is_triggered_only = yes
+
+	option = { # Shame...
+		log = "[GetDateText]: [Root.GetName]: event philippines.75 option philippines.75.a"
+		name = philippines.75.a
+	}
+	option = { # We will force them into the alliance!
+		log = "[GetDateText]: [Root.GetName]: event philippines.75 option philippines.75.b"
+		name = philippines.75.b
+	}
+}
+
+country_event = { # Singapore Falls
+	id = philippines.76
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.76"}
+	title = philippines.76.t
+	desc = {
+		text = philippines.76.d
+		trigger = {
+			BEA = { has_capitulated = yes }
+		}
+	}
+	desc = {
+		text = philippines.76.d.1
+		trigger = {
+			INS = { exists = yes }
+		}
+	}
+	picture = GFX_report_event_PHI_scouts_2
+	is_triggered_only = yes
+
+	trigger = {
+		NOT = { tag = PHI }
+	}
+
+	option = { # Prepare to sue peace
+		log = "[GetDateText]: [Root.GetName]: event philippines.76 option philippines.76.a"
+		name = philippines.76.a
+		ai_chance = {
+			base = 100
+		}
+		add_war_support = -0.05
+		every_enemy_country = {
+			limit = {
+				OR = {
+					tag = PHI
+					is_in_faction_with = PHI
+				}
+			}
+			white_peace = PREV
+		}
+		hidden_effect = {
+			PHI = {
+				set_country_flag = PHI_whitepeaced_with_britain
+			}
+			every_other_country = {
+				limit = { is_in_faction_with = ROOT }
+				PREV = {
+					country_event = philippines.78
+				}
+			}
+			FROM = {
+				annex_country = {
+					target = BEA
+					transfer_troops = no
+				}
+				transfer_state = 819
+				transfer_state = 820
+				transfer_state = 336
+				transfer_state = 821
+			}
+		}
+	}
+	option = { # Not all is lost!
+		log = "[GetDateText]: [Root.GetName]: event philippines.76 option philippines.76.b"
+		name = philippines.76.b
+		ai_chance = {
+			base = 0
+		}
+		add_stability = -0.05
+		add_war_support = -0.15
+	}
+}
+
+country_event = { # Defeat in Indochina
+	id = philippines.77
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.77"}
+	title = philippines.77.t
+	desc = philippines.77.d
+	picture = GFX_report_event_PHI_scouts_2
+	is_triggered_only = yes
+
+	option = { # Abandon Indochina
+		log = "[GetDateText]: [Root.GetName]: event philippines.77 option philippines.77.a"
+		name = philippines.77.a
+		ai_chance = {
+			base = 100
+		}
+		add_war_support = -0.05
+		every_enemy_country = {
+			limit = {
+				OR = {
+					tag = PHI
+					is_in_faction_with = PHI
+				}
+			}
+			white_peace = PREV
+		}
+		hidden_effect = {
+			every_other_country = {
+				limit = { is_in_faction_with = ROOT }
+				PREV = {
+					country_event = philippines.78
+				}
+				every_owned_state = {
+					limit = {
+						is_on_continent = asia
+						is_controlled_by = PHI
+					}
+					PHI = {
+						transfer_state = PREV
+					}
+				}
+			}
+			PHI = {
+				annex_country = {
+					target = FIC
+					transfer_troops = no
+				}
+			}
+		}
+	}
+
+	option = { # Not all is lost!
+		log = "[GetDateText]: [Root.GetName]: event philippines.77 option philippines.77.b"
+		name = philippines.77.b
+		ai_chance = {
+			base = 0
+		}
+		add_stability = -0.05
+		add_war_support = -0.15
+	}
+}
+
+country_event = { # Hidden Event to whitepeace other British allies
+	id = philippines.78
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.78"}
+	is_triggered_only = yes
+	hidden = yes
+	option = {}
+	immediate = {
+		every_enemy_country = {
+			limit = {
+				OR = {
+					tag = PHI
+					is_in_faction_with = PHI
+				}
+			}
+			white_peace = PREV
+		}
+	}
+}
+
+country_event = { # Philippines Wants to Safeguard Indochina/East Indies
+	id = philippines.79
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.79"}
+	title = philippines.79.t
+	desc = philippines.79.d
+	picture = GFX_report_event_PHI_scouts_1
+	is_triggered_only = yes
+
+	option = { # Accept
+		log = "[GetDateText]: [Root.GetName]: event philippines.79 option philippines.79.a"
+		name = philippines.79.a
+		ai_chance = {
+			base = 40
+		}
+		add_offsite_building = {
+			type = industrial_complex
+			level = 2
+		}
+		add_manpower = 100000
+		FROM = {
+			country_event = { id = philippines.80 days = 2 }
+		}
+	}
+	option = { # Refuse
+		log = "[GetDateText]: [Root.GetName]: event philippines.79 option philippines.79.b"
+		name = philippines.79.b
+		ai_chance = {
+			base = 20
+		}
+		FROM = {
+			country_event = { id = philippines.81 days = 2 }
+		}
+	}
+}
+
+country_event = { # ENG/FRA Accepts Control
+	id = philippines.80
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.80"}
+	title = philippines.80.t
+	desc = philippines.80.d
+	picture = GFX_report_event_PHI_scouts_1
+	is_triggered_only = yes
+
+	option = { # Great!
+		log = "[GetDateText]: [Root.GetName]: event philippines.80 option philippines.80.a"
+		name = philippines.80.a
+		if = {
+			limit = {
+				FROM = { tag = ENG }
+			}
+			puppet = BEA
+		}
+		else_if = {
+			limit = {
+				FROM = { tag = FRA }
+			}
+			puppet = FIC
+		}
+	}
+}
+
+country_event = { # ENG/FRA Refuses Control
+	id = philippines.81
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.81"}
+	title = philippines.81.t
+	desc = philippines.81.d
+	picture = GFX_report_event_PHI_scouts_1
+	is_triggered_only = yes
+
+	option = { # Shame...
+		log = "[GetDateText]: [Root.GetName]: event philippines.81 option philippines.81.a"
+		name = philippines.81.a
+	}
+}
+
+country_event = { # Philippines Wants Guam
+	id = philippines.82
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.82"}
+	title = philippines.82.t
+	desc = philippines.82.d
+	picture = GFX_report_event_PHI_scouts_1
+	is_triggered_only = yes
+
+	option = { # Accept
+		log = "[GetDateText]: [Root.GetName]: event philippines.82 option philippines.82.a"
+		name = philippines.82.a
+		ai_chance = {
+			base = 40
+		}
+		FROM = {
+			country_event = { id = philippines.83 days = 2 }
+		}
+	}
+	option = { # Refuse
+		log = "[GetDateText]: [Root.GetName]: event philippines.82 option philippines.82.b"
+		name = philippines.82.b
+		ai_chance = {
+			base = 20
+		}
+		FROM = {
+			country_event = { id = philippines.84 days = 2 }
+		}
+	}
+}
+
+country_event = { # Guam owner accepts
+	id = philippines.83
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.83"}
+	title = philippines.83.t
+	desc = philippines.83.d
+	picture = GFX_report_event_PHI_scouts_1
+	is_triggered_only = yes
+
+	option = { # Great!
+		log = "[GetDateText]: [Root.GetName]: event philippines.83 option philippines.83.a"
+		name = philippines.83.a
+		transfer_state = 638
+	}
+}
+
+country_event = { # Guam owner refuses
+	id = philippines.84
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.84"}
+	title = philippines.84.t
+	desc = philippines.84.d
+	picture = GFX_report_event_PHI_scouts_1
+	is_triggered_only = yes
+
+	option = { # Extradite their ambassador!
+		log = "[GetDateText]: [Root.GetName]: event philippines.84 option philippines.84.a"
+		name = philippines.84.a
+		FROM = {
+			add_opinion_modifier = {
+				modifier = ITA_outraged
+				target = ROOT
+			}
+		}
+	}
+	option = { # We will take it by force!
+		log = "[GetDateText]: [Root.GetName]: event philippines.84 option philippines.84.b"
+		name = philippines.84.b
+		unlock_decision_tooltip = PHI_take_guam_force
+		set_country_flag = PHI_refused_guam
+	}
+}
+
+country_event = { # Guam Successfully Occupied
+	id = philippines.85
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.85"}
+	title = philippines.85.t
+	desc = philippines.85.d
+	picture = GFX_report_event_PHI_scouts_2
+	is_triggered_only = yes
+
+	immediate = {
+		638 = {
+			OWNER = {
+				country_event = { id = philippines.87 days = 2 }
+			}
+		}
+	}
+
+	option = { # Now we wait.
+		log = "[GetDateText]: [Root.GetName]: event philippines.85 option philippines.85.a"
+		name = philippines.85.a
+		transfer_state = 638
+	}
+}
+
+country_event = { # Guam Failure Occupation
+	id = philippines.86
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.86"}
+	title = philippines.86.t
+	desc = philippines.86.d
+	picture = GFX_report_event_PHI_scouts_1
+	is_triggered_only = yes
+
+	option = { # Now we wait.
+		log = "[GetDateText]: [Root.GetName]: event philippines.86 option philippines.86.a"
+		name = philippines.86.a
+		add_war_support = -0.025
+	}
+}
+
+country_event = { # Philippines Seizes Guam!
+	id = philippines.87
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.87"}
+	title = philippines.87.t
+	desc = philippines.87.d
+	picture = GFX_report_event_PHI_scouts_2
+	is_triggered_only = yes
+
+	option = { # Now we wait.
+		log = "[GetDateText]: [Root.GetName]: event philippines.87 option philippines.87.a"
+		name = philippines.87.a
+		declare_war_on = {
+			target = FROM
+			type = annex_everything
+		}
+		set_global_flag = filipino_occupied_guam
+	}
+	option = { # Back down
+		log = "[GetDateText]: [Root.GetName]: event philippines.87 option philippines.87.b"
+		name = philippines.87.b
+	}
+}
+
+country_event = { # Bountiful Harvest this Year
+	id = philippines.88
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.88"}
+	title = philippines.88.t
+	desc = philippines.88.d
+	picture = GFX_report_event_PHI_assembly
+	is_triggered_only = yes
+
+	option = { # Let's go eat!
+		log = "[GetDateText]: [Root.GetName]: event philippines.88 option philippines.88.a"
+		name = philippines.88.a
+		add_stability = 0.05
+	}
+}
+
+country_event = { # Landlords Resists the Land Reform
+	id = philippines.89
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.89"}
+	title = philippines.89.t
+	desc = philippines.89.d
+	picture = GFX_report_event_PHI_crowd_1
+	is_triggered_only = yes
+
+	option = { # How dare they?
+		log = "[GetDateText]: [Root.GetName]: event philippines.89 option philippines.89.a"
+		name = philippines.89.a
+		add_stability = 0.05
+		hidden_effect = {
+			country_event = { id = philippines.90 days = 120 }
+		}
+	}
+}
+
+country_event = { # Trial of the Landlords
+	id = philippines.90
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.90"}
+	title = philippines.90.t
+	desc = philippines.90.d
+	picture = GFX_report_event_PHI_crowd_1
+	is_triggered_only = yes
+
+	option = { # Arrest these vultures!
+		log = "[GetDateText]: [Root.GetName]: event philippines.90 option philippines.90.a"
+		name = philippines.90.a
+		add_stability = 0.05
+		increase_ruling_party_popularity_by_5 = yes
+	}
+}
+
+country_event = { # Socialist Symphaties in the Unions
+	id = philippines.91
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.91"}
+	title = philippines.91.t
+	desc = philippines.91.d
+	picture = GFX_report_event_PHI_crowd_1
+	is_triggered_only = yes
+
+	option = { # They are mere minority
+		log = "[GetDateText]: [Root.GetName]: event philippines.91 option philippines.91.a"
+		name = philippines.91.a
+		add_popularity = {
+			ideology = libertarian_socialist
+			popularity = 0.05
+		}
+		add_popularity = {
+			ideology = social_democrat
+			popularity = 0.10
+		}
+	}
+}
+
+country_event = { # Gregorio Aglipay Has Died
+	id = philippines.92
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.92"}
+	title = philippines.92.t
+	desc = philippines.92.d
+	picture = GFX_report_event_PHI_aglipay
+	is_triggered_only = yes
+
+	option = { # You will be missed
+		log = "[GetDateText]: [Root.GetName]: event philippines.92 option philippines.92.a"
+		name = philippines.92.a
+		retire_character = PHI_Gregorio_Aglipay
+	}
+}
+
+country_event = { # Status of the English Language
+	id = philippines.93
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.93"}
+	title = philippines.93.t
+	desc = philippines.93.d
+	picture = GFX_report_event_PHI_school
+	is_triggered_only = yes
+
+	option = { # Remove it
+		log = "[GetDateText]: [Root.GetName]: event philippines.93 option philippines.93.a"
+		name = philippines.93.a
+		add_political_power = 100
+	}
+	option = { # Focus on our own
+		log = "[GetDateText]: [Root.GetName]: event philippines.93 option philippines.93.b"
+		name = philippines.93.b
+		add_stability = 0.05
+	}
+	option = { # Let it be
+		log = "[GetDateText]: [Root.GetName]: event philippines.93 option philippines.93.c"
+		name = philippines.93.c
+		increase_ruling_party_popularity_by_5 = yes
+	}
+}
+
+country_event = { # Japan Seeks Increased Diplomatic Relations
+	id = philippines.94
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.94"}
+	title = philippines.94.t
+	desc = philippines.94.d
+	picture = GFX_report_event_PHI_malacanan
+	is_triggered_only = yes
+
+	option = { # That's nice of them...
+		log = "[GetDateText]: [Root.GetName]: event philippines.94 option philippines.94.a"
+		name = philippines.94.a
+		add_political_power = 100
+	}
+}
+
+country_event = { # United States Supports New President
+	id = philippines.95
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.95"}
+	title = philippines.95.t
+	desc = philippines.95.d
+	picture = GFX_report_event_PHI_malacanan
+	is_triggered_only = yes
+
+	option = { # That's nice of them...
+		log = "[GetDateText]: [Root.GetName]: event philippines.95 option philippines.95.a"
+		name = philippines.95.a
+		add_political_power = 100
+	}
+}
+
+country_event = { # PH Proposes Confederation
+	id = philippines.96
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.96"}
+	title = philippines.96.t
+	desc = philippines.96.d
+	picture = GFX_report_event_PHI_malacanan
+	is_triggered_only = yes
+
+	option = { # Together we are strong
+		log = "[GetDateText]: [Root.GetName]: event philippines.96 option philippines.96.a"
+		name = philippines.96.a
+		FROM = {
+			country_event = { id = philippines.97 days = 2 }
+		}
+	}
+	option = { # We are fine by our own
+		log = "[GetDateText]: [Root.GetName]: event philippines.96 option philippines.96.b"
+		name = philippines.96.b
+		FROM = {
+			country_event = { id = philippines.98 days = 2 }
+		}
+	}
+}
+
+country_event = { # From Accepts
+	id = philippines.97
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.97"}
+	title = philippines.97.t
+	desc = philippines.97.d
+	picture = GFX_report_event_PHI_malacanan
+	is_triggered_only = yes
+
+	option = { # Together we are strong
+		log = "[GetDateText]: [Root.GetName]: event philippines.97 option philippines.97.a"
+		name = philippines.97.a
+		annex_country = {
+			target = FROM
+			transfer_troops = yes
+		}
+	}
+}
+
+country_event = { # From Refuses
+	id = philippines.98
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.98"}
+	title = philippines.98.t
+	desc = philippines.98.d
+	picture = GFX_report_event_PHI_malacanan
+	is_triggered_only = yes
+
+	option = { # Fine
+		log = "[GetDateText]: [Root.GetName]: event philippines.98 option philippines.98.a"
+		name = philippines.98.a
+	}
+	option = { # War
+		log = "[GetDateText]: [Root.GetName]: event philippines.98 option philippines.98.b"
+		name = philippines.98.b
+		if = {
+			limit = { is_in_faction_with = FROM }
+			remove_from_faction = FROM
+		}
+		declare_war_on = {
+			target = FROM
+			type = annex_everything
+		}
+	}
+}
+
+country_event = { # Capitulation of Australia
+	id = philippines.99
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.99"}
+	title = philippines.98.t
+	desc = philippines.98.d
+	picture = GFX_report_event_PHI_scouts_1
+	is_triggered_only = yes
+
+	option = { # Sue for peace
+		log = "[GetDateText]: [Root.GetName]: event philippines.99 option philippines.99.a"
+		name = philippines.99.a
+		ai_chance = {
+			base = 40
+			modifier = {
+				factor = 10
+				has_war_with = GER
+			}
+			modifier = {
+				factor = 10
+				has_war_with = SOV
+			}
+			modifier = {
+				factor = 10
+				has_war_with = FRA
+			}
+		}
+		add_war_support = -0.1
+		decrease_ruling_party_popularity_by_10 = yes
+		hidden_effect = {
+			every_enemy_country = {
+				limit = {
+					OR = {
+						tag = PHI
+						is_in_faction_with = PHI
+					}
+				}
+				white_peace = PREV
+			}
+			every_other_country = {
+				limit = { is_in_faction_with = ROOT }
+				PREV = {
+					country_event = philippines.78
+				}
+			}
+		}
+		custom_effect_tooltip = PHI_annex_australia_tt
+		FROM = {
+			country_event = { id = philippines.100 days = 1 }
+		}
+	}
+	option = { # No peace
+		log = "[GetDateText]: [Root.GetName]: event philippines.99 option philippines.99.b"
+		name = philippines.99.b
+		add_political_power = -100
+	}
+}
+
+country_event = { # Britain Sues for Peace
+	id = philippines.100
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.100"}
+	title = philippines.100.t
+	desc = philippines.100.d
+	picture = GFX_report_event_PHI_scouts_2
+	is_triggered_only = yes
+
+	option = { # Excellent...
+		log = "[GetDateText]: [Root.GetName]: event philippines.100 option philippines.100.a"
+		name = philippines.100.a
+		annex_country = {
+			target = AST
+			transfer_troops = no
+		}
+		annex_country = {
+			target = NZL
+			transfer_troops = no
+		}
+	}
+}
+
+country_event = { # President Quezon Assassinated
+	id = philippines.101
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.101"}
+	title = philippines.101.t
+	desc = philippines.101.d
+	picture = GFX_report_event_PHI_quezon
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetDateText]: [Root.GetName]: event philippines.101 option philippines.101.a"
+		name = philippines.101.a
+		retire_character = PHI_Manuel_Luis_Quezon
+		PHI_Sergio_P_Osmena = {
+			add_country_leader_role = {
+				promote_leader = yes
+				country_leader = {
+					ideology = national_conservative_subtype
+					traits = { }
+				}
+			}
+		}
+		set_country_flag = PHI_junta_in_control
+		mark_focus_tree_layout_dirty = yes
+		set_politics = {
+			ruling_party = paternal_autocrat
+			elections_allowed = no
+		}
+		increase_ruling_party_popularity_by_20 = yes
+		remove_every_minister = yes
+
+		activate_advisor = PHI_Basilio_J_Valdez_hog_pau
+		activate_advisor = PHI_Vicente_P_Lim_for_pau
+		activate_advisor = PHI_Ramon_A_Alcaraz_eco_pau
+		activate_advisor = PHI_Rafael_Jalandoni_sec_pau
+
+		hidden_effect = {
+			random_other_country = {
+				news_event = { id = fxnews.44 days = 1 }
+			}
+			country_event = { id = philippines.24 days = 2 }
+		}
+	}
+}
+
+country_event = { # Assassination Attempt Against President Evangelista
+	id = philippines.102
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.102"}
+	title = philippines.102.t
+	desc = philippines.102.d
+	picture = GFX_report_event_PHI_aquino_speech
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetDateText]: [Root.GetName]: event philippines.102 option philippines.102.a"
+		name = philippines.102.a
+		add_stability = -0.15
+	}
+}
+
+country_event = { # Pope Arrives in the Philippines
+	id = philippines.103
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.103"}
+	title = philippines.103.t
+	picture = GFX_report_event_ITA_pope
+	fire_only_once = yes
+
+	trigger = {
+		tag = PHI
+		OR = {
+			ITA = {
+				AND = {
+					controls_state = 2
+					has_socialist_government = yes
+				}
+			}
+			ITP = {
+				AND = {
+					controls_state = 2
+					is_subject = yes
+					OR = {
+						has_government = valkist
+						has_socialist_government = yes
+					}
+				}
+			}
+		}
+	}
+
+	mean_time_to_happen = {
+		days = 7
+	}
+
+	desc = {
+		text = philippines.103.d_ita
+		trigger = {
+			ITA = { controls_state = 2 }
+		}
+	}
+	desc = {
+		text = philippines.103.d_itp
+		trigger = {
+			ITP = { controls_state = 2 }
+		}
+	}
+	desc = {
+		text = philippines.103.d
+	}
+
+	option = { # We welcome, His Holiness
+		log = "[GetDateText]: [Root.GetName]: event philippines.103 option philippines.103.a"
+		name = philippines.103.a
+		add_ideas = PHI_papacy_in_exile
+		set_country_flag = PHI_exiled_pope
+		hidden_effect = {
+			ITA = {
+				set_nationality = {
+					target_country = ROOT
+					character = ITA_Alfredo_Ildefonso_Schuster
+				}
+			}
+			country_event = { id = philippines.104 days = 30 }
+		}
+	}
+}
+
+country_event = { # Death of Pius XII
+	id = philippines.104
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.104"}
+	title = philippines.104.t
+	desc = philippines.104.d
+	picture = GFX_report_event_ITA_pope_death
+	is_triggered_only = yes
+
+	option = { # Good Luck, Your Holiness
+		log = "[GetDateText]: [Root.GetName]: event philippines.104 option philippines.104.a"
+		name = philippines.104.a
+		add_political_power = 20
+		hidden_effect = {
+			country_event = { id = philippines.105 days = 14 }
+		}
+	}
+}
+
+country_event = { # Growing Political Catholic Church Influence
+	id = philippines.105
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.105"}
+	title = philippines.105.t
+	desc = philippines.105.d
+	picture = GFX_report_event_ITA_pope
+	is_triggered_only = yes
+
+	option = { # Every men can have their opinions expressed freely
+		log = "[GetDateText]: [Root.GetName]: event philippines.105 option philippines.105.a"
+		name = philippines.105.a
+		set_country_flag = PHI_start_of_the_great_game
+		set_power_balance = {
+			id = PHI_power_balance
+			left_side = PHI_papacy_side # will keep the last set side if not specified
+			right_side = PHI_government_side # will keep the last set side if not specified
+			set_default = yes # whether or not to reset the power balance to the initial value, default = no
+		}
+	}
+}
+
+country_event = { # Pope
+	id = philippines.106
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.106"}
+	title = philippines.106.t
+	desc = philippines.106.d
+	picture = GFX_report_event_ITA_pope
+	is_triggered_only = yes
+
+	option = { # Deus Vult!
+		log = "[GetDateText]: [Root.GetName]: event philippines.106 option philippines.106.a"
+		name = philippines.106.a
+		add_country_leader_role = {
+			character = ITA_Alfredo_Ildefonso_Schuster
+			promote_leader = yes
+			country_leader = {
+				ideology = integralism_subtype
+				traits = { exiled_pope }
+			}
+		}
+		set_politics = {
+			ruling_party = national_populist
+			elections_allowed = no
+			election_frequency = 48
+			long_name = PHI_holy_party_long
+			name = PHI_holy_party
+		}
+		increase_ruling_party_popularity_by_20 = yes
+		remove_every_minister = yes
+		set_cosmetic_tag = PHI_HOLY
+
+		activate_advisor = PHI_Andres_Soriano_hog_npo
+		activate_advisor = PHI_Claro_M_Recto_for_ade
+		activate_advisor = PHI_Enrique_Zobel_de_Ayala_eco_npo
+		activate_advisor = PHI_Benigno_Aquino_Sr_sec_ade
+
+		hidden_effect = {
+			add_stability = -0.20
+			add_ideas = {
+				elective_monarchy
+				PHI_resisting_muslim_minorities
+				PHI_uncooperative_protestants
+				PHI_guerilla_problem
+			}
+			627 = {
+				add_dynamic_modifier = {
+					modifier = PHI_moro_resistance
+				}
+			}
+
+			if = {
+				limit = {
+					has_completed_focus = PHI_into_the_world
+				}
+				uncomplete_national_focus = {
+					focus = PHI_into_the_world
+					uncomplete_children = yes
+				}
+			}
+			if = {
+				limit = { is_in_faction = yes }
+				leave_faction = yes
+			}
+			if = {
+				limit = { has_war = yes }
+				every_enemy_country = {
+					white_peace = ROOT
+				}
+			}
+
+			set_country_flag = PHI_pope_in_control
+			clr_country_flag = PHI_start_of_the_great_game
+			clr_country_flag = PHI_junta_in_control
+			clr_country_flag = PHI_socialists_in_control
+			mark_focus_tree_layout_dirty = yes
+
+			remove_power_balance = {
+				id = PHI_power_balance
+			}
+		}
+	}
+}
+
+country_event = { # Conspiracy of a Coup
+	id = philippines.107
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.107"}
+	title = philippines.107.t
+	desc = philippines.107.d
+	picture = GFX_report_event_PHI_scouts_1
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetDateText]: [Root.GetName]: event philippines.107 option philippines.107.a"
+		name = philippines.107.a
+		clr_country_flag = PHI_great_game
+		swap_ideas = {
+			remove_idea = PHI_papacy_in_exile
+			add_idea = PHI_papacy_in_exile_1
+		}
+	}
+}
+
+country_event = { # Manalo Arrested
+	id = philippines.108
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.108"}
+	title = philippines.108.t
+	desc = philippines.108.d
+	picture = GFX_report_event_PHI_protests
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetDateText]: [Root.GetName]: event philippines.108 option philippines.108.a"
+		name = philippines.108.a
+		add_political_power = -100
+	}
+}
+
+country_event = { # The Crown's Representative in Manila
+	id = philippines.109
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.109"}
+	title = philippines.109.t
+	desc = philippines.109.d
+	picture = GFX_report_event_ENG_edward_windsor
+	is_triggered_only = yes
+
+	trigger = {
+		ENG = {
+			OR = {
+				has_character = ENG_Albert_Windsor
+				has_character = ENG_Henry_Windsor
+				has_character = ENG_George_Windsor
+			}
+		}
+	}
+
+	option = { # Governor-General
+		log = "[GetDateText]: [Root.GetName]: event philippines.109 option philippines.109.a"
+		name = philippines.109.a
+		PHI = {
+			PHI_add_governor_general = yes
+		}
+	}
+
+	option = { # No Governor-General
+		log = "[GetDateText]: [Root.GetName]: event philippines.109 option philippines.109.b"
+		name = philippines.109.b
+	}
+}
+
+country_event = { # Rumours of Aswang in Capiz
+	id = philippines.110
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.110"}
+	title = philippines.110.t
+	desc = philippines.110.d
+	picture = GFX_report_event_PHI_aswang
+	is_triggered_only = yes
+
+	option = { # Does an aswang really exist though?
+		log = "[GetDateText]: [Root.GetName]: event philippines.110 option philippines.110.a"
+		name = philippines.110.a
+	}
+}
+
+country_event = { # The USA Intervenes
+	id = philippines.111
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.111"}
+	title = philippines.111.t
+	desc = philippines.111.d
+	picture = GFX_report_event_PHI_aswang
+	is_triggered_only = yes
+
+	option = { # We should formally ally ourselves to the Americans
+		log = "[GetDateText]: [Root.GetName]: event philippines.111 option philippines.111.a"
+		name = philippines.111.a
+		if = {
+			limit = {
+				USA = { is_faction_leader = yes  }
+			}
+			add_to_faction = ROOT
+		}
+	}
+}
+
+unit_leader_event = {
+	id = philippines.112
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.112"}
+	title = philippines.112.t
+	desc = philippines.112.d
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetDateText]: [Root.GetName]: event philippines.112 option philippines.112.a"
+		name = philippines.112.a
+		USA_Douglas_MacArthur = {
+			set_nationality = USA
+			unit_leader_event = { id = philippines.113 days = 1 }
+		}
+	}
+}
+
+unit_leader_event = {
+	id = philippines.113
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.113"}
+	title = philippines.113.t
+	desc = philippines.113.d
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetDateText]: [Root.GetName]: event philippines.112 option philippines.112.a"
+		name = philippines.112.a
+		effect_tooltip = {
+			USA_Douglas_MacArthur = {
+				set_nationality = USA
+			}
+		}
+	}
+}

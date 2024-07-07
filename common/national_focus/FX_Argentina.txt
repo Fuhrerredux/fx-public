@@ -1,0 +1,5452 @@
+####Argentina National Focus tree coded by matixzun (trimeon)####
+
+focus_tree = {
+	id = argentina_focus
+
+	country = {
+		factor = 0
+
+		modifier = {
+			add = 10
+			tag = ARG
+		}
+	}
+
+	default = no
+
+	continuous_focus_position = { x = 16 y = 4000 }
+
+	focus = {
+		id = ARG_sunrise_in_argentina
+		icon = GFX_goal_maysun
+		ai_will_do = { factor = 10 }
+		x = 4
+		y = 0
+		cost = 4
+		available = {
+			has_capitulated = no
+		}
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_sunrise_in_argentina"
+			add_political_power = 100
+		}
+	}
+
+	focus = {
+		id = ARG_defend_labour
+		icon = GFX_goal_generic_workers_rights
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_sunrise_in_argentina }
+		x = -2
+		y = 1
+		cost = 5
+		relative_position_id = ARG_sunrise_in_argentina
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_defend_labour"
+			if = {
+				limit = { has_idea = ARG_labour_strikes }
+				remove_ideas = ARG_labour_strikes
+			}
+			hidden_effect = {
+				country_event = { id = arg.10 }
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_call_for_plurality
+		icon = GFX_focus_ARG_strengthening_the_concordancia
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_sunrise_in_argentina }
+		x = 0
+		y = 1
+		cost = 5
+		relative_position_id = ARG_sunrise_in_argentina
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_call_for_plurality"
+			add_popularity = {
+				ideology = social_democrat
+				popularity = 0.0125
+			}
+			add_popularity = {
+				ideology = social_liberal
+				popularity = 0.0125
+			}
+			add_popularity = {
+				ideology = market_liberal
+				popularity = 0.0125
+			}
+			add_popularity = {
+				ideology = social_conservative
+				popularity = 0.0125
+			}
+			hidden_effect = {
+				country_event = { id = arg.11 }
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_improving_our_model
+		icon = GFX_goal_generic_intelligence_exchange
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_defend_labour }
+		x = 0
+		y = 1
+		cost = 5
+		relative_position_id = ARG_defend_labour
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_improving_our_model"
+			add_ideas = ARG_radicalist_model
+		}
+	}
+
+	focus = {
+		id = ARG_those_we_have_lost
+		icon = GFX_goal_graveyard
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_sunrise_in_argentina }
+		x = 2
+		y = 1
+		cost = 5
+		available_if_capitulated = yes
+		relative_position_id = ARG_sunrise_in_argentina
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_those_we_have_lost"
+			swap_ideas = {
+				remove_idea = ARG_memories_of_the_chaco_war
+				add_idea = ARG_memories_of_the_chaco_war1
+			}
+			hidden_effect = {
+				country_event = { id = arg.12 }
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_bringing_all_together
+		icon = GFX_goal_generic_national_unity
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_those_we_have_lost }
+		x = 0
+		y = 1
+		cost = 5
+		relative_position_id = ARG_those_we_have_lost
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_bringing_all_together"
+			add_stability = 0.025
+		}
+	}
+
+	focus = {
+		id = ARG_peace_with_the_opposition
+		icon = GFX_goal_tripartite_pact
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_call_for_plurality }
+		x = 0
+		y = 1
+		cost = 5
+		available_if_capitulated = yes
+		relative_position_id = ARG_call_for_plurality
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_peace_with_the_opposition"
+			add_political_power = 50
+			country_event = { id = arg.13 }
+		}
+	}
+
+	focus = {
+		id = ARG_sunrise_crash
+		icon = GFX_goal_HOL_black_monday
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_peace_with_the_opposition }
+		prerequisite = { focus = ARG_improving_our_model }
+		prerequisite = { focus = ARG_bringing_all_together }
+		available = {
+			hidden_trigger = { always = no }
+		}
+		x = 0
+		y = 1
+		cost = 10
+		relative_position_id = ARG_peace_with_the_opposition
+		bypass = {
+			has_idea = ARG_black_wednesday
+		}
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_sunrise_crash"
+			custom_effect_tooltip = unlock_focuses
+		}
+	}
+
+	focus = {
+		id = ARG_a_red_republic
+		icon = GFX_focus_ARG_invite_ghioldi_back_to_argentina
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_sunrise_crash }
+		x = -4
+		y = 1
+		cost = 1
+		relative_position_id = ARG_sunrise_crash
+		mutually_exclusive = { focus = ARG_stand_for_the_federation }
+		available_if_capitulated = yes
+		available = { has_global_flag = ARG_left_republic }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_a_red_republic"
+			country_event = { id = arg.14 }
+		}
+	}
+
+	focus = {
+		id = ARG_collectivist_revolution
+		icon = GFX_focus_ARG_march_to_la_casa_rosada
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_a_red_republic }
+		x = 0
+		y = 1
+		cost = 8
+		relative_position_id = ARG_a_red_republic
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_collectivist_revolution"
+			add_ideas = ARG_the_collectivist_revolution
+		}
+	}
+
+	focus = {
+		id = ARG_nationalize_industry
+		icon = GFX_goal_socialist_industry
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_collectivist_revolution }
+		x = -1
+		y = 1
+		cost = 8
+		relative_position_id = ARG_collectivist_revolution
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_nationalize_industry"
+			hidden_effect = {
+				country_event = { id = arg.15 }
+			}
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_collectivize_agriculture
+		icon = GFX_focus_AUS_agriculture
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_nationalize_industry }
+		x = 0
+		y = 1
+		cost = 8
+		relative_position_id = ARG_nationalize_industry
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_collectivize_agriculture"
+			add_ideas = ARG_collective_agriculture
+		}
+	}
+
+	focus = {
+		id = ARG_productive_redistribution
+		icon = GFX_goal_production
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_collectivist_revolution }
+		x = 1
+		y = 1
+		cost = 8
+		relative_position_id = ARG_collectivist_revolution
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_productive_redistribution"
+			add_ideas = ARG_redistribution_production
+		}
+	}
+
+	focus = {
+		id = ARG_federal_councils
+		icon = GFX_focus_ARG_no_gods_no_masters
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_productive_redistribution }
+		x = 0
+		y = 1
+		cost = 8
+		relative_position_id = ARG_productive_redistribution
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_federal_councils"
+			add_stability = 0.025
+		}
+	}
+
+	focus = {
+		id = ARG_central_union_leadership
+		icon = GFX_goal_collie_politics
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_federal_councils }
+		prerequisite = { focus = ARG_collectivize_agriculture }
+		x = -1
+		y = 1
+		cost = 8
+		relative_position_id = ARG_federal_councils
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_central_union_leadership"
+			hidden_effect = {
+				country_event = { id = arg.16 }
+			}
+			swap_ideas = {
+				remove_idea = ARG_the_collectivist_revolution
+				add_idea = ARG_the_collectivist_revolution1
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_censure_reactionaries
+		icon = GFX_HOL_crackdown_natpop
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_central_union_leadership }
+		x = -1
+		y = 1
+		cost = 8
+		relative_position_id = ARG_central_union_leadership
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_censure_reactionaries"
+			add_ideas = ARG_censuring_reactionaries
+		}
+	}
+
+	focus = {
+		id = ARG_collectivist_arms
+		icon = GFX_goal_generic_construct_mil_factory
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_central_union_leadership }
+		x = 1
+		y = 1
+		cost = 8
+		relative_position_id = ARG_central_union_leadership
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_collectivist_arms"
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_revolutionary_guards
+		icon = GFX_focus_SOV_builder_of_the_red_army
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_censure_reactionaries }
+		x = 0
+		y = 1
+		cost = 8
+		relative_position_id = ARG_censure_reactionaries
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_revolutionary_guards"
+			custom_effect_tooltip = ARG_create_rev_guards
+			hidden_effect = {
+				division_template = {
+					name = "Guardias Revolucionarios"
+					priority = 2
+
+					regiments = {
+						infantry = { x = 0 y = 0 }
+						infantry = { x = 0 y = 1 }
+						infantry = { x = 0 y = 2 }
+						infantry = { x = 1 y = 0 }
+						infantry = { x = 1 y = 1 }
+						infantry = { x = 1 y = 2 }
+
+						infantry = { x = 2 y = 0 }
+						infantry = { x = 2 y = 1 }
+						infantry = { x = 2 y = 2 }
+					}
+				}
+
+				random_owned_state = {
+					prioritize = { 510 }
+					create_unit = {
+						division = "name = \"1. Guardias Revolucionarios\" division_template = \"Guardias Revolucionarios\" start_experience_factor = 1.0"
+						owner = ARG
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_socialist_education
+		icon = GFX_focus_generic_socialist_science
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_collectivist_arms }
+		x = 0
+		y = 1
+		cost = 8
+		relative_position_id =ARG_collectivist_arms
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_socialist_education"
+			add_research_slot = 1
+		}
+	}
+
+	focus = {
+		id = ARG_state_economy
+		icon = GFX_goal_state_economy
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_socialist_education }
+		prerequisite = { focus = ARG_revolutionary_guards }
+		x = 1
+		y = 1
+		cost = 8
+		relative_position_id = ARG_revolutionary_guards
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_state_economy"
+			swap_ideas = {
+				remove_idea = ARG_redistribution_production
+				add_idea = ARG_state_controlled_economy
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_red_sunrise
+		icon = GFX_goal_redmaysun
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_state_economy }
+		x = 0
+		y = 1
+		cost = 8
+		relative_position_id = ARG_state_economy
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_red_sunrise"
+			hidden_effect = {
+				country_event = { id = arg.17 }
+			}
+			swap_ideas = {
+				remove_idea = ARG_the_collectivist_revolution1
+				add_idea = ARG_the_collectivist_revolution2
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_stand_for_the_federation
+		icon = GFX_focus_ARG_defense_and_democracy
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_sunrise_crash }
+		x = 2
+		y = 1
+		cost = 1
+		relative_position_id = ARG_sunrise_crash
+		mutually_exclusive = { focus = ARG_a_red_republic }
+		available_if_capitulated = yes
+		available = { has_country_flag = ARG_republic_survives }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_stand_for_the_federation"
+			country_event = { id = arg.20 }
+		}
+	}
+
+	focus = {
+		id = ARG_radicalism_alone
+		icon = GFX_goal_ideology_social_liberal
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_stand_for_the_federation }
+		mutually_exclusive = { focus = ARG_pact_with_the_lpa }
+		x = -2
+		y = 1
+		cost = 8
+		available = { has_global_flag = ARG_radical_government }
+		available_if_capitulated = yes
+		relative_position_id = ARG_stand_for_the_federation
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_radicalism_alone"
+			add_ideas = ARG_the_radicalist_regime
+		}
+	}
+
+	focus = {
+		id = ARG_help_the_unions
+		icon = GFX_goal_generic_enforce_labor_regulation
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_radicalism_alone }
+		x = -1
+		y = 1
+		cost = 8
+		relative_position_id = ARG_radicalism_alone
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_help_the_unions"
+			add_ideas = ARG_union_cooperation
+		}
+	}
+
+	focus = {
+		id = ARG_stop_the_strikes
+		icon = GFX_goal_skull_treaty
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_help_the_unions }
+		x = 0
+		y = 1
+		cost = 8
+		relative_position_id = ARG_help_the_unions
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_stop_the_strikes"
+			add_manpower = -5000
+			add_popularity = {
+				ideology = libertarian_socialist
+				popularity = -0.0375
+			}
+			add_popularity = {
+				ideology = collectivist
+				popularity = -0.0375
+			}
+			add_popularity = {
+				ideology = vanguardist
+				popularity = -0.0375
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_subsidize_industry
+		icon = GFX_goal_generic_construct_civ_factory
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_radicalism_alone }
+		x = 1
+		y = 1
+		cost = 8
+		relative_position_id = ARG_radicalism_alone
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_subsidize_industry"
+			hidden_effect = {
+				country_event = { id = arg.21 }
+			}
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_lend_to_the_employers
+		icon = GFX_goal_generic_trade
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_subsidize_industry }
+		x = 0
+		y = 1
+		cost = 8
+		relative_position_id = ARG_subsidize_industry
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_lend_to_the_employers"
+			add_ideas = ARG_fighting_unemployment
+		}
+	}
+
+	focus = {
+		id = ARG_ban_collectivism
+		icon = GFX_goal_collectivism_banned
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_stop_the_strikes focus = ARG_reel_in_the_unions }
+		prerequisite = { focus = ARG_lend_to_the_employers focus = ARG_reel_in_the_unions }
+		x = 0
+		y = 1
+		cost = 8
+		relative_position_id = ARG_lend_to_the_employers
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_ban_collectivism"
+			add_ideas = ARG_collectivism_banned
+		}
+	}
+
+	focus = {
+		id = ARG_promise_improvements
+		icon = GFX_goal_generic_national_unity
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_stop_the_strikes focus = ARG_reel_in_the_unions }
+		prerequisite = { focus = ARG_lend_to_the_employers focus = ARG_reel_in_the_unions }
+		x = 3
+		y = 1
+		cost = 8
+		relative_position_id = ARG_lend_to_the_employers
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_promise_improvements"
+			add_political_power = 100
+		}
+	}
+
+	focus = {
+		id = ARG_el_nuevo_pacto
+		icon = GFX_focus_generic_the_giant_wakes
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_ban_collectivism }
+		prerequisite = { focus = ARG_promise_improvements }
+		available = { has_global_flag = ARG_radical_government }
+		x = -1
+		y = 1
+		cost = 8
+		relative_position_id = ARG_ban_collectivism
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_el_nuevo_pacto"
+			swap_ideas = {
+				remove_idea = ARG_the_radicalist_regime
+				add_idea = ARG_the_radicalist_regime1
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_schooling_investment
+		icon = GFX_focus_research
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_el_nuevo_pacto }
+		x = -1
+		y = 1
+		cost = 8
+		relative_position_id = ARG_el_nuevo_pacto
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_schooling_investment"
+			hidden_effect = {
+				country_event = { id = arg.22 }
+			}
+			add_research_slot = 1
+		}
+	}
+
+	focus = {
+		id = ARG_jobs_for_the_jobless
+		icon = GFX_goal_generic_consumer_goods
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_el_nuevo_pacto }
+		x = 1
+		y = 1
+		cost = 8
+		relative_position_id = ARG_el_nuevo_pacto
+		available_if_capitulated = yes
+		relative_position_id = ARG_el_nuevo_pacto
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_jobs_for_the_jobless"
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_ISI
+		icon = GFX_goal_generic_production2
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_jobs_for_the_jobless }
+		prerequisite = { focus = ARG_schooling_investment }
+		x = 1
+		y = 1
+		cost = 8
+		relative_position_id = ARG_schooling_investment
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_ISI"
+			swap_ideas = {
+				remove_idea = ARG_fighting_unemployment
+				add_idea = ARG_fighting_unemployment1
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_sunrise_again
+		icon = GFX_goal_ARG_flag
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_ISI }
+		x = 0
+		y = 1
+		cost = 8
+		relative_position_id = ARG_ISI
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_sunrise_again"
+			country_event = { id = arg.23 }
+			swap_ideas = {
+				remove_idea = ARG_the_radicalist_regime1
+				add_idea = ARG_the_radicalist_regime2
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_pact_with_the_lpa
+		icon = GFX_focus_HOL_deal_with_right
+		ai_will_do = { factor = 15 }
+		prerequisite = { focus = ARG_stand_for_the_federation }
+		mutually_exclusive = { focus = ARG_radicalism_alone }
+		available = { has_global_flag = ARG_LPA_coalition }
+		x = 2
+		y = 1
+		cost = 8
+		relative_position_id = ARG_stand_for_the_federation
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_pact_with_the_lpa"
+			add_ideas = ARG_the_nationalist_pact
+		}
+	}
+
+	focus = {
+		id = ARG_deal_with_discontent
+		icon = GFX_goal_generic_police_state
+		ai_will_do = { factor = 15 }
+		prerequisite = { focus = ARG_pact_with_the_lpa }
+		x = -1
+		y = 1
+		cost = 8
+		relative_position_id = ARG_pact_with_the_lpa
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_deal_with_discontent"
+			add_popularity = {
+				ideology = social_conservative
+				popularity = -0.0375
+			}
+			add_popularity = {
+				ideology = collectivist
+				popularity = -0.0375
+			}
+			add_popularity = {
+				ideology = libertarian_socialist
+				popularity = -0.0375
+			}
+			add_popularity = {
+				ideology = authoritarian_democrat
+				popularity = -0.0375
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_support_paramilitaries
+		icon = GFX_goal_generic_paramilitary
+		ai_will_do = { factor = 15 }
+		prerequisite = { focus = ARG_pact_with_the_lpa }
+		x = 1
+		y = 1
+		cost = 8
+		relative_position_id = ARG_pact_with_the_lpa
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_support_paramilitaries"
+			add_ideas = ARG_paramilitary_vigilance
+		}
+	}
+
+	focus = {
+		id = ARG_reel_in_the_unions
+		icon = GFX_HOL_crackdown_syndie
+		ai_will_do = { factor = 15 }
+		prerequisite = { focus = ARG_deal_with_discontent }
+		prerequisite = { focus = ARG_support_paramilitaries }
+		x = 1
+		y = 1
+		cost = 8
+		relative_position_id = ARG_deal_with_discontent
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_reel_in_the_unions"
+			country_event = { id = arg.24 }
+		}
+	}
+
+	focus = {
+		id = ARG_create_industry
+		icon = GFX_goal_generic_construct_military
+		ai_will_do = { factor = 15 }
+		prerequisite = { focus = ARG_ban_collectivism }
+		prerequisite = { focus = ARG_promise_improvements }
+		available = { has_global_flag = ARG_LPA_coalition }
+		x = -1
+		y = 1
+		cost = 8
+		relative_position_id = ARG_promise_improvements
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_create_industry"
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_expand_the_ligas
+		icon = GFX_goal_ARG_ligas
+		ai_will_do = { factor = 15 }
+		prerequisite = { focus = ARG_create_industry }
+		x = 0
+		y = 1
+		cost = 8
+		relative_position_id = ARG_create_industry
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_expand_the_ligas"
+			custom_effect_tooltip = ARG_create_patriotic_squads
+			hidden_effect = {
+				division_template = {
+					name = "Escuadores Patrioticos"
+					priority = 2
+
+					regiments = {
+						infantry = { x = 0 y = 0 }
+						infantry = { x = 0 y = 1 }
+						infantry = { x = 0 y = 2 }
+						infantry = { x = 1 y = 0 }
+						infantry = { x = 1 y = 1 }
+						infantry = { x = 1 y = 2 }
+
+						infantry = { x = 2 y = 0 }
+						infantry = { x = 2 y = 1 }
+						infantry = { x = 2 y = 2 }
+					}
+					support = {
+						engineer = { x = 0 y = 0 }
+						artillery = { x = 0 y = 1 }
+					}
+				}
+
+				random_owned_state = {
+					prioritize = { 278 }
+					create_unit = {
+						division = "name = \"1. Escuadores Patrioticos\" division_template = \"Escuadores Patrioticos\" start_experience_factor = 0.5"
+						owner = ARG
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_argentinian_corporatism
+		icon = GFX_goal_state_economy
+		ai_will_do = { factor = 15 }
+		prerequisite = { focus = ARG_ban_collectivism }
+		prerequisite = { focus = ARG_promise_improvements }
+		available = { has_global_flag = ARG_LPA_coalition }
+		x = 1
+		y = 1
+		cost = 8
+		relative_position_id = ARG_promise_improvements
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_argentinian_corporatism"
+			add_ideas = ARG_corporatist_society
+		}
+	}
+
+	focus = {
+		id = ARG_national_radicalism
+		icon = GFX_goal_military_research
+		ai_will_do = { factor = 15 }
+		prerequisite = { focus = ARG_argentinian_corporatism }
+		x = 0
+		y = 1
+		cost = 8
+		relative_position_id = ARG_argentinian_corporatism
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_national_radicalism"
+			add_research_slot = 1
+		}
+	}
+
+	focus = {
+		id = ARG_autarquia_nacional
+		icon = GFX_goal_argie_industry
+		ai_will_do = { factor = 15 }
+		prerequisite = { focus = ARG_national_radicalism }
+		prerequisite = { focus = ARG_expand_the_ligas }
+		x = 1
+		y = 1
+		cost = 8
+		relative_position_id = ARG_expand_the_ligas
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_autarquia_nacional"
+			add_ideas = ARG_autarchy
+		}
+	}
+
+	focus = {
+		id = ARG_the_new_argentina
+		icon = GFX_focus_ARG_towards_a_greater_argentina
+		ai_will_do = { factor = 15 }
+		prerequisite = { focus = ARG_autarquia_nacional }
+		x = 0
+		y = 1
+		cost = 8
+		relative_position_id = ARG_autarquia_nacional
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_the_new_argentina"
+			swap_ideas = {
+				remove_idea = ARG_the_nationalist_pact
+				add_idea = ARG_the_nationalist_pact1
+			}
+			if = {
+				limit = {
+					has_government = social_liberal
+				}
+				country_event = { days = 7 id = arg.255 }
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_rebuilding_the_army
+		icon = GFX_goal_ARG_army
+		ai_will_do = { factor = 10 }
+		x = 14
+		y = 0
+		cost = 5
+		available = {
+			OR = {
+				has_country_flag = ARG_republic_survives
+				has_global_flag = ARG_left_republic
+			}
+		}
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_rebuilding_the_army"
+			add_political_power = 25
+		}
+	}
+
+	focus = {
+		id = ARG_moving_on
+		icon = GFX_goal_graveyard
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_rebuilding_the_army }
+		x = -1
+		y = 1
+		cost = 10
+		relative_position_id = ARG_rebuilding_the_army
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_moving_on"
+			if = {
+				limit = { has_idea = ARG_memories_of_the_chaco_war1 }
+				remove_ideas = ARG_memories_of_the_chaco_war1
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_harsh_lessons
+		icon = GFX_goal_civil_war_lessons
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_rebuilding_the_army }
+		x = 1
+		y = 1
+		cost = 10
+		relative_position_id = ARG_rebuilding_the_army
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_harsh_lessons"
+			army_experience = 50
+		}
+	}
+
+	focus = {
+		id = ARG_a_revolutionary_army
+		icon = GFX_goal_collie_militia
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_harsh_lessons }
+		prerequisite = { focus = ARG_moving_on }
+		x = -1
+		y = 1
+		cost = 1
+		relative_position_id = ARG_moving_on
+		mutually_exclusive = { focus = ARG_republican_shield }
+		mutually_exclusive = { focus = ARG_a_patriotic_weapon }
+		available = {
+			hidden_trigger = { always = no }
+		}
+		bypass = {
+			AND = {
+				has_global_flag = ARG_left_republic
+				has_completed_focus = ARG_harsh_lessons
+				has_completed_focus = ARG_moving_on
+			}
+		}
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_a_revolutionary_army"
+			custom_effect_tooltip = unlock_focuses
+		}
+	}
+
+	focus = {
+		id = ARG_our_red_militias
+		icon = GFX_goal_generic_red_guard
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_a_revolutionary_army }
+		x = -1
+		y = 1
+		cost = 8
+		available_if_capitulated = yes
+		relative_position_id = ARG_a_revolutionary_army
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_our_red_militias"
+			add_ideas = ARG_red_militia
+		}
+	}
+
+	focus = {
+		id = ARG_recruiting_revolutionaries
+		icon = GFX_goal_red_star_soldier
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_a_revolutionary_army }
+		x = 1
+		y = 1
+		cost = 8
+		available_if_capitulated = yes
+		relative_position_id = ARG_a_revolutionary_army
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_recruiting_revolutionaries"
+			custom_effect_tooltip = ARG_recruit_revs
+			hidden_effect = {
+				division_template = {
+					name = "Milicia Rev. Argentina"
+					priority = 2
+
+					regiments = {
+						infantry = { x = 0 y = 0 }
+						infantry = { x = 0 y = 1 }
+						infantry = { x = 0 y = 2 }
+
+						infantry = { x = 1 y = 0 }
+						infantry = { x = 1 y = 1 }
+						infantry = { x = 1 y = 2 }
+
+						infantry = { x = 2 y = 0 }
+						infantry = { x = 2 y = 1 }
+						infantry = { x = 2 y = 2 }
+					}
+					support = {
+						artillery = { x = 0 y = 0 }
+					}
+				}
+
+				random_owned_state = {
+					prioritize = { 289 }
+					create_unit = {
+						division = "name = \"1. Milicia Rev. Argentina\" division_template = \"Milicia Rev. Argentina\" start_experience_factor = 0.8"
+						owner = ARG
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_a_new_leadership
+		icon = GFX_goal_syndicalist_lenin
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_our_red_militias focus = ARG_recruiting_revolutionaries }
+		x = 0
+		y = 1
+		cost = 8
+		available_if_capitulated = yes
+		relative_position_id = ARG_our_red_militias
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_a_new_leadership"
+			add_ideas = ARG_revolutionary_leadership
+		}
+	}
+
+	focus = {
+		id = ARG_in_peoples_defense
+		icon = GFX_focus_generic_support_the_left_right
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_our_red_militias focus = ARG_recruiting_revolutionaries }
+		x = 0
+		y = 1
+		cost = 8
+		available_if_capitulated = yes
+		relative_position_id = ARG_recruiting_revolutionaries
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_in_peoples_defense"
+			add_ideas = ARG_in_peoples_defense1
+		}
+	}
+
+	focus = {
+		id = ARG_collective_intelligence
+		icon = GFX_goal_generic_espionage
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_a_new_leadership }
+		prerequisite = { focus = ARG_in_peoples_defense }
+		x = 0
+		y = 1
+		cost = 8
+		available_if_capitulated = yes
+		relative_position_id = ARG_a_new_leadership
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_collective_intelligence"
+			if = {
+				limit = { has_dlc_lar = yes }
+				if = {
+					limit = { has_intelligence_agency = no }
+					create_intelligence_agency = yes
+				}
+
+				if = {
+					limit = {
+						NOT = { has_done_agency_upgrade = upgrade_passive_defense }
+					}
+					upgrade_intelligence_agency = upgrade_passive_defense
+				}
+				if = {
+					limit = {
+						NOT = { has_done_agency_upgrade = upgrade_anti_partisan }
+					}
+					upgrade_intelligence_agency = upgrade_anti_partisan
+				}
+				if = {
+					limit = {
+						NOT = { has_done_agency_upgrade = upgrade_interrogation_techniques }
+					}
+					upgrade_intelligence_agency = upgrade_interrogation_techniques
+				}
+				if = {
+					limit = {
+						NOT = { has_done_agency_upgrade = upgrade_psycho_warfare }
+					}
+					upgrade_intelligence_agency = upgrade_psycho_warfare
+				}
+			}
+			else = {
+				add_ideas = ARG_socialist_intelligence
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_centralized_defense_forces
+		icon = GFX_goal_red_star
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_a_new_leadership }
+		prerequisite = { focus = ARG_in_peoples_defense }
+		x = 0
+		y = 1
+		cost = 8
+		available_if_capitulated = yes
+		relative_position_id = ARG_in_peoples_defense
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_centralized_defense_forces"
+			swap_ideas = {
+				remove_idea = ARG_red_militia
+				add_idea = ARG_centralized_militia
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_bastion_of_the_proletariat
+		icon = GFX_goal_red_star_guard
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_collective_intelligence }
+		prerequisite = { focus = ARG_centralized_defense_forces }
+		x = 1
+		y = 1
+		cost = 8
+		available_if_capitulated = yes
+		relative_position_id = ARG_collective_intelligence
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_bastion_of_the_proletariat"
+			add_ideas = ARG_bastion_proletariat
+			army_experience = 25
+		}
+	}
+
+	focus = {
+		id = ARG_republican_shield
+		icon = GFX_focus_ARG_army
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_harsh_lessons }
+		prerequisite = { focus = ARG_moving_on }
+		x = 1
+		y = 1
+		cost = 8
+		relative_position_id = ARG_harsh_lessons
+		available = {
+			hidden_trigger = { always = no }
+		}
+		bypass = {
+			AND = {
+				has_global_flag = ARG_radical_government
+				has_completed_focus = ARG_harsh_lessons
+				has_completed_focus = ARG_moving_on
+			}
+		}
+		mutually_exclusive = { focus = ARG_a_patriotic_weapon }
+		mutually_exclusive = { focus = ARG_a_revolutionary_army }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_republican_shield"
+			custom_effect_tooltip = unlock_focuses
+		}
+	}
+
+	focus = {
+		id = ARG_call_the_peacekeepers
+		icon = GFX_focus_ARG_recruitment_drive
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_republican_shield }
+		x = -1
+		y = 1
+		cost = 8
+		available_if_capitulated = yes
+		relative_position_id = ARG_republican_shield
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_call_the_peacekeepers"
+			custom_effect_tooltip = ARG_call_peacekeepers
+			hidden_effect = {
+				division_template = {
+					name = "Escuadron de Protección Nacional"
+					priority = 2
+
+					regiments = {
+						infantry = { x = 0 y = 0 }
+						infantry = { x = 0 y = 1 }
+						infantry = { x = 0 y = 2 }
+
+						infantry = { x = 1 y = 0 }
+						infantry = { x = 1 y = 1 }
+						infantry = { x = 1 y = 2 }
+
+						cavalry = { x = 2 y = 0 }
+						cavalry = { x = 2 y = 1 }
+						cavalry = { x = 2 y = 2 }
+					}
+					support = {
+						artillery = { x = 0 y = 0 }
+					}
+				}
+
+				random_owned_state = {
+					prioritize = { 289 }
+					create_unit = {
+						division = "name = \"1. Escuadron de Protección Nacional\" division_template = \"Escuadron de Protección Nacional\" start_experience_factor = 0.8"
+						owner = ARG
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_enlistment_benefits
+		icon = GFX_goal_volunteer_alliance
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_republican_shield }
+		x = 1
+		y = 1
+		cost = 8
+		available_if_capitulated = yes
+		relative_position_id = ARG_republican_shield
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_enlistment_benefits"
+			add_ideas = ARG_benefits_enlistment
+		}
+	}
+
+	focus = {
+		id = ARG_reel_in_officers
+		icon = GFX_focus_generic_military_mission
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_call_the_peacekeepers }
+		prerequisite = { focus = ARG_enlistment_benefits }
+		x = 1
+		y = 1
+		cost = 8
+		available_if_capitulated = yes
+		relative_position_id = ARG_call_the_peacekeepers
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_reel_in_officers"
+			add_political_power = -30
+			add_stability = 0.025
+		}
+	}
+
+	focus = {
+		id = ARG_a_patriotic_weapon
+		icon = GFX_goal_authority
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_harsh_lessons }
+		prerequisite = { focus = ARG_moving_on }
+		x = 5
+		y = 1
+		cost = 10
+		available = {
+			hidden_trigger = { always = no }
+		}
+		bypass = {
+			AND = {
+				has_global_flag = ARG_LPA_coalition
+				has_completed_focus = ARG_harsh_lessons
+				has_completed_focus = ARG_moving_on
+			}
+		}
+		relative_position_id = ARG_harsh_lessons
+		mutually_exclusive = { focus = ARG_a_revolutionary_army }
+		mutually_exclusive = { focus = ARG_republican_shield }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_a_patriotic_weapon"
+			custom_effect_tooltip = unlock_focuses
+		}
+	}
+
+	focus = {
+		id = ARG_integrated_paramilitaries
+		icon = GFX_goal_generic_paramilitary
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_a_patriotic_weapon }
+		x = -1
+		y = 1
+		cost = 8
+		available_if_capitulated = yes
+		relative_position_id = ARG_a_patriotic_weapon
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_integrated_paramilitaries"
+			custom_effect_tooltip = ARG_integrated_paramilitary
+			hidden_effect = {
+				division_template = {
+					name = "Division Patriotica"
+					priority = 2
+
+					regiments = {
+						infantry = { x = 0 y = 0 }
+						infantry = { x = 0 y = 1 }
+						infantry = { x = 0 y = 2 }
+
+						infantry = { x = 1 y = 0 }
+						infantry = { x = 1 y = 1 }
+						infantry = { x = 1 y = 2 }
+
+						infantry = { x = 2 y = 0 }
+						infantry = { x = 2 y = 1 }
+						infantry = { x = 2 y = 2 }
+					}
+				}
+
+				random_owned_state = {
+					prioritize = { 289 }
+					create_unit = {
+						division = "name = \"1. Division Patriotica\" division_template = \"Division Patriotica\" start_experience_factor = 1.0"
+						owner = ARG
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_expand_conscription
+		icon = GFX_goal_conscription
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_a_patriotic_weapon }
+		x = 1
+		y = 1
+		relative_position_id = ARG_a_patriotic_weapon
+		available_if_capitulated = yes
+		cost = 8
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_expand_conscription"
+			add_ideas = ARG_patriotic_conscription
+		}
+	}
+
+	focus = {
+		id = ARG_further_spending
+		icon = GFX_goal_generic_intelligence_exchange
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_expand_conscription }
+		prerequisite = { focus = ARG_integrated_paramilitaries }
+		x = 1
+		y = 1
+		relative_position_id = ARG_integrated_paramilitaries
+		available_if_capitulated = yes
+		cost = 8
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_further_spending"
+			army_experience = 25
+			add_political_power = 20
+		}
+	}
+
+	focus = {
+		id = ARG_weapon_imports
+		icon = GFX_goal_generic_military_equipment
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_reel_in_officers focus = ARG_further_spending }
+		x = 1
+		y = 1
+		available_if_capitulated = yes
+		cost = 8
+		relative_position_id = ARG_reel_in_officers
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_weapon_imports"
+			country_event = { id = arg.27 }
+		}
+	}
+
+	focus = {
+		id = ARG_all_for_argentina
+		icon = GFX_focus_generic_little_entente
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_reel_in_officers focus = ARG_further_spending }
+		x = -1
+		y = 1
+		relative_position_id = ARG_further_spending
+		available_if_capitulated = yes
+		cost = 8
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_all_for_argentina"
+			if = {
+				limit = { has_idea = ARG_benefits_enlistment }
+				swap_ideas = {
+					remove_idea = ARG_benefits_enlistment
+					add_idea = ARG_benefits_enlistment1
+				}
+			}
+			if = {
+				limit = { has_idea = ARG_patriotic_conscription }
+				swap_ideas = {
+					remove_idea = ARG_patriotic_conscription
+					add_idea = ARG_patriotic_conscription1
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_pride_of_the_republic
+		icon = GFX_goal_argie_pride
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_all_for_argentina }
+		prerequisite = { focus = ARG_weapon_imports }
+		x = 1
+		y = 1
+		available_if_capitulated = yes
+		cost = 8
+		relative_position_id = ARG_weapon_imports
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_pride_of_the_republic"
+			army_experience = 25
+			add_ideas = ARG_pride_of_the_republic
+		}
+	}
+
+	focus = {
+		id = ARG_update_infantry
+		icon = GFX_focus_secret_rearmament
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_pride_of_the_republic focus = ARG_bastion_of_the_proletariat }
+		x = 2
+		y = 1
+		relative_position_id = ARG_bastion_of_the_proletariat
+		available_if_capitulated = yes
+		cost = 8
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_update_infantry"
+			add_tech_bonus = {
+				name = infantry_bonus
+				bonus = 0.5
+				uses = 1
+				category = infantry_weapons
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_motorize_our_forces
+		icon = GFX_goal_generic_army_motorized
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_pride_of_the_republic focus = ARG_bastion_of_the_proletariat }
+		x = -2
+		y = 1
+		relative_position_id = ARG_pride_of_the_republic
+		available_if_capitulated = yes
+		cost = 8
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_motorize_our_forces"
+			add_tech_bonus = {
+				name = motorised_bonus
+				bonus = 0.5
+				uses = 1
+				technology = motorised_infantry
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_artillery_regiments
+		icon = GFX_goal_generic_army_artillery
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_update_infantry focus = ARG_motorize_our_forces }
+		x = -1
+		y = 1
+		relative_position_id = ARG_update_infantry
+		available_if_capitulated = yes
+		cost = 8
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_artillery_regiments"
+			add_tech_bonus = {
+				name = infantry_bonus
+				bonus = 0.5
+				uses = 1
+				category = artillery
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_engineer_corps
+		icon = GFX_goal_engineers
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_update_infantry focus = ARG_motorize_our_forces }
+		x = 1
+		y = 1
+		relative_position_id = ARG_update_infantry
+		available_if_capitulated = yes
+		cost = 8
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_engineer_corps"
+			add_tech_bonus = {
+				name = engineers_bonus
+				bonus = 0.5
+				uses = 1
+				category = engineers_tech
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_medical_troops
+		icon = GFX_goal_generic_medical
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_update_infantry focus = ARG_motorize_our_forces }
+		x = 1
+		y = 1
+		relative_position_id = ARG_motorize_our_forces
+		available_if_capitulated = yes
+		cost = 8
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_medical_troops"
+			add_tech_bonus = {
+				name = hospital_bonus
+				bonus = 0.5
+				uses = 1
+				category = hospital_tech
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_mass_forces
+		icon = GFX_goal_conscription
+		ai_will_do = { factor = 10 }
+		x = -1
+		y = 1
+		relative_position_id = ARG_artillery_regiments
+		prerequisite = { focus = ARG_medical_troops }
+		prerequisite = { focus = ARG_engineer_corps }
+		prerequisite = { focus = ARG_artillery_regiments }
+		mutually_exclusive = { focus = ARG_men_are_precious }
+		mutually_exclusive = { focus = ARG_tested_strategies }
+		mutually_exclusive = { focus = ARG_relampago_tactics }
+		available_if_capitulated = yes
+		cost = 8
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_mass_forces"
+			add_doctrine_cost_reduction = {
+				name = doctrine_bonus
+				cost_reduction = 0.5
+				uses = 2
+				category = cat_mass_assault
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_men_are_precious
+		icon = GFX_goal_doctrine_fire_superiority
+		ai_will_do = { factor = 10 }
+		x = 1
+		y = 1
+		relative_position_id = ARG_artillery_regiments
+		prerequisite = { focus = ARG_medical_troops }
+		prerequisite = { focus = ARG_engineer_corps }
+		prerequisite = { focus = ARG_artillery_regiments }
+		mutually_exclusive = { focus = ARG_mass_forces }
+		mutually_exclusive = { focus = ARG_tested_strategies }
+		mutually_exclusive = { focus = ARG_relampago_tactics }
+		available_if_capitulated = yes
+		cost = 8
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_men_are_precious"
+			add_doctrine_cost_reduction = {
+				name = doctrine_bonus
+				cost_reduction = 0.5
+				uses = 2
+				category = cat_superior_firepower
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_tested_strategies
+		icon = GFX_goal_planning_bonus
+		ai_will_do = { factor = 10 }
+		x = 1
+		y = 1
+		relative_position_id = ARG_engineer_corps
+		prerequisite = { focus = ARG_medical_troops }
+		prerequisite = { focus = ARG_engineer_corps }
+		prerequisite = { focus = ARG_artillery_regiments }
+		mutually_exclusive = { focus = ARG_mass_forces }
+		mutually_exclusive = { focus = ARG_men_are_precious }
+		mutually_exclusive = { focus = ARG_relampago_tactics }
+		available_if_capitulated = yes
+		cost = 8
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_tested_strategies"
+			add_doctrine_cost_reduction  = {
+				name = doctrine_bonus
+				cost_reduction = 0.5
+				uses = 2
+				category = cat_grand_battle_plan
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_relampago_tactics
+		icon = GFX_goal_RUS_Markov_plan
+		ai_will_do = { factor = 10 }
+		x = 1
+		y = 1
+		relative_position_id = ARG_medical_troops
+		prerequisite = { focus = ARG_medical_troops }
+		prerequisite = { focus = ARG_engineer_corps }
+		prerequisite = { focus = ARG_artillery_regiments }
+		mutually_exclusive = { focus = ARG_mass_forces }
+		mutually_exclusive = { focus = ARG_men_are_precious }
+		mutually_exclusive = { focus = ARG_tested_strategies }
+		available_if_capitulated = yes
+		cost = 8
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_relampago_tactics"
+			add_doctrine_cost_reduction = {
+				name = doctrine_bonus
+				cost_reduction = 0.5
+				uses = 2
+				category = cat_mobile_warfare
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_armored_renovations
+		icon = GFX_goal_generic_army_tanks
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_relampago_tactics focus = ARG_tested_strategies focus = ARG_men_are_precious focus = ARG_mass_forces }
+		x = 1
+		y = 1
+		relative_position_id = ARG_mass_forces
+		available_if_capitulated = yes
+		cost = 8
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_armored_renovations"
+			add_tech_bonus = {
+				name = tank_bonus
+				bonus = 0.5
+				uses = 1
+				category = armor
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_special_troops
+		icon = GFX_goal_generic_special_forces
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_relampago_tactics focus = ARG_tested_strategies focus = ARG_men_are_precious focus = ARG_mass_forces }
+		x = 1
+		y = 1
+		relative_position_id = ARG_men_are_precious
+		available_if_capitulated = yes
+		cost = 8
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_special_troops"
+			add_tech_bonus = {
+				name = special_forces_bonus
+				bonus = 0.5
+				uses = 2
+				category = para_tech
+				category = marine_tech
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_mechanization_efforts
+		icon = GFX_goal_generic_build_tank
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_relampago_tactics focus = ARG_tested_strategies focus = ARG_men_are_precious focus = ARG_mass_forces }
+		x = 1
+		y = 1
+		relative_position_id = ARG_tested_strategies
+		available_if_capitulated = yes
+		cost = 8
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_mechanization_efforts"
+			add_tech_bonus = {
+				name = mech_bonus
+				bonus = 0.5
+				uses = 1
+				category = cat_mechanized_equipment
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_argentinian_strength
+		icon = GFX_focus_secret_rearmament
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_mechanization_efforts }
+		prerequisite = { focus = ARG_special_troops }
+		prerequisite = { focus = ARG_armored_renovations }
+		x = 0
+		y = 1
+		relative_position_id = ARG_special_troops
+		available_if_capitulated = yes
+		cost = 8
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_argentinian_strength"
+			army_experience = 50
+		}
+	}
+
+	focus = {
+		id = ARG_on_the_matter_of_economy
+		icon = GFX_focus_ARG_economic_reactivation_act
+		ai_will_do = { factor = 10 }
+		available = {
+			OR = {
+				has_country_flag = ARG_republic_survives
+				has_global_flag = ARG_left_republic
+			}
+		}
+		x = 32
+		y = 0
+		available_if_capitulated = yes
+		cost = 8
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_on_the_matter_of_economy"
+			swap_ideas = {
+				remove_idea = ARG_black_wednesday
+				add_idea = ARG_black_wednesday1
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_supporting_argentina
+		icon = GFX_focus_ARG_help_the_allies
+		ai_will_do = { factor = 10 }
+		x = -3
+		y = 1
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ARG_on_the_matter_of_economy
+		prerequisite = { focus = ARG_on_the_matter_of_economy }
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_supporting_argentina"
+			add_political_power = 25
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_yacimientos_petroliferos_fiscales
+		icon = GFX_goal_oil
+		ai_will_do = { factor = 10 }
+		x = 0
+		y = 2
+		relative_position_id = ARG_supporting_argentina
+		prerequisite = { focus = ARG_supporting_argentina }
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_yacimientos_petroliferos_fiscales"
+			add_resource = {
+				type = oil
+				amount = 20
+				state = 512
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_cordoba_industrial_zone
+		icon = GFX_goal_generic_construct_civ_factory
+		ai_will_do = { factor = 10 }
+		x = -1
+		y = 1
+		available = {
+			controls_state = 761
+		}
+		relative_position_id = ARG_supporting_argentina
+		prerequisite = { focus = ARG_supporting_argentina }
+		available_if_capitulated = yes
+		cost = 8
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_cordoba_industrial_zone"
+			761 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_expand_the_patagonian_railways
+		icon = GFX_focus_ARG_preparations_for_war
+		ai_will_do = { factor = 10 }
+		x = -1
+		y = 1
+		available = {
+			controls_state = 512
+		}
+		relative_position_id = ARG_cordoba_industrial_zone
+		prerequisite = { focus = ARG_cordoba_industrial_zone }
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_expand_the_patagonian_railways"
+			512 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_electronics_investments
+		icon = GFX_focus_ARG_develop_the_electricity_sector
+		ai_will_do = { factor = 10 }
+		x = 0
+		y = 2
+		relative_position_id = ARG_cordoba_industrial_zone
+		prerequisite = {
+			focus = ARG_cordoba_industrial_zone
+			focus = ARG_expand_the_patagonian_railways
+		}
+		available_if_capitulated = yes
+		cost = 8
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_electronics_investments"
+			add_tech_bonus = {
+				name = electric_bonus
+				bonus = 0.5
+				uses = 1
+				category = electronics
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_buenos_aires_industrial_zone
+		icon = GFX_focus_ARG_rapid_urbanization
+		ai_will_do = { factor = 10 }
+		x = 1
+		y = 1
+		available = {
+			controls_state = 278
+		}
+		relative_position_id = ARG_supporting_argentina
+		prerequisite = { focus = ARG_supporting_argentina }
+		available_if_capitulated = yes
+		cost = 8
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_buenos_aires_industrial_zone"
+			278 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_construction_expansion
+		icon = GFX_goal_generic_construction
+		ai_will_do = { factor = 10 }
+		x = 1
+		y = 1
+		relative_position_id = ARG_buenos_aires_industrial_zone
+		prerequisite = { focus = ARG_buenos_aires_industrial_zone }
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_construction_expansion"
+			add_tech_bonus = {
+				name = construction_bonus
+				bonus = 0.5
+				uses = 2
+				technology = construction1
+				technology = construction2
+				technology = construction3
+				technology = construction4
+				technology = construction5
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_no_need_for_the_british
+		icon = GFX_focus_AST_never_gallipoli
+		ai_will_do = { factor = 10 }
+		x = 3
+		y = 1
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ARG_on_the_matter_of_economy
+		prerequisite = { focus = ARG_on_the_matter_of_economy }
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_no_need_for_the_british"
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			ENG = {
+				add_opinion_modifier = {
+					target = ARG
+					modifier = ARG_nationalized_their_industry
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_nationalize_aslco
+		icon = GFX_goal_sheep
+		ai_will_do = { factor = 10 }
+		x = 0
+		y = 2
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ARG_no_need_for_the_british
+		prerequisite = { focus = ARG_no_need_for_the_british }
+		available_if_capitulated = yes
+		cost = 8
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_nationalize_aslco"
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_limit_food_exports
+		icon = GFX_goal_generic_food_processing
+		ai_will_do = { factor = 10 }
+		x = -1
+		y = 1
+		relative_position_id = ARG_no_need_for_the_british
+		prerequisite = { focus = ARG_no_need_for_the_british }
+		available_if_capitulated = yes
+		bypass = {
+			OR = {
+				has_idea = limited_exports
+				has_idea = closed_economy
+			}
+		}
+		cost = 8
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_limit_food_exports"
+			if = {
+				limit = {
+					OR = {
+						has_idea = free_trade
+						has_idea = export_focus
+					}
+				}
+				add_ideas = limited_exports
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_control_bunge_and_born
+		icon = GFX_goal_agrarian_reform
+		ai_will_do = { factor = 10 }
+		x = -1
+		y = 1
+		relative_position_id = ARG_limit_food_exports
+		prerequisite = { focus = ARG_limit_food_exports }
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_control_bunge_and_born"
+			add_political_power = 50
+		}
+	}
+
+	focus = {
+		id = ARG_nationalized_railroads
+		icon = GFX_goal_generic_highway
+		ai_will_do = { factor = 10 }
+		x = 1
+		y = 1
+		relative_position_id = ARG_no_need_for_the_british
+		prerequisite = { focus = ARG_no_need_for_the_british }
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_nationalized_railroads"
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_subsidize_argentinian_enterprise
+		icon = GFX_goal_argie_industry
+		ai_will_do = { factor = 10 }
+		x = 1
+		y = 1
+		relative_position_id = ARG_nationalized_railroads
+		prerequisite = { focus = ARG_nationalized_railroads }
+		available_if_capitulated = yes
+		cost = 8
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_subsidize_argentinian_enterprise"
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_support_ferrum
+		icon = GFX_focus_generic_steel
+		ai_will_do = { factor = 10 }
+		x = -1
+		y = 1
+		relative_position_id = ARG_subsidize_argentinian_enterprise
+		prerequisite = {
+			focus = ARG_nationalized_railroads
+			focus = ARG_subsidize_argentinian_enterprise
+		}
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_support_ferrum"
+			add_resource = {
+				type = steel
+				amount = 20
+				state = 278
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_industrial_reform
+		icon = GFX_goal_generic_production
+		ai_will_do = { factor = 10 }
+		x = 1
+		y = 1
+		relative_position_id = ARG_construction_expansion
+		prerequisite = { focus = ARG_nationalize_aslco }
+		prerequisite = { focus = ARG_yacimientos_petroliferos_fiscales }
+		prerequisite = { focus = ARG_on_the_matter_of_economy }
+		available_if_capitulated = yes
+		cost = 8
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_industrial_reform"
+			swap_ideas = {
+				remove_idea = ARG_black_wednesday1
+				add_idea = ARG_black_wednesday2
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_military_industry
+		icon = GFX_goal_generic_construct_mil_factory
+		ai_will_do = { factor = 10 }
+		x = 0
+		y = 1
+		relative_position_id = ARG_industrial_reform
+		prerequisite = { focus = ARG_industrial_reform }
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_military_industry"
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_military_expansion
+		icon = GFX_goal_generic_construct_mil_factory
+		ai_will_do = { factor = 10 }
+		x = 0
+		y = 1
+		relative_position_id = ARG_military_industry
+		prerequisite = { focus = ARG_military_industry }
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_military_expansion"
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_extractive_measures
+		icon = GFX_goal_generic_oil_refinery
+		ai_will_do = { factor = 10 }
+		x = 1
+		y = 1
+		relative_position_id = ARG_electronics_investments
+		prerequisite = { focus = ARG_electronics_investments }
+		prerequisite = { focus = ARG_yacimientos_petroliferos_fiscales }
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_extractive_measures"
+			add_tech_bonus = {
+				name = excavation_bonus
+				bonus = 0.5
+				uses = 1
+				technology = excavation1
+				technology = excavation2
+				technology = excavation3
+				technology = excavation4
+				technology = excavation5
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_academia_argentina_de_innovacion
+		icon = GFX_focus_research
+		ai_will_do = { factor = 10 }
+		x = 1
+		y = 1
+		relative_position_id = ARG_extractive_measures
+		prerequisite = { focus = ARG_extractive_measures }
+		prerequisite = { focus = ARG_industrial_reform }
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_academia_argentina_de_innovacion"
+			add_research_slot = 1
+		}
+	}
+
+	focus = {
+		id = ARG_automotive_industry
+		icon = GFX_goal_generic_automobile
+		ai_will_do = { factor = 10 }
+		x = -1
+		y = 1
+		relative_position_id = ARG_support_ferrum
+		prerequisite = { focus = ARG_nationalize_aslco }
+		prerequisite = { focus = ARG_support_ferrum }
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_automotive_industry"
+			add_tech_bonus = {
+				name = motorised_bonus
+				bonus = 0.5
+				uses = 1
+				technology = motorised_infantry
+			}
+			add_equipment_to_stockpile = {
+				type = motorized_equipment_1 amount = 500 producer = ARG
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_deal_with_la_forestal
+		icon = GFX_focus_generic_rubber
+		ai_will_do = { factor = 10 }
+		x = -1
+		y = 1
+		relative_position_id = ARG_automotive_industry
+		prerequisite = { focus = ARG_automotive_industry }
+		prerequisite = { focus = ARG_industrial_reform }
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_deal_with_la_forestal"
+			remove_ideas = ARG_british_companies1
+		}
+	}
+
+	focus = {
+		id = ARG_back_on_our_feet
+		icon = GFX_focus_ARG_argentina_for_all
+		ai_will_do = { factor = 10 }
+		x = 0
+		y = 1
+		relative_position_id = ARG_military_expansion
+		prerequisite = {
+			focus = ARG_deal_with_la_forestal
+			focus = ARG_academia_argentina_de_innovacion
+		}
+		available_if_capitulated = yes
+		cost = 7
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_back_on_our_feet"
+			remove_ideas = ARG_black_wednesday2
+		}
+	}
+
+	focus = {
+		id = ARG_master_of_the_south_atlantic
+		icon = GFX_goal_ARG_navy
+		ai_will_do = { factor = 1 }
+		available = {
+			OR = {
+				has_country_flag = ARG_republic_survives
+				has_global_flag = ARG_left_republic
+			}
+		}
+		x = 24
+		y = 5
+		available_if_capitulated = yes
+		cost = 8
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_master_of_the_south_atlantic"
+			navy_experience = 50
+		}
+	}
+
+	focus = {
+		id = ARG_expand_the_fleet
+		icon = GFX_goal_generic_construct_naval_dockyard
+		ai_will_do = { factor = 10 }
+		x = -3
+		y = 1
+		relative_position_id = ARG_master_of_the_south_atlantic
+		prerequisite = { focus = ARG_master_of_the_south_atlantic }
+		available_if_capitulated = yes
+		cost = 8
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_expand_the_fleet"
+			278 = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = dockyard
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_platinean_coast_guard
+		icon = GFX_goal_generic_coastal_navy2
+		ai_will_do = { factor = 1 }
+		x = 3
+		y = 1
+		relative_position_id = ARG_master_of_the_south_atlantic
+		prerequisite = { focus = ARG_master_of_the_south_atlantic }
+		available_if_capitulated = yes
+		cost = 8
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_platinean_coast_guard"
+			278 = {
+				add_building_construction = {
+					type = coastal_bunker
+					level = 2
+					province = 10515
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = coastal_bunker
+					level = 2
+					province = 12364
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = coastal_bunker
+					level = 2
+					province = 12379
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_patagonian_harbours
+		icon = GFX_focus_generic_refit_civilian_ships
+		ai_will_do = { factor = 1 }
+		x = -1
+		y = 1
+		relative_position_id = ARG_expand_the_fleet
+		prerequisite = { focus = ARG_expand_the_fleet }
+		available_if_capitulated = yes
+		cost = 8
+		available = {
+			controls_state = 512
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_patagonian_harbours"
+			512 = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = dockyard
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_argentinian_marines
+		icon = GFX_goal_generic_amphibious_assault
+		ai_will_do = { factor = 1 }
+		x = 1
+		y = 1
+		relative_position_id = ARG_platinean_coast_guard
+		prerequisite = { focus = ARG_platinean_coast_guard }
+		available_if_capitulated = yes
+		cost = 8
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_argentinian_marines"
+			add_tech_bonus = {
+				name = marine_tech_bonus
+				bonus = 0.5
+				uses = 1
+				category = marine_tech
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_domecq_plan
+		icon = GFX_goal_generic_navy_battleship3alt
+		ai_will_do = { factor = 5 }
+		x = 1
+		y = 1
+		relative_position_id = ARG_expand_the_fleet
+		prerequisite = { focus = ARG_platinean_coast_guard }
+		prerequisite = { focus = ARG_expand_the_fleet }
+		mutually_exclusive = { focus = ARG_scasso_plan }
+		mutually_exclusive = { focus = ARG_storni_plan }
+		available_if_capitulated = yes
+		cost = 8
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_domecq_plan"
+			add_doctrine_cost_reduction = {
+				name = navdoctrine_bonus
+				cost_reduction = 0.5
+				uses = 2
+				category = cat_fleet_in_being
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_scasso_plan
+		icon = GFX_goal_generic_navy_carrier
+		ai_will_do = { factor = 5 }
+		x = 2
+		y = 0
+		relative_position_id = ARG_domecq_plan
+		prerequisite = { focus = ARG_platinean_coast_guard }
+		prerequisite = { focus = ARG_expand_the_fleet }
+		mutually_exclusive = { focus = ARG_domecq_plan }
+		mutually_exclusive = { focus = ARG_storni_plan }
+		available_if_capitulated = yes
+		cost = 8
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_scasso_plan"
+			add_doctrine_cost_reduction = {
+				name = navdoctrine_bonus
+				cost_reduction = 0.5
+				uses = 2
+				category = cat_base_strike
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_storni_plan
+		icon = GFX_goal_generic_air_naval_bomber
+		ai_will_do = { factor = 5 }
+		x = -1
+		y = 1
+		relative_position_id = ARG_platinean_coast_guard
+		prerequisite = { focus = ARG_platinean_coast_guard }
+		prerequisite = { focus = ARG_expand_the_fleet }
+		mutually_exclusive = { focus = ARG_scasso_plan }
+		mutually_exclusive = { focus = ARG_domecq_plan }
+		available_if_capitulated = yes
+		cost = 8
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_storni_plan"
+			add_doctrine_cost_reduction = {
+				name = navdoctrine_bonus
+				cost_reduction = 0.5
+				uses = 2
+				category = cat_trade_interdiction
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_battleships
+		icon = GFX_goal_generic_navy_battleship
+		ai_will_do = { factor = 10 }
+		x = 1
+		y = 1
+		relative_position_id = ARG_patagonian_harbours
+		prerequisite = { focus = ARG_patagonian_harbours }
+		prerequisite = { focus = ARG_storni_plan focus = ARG_scasso_plan focus = ARG_domecq_plan }
+		available_if_capitulated = yes
+		cost = 8
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_battleships"
+			add_tech_bonus = {
+				name = battleship_bonus
+				bonus = 0.5
+				uses = 1
+				category = bc_tech
+				category = bb_tech
+				category = shbb_tech
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_southern_ports
+		icon = GFX_goal_generic_construct_naval_dockyard
+		ai_will_do = { factor = 10 }
+		x = 1
+		y = 1
+		available = {
+			controls_state = 512
+		}
+		relative_position_id = ARG_battleships
+		prerequisite = { focus = ARG_battleships }
+		available_if_capitulated = yes
+		cost = 8
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_southern_ports"
+			512 = {
+				add_building_construction = {
+					type = naval_base
+					level = 3
+					province = 12349
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_cruisers
+		icon = GFX_goal_generic_navy_cruiser
+		ai_will_do = { factor = 10 }
+		x = 1
+		y = 1
+		relative_position_id = ARG_domecq_plan
+		prerequisite = { focus = ARG_storni_plan focus = ARG_scasso_plan focus = ARG_domecq_plan }
+		available_if_capitulated = yes
+		cost = 8
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_cruisers"
+			add_tech_bonus = {
+				name = cruiser_bonus
+				bonus = 0.5
+				uses = 1
+				category = ca_tech
+				category = cl_tech
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_submarines
+		icon = GFX_goal_generic_navy_submarine
+		ai_will_do = { factor = 10 }
+		x = 1
+		y = 1
+		relative_position_id = ARG_scasso_plan
+		prerequisite = { focus = ARG_storni_plan focus = ARG_scasso_plan focus = ARG_domecq_plan }
+		available_if_capitulated = yes
+		cost = 8
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_submarines"
+			add_tech_bonus = {
+				name = submarine_bonus
+				bonus = 0.5
+				uses = 1
+				category = ss_tech
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_carriers
+		icon = GFX_goal_generic_sea_focused_navy2
+		ai_will_do = { factor = 10 }
+		x = 1
+		y = 1
+		relative_position_id = ARG_cruisers
+		prerequisite = { focus = ARG_cruisers }
+		prerequisite = { focus = ARG_submarines }
+		available_if_capitulated = yes
+		cost = 8
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_carriers"
+			add_tech_bonus = {
+				name = carrier_bonus
+				bonus = 0.5
+				uses = 1
+				category = cv_tech
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_destroyers
+		icon = GFX_goal_generic_wolf_pack
+		ai_will_do = { factor = 10 }
+		x = 1
+		y = 1
+		relative_position_id = ARG_storni_plan
+		prerequisite = { focus = ARG_argentinian_marines }
+		prerequisite = { focus = ARG_storni_plan focus = ARG_scasso_plan focus = ARG_domecq_plan }
+		available_if_capitulated = yes
+		cost = 8
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_destroyers"
+			add_tech_bonus = {
+				name = destroyer_bonus
+				bonus = 0.5
+				uses = 1
+				category = dd_tech
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_amphibious_vehicles
+		icon = GFX_goal_generic_transports
+		ai_will_do = { factor = 10 }
+		x = -1
+		y = 1
+		relative_position_id = ARG_destroyers
+		prerequisite = { focus = ARG_destroyers }
+		available_if_capitulated = yes
+		cost = 8
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_amphibious_vehicles"
+			add_tech_bonus = {
+				name = tp_tech_bonus
+				bonus = 0.5
+				uses = 1
+				category = tp_tech
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_high_seas_tactics
+		icon = GFX_goal_generic_navy_doctrines_tactics
+		ai_will_do = { factor = 10 }
+		x = 0
+		y = 1
+		relative_position_id = ARG_carriers
+		prerequisite = { focus = ARG_amphibious_vehicles }
+		prerequisite = { focus = ARG_southern_ports }
+		available_if_capitulated = yes
+		cost = 8
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_high_seas_tactics"
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.5
+				uses = 1
+				category = naval_doctrine
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_utter_control
+		icon = GFX_focus_ARG_navy
+		ai_will_do = { factor = 10 }
+		x = 0
+		y = 1
+		relative_position_id = ARG_high_seas_tactics
+		prerequisite = { focus = ARG_high_seas_tactics }
+		available_if_capitulated = yes
+		cost = 8
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_utter_control"
+			navy_experience = 100
+		}
+	}
+
+	focus = {
+		id = ARG_the_argentinian_skies
+		icon = GFX_goal_ARG_airforce
+		ai_will_do = { factor = 1 }
+		available = {
+			OR = {
+				has_country_flag = ARG_republic_survives
+				has_global_flag = ARG_left_republic
+			}
+		}
+		x = 38
+		y = 6
+		available_if_capitulated = yes
+		cost = 8
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_the_argentinian_skies"
+			air_experience = 50
+		}
+	}
+
+	focus = {
+		id = ARG_bases_aereas_argentinas
+		icon = GFX_goal_generic_airports
+		ai_will_do = { factor = 2 }
+		x = -2
+		y = 1
+		relative_position_id = ARG_the_argentinian_skies
+		prerequisite = { focus = ARG_the_argentinian_skies }
+		available_if_capitulated = yes
+		cost = 8
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_bases_aereas_argentinas"
+			random_owned_state = {
+				add_building_construction = {
+					type = air_base
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_warriors_of_the_sky
+		icon = GFX_goal_generic_air_fighter
+		ai_will_do = { factor = 2 }
+		x = 2
+		y = 1
+		relative_position_id = ARG_the_argentinian_skies
+		prerequisite = { focus = ARG_the_argentinian_skies }
+		available_if_capitulated = yes
+		cost = 8
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_warriors_of_the_sky"
+			add_tech_bonus = {
+				name = fighter_bonus
+				bonus = 0.5
+				uses = 2
+				category = light_fighter
+				category = cat_heavy_fighter
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_plane_production_plan
+		icon = GFX_goal_generic_air_production
+		ai_will_do = { factor = 2 }
+		x = 0
+		y = 1
+		relative_position_id = ARG_the_argentinian_skies
+		prerequisite = { focus = ARG_the_argentinian_skies }
+		available_if_capitulated = yes
+		cost = 8
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_plane_production_plan"
+			add_ideas = ARG_plane_production
+		}
+	}
+
+	focus = {
+		id = ARG_objective_annihilation
+		icon = GFX_goal_generic_air_doctrine
+		ai_will_do = { factor = 2 }
+		x = 0
+		y = 1
+		relative_position_id = ARG_bases_aereas_argentinas
+		prerequisite = { focus = ARG_warriors_of_the_sky }
+		prerequisite = { focus = ARG_bases_aereas_argentinas }
+		prerequisite = { focus = ARG_plane_production_plan }
+		mutually_exclusive = { focus = ARG_troop_support }
+		mutually_exclusive = { focus = ARG_widerange_strategy }
+		available_if_capitulated = yes
+		cost = 8
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_objective_annihilation"
+			add_doctrine_cost_reduction = {
+				name = airdoctrine_bonus
+				cost_reduction = 0.5
+				uses = 2
+				category = strategic_destruction_tree
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_troop_support
+		icon = GFX_goal_generic_air_fighter2
+		ai_will_do = { factor = 3 }
+		x = 0
+		y = 1
+		relative_position_id = ARG_plane_production_plan
+		prerequisite = { focus = ARG_warriors_of_the_sky }
+		prerequisite = { focus = ARG_bases_aereas_argentinas }
+		prerequisite = { focus = ARG_plane_production_plan }
+		mutually_exclusive = { focus = ARG_objective_annihilation }
+		mutually_exclusive = { focus = ARG_widerange_strategy }
+		available_if_capitulated = yes
+		cost = 8
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_troop_support"
+			add_doctrine_cost_reduction = {
+				name = airdoctrine_bonus
+				cost_reduction = 0.5
+				uses = 2
+				category = battlefield_support_tree
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_widerange_strategy
+		icon = GFX_goal_continuous_air_production
+		ai_will_do = { factor = 2 }
+		x = 0
+		y = 1
+		relative_position_id = ARG_warriors_of_the_sky
+		prerequisite = { focus = ARG_warriors_of_the_sky }
+		prerequisite = { focus = ARG_bases_aereas_argentinas }
+		prerequisite = { focus = ARG_plane_production_plan }
+		mutually_exclusive = { focus = ARG_objective_annihilation }
+		mutually_exclusive = { focus = ARG_troop_support }
+		available_if_capitulated = yes
+		cost = 8
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_widerange_strategy"
+			add_doctrine_cost_reduction = {
+				name = airdoctrine_bonus
+				cost_reduction = 0.5
+				uses = 2
+				category = operational_integrity_tree
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_overland_bombers
+		icon = GFX_goal_generic_air_bomber
+		ai_will_do = { factor = 2 }
+		x = 1
+		y = 1
+		relative_position_id = ARG_objective_annihilation
+		prerequisite = { focus = ARG_objective_annihilation focus = ARG_troop_support focus = ARG_objective_annihilation }
+		available_if_capitulated = yes
+		cost = 8
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_overland_bombers"
+			add_tech_bonus = {
+				name = bomber_bonus
+				bonus = 0.5
+				uses = 1
+				category = tactical_bomber
+				category = cat_strategic_bomber
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_maritime_terror
+		icon = GFX_goal_generic_air_naval_bomber
+		ai_will_do = { factor = 2 }
+		x = 1
+		y = 1
+		relative_position_id = ARG_troop_support
+		prerequisite = { focus = ARG_objective_annihilation focus = ARG_troop_support focus = ARG_objective_annihilation }
+		available_if_capitulated = yes
+		cost = 8
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_maritime_terror"
+			add_tech_bonus = {
+				name = naval_bomber_bonus
+				bonus = 0.5
+				uses = 1
+				category = naval_bomber
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_they_came_from_the_skies
+		icon = GFX_focus_generic_paratrooper
+		ai_will_do = { factor = 4 }
+		x = 0
+		y = 1
+		relative_position_id = ARG_overland_bombers
+		prerequisite = { focus = ARG_overland_bombers focus = ARG_maritime_terror }
+		mutually_exclusive = { focus = ARG_propelled_pain }
+		available_if_capitulated = yes
+		cost = 8
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_they_came_from_the_skies"
+			add_tech_bonus = {
+				name = para_tech_bonus
+				bonus = 0.5
+				uses = 1
+				category = para_tech
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_propelled_pain
+		icon = GFX_focus_rocketry
+		ai_will_do = { factor = 1 }
+		x = 0
+		y = 1
+		relative_position_id = ARG_maritime_terror
+		prerequisite = { focus = ARG_overland_bombers focus = ARG_maritime_terror }
+		mutually_exclusive = { focus = ARG_they_came_from_the_skies }
+		available_if_capitulated = yes
+		cost = 8
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_propelled_pain"
+			add_tech_bonus = {
+				name = rocket_bonus
+				bonus = 0.5
+				uses = 1
+				category = rocketry
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_aerial_mastery
+		icon = GFX_focus_ARG_air_force
+		ai_will_do = { factor = 2 }
+		x = 1
+		y = 1
+		relative_position_id = ARG_they_came_from_the_skies
+		prerequisite = { focus = ARG_they_came_from_the_skies focus = ARG_propelled_pain }
+		available_if_capitulated = yes
+		cost = 8
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_aerial_mastery"
+			air_experience = 100
+		}
+	}
+
+	focus = {
+		id = ARG_a_socialist_alliance
+		icon = GFX_focus_SOV_international_union_of_soviet_republics
+		ai_will_do = { factor = 10 }
+		available = {
+			is_subject = no
+			is_in_faction = no
+			has_global_flag = ARG_left_republic
+			NOT = {
+				has_idea = ARG_memories_of_the_chaco_war
+				has_idea = ARG_memories_of_the_chaco_war1
+			}
+		}
+		x = 6
+		y = 14
+		available_if_capitulated = yes
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_a_socialist_alliance"
+			create_faction = south_american_internationale
+		}
+	}
+
+	focus = {
+		id = ARG_spirit_of_cooperation
+		icon = GFX_focus_ARG_women_in_industry
+		ai_will_do = { factor = 10 }
+		x = -1
+		y = 1
+		relative_position_id = ARG_a_socialist_alliance
+		prerequisite = { focus = ARG_a_socialist_alliance }
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_spirit_of_cooperation"
+			every_country = {
+				limit = {
+					NOT = {
+						is_in_faction_with = ARG
+						is_subject_of = ARG
+						has_war_with = ARG
+						has_government = social_liberal
+						has_government = market_liberal
+						has_government = authoritarian_democrat
+						has_government = social_democrat
+						has_government = social_conservative
+						has_government = valkist
+						has_government = national_populist
+						has_government = paternal_autocrat
+					}
+				}
+				add_opinion_modifier = { target = ARG modifier = BOL_international_friends }
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_international_research_pact
+		icon = GFX_focus_research
+		ai_will_do = { factor = 10 }
+		x = 1
+		y = 1
+		relative_position_id = ARG_a_socialist_alliance
+		prerequisite = { focus = ARG_a_socialist_alliance }
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_international_research_pact"
+			add_to_tech_sharing_group = argsoc_research
+			every_country = {
+				limit = {
+					NOT = {
+						is_in_faction_with = ARG
+						is_subject_of = ARG
+						has_war_with = ARG
+						has_government = social_liberal
+						has_government = market_liberal
+						has_government = authoritarian_democrat
+						has_government = social_democrat
+						has_government = social_conservative
+						has_government = valkist
+						has_government = national_populist
+						has_government = paternal_autocrat
+					}
+					any_neighbor_country = { tag = ARG }
+				}
+				country_event = { id = arg.200}
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_socialism_across_the_andes
+		icon = GFX_goal_generic_revolution_chile
+		ai_will_do = { factor = 15 }
+		available = {
+			is_subject = no
+			country_exists = CHL
+		}
+		bypass = {
+			CHL = {
+				OR = {
+					is_subject_of = ROOT
+					is_in_faction_with = ROOT
+					has_war_with = ROOT
+				}
+			}
+		}
+		x = -6
+		y = 1
+		relative_position_id = ARG_spirit_of_cooperation
+		prerequisite = { focus = ARG_spirit_of_cooperation focus = ARG_international_research_pact }
+		available_if_capitulated = yes
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_socialism_across_the_andes"
+			CHL = { country_event = { id = arg.100 } }
+		}
+	}
+
+	focus = {
+		id = ARG_liberate_chilean_workers
+		icon = GFX_goal_generic_attack_chile
+		ai_will_do = { factor = 15 }
+		available = {
+			is_subject = no
+			country_exists = CHL
+		}
+		bypass = {
+			CHL = {
+				OR = {
+					is_subject_of = ROOT
+					is_in_faction_with = ROOT
+					has_war_with = ROOT
+				}
+			}
+		}
+		x = 0
+		y = 1
+		relative_position_id = ARG_socialism_across_the_andes
+		prerequisite = { focus = ARG_socialism_across_the_andes }
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_liberate_chilean_workers"
+			create_wargoal = {
+				type = annex_everything target = CHL
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_bolivian_friendship
+		icon = GFX_goal_bolivia
+		ai_will_do = { factor = 15 }
+		available = {
+			is_subject = no
+			country_exists = BOL
+		}
+		bypass = {
+			BOL = {
+				OR = {
+					is_subject_of = ROOT
+					is_in_faction_with = ROOT
+					has_war_with = ROOT
+				}
+			}
+		}
+		x = -2
+		y = 1
+		relative_position_id = ARG_spirit_of_cooperation
+		prerequisite = { focus = ARG_spirit_of_cooperation focus = ARG_international_research_pact }
+		mutually_exclusive = { focus = ARG_support_bolivian_socialists }
+		available_if_capitulated = yes
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_bolivian_friendship"
+			country_event = { id = arg.102 }
+		}
+	}
+
+	focus = {
+		id = ARG_invite_bolivia
+		icon = GFX_goal_ARG_bolivia_deal
+		ai_will_do = { factor = 15 }
+		available = {
+			NOT = {
+				is_in_faction_with = BOL
+				is_subject_of = BOL
+				has_war_with = BOL
+			}
+			BOL = {
+				is_subject = no
+				is_in_faction = no
+				has_socialist_government = yes
+				NOT = { has_war_with = ARG }
+			}
+		}
+		bypass = {
+			OR = {
+				is_in_faction_with = BOL
+				is_subject_of = BOL
+			}
+		}
+		x = 0
+		y = 1
+		relative_position_id = ARG_bolivian_friendship
+		prerequisite = { focus = ARG_bolivian_friendship }
+		available_if_capitulated = yes
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_invite_bolivia"
+			BOL = { country_event = { id = arg.103 } }
+		}
+	}
+
+	focus = {
+		id = ARG_invite_prusoc
+		icon = GFX_goal_peru
+		ai_will_do = { factor = 15 }
+		available = {
+			NOT = {
+				is_in_faction_with = PRU
+				is_subject_of = PRU
+				has_war_with = PRU
+			}
+			PRU = {
+				is_subject = no
+				is_in_faction = no
+				has_socialist_government = yes
+				NOT = { has_war_with = ARG }
+			}
+		}
+		bypass = {
+			OR = {
+				is_in_faction_with = PRU
+				is_subject_of = PRU
+			}
+		}
+		x = -4
+		y = 1
+		relative_position_id = ARG_spirit_of_cooperation
+		prerequisite = { focus = ARG_spirit_of_cooperation focus = ARG_international_research_pact }
+		available_if_capitulated = yes
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_invite_prusoc"
+			PRU = { country_event = { id = arg.111 } }
+		}
+	}
+
+	focus = {
+		id = ARG_support_bolivian_socialists
+		icon = GFX_goal_generic_revolution_bolivia
+		ai_will_do = { factor = 15 }
+		available = {
+			NOT = {
+				is_in_faction_with = BOL
+				is_subject_of = BOL
+				has_war_with = BOL
+				BOL = {
+					has_country_flag = BOL_revolutionary
+				}
+			}
+		}
+		bypass = { has_war_with = BOL }
+		x = 0
+		y = 1
+		relative_position_id = ARG_spirit_of_cooperation
+		prerequisite = { focus = ARG_spirit_of_cooperation focus = ARG_international_research_pact }
+		available_if_capitulated = yes
+		mutually_exclusive = { focus = ARG_bolivian_friendship }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_support_bolivian_socialists"
+			BOL = { country_event = { id = arg.104 } }
+		}
+	}
+
+	focus = {
+		id = ARG_liberate_bolivian_workers
+		icon = GFX_goal_generic_attack_bolivia
+		ai_will_do = { factor = 15 }
+		available = {
+			has_war = no
+			NOT = {
+				is_in_faction_with = BOL
+				is_subject_of = BOL
+				has_war_with = BOL
+			}
+		}
+		bypass = {
+			has_war_with = BOL
+		}
+		x = 0
+		y = 1
+		relative_position_id = ARG_support_bolivian_socialists
+		prerequisite = { focus = ARG_support_bolivian_socialists }
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_liberate_bolivian_workers"
+			create_wargoal = {
+				type = annex_everything target = BOL
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_bolster_eastern_socialism
+		icon = GFX_goal_generic_revolution_uruguay
+		ai_will_do = { factor = 15 }
+		x = 0
+		y = 1
+		available = {
+			NOT = {
+				is_in_faction_with = URG
+				is_subject_of = URG
+				has_war_with = URG
+			}
+		}
+		relative_position_id = ARG_international_research_pact
+		prerequisite = { focus = ARG_spirit_of_cooperation focus = ARG_international_research_pact }
+		available_if_capitulated = yes
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_bolster_eastern_socialism"
+			URG = { country_event = { id = arg.109} }
+		}
+	}
+
+	focus = {
+		id = ARG_bring_the_revolution_to_uruguay
+		icon = GFX_goal_generic_attack_uruguay
+		ai_will_do = { factor = 15 }
+		x = 0
+		y = 1
+		available = {
+			ARG = {
+				has_war = no
+			}
+			NOT = {
+				is_in_faction_with = URG
+				is_subject_of = URG
+				has_war_with = URG
+			}
+		}
+		bypass = {
+			has_war_with = URG
+		}
+		relative_position_id = ARG_bolster_eastern_socialism
+		prerequisite = { focus = ARG_bolster_eastern_socialism }
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_bring_the_revolution_to_uruguay"
+			create_wargoal = {
+				type = annex_everything target = URG
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_dissidents_in_paraguay
+		icon = GFX_goal_generic_revolution_paraguay
+		ai_will_do = { factor = 15 }
+		x = 2
+		y = 1
+		available = {
+			NOT = {
+				is_in_faction_with = PAR
+				is_subject_of = PAR
+				has_war_with = PAR
+			}
+		}
+		relative_position_id = ARG_international_research_pact
+		prerequisite = { focus = ARG_spirit_of_cooperation focus = ARG_international_research_pact }
+		available_if_capitulated = yes
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_dissidents_in_paraguay"
+			PAR = { country_event = { id = arg.106 } }
+		}
+	}
+
+	focus = {
+		id = ARG_liberate_paraguay
+		icon = GFX_goal_generic_attack_paraguay
+		ai_will_do = { factor = 15 }
+		available = {
+			has_war = no
+			NOT = {
+				is_in_faction_with = PAR
+				is_subject_of = PAR
+				has_war_with = PAR
+				PAR = {
+					is_subject_of = ARG
+					is_subject_of = BOL
+				}
+			}
+		}
+		bypass = {
+			has_war_with = PAR
+		}
+		x = 0
+		y = 1
+		relative_position_id = ARG_dissidents_in_paraguay
+		prerequisite = { focus = ARG_dissidents_in_paraguay }
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_liberate_paraguay"
+			create_wargoal = {
+				type = annex_everything target = PAR
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_support_the_union
+		icon = GFX_goal_bra_collie
+		ai_will_do = { factor = 15 }
+		x = 4
+		y = 1
+		relative_position_id = ARG_international_research_pact
+		prerequisite = { focus = ARG_spirit_of_cooperation focus = ARG_international_research_pact }
+		available_if_capitulated = yes
+		cost = 5
+		available = {
+			UBR = {
+				controls_state = 497
+			}
+		}
+		bypass = {
+			has_country_flag = ARG_helpedbrunion
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_support_the_union"
+			add_opinion_modifier = { target = ARG modifier = BOL_international_friends }
+			UBR = { country_event = { id = arg.349 } }
+		}
+	}
+
+	focus = {
+		id = ARG_intervene_in_the_civil_war
+		icon = GFX_goal_generic_attack_reactionary_brazil
+		ai_will_do = { factor = 15 }
+		x = 0
+		y = 1
+		relative_position_id = ARG_support_the_union
+		prerequisite = { focus = ARG_support_the_union }
+		available_if_capitulated = yes
+		cost = 4
+		available = {
+			UBR = {
+				controls_state = 497
+			}
+			has_war = no
+			NOT = {
+				is_in_faction_with = BPS
+				is_subject_of = BPS
+				has_war_with = BPS
+			}
+		}
+		bypass = {
+			has_country_flag = ARG_collienvadebepis
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_intervene_in_the_civil_war"
+			country_event = { id = arg.350 }
+		}
+	}
+
+	focus = {
+		id = ARG_form_federation_of_la_plata
+		icon = GFX_goal_red_star_union
+		ai_will_do = { factor = 15 }
+		available = {
+			OR = {
+				PAR = { is_subject_of = ARG }
+				301 = { is_owned_by = ARG }
+				URG = { is_subject_of = ARG }
+				AND = {
+					300 = { is_owned_by = ARG }
+					836 = { is_owned_by = ARG }
+				}
+			}
+		}
+		x = 1
+		y = 1
+		relative_position_id = ARG_liberate_bolivian_workers
+		prerequisite = { focus = ARG_intervene_in_the_civil_war focus = ARG_liberate_paraguay focus = ARG_bring_the_revolution_to_uruguay focus = ARG_liberate_bolivian_workers focus = ARG_invite_bolivia focus = ARG_liberate_chilean_workers }
+		available_if_capitulated = yes
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_form_federation_of_la_plata"
+			custom_effect_tooltip = ARG_form_la_plata
+			set_cosmetic_tag = LPL_collie
+			hidden_effect = {
+				if = {
+					limit = { 300 = { is_owned_by = URG } }
+					URG = {
+						country_event = { id = arg.86}
+					}
+				}
+				if = {
+					limit = { 301 = { is_owned_by = PAR } }
+					PAR = {
+						country_event = { id = arg.86}
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_develop_paraguay
+		icon = GFX_goal_generic_construct_infrastructure
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_form_federation_of_la_plata }
+		x = -1
+		y = 1
+		available_if_capitulated = yes
+		cost = 10
+		available = {
+			301 = { is_owned_by_ROOT_or_ally = yes }
+			688 = { is_owned_by_ROOT_or_ally = yes }
+		}
+		relative_position_id = ARG_form_federation_of_la_plata
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_develop_paraguay"
+			if = {
+				limit = {
+					301 = { is_owned_and_controlled_by = ARG }
+				}
+				301 = {
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			if = {
+				limit = {
+					688 = { is_owned_and_controlled_by = ARG }
+				}
+				688 = {
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_recognize_paraguayan_unions
+		icon = GFX_goal_social_labour
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_form_federation_of_la_plata }
+		x = -3
+		y = 1
+		relative_position_id = ARG_form_federation_of_la_plata
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_recognize_paraguayan_unions"
+			add_political_power = -100
+			add_stability = 0.025
+		}
+	}
+
+	focus = {
+		id = ARG_develop_uruguay
+		icon = GFX_goal_generic_construct_infrastructure
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_form_federation_of_la_plata }
+		x = 1
+		y = 1
+		available_if_capitulated = yes
+		cost = 10
+		available = {
+			300 = { is_owned_by_ROOT_or_ally = yes }
+		}
+		relative_position_id = ARG_form_federation_of_la_plata
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_develop_uruguay"
+			if = {
+				limit = {
+					300 = { is_owned_and_controlled_by = ARG }
+				}
+				300 = {
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_integrate_paraguay
+		icon = GFX_goal_generic_position_armies
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_develop_paraguay }
+		prerequisite = { focus = ARG_recognize_paraguayan_unions }
+		x = 1
+		y = 1
+		relative_position_id = ARG_recognize_paraguayan_unions
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_integrate_paraguay"
+			if = {
+				limit = {
+					301 = { is_owned_and_controlled_by = ARG }
+				}
+				add_state_core = 301
+			}
+			if = {
+				limit = {
+					688 = { is_owned_and_controlled_by = ARG }
+				}
+				add_state_core = 301
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_integrate_uruguay
+		icon = GFX_goal_generic_position_armies
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_develop_uruguay }
+		x = 0
+		y = 1
+		available = {
+			300 = { is_owned_by_ROOT_or_ally = yes }
+			836 = { is_owned_by_ROOT_or_ally = yes }
+		}
+		relative_position_id = ARG_develop_uruguay
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_integrate_uruguay"
+			if = {
+				limit = {
+					300 = { is_owned_and_controlled_by = ARG }
+				}
+				add_state_core = 300
+			}
+			if = {
+				limit = {
+					836 = { is_owned_and_controlled_by = ARG }
+				}
+				add_state_core = 836
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_our_place_in_the_continent
+		icon = GFX_focus_ARG_south_american_unity
+		ai_will_do = { factor = 15 }
+		available = {
+			has_country_flag = ARG_republic_survives
+			NOT = {
+				OR = {
+					has_idea = ARG_memories_of_the_chaco_war
+					has_idea = ARG_memories_of_the_chaco_war1
+				}
+			}
+		}
+		x = 20
+		y = 12
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_our_place_in_the_continent"
+			add_political_power = 100
+		}
+	}
+
+	focus = {
+		id = ARG_forming_bonds
+		icon = GFX_goal_generic_major_alliance
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_our_place_in_the_continent }
+		mutually_exclusive = { focus = ARG_establishing_hegemony }
+		available = { has_global_flag = ARG_radical_government }
+		x = -4
+		y = 1
+		relative_position_id = ARG_our_place_in_the_continent
+		available_if_capitulated = yes
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_forming_bonds"
+			add_political_power = 100
+		}
+	}
+
+	focus = {
+		id = ARG_defending_peace
+		icon = GFX_goal_shield_bird
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_forming_bonds }
+		x = -1
+		y = 1
+		relative_position_id = ARG_forming_bonds
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_defending_peace"
+			every_country = {
+				limit = {
+					NOT = {
+						is_in_faction_with = ARG
+						is_subject_of = ARG
+						has_war_with = ARG
+						has_government = vanguardist
+						has_government = libertarian_socialist
+						has_government = collectivist
+						has_government = paternal_autocrat
+						has_government = authoritarian_democrat
+						has_government = valkist
+						has_government = national_populist
+					}
+				}
+				add_opinion_modifier = { target = ARG modifier = CHL_friendly_democracy }
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_rally_the_people
+		icon = GFX_goal_volunteer_alliance
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_forming_bonds }
+		x = 1
+		y = 1
+		relative_position_id = ARG_forming_bonds
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_rally_the_people"
+			add_war_support = 0.025
+		}
+	}
+
+	focus = {
+		id = ARG_alianza_del_sur
+		icon = GFX_focus_generic_the_giant_wakes
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_rally_the_people }
+		prerequisite = { focus = ARG_defending_peace }
+		x = 1
+		y = 1
+		relative_position_id = ARG_defending_peace
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_alianza_del_sur"
+			create_faction = alianza_del_sur
+		}
+	}
+
+	focus = {
+		id = ARG_invite_uruguay
+		icon = GFX_goal_ARG_uruguay_deal
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_alianza_del_sur }
+		x = 0
+		y = 1
+		available = {
+			URG = {
+				is_subject = no
+				is_in_faction = no
+				OR = {
+					has_government = social_liberal
+					has_government = market_liberal
+					has_government = social_conservative
+					has_government = social_democrat
+				}
+				NOT = { has_war_with = ARG }
+			}
+		}
+		relative_position_id = ARG_alianza_del_sur
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_invite_uruguay"
+			URG = { country_event = { id = arg.81 } }
+		}
+	}
+
+	focus = {
+		id = ARG_invite_chile
+		icon = GFX_goal_ARG_chile_deal
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_alianza_del_sur }
+		available = {
+			CHL = {
+				is_subject = no
+				is_in_faction = no
+				has_elected_government = yes
+				NOT = { has_war_with = ARG }
+			}
+		}
+		x = -2
+		y = 1
+		relative_position_id = ARG_alianza_del_sur
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_invite_chile"
+			CHL = { country_event = { id = arg.80 } }
+		}
+	}
+
+	focus = {
+		id = ARG_invite_paraguay
+		icon = GFX_goal_ARG_paraguay_deal
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_alianza_del_sur }
+		available = {
+			PAR = {
+				is_subject = no
+				is_in_faction = no
+				OR = {
+					has_government = social_liberal
+					has_government = market_liberal
+					has_government = social_conservative
+					has_government = social_democrat
+				}
+				NOT = { has_war_with = ARG }
+			}
+		}
+		x = 1
+		y = 2
+		relative_position_id = ARG_alianza_del_sur
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_invite_paraguay"
+			PAR = { country_event = { id = arg.83 } }
+		}
+	}
+
+	focus = {
+		id = ARG_support_the_republic
+		icon = GFX_goal_brazil
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_alianza_del_sur }
+		x = 2
+		y = 1
+		relative_position_id = ARG_alianza_del_sur
+		available_if_capitulated = yes
+		available = {
+			country_exists = BRA
+			BRA = {
+				NOT = { has_country_flag = BRA_bcw_ended }
+			}
+		}
+		bypass = {
+			has_country_flag = ARG_helped_republic
+		}
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_support_the_republic"
+			BRA = { country_event = { id = arg.348 } }
+		}
+	}
+
+	focus = {
+		id = ARG_invite_peru
+		icon = GFX_goal_ARG_peru_deal
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_alianza_del_sur }
+		available = {
+			PRU = {
+				is_subject = no
+				is_in_faction = no
+				has_global_flag = PRU_DEMPATH
+				has_elected_government = yes
+				NOT = { has_war_with = ARG }
+			}
+		}
+		bypass = {
+			OR = {
+				is_in_faction_with = PRU
+				is_subject_of = PRU
+			}
+		}
+		x = -1
+		y = 2
+		relative_position_id = ARG_alianza_del_sur
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_invite_peru"
+			PRU = { country_event = { id = arg.82 } }
+		}
+	}
+
+	focus = {
+		id = ARG_the_collectivist_menace
+		icon = GFX_goal_collectivist_menace
+		ai_will_do = { factor = 16 }
+		prerequisite = { focus = ARG_alianza_del_sur focus = ARG_pact_of_la_plata }
+		x = 2
+		y = 0
+		relative_position_id = ARG_support_the_republic
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_the_collectivist_menace"
+			every_country = {
+				limit = {
+					NOT = {
+						is_in_faction_with = ARG
+						is_subject_of = ARG
+						has_war_with = ARG
+						has_government = social_liberal
+						has_government = market_liberal
+						has_government = authoritarian_democrat
+						has_government = social_democrat
+						has_government = social_conservative
+						has_government = valkist
+						has_government = national_populist
+						has_government = paternal_autocrat
+					}
+				}
+				add_opinion_modifier = { target = ARG modifier = CHL_denounced_socialism }
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_contain_bolivia
+		icon = GFX_goal_generic_attack_bolivia
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_the_collectivist_menace }
+		bypass = { has_completed_focus = ARG_invade_bolivia }
+		available = {
+			is_subject = no
+			country_exists = BOL
+			BOL = {
+				has_socialist_government = yes
+			}
+		}
+		bypass = {
+			BOL = {
+				OR = {
+					exists = no
+					is_subject_of = ROOT
+					is_in_faction_with = ROOT
+				}
+			}
+		}
+		x = -1
+		y = 1
+		relative_position_id = ARG_the_collectivist_menace
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_contain_bolivia"
+			create_wargoal = {
+				type = annex_everything target = BOL
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_the_enemy_in_brazil
+		icon = GFX_goal_generic_attack_socialist_brazil
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_the_collectivist_menace }
+		mutually_exclusive = { focus = ARG_break_the_state }
+		x = 1
+		y = 1
+		relative_position_id = ARG_the_collectivist_menace
+		available_if_capitulated = yes
+		available = {
+			is_subject = no
+			country_exists = UBR
+			UBR = { has_country_flag = UBR_bcw_ended }
+		}
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_the_enemy_in_brazil"
+			set_country_flag = ARG_colliewar
+			create_wargoal = {
+				type = annex_everything target = UBR
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_establishing_hegemony
+		icon = GFX_goal_arg_hegemon
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_our_place_in_the_continent }
+		mutually_exclusive = { focus = ARG_forming_bonds }
+		x = 4
+		y = 1
+		relative_position_id = ARG_our_place_in_the_continent
+		available_if_capitulated = yes
+		available = { has_global_flag = ARG_LPA_coalition }
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_establishing_hegemony"
+			add_political_power = 100
+		}
+	}
+
+	focus = {
+		id = ARG_newfound_irredentism
+		icon = GFX_focus_ARG_argentina_first
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_establishing_hegemony }
+		x = -1
+		y = 1
+		relative_position_id = ARG_establishing_hegemony
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_newfound_irredentism"
+			add_war_support = 0.025
+		}
+	}
+
+	focus = {
+		id = ARG_announce_our_ambitions
+		icon = GFX_goal_generic_territory_or_war
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_establishing_hegemony }
+		x = 1
+		y = 1
+		relative_position_id = ARG_establishing_hegemony
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_announce_our_ambitions"
+			every_other_country = {
+				limit = {
+					OR = {
+						any_neighbor_country = { tag = ARG }
+					}
+				}
+				add_opinion_modifier = { target = ARG modifier = ARG_expansionism }
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_pact_of_la_plata
+		icon = GFX_focus_ARG_a_new_trading_partner
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_announce_our_ambitions }
+		prerequisite = { focus = ARG_newfound_irredentism }
+		x = 1
+		y = 1
+		relative_position_id = ARG_newfound_irredentism
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_pact_of_la_plata"
+			create_faction = pact_of_la_plata
+		}
+	}
+
+	focus = {
+		id = ARG_break_the_state
+		icon = GFX_goal_bus_war
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_pact_of_la_plata }
+		mutually_exclusive = { focus = ARG_the_enemy_in_brazil }
+		mutually_exclusive = { focus = ARG_support_the_state }
+		x = -1
+		y = 2
+		relative_position_id = ARG_pact_of_la_plata
+		available_if_capitulated = yes
+		available = {
+			country_exists = BPS
+			BPS = { NOT = { has_country_flag = BPS_bcw_ended }}
+		}
+		bypass = {
+			OR = {
+				BPS = { has_country_flag = BPS_bcw_ended }
+				has_country_flag = ARG_brokebepis
+			}
+		}
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_break_the_state"
+			country_event = arg.357
+		}
+	}
+
+	focus = {
+		id = ARG_the_brazilian_war
+		icon = GFX_goal_generic_attack_reactionary_brazil
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_break_the_state }
+		x = 0
+		y = 1
+		relative_position_id = ARG_break_the_state
+		available_if_capitulated = yes
+		available = {
+			country_exists = BPS
+			BPS = { has_country_flag = BPS_bcw_ended }
+			NOT = { has_country_flag = ARG_breakstate }
+			NOT = { has_country_flag = ARG_brokebepis}
+		}
+		bypass = { has_war_with = BPS }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_the_brazilian_war"
+			set_country_flag = ARG_bepiswar
+			create_wargoal = {
+				type = annex_everything target = BPS
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_support_the_state
+		icon = GFX_goal_ARG_support_the_brazillian_state
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_pact_of_la_plata }
+		mutually_exclusive = { focus = ARG_break_the_state }
+		x = 1
+		y = 2
+		relative_position_id = ARG_pact_of_la_plata
+		available_if_capitulated = yes
+		cost = 5
+		available = {
+			NOT = { has_country_flag = ARG_brokebepis }
+			country_exists = BPS
+			BPS = { NOT = { has_country_flag = BPS_bcw_ended }}
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_support_the_state"
+			BPS= { country_event = { id = arg.347 } }
+		}
+	}
+
+	focus = {
+		id = ARG_make_uruguay_bend
+		icon = GFX_goal_generic_attack_uruguay
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_pact_of_la_plata }
+		x = 0
+		y = 1
+		relative_position_id = ARG_pact_of_la_plata
+		available = {
+			has_war = no
+			country_exists = URG
+			is_subject = no
+		}
+		bypass = {
+			URG = {
+				OR = {
+					is_in_faction_with = ROOT
+					is_subject_of = ROOT
+				}
+			}
+		}
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_make_uruguay_bend"
+			create_wargoal = {
+				type = annex_everything target = URG
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_make_paraguay_submit
+		icon = GFX_goal_generic_attack_paraguay
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_pact_of_la_plata }
+		x = 2
+		y = 1
+		relative_position_id = ARG_pact_of_la_plata
+		available_if_capitulated = yes
+		available = {
+			has_war = no
+			country_exists = PAR
+			is_subject = no
+		}
+		bypass = {
+			PAR = {
+				OR = {
+					is_in_faction_with = ROOT
+					is_subject_of = ROOT
+				}
+			}
+		}
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_make_paraguay_submit"
+			create_wargoal = {
+				type = annex_everything target = PAR
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_invade_bolivia
+		icon = GFX_goal_generic_attack_bolivia
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_pact_of_la_plata }
+		bypass = { has_completed_focus = ARG_contain_bolivia }
+		x = 3
+		y = 2
+		available = {
+			has_war = no
+			country_exists = BOL
+			is_subject = no
+		}
+		bypass = {
+			BOL = {
+				OR = {
+					is_in_faction_with = ROOT
+					is_subject_of = ROOT
+				}
+			}
+		}
+		relative_position_id = ARG_pact_of_la_plata
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_invade_bolivia"
+			create_wargoal = {
+				type = annex_everything target = BOL
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_cross_the_andes
+		icon = GFX_goal_generic_attack_chile
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_pact_of_la_plata }
+		x = 4
+		y = 1
+		relative_position_id = ARG_pact_of_la_plata
+		available = {
+			has_war = no
+			country_exists = CHL
+			is_subject = no
+		}
+		bypass = {
+			CHL = {
+				OR = {
+					is_in_faction_with = ROOT
+					is_subject_of = ROOT
+				}
+			}
+		}
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_cross_the_andes"
+			create_wargoal = {
+				type = annex_everything target = CHL
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_pact_with_colombia
+		icon = GFX_goal_colombia_alliance
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_pact_of_la_plata }
+		mutually_exclusive = { focus = ARG_pact_with_peru }
+		x = 6
+		y = 1
+		relative_position_id = ARG_pact_of_la_plata
+		available_if_capitulated = yes
+		cost = 10
+		bypass = {
+			OR = {
+				is_in_faction_with = COL
+				is_subject_of = COL
+			}
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_pact_with_colombia"
+			COL = { country_event = { id = arg.85 } }
+		}
+	}
+
+	focus = {
+		id = ARG_pact_with_peru
+		icon = GFX_goal_peru
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_pact_of_la_plata }
+		mutually_exclusive = { focus = ARG_pact_with_colombia }
+		x = 8
+		y = 1
+		relative_position_id = ARG_pact_of_la_plata
+		available_if_capitulated = yes
+		available = {
+			PRU = {
+				has_socialist_government = no
+			}
+		}
+		bypass = {
+			OR = {
+				is_in_faction_with = PRU
+				is_subject_of = PRU
+			}
+		}
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_pact_with_peru"
+			PRU = { country_event = { id = arg.84 } }
+		}
+	}
+
+	focus = {
+		id = ARG_our_atlantic_birthright
+		icon = GFX_goal_atlantic_coast
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_pact_of_la_plata }
+		x = 5
+		y = 2
+		relative_position_id = ARG_pact_of_la_plata
+		available_if_capitulated = yes
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_our_atlantic_birthright"
+			299 = {
+				add_claim_by = ARG
+			}
+			720 = {
+				add_claim_by = ARG
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_seize_las_malvinas
+		icon = GFX_focus_ARG_argentine_island_sovereignty
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_our_atlantic_birthright }
+		x = 0
+		y = 1
+		relative_position_id = ARG_our_atlantic_birthright
+		available_if_capitulated = yes
+		available = {
+			299 = { is_owned_by = ENG }
+			ARG = {
+				has_war = no
+			}
+			720 = { is_owned_by = ENG }
+			ENG = {
+				OR = { has_war_with = GER
+					has_war_with = FRA
+					has_war_with = USA
+					has_war_with = SOV
+				}
+			}
+		}
+		cost = 10
+		bypass = {
+			299 = { is_owned_by = ARG }
+			720 = { is_owned_by = ARG }
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_seize_las_malvinas"
+			country_event = { id = arg.87 }
+		}
+	}
+
+	focus = {
+		id = ARG_malvinas_industry
+		icon = GFX_goal_generic_construct_infrastructure
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_seize_las_malvinas }
+		x = -1
+		y = 1
+		relative_position_id = ARG_seize_las_malvinas
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_malvinas_industry"
+			if = {
+				limit = {
+					299 = { is_owned_and_controlled_by = ARG }
+				}
+				299 = {
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_settling_the_islands
+		icon = GFX_focus_ARG_support_radical_nationalism
+		ai_will_do = { factor = 10 }
+		prerequisite = { focus = ARG_seize_las_malvinas }
+		x = 1
+		y = 1
+		relative_position_id = ARG_seize_las_malvinas
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_settling_the_islands"
+			if = {
+				limit = { 299 = { is_owned_and_controlled_by = ARG } }
+				add_state_core = 299
+			}
+			if = {
+				limit = { 720 = { is_owned_and_controlled_by = ARG } }
+				add_state_core = 720
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_congress_of_41
+		icon = GFX_focus_SOV_the_supreme_soviet
+		ai_will_do = { factor = 10 }
+		x = 4
+		y = 22
+		available_if_capitulated = yes
+		available = {
+			hidden_trigger = { always = no }
+		}
+		bypass = { has_global_flag = ARG_wcongress }
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_congress_of_41"
+			custom_effect_tooltip = unlock_focuses
+		}
+	}
+
+	focus = {
+		id = ARG_anarchist_victory
+		icon = GFX_goal_anarcho_communism
+		ai_will_do = { factor = 10 }
+		x = -4
+		y = 1
+		available_if_capitulated = yes
+		available = {
+			has_completed_focus = ARG_red_sunrise
+			has_global_flag = ARG_anwin
+		}
+		relative_position_id = ARG_congress_of_41
+		prerequisite = { focus = ARG_congress_of_41}
+		mutually_exclusive = { focus = ARG_collectivists_prevail }
+		mutually_exclusive = { focus = ARG_vanguardist_success }
+		cost = 1
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_anarchist_victory"
+			add_political_power = 25
+		}
+	}
+
+	focus = {
+		id = ARG_rebeldia_proletaria
+		icon = GFX_goal_red_eagle
+		ai_will_do = { factor = 10 }
+		x = -1
+		y = 1
+		available_if_capitulated = yes
+		relative_position_id = ARG_anarchist_victory
+		prerequisite = { focus = ARG_anarchist_victory }
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_rebeldia_proletaria"
+			hidden_effect = {
+				country_event = { id = arg.300 }
+			}
+			swap_ideas = {
+				remove_idea = ARG_the_collectivist_revolution2
+				add_idea = ARG_the_anarchist_revolution
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_regional_industry
+		icon = GFX_goal_socialist_industry
+		ai_will_do = { factor = 10 }
+		x = 0
+		y = 1
+		available_if_capitulated = yes
+		relative_position_id = ARG_rebeldia_proletaria
+		prerequisite = { focus = ARG_rebeldia_proletaria }
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_regional_industry"
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_council_autonomy
+		icon = GFX_goal_generic_national_unity_red
+		ai_will_do = { factor = 10 }
+		x = 1
+		y = 1
+		available_if_capitulated = yes
+		relative_position_id = ARG_anarchist_victory
+		prerequisite = { focus = ARG_anarchist_victory }
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_council_autonomy"
+			add_political_power = 100
+		}
+	}
+
+	focus = {
+		id = ARG_anarchist_military
+		icon = GFX_goal_red_militia
+		ai_will_do = { factor = 10 }
+		x = 0
+		y = 1
+		available_if_capitulated = yes
+		relative_position_id = ARG_council_autonomy
+		prerequisite = { focus = ARG_council_autonomy }
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_anarchist_military"
+			custom_effect_tooltip = ARG_create_anarc_mil
+			hidden_effect = {
+				division_template = {
+					name = "Milicias Anarquistas"
+					priority = 2
+
+					regiments = {
+						infantry = { x = 0 y = 0 }
+						infantry = { x = 0 y = 1 }
+						infantry = { x = 0 y = 2 }
+
+						infantry = { x = 1 y = 0 }
+						infantry = { x = 1 y = 1 }
+						infantry = { x = 1 y = 2 }
+
+						infantry = { x = 2 y = 0 }
+						infantry = { x = 2 y = 1 }
+						infantry = { x = 2 y = 2 }
+
+						infantry = { x = 3 y = 0 }
+						infantry = { x = 3 y = 1 }
+						infantry = { x = 3 y = 2 }
+					}
+				}
+
+				random_owned_state = {
+					prioritize = { 760 }
+					create_unit = {
+						division = "name = \"1. Milicias Anarquistasa\" division_template = \"Milicias Anarquistas\" start_experience_factor = 1.0"
+						owner = ARG
+					}
+				}
+			}
+		}
+	}
+	focus = {
+		id = ARG_union_councils
+		icon = GFX_goal_social_commune
+		ai_will_do = { factor = 10 }
+		x = 1
+		y = 1
+		available_if_capitulated = yes
+		relative_position_id = ARG_regional_industry
+		prerequisite = { focus = ARG_anarchist_military }
+		prerequisite = { focus = ARG_regional_industry }
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_union_councils"
+			add_stability = 0.025
+			hidden_effect = {
+				country_event = { id = arg.301 }
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_collectivists_prevail
+		icon = GFX_goal_collectivist_menace
+		ai_will_do = { factor = 10 }
+		x = 0
+		y = 1
+		available_if_capitulated = yes
+		available = {
+			has_completed_focus = ARG_red_sunrise
+			has_global_flag = ARG_orthwin
+		}
+		relative_position_id = ARG_congress_of_41
+		prerequisite = { focus = ARG_congress_of_41 }
+		mutually_exclusive = { focus = ARG_anarchist_victory }
+		mutually_exclusive = { focus = ARG_vanguardist_success }
+		cost = 1
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_collectivists_prevail"
+			add_political_power = 25
+		}
+	}
+
+	focus = {
+		id = ARG_socialist_traditions
+		icon = GFX_focus_SOV_the_path_of_marxism_leninism
+		ai_will_do = { factor = 10 }
+		x = -1
+		y = 1
+		available_if_capitulated = yes
+		relative_position_id = ARG_collectivists_prevail
+		prerequisite = { focus = ARG_collectivists_prevail }
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_socialist_traditions"
+			add_ideas = ARG_the_orthodox_tradition
+			hidden_effect = {
+				country_event = { id = arg.302 }
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_collective_society
+		icon = GFX_goal_red_star_green_wreath
+		ai_will_do = { factor = 10 }
+		x = 0
+		y = 1
+		available_if_capitulated = yes
+		relative_position_id = ARG_socialist_traditions
+		prerequisite = { focus = ARG_socialist_traditions }
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_collective_society"
+			swap_ideas = {
+				remove_idea = ARG_the_collectivist_revolution2
+				add_idea = ARG_the_orthodox_revolution
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_we_will_overcome
+		icon = GFX_focus_generic_support_the_left
+		ai_will_do = { factor = 10 }
+		x = 1
+		y = 1
+		available_if_capitulated = yes
+		relative_position_id = ARG_collectivists_prevail
+		prerequisite = { focus = ARG_collectivists_prevail }
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_we_will_overcome"
+			add_war_support = 0.025
+		}
+	}
+
+	focus = {
+		id = ARG_marxism_in_progress
+		icon = GFX_goal_collie_politics
+		ai_will_do = { factor = 10 }
+		x = 0
+		y = 1
+		available_if_capitulated = yes
+		relative_position_id = ARG_we_will_overcome
+		prerequisite = { focus = ARG_we_will_overcome }
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_marxism_in_progress"
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 3
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_home_of_the_revolution
+		icon = GFX_goal_argie_collie
+		ai_will_do = { factor = 10 }
+		x = 1
+		y = 1
+		available_if_capitulated = yes
+		relative_position_id = ARG_collective_society
+		prerequisite = { focus = ARG_marxism_in_progress }
+		prerequisite = { focus = ARG_collective_society }
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_home_of_the_revolution"
+			hidden_effect = {
+				country_event = { id = arg.303 }
+			}
+			swap_ideas = {
+				remove_idea = ARG_collective_agriculture
+				add_idea = ARG_orthodox_agriculture
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_vanguardist_success
+		icon = GFX_goal_ideology_vanguardist
+		ai_will_do = { factor = 10 }
+		x = 4
+		y = 1
+		available_if_capitulated = yes
+		available = {
+			has_completed_focus = ARG_red_sunrise
+			has_global_flag = ARG_vangvang
+		}
+		relative_position_id = ARG_congress_of_41
+		prerequisite = { focus = ARG_congress_of_41}
+		mutually_exclusive = { focus = ARG_collectivists_prevail }
+		mutually_exclusive = { focus = ARG_anarchist_victory }
+		cost = 1
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_vanguardist_success"
+			add_political_power = 25
+		}
+	}
+
+	focus = {
+		id = ARG_honour_the_chairman
+		icon = GFX_goal_red_star_soldier
+		ai_will_do = { factor = 10 }
+		x = -1
+		y = 1
+		available_if_capitulated = yes
+		relative_position_id = ARG_vanguardist_success
+		prerequisite = { focus = ARG_vanguardist_success }
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_honour_the_chairman"
+			add_stability = 0.025
+			hidden_effect = {
+				country_event = { id = arg.308 }
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_post_religious_society
+		icon = GFX_focus_BRA_state_atheism
+		ai_will_do = { factor = 10 }
+		x = 0
+		y = 1
+		available_if_capitulated = yes
+		relative_position_id = ARG_honour_the_chairman
+		prerequisite = { focus = ARG_honour_the_chairman }
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_post_religious_society"
+			add_political_power = -60
+			add_popularity = {
+				ideology = authoritarian_democrat popularity = -0.025
+			}
+			add_popularity = {
+				ideology = paternal_autocrat popularity = -0.025
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_social_work_program
+		icon = GFX_goal_social_labour
+		ai_will_do = { factor = 10 }
+		x = 1
+		y = 1
+		available_if_capitulated = yes
+		relative_position_id = ARG_vanguardist_success
+		prerequisite = { focus = ARG_vanguardist_success }
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_social_work_program"
+			swap_ideas = {
+				remove_idea = ARG_collective_agriculture
+				add_idea = ARG_vanguard_agriculture
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_committee_against_traitors
+		icon = GFX_Crush_Anarchists
+		ai_will_do = { factor = 10 }
+		x = 0
+		y = 1
+		available_if_capitulated = yes
+		relative_position_id = ARG_social_work_program
+		prerequisite = { focus = ARG_social_work_program }
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_committee_against_traitors"
+			add_political_power = -50
+			swap_ideas = {
+				remove_idea = ARG_censuring_reactionaries
+				add_idea = ARG_censuring_all
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_direct_rule_from_buenos_aires
+		icon = GFX_goal_red_star_central
+		ai_will_do = { factor = 10 }
+		x = 1
+		y = 1
+		available_if_capitulated = yes
+		relative_position_id = ARG_post_religious_society
+		prerequisite = { focus = ARG_committee_against_traitors }
+		prerequisite = { focus = ARG_post_religious_society }
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_direct_rule_from_buenos_aires"
+			add_political_power = 100
+			hidden_effect = {
+				country_event = { id = arg.309 }
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_the_infamous_day
+		icon = GFX_focus_generic_support_the_left_right
+		ai_will_do = { factor = 10 }
+		x = 15
+		y = 19
+		available_if_capitulated = yes
+		available = {
+			hidden_trigger = { always = no }
+		}
+		bypass = { has_global_flag = ARG_infamous_d }
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_the_infamous_day"
+			custom_effect_tooltip = unlock_focuses
+		}
+	}
+
+	focus = {
+		id = ARG_lpa_coup_succeeds
+		icon = GFX_goal_ideology_national_populist
+		ai_will_do = { factor = 10 }
+		x = -2
+		y = 1
+		available_if_capitulated = yes
+		available = {
+			has_completed_focus = ARG_the_new_argentina
+			has_global_flag = ARG_LPA_coup
+		}
+		relative_position_id = ARG_the_infamous_day
+		mutually_exclusive = { focus = ARG_military_takes_over }
+		prerequisite = { focus = ARG_the_infamous_day }
+		cost = 1
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_lpa_coup_succeeds"
+			add_political_power = 25
+		}
+	}
+
+	focus = {
+		id = ARG_absolute_state_control
+		icon = GFX_goal_state_economy
+		ai_will_do = { factor = 10 }
+		x = -1
+		y = 1
+		available_if_capitulated = yes
+		relative_position_id = ARG_lpa_coup_succeeds
+		prerequisite = { focus = ARG_lpa_coup_succeeds }
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_absolute_state_control"
+			swap_ideas = {
+				remove_idea = ARG_corporatist_society
+				add_idea = ARG_corporatist_society1
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_nationalist_society
+		icon = GFX_goal_national_populism
+		ai_will_do = { factor = 10 }
+		x = 0
+		y = 1
+		available_if_capitulated = yes
+		relative_position_id = ARG_absolute_state_control
+		prerequisite = { focus = ARG_absolute_state_control }
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_nationalist_society"
+			swap_ideas = {
+				remove_idea = ARG_the_nationalist_pact1
+				add_idea = ARG_the_nationalist_government
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_purge_traitors
+		icon = GFX_goal_purge_traitors
+		ai_will_do = { factor = 10 }
+		x = 1
+		y = 1
+		available_if_capitulated = yes
+		relative_position_id = ARG_lpa_coup_succeeds
+		prerequisite = { focus = ARG_lpa_coup_succeeds }
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_purge_traitors"
+			add_political_power = -50
+			hidden_effect = {
+				country_event = { id = arg.311 }
+			}
+			add_popularity = {
+				ideology = authoritarian_democrat popularity = -0.025
+			}
+			add_popularity = {
+				ideology = paternal_autocrat popularity = -0.025
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_destroy_democracy
+		icon = GFX_focus_LAT_suspend_constitution_of_latvia
+		ai_will_do = { factor = 10 }
+		x = 0
+		y = 1
+		available_if_capitulated = yes
+		relative_position_id = ARG_purge_traitors
+		prerequisite = { focus = ARG_purge_traitors }
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_destroy_democracy"
+			add_popularity = {
+				ideology = national_populist popularity = 0.05
+			}
+			add_popularity = {
+				ideology = social_liberal popularity = -0.025
+			}
+			add_popularity = {
+				ideology = market_liberal popularity = -0.025
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_patriotic_state
+		icon = GFX_goal_argie_np3
+		ai_will_do = { factor = 10 }
+		x = 1
+		y = 1
+		available_if_capitulated = yes
+		relative_position_id = ARG_nationalist_society
+		prerequisite = { focus = ARG_destroy_democracy }
+		prerequisite = { focus = ARG_nationalist_society }
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_patriotic_state"
+			add_political_power = 50
+			hidden_effect = {
+				country_event = { id = arg.312 }
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_military_takes_over
+		icon = GFX_focus_generic_military_dictatorship
+		ai_will_do = { factor = 10 }
+		x = 2
+		y = 1
+		available_if_capitulated = yes
+		available = {
+			has_completed_focus = ARG_the_new_argentina
+			has_global_flag = ARG_military_takeover
+		}
+		relative_position_id = ARG_the_infamous_day
+		mutually_exclusive = { focus = ARG_lpa_coup_succeeds }
+		prerequisite = { focus = ARG_the_infamous_day }
+		cost = 1
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_military_takes_over"
+			add_political_power = 25
+		}
+	}
+
+	focus = {
+		id = ARG_crush_the_leagues
+		icon = GFX_goal_generic_ban_right_wing
+		ai_will_do = { factor = 10 }
+		x = -1
+		y = 1
+		available_if_capitulated = yes
+		relative_position_id = ARG_military_takes_over
+		prerequisite = { focus = ARG_military_takes_over }
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_crush_the_leagues"
+			add_popularity = {
+				ideology = national_populist popularity = -0.1
+			}
+			add_political_power = -25
+		}
+	}
+
+	focus = {
+		id = ARG_economical_reestructuring
+		icon = GFX_goal_economic_stuff
+		ai_will_do = { factor = 10 }
+		x = 0
+		y = 1
+		available_if_capitulated = yes
+		relative_position_id = ARG_crush_the_leagues
+		prerequisite = { focus = ARG_crush_the_leagues }
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_economical_reestructuring"
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_hunt_down_moles
+		icon = GFX_goal_gun_shackles
+		ai_will_do = { factor = 10 }
+		x = 1
+		y = 1
+		available_if_capitulated = yes
+		relative_position_id = ARG_military_takes_over
+		prerequisite = { focus = ARG_military_takes_over }
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_hunt_down_moles"
+			add_stability = 0.025
+			hidden_effect = {
+				country_event = { id = arg.313 }
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_firm_rule
+		icon = GFX_goal_firm_arg1
+		ai_will_do = { factor = 10 }
+		x = 0
+		y = 1
+		available_if_capitulated = yes
+		relative_position_id = ARG_hunt_down_moles
+		prerequisite = { focus = ARG_hunt_down_moles }
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_firm_rule"
+			swap_ideas = {
+				remove_idea = ARG_the_nationalist_pact1
+				add_idea = ARG_the_junta_government
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_juntas_guidance
+		icon = GFX_goal_aut_argie
+		ai_will_do = { factor = 10 }
+		x = 1
+		y = 1
+		available_if_capitulated = yes
+		relative_position_id = ARG_economical_reestructuring
+		prerequisite = { focus = ARG_firm_rule }
+		prerequisite = { focus = ARG_economical_reestructuring }
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_juntas_guidance"
+			add_political_power = 50
+			hidden_effect = {
+				country_event = { id = arg.314 }
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_elections_of_1940
+		icon = GFX_goal_generic_elections
+		ai_will_do = { factor = 10 }
+		x = 26
+		y = 21
+		available_if_capitulated = yes
+		available = {
+			hidden_trigger = { always = no }
+		}
+		bypass = { has_global_flag = ARG_e40 }
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_elections_of_1940"
+			custom_effect_tooltip = unlock_focuses
+		}
+	}
+
+	focus = {
+		id = ARG_gallo_victory
+		icon = GFX_goal_ideology_market_liberal
+		ai_will_do = { factor = 10 }
+		x = -4
+		y = 1
+		relative_position_id = ARG_elections_of_1940
+		available_if_capitulated = yes
+		available = {
+			has_completed_focus = ARG_sunrise_again
+			has_global_flag = ARG_gallo_won
+		}
+		prerequisite = { focus = ARG_elections_of_1940 }
+		mutually_exclusive = { focus = ARG_palacios_victory }
+		mutually_exclusive = { focus = ARG_saavedra_victory }
+		cost = 1
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_gallo_victory"
+			add_political_power = 25
+			hidden_effect = { country_event = { id = arg.315 } }
+		}
+	}
+
+	focus = {
+		id = ARG_renovated_workers_promises
+		icon = GFX_goal_production
+		ai_will_do = { factor = 10 }
+		x = -1
+		y = 1
+		relative_position_id = ARG_gallo_victory
+		available_if_capitulated = yes
+		prerequisite = { focus = ARG_gallo_victory }
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_renovated_workers_promises"
+			add_popularity = {
+				ideology = collectivist popularity = -0.05
+			}
+			add_political_power = 50
+		}
+	}
+
+	focus = {
+		id = ARG_open_up_the_market
+		icon = GFX_goal_AST_new_markets
+		ai_will_do = { factor = 10 }
+		x = 0
+		y = 1
+		relative_position_id = ARG_renovated_workers_promises
+		available_if_capitulated = yes
+		prerequisite = { focus = ARG_renovated_workers_promises }
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_open_up_the_market"
+			swap_ideas = {
+				remove_idea = ARG_fighting_unemployment1
+				add_idea = ARG_fighting_unemployment2
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_moderate_radicalism
+		icon = GFX_goal_generic_construction2
+		ai_will_do = { factor = 10 }
+		x = 1
+		y = 1
+		relative_position_id = ARG_gallo_victory
+		available_if_capitulated = yes
+		prerequisite = { focus = ARG_gallo_victory }
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_moderate_radicalism"
+			swap_ideas = {
+				remove_idea = ARG_the_radicalist_regime2
+				add_idea = ARG_the_radicalist_regime3
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_measures_against_personalism
+		icon = GFX_goal_generic_council
+		ai_will_do = { factor = 10 }
+		x = 0
+		y = 1
+		relative_position_id = ARG_moderate_radicalism
+		available_if_capitulated = yes
+		prerequisite = { focus = ARG_moderate_radicalism }
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_measures_against_personalism"
+			add_popularity = {
+				ideology = social_liberal popularity = -0.05
+			}
+			add_political_power = 25
+		}
+	}
+
+	focus = {
+		id = ARG_tradition_of_unity
+		icon = GFX_goal_generic_national_unity
+		ai_will_do = { factor = 10 }
+		x = 1
+		y = 1
+		relative_position_id = ARG_open_up_the_market
+		available_if_capitulated = yes
+		prerequisite = { focus = ARG_measures_against_personalism }
+		prerequisite = { focus = ARG_open_up_the_market }
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_tradition_of_unity"
+			add_stability = 0.025
+			hidden_effect = { country_event = { id = arg.316 } }
+		}
+	}
+
+	focus = {
+		id = ARG_saavedra_victory
+		icon = GFX_goal_ideology_social_conservative
+		ai_will_do = { factor = 10 }
+		x = 0
+		y = 1
+		relative_position_id = ARG_elections_of_1940
+		available_if_capitulated = yes
+		available = {
+			has_completed_focus = ARG_sunrise_again
+			has_global_flag = ARG_saavedra_won
+		}
+		prerequisite = { focus = ARG_elections_of_1940 }
+		mutually_exclusive = { focus = ARG_palacios_victory }
+		mutually_exclusive = { focus = ARG_gallo_victory }
+		cost = 1
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_saavedra_victory"
+			hidden_effect = { country_event = { id = arg.317} }
+			add_political_power = 25
+		}
+	}
+
+	focus = {
+		id = ARG_attract_new_business
+		icon = GFX_goal_generic_capitalist_system
+		ai_will_do = { factor = 10 }
+		x = -1
+		y = 1
+		relative_position_id = ARG_saavedra_victory
+		available_if_capitulated = yes
+		prerequisite = { focus = ARG_saavedra_victory }
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_attract_new_business"
+			add_ideas = ARG_conservative_model
+		}
+	}
+
+	focus = {
+		id = ARG_conservative_laicism
+		icon = GFX_goal_laicism
+		ai_will_do = { factor = 10 }
+		x = 0
+		y = 1
+		relative_position_id = ARG_attract_new_business
+		available_if_capitulated = yes
+		prerequisite = { focus = ARG_attract_new_business }
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_conservative_laicism"
+			add_popularity = {
+				ideology = national_populist popularity = -0.05
+			}
+			add_popularity = {
+				ideology = authoritarian_democrat popularity = -0.05
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_reduce_budget_deficit
+		icon = GFX_goal_generic_intelligence_exchange
+		ai_will_do = { factor = 10 }
+		x = 1
+		y = 1
+		relative_position_id = ARG_saavedra_victory
+		available_if_capitulated = yes
+		prerequisite = { focus = ARG_saavedra_victory }
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_reduce_budget_deficit"
+			add_political_power = -40
+		}
+	}
+
+	focus = {
+		id = ARG_trust_in_politicians
+		icon = GFX_goal_generic_parliament
+		ai_will_do = { factor = 10 }
+		x = 0
+		y = 1
+		relative_position_id = ARG_reduce_budget_deficit
+		available_if_capitulated = yes
+		prerequisite = { focus = ARG_reduce_budget_deficit }
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_trust_in_politicians"
+			add_stability = 0.025
+		}
+	}
+
+	focus = {
+		id = ARG_united_in_democracy
+		icon = GFX_goal_support_democracy
+		ai_will_do = { factor = 10 }
+		x = 1
+		y = 1
+		relative_position_id = ARG_conservative_laicism
+		available_if_capitulated = yes
+		prerequisite = { focus = ARG_trust_in_politicians }
+		prerequisite = { focus = ARG_conservative_laicism }
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_united_in_democracy"
+			add_political_power = 50
+			hidden_effect = { country_event = { id = arg.318} }
+		}
+	}
+
+	focus = {
+		id = ARG_palacios_victory
+		icon = GFX_goal_ideology_social_democrat
+		ai_will_do = { factor = 10 }
+		x = 4
+		y = 1
+		relative_position_id = ARG_elections_of_1940
+		available_if_capitulated = yes
+		prerequisite = { focus = ARG_elections_of_1940 }
+		available = {
+			has_completed_focus = ARG_sunrise_again
+			has_global_flag = ARG_palacios_won
+		}
+		mutually_exclusive = { focus = ARG_saavedra_victory }
+		mutually_exclusive = { focus = ARG_gallo_victory }
+		cost = 1
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_palacios_victory"
+			add_political_power = 25
+			hidden_effect = { country_event = { id = arg.319 } }
+		}
+	}
+
+	focus = {
+		id = ARG_welfare_measures
+		icon = GFX_goal_generic_consumer_goods
+		ai_will_do = { factor = 10 }
+		x = -1
+		y = 1
+		relative_position_id = ARG_palacios_victory
+		available_if_capitulated = yes
+		prerequisite = { focus = ARG_palacios_victory }
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_welfare_measures"
+			swap_ideas = {
+				remove_idea = ARG_the_radicalist_regime2
+				add_idea = ARG_the_social_regime
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_agrarian_reform
+		icon = GFX_goal_agrarian_reform
+		ai_will_do = { factor = 10 }
+		x = 0
+		y = 1
+		relative_position_id = ARG_welfare_measures
+		available_if_capitulated = yes
+		prerequisite = { focus = ARG_welfare_measures }
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_agrarian_reform"
+			add_ideas = ARG_agrarian_model
+		}
+	}
+
+	focus = {
+		id = ARG_listen_to_the_unions
+		icon = GFX_goal_generic_workers_rights
+		ai_will_do = { factor = 10 }
+		x = 1
+		y = 1
+		relative_position_id = ARG_palacios_victory
+		available_if_capitulated = yes
+		prerequisite = { focus = ARG_palacios_victory }
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_listen_to_the_unions"
+			add_popularity = {
+				ideology = collectivist popularity = -0.025
+			}
+			add_popularity = {
+				ideology = libertarian_socialist popularity = -0.025
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_more_investing
+		icon = GFX_goal_generic_bridge
+		ai_will_do = { factor = 10 }
+		x = 0
+		y = 1
+		relative_position_id = ARG_listen_to_the_unions
+		available_if_capitulated = yes
+		prerequisite = { focus = ARG_listen_to_the_unions }
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_more_investing"
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ARG_solidary_society
+		icon = GFX_goal_tripartite_pact
+		ai_will_do = { factor = 10 }
+		x = 1
+		y = 1
+		relative_position_id = ARG_agrarian_reform
+		available_if_capitulated = yes
+		prerequisite = { focus = ARG_more_investing }
+		prerequisite = { focus = ARG_agrarian_reform }
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ARG_solidary_society"
+			hidden_effect = { country_event = { id = arg.320} }
+			add_stability = 0.025
+		}
+	}
+}

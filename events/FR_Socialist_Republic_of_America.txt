@@ -1,0 +1,107 @@
+# Socialist Republic of America Events
+# created by: dax0102
+
+add_namespace = sra
+
+country_event = { # Victorious!
+	id = sra.1
+	title = sra.1.t
+	desc = sra.1.d
+	picture = GFX_report_event_french_resistance_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			random_other_country = {
+				news_event = { id = news.18 hours = 12 }
+			}
+		}
+	}
+
+	option = {
+		name = sra.1.a
+		drop_cosmetic_tag = yes
+		if = {
+			limit = {
+				has_idea = SRA_revolutionary_fervor
+			}
+			remove_ideas = SRA_revolutionary_fervor
+		}
+		every_owned_state = {
+			limit = {
+				is_core_of = NAR
+			}
+			SRA = { add_state_core = PREV }
+			NAR = { remove_state_core = PREV }
+		}
+		set_country_flag = SRA_victory
+	}
+}
+
+country_event = { # Unification with New England
+	id = sra.100
+	title = sra.100.t
+	desc = sra.100.d
+	picture = GFX_report_event_usa_election_generic
+	is_triggered_only = yes
+
+	option = {
+		name = sra.100.a
+		ai_chance = {
+			base = 800
+		}
+		FROM = {
+			country_event = { id = sra.101 days = 1 }
+		}
+	}
+	option = {
+		name = sra.100.b
+		ai_chance = {
+			base = 100
+		}
+		FROM = {
+			country_event = { id = sra.102 days = 1 }
+		}
+	}
+}
+
+country_event = { # New England Says YES
+	id = sra.101
+	title = sra.101.t
+	desc = sra.101.d
+	picture = GFX_report_event_spain_civil_war_volunteers_02
+	is_triggered_only = yes
+
+	option = { #
+		name = sra.101.a
+		annex_country = {
+			target = FROM
+			transfer_troops = yes
+		}
+		every_owned_state = {
+			limit = { is_core_of = FROM }
+			remove_core_of = FROM
+			add_core_of = ROOT
+		}
+	}
+}
+
+country_event = { # New England Says NO
+	id = sra.102
+	title = sra.102.t
+	desc = sra.102.d
+	picture = GFX_report_event_spain_civil_war_volunteers_02
+	is_triggered_only = yes
+
+	option = { # Concede
+		name = sra.102.a
+		add_political_power = -50
+	}
+	option = {
+		name = sra.102.b
+		create_wargoal = {
+			target = FROM
+			type = annex_everything
+		}
+	}
+}

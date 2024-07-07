@@ -1,0 +1,1147 @@
+add_namespace = annex
+
+country_event = { # Fate of Israel
+	id = annex.3000
+	title = annexation_ISR_CONQ
+	desc = annexation_ISR_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = ISR }
+			remove_all_cores_and_claims_of_tags = yes
+			ISR = {
+				add_state_core = 454
+				drop_cosmetic_tag = yes
+			}
+		}
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.3000 option annex.3000.a"
+		name = annex.3000.a
+		ai_chance = {
+			base = 100
+		}
+		set_temp_variable = { tag_to_release = ISR }
+		release_targeted_tag = yes
+		ISR = {
+			if = {
+				limit = {
+					ROOT = { tag = ENG }
+				}
+				set_cosmetic_tag = ISR_commonwealth
+			}
+		}
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.3000 option annex.occupation"
+		name = annex.occupation
+		ai_chance = {
+			base = 0
+		}
+		set_country_flag = ISR_CONQ
+		occupy_small_country = yes
+	}
+}
+
+
+country_event = { # Fate of Iraq
+	id = annex.3001
+	title = annexation_IRQ_CONQ
+	desc = annexation_IRQ_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = IRQ }
+			remove_all_cores_and_claims_of_tags = yes
+			IRQ = {
+				add_state_core = 291
+				add_state_core = 675
+				add_state_core = 676
+				add_state_core = 1047
+				add_state_core = 1048
+				add_state_core = 1049
+				set_capital = { state = 291 }
+				drop_cosmetic_tag = yes
+			}
+		}
+	}
+
+	option = { # Puppet - Minimal
+		log = "[GetLogInfo]: event annex.3001 option annex.3001.a"
+		name = annex.3001.a
+		ai_chance = {
+			base = 100
+		}
+		set_temp_variable = { tag_to_release = IRQ }
+		release_targeted_tag = yes
+		if = {
+			limit = { tag = ENG }
+			IRQ = {
+				set_cosmetic_tag = ENG_IRQ
+				IRQ_Arshad_al_Umari = {
+					promote_character = social_democrat_subtype
+					promote_character = social_liberal_subtype
+					promote_character = market_liberal_subtype
+					promote_character = social_conservative_subtype
+					promote_character = authoritarian_democrat_subtype
+					promote_character = paternal_autocrat_subtype
+					promote_character = national_populist_subtype
+				}
+			}
+		}
+	}
+
+	option = { # Puppet - with Syria
+		log = "[GetLogInfo]: event annex.3001 option annex.3001.b"
+		name = annex.3001.b
+		ai_chance = {
+			base = 80
+		}
+		hidden_effect = {
+			IRQ = {
+				add_state_core = 455
+				add_state_core = 554
+				add_state_core = 680
+				add_state_core = 1047
+				add_state_core = 1048
+				add_state_core = 1049
+				add_state_core = 1050
+			}
+		}
+		set_temp_variable = { tag_to_release = IRQ }
+		release_targeted_tag = yes
+
+		if = {
+			limit = { tag = ENG }
+			IRQ = {
+				set_cosmetic_tag = ENG_IRQ
+				IRQ_Arshad_al_Umari = {
+					promote_character = social_democrat_subtype
+					promote_character = social_liberal_subtype
+					promote_character = market_liberal_subtype
+					promote_character = social_conservative_subtype
+					promote_character = authoritarian_democrat_subtype
+					promote_character = paternal_autocrat_subtype
+					promote_character = national_populist_subtype
+				}
+			}
+		}
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.3001 option annex.occupation"
+		name = annex.occupation
+		ai_chance = {
+			base = 0
+		}
+		set_country_flag = IRQ_CONQ
+		occupy_small_country = yes
+	}
+}
+
+
+country_event = { # Fate of Transjordan
+	id = annex.3002
+	title = annexation_TRANSJORDAN_CONQ
+	desc = annexation_TRANSJORDAN_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	option = { # Give it to Israel
+		log = "[GetLogInfo]: event annex.3002 option annex.3002.a"
+		name = annex.3002.a
+		trigger = {
+			ISR = { ROOT_can_grant_land = yes }
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				OR = {
+					is_ally_with = SYR
+					is_ally_with = IRQ
+				}
+			}
+		}
+		set_temp_variable = { tag_to_release = ISR }
+		955 = { transfer_state_and_add_core = yes }
+	}
+
+	option = { # Give in to Syria
+		log = "[GetLogInfo]: event annex.3002 option annex.3002.b"
+		name = annex.3002.b
+		trigger = {
+			SYR = { ROOT_can_grant_land = yes }
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				is_ally_with = ISR
+			}
+		}
+		set_temp_variable = { tag_to_release = SYR }
+		955 = { transfer_state_and_add_core = yes }
+	}
+
+	option = { # Give in to Iraq
+		log = "[GetLogInfo]: event annex.3002 option annex.3002.b"
+		name = annex.3002.b
+		trigger = {
+			IRQ = {
+				ROOT_can_grant_land = yes
+				owns_state = 554
+			}
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				is_ally_with = ISR
+			}
+		}
+		set_temp_variable = { tag_to_release = IRQ }
+		955 = { transfer_state_and_add_core = yes }
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.3002 option annex.occupation"
+		name = annex.occupation
+		trigger = {
+			is_ai = no
+		}
+		occupy_small_country = yes
+		set_country_flag = TRANSJORDAN_CONQ
+	}
+}
+
+
+country_event = { # Fate of Lebanon
+	id = annex.3003
+	title = annexation_LEB_CONQ
+	desc = annexation_LEB_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = PHN }
+			remove_all_cores_and_claims_of_tags = yes
+			PHN = {
+				add_state_core = 553
+				add_state_core = 677
+				drop_cosmetic_tag = yes
+			}
+		}
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.3003 option annex.3003.a"
+		name = annex.3003.a
+		ai_chance = {
+			base = 100
+		}
+		set_temp_variable = { tag_to_release = PHN }
+		release_targeted_tag = yes
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.3003 option annex.occupation"
+		name = annex.occupation
+		ai_chance = {
+			base = 0
+		}
+		set_country_flag = PHN_CONQ
+		occupy_small_country = yes
+	}
+}
+
+
+country_event = { # Fate of Arabia
+	id = annex.3004
+	title = annexation_ARB_CONQ
+	desc = annexation_ARB_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = HEJ }
+			remove_all_cores_and_claims_of_tags = yes
+			HEJ = {
+				add_state_core = 679
+				add_state_core = 292
+				add_state_core = 678
+				add_state_core = 744
+				add_state_core = 831
+				add_state_core = 945
+				add_state_core = 946
+				add_state_core = 1032
+				add_state_core = 1031
+				drop_cosmetic_tag = yes
+			}
+		}
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.3004 option annex.3004.a"
+		name = annex.3004.a
+		ai_chance = {
+			base = 100
+		}
+		set_temp_variable = { tag_to_release = HEJ }
+		release_targeted_tag = yes
+		HEJ = {
+			if = {
+				limit = {
+					ROOT = { tag = ENG }
+				}
+				set_cosmetic_tag = ENG_SAU
+			}
+		}
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.3004 option annex.occupation"
+		name = annex.occupation
+		ai_chance = {
+			base = 0
+		}
+		set_country_flag = HEJ_CONQ
+		occupy_small_country = yes
+	}
+}
+
+
+country_event = { # Fate of Saudi Arabia
+	id = annex.3005
+	title = annexation_SAU_CONQ
+	desc = annexation_SAU_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = SAU }
+			remove_all_cores_and_claims_of_tags = yes
+			SAU = {
+				add_state_core = 679
+				add_state_core = 292
+				add_state_core = 678
+				add_state_core = 744
+				add_state_core = 945
+				add_state_core = 946
+				add_state_core = 1032
+				add_state_core = 1031
+				drop_cosmetic_tag = yes
+			}
+		}
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.3005 option annex.3005.a"
+		name = annex.3005.a
+		ai_chance = {
+			base = 100
+		}
+		set_temp_variable = { tag_to_release = SAU }
+		release_targeted_tag = yes
+		SAU = {
+			if = {
+				limit = {
+					ROOT = { tag = ENG }
+				}
+				set_cosmetic_tag = ENG_SAU
+			}
+		}
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.3005 option annex.occupation"
+		name = annex.occupation
+		ai_chance = {
+			base = 0
+		}
+		set_country_flag = SAU_CONQ
+		occupy_small_country = yes
+	}
+}
+
+
+country_event = { # Fate of Yemen
+	id = annex.3006
+	title = annexation_YEM_CONQ
+	desc = annexation_YEM_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = YEM }
+			remove_all_cores_and_claims_of_tags = yes
+			YEM = {
+				add_state_core = 293
+				add_state_core = 659
+				add_state_core = 1029
+				drop_cosmetic_tag = yes
+			}
+		}
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.3006 option annex.3006.a"
+		name = annex.3006.a
+		ai_chance = {
+			base = 100
+		}
+		set_temp_variable = { tag_to_release = YEM }
+		release_targeted_tag = yes
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.3006 option annex.occupation"
+		name = annex.occupation
+		ai_chance = {
+			base = 0
+		}
+		set_country_flag = YEM_CONQ
+		occupy_small_country = yes
+	}
+}
+
+
+country_event = { # Fate of Oman
+	id = annex.3007
+	title = annexation_OMA_CONQ
+	desc = annexation_OMA_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = OMA }
+			remove_all_cores_and_claims_of_tags = yes
+			OMA = {
+				add_state_core = 294
+				add_state_core = 954
+				drop_cosmetic_tag = yes
+			}
+		}
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.3007 option annex.3007.a"
+		name = annex.3007.a
+		ai_chance = {
+			base = 100
+		}
+		set_temp_variable = { tag_to_release = OMA }
+		release_targeted_tag = yes
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.3007 option annex.occupation"
+		name = annex.occupation
+		ai_chance = {
+			base = 0
+		}
+		set_country_flag = OMA_CONQ
+		occupy_small_country = yes
+	}
+}
+
+
+country_event = { # Fate of Persia
+	id = annex.3008
+	title = annexation_PER_CONQ
+	desc = annexation_PER_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = PER }
+			remove_all_cores_and_claims_of_tags = yes
+			PER = {
+				add_state_core = 266
+				add_state_core = 68
+				add_state_core = 410
+				add_state_core = 411
+				add_state_core = 412
+				add_state_core = 413
+				add_state_core = 414
+				add_state_core = 416
+				add_state_core = 417
+				add_state_core = 418
+				add_state_core = 419
+				add_state_core = 420
+				add_state_core = 421
+				add_state_core = 855
+				add_state_core = 1052
+				drop_cosmetic_tag = yes
+			}
+		}
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.3008 option annex.3008.a"
+		name = annex.3008.a
+		ai_chance = {
+			base = 100
+		}
+		set_temp_variable = { tag_to_release = PER }
+		release_targeted_tag = yes
+		PER = {
+			if = {
+				limit = {
+					ROOT = { tag = ENG }
+				}
+				set_cosmetic_tag = ENG_PER
+			}
+		}
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.3008 option annex.occupation"
+		name = annex.occupation
+		ai_chance = {
+			base = 0
+		}
+		set_country_flag = PER_CONQ
+		occupy_small_country = yes
+	}
+}
+
+
+country_event = { # Fate of Kurdistan
+	id = annex.3009
+	title = annexation_KUR_CONQ
+	desc = annexation_KUR_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = KUR }
+			remove_all_cores_and_claims_of_tags = yes
+			KUR = {
+				add_state_core = 352
+				drop_cosmetic_tag = yes
+			}
+		}
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.3009 option annex.3009.a"
+		name = annex.3009.a
+		ai_chance = {
+			base = 100
+		}
+		set_temp_variable = { tag_to_release = KUR }
+		release_targeted_tag = yes
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.3009 option annex.occupation"
+		name = annex.occupation
+		ai_chance = {
+			base = 0
+		}
+		set_country_flag = KUR_CONQ
+		occupy_small_country = yes
+	}
+}
+
+
+country_event = { # Fate of Armenia
+	id = annex.3010
+	title = annexation_ARM_CONQ
+	desc = annexation_ARM_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = ARM }
+			remove_all_cores_and_claims_of_tags = yes
+			ARM = {
+				add_state_core = 230
+				add_state_core = 353
+				add_state_core = 354
+				add_state_core = 902
+				add_state_core = 903
+				add_state_core = 1051
+				drop_cosmetic_tag = yes
+			}
+		}
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.3010 option annex.3010.a"
+		name = annex.3010.a
+		ai_chance = {
+			base = 100
+		}
+		trigger = {
+			NOT = {
+				AND = {
+					tag = UKR
+					has_government = national_populist
+				}
+			}
+		}
+		set_temp_variable = { tag_to_release = ARM }
+		release_targeted_tag = yes
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.3010 option annex.3010.a"
+		name = annex.3010.a
+		ai_chance = {
+			base = 100
+		}
+		trigger = {
+			tag = UKR
+			has_government = national_populist
+			NOT = { country_exists = CAU }
+		}
+		set_temp_variable = { tag_to_release = ARM }
+		release_targeted_tag = yes
+
+		ARM = {
+			set_cosmetic_tag = UKR_CAU
+			save_global_event_target_as = unified_caucasia
+		}
+		create_unified_caucasia = yes
+	}
+
+	option = { # Transfer to Caucasia
+		log = "[GetLogInfo]: event annex.3010 option annex.3010.b"
+		name = annex.3010.b
+		ai_chance = { base = 100 }
+		trigger = {
+			tag = UKR
+			has_government = national_populist
+			country_exists = CAU
+			CAU = { is_subject_of = ROOT }
+		}
+		set_temp_variable = { tag_to_release = CAU }
+		every_owned_state = {
+			limit = { is_core_of = ARM }
+			transfer_state_and_add_core = yes
+		}
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.3010 option annex.occupation"
+		name = annex.occupation
+		ai_chance = {
+			base = 0
+		}
+		set_country_flag = ARM_CONQ
+		occupy_small_country = yes
+	}
+}
+
+
+country_event = { # Fate of Georgia
+	id = annex.3011
+	title = annexation_GEO_CONQ
+	desc = annexation_GEO_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = GEO }
+			remove_all_cores_and_claims_of_tags = yes
+			GEO = {
+				add_state_core = 231
+				add_state_core = 858
+				add_state_core = 902
+				add_state_core = 903
+				add_state_core = 904
+				add_state_core = 905
+				drop_cosmetic_tag = yes
+			}
+		}
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.3011 option annex.3011.a"
+		name = annex.3011.a
+		ai_chance = {
+			base = 100
+		}
+		trigger = {
+			NOT = {
+				tag = UKR
+				has_government = national_populist
+			}
+		}
+		set_temp_variable = { tag_to_release = GEO }
+		release_targeted_tag = yes
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.3011 option annex.3011.a"
+		name = annex.3011.a
+		ai_chance = {
+			base = 100
+		}
+		trigger = {
+			tag = UKR
+			has_government = national_populist
+			NOT = { country_exists = CAU }
+		}
+		set_temp_variable = { tag_to_release = GEO }
+		release_targeted_tag = yes
+
+		GEO = {
+			set_cosmetic_tag = UKR_CAU
+			save_global_event_target_as = unified_caucasia
+		}
+		create_unified_caucasia = yes
+	}
+
+	option = { # Transfer to Caucasia
+		log = "[GetLogInfo]: event annex.3011 option annex.3012.b"
+		name = annex.3012.b
+		ai_chance = { base = 100 }
+		trigger = {
+			tag = UKR
+			has_government = national_populist
+			country_exists = CAU
+			CAU = { is_subject_of = ROOT }
+		}
+		set_temp_variable = { tag_to_release = CAU }
+		every_owned_state = {
+			limit = { is_core_of = GEO }
+			transfer_state_and_add_core = yes
+		}
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.3011 option annex.occupation"
+		name = annex.occupation
+		ai_chance = {
+			base = 0
+		}
+		set_country_flag = GEO_CONQ
+		occupy_small_country = yes
+	}
+}
+
+
+country_event = { # Fate of Azerbaijan
+	id = annex.3012
+	title = annexation_AZR_CONQ
+	desc = annexation_AZR_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = AZR }
+			remove_all_cores_and_claims_of_tags = yes
+			AZR = {
+				add_state_core = 229
+				add_state_core = 904
+				drop_cosmetic_tag = yes
+			}
+		}
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.3012 option annex.3012.a"
+		name = annex.3012.a
+		ai_chance = {
+			base = 100
+		}
+		trigger = {
+			NOT = {
+				AND = {
+					tag = UKR
+					has_government = national_populist
+				}
+			}
+		}
+		set_temp_variable = { tag_to_release = AZR }
+		release_targeted_tag = yes
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.3012 option annex.3012.a"
+		name = annex.3012.a
+		ai_chance = {
+			base = 100
+		}
+		trigger = {
+			tag = UKR
+			has_government = national_populist
+			NOT = { country_exists = CAU }
+		}
+		set_temp_variable = { tag_to_release = AZR }
+		release_targeted_tag = yes
+
+		AZR = {
+			set_cosmetic_tag = UKR_CAU
+			save_global_event_target_as = unified_caucasia
+		}
+		create_unified_caucasia = yes
+	}
+
+	option = { # Transfer to Caucasia
+		log = "[GetLogInfo]: event annex.3012 option annex.3012.b"
+		name = annex.3012.b
+		ai_chance = { base = 100 }
+		trigger = {
+			tag = UKR
+			has_government = national_populist
+			country_exists = CAU
+			CAU = { is_subject_of = ROOT }
+		}
+		set_temp_variable = { tag_to_release = CAU }
+		every_owned_state = {
+			limit = { is_core_of = AZR }
+			transfer_state_and_add_core = yes
+		}
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.3012 option annex.occupation"
+		name = annex.occupation
+		ai_chance = {
+			base = 0
+		}
+		set_country_flag = AZR_CONQ
+		occupy_small_country = yes
+	}
+}
+
+
+country_event = { # Fate of Amman
+	id = annex.3013
+	title = annexation_AMMAN_CONQ
+	desc = annexation_AMMAN_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	option = { # Give it to Arabs
+		log = "[GetLogInfo]: event annex.3013 option annex.3013.a"
+		name = annex.3013.a
+		trigger = {
+			HEJ = { ROOT_can_grant_land = yes }
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				OR = {
+					is_ally_with = SYR
+					is_ally_with = IRQ
+					is_ally_with = SAU
+				}
+			}
+		}
+		set_temp_variable = { tag_to_release = HEJ }
+		455 = { transfer_state_and_add_core = yes }
+	}
+
+	option = { # Give in to Syria
+		log = "[GetLogInfo]: event annex.3013 option annex.3013.b"
+		name = annex.3013.b
+		trigger = {
+			SYR = { ROOT_can_grant_land = yes }
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				OR = {
+					is_ally_with = HEJ
+					is_ally_with = IRQ
+					is_ally_with = SAU
+				}
+			}
+		}
+		set_temp_variable = { tag_to_release = SYR }
+		455 = { transfer_state_and_add_core = yes }
+	}
+
+	option = { # Give in to Iraqis
+		log = "[GetLogInfo]: event annex.3013 option annex.3013.c"
+		name = annex.3013.c
+		trigger = {
+			IRQ = {
+				ROOT_can_grant_land = yes
+				owns_state = 554
+			}
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				OR = {
+					is_ally_with = SYR
+					is_ally_with = HEJ
+					is_ally_with = SAU
+				}
+			}
+		}
+		set_temp_variable = { tag_to_release = IRQ }
+		455 = { transfer_state_and_add_core = yes }
+	}
+
+	option = { # Give in to Sauds
+		log = "[GetLogInfo]: event annex.3013 option annex.3013.d"
+		name = annex.3013.d
+		trigger = {
+			SAU = { ROOT_can_grant_land = yes }
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				OR = {
+					is_ally_with = SYR
+					is_ally_with = IRQ
+					is_ally_with = HEJ
+				}
+			}
+		}
+		set_temp_variable = { tag_to_release = SAU }
+		455 = { transfer_state_and_add_core = yes }
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.3013 option annex.occupation"
+		name = annex.occupation
+		trigger = {
+			is_ai = no
+		}
+		occupy_small_country = yes
+		set_country_flag = AMFNG_CONQ
+	}
+}
+
+country_event = { # Fate of Syria
+	id = annex.3014
+	title = annexation_SYR_CONQ
+	desc = annexation_SYR_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = SYR }
+			remove_all_cores_and_claims_of_tags = yes
+			SYR = {
+				add_state_core = 554
+				add_state_core = 677
+				add_state_core = 680
+				add_state_core = 1050
+				drop_cosmetic_tag = yes
+			}
+		}
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.3014 option annex.3014.a"
+		name = annex.3014.a
+		ai_chance = {
+			base = 100
+		}
+		set_temp_variable = { tag_to_release = SYR }
+		release_targeted_tag = yes
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.3014 option annex.occupation"
+		name = annex.occupation
+		ai_chance = {
+			base = 0
+		}
+		set_country_flag = AMFNG_CONQ
+		occupy_small_country = yes
+	}
+}
+
+country_event = { # Fate of Tao Klarjeti
+	id = annex.3015
+	title = annexation_TAO_KLARJETI_CONQ
+	desc = annexation_TAO_KLARJETI_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	option = { # Give it to the Georgians
+		log = "[GetLogInfo]: event annex.3015 option annex.3015.a"
+		name = annex.3015.a
+		trigger = {
+			GEO = { ROOT_can_grant_land = yes }
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				OR = {
+					is_ally_with = TUR
+					is_ally_with = ARM
+				}
+			}
+		}
+		set_temp_variable = { tag_to_release = GEO }
+		902 = { transfer_state_and_add_core = yes }
+	}
+
+	option = { # Give in to Armenia
+		log = "[GetLogInfo]: event annex.3015 option annex.3015.b"
+		name = annex.3015.b
+		trigger = {
+			ARM = { ROOT_can_grant_land = yes }
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				OR = {
+					is_ally_with = ARM
+					is_ally_with = GEO
+				}
+			}
+		}
+		set_temp_variable = { tag_to_release = ARM }
+		902 = { transfer_state_and_add_core = yes }
+	}
+
+	option = { # Give in to Turkish
+		log = "[GetLogInfo]: event annex.3015 option annex.3015.c"
+		name = annex.3015.c
+		trigger = {
+			TUR = {
+				ROOT_can_grant_land = yes
+				owns_state = 554
+			}
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				OR = {
+					is_ally_with = ARM
+					is_ally_with = GEO
+				}
+			}
+		}
+		set_temp_variable = { tag_to_release = TUR }
+		902 = { transfer_state_and_add_core = yes }
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.3015 option annex.occupation"
+		name = annex.occupation
+		trigger = {
+			is_ai = no
+		}
+		occupy_small_country = yes
+		set_country_flag = AMFNG_CONQ
+	}
+}
+
+country_event = { # Fate of Van
+	id = annex.3016
+	title = annexation_VAN_CONQ
+	desc = annexation_VAN_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	option = { # Give it to the Turks
+		log = "[GetLogInfo]: event annex.3016 option annex.3016.a"
+		name = annex.3016.a
+		trigger = {
+			TUR = { ROOT_can_grant_land = yes }
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				is_ally_with = ARM
+			}
+		}
+		set_temp_variable = { tag_to_release = TUR }
+		353 = { transfer_state_and_add_core = yes }
+	}
+
+	option = { # Give in to Armenians
+		log = "[GetLogInfo]: event annex.3016 option annex.3016.b"
+		name = annex.3016.b
+		trigger = {
+			ARM = { ROOT_can_grant_land = yes }
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				is_ally_with = TUR
+			}
+		}
+		set_temp_variable = { tag_to_release = ARM }
+		353 = { transfer_state_and_add_core = yes }
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.3016 option annex.occupation"
+		name = annex.occupation
+		trigger = {
+			is_ai = no
+		}
+		occupy_small_country = yes
+		set_country_flag = VAN_CONQ
+	}
+}
+
+country_event = { # Fate of Trucial States
+	id = annex.3017
+	title = annexation_TRU_CONQ
+	desc = annexation_TRU_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = TRU }
+			remove_all_cores_and_claims_of_tags = yes
+			TRU = {
+				add_state_core = 658
+				drop_cosmetic_tag = yes
+			}
+		}
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.3017 option annex.3017.a"
+		name = annex.3017.a
+		ai_chance = {
+			base = 100
+		}
+		set_temp_variable = { tag_to_release = TRU }
+		658 = { transfer_state_and_add_core = yes }
+		release_targeted_tag = yes
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.3017 option annex.occupation"
+		name = annex.occupation
+		trigger = {
+			is_ai = no
+		}
+		occupy_small_country = yes
+		set_country_flag = TRU_CONQ
+	}
+}

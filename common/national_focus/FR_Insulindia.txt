@@ -1,0 +1,3516 @@
+focus_tree = {
+	id = FR_Insulindia
+	country = {
+		factor = 0
+		modifier = {
+			add = 20
+			tag = INS
+		}
+	}
+	default = no
+
+	#INSULINDIA SHARED TREE#
+	focus = {
+		id = INS_proclaim_independence
+		icon = GFX_goal_INS_focus_merdeka
+		cost = 2.00
+		x = 35
+		y = 0
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_proclaim_independence"
+			add_political_power = 25
+			add_stability = 0.03
+			add_war_support = 0.03
+			country_event = {
+				id = insulindia.0 days = 1
+			}
+		}
+
+	}
+	focus = {
+		id = INS_organize_armed_forces
+		icon = GFX_goal_generic_build_tank
+		cost = 4.00
+		x = 7
+		y = 0
+
+		available = {
+			has_completed_focus = INS_proclaim_independence
+		}
+
+		ai_will_do = {
+			factor = 15
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_organize_armed_forces"
+			add_war_support = 0.04
+			add_manpower = 5000
+		}
+
+	}
+	focus = {
+		id = INS_build_insulindian_economy
+		icon = GFX_goal_generic_production
+		cost = 4.00
+		x = 19
+		y = 0
+
+		available = {
+			has_completed_focus = INS_proclaim_independence
+		}
+
+		ai_will_do = {
+			factor = 15
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_build_insulindian_economy"
+			add_stability = 0.04
+		}
+
+	}
+	focus = {
+		id = INS_establish_an_air_force
+		icon = GFX_goal_INS_airforce
+		cost = 5.00
+		prerequisite = {
+			focus = INS_organize_armed_forces
+		}
+		x = 2
+		y = 1
+
+		available = {
+			controls_state = 335
+		}
+
+		ai_will_do = {
+			factor = 5
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_establish_an_air_force"
+			air_experience = 10
+			335 = {
+				add_building_construction = {
+					type = air_base
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = INS_our_own_air_bases
+		icon = GFX_goal_generic_air_production
+		cost = 8.00
+		prerequisite = {
+			focus = INS_establish_an_air_force
+		}
+		x = 1
+		y = 2
+
+		available = {
+			controls_state = 335
+			controls_state = 672
+			controls_state = 334
+		}
+
+		ai_will_do = {
+			factor = 5
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_our_own_air_bases"
+			335 = {
+				add_building_construction = {
+					type = air_base
+					level = 1
+					instant_build = yes
+				}
+			}
+			672 = {
+				add_building_construction = {
+					type = air_base
+					level = 1
+					instant_build = yes
+				}
+			}
+			334 = {
+				add_building_construction = {
+					type = air_base
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = INS_purchase_new_air_crafts
+		icon = GFX_goal_generic_air_fighter2
+		cost = 8.00
+		prerequisite = {
+			focus = INS_establish_an_air_force
+		}
+		x = 3
+		y = 2
+
+		ai_will_do = {
+			factor = 5
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_purchase_new_air_crafts"
+			add_political_power = -30
+			if = {
+				limit = { has_dlc_bba = yes }
+				add_equipment_to_stockpile = {
+					type = small_plane_airframe_0
+					variant_name = "Gloster Gladiator"
+					amount = 20
+					producer = INS
+				}
+				add_equipment_to_stockpile = {
+					type = small_plane_airframe_0
+					variant_name = "Type 91"
+					amount = 10
+					producer = JAP
+				}
+				add_equipment_to_stockpile = {
+					type = small_plane_airframe_0
+					variant_name = "Curtiss P-1 Hawk"
+					amount = 10
+					producer = USA
+				}
+			}
+			else = {
+				add_equipment_to_stockpile = {
+					type = fighter_equipment_0
+					amount = 20
+					producer = INS
+				}
+				add_equipment_to_stockpile = {
+					type = fighter_equipment_0
+					amount = 10
+					producer = JAP
+				}
+				add_equipment_to_stockpile = {
+					type = fighter_equipment_0
+					amount = 10
+					producer = USA
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = INS_study_air_doctrines
+		icon = GFX_goal_generic_air_doctrine
+		cost = 10.00
+		prerequisite = {
+			focus = INS_our_own_air_bases
+		}
+		prerequisite = {
+			focus = INS_purchase_new_air_crafts
+		}
+		x = 2
+		y = 3
+
+		ai_will_do = {
+			factor = 5
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_study_air_doctrines"
+			add_doctrine_cost_reduction = {
+				name = air_doc_bonus
+				cost_reduction = 0.4
+				uses = 2
+				category = air_doctrine
+			}
+		}
+
+	}
+	focus = {
+		id = INS_focus_on_fighters
+		icon = GFX_goal_generic_air_fighter
+		cost = 8.00
+		prerequisite = {
+			focus = INS_study_air_doctrines
+		}
+		mutually_exclusive = {
+			focus = INS_focus_on_bombers
+		}
+		x = 1
+		y = 4
+
+		ai_will_do = {
+			factor = 5
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_focus_on_fighters"
+			add_tech_bonus = {
+				name = fighter_bonus
+				bonus = 0.5
+				uses = 1
+				category = light_fighter
+				category = cat_heavy_fighter
+			}
+		}
+
+	}
+	focus = {
+		id = INS_focus_on_bombers
+		icon = GFX_goal_generic_air_bomber
+		cost = 8.00
+		prerequisite = {
+			focus = INS_study_air_doctrines
+		}
+		mutually_exclusive = {
+			focus = INS_focus_on_fighters
+		}
+		x = 3
+		y = 4
+
+		ai_will_do = {
+			factor = 5
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_focus_on_bombers"
+			add_tech_bonus = {
+				name = bomber_bonus
+				bonus = 0.5
+				uses = 1
+				category = tactical_bomber
+				category = naval_bomber
+			}
+		}
+
+	}
+	focus = {
+		id = INS_build_an_army
+		icon = GFX_goal_INS_army
+		cost = 5.00
+		prerequisite = {
+			focus = INS_organize_armed_forces
+		}
+		x = 7
+		y = 1
+
+		ai_will_do = {
+			factor = 5
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_build_an_army"
+			army_experience = 10
+			add_manpower = 5000
+		}
+
+	}
+	focus = {
+		id = INS_our_own_tactics
+		icon = GFX_goal_INS_Insulindian_military
+		cost = 10.00
+		prerequisite = {
+			focus = INS_build_an_army
+		}
+		mutually_exclusive = {
+			focus = INS_adopt_foreign_tactics
+		}
+		x = 6
+		y = 2
+
+		ai_will_do = {
+			factor = 5
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_our_own_tactics"
+			add_doctrine_cost_reduction = {
+				name = land_doc_bonus
+				cost_reduction = 0.4
+				uses = 2
+				category = cat_mass_assault
+			}
+		}
+
+	}
+	focus = {
+		id = INS_guerilla_fights
+		icon = GFX_focus_prc_infiltration
+		cost = 10.00
+		prerequisite = {
+			focus = INS_our_own_tactics
+		}
+		x = 5
+		y = 3
+
+		ai_will_do = {
+			factor = 5
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_guerilla_fights"
+			add_ideas = INS_guerilla_fights_idea
+		}
+
+	}
+	focus = {
+		id = INS_army_of_people
+		icon = GFX_focus_generic_little_entente
+		cost = 10.00
+		prerequisite = {
+			focus = INS_guerilla_fights
+		}
+		x = 5
+		y = 5
+
+		ai_will_do = {
+			factor = 5
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_army_of_people"
+			swap_ideas = {
+				remove_idea = INS_guerilla_fights_idea
+				add_idea = INS_army_of_people_idea
+			}
+		}
+
+	}
+	focus = {
+		id = INS_adopt_foreign_tactics
+		icon = GFX_goal_RAJ_The_Army
+		cost = 10.00
+		prerequisite = {
+			focus = INS_build_an_army
+		}
+		mutually_exclusive = {
+			focus = INS_our_own_tactics
+		}
+		x = 8
+		y = 2
+
+		ai_will_do = {
+			factor = 5
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_adopt_foreign_tactics"
+			add_doctrine_cost_reduction  = {
+				name = land_doc_bonus
+				cost_reduction = 0.4
+				uses = 2
+				category = cat_grand_battle_plan
+			}
+		}
+
+	}
+	focus = {
+		id = INS_update_gun_designes
+		icon = GFX_goal_generic_small_arms
+		cost = 8.00
+		prerequisite = {
+			focus = INS_our_own_tactics
+			focus = INS_adopt_foreign_tactics
+		}
+		x = 7
+		y = 3
+
+		ai_will_do = {
+			factor = 5
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_update_gun_designes"
+			add_tech_bonus = {
+				name = infantry_bonus
+				bonus = 0.5
+				uses = 1
+				category = infantry_weapons
+			}
+		}
+
+	}
+	focus = {
+		id = INS_mechanized_research
+		icon = GFX_goal_generic_army_tanks
+		cost = 8.00
+		prerequisite = {
+			focus = INS_update_gun_designes
+		}
+		mutually_exclusive = {
+			focus = INS_artillary_support
+		}
+		x = 6
+		y = 4
+
+		ai_will_do = {
+			factor = 5
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_mechanized_research"
+			add_tech_bonus = {
+				name = motor_bonus
+				bonus = 0.5
+				uses = 1
+				category = motorized_equipment
+			}
+		}
+
+	}
+	focus = {
+		id = INS_artillary_support
+		icon = GFX_goal_generic_army_artillery2
+		cost = 8.00
+		prerequisite = {
+			focus = INS_update_gun_designes
+		}
+		mutually_exclusive = {
+			focus = INS_mechanized_research
+		}
+		x = 8
+		y = 4
+
+		ai_will_do = {
+			factor = 5
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_artillary_support"
+			add_tech_bonus = {
+				name = artillery_bonus
+				bonus = 0.5
+				uses = 1
+				category = artillery
+			}
+		}
+
+	}
+	focus = {
+		id = INS_jungle_warfare
+		icon = GFX_SIA_jungletraining
+		cost = 8.00
+		prerequisite = {
+			focus = INS_mechanized_research
+			focus = INS_artillary_support
+		}
+		x = 7
+		y = 5
+
+		ai_will_do = {
+			factor = 5
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_jungle_warfare"
+			army_experience = 5
+			add_ideas = INS_jungle_warfare_idea
+		}
+
+	}
+	focus = {
+		id = INS_meet_them_with_force
+		icon = GFX_goal_national_artillery
+		cost = 10.00
+		prerequisite = {
+			focus = INS_adopt_foreign_tactics
+		}
+		x = 9
+		y = 3
+
+		ai_will_do = {
+			factor = 5
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_meet_them_with_force"
+			add_ideas = INS_meet_them_with_force_idea
+		}
+
+	}
+	focus = {
+		id = INS_army_of_experience
+		icon = GFX_focus_chi_army_reform
+		cost = 10.00
+		prerequisite = {
+			focus = INS_meet_them_with_force
+		}
+		x = 9
+		y = 5
+
+		ai_will_do = {
+			factor = 5
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_army_of_experience"
+			swap_ideas = {
+				remove_idea = INS_meet_them_with_force_idea
+				add_idea = INS_army_of_experience_idea
+			}
+		}
+
+	}
+	focus = {
+		id = INS_mountainer_research
+		icon = GFX_goal_generic_special_forces
+		cost = 8.00
+		prerequisite = {
+			focus = INS_army_of_people
+			focus = INS_army_of_experience
+		}
+		prerequisite = {
+			focus = INS_jungle_warfare
+		}
+		x = 7
+		y = 6
+
+		ai_will_do = {
+			factor = 5
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_mountainer_research"
+			add_tech_bonus = {
+				name = special_forces_bonus
+				bonus = 0.5
+				uses = 1
+				technology = tech_mountaineers
+				technology = tech_mountaineers2
+				technology = tech_mountaineers3
+			}
+		}
+
+	}
+	focus = {
+		id = INS_establish_an_navy
+		icon = GFX_goal_INS_navy
+		cost = 5.00
+		prerequisite = {
+			focus = INS_organize_armed_forces
+		}
+		x = 12
+		y = 1
+
+		available = {
+			controls_state = 335
+		}
+
+		ai_will_do = {
+			factor = 5
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_establish_an_navy"
+			air_experience = 10
+			335 = {
+				add_building_construction = {
+					type = naval_base
+					level = 1
+					province = 7381
+					instant_build = yes
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = INS_purchase_new_ships
+		icon = GFX_goal_BEL_Battleship_Investements
+		cost = 8.00
+		prerequisite = {
+			focus = INS_establish_an_navy
+		}
+		x = 11
+		y = 2
+
+		ai_will_do = {
+			factor = 5
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_purchase_new_ships"
+			add_political_power = -30
+			add_equipment_to_stockpile = {
+				type = convoy_1
+				amount = 10
+				producer = INS
+			}
+			add_equipment_to_stockpile = {
+				type = convoy_1
+				amount = 5
+				producer = USA
+			}
+			add_equipment_to_stockpile = {
+				type = convoy_1
+				amount = 5
+				producer = SOV
+			}
+		}
+
+	}
+	focus = {
+		id = INS_expand_naval_ports
+		icon = GFX_goal_BEL_expand_antwerp_harbour
+		cost = 8.00
+		prerequisite = {
+			focus = INS_establish_an_navy
+		}
+		x = 13
+		y = 2
+
+		available = {
+			controls_state = 335
+			controls_state = 790
+			controls_state = 334
+		}
+
+		ai_will_do = {
+			factor = 5
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_expand_naval_ports"
+			335 = {
+				add_building_construction = {
+					type = naval_base
+					level = 2
+					province = 4608
+					instant_build = yes
+				}
+			}
+			790 = {
+				add_building_construction = {
+					type = naval_base
+					level = 2
+					province = 4652
+					instant_build = yes
+				}
+			}
+			334 = {
+				add_building_construction = {
+					type = naval_base
+					level = 2
+					province = 10237
+					instant_build = yes
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = INS_destroyer_research
+		icon = GFX_focus_generic_destroyer
+		cost = 8.00
+		prerequisite = {
+			focus = INS_purchase_new_ships
+		}
+		prerequisite = {
+			focus = INS_expand_naval_ports
+		}
+		x = 12
+		y = 3
+
+		ai_will_do = {
+			factor = 5
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_destroyer_research"
+			add_tech_bonus = {
+				name = dd_bonus
+				bonus = 0.5
+				uses = 1
+				category = dd_tech
+			}
+		}
+
+	}
+	focus = {
+		id = INS_focus_on_cruisers
+		icon = GFX_focus_generic_cruiser2
+		cost = 8.00
+		prerequisite = {
+			focus = INS_destroyer_research
+		}
+		mutually_exclusive = {
+			focus = INS_focus_on_submarines
+		}
+		x = 11
+		y = 4
+
+		ai_will_do = {
+			factor = 5
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_focus_on_cruisers"
+			add_tech_bonus = {
+				name = cr_bonus
+				bonus = 0.5
+				uses = 1
+				category = cl_tech
+				category = ca_tech
+			}
+		}
+
+	}
+	focus = {
+		id = INS_focus_on_submarines
+		icon = GFX_goal_generic_navy_submarine
+		cost = 8.00
+		prerequisite = {
+			focus = INS_destroyer_research
+		}
+		mutually_exclusive = {
+			focus = INS_focus_on_cruisers
+		}
+		x = 13
+		y = 4
+
+		ai_will_do = {
+			factor = 5
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_focus_on_submarines"
+			add_tech_bonus = {
+				name = ss_bonus
+				bonus = 0.5
+				uses = 1
+				category = ss_tech
+			}
+		}
+
+	}
+	focus = {
+		id = INS_study_naval_doctrines
+		icon = GFX_goal_generic_navy_doctrines_tactics
+		cost = 10.00
+		prerequisite = {
+			focus = INS_focus_on_cruisers
+			focus = INS_focus_on_submarines
+		}
+		x = 12
+		y = 5
+
+		ai_will_do = {
+			factor = 5
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_study_naval_doctrines"
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.5
+				uses = 1
+				category = naval_doctrine
+			}
+		}
+
+	}
+	focus = {
+		id = INS_rebuild_civilian_sector
+		icon = GFX_goal_generic_construct_civilian
+		cost = 8.00
+		prerequisite = {
+			focus = INS_build_insulindian_economy
+		}
+		x = 18
+		y = 1
+
+		available = {
+			controls_state = 335
+			controls_state = 790
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_rebuild_civilian_sector"
+			335 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			790 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = INS_upgrade_inland_roads
+		icon = GFX_goal_KTG_Jungle_Railroad
+		cost = 8.00
+		prerequisite = {
+			focus = INS_build_insulindian_economy
+		}
+		x = 20
+		y = 1
+
+		available = {
+			controls_state = 951
+			controls_state = 334
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_upgrade_inland_roads"
+			951 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			334 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = INS_move_for_autarky
+		icon = GFX_focus_generic_tank_production
+		cost = 10.00
+		prerequisite = {
+			focus = INS_rebuild_civilian_sector
+		}
+		prerequisite = {
+			focus = INS_upgrade_inland_roads
+		}
+		mutually_exclusive = {
+			focus = INS_reopen_for_foreign_investors
+		}
+		x = 17
+		y = 2
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_move_for_autarky"
+			swap_ideas = {
+				remove_idea = INS_non_existing_economy_idea
+				add_idea = INS_move_for_autarky_idea
+			}
+		}
+
+	}
+	focus = {
+		id = INS_nationalize_foreign_industries
+		icon = GFX_focus_generic_industry_2
+		cost = 10.00
+		prerequisite = {
+			focus = INS_move_for_autarky
+		}
+		x = 17
+		y = 3
+
+		available = {
+			controls_state = 335
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_nationalize_foreign_industries"
+			335 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			swap_ideas = {
+				remove_idea = INS_move_for_autarky_idea
+				add_idea = INS_nationalize_foreign_industries_idea
+			}
+		}
+
+	}
+	focus = {
+		id = INS_subsidice_rice_farms
+		icon = GFX_goal_RAJ_India_Revitalize_Farming
+		cost = 8.00
+		prerequisite = {
+			focus = INS_nationalize_foreign_industries
+		}
+		x = 16
+		y = 4
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_subsidice_rice_farms"
+			swap_ideas = {
+				remove_idea = INS_nationalize_foreign_industries_idea
+				add_idea = INS_subsidice_rice_farms_idea
+			}
+		}
+
+	}
+	focus = {
+		id = INS_nationalize_rubber_industry
+		icon = GFX_goal_DEI_focus_moar_rubber
+		cost = 8.00
+		prerequisite = {
+			focus = INS_nationalize_foreign_industries
+		}
+		x = 18
+		y = 4
+
+		available = {
+			controls_state = 672
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_nationalize_rubber_industry"
+			add_political_power = 25
+			add_resource = {
+				type = rubber
+				amount = 10
+				state = 672
+			}
+		}
+
+	}
+	focus = {
+		id = INS_strengthen_research_hub
+		icon = GFX_focus_research
+		cost = 10.00
+		prerequisite = {
+			focus = INS_subsidice_rice_farms
+		}
+		prerequisite = {
+			focus = INS_nationalize_rubber_industry
+		}
+		x = 17
+		y = 5
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_strengthen_research_hub"
+			add_research_slot = 1
+			swap_ideas = {
+				remove_idea = INS_subsidice_rice_farms_idea
+				add_idea = INS_strengthen_research_hub_idea
+			}
+		}
+
+	}
+	focus = {
+		id = INS_reopen_for_foreign_investors
+		icon = GFX_goal_generic_intelligence_exchange
+		cost = 10.00
+		prerequisite = {
+			focus = INS_rebuild_civilian_sector
+		}
+		prerequisite = {
+			focus = INS_upgrade_inland_roads
+		}
+		mutually_exclusive = {
+			focus = INS_move_for_autarky
+		}
+		x = 21
+		y = 2
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_reopen_for_foreign_investors"
+			swap_ideas = {
+				remove_idea = INS_non_existing_economy_idea
+				add_idea = INS_reopen_for_foreign_investors_idea
+			}
+		}
+
+	}
+	focus = {
+		id = INS_establish_weapon_industry
+		icon = GFX_goal_generic_construct_mil_factory
+		cost = 10.00
+		prerequisite = {
+			focus = INS_move_for_autarky
+			focus = INS_reopen_for_foreign_investors
+		}
+		x = 19
+		y = 3
+
+		available = {
+			controls_state = 335
+			controls_state = 797
+		}
+
+		ai_will_do = {
+			factor = 8
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_establish_weapon_industry"
+			335 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			797 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = INS_expand_dockyards
+		icon = GFX_goal_generic_construct_naval_dockyard
+		cost = 10.00
+		prerequisite = {
+			focus = INS_move_for_autarky
+			focus = INS_reopen_for_foreign_investors
+		}
+		prerequisite = {
+			focus = INS_expand_naval_ports
+		}
+		x = 14
+		y = 3
+
+		available = {
+			controls_state = 790
+			controls_state = 335
+		}
+
+		ai_will_do = {
+			factor = 8
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_expand_dockyards"
+			790 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = dockyard
+					level = 1
+					instant_build = yes
+				}
+			}
+			335 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = dockyard
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = INS_unsinking_carriers
+		icon = GFX_goal_generic_construct_military
+		cost = 10.00
+		prerequisite = {
+			focus = INS_focus_on_cruisers
+			focus = INS_focus_on_submarines
+		}
+		prerequisite = {
+			focus = INS_expand_dockyards
+		}
+		x = 14
+		y = 5
+
+	}
+	focus = {
+		id = INS_invite_back_british_investors
+		icon = GFX_focus_chi_british_cooperation
+		cost = 10.00
+		prerequisite = {
+			focus = INS_reopen_for_foreign_investors
+		}
+		x = 21
+		y = 3
+
+		available = {
+			controls_state = 335
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_invite_back_british_investors"
+			add_stability = -0.01
+			add_political_power = -20
+			335 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			swap_ideas = {
+				remove_idea = INS_reopen_for_foreign_investors_idea
+				add_idea = INS_invite_back_british_investors_idea
+			}
+		}
+
+	}
+	focus = {
+		id = INS_work_with_rubber_industry_investors
+		icon = GFX_focus_generic_rubber
+		cost = 10.00
+		prerequisite = {
+			focus = INS_invite_back_british_investors
+		}
+		x = 21
+		y = 4
+
+		available = {
+			controls_state = 672
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_work_with_rubber_industry_investors"
+			add_resource = {
+				type = rubber
+				amount = 5
+				state = 672
+			}
+			swap_ideas = {
+				remove_idea = INS_invite_back_british_investors_idea
+				add_idea = INS_work_with_rubber_industry_investors_idea
+			}
+		}
+
+	}
+	focus = {
+		id = INS_build_up_trade_connections
+		icon = GFX_goal_generic_positive_trade_relations
+		cost = 8.00
+		prerequisite = {
+			focus = INS_work_with_rubber_industry_investors
+		}
+		x = 20
+		y = 5
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_build_up_trade_connections"
+			add_research_slot = 1
+			swap_ideas = {
+				remove_idea = INS_work_with_rubber_industry_investors_idea
+				add_idea = INS_build_up_trade_connections_idea
+			}
+		}
+
+	}
+	focus = {
+		id = INS_build_up_infrastructure
+		icon = GFX_goal_generic_construct_infrastructure
+		cost = 8.00
+		prerequisite = {
+			focus = INS_work_with_rubber_industry_investors
+		}
+		x = 22
+		y = 5
+
+		available = {
+			controls_state = 335
+			controls_state = 797
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_build_up_infrastructure"
+			335 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			797 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = INS_focus_civilian_industry
+		icon = GFX_goal_generic_construct_civ_factory
+		cost = 10.00
+		prerequisite = {
+			focus = INS_strengthen_research_hub
+			focus = INS_build_up_trade_connections
+			focus = INS_build_up_infrastructure
+		}
+		mutually_exclusive = {
+			focus = INS_focus_arms_industry
+		}
+		x = 18
+		y = 6
+
+		available = {
+			controls_state = 335
+			controls_state = 334
+		}
+
+		ai_will_do = {
+			factor = 8
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_focus_civilian_industry"
+			335 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			334 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = INS_focus_arms_industry
+		icon = GFX_goal_generic_construct_mil_factory
+		cost = 10.00
+		prerequisite = {
+			focus = INS_strengthen_research_hub
+			focus = INS_build_up_trade_connections
+			focus = INS_build_up_infrastructure
+		}
+		mutually_exclusive = {
+			focus = INS_focus_civilian_industry
+		}
+		x = 20
+		y = 6
+
+		available = {
+			controls_state = 672
+			controls_state = 334
+		}
+
+		ai_will_do = {
+			factor = 8
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_focus_arms_industry"
+			672 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			334 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = INS_insulindian_diplomacy
+		icon = GFX_goal_INS_focus_party_coalition
+		cost = 5.00
+		prerequisite = {
+			focus = INS_proclaim_independence
+		}
+		x = 29
+		y = 1
+
+		available = {
+			OR = {
+				has_country_flag = INS_first_insulindian_election_flag
+				has_country_flag = INS_darul_islam_government_flag
+				has_country_flag = INS_monarchist_counter_coup_flag
+			}
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_insulindian_diplomacy"
+			add_political_power = 75
+		}
+
+	}
+	focus = {
+		id = INS_find_democratic_friends
+		icon = GFX_focus_generic_the_giant_wakes
+		cost = 5.00
+		prerequisite = {
+			focus = INS_insulindian_diplomacy
+		}
+		mutually_exclusive = {
+			focus = INS_insulindian_revolution
+			focus = INS_strive_for_united_insulindia
+			focus = INS_east_asian_relations
+		}
+		x = 24
+		y = 2
+
+		available = {
+			has_democratic_government = yes
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_find_democratic_friends"
+			add_ideas = INS_find_democratic_friends_idea
+			add_opinion_modifier = { target = FRA modifier = INS_find_democratic_friends_opinion }
+			add_opinion_modifier = { target = USA modifier = INS_find_democratic_friends_opinion }
+		}
+
+	}
+	focus = {
+		id = INS_strengthen_american_relations
+		icon = GFX_focus_chi_mission_to_the_us
+		cost = 7.00
+		available = {
+			is_subject = no
+			country_exists = USA
+			NOT = { has_war_with = USA }
+		}
+		bypass = {
+			OR = {
+				NOT = { country_exists = USA }
+				has_war_with = USA
+			}
+		}
+		prerequisite = {
+			focus = INS_find_democratic_friends
+		}
+		x = 24
+		y = 3
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_strengthen_american_relations"
+			add_offsite_building = { type = industrial_complex level = 1 }
+			add_opinion_modifier = { target = USA modifier = INS_strengthen_american_relations_opinion }
+			USA = {
+				add_opinion_modifier = { target = INS modifier = INS_strengthen_american_relations_opinion }
+			}
+		}
+
+	}
+	focus = {
+		id = INS_grow_french_relations
+		icon = GFX_focus_chi_reach_out_to_france
+		cost = 7.00
+		available = {
+			is_subject = no
+			country_exists = FRA
+			NOT = { has_war_with = FRA }
+		}
+		prerequisite = {
+			focus = INS_strengthen_american_relations
+		}
+		x = 24
+		y = 4
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_grow_french_relations"
+			add_offsite_building = { type = industrial_complex level = 1 }
+			add_opinion_modifier = { target = FRA modifier = INS_grow_french_relations_opinion }
+			FRA = {
+				add_opinion_modifier = { target = INS modifier = INS_grow_french_relations_opinion }
+			}
+		}
+
+	}
+	focus = {
+		id = INS_join_french_alliance
+		icon = GFX_goal_FRA_Paris
+		cost = 5.00
+		available = {
+			is_subject = no
+			country_exists = FRA
+			FRA = { is_faction_leader = yes }
+			NOT = { has_war_with = FRA }
+		}
+		bypass = {
+			is_in_faction_with = FRA
+		}
+		prerequisite = {
+			focus = INS_grow_french_relations
+		}
+		x = 24
+		y = 5
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_join_french_alliance"
+			FRA = {
+				country_event = {
+					id = insulindia.100 days = 1
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = INS_insulindian_revolution
+		icon = GFX_goal_red_militia
+		cost = 5.00
+		prerequisite = {
+			focus = INS_insulindian_diplomacy
+		}
+		mutually_exclusive = {
+			focus = INS_find_democratic_friends
+			focus = INS_strive_for_united_insulindia
+			focus = INS_east_asian_relations
+		}
+		x = 27
+		y = 2
+
+		available = {
+			has_socialist_government = yes
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_insulindian_revolution"
+			add_ideas = INS_insulindian_revolution_idea
+			add_opinion_modifier = { target = SOV modifier = INS_insulindian_revolution_opinion }
+			add_opinion_modifier = { target = NOR modifier = INS_insulindian_revolution_opinion }
+		}
+
+	}
+	focus = {
+		id = INS_strengthen_soviet_relations
+		icon = GFX_focus_chi_mission_to_the_soviet_union
+		cost = 7.00
+		available = {
+			is_subject = no
+			country_exists = SOV
+			NOT = { has_war_with = SOV }
+			has_socialist_government = yes
+		}
+		prerequisite = {
+			focus = INS_insulindian_revolution
+		}
+		x = 26
+		y = 3
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_strengthen_soviet_relations"
+			add_offsite_building = { type = industrial_complex level = 1 }
+			add_opinion_modifier = { target = SOV modifier = INS_strengthen_soviet_relations_opinion }
+			SOV = {
+				add_opinion_modifier = { target = INS modifier = INS_strengthen_soviet_relations_opinion }
+			}
+		}
+
+	}
+	focus = {
+		id = INS_east_asian_revolutionary_funding
+		icon = GFX_goal_tripartite_pact
+		cost = 7.00
+		available = {
+			is_subject = no
+			has_socialist_government = yes
+		}
+		prerequisite = {
+			focus = INS_strengthen_soviet_relations
+		}
+		x = 26
+		y = 4
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_east_asian_revolutionary_funding"
+			add_political_power = -50
+			PHI = {
+				add_political_power = -30
+				add_popularity = { ideology = collectivist popularity = 0.02 }
+			}
+			JAP = {
+				add_political_power = -30
+				add_popularity = { ideology = collectivist popularity = 0.02 }
+			}
+			FNG = {
+				add_political_power = -30
+				add_popularity = { ideology = collectivist popularity = 0.02 }
+			}
+			ZHI = {
+				add_political_power = -30
+				add_popularity = { ideology = collectivist popularity = 0.02 }
+			}
+			KMT = {
+				add_political_power = -30
+				add_popularity = { ideology = collectivist popularity = 0.02 }
+			}
+		}
+	}
+	focus = {
+		id = INS_join_soviet_alliance
+		icon = GFX_focus_generic_join_comintern
+		cost = 5.00
+		available = {
+			has_socialist_government = yes
+			is_subject = no
+			country_exists = SOV
+			SOV = { is_faction_leader = yes }
+		}
+		bypass = {
+			is_in_faction_with = SOV
+		}
+		prerequisite = {
+			focus = INS_east_asian_revolutionary_funding
+		}
+		mutually_exclusive = {
+			focus = INS_anti_colonialist_alliance
+		}
+		x = 27
+		y = 5
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_join_soviet_alliance"
+			SOV = {
+				country_event = {
+					id = insulindia.103 days = 1
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = INS_strive_for_united_insulindia
+		icon = GFX_goal_INS_focus_malphilinsul
+		cost = 5.00
+		prerequisite = {
+			focus = INS_insulindian_diplomacy
+		}
+		mutually_exclusive = {
+			focus = INS_find_democratic_friends
+			focus = INS_insulindian_revolution
+			focus = INS_east_asian_relations
+		}
+		x = 31
+		y = 2
+
+		available = {
+			OR = {
+				has_government = vanguardist
+				has_government = collectivist
+				has_government = libertarian_socialist
+				has_government = social_democrat
+				has_government = social_conservative
+				has_government = authoritarian_democrat
+				has_government = paternal_autocrat
+				has_government = national_populist
+			}
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_strive_for_united_insulindia"
+			add_ideas = INS_strive_for_united_insulindia_idea
+			JAP = {
+				add_opinion_modifier = { target = INS modifier = INS_strive_for_united_insulindia_opinion }
+			}
+			ENG = {
+				add_opinion_modifier = { target = INS modifier = INS_strive_for_united_insulindia_opinion }
+			}
+			AST = {
+				add_opinion_modifier = { target = INS modifier = INS_strive_for_united_insulindia_opinion }
+			}
+		}
+
+	}
+	focus = {
+		id = INS_sieze_timor
+		icon = GFX_goal_generic_major_war
+		cost = 7.00
+		prerequisite = {
+			focus = INS_find_democratic_friends
+			focus = INS_insulindian_revolution
+			focus = INS_strive_for_united_insulindia
+			focus = INS_east_asian_relations
+		}
+		x = 28
+		y = 3
+
+		available = {
+			is_subject = no
+			721 = { is_owned_by_ROOT_or_ally = no }
+		}
+		bypass = {
+			721 = { is_owned_by_ROOT_or_ally = yes }
+		}
+
+		ai_will_do = {
+			factor = 7
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_sieze_timor"
+			721 = {
+				OWNER = {
+					create_wargoal = {
+						target = THIS
+						type = take_state_focus
+					}
+				}
+			}
+		}
+	}
+	focus = {
+		id = INS_kick_out_japanese
+		icon = GFX_goal_generic_major_war
+		cost = 7.00
+		prerequisite = {
+			focus = INS_find_democratic_friends
+			focus = INS_insulindian_revolution
+			focus = INS_strive_for_united_insulindia
+			focus = INS_east_asian_relations
+		}
+		x = 30
+		y = 3
+
+		available = {
+			is_subject = no
+			OR = {
+				668 = { is_owned_by_ROOT_or_ally = no }
+				773 = { is_owned_by_ROOT_or_ally = no }
+			}
+		}
+		bypass = {
+			owns_state = 668
+			owns_state = 673
+		}
+
+		ai_will_do = {
+			factor = 7
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_kick_out_japanese"
+			create_wargoal = {
+				type = take_state_focus
+				target = JAP
+			}
+		}
+
+	}
+	focus = {
+		id = INS_continue_war_against_british
+		icon = GFX_focus_RAJ_clamp_down_on_corruption
+		cost = 7.00
+		prerequisite = {
+			focus = INS_sieze_timor
+			focus = INS_kick_out_japanese
+		}
+		x = 29
+		y = 4
+
+		available = {
+			is_subject = no
+			country_exists = ENG
+			NOT = { has_war_with = ENG }
+		}
+		bypass = {
+			has_war_with = ENG
+		}
+
+		ai_will_do = {
+			factor = 7
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_continue_war_against_british"
+			create_wargoal = {
+				type = take_state_focus
+				target = ENG
+			}
+		}
+
+	}
+	focus = {
+		id = INS_strengthen_indian_relations
+		icon = GFX_focus_RAJ_all_india_forward_bloc
+		cost = 7.00
+		prerequisite = {
+			focus = INS_strive_for_united_insulindia
+		}
+		x = 32
+		y = 3
+
+		available = {
+			IND = {
+				exists = yes
+			}
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_strengthen_indian_relations"
+			add_offsite_building = { type = industrial_complex level = 1 }
+			add_opinion_modifier = { target = IND modifier = INS_strengthen_indian_relations_opinion }
+			IND = {
+				add_opinion_modifier = { target = INS modifier = INS_strengthen_indian_relations_opinion }
+			}
+		}
+
+	}
+	focus = {
+		id = INS_fund_anti_colonialist_groups
+		icon = GFX_goal_molotov_ribbentrop_pact
+		cost = 7.00
+		prerequisite = {
+			focus = INS_strengthen_indian_relations
+		}
+		x = 32
+		y = 4
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_fund_anti_colonialist_groups"
+			add_political_power = -50
+			JAP = {
+				add_political_power = -30
+				add_stability = -0.02
+			}
+			ENG = {
+				add_political_power = -30
+				add_stability = -0.02
+			}
+			AST = {
+				add_political_power = -30
+				add_stability = -0.02
+			}
+			FIC = {
+				add_political_power = -30
+				add_stability = -0.02
+			}
+			PRR = {
+				add_political_power = -25
+				add_stability = -0.01
+			}
+			POR = {
+				add_political_power = -25
+				add_stability = -0.01
+			}
+		}
+
+	}
+	focus = {
+		id = INS_anti_colonialist_alliance
+		icon = GFX_focus_RAJ_clamp_down_on_corruption
+		cost = 5.00
+		available = {
+			is_subject = no
+		}
+		prerequisite = {
+			focus = INS_east_asian_revolutionary_funding
+			focus = INS_fund_anti_colonialist_groups
+		}
+		mutually_exclusive = {
+			focus = INS_join_soviet_alliance
+		}
+		x = 31
+		y = 5
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_anti_colonialist_alliance"
+			add_political_power = 30
+
+			unlock_decision_tooltip = INS_join_co_prosperity_sphere
+		}
+
+	}
+	focus = {
+		id = INS_east_asian_relations
+		icon = GFX_focus_generic_military_academy
+		cost = 5.00
+		available = {
+			is_subject = no
+		}
+		prerequisite = {
+			focus = INS_insulindian_diplomacy
+		}
+		mutually_exclusive = {
+			focus = INS_find_democratic_friends
+			focus = INS_insulindian_revolution
+			focus = INS_strive_for_united_insulindia
+		}
+		x = 34
+		y = 2
+
+		available = {
+			OR = {
+				has_democratic_government = yes
+				has_authoritarian_government = yes
+			}
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_east_asian_relations"
+			add_ideas = INS_east_asian_relations_idea
+			add_opinion_modifier = { target = JAP modifier = INS_east_asian_relations_opinion }
+			add_opinion_modifier = { target = KMT modifier = INS_east_asian_relations_opinion }
+		}
+
+	}
+	focus = {
+		id = INS_mission_to_japan
+		icon = GFX_focus_chi_collaboration_with_the_japanese
+		cost = 7.00
+		available = {
+			country_exists = JAP
+			is_subject = no
+			NOT = { has_war_with = JAP }
+		}
+		prerequisite = {
+			focus = INS_east_asian_relations
+		}
+		x = 34
+		y = 3
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_mission_to_japan"
+			add_offsite_building = { type = industrial_complex level = 1 }
+			add_opinion_modifier = { target = JAP modifier = INS_mission_to_japan_opinion }
+			JAP = {
+				add_opinion_modifier = { target = INS modifier = INS_mission_to_japan_opinion }
+			}
+		}
+
+	}
+	focus = {
+		id = INS_try_buying_sulawesi
+		icon = GFX_goal_capitalist_system
+		cost = 7.00
+		available = {
+			is_subject = no
+			NOT = { owns_state = 673 }
+		}
+		prerequisite = {
+			focus = INS_mission_to_japan
+		}
+		bypass = {
+			owns_state = 673
+		}
+		x = 34
+		y = 4
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_try_buying_sulawesi"
+			673 = {
+				OWNER = {
+					country_event = {
+						id = insulindia.106 days = 1
+					}
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = INS_join_japanese_alliance
+		icon = Co_Prosperity_Sphere
+		cost = 5.00
+		available = {
+			is_subject = no
+			has_socialist_government = no
+			country_exists = JAP
+			NOT = { has_war_with = JAP }
+			JAP = { is_faction_leader = yes }
+		}
+		bypass = {
+			is_in_faction_with = JAP
+		}
+		prerequisite = {
+			focus = INS_try_buying_sulawesi
+		}
+		x = 34
+		y = 5
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_join_japanese_alliance"
+			JAP = {
+				country_event = {
+					id = insulindia.109 days = 1
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = INS_open_political_sphere
+		icon = GFX_goal_INS_focus_stable_again
+		cost = 5.00
+		prerequisite = {
+			focus = INS_proclaim_independence
+		}
+		x = 42
+		y = 1
+
+		available = {
+			is_puppet = no
+			controls_state = 335
+			NOT = {
+				has_war_with = BEA
+			}
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_open_political_sphere"
+			add_political_power = 40
+			add_stability = 0.05
+			add_war_support = 0.03
+			country_event = {
+				id = insulindia.4 days = 1
+			}
+		}
+	}
+
+
+
+	focus = {
+		id = INS_first_insulindian_election
+		icon = GFX_goal_generic_elections
+		cost = 5.00
+		x = 42
+		y = 2
+		allow_branch = {
+			NOT = { has_country_flag = INS_AUTOCRACY }
+		}
+		available = {
+			has_completed_focus = INS_open_political_sphere
+			has_country_flag = INS_first_insulindian_election_flag
+		}
+
+		bypass = {
+			has_country_flag = INS_first_insulindian_election_flag
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_first_insulindian_election"
+		}
+
+	}
+	focus = {
+		id = INS_pki_government
+		icon = GFX_goal_ideology_collectivist
+		cost = 5.00
+		prerequisite = {
+			focus = INS_first_insulindian_election
+		}
+		x = 38
+		y = 3
+
+		available = {
+			has_government = collectivist
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_pki_government"
+			add_political_power = 20
+			add_popularity = { ideology = collectivist popularity = 0.03 }
+		}
+
+	}
+	focus = {
+		id = INS_strike_down_foreign_capitalists
+		icon = GFX_goal_generic_soviet_construction
+		cost = 10.00
+		prerequisite = {
+			focus = INS_pki_government
+		}
+		x = 38
+		y = 4
+
+		available = {
+			has_government = collectivist
+			controls_state = 335
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_strike_down_foreign_capitalists"
+			add_political_power = 35
+			add_stability = -0.01
+			335 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = INS_pesinsu_unity
+		icon = GFX_goal_red_star_soldier
+		cost = 10.00
+		prerequisite = {
+			focus = INS_strike_down_foreign_capitalists
+		}
+		x = 36
+		y = 5
+
+		available = {
+			has_government = collectivist
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_pesinsu_unity"
+			add_war_support = 0.02
+			add_manpower = 5000
+			add_ideas = INS_pesinsu_unity_idea
+		}
+
+	}
+	focus = {
+		id = INS_fight_for_gender_equality
+		icon = GFX_IRE_women_industry
+		cost = 10.00
+		prerequisite = {
+			focus = INS_pesinsu_unity
+		}
+		x = 36
+		y = 7
+
+		available = {
+			has_government = collectivist
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_fight_for_gender_equality"
+			add_political_power = 20
+			add_stability = -0.02
+			swap_ideas = {
+				remove_idea = INS_pesinsu_unity_idea
+				add_idea = INS_fight_for_gender_equality_idea
+			}
+		}
+
+	}
+	focus = {
+		id = INS_collectivize_industries
+		icon = GFX_goal_RAJ_Workers_Paradise
+		cost = 10.00
+		prerequisite = {
+			focus = INS_strike_down_foreign_capitalists
+		}
+		x = 38
+		y = 5
+
+		available = {
+			has_government = collectivist
+			controls_state = 335
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_collectivize_industries"
+			add_popularity = { ideology = collectivist popularity = 0.02 }
+			335 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = INS_workers_farmers_rights
+		icon = GFX_goal_RAJ_India_Worker_Rights
+		cost = 10.00
+		prerequisite = {
+			focus = INS_pesinsu_unity
+		}
+		prerequisite = {
+			focus = INS_collectivize_industries
+		}
+		x = 37
+		y = 6
+
+		available = {
+			has_government = collectivist
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_workers_farmers_rights"
+			add_ideas = INS_workers_farmers_rights_idea
+		}
+
+	}
+	focus = {
+		id = INS_socialist_democracy
+		icon = GFX_focus_prc_agrarian_socialism
+		cost = 10.00
+		prerequisite = {
+			focus = INS_collectivize_industries
+		}
+		prerequisite = {
+			focus = INS_centralization_of_power
+		}
+		x = 39
+		y = 6
+
+		available = {
+			has_government = collectivist
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_socialist_democracy"
+			add_political_power = 15
+			add_popularity = { ideology = vanguardist popularity = 0.02 }
+			add_popularity = { ideology = collectivist popularity = 0.05 }
+			add_popularity = { ideology = libertarian_socialist popularity = 0.02 }
+			add_popularity = { ideology = social_conservative popularity = -0.05 }
+			add_popularity = { ideology = authoritarian_democrat popularity = -0.05 }
+		}
+
+	}
+	focus = {
+		id = INS_kolektivisme
+		icon = GFX_goal_ideology_collectivist
+		cost = 5.00
+		prerequisite = {
+			focus = INS_workers_farmers_rights
+		}
+		prerequisite = {
+			focus = INS_socialist_democracy
+		}
+		x = 38
+		y = 8
+
+		available = {
+			has_government = collectivist
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_kolektivisme"
+			add_stability = 0.05
+			add_political_power = 25
+			add_popularity = { ideology = collectivist popularity = 0.05 }
+			remove_ideas = INS_political_instability_idea
+		}
+
+	}
+	focus = {
+		id = INS_pni_government
+		icon = GFX_goal_INS_focus_party_PNI
+		cost = 5.00
+		prerequisite = {
+			focus = INS_first_insulindian_election
+		}
+		x = 42
+		y = 3
+
+		available = {
+			has_government = authoritarian_democrat
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_pni_government"
+			add_political_power = 20
+			add_popularity = { ideology = authoritarian_democrat popularity = 0.03 }
+		}
+
+	}
+	focus = {
+		id = INS_promote_mahaenism
+		icon = GFX_goal_red_eagle
+		cost = 10.00
+		prerequisite = {
+			focus = INS_pni_government
+		}
+		x = 42
+		y = 4
+
+		available = {
+			has_government = authoritarian_democrat
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_promote_mahaenism"
+			add_stability = 0.03
+			add_popularity = { ideology = social_liberal popularity = -0.02 }
+			add_popularity = { ideology = vanguardist popularity = -0.02 }
+			add_popularity = { ideology = paternal_autocrat popularity = -0.02 }
+			add_popularity = { ideology = national_populist popularity = -0.02 }
+			add_ideas = INS_promote_mahaenism_idea
+		}
+
+	}
+	focus = {
+		id = INS_centralization_of_power
+		icon = GFX_goal_demand_sudetenland
+		cost = 10.00
+		prerequisite = {
+			focus = INS_strike_down_foreign_capitalists
+			focus = INS_promote_mahaenism
+		}
+		x = 40
+		y = 5
+
+		available = {
+			OR = {
+				has_government = collectivist
+				has_government = authoritarian_democrat
+			}
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_centralization_of_power"
+			add_political_power = 35
+			increase_ruling_party_popularity_by_5 = yes
+			add_popularity = { ideology = social_liberal popularity = -0.02 }
+			add_popularity = { ideology = social_conservative popularity = -0.03 }
+		}
+
+	}
+	focus = {
+		id = INS_empower_presidency
+		icon = GFX_goal_COS_Ferrer_Coup
+		cost = 10.00
+		prerequisite = {
+			focus = INS_centralization_of_power
+		}
+		x = 40
+		y = 7
+
+		available = {
+			OR = {
+				has_government = collectivist
+				has_government = authoritarian_democrat
+			}
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_empower_presidency"
+			add_political_power = 50
+			increase_ruling_party_popularity_by_5 = yes
+		}
+
+	}
+	focus = {
+		id = INS_introduce_pancasila
+		icon = GFX_goal_INS_focus_garuda
+		cost = 10.00
+		prerequisite = {
+			focus = INS_promote_mahaenism
+		}
+		x = 42
+		y = 5
+
+		available = {
+			has_government = authoritarian_democrat
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_introduce_pancasila"
+			add_stability = 0.03
+			add_war_support = 0.03
+			swap_ideas = {
+				remove_idea = INS_promote_mahaenism_idea
+				add_idea = INS_introduce_pancasila_idea
+			}
+		}
+
+	}
+	focus = {
+		id = INS_guided_democracy
+		icon = GFX_focus_generic_self_management
+		cost = 10.00
+		prerequisite = {
+			focus = INS_centralization_of_power
+		}
+		prerequisite = {
+			focus = INS_introduce_pancasila
+		}
+		x = 41
+		y = 6
+
+		available = {
+			has_government = authoritarian_democrat
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_guided_democracy"
+			add_political_power = 20
+			add_popularity = { ideology = authoritarian_democrat popularity = 0.05 }
+			add_popularity = { ideology = collectivist popularity = -0.03 }
+			add_popularity = { ideology = social_conservative popularity = -0.03 }
+		}
+
+	}
+	focus = {
+		id = INS_united_in_nationalism
+		icon = GFX_focus_generic_military_mission
+		cost = 10.00
+		prerequisite = {
+			focus = INS_promote_mahaenism
+		}
+		x = 44
+		y = 5
+
+		available = {
+			has_government = authoritarian_democrat
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_united_in_nationalism"
+			add_war_support = 0.02
+			add_ideas = INS_united_in_nationalism_idea
+		}
+
+	}
+	focus = {
+		id = INS_entrench_political_independence
+		icon = GFX_focus_generic_support_the_left_right
+		cost = 10.00
+		prerequisite = {
+			focus = INS_introduce_pancasila
+		}
+		prerequisite = {
+			focus = INS_united_in_nationalism
+		}
+		x = 43
+		y = 6
+
+		available = {
+			has_government = authoritarian_democrat
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_entrench_political_independence"
+			add_stability = 0.02
+			remove_ideas = INS_united_in_nationalism_idea
+			swap_ideas = {
+				remove_idea = INS_introduce_pancasila_idea
+				add_idea = INS_entrench_political_independence_idea
+			}
+		}
+
+	}
+	focus = {
+		id = INS_purge_for_stability
+		icon = GFX_goal_step_on_skull
+		cost = 10.00
+		prerequisite = {
+			focus = INS_united_in_nationalism
+		}
+		x = 44
+		y = 7
+
+		available = {
+			has_government = authoritarian_democrat
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_purge_for_stability"
+			add_stability = -0.04
+			add_popularity = { ideology = collectivist popularity = -0.03 }
+			add_popularity = { ideology = social_conservative popularity = -0.03 }
+		}
+
+	}
+	focus = {
+		id = INS_nasionalisme
+		icon = GFX_goal_INS_focus_merdeka
+		cost = 5.00
+		prerequisite = {
+			focus = INS_guided_democracy
+		}
+		prerequisite = {
+			focus = INS_entrench_political_independence
+		}
+		x = 42
+		y = 8
+
+		available = {
+			has_government = authoritarian_democrat
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_nasionalisme"
+			add_stability = 0.05
+			add_political_power = 25
+			add_popularity = { ideology = authoritarian_democrat popularity = 0.05 }
+			remove_ideas = INS_political_instability_idea
+		}
+
+	}
+	focus = {
+		id = INS_nu_government
+		icon = GFX_goal_INS_focus_party_nu
+		cost = 5.00
+		prerequisite = {
+			focus = INS_first_insulindian_election
+		}
+		x = 48
+		y = 3
+
+		available = {
+			has_government = social_conservative
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_nu_government"
+			add_political_power = 20
+			add_popularity = { ideology = social_conservative popularity = 0.03 }
+		}
+
+	}
+	focus = {
+		id = INS_build_islamic_democracy
+		icon = GFX_goal_islamic_government
+		cost = 10.00
+		prerequisite = {
+			focus = INS_nu_government
+		}
+		x = 48
+		y = 4
+
+		available = {
+			has_government = social_conservative
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_build_islamic_democracy"
+			add_stability = 0.02
+			add_ideas = INS_build_islamic_democracy_idea
+		}
+
+	}
+	focus = {
+		id = INS_ties_with_pni_rightwingers
+		icon = GFX_focus_generic_diplomatic_treaty
+		cost = 10.00
+		prerequisite = {
+			focus = INS_build_islamic_democracy
+		}
+		x = 46
+		y = 5
+
+		available = {
+			has_government = social_conservative
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_ties_with_pni_rightwingers"
+			add_stability = -0.01
+			add_popularity = { ideology = authoritarian_democrat popularity = -0.02 }
+			add_popularity = { ideology = social_conservative popularity = 0.02 }
+		}
+
+	}
+	focus = {
+		id = INS_attract_pni_voters
+		icon = GFX_goal_collaborate_local_elites
+		cost = 10.00
+		prerequisite = {
+			focus = INS_ties_with_pni_rightwingers
+		}
+		x = 46
+		y = 7
+
+		available = {
+			has_government = social_conservative
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_attract_pni_voters"
+			add_political_power = -25
+			add_popularity = { ideology = authoritarian_democrat popularity = -0.03 }
+			add_popularity = { ideology = social_conservative popularity = 0.03 }
+		}
+
+	}
+	focus = {
+		id = INS_decentralize_presidential_power
+		icon = GFX_goal_DOM_End_Judicial_Corruption
+		cost = 10.00
+		prerequisite = {
+			focus = INS_build_islamic_democracy
+		}
+		x = 48
+		y = 5
+
+		available = {
+			has_government = social_conservative
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_decentralize_presidential_power"
+			add_stability = 0.03
+			add_popularity = { ideology = collectivist popularity = -0.03 }
+			add_popularity = { ideology = authoritarian_democrat popularity = -0.03 }
+			swap_ideas = {
+				remove_idea = INS_build_islamic_democracy_idea
+				add_idea = INS_decentralize_presidential_power_idea
+			}
+		}
+
+	}
+	focus = {
+		id = INS_islamic_teaching
+		icon = GFX_goal_OTT_constitution
+		cost = 10.00
+		prerequisite = {
+			focus = INS_decentralize_presidential_power
+		}
+		prerequisite = {
+			focus = INS_ties_with_pni_rightwingers
+		}
+		x = 47
+		y = 6
+
+		available = {
+			has_government = social_conservative
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_islamic_teaching"
+			swap_ideas = {
+				remove_idea = INS_decentralize_presidential_power_idea
+				add_idea = INS_islamic_teaching_idea
+			}
+		}
+
+	}
+	focus = {
+		id = INS_limit_pki_influences
+		icon = GFX_HOL_crackdown_syndie
+		cost = 10.00
+		prerequisite = {
+			focus = INS_build_islamic_democracy
+		}
+		x = 50
+		y = 5
+
+		available = {
+			has_government = social_conservative
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_limit_pki_influences"
+			add_political_power = -25
+			add_popularity = { ideology = collectivist popularity = -0.03 }
+		}
+
+	}
+	focus = {
+		id = INS_new_democracy
+		icon = GFX_goal_INS_focus_stable_again
+		cost = 10.00
+		prerequisite = {
+			focus = INS_decentralize_presidential_power
+		}
+		prerequisite = {
+			focus = INS_limit_pki_influences
+		}
+		x = 49
+		y = 6
+
+		available = {
+			has_government = social_conservative
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_new_democracy"
+			add_stability = 0.02
+			add_popularity = { ideology = social_democrat popularity = 0.03 }
+			add_popularity = { ideology = social_liberal popularity = 0.03 }
+			add_popularity = { ideology = market_liberal popularity = 0.03 }
+			add_popularity = { ideology = social_conservative popularity = 0.03 }
+		}
+
+	}
+	focus = {
+		id = INS_promote_traditionalism
+		icon = GFX_goal_generic_defence
+		cost = 10.00
+		prerequisite = {
+			focus = INS_limit_pki_influences
+		}
+		x = 50
+		y = 7
+
+		available = {
+			has_government = social_conservative
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_promote_traditionalism"
+			add_popularity = { ideology = collectivist popularity = -0.02 }
+			add_ideas = INS_promote_traditionalism_idea
+		}
+
+	}
+	focus = {
+		id = INS_agama
+		icon = GFX_goal_ideology_social_conservative
+		cost = 5.00
+		prerequisite = {
+			focus = INS_islamic_teaching
+		}
+		prerequisite = {
+			focus = INS_new_democracy
+		}
+		x = 48
+		y = 8
+
+		available = {
+			has_government = social_conservative
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_agama"
+			add_stability = 0.05
+			add_political_power = 25
+			add_popularity = { ideology = social_conservative popularity = 0.05 }
+			remove_ideas = INS_political_instability_idea
+		}
+
+	}
+
+	#Autocracy
+
+	focus = {
+		id = INS_islamic_coup
+		icon = GFX_goal_islamic_government
+		cost = 5.00
+		x = 42
+		y = 2
+
+		available = {
+			has_completed_focus = INS_open_political_sphere
+			OR = {
+				has_country_flag = INS_darul_islam_government_flag
+				has_country_flag = INS_monarchist_counter_coup_flag
+			}
+		}
+		allow_branch = {
+			has_country_flag = INS_AUTOCRACY
+		}
+		bypass = {
+			OR = {
+				has_country_flag = INS_darul_islam_government_flag
+				has_country_flag = INS_monarchist_counter_coup_flag
+			}
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_islamic_coup"
+		}
+
+	}
+	focus = {
+		id = INS_darul_islam_government
+		icon = GFX_goal_INS_focus_party_di
+		cost = 5.00
+		prerequisite = {
+			focus = INS_islamic_coup
+		}
+		x = 39
+		y = 3
+
+		available = {
+			has_government = national_populist
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_darul_islam_government"
+			add_political_power = 20
+			add_popularity = { ideology = national_populist popularity = 0.03 }
+		}
+
+	}
+	focus = {
+		id = INS_purge_non_islamic_parties
+		icon = GFX_goal_skull_treaty2
+		cost = 10.00
+		prerequisite = {
+			focus = INS_darul_islam_government
+		}
+		x = 39
+		y = 4
+
+		available = {
+			has_government = national_populist
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_purge_non_islamic_parties"
+			add_political_power = -30
+			add_popularity = { ideology = collectivist popularity = -0.02 }
+			add_popularity = { ideology = authoritarian_democrat popularity = -0.02 }
+		}
+
+	}
+	focus = {
+		id = INS_work_with_nu_members
+		icon = GFX_focus_HOL_deal_with_right
+		cost = 10.00
+		prerequisite = {
+			focus = INS_purge_non_islamic_parties
+		}
+		x = 37
+		y = 5
+
+		available = {
+			has_government = national_populist
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_work_with_nu_members"
+			add_stability = 0.02
+			add_political_power = -20
+			add_popularity = { ideology = social_conservative popularity = -0.03 }
+			add_popularity = { ideology = national_populist popularity = 0.03 }
+		}
+
+	}
+	focus = {
+		id = INS_unite_islamic_parties
+		icon = GFX_goal_islamic_government
+		cost = 10.00
+		prerequisite = {
+			focus = INS_work_with_nu_members
+		}
+		x = 37
+		y = 7
+
+		available = {
+			has_government = national_populist
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_unite_islamic_parties"
+			add_stability = 0.02
+			add_political_power = -20
+			add_popularity = { ideology = social_conservative popularity = -0.05 }
+			add_popularity = { ideology = national_populist popularity = 0.05 }
+		}
+
+	}
+	focus = {
+		id = INS_establish_islamic_state
+		icon = GFX_goal_OTT_caliph
+		cost = 10.00
+		prerequisite = {
+			focus = INS_purge_non_islamic_parties
+		}
+		x = 39
+		y = 5
+
+		available = {
+			has_government = national_populist
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_establish_islamic_state"
+			add_ideas = INS_establish_islamic_state_idea
+		}
+
+	}
+	focus = {
+		id = INS_sharia_law
+		icon = GFX_focus_generic_treaty
+		cost = 10.00
+		prerequisite = {
+			focus = INS_establish_islamic_state
+		}
+		prerequisite = {
+			focus = INS_work_with_nu_members
+		}
+		x = 38
+		y = 6
+
+		available = {
+			has_government = national_populist
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_sharia_law"
+			add_stability = 0.02
+			swap_ideas = {
+				remove_idea = INS_establish_islamic_state_idea
+				add_idea = INS_sharia_law_idea
+			}
+		}
+
+	}
+	focus = {
+		id = INS_slaugther_collectivists
+		icon = GFX_HOL_crackdown_syndie
+		cost = 10.00
+		prerequisite = {
+			focus = INS_purge_non_islamic_parties
+		}
+		x = 41
+		y = 5
+
+		available = {
+			has_government = national_populist
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_slaugther_collectivists"
+			add_political_power = -25
+			add_popularity = { ideology = collectivist popularity = -0.05 }
+		}
+
+	}
+	focus = {
+		id = INS_empower_clergy
+		icon = GFX_goal_OTT_gendarmerie
+		cost = 10.00
+		prerequisite = {
+			focus = INS_establish_islamic_state
+		}
+		prerequisite = {
+			focus = INS_slaugther_collectivists
+		}
+		x = 40
+		y = 6
+
+		available = {
+			has_government = national_populist
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_empower_clergy"
+			add_stability = 0.02
+			add_political_power = -30
+			add_popularity = { ideology = national_populist popularity = 0.02 }
+		}
+
+	}
+	focus = {
+		id = INS_darul_islam
+		icon = GFX_goal_ideology_national_populist
+		cost = 5.00
+		prerequisite = {
+			focus = INS_sharia_law
+		}
+		prerequisite = {
+			focus = INS_empower_clergy
+		}
+		x = 39
+		y = 8
+
+		available = {
+			has_government = national_populist
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_darul_islam"
+			add_stability = 0.05
+			add_political_power = 25
+			add_popularity = { ideology = national_populist popularity = 0.05 }
+			remove_ideas = INS_political_instability_idea
+		}
+
+	}
+	focus = {
+		id = INS_monarchist_counter_coup
+		icon = GFX_goal_ideology_paternal_autocrat
+		cost = 5.00
+		prerequisite = {
+			focus = INS_islamic_coup
+		}
+		x = 45
+		y = 3
+
+		available = {
+			has_government = paternal_autocrat
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_monarchist_counter_coup"
+			add_political_power = 20
+			add_popularity = { ideology = paternal_autocrat popularity = 0.03 }
+		}
+
+	}
+	focus = {
+		id = INS_ensure_sultans_loyalty
+		icon = GFX_goal_tfv_strengthen_commonwealth_ties
+		cost = 10.00
+		prerequisite = {
+			focus = INS_monarchist_counter_coup
+		}
+		x = 45
+		y = 4
+
+		available = {
+			has_government = paternal_autocrat
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_ensure_sultans_loyalty"
+			add_stability = 0.02
+			add_popularity = { ideology = paternal_autocrat popularity = 0.02 }
+			add_ideas = INS_ensure_sultans_loyalty_idea
+		}
+
+	}
+	focus = {
+		id = INS_eradicate_left_opposition
+		icon = GFX_goal_broken_red_star
+		cost = 10.00
+		prerequisite = {
+			focus = INS_ensure_sultans_loyalty
+		}
+		x = 43
+		y = 5
+
+		available = {
+			has_government = paternal_autocrat
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_eradicate_left_opposition"
+			add_political_power = -25
+			add_popularity = { ideology = collectivist popularity = -0.05 }
+		}
+
+	}
+	focus = {
+		id = INS_anti_socialist_militas
+		icon = GFX_focus_generic_little_entente
+		cost = 10.00
+		prerequisite = {
+			focus = INS_slaugther_collectivists
+			focus = INS_eradicate_left_opposition
+		}
+		x = 42
+		y = 7
+
+		available = {
+			OR = {
+				has_government = national_populist
+				has_government = paternal_autocrat
+			}
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_anti_socialist_militas"
+			add_ideas = INS_anti_socialist_militas_idea
+		}
+
+	}
+	focus = {
+		id = INS_claim_majapahit_decendancy
+		icon = GFX_focus_rom_royal_dictatorship
+		cost = 10.00
+		prerequisite = {
+			focus = INS_ensure_sultans_loyalty
+		}
+		x = 45
+		y = 5
+
+		available = {
+			has_government = paternal_autocrat
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_claim_majapahit_decendancy"
+			add_stability = 0.02
+			add_war_support = 0.03
+			swap_ideas = {
+				remove_idea = INS_ensure_sultans_loyalty_idea
+				add_idea = INS_claim_majapahit_decendancy_idea
+			}
+			hidden_effect = {
+				set_cosmetic_tag = INS_MAJ
+				set_party_name = {
+					ideology = authoritarian_democrat
+					long_name = INS_MAJ_authoritarian_democrat_party_long
+					name = INS_MAJ_authoritarian_democrat_party
+				}
+				set_party_name = {
+					ideology = paternal_autocrat
+					long_name = INS_MAJ_paternal_autocrat_party_long
+					name = INS_MAJ_paternal_autocrat_party
+				}
+				set_party_name = {
+					ideology = national_populist
+					long_name = INS_MAJ_national_populist_party_long
+					name = INS_MAJ_national_populist_party
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = INS_construct_royal_palace
+		icon = GFX_GRE_empower_monarchy
+		cost = 10.00
+		prerequisite = {
+			focus = INS_eradicate_left_opposition
+		}
+		prerequisite = {
+			focus = INS_claim_majapahit_decendancy
+		}
+		x = 44
+		y = 6
+
+		available = {
+			has_government = paternal_autocrat
+			controls_state = 335
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_construct_royal_palace"
+			add_political_power = -75
+			add_stability = 0.04
+			335 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = INS_deal_with_right_opposition
+		icon = GFX_goal_skull_treaty
+		cost = 10.00
+		prerequisite = {
+			focus = INS_ensure_sultans_loyalty
+		}
+		x = 47
+		y = 5
+
+		available = {
+			has_government = paternal_autocrat
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_deal_with_right_opposition"
+			add_political_power = -25
+			add_popularity = { ideology = social_conservative popularity = -0.03 }
+			add_popularity = { ideology = national_populist popularity = -0.03 }
+		}
+
+	}
+	focus = {
+		id = INS_appoint_great_prime_minister
+		icon = GFX_goal_POR_royal_edicts
+		cost = 10.00
+		prerequisite = {
+			focus = INS_claim_majapahit_decendancy
+		}
+		prerequisite = {
+			focus = INS_deal_with_right_opposition
+		}
+		x = 46
+		y = 6
+
+		available = {
+			has_government = paternal_autocrat
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_appoint_great_prime_minister"
+			swap_ideas = {
+				remove_idea = INS_claim_majapahit_decendancy_idea
+				add_idea = INS_appoint_great_prime_minister_idea
+			}
+		}
+
+	}
+	focus = {
+		id = INS_limit_islamist_influences
+		icon = GFX_HOL_crackdown_natpop
+		cost = 10.00
+		prerequisite = {
+			focus = INS_deal_with_right_opposition
+		}
+		x = 47
+		y = 7
+
+		available = {
+			has_government = paternal_autocrat
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_limit_islamist_influences"
+			add_political_power = -30
+			add_popularity = { ideology = social_conservative popularity = -0.04 }
+		}
+
+	}
+	focus = {
+		id = INS_majapahit
+		icon = GFX_goal_MAF_Vizekonig
+		cost = 5.00
+		prerequisite = {
+			focus = INS_construct_royal_palace
+		}
+		prerequisite = {
+			focus = INS_appoint_great_prime_minister
+		}
+		x = 45
+		y = 8
+
+		available = {
+			has_government = paternal_autocrat
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus INS_majapahit"
+			add_stability = 0.05
+			add_political_power = 25
+			add_popularity = { ideology = paternal_autocrat popularity = 0.05 }
+			remove_ideas = INS_political_instability_idea
+		}
+
+	}
+}

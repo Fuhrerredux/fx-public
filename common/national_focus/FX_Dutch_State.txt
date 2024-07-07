@@ -1,0 +1,3675 @@
+# Dutch State Focus
+# created by: dax0102
+
+focus_tree = {
+	id = dutch_state_focus
+
+	country = {
+		factor = 0
+		modifier = {
+			add = 10
+			tag = HOL
+		}
+	}
+	default = no
+	continuous_focus_position = { x = 300 y = 1100 }
+
+	# The Prince's Guiding Hand
+	focus = {
+		id = HOL_the_prince_guiding_hand
+		icon = GFX_goal_ideology_national_populist
+		x = 3
+		y = 0
+		cost = 6
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = unlocked_later
+				has_country_flag = HOL_status_quo_path
+			}
+		}
+		allow_branch = {
+			has_country_flag = HOL_status_quo_path
+			has_country_flag = political_branch_ready
+		}
+		completion_reward = {
+			add_political_power = 150
+		}
+	}
+
+	# State Visit to Berlin
+	focus = {
+		id = HOL_state_visit_to_berlin
+		icon = GFX_focus_ger_reichskommisariats
+		x = -2
+		y = 1
+		cost = 6
+		available = {
+			has_government = national_populist
+			has_country_leader = {
+				character = HOL_Bernhard_of_the_Netherlands
+				ruling_only = yes
+			}
+			is_in_faction_with = GER
+			GER = {
+				exists = yes
+				has_capitulated = no
+			}
+		}
+		prerequisite = { focus = HOL_the_prince_guiding_hand }
+		relative_position_id = HOL_the_prince_guiding_hand
+		completion_reward = {
+			add_political_power = 150
+		}
+	}
+
+	# Ensure Military Loyalty
+	focus = {
+		id = HOL_ensure_military_loyalty
+		icon = GFX_goal_HOL_pataut_success
+		x = 0
+		y = 1
+		cost = 6
+		available = {
+			has_government = national_populist
+			has_country_leader = {
+				character = HOL_Bernhard_of_the_Netherlands
+				ruling_only = yes
+			}
+		}
+		prerequisite = { focus = HOL_the_prince_guiding_hand }
+		relative_position_id = HOL_the_prince_guiding_hand
+		completion_reward = {
+			army_experience = 15
+			navy_experience = 15
+			air_experience = 15
+		}
+	}
+
+	# Puppet the States General
+	focus = {
+		id = HOL_puppet_the_states_general
+		icon = GFX_goal_NFA_end_parliamentarism
+		x = 2
+		y = 1
+		cost = 6
+		available = {
+			has_government = national_populist
+			has_country_leader = {
+				character = HOL_Bernhard_of_the_Netherlands
+				ruling_only = yes
+			}
+		}
+		prerequisite = { focus = HOL_the_prince_guiding_hand }
+		relative_position_id = HOL_the_prince_guiding_hand
+		completion_reward = {
+			increase_ruling_party_popularity_by_5 = yes
+			add_stability = 0.05
+			add_war_support = 0.05
+		}
+	}
+
+	# German Intelligence Exchange
+	focus = {
+		id = HOL_german_intelligence_exchange
+		icon = GFX_focus_generic_military_mission
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			has_government = national_populist
+			has_country_leader = {
+				character = HOL_Bernhard_of_the_Netherlands
+				ruling_only = yes
+			}
+		}
+		prerequisite = { focus = HOL_state_visit_to_berlin }
+		relative_position_id = HOL_state_visit_to_berlin
+		completion_reward = {
+			GER = {
+				country_event = { id = dutchstate.8 days = 1 }
+			}
+		}
+	}
+
+	# Contain Liberal Thought
+	focus = {
+		id = HOL_contain_liberal_thought
+		icon = GFX_goal_volunteer_alliance
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			has_government = national_populist
+			has_country_leader = {
+				character = HOL_Bernhard_of_the_Netherlands
+				ruling_only = yes
+			}
+		}
+		prerequisite = { focus = HOL_ensure_military_loyalty }
+		prerequisite = { focus = HOL_state_visit_to_berlin }
+		relative_position_id = HOL_ensure_military_loyalty
+		completion_reward = {
+			add_popularity = {
+				ideology = social_democrat
+				popularity = -0.05
+			}
+			add_popularity = {
+				ideology = social_liberal
+				popularity = -0.05
+			}
+			add_popularity = {
+				ideology = market_liberal
+				popularity = -0.05
+			}
+			add_popularity = {
+				ideology = social_conservative
+				popularity = -0.05
+			}
+		}
+	}
+
+	# Fight the Leftists
+	focus = {
+		id = HOL_fight_the_leftists
+		icon = GFX_HOL_crackdown_syndie
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_government = national_populist
+			has_country_leader = {
+				character = HOL_Bernhard_of_the_Netherlands
+				ruling_only = yes
+			}
+		}
+		prerequisite = { focus = HOL_ensure_military_loyalty }
+		prerequisite = { focus = HOL_puppet_the_states_general }
+		relative_position_id = HOL_ensure_military_loyalty
+		completion_reward = {
+			custom_effect_tooltip = HOL_fight_the_leftists_tt
+			hidden_effect = {
+				country_event = { id = dutchstate.54 days = 60 }
+			}
+		}
+	}
+
+	# Prepare the Economy for War
+	focus = {
+		id = HOL_prepare_the_economy_for_war
+		icon = GFX_focus_empty_coffers
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_government = national_populist
+			has_country_leader = {
+				character = HOL_Bernhard_of_the_Netherlands
+				ruling_only = yes
+			}
+		}
+		prerequisite = { focus = HOL_puppet_the_states_general }
+		relative_position_id = HOL_puppet_the_states_general
+		completion_reward = {
+			increase_mobilization = yes
+		}
+	}
+
+	# Push for Recognition
+	focus = {
+		id = HOL_push_for_recognition
+		icon = GFX_goal_Centralised_Government
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_government = national_populist
+			has_country_leader = {
+				character = HOL_Bernhard_of_the_Netherlands
+				ruling_only = yes
+			}
+		}
+		prerequisite = { focus = HOL_contain_liberal_thought }
+		prerequisite = { focus = HOL_fight_the_leftists }
+		relative_position_id = HOL_contain_liberal_thought
+		completion_reward = {
+			if = {
+				limit = { has_idea = HOL_unrecognized_government_1 }
+				remove_ideas = HOL_unrecognized_government_1
+				} else = {
+				remove_ideas = HOL_unrecognized_government
+			}
+		}
+	}
+
+	# Investments from Siemens
+	focus = {
+		id = HOL_investments_from_siemens
+		icon = GFX_DAH_Topke
+		x = 1
+		y = 2
+		cost = 6
+		available = {
+			has_government = national_populist
+			has_country_leader = {
+				character = HOL_Bernhard_of_the_Netherlands
+				ruling_only = yes
+			}
+		}
+		prerequisite = { focus = HOL_german_intelligence_exchange }
+		prerequisite = { focus = HOL_push_for_recognition }
+		relative_position_id = HOL_german_intelligence_exchange
+		completion_reward = {
+			add_offsite_building = {
+				type = industrial_complex
+				level = 2
+			}
+		}
+	}
+
+	# Operation "Fakkel"
+	focus = {
+		id = HOL_operation_fakkel
+		icon = GFX_goal_generic_war_in_the_plate
+		x = 0
+		y = 1
+		cost = 6
+		available = {
+			has_government = national_populist
+			has_country_leader = {
+				character = HOL_Bernhard_of_the_Netherlands
+				ruling_only = yes
+			}
+			BEL = {
+				controls_state = 866
+				controls_state = 867
+			}
+		}
+		bypass = {
+			OR = {
+				BEL = {
+					exists = no
+					has_capitulated = yes
+				}
+				AND = {
+					866 = {
+						OR = {
+							owner = { tag = ROOT }
+							is_controlled_by_ROOT_or_ally = yes
+						}
+					}
+					867 = {
+						OR = {
+							owner = { tag = ROOT }
+							is_controlled_by_ROOT_or_ally = yes
+						}
+					}
+				}
+			}
+		}
+		prerequisite = { focus = HOL_push_for_recognition }
+		relative_position_id = HOL_push_for_recognition
+		completion_reward = {
+			custom_effect_tooltip = HOL_operation_fakkel_tt
+			unlock_decision_tooltip = HOL_operation_fakkel_decision
+		}
+	}
+
+	# Subsidies to Shell
+	focus = {
+		id = HOL_subsidies_to_shell
+		icon = GFX_goal_oil_derrick
+		x = -1
+		y = 2
+		cost = 6
+		available = {
+			has_government = national_populist
+			has_country_leader = {
+				character = HOL_Bernhard_of_the_Netherlands
+				ruling_only = yes
+			}
+		}
+		prerequisite = { focus = HOL_push_for_recognition }
+		prerequisite = { focus = HOL_prepare_the_economy_for_war }
+		relative_position_id = HOL_prepare_the_economy_for_war
+		completion_reward = {
+			random_owned_controlled_state = {
+				if = {
+					limit = {
+						free_building_slots = {
+							building = synthetic_refinery
+							size > 0
+							include_locked = yes
+						}
+					}
+
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = synthetic_refinery
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			random_owned_controlled_state = {
+				if = {
+					limit = {
+						free_building_slots = {
+							building = synthetic_refinery
+							size > 0
+							include_locked = yes
+						}
+					}
+
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = synthetic_refinery
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+		}
+	}
+
+	# Snatch the Lost Provinces
+	focus = {
+		id = HOL_snatch_the_lost_provinces
+		icon = GFX_goal_flames_of_rebellion
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			has_government = national_populist
+			has_country_leader = {
+				character = HOL_Bernhard_of_the_Netherlands
+				ruling_only = yes
+			}
+			date > 1939.1.1
+			BEL = {
+				owns_state = 866
+				owns_state = 867
+			}
+		}
+		bypass = {
+			OR = {
+				BEL = {
+					exists = no
+					has_capitulated = yes
+				}
+				AND = {
+					owns_state = 866
+					owns_state = 867
+				}
+			}
+		}
+		mutually_exclusive = { focus = HOL_crush_belgium }
+		prerequisite = { focus = HOL_subsidies_to_shell }
+		prerequisite = { focus = HOL_operation_fakkel }
+		prerequisite = { focus = HOL_investments_from_siemens }
+		relative_position_id = HOL_operation_fakkel
+		completion_reward = {
+			country_event = { id = dutchstate.32 days = 1 }
+		}
+	}
+
+	# Crush Belgium
+	focus = {
+		id = HOL_crush_belgium
+		icon = GFX_goal_generic_attack_belgium
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_government = national_populist
+			has_country_leader = {
+				character = HOL_Bernhard_of_the_Netherlands
+				ruling_only = yes
+			}
+			date > 1939.1.1
+			BEL = {
+				exists = yes
+				NOT = { is_in_faction_with = ROOT }
+			}
+		}
+		bypass = {
+			has_war_with = BEL
+		}
+		mutually_exclusive = { focus = HOL_snatch_the_lost_provinces }
+		prerequisite = { focus = HOL_subsidies_to_shell }
+		prerequisite = { focus = HOL_operation_fakkel }
+		prerequisite = { focus = HOL_investments_from_siemens }
+		relative_position_id = HOL_operation_fakkel
+		completion_reward = {
+			create_wargoal = {
+				target = BEL
+				type = annex_everything
+			}
+		}
+	}
+
+	# Reclaim Insulindia
+	focus = {
+		id = HOL_reclaim_insulindia
+		icon = GFX_goal_generic_attack_insulindia
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_government = national_populist
+			has_country_leader = {
+				character = HOL_Bernhard_of_the_Netherlands
+				ruling_only = yes
+			}
+			335 = {
+				OWNER = {
+					NOT = { is_in_faction_with = ROOT }
+				}
+			}
+		}
+		bypass = {
+			OR = {
+				INS = { is_subject_of = ROOT }
+				DEI = { is_subject_of = ROOT }
+				owns_state = 335
+			}
+		}
+		prerequisite = {
+			focus = HOL_crush_belgium
+			focus = HOL_snatch_the_lost_provinces
+		}
+		relative_position_id = HOL_snatch_the_lost_provinces
+		completion_reward = {
+			if = {
+				limit = {
+					country_exists = BEA
+				}
+				ENG = {
+					country_event = { id = dutchstate.36 days = 1 }
+				}
+				} else = {
+				335 = {
+					OWNER = {
+						ROOT = {
+							create_wargoal = {
+								target = PREV
+								type = annex_everything
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	###############################################
+	###############################################
+	###############################################
+
+	# Geelkerken Secures His Position
+	focus = {
+		id = HOL_geelkerken_secures_his_position
+		icon = GFX_goal_HOL_nnb_dominant
+		x = 3
+		y = 0
+		cost = 6
+		ai_will_do = {
+			base = 0
+			modifier = {
+				add = 2000
+				has_country_flag = HOL_geelkerken_behavior
+			}
+		}
+		allow_branch = {
+			has_country_flag = HOL_natpop_path
+			has_country_flag = political_branch_ready
+		}
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = unlocked_later
+				has_country_flag = HOL_natpop_path
+			}
+		}
+		completion_reward = {
+			add_political_power = 100
+		}
+	}
+
+	# Arrest General Reynders
+	focus = {
+		id = HOL_arrest_general_reynders
+		icon = GFX_focus_generic_military_mission
+		x = 0
+		y = 1
+		cost = 6
+		ai_will_do = {
+			base = 0
+			modifier = {
+				add = 2000
+				has_country_flag = HOL_geelkerken_behavior
+			}
+		}
+		available = {
+			has_government = national_populist
+			has_country_leader = {
+				character = HOL_Cornelis_van_Geelkerken
+				ruling_only = yes
+			}
+		}
+		prerequisite = { focus = HOL_geelkerken_secures_his_position }
+		relative_position_id = HOL_geelkerken_secures_his_position
+		completion_reward = {
+			HOL_Izaak_Reynders = {
+				remove_unit_leader_role = yes
+			}
+			set_country_flag = HOL_has_secured_the_state
+			add_stability = 0.05
+			add_war_support = 0.05
+		}
+	}
+
+	# The Red Scare
+	focus = {
+		id = HOL_the_red_scare
+		icon = GFX_HOL_red_scare
+		x = 0
+		y = 1
+		cost = 6
+		available = {
+			has_government = national_populist
+			HOL_Cornelis_van_Geelkerken = {
+				is_country_leader = yes
+			}
+		}
+		prerequisite = { focus = HOL_arrest_general_reynders }
+		relative_position_id = HOL_arrest_general_reynders
+		completion_reward = {
+			custom_effect_tooltip = HOL_the_red_scare_tt
+		}
+	}
+
+	# Empower the Landwacht
+	focus = {
+		id = HOL_empower_the_landwacht
+		icon = GFX_goal_HOL_pataut_success
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			has_government = national_populist
+			HOL_Cornelis_van_Geelkerken = {
+				is_country_leader = yes
+			}
+		}
+		prerequisite = { focus = HOL_the_red_scare }
+		relative_position_id = HOL_the_red_scare
+		completion_reward = {
+			unlock_decision_category_tooltip = HOL_landwacht_expansion
+			hidden_effect = {
+				country_event = { id = dutchstate.54 days = 60 }
+			}
+		}
+	}
+
+	# Eyes on Everyone
+	focus = {
+		id = HOL_eyes_on_everyone
+		icon = GFX_goal_secret_agents
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_government = national_populist
+			HOL_Cornelis_van_Geelkerken = {
+				is_country_leader = yes
+			}
+		}
+		prerequisite = { focus = HOL_the_red_scare }
+		relative_position_id = HOL_the_red_scare
+		completion_reward = {
+			add_ideas = HOL_expanded_intelligence
+		}
+	}
+
+	# Control the Universities
+	focus = {
+		id = HOL_control_the_universities
+		icon = GFX_goal_generic_authoritarian_government
+		x = 0
+		y = 1
+		cost = 6
+		available = {
+			has_government = national_populist
+			HOL_Cornelis_van_Geelkerken = {
+				is_country_leader = yes
+			}
+		}
+		prerequisite = { focus = HOL_empower_the_landwacht }
+		prerequisite = { focus = HOL_eyes_on_everyone }
+		relative_position_id = HOL_empower_the_landwacht
+		completion_reward = {
+			add_research_slot = 1
+		}
+	}
+
+	# Censor Modern Art
+	focus = {
+		id = HOL_censor_modern_art
+		icon = GFX_goal_authoritarian
+		x = 0
+		y = 1
+		cost = 6
+		available = {
+			has_government = national_populist
+			HOL_Cornelis_van_Geelkerken = {
+				is_country_leader = yes
+			}
+		}
+		prerequisite = { focus = HOL_empower_the_landwacht }
+		prerequisite = { focus = HOL_eyes_on_everyone }
+		relative_position_id = HOL_eyes_on_everyone
+		completion_reward = {
+			add_stability = 0.15
+			add_war_support = 0.15
+			hidden_effect = {
+				country_event = { id = dutchstate.60 days = 3 }
+			}
+		}
+	}
+
+	# Launch a Nationwide Census
+	focus = {
+		id = HOL_launch_a_nationwide_census
+		icon = GFX_goal_conspiracy
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_government = national_populist
+			HOL_Cornelis_van_Geelkerken = {
+				is_country_leader = yes
+			}
+		}
+		prerequisite = { focus = HOL_control_the_universities }
+		prerequisite = { focus = HOL_censor_modern_art }
+		relative_position_id = HOL_control_the_universities
+		completion_reward = {
+			add_manpower = 50000
+			if = {
+				limit = { has_idea = HOL_unrecognized_government_1 }
+				remove_ideas = HOL_unrecognized_government_1
+				} else = {
+				remove_ideas = HOL_unrecognized_government
+			}
+		}
+	}
+
+	# Incorporate the Landwacht to the Army
+	focus = {
+		id = HOL_incorporate_the_landwacht
+		icon = GFX_goal_army_guy_2
+		x = -2
+		y = 1
+		cost = 6
+		available = {
+			has_government = national_populist
+			HOL_Cornelis_van_Geelkerken = {
+				is_country_leader = yes
+			}
+		}
+		prerequisite = { focus = HOL_empower_the_landwacht }
+		relative_position_id = HOL_empower_the_landwacht
+		completion_reward = {
+			custom_effect_tooltip = HOL_incorporate_the_landwacht_tt
+			hidden_effect = {
+				load_oob = "HOL_elite"
+			}
+		}
+	}
+
+	# State Controlled Industrialization
+	focus = {
+		id = HOL_state_controlled_industrialization
+		icon = GFX_goal_generic_austerity_measures
+		x = 2
+		y = 1
+		cost = 6
+		available = {
+			has_government = national_populist
+			HOL_Cornelis_van_Geelkerken = {
+				is_country_leader = yes
+			}
+		}
+		prerequisite = { focus = HOL_eyes_on_everyone }
+		relative_position_id = HOL_eyes_on_everyone
+		completion_reward = {
+			add_tech_bonus = {
+				category = industry
+				bonus = 0.75
+				uses = 2
+			}
+		}
+	}
+
+	# Smuggle Guns
+	focus = {
+		id = HOL_smuggle_guns
+		icon = GFX_goal_IRQ_smuggle_guns
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_government = national_populist
+			HOL_Cornelis_van_Geelkerken = {
+				is_country_leader = yes
+			}
+		}
+		prerequisite = { focus = HOL_incorporate_the_landwacht }
+		relative_position_id = HOL_incorporate_the_landwacht
+		completion_reward = {
+			custom_effect_tooltip = HOL_smuggle_guns_tt
+		}
+	}
+
+	# "Work Makes You Free"
+	focus = {
+		id = HOL_work_makes_you_free
+		icon = GFX_goal_production
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			has_government = national_populist
+			HOL_Cornelis_van_Geelkerken = {
+				is_country_leader = yes
+			}
+		}
+		prerequisite = { focus = HOL_state_controlled_industrialization }
+		relative_position_id = HOL_state_controlled_industrialization
+		completion_reward = {
+			add_ideas = HOL_labour_camps
+		}
+	}
+
+	# Demand Belgian Submission
+	focus = {
+		id = HOL_demand_belgian_submission
+		icon = GFX_goal_generic_attack_belgium
+		x = 0
+		y = 1
+		cost = 6
+		available = {
+			has_government = national_populist
+			HOL_Cornelis_van_Geelkerken = {
+				is_country_leader = yes
+			}
+			country_exists = BEL
+			BEL = { is_subject = no }
+			date > 1939.1.1
+		}
+		bypass = {
+			OR = {
+				BEL = {
+					exists = no
+					has_capitulated = yes
+					has_war_with = ROOT
+					OVERLORD = { is_ally_of_ROOT = yes }
+				}
+			}
+		}
+		prerequisite = { focus = HOL_launch_a_nationwide_census }
+		prerequisite = { focus = HOL_smuggle_guns }
+		prerequisite = { focus = HOL_work_makes_you_free }
+		relative_position_id = HOL_launch_a_nationwide_census
+		completion_reward = {
+			BEL = {
+				country_event = { id = dutchstate.44 days = 2 }
+			}
+		}
+	}
+
+	###############################################
+	###############################################
+	###############################################
+
+	# Bernhard Rules Alone
+	focus = {
+		id = HOL_bernhard_rules_alone
+		icon = GFX_goal_HOL_bernhard
+		x = 3
+		y = 0
+		cost = 6
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = unlocked_later
+				has_country_flag = HOL_bernhard_path
+			}
+		}
+		allow_branch = {
+			has_country_flag = HOL_bernhard_path
+		}
+		completion_reward = {
+			if = {
+				limit = {
+					has_country_leader_with_trait = prince_of_the_people
+				}
+				swap_ruler_traits = {
+					remove = prince_of_the_people
+					add = prince_of_the_people_1
+				}
+			}
+			else = {
+				add_country_leader_trait = prince_of_the_people
+			}
+		}
+	}
+
+	# Crush the Remaining Landwacht
+	focus = {
+		id = HOL_crush_the_remaining_landwacht
+		icon = GFX_HOL_crackdown_natpop
+		x = -2
+		y = 1
+		cost = 6
+		available = {
+			has_government = paternal_autocrat
+			HOL_Bernhard_of_the_Netherlands = {
+				is_country_leader = yes
+			}
+		}
+		prerequisite = { focus = HOL_bernhard_rules_alone }
+		relative_position_id = HOL_bernhard_rules_alone
+		completion_reward = {
+			add_popularity = {
+				ideology = national_populist
+				popularity = -0.15
+			}
+			custom_effect_tooltip = HOL_crush_the_remaining_landwacht_tt
+		}
+	}
+
+	# Army Expansion
+	focus = {
+		id = HOL_army_expansion
+		icon = GFX_goal_generic_drafted_army
+		x = 0
+		y = 1
+		cost = 6
+		available = {
+			has_government = paternal_autocrat
+			HOL_Bernhard_of_the_Netherlands = {
+				is_country_leader = yes
+			}
+		}
+		prerequisite = { focus = HOL_bernhard_rules_alone }
+		relative_position_id = HOL_bernhard_rules_alone
+		completion_reward = {
+			custom_effect_tooltip = HOL_army_expansion_tt
+			hidden_effect = {
+				load_oob = "HOL_elite"
+			}
+		}
+	}
+
+	# Ban the Unions
+	focus = {
+		id = HOL_ban_the_unions
+		icon = GFX_HOL_crackdown_syndie
+		x = 2
+		y = 1
+		cost = 6
+		available = {
+			has_government = paternal_autocrat
+			HOL_Bernhard_of_the_Netherlands = {
+				is_country_leader = yes
+			}
+		}
+		prerequisite = { focus = HOL_bernhard_rules_alone }
+		relative_position_id = HOL_bernhard_rules_alone
+		completion_reward = {
+			increase_ruling_party_popularity_by_10 = yes
+			remove_ideas = HOL_leftist_symphatizers
+		}
+	}
+
+	# Corporate Alliance
+	focus = {
+		id = HOL_corporate_alliance
+		icon = GFX_goal_state_economy
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			has_government = paternal_autocrat
+			HOL_Bernhard_of_the_Netherlands = {
+				is_country_leader = yes
+			}
+		}
+		prerequisite = { focus = HOL_crush_the_remaining_landwacht }
+		prerequisite = { focus = HOL_army_expansion }
+		prerequisite = { focus = HOL_ban_the_unions }
+		relative_position_id = HOL_army_expansion
+		completion_reward = {
+			add_ideas = HOL_corporate_alliance_idea
+		}
+	}
+
+	# Highways and Railroads
+	focus = {
+		id = HOL_highways_and_railroads
+		icon = GFX_goal_OTT_Railroad
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_government = paternal_autocrat
+			HOL_Bernhard_of_the_Netherlands = {
+				is_country_leader = yes
+			}
+		}
+		prerequisite = { focus = HOL_crush_the_remaining_landwacht }
+		prerequisite = { focus = HOL_army_expansion }
+		prerequisite = { focus = HOL_ban_the_unions }
+		relative_position_id = HOL_army_expansion
+		completion_reward = {
+			every_owned_state = {
+				limit = {
+					free_building_slots = {
+						building = infrastructure
+						size > 0
+						include_locked = yes
+					}
+				}
+
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	# Invite German Mining Expertise
+	focus = {
+		id = HOL_invite_german_mining_expertise
+		icon = GFX_goal_generic_construction2
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			has_government = paternal_autocrat
+			HOL_Bernhard_of_the_Netherlands = {
+				is_country_leader = yes
+			}
+		}
+		prerequisite = { focus = HOL_corporate_alliance }
+		relative_position_id = HOL_corporate_alliance
+		completion_reward = {
+			add_resource = { type = steel amount = 20 state = 7 }
+			add_resource = { type = aluminium amount = 20 state = 7 }
+			add_resource = { type = tungsten amount = 10 state = 7 }
+		}
+	}
+
+	# Financial Freedom
+	focus = {
+		id = HOL_financial_freedom
+		icon = GFX_goal_bag_of_money
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			has_government = paternal_autocrat
+			HOL_Bernhard_of_the_Netherlands = {
+				is_country_leader = yes
+			}
+		}
+		prerequisite = { focus = HOL_highways_and_railroads }
+		relative_position_id = HOL_highways_and_railroads
+		completion_reward = {
+			add_timed_idea = {
+				idea = HOL_financial_freedom_idea
+				days = 480
+			}
+		}
+	}
+
+	# Invest in Pharmaceuticals
+	focus = {
+		id = HOL_invest_in_pharmaceuticals
+		icon = GFX_goal_generic_pharmaceuticals
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_government = paternal_autocrat
+			HOL_Bernhard_of_the_Netherlands = {
+				is_country_leader = yes
+			}
+		}
+		prerequisite = { focus = HOL_corporate_alliance }
+		prerequisite = { focus = HOL_highways_and_railroads }
+		relative_position_id = HOL_highways_and_railroads
+		completion_reward = {
+			add_ideas = HOL_experimental_drugs
+		}
+	}
+
+	# Covert Operations in Belgium
+	focus = {
+		id = HOL_covert_operations_in_belgium
+		icon = GFX_goal_secret_agents
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			has_government = paternal_autocrat
+			HOL_Bernhard_of_the_Netherlands = {
+				is_country_leader = yes
+			}
+		}
+		bypass = {
+			OR = {
+				BEL = {
+					exists = no
+					has_capitulated = yes
+					has_war_with = ROOT
+				}
+			}
+		}
+		prerequisite = { focus = HOL_invite_german_mining_expertise }
+		prerequisite = { focus = HOL_financial_freedom }
+		prerequisite = { focus = HOL_invest_in_pharmaceuticals }
+		relative_position_id = HOL_financial_freedom
+		completion_reward = {
+			add_political_power = 50
+			unlock_decision_tooltip = HOL_operations_in_brussels
+		}
+	}
+
+	# Espionage in the City of Lights
+	focus = {
+		id = HOL_espionage_in_the_city_of_lights
+		icon = GFX_goal_FRA_Paris
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_government = paternal_autocrat
+			HOL_Bernhard_of_the_Netherlands = {
+				is_country_leader = yes
+			}
+		}
+		prerequisite = { focus = HOL_invite_german_mining_expertise }
+		prerequisite = { focus = HOL_financial_freedom }
+		prerequisite = { focus = HOL_invest_in_pharmaceuticals }
+		relative_position_id = HOL_financial_freedom
+		completion_reward = {
+			add_political_power = 50
+			unlock_decision_tooltip = HOL_espionage_in_france
+		}
+	}
+
+	# Our Finest Hour
+	focus = {
+		id = HOL_our_finest_hour
+		icon = GFX_goal_flames_of_rebellion
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_government = paternal_autocrat
+			HOL_Bernhard_of_the_Netherlands = {
+				is_country_leader = yes
+			}
+			country_exists = BEL
+			BEL = { is_subject = no }
+			date > 1939.1.1
+		}
+		bypass = {
+			OR = {
+				BEL = {
+					exists = no
+					has_war_with = ROOT
+					OVERLORD = { is_ally_of_ROOT = yes }
+				}
+			}
+		}
+		will_lead_to_war_with = BEL
+		prerequisite = { focus = HOL_covert_operations_in_belgium }
+		prerequisite = { focus = HOL_espionage_in_the_city_of_lights }
+		relative_position_id = HOL_covert_operations_in_belgium
+		completion_reward = {
+			declare_war_on = {
+				target = BEL
+				type = annex_everything
+			}
+			if = {
+				limit = { has_idea = HOL_unrecognized_government_1 }
+				remove_ideas = HOL_unrecognized_government_1
+				} else = {
+				remove_ideas = HOL_unrecognized_government
+			}
+		}
+	}
+
+	###############################################
+	###############################################
+	###############################################
+
+	# The Army's Coup
+	focus = {
+		id = HOL_the_armys_coup
+		icon = GFX_goal_ideology_paternal_autocrat
+		x = 3
+		y = 0
+		cost = 6
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = unlocked_later
+				has_country_flag = HOL_junta_path
+			}
+		}
+		allow_branch = {
+			has_country_flag = HOL_junta_path
+		}
+		completion_reward = {
+			add_stability = 0.05
+			add_war_support = 0.05
+		}
+	}
+
+	# Dissolve the Landwacht
+	focus = {
+		id = HOL_dissolve_the_landwacht
+		icon = GFX_goal_HOL_ban_paramilitary
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			has_government = paternal_autocrat
+		}
+		prerequisite = { focus = HOL_the_armys_coup }
+		relative_position_id = HOL_the_armys_coup
+		completion_reward = {
+			add_stability = 0.05
+			add_war_support = 0.05
+			hidden_effect = {
+				country_event = { id = dutchstate.47 days = 30 }
+			}
+		}
+	}
+
+	# Socialist Crackdowns
+	focus = {
+		id = HOL_socialist_crackdown
+		icon = GFX_HOL_crackdown_syndie
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_government = paternal_autocrat
+		}
+		prerequisite = { focus = HOL_the_armys_coup }
+		relative_position_id = HOL_the_armys_coup
+		completion_reward = {
+			add_popularity = {
+				ideology = vanguardist
+				popularity = -0.15
+			}
+			add_popularity = {
+				ideology = collectivist
+				popularity = -0.15
+			}
+			add_popularity = {
+				ideology = libertarian_socialist
+				popularity = -0.15
+			}
+			hidden_effect = {
+				country_event = { id = dutchstate.48 days = 7 }
+			}
+		}
+	}
+
+	# Mandatory Military Training
+	focus = {
+		id = HOL_mandatory_military_training
+		icon = GFX_goal_generic_drafted_army
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_government = paternal_autocrat
+		}
+		prerequisite = {
+			focus = HOL_dissolve_the_landwacht
+			focus = HOL_socialist_crackdown
+		}
+		relative_position_id = HOL_dissolve_the_landwacht
+		completion_reward = {
+			add_ideas = HOL_dutch_stratocracy
+		}
+	}
+
+	# New Weapons Factories
+	focus = {
+		id = HOL_new_weapons_factories
+		icon = GFX_goal_national_arsenal
+		x = -2
+		y = 1
+		cost = 6
+		available = {
+			has_government = paternal_autocrat
+		}
+		prerequisite = { focus = HOL_mandatory_military_training }
+		relative_position_id = HOL_mandatory_military_training
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+						include_locked = yes
+					}
+				}
+
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+						include_locked = yes
+					}
+				}
+
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+						include_locked = yes
+					}
+				}
+
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	# Expand KMA
+	focus = {
+		id = HOL_expand_kms
+		icon = GFX_goal_HOL_Koninklijke_Militaire_Academie
+		x = 2
+		y = 1
+		cost = 6
+		available = {
+			has_government = paternal_autocrat
+		}
+		prerequisite = { focus = HOL_mandatory_military_training }
+		relative_position_id = HOL_mandatory_military_training
+		completion_reward = {
+			add_research_slot = 1
+		}
+	}
+
+	# Hire German Scientists
+	focus = {
+		id = HOL_hire_german_scientists
+		icon = GFX_focus_research
+		x = 0
+		y = 1
+		cost = 6
+		available = {
+			has_government = paternal_autocrat
+		}
+		prerequisite = { focus = HOL_mandatory_military_training }
+		relative_position_id = HOL_mandatory_military_training
+		completion_reward = {
+			add_ideas = HOL_german_scientists
+		}
+	}
+
+	# Reduce Welfare Spending
+	focus = {
+		id = HOL_reduce_welfare_spending
+		icon = GFX_goal_generic_austerity_measures
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			has_government = paternal_autocrat
+		}
+		prerequisite = { focus = HOL_hire_german_scientists }
+		prerequisite = { focus = HOL_expand_kms }
+		prerequisite = { focus = HOL_new_weapons_factories }
+		relative_position_id = HOL_hire_german_scientists
+		completion_reward = {
+			add_ideas = HOL_reduced_spending
+		}
+	}
+
+	# Contracts with Fokker
+	focus = {
+		id = HOL_contracts_with_fokker
+		icon = GFX_goal_generic_air_fighter2_new
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_government = paternal_autocrat
+		}
+		prerequisite = { focus = HOL_hire_german_scientists }
+		prerequisite = { focus = HOL_expand_kms }
+		prerequisite = { focus = HOL_new_weapons_factories }
+		relative_position_id = HOL_hire_german_scientists
+		completion_reward = {
+			custom_effect_tooltip = HOL_add_fokker
+			hidden_effect = {
+				add_ideas = fokker
+			}
+			if = {
+				limit = {
+					NOT = { has_tech = fighter1 }
+				}
+				set_technology = {
+					fighter1 = 1
+				}
+			}
+			add_equipment_to_stockpile = {
+				type = fighter_equipment_1
+				amount = 100
+			}
+
+			if = {
+				limit = {
+					NOT = { has_tech = CAS1 }
+				}
+				set_technology = {
+					CAS1 = 1
+				}
+			}
+			add_equipment_to_stockpile = {
+				type = CAS_equipment_1
+				amount = 100
+			}
+		}
+	}
+
+	# Unify the Lowlands
+	focus = {
+		id = HOL_unify_the_lowlands
+		icon = GFX_goal_HOL_unify_lowlands
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_government = paternal_autocrat
+			country_exists = BEL
+			BEL = { is_subject = no }
+			date > 1939.1.1
+		}
+		bypass = {
+			OR = {
+				BEL = {
+					exists = no
+					has_war_with = ROOT
+					OVERLORD = { is_ally_of_ROOT = yes }
+				}
+			}
+		}
+		prerequisite = { focus = HOL_contracts_with_fokker }
+		prerequisite = { focus = HOL_reduce_welfare_spending }
+		relative_position_id = HOL_reduce_welfare_spending
+		completion_reward = {
+			if = {
+				limit = { has_idea = HOL_unrecognized_government_1 }
+				remove_ideas = HOL_unrecognized_government_1
+				} else = {
+				remove_ideas = HOL_unrecognized_government
+			}
+			custom_effect_tooltip = HOL_unify_the_lowlands_tt
+		}
+	}
+
+	###############################################
+	###############################################
+	###############################################
+
+	# The People's Government
+	focus = {
+		id = HOL_the_peoples_government
+		icon = GFX_goal_HOL_peoples_government
+		x = 3
+		y = 0
+		cost = 6
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = unlocked_later
+				has_country_flag = HOL_socialist_path
+			}
+		}
+		allow_branch = {
+			has_country_flag = HOL_socialist_path
+		}
+		completion_reward = {
+			add_political_power = 50
+			add_popularity = {
+				ideology = collectivist
+				popularity = 0.1
+			}
+			add_popularity = {
+				ideology = libertarian_socialist
+				popularity = 0.1
+			}
+			add_popularity = {
+				ideology = vanguardist
+				popularity = 0.1
+			}
+			add_popularity = {
+				ideology = social_democrat
+				popularity = 0.05
+			}
+			hidden_effect = {
+				country_event = { id = dutchstate.59 days = 2 }
+			}
+		}
+	}
+
+	# Ban the Reactionary Paramilitaries
+	focus = {
+		id = HOL_ban_the_reactionary_paramilitaries
+		icon = GFX_goal_HOL_ban_paramilitary
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			has_socialist_government = yes
+		}
+		prerequisite = { focus = HOL_the_peoples_government }
+		relative_position_id = HOL_the_peoples_government
+		completion_reward = {
+			add_stability = 0.05
+			add_political_power = 100
+			hidden_effect = {
+				country_event = { id = dutchstate.47 days = 30 }
+			}
+		}
+	}
+
+	# Convene with the Trade Unions
+	focus = {
+		id = HOL_convene_with_the_trade_unions
+		icon = GFX_focus_SOV_the_supreme_soviet
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_socialist_government = yes
+		}
+		prerequisite = { focus = HOL_the_peoples_government }
+		relative_position_id = HOL_the_peoples_government
+		completion_reward = {
+			add_ideas = HOL_union_support
+		}
+	}
+
+	# Always Listening, Always Watching
+	focus = {
+		id = HOL_always_listening_always_watching
+		icon = GFX_goal_NOR_secret_police
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			has_socialist_government = yes
+		}
+		prerequisite = { focus = HOL_ban_the_reactionary_paramilitaries }
+		relative_position_id = HOL_ban_the_reactionary_paramilitaries
+		completion_reward = {
+			add_ideas = HOL_expanded_intelligence
+			add_political_power = -50
+		}
+	}
+
+	# Protect the Workers
+	focus = {
+		id = HOL_protect_the_workers
+		icon = GFX_goal_generic_enforce_labor_regulation
+		x = 0
+		y = 2
+		cost = 6
+		available = {
+			has_socialist_government = yes
+		}
+		prerequisite = { focus = HOL_always_listening_always_watching }
+		relative_position_id = HOL_always_listening_always_watching
+		completion_reward = {
+			add_ideas = HOL_worker_rights
+			add_political_power = 100
+			increase_ruling_party_popularity_by_10 = yes
+		}
+	}
+
+	# Revolutionary Education
+	focus = {
+		id = HOL_revolutionary_education
+		icon = GFX_goal_SOV_Scientific_Management
+		x = 0
+		y = 1
+		cost = 6
+		available = {
+			has_socialist_government = yes
+		}
+		prerequisite = { focus = HOL_protect_the_workers }
+		relative_position_id = HOL_protect_the_workers
+		completion_reward = {
+			add_research_slot = 1
+		}
+	}
+
+	# Industrial Nationalization
+	focus = {
+		id = HOL_industrial_nationalization
+		icon = GFX_goal_state_economy
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_socialist_government = yes
+		}
+		prerequisite = { focus = HOL_convene_with_the_trade_unions }
+		relative_position_id = HOL_convene_with_the_trade_unions
+		completion_reward = {
+			every_owned_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+				}
+
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	# Farm to Market Infrastructure
+	focus = {
+		id = HOL_farm_to_market_infrastructure
+		icon = GFX_goal_SOV_farmers
+		x = 0
+		y = 2
+		cost = 6
+		available = {
+			has_socialist_government = yes
+		}
+		prerequisite = { focus = HOL_industrial_nationalization }
+		relative_position_id = HOL_industrial_nationalization
+		completion_reward = {
+			every_owned_state = {
+				limit = {
+					free_building_slots = {
+						building = infrastructure
+						size > 0
+						include_locked = yes
+					}
+				}
+
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	# Continue Industrialization
+	focus = {
+		id = HOL_continue_industrialization
+		icon = GFX_goal_generic_improve_industry
+		x = 0
+		y = 1
+		cost = 6
+		available = {
+			has_socialist_government = yes
+		}
+		prerequisite = { focus = HOL_farm_to_market_infrastructure }
+		relative_position_id = HOL_farm_to_market_infrastructure
+		completion_reward = {
+			add_tech_bonus = {
+				category = industry
+				bonus = 0.75
+				uses = 2
+			}
+		}
+	}
+
+	# Restructure the Bureaucracy
+	focus = {
+		id = HOL_restructure_the_bureaucracy
+		icon = GFX_goal_government_icon
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_socialist_government = yes
+		}
+		prerequisite = {
+			focus = HOL_ban_the_reactionary_paramilitaries
+			focus = HOL_convene_with_the_trade_unions
+		}
+		relative_position_id = HOL_ban_the_reactionary_paramilitaries
+		completion_reward = {
+			add_stability = 0.05
+			add_war_support = 0.05
+			hidden_effect = {
+				country_event = { id = dutchstate.60 days = 2 }
+			}
+		}
+	}
+
+	# Join the Internationale
+	focus = {
+		id = HOL_join_the_internationale
+		icon = GFX_focus_SOV_international_union_of_soviet_republics
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			has_socialist_government = yes
+			country_exists = SOV
+			is_subject = no
+		}
+		bypass = {
+			OR = {
+				is_in_faction_with = SOV
+				is_subject = yes
+			}
+		}
+		mutually_exclusive = { focus = HOL_stand_with_berlin }
+		prerequisite = { focus = HOL_restructure_the_bureaucracy }
+		relative_position_id = HOL_restructure_the_bureaucracy
+		completion_reward = {
+			SOV = {
+				country_event = { id = dutchstate.52 days = 2 }
+			}
+		}
+	}
+
+	# Stand with Berlin
+	focus = {
+		id = HOL_stand_with_berlin
+		icon = GFX_goal_HOL_stand_with_germany
+		x = 1
+		y =1
+		cost = 6
+		available = {
+			has_socialist_government = yes
+			GER = {
+				exists = yes
+				is_subject = no
+				has_socialist_government = yes
+			}
+		}
+		bypass = {
+			OR = {
+				is_subject = yes
+				is_in_faction_with = GER
+			}
+		}
+		mutually_exclusive = { focus = HOL_join_the_internationale }
+		prerequisite = { focus = HOL_restructure_the_bureaucracy }
+		relative_position_id = HOL_restructure_the_bureaucracy
+		completion_reward = {
+			GER = {
+				country_event = { id = dutchstate.52 days = 2 }
+			}
+		}
+	}
+
+	# Call New Elections
+	focus = {
+		id = HOL_call_new_elections
+		icon = GFX_goal_HOL_socialist_elections
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_socialist_government = yes
+		}
+		prerequisite = {
+			focus = HOL_join_the_internationale
+			focus = HOL_stand_with_berlin
+		}
+		relative_position_id = HOL_join_the_internationale
+		completion_reward = {
+			country_event = { id = dutchstate.120 days = 2 }
+		}
+	}
+
+	# Red Dawn in Western Europe
+	focus = {
+		id = HOL_red_dawn_in_western_europe
+		icon = GFX_goal_FRA_World_Revolution
+		x = 0
+		y = 2
+		cost = 6
+		available = {
+			has_socialist_government = yes
+		}
+		prerequisite = { focus = HOL_call_new_elections }
+		prerequisite = { focus = HOL_revolutionary_education }
+		prerequisite = { focus = HOL_continue_industrialization }
+		relative_position_id = HOL_call_new_elections
+		completion_reward = {
+			custom_effect_tooltip = HOL_red_dawn_in_western_europe_tt
+		}
+	}
+
+	###############################################
+	###############################################
+	###############################################
+
+	# Calibrate our Economy
+	focus = {
+		id = HOL_calibrate_our_economy
+		icon = GFX_goal_generic_neutrality_focus
+		x = 12
+		y = 0
+		cost = 6
+		available = {
+			has_capitulated = no
+		}
+		offset = {
+			x = -8
+			y = 0
+			trigger = { NOT = { has_country_flag = political_branch_ready } }
+		}
+		ai_will_do = { factor = 200 }
+		completion_reward = {
+			add_tech_bonus = {
+				bonus = 0.75
+				uses = 2
+				category = industry
+			}
+			increase_mobilization = yes
+		}
+	}
+
+	# Improving our Defenses
+	focus = {
+		id = HOL_improving_our_defenses
+		icon = GFX_goal_generic_defence
+		x = -3
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+		}
+		prerequisite = { focus = HOL_calibrate_our_economy }
+		relative_position_id = HOL_calibrate_our_economy
+		completion_reward = {
+			add_timed_idea = {
+				idea = HOL_defensive_preparations
+				days = 480
+			}
+		}
+	}
+
+	# Southern Bunkers
+	focus = {
+		id = HOL_southern_bunkers
+		icon = GFX_goal_generic_fortify_city
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			controls_state = 35
+			controls_state = 938
+		}
+		prerequisite = { focus = HOL_improving_our_defenses }
+		relative_position_id = HOL_improving_our_defenses
+		completion_reward = {
+			35 = {
+				add_building_construction = {
+					type = bunker
+					province = {
+						all_provinces = yes
+						limit_to_naval_base = yes
+					}
+					level = 3
+					instant_build = yes
+				}
+			}
+			938 = {
+				add_building_construction = {
+					type = bunker
+					province = {
+						all_provinces = yes
+						limit_to_naval_base = yes
+					}
+					level = 3
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	# Coastal Bunkers
+	focus = {
+		id = HOL_coastal_bunkers
+		icon = GFX_focus_generic_coastal_fort
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			controls_state = 7
+			controls_state = 36
+		}
+		prerequisite = { focus = HOL_improving_our_defenses }
+		relative_position_id = HOL_improving_our_defenses
+		completion_reward = {
+			7 = {
+				add_building_construction = {
+					type = coastal_bunker
+					province = {
+						all_provinces = yes
+						limit_to_naval_base = yes
+					}
+					level = 3
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = coastal_bunker
+					province = {
+						all_provinces = yes
+						limit_to_coastal = yes
+					}
+					level = 2
+					instant_build = yes
+				}
+			}
+			36 = {
+				add_building_construction = {
+					type = coastal_bunker
+					province = {
+						all_provinces = yes
+						limit_to_naval_base = yes
+					}
+					level = 3
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = coastal_bunker
+					province = {
+						all_provinces = yes
+						limit_to_coastal = yes
+					}
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	# Air Defenses
+	focus = {
+		id = HOL_air_defenses
+		icon = GFX_goal_generic_air_defense2
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+		}
+		prerequisite = { focus = HOL_southern_bunkers }
+		prerequisite = { focus = HOL_coastal_bunkers }
+		relative_position_id = HOL_southern_bunkers
+		completion_reward = {
+			random_owned_controlled_state = {
+				add_building_construction = {
+					type = anti_air_building
+					level = 2
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				add_building_construction = {
+					type = anti_air_building
+					level = 3
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	# Embargo France
+	focus = {
+		id = HOL_embargo_france
+		icon = GFX_focus_attack_france
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+		}
+		mutually_exclusive = { focus = HOL_embargo_britain }
+		prerequisite = { focus = HOL_calibrate_our_economy }
+		relative_position_id = HOL_calibrate_our_economy
+		ai_will_do = {
+			factor = 200
+		}
+		completion_reward = {
+			FRA = { save_event_target_as = dutch_embargo }
+			event_target:dutch_embargo = {
+				ROOT = { embargo_PREV = yes }
+				hidden_effect = { embargo_ROOT = yes }
+			}
+
+			custom_effect_tooltip = HOL_embargo_france_tt
+			hidden_effect = {
+				GER = {
+					FRA = { save_global_event_target_as = dutch_embargo }
+					country_event = dutchstate.1
+				}
+			}
+		}
+	}
+
+	# Embargo Britain
+	focus = {
+		id = HOL_embargo_britain
+		icon = GFX_focus_attack_britain
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+		}
+		mutually_exclusive = { focus = HOL_embargo_france }
+		prerequisite = { focus = HOL_calibrate_our_economy }
+		relative_position_id = HOL_calibrate_our_economy
+		completion_reward = {
+			ENG = { save_event_target_as = dutch_embargo }
+			event_target:dutch_embargo = {
+				ROOT = { embargo_PREV = yes }
+				hidden_effect = { embargo_ROOT = yes }
+			}
+
+			custom_effect_tooltip = HOL_embargo_france_tt
+			hidden_effect = {
+				GER = {
+					ENG = { save_event_target_as = dutch_embargo }
+					country_event = dutchstate.1
+				}
+			}
+		}
+	}
+
+	# Expand German Economic Cooperation
+	focus = {
+		id = HOL_expand_german_economic_cooperation
+		icon = GFX_goal_germany
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+		}
+		prerequisite = {
+			focus = HOL_embargo_france
+			focus = HOL_embargo_britain
+		}
+		relative_position_id = HOL_embargo_france
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = HOL_dutch_german_economic_cooperation
+				add_idea = HOL_dutch_german_economic_cooperation_1
+			}
+			hidden_effect = {
+				GER = {
+					swap_ideas = {
+						remove_idea = HOL_dutch_german_economic_cooperation
+						add_idea = HOL_dutch_german_economic_cooperation_1
+					}
+				}
+			}
+		}
+	}
+
+	# New Dutch Industries
+	focus = {
+		id = HOL_new_dutch_industries
+		icon = GFX_goal_generic_construct_civ_factory
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+		}
+		prerequisite = { focus = HOL_expand_german_economic_cooperation }
+		relative_position_id = HOL_expand_german_economic_cooperation
+		completion_reward = {
+			random_owned_controlled_state = {
+				if = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+
+					add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = industrial_complex
+						level = 2
+						instant_build = yes
+					}
+				}
+			}
+		}
+	}
+
+	# The Arms Industries
+	focus = {
+		id = HOL_the_arms_industries
+		icon = GFX_goal_generic_construct_mil_factory
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+		}
+		prerequisite = { focus = HOL_expand_german_economic_cooperation }
+		relative_position_id = HOL_expand_german_economic_cooperation
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+						include_locked = yes
+					}
+				}
+
+				add_extra_state_shared_building_slots = 3
+				add_building_construction = {
+					type = arms_factory
+					level = 3
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	# Densed Industrial Zones
+	focus = {
+		id = HOL_densed_industrial_zones
+		icon = GFX_goal_generic_position_armies
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+		}
+		prerequisite = { focus = HOL_new_dutch_industries }
+		relative_position_id = HOL_new_dutch_industries
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+				}
+
+				add_extra_state_shared_building_slots = 2
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+				}
+
+				add_extra_state_shared_building_slots = 2
+			}
+		}
+	}
+
+	# Welfare Subsidies
+	focus = {
+		id = HOL_welfare_subsidies
+		icon = GFX_goal_famine
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+		}
+		prerequisite = { focus = HOL_new_dutch_industries }
+		prerequisite = { focus = HOL_the_arms_industries }
+		relative_position_id = HOL_new_dutch_industries
+		completion_reward = {
+			add_ideas = HOL_welfare_programs
+		}
+	}
+
+	# Joint Dutch-German Research Projects
+	focus = {
+		id = HOL_joint_dutch_german_research_projects
+		icon = GFX_goal_great_science
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+		}
+		prerequisite = { focus = HOL_densed_industrial_zones }
+		relative_position_id = HOL_densed_industrial_zones
+		completion_reward = {
+			add_research_slot = 1
+		}
+	}
+
+	# Harnessing Atomic Power
+	focus = {
+		id = HOL_harnessing_atomic_power
+		icon = GFX_focus_wonderweapons
+		x = 0
+		y = 2
+		cost = 6
+		available = {
+			has_capitulated = no
+		}
+		prerequisite = { focus = HOL_joint_dutch_german_research_projects }
+		relative_position_id = HOL_joint_dutch_german_research_projects
+		completion_reward = {
+			add_tech_bonus = {
+				bonus = 2.0
+				uses = 1
+				category = nuclear
+			}
+		}
+	}
+
+	# The Labour Laws
+	focus = {
+		id = HOL_the_labour_laws
+		icon = GFX_goal_generic_enforce_labor_regulation
+		x = 0
+		y = 2
+		cost = 6
+		available = {
+			has_capitulated = no
+		}
+		prerequisite = { focus = HOL_densed_industrial_zones }
+		prerequisite = { focus = HOL_welfare_subsidies }
+		relative_position_id = HOL_densed_industrial_zones
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = HOL_welfare_programs
+				add_idea = HOL_welfare_programs_1
+			}
+		}
+	}
+
+	# Nationalize Foreign Arms Industries
+	focus = {
+		id = HOL_nationalize_foreign_arms_industries
+		icon = GFX_goal_generic_seize_investments
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+		}
+		mutually_exclusive = { focus = HOL_subsidize_domestic_arms_industries }
+		prerequisite = { focus = HOL_welfare_subsidies }
+		prerequisite = { focus = HOL_densed_industrial_zones }
+		relative_position_id = HOL_welfare_subsidies
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+						include_locked = yes
+					}
+				}
+
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
+			}
+			add_tech_bonus = {
+				category = infantry_weapons
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Subsidize Domestic Arms Industries
+	focus = {
+		id = HOL_subsidize_domestic_arms_industries
+		icon = GFX_DAH_Topke
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+		}
+		mutually_exclusive = { focus = HOL_nationalize_foreign_arms_industries }
+		prerequisite = { focus = HOL_welfare_subsidies }
+		prerequisite = { focus = HOL_densed_industrial_zones }
+		relative_position_id = HOL_welfare_subsidies
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+						include_locked = yes
+					}
+				}
+
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+						include_locked = yes
+					}
+				}
+
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+						include_locked = yes
+					}
+				}
+
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	# Railway Reform
+	focus = {
+		id = HOL_railway_reform
+		icon = GFX_goal_generic_railway_construction
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_socialist_government = yes
+		}
+		prerequisite = {
+			focus = HOL_nationalize_foreign_arms_industries
+			focus = HOL_subsidize_domestic_arms_industries
+		}
+		relative_position_id = HOL_nationalize_foreign_arms_industries
+		completion_reward = {
+			random_owned_controlled_state = {
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	# Electronic Advancements
+	focus = {
+		id = HOL_electronic_advancements
+		icon = GFX_goal_machine
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+		}
+		prerequisite = { focus = HOL_railway_reform }
+		relative_position_id = HOL_railway_reform
+		completion_reward = {
+			add_tech_bonus = {
+				category = electronics
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Industrial Expansion Budget Allocation
+	focus = {
+		id = HOL_industrial_expansion_budget_allocation
+		icon = GFX_goal_bag_of_money
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+		}
+		prerequisite = { focus = HOL_railway_reform }
+		relative_position_id = HOL_railway_reform
+		completion_reward = {
+			add_timed_idea = {
+				idea = HOL_industrial_budget
+				days = 480
+			}
+		}
+	}
+
+	# Infrastructure Expansion
+	focus = {
+		id = HOL_infrastructure_expansion
+		icon = GFX_goal_generic_construction
+		x = 2
+		y = 2
+		cost = 6
+		available = {
+			has_capitulated = no
+		}
+		prerequisite = { focus = HOL_the_arms_industries }
+		relative_position_id = HOL_the_arms_industries
+		completion_reward = {
+			random_owned_controlled_state = {
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	# Agricultural Expansion
+	focus = {
+		id = HOL_agricultural_expansion
+		icon = GFX_focus_AUS_agriculture
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+		}
+		prerequisite = { focus = HOL_infrastructure_expansion }
+		relative_position_id = HOL_infrastructure_expansion
+		completion_reward = {
+			if = {
+				limit = { has_idea = HOL_food_sufficiency }
+				swap_ideas = {
+					remove_idea = HOL_food_sufficiency
+					add_idea = HOL_food_sufficiency_1
+				}
+				else = {
+					add_ideas = HOL_food_sufficiency
+				}
+			}
+		}
+	}
+
+	# Fisheries Expansion
+	focus = {
+		id = HOL_fisheries_expansion
+		icon = GFX_focus_generic_cruiser2
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+		}
+		prerequisite = { focus = HOL_infrastructure_expansion }
+		relative_position_id = HOL_infrastructure_expansion
+		completion_reward = {
+			if = {
+				limit = { has_idea = HOL_food_sufficiency }
+				swap_ideas = {
+					remove_idea = HOL_food_sufficiency
+					add_idea = HOL_food_sufficiency_1
+				}
+				else = {
+					add_ideas = HOL_food_sufficiency
+				}
+			}
+		}
+	}
+
+	# Trade Expansion
+	focus = {
+		id = HOL_trade_expansion
+		icon = GFX_goal_AST_new_markets
+		x = 3
+		y = 1
+		cost = 6
+		ai_will_do = { factor = 100 }
+		available = {
+			has_capitulated = no
+		}
+		prerequisite = { focus = HOL_calibrate_our_economy }
+		relative_position_id = HOL_calibrate_our_economy
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = HOL_unrecognized_government
+				add_idea = HOL_unrecognized_government_1
+			}
+		}
+	}
+
+	# Rotterdam Shipyards
+	focus = {
+		id = HOL_rotterdam_shipyards
+		icon = GFX_focus_generic_refit_civilian_ships
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			controls_state = 7
+		}
+		prerequisite = { focus = HOL_trade_expansion }
+		relative_position_id = HOL_trade_expansion
+		completion_reward = {
+			7 = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = dockyard
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	# Port Expansion
+	focus = {
+		id = HOL_port_expansion
+		icon = GFX_SIA_maritmesilkroad
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+		}
+		prerequisite = { focus = HOL_trade_expansion }
+		relative_position_id = HOL_trade_expansion
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					is_coastal = yes
+				}
+				add_building_construction = {
+					type = naval_base
+					province = {
+						limit_to_naval_base = yes
+						all_provinces = yes #not sure on that
+					}
+					level = 3
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	# Shipping Expansion
+	focus = {
+		id = HOL_shipping_expansion
+		icon = GFX_goal_generic_coastal_navy2
+		x = 0
+		y = 2
+		cost = 6
+		available = {
+			has_capitulated = no
+		}
+		prerequisite = { focus = HOL_port_expansion }
+		relative_position_id = HOL_port_expansion
+		completion_reward = {
+			add_equipment_to_stockpile = {
+				type = convoy
+				amount = 50
+				producer = HOL
+			}
+		}
+	}
+
+	# European Trade Opportunities
+	focus = {
+		id = HOL_european_trade_opportunities
+		icon = GFX_goal_collaborate_local_elites
+		x = 3
+		y = 1
+		cost = 2
+		prerequisite = { focus = HOL_trade_expansion }
+		relative_position_id = HOL_trade_expansion
+		completion_reward = {
+			add_political_power = 25
+		}
+	}
+
+	# Swedish Iron Imports
+	focus = {
+		id = HOL_swedish_iron_imports
+		icon = GFX_goal_steel
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			SWE = {
+				exists = yes
+				has_capitulated = no
+				has_socialist_government = no
+				NOT = { has_war_with = ROOT }
+			}
+		}
+		prerequisite = { focus = HOL_european_trade_opportunities }
+		relative_position_id = HOL_european_trade_opportunities
+		completion_reward = {
+			SWE = { country_event = { id = dutchstate.5 hours = 12 } }
+		}
+	}
+
+	# Turkish Chromium Imports
+	focus = {
+		id = HOL_turkish_chromium_imports
+		icon = GFX_goal_ottoman
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			TUR = {
+				exists = yes
+				has_capitulated = no
+				has_socialist_government = no
+				NOT = { has_war_with = ROOT }
+			}
+		}
+		prerequisite = { focus = HOL_european_trade_opportunities }
+		relative_position_id = HOL_european_trade_opportunities
+		completion_reward = {
+			TUR = { country_event = { id = dutchstate.5 hours = 12 } }
+		}
+	}
+
+	# Trade in the New World
+	focus = {
+		id = HOL_trade_in_the_new_world
+		icon = GFX_focus_generic_the_giant_wakes
+		x = 0
+		y = 2
+		cost = 2
+		prerequisite = { focus = HOL_european_trade_opportunities }
+		relative_position_id = HOL_european_trade_opportunities
+		completion_reward = {
+			add_political_power = 25
+		}
+	}
+
+	# Mexican Oil
+	focus = {
+		id = HOL_mexican_oil
+		icon = GFX_goal_mexico
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			MEX = {
+				exists = yes
+				has_capitulated = no
+				has_socialist_government = no
+				NOT = { has_war_with = ROOT }
+			}
+		}
+		prerequisite = { focus = HOL_trade_in_the_new_world }
+		relative_position_id = HOL_trade_in_the_new_world
+		completion_reward = {
+			MEX = { country_event = { id = dutchstate.5 hours = 12 } }
+		}
+	}
+
+	# Colombian Coffee
+	focus = {
+		id = HOL_colombian_coffee
+		icon = GFX_goal_coffee_exports
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			COL = {
+				exists = yes
+				has_capitulated = no
+				has_socialist_government = no
+				NOT = { has_war_with = ROOT }
+			}
+		}
+		prerequisite = { focus = HOL_trade_in_the_new_world }
+		relative_position_id = HOL_trade_in_the_new_world
+		completion_reward = {
+			COL = { country_event = { id = dutchstate.5 hours = 12 } }
+		}
+	}
+
+	# The Asian Market
+	focus = {
+		id = HOL_the_asian_market
+		icon = GFX_goal_HOL_progressive_tax
+		x = 0
+		y = 2
+		cost = 2
+		prerequisite = { focus = HOL_trade_in_the_new_world }
+		relative_position_id = HOL_trade_in_the_new_world
+		completion_reward = {
+			add_political_power = 25
+		}
+	}
+
+	# Insulindian Rubber
+	focus = {
+		id = HOL_insulindian_rubber
+		icon = GFX_goal_DEI_focus_moar_rubber
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			INS = {
+				exists = yes
+				has_capitulated = no
+				has_socialist_government = no
+				NOT = { has_war_with = ROOT }
+			}
+		}
+		prerequisite = { focus = HOL_the_asian_market }
+		relative_position_id = HOL_the_asian_market
+		completion_reward = {
+			INS = { country_event = { id = dutchstate.5 hours = 12 } }
+		}
+	}
+
+	# Filipino Rubber
+	focus = {
+		id = HOL_filipino_rubber
+		icon = GFX_goal_flag_phillipines
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			PHI = {
+				exists = yes
+				has_capitulated = no
+				has_socialist_government = no
+				NOT = { has_war_with = ROOT }
+			}
+		}
+		prerequisite = { focus = HOL_the_asian_market }
+		relative_position_id = HOL_the_asian_market
+		completion_reward = {
+			PHI = { country_event = { id = dutchstate.5 hours = 12 } }
+		}
+	}
+
+	#######################################################
+	#######################################################
+	#######################################################
+	#######################################################
+
+	# Reform the Army
+	focus = {
+		id = HOL_reform_the_army
+		icon = GFX_goal_HOL_dutch_army
+		x = 26
+		y = 0
+		cost = 6
+		offset = {
+			x = -8
+			y = 0
+			trigger = {
+				NOT = { has_country_flag = political_branch_ready }
+			}
+		}
+		completion_reward = {
+			army_experience = 25
+		}
+	}
+
+	# Speed Emphasis
+	focus = {
+		id = HOL_speed_emphasis
+		icon = GFX_goal_generic_army_tanks2
+		x = -4
+		y = 1
+		cost = 6
+		mutually_exclusive = {
+			focus = HOL_planning_emphasis
+			focus = HOL_firepower_emphasis
+		}
+		prerequisite = { focus = HOL_reform_the_army }
+		relative_position_id = HOL_reform_the_army
+		completion_reward = {
+			add_doctrine_cost_reduction = {
+				category = cat_mobile_warfare
+				cost_reduction = 0.5
+				uses = 1
+			}
+		}
+	}
+
+	# Planning Emphasis
+	focus = {
+		id = HOL_planning_emphasis
+		icon = GFX_goal_generic_position_armies
+		x = 0
+		y = 1
+		cost = 6
+		ai_will_do = { factor = 200 }
+		mutually_exclusive = {
+			focus = HOL_speed_emphasis
+			focus = HOL_firepower_emphasis
+		}
+		prerequisite = { focus = HOL_reform_the_army }
+		relative_position_id = HOL_reform_the_army
+		completion_reward = {
+			add_doctrine_cost_reduction  = {
+				category = cat_grand_battle_plan
+				cost_reduction = 0.5
+				uses = 1
+			}
+		}
+	}
+
+	# Firepower Emphasis
+	focus = {
+		id = HOL_firepower_emphasis
+		icon = GFX_goal_artillery
+		x = 4
+		y = 1
+		cost = 6
+		mutually_exclusive = {
+			focus = HOL_planning_emphasis
+			focus = HOL_speed_emphasis
+		}
+		prerequisite = { focus = HOL_reform_the_army }
+		relative_position_id = HOL_reform_the_army
+		completion_reward = {
+			add_doctrine_cost_reduction = {
+				category = cat_superior_firepower
+				cost_reduction = 0.5
+				uses = 1
+			}
+		}
+	}
+
+	# Motorized Divisions
+	focus = {
+		id = HOL_motorized_divisions
+		icon = GFX_goal_generic_army_motorized
+		x = 0
+		y = 1
+		cost = 6
+		prerequisite = { focus = HOL_speed_emphasis }
+		relative_position_id = HOL_speed_emphasis
+		completion_reward = {
+			add_tech_bonus = {
+				category = motorized_equipment
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Experimental Armoured Divisions
+	focus = {
+		id = HOL_experimental_armoured_divisions
+		icon = GFX_goal_generic_cavalry
+		x = -1
+		y = 1
+		cost = 6
+		prerequisite = { focus = HOL_motorized_divisions }
+		relative_position_id = HOL_motorized_divisions
+		completion_reward = {
+			custom_effect_tooltip = HOL_experimental_armoured_divisions_tt
+			hidden_effect = {
+				load_oob = HOL_armor
+			}
+		}
+	}
+
+	# Tank Improvements
+	focus = {
+		id = HOL_tank_improvements
+		icon = GFX_goal_generic_army_tanks3
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = HOL_motorized_divisions }
+		relative_position_id = HOL_motorized_divisions
+		completion_reward = {
+			add_tech_bonus = {
+				category = armor
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Signal Companies
+	focus = {
+		id = HOL_signal_companies
+		icon = GFX_goal_electronics
+		x = 2
+		y = 1
+		cost = 6
+		prerequisite = {
+			focus = HOL_speed_emphasis
+			focus = HOL_planning_emphasis
+		}
+		relative_position_id = HOL_speed_emphasis
+		completion_reward = {
+			add_tech_bonus = {
+				category = signal_company_tech
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Mechanized Divisions
+	focus = {
+		id = HOL_mechanized_divisions
+		icon = GFX_goal_national_mobilization
+		x = 0
+		y = 2
+		cost = 6
+		prerequisite = { focus = HOL_signal_companies }
+		relative_position_id = HOL_signal_companies
+		completion_reward = {
+			add_tech_bonus = {
+				category = cat_mechanized_equipment
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Experimental Armoured Cars
+	focus = {
+		id = HOL_experimental_armoured_cars
+		icon = GFX_focus_generic_tank_production
+		x = 0
+		y = 2
+		cost = 6
+		prerequisite = { focus = HOL_tank_improvements }
+		prerequisite = { focus = HOL_mechanized_divisions }
+		relative_position_id = HOL_tank_improvements
+		completion_reward = {
+			add_tech_bonus = {
+				category = armor
+				category = motorized_equipment
+				bonus = 1.0
+				uses = 2
+			}
+		}
+	}
+
+	# Enhanced Training Programs
+	focus = {
+		id = HOL_enhanced_training_programs
+		icon = GFX_goal_HOL_Koninklijke_Militaire_Academie
+		x = 0
+		y = 1
+		cost = 6
+		prerequisite = { focus = HOL_planning_emphasis }
+		relative_position_id = HOL_planning_emphasis
+		completion_reward = {
+			add_ideas = HOL_enhanced_training
+		}
+	}
+
+	# Adopt New Tactics
+	focus = {
+		id = HOL_adopt_new_tactics
+		icon = GFX_goal_generic_army_doctrines
+		x = -1
+		y = 1
+		cost = 6
+		prerequisite = { focus = HOL_enhanced_training_programs }
+		relative_position_id = HOL_enhanced_training_programs
+		completion_reward = {
+			add_doctrine_cost_reduction = {
+				name = HOL_adopt_new_tactics
+				cost_reduction = 0.5
+				uses = 1
+				category = land_doctrine
+			}
+		}
+	}
+
+	# Recruiment Drive
+	focus = {
+		id = HOL_recruiment_drive
+		icon = GFX_goal_conspiracy
+		x = 0
+		y = 2
+		cost = 6
+		prerequisite = { focus = HOL_adopt_new_tactics }
+		relative_position_id = HOL_adopt_new_tactics
+		completion_reward = {
+			add_manpower = 25000
+		}
+	}
+
+	# Engineering Corps
+	focus = {
+		id = HOL_engineering_corps
+		icon = GFX_goal_generic_construction2
+		x = 2
+		y = 1
+		cost = 6
+		prerequisite = {
+			focus = HOL_planning_emphasis
+			focus = HOL_firepower_emphasis
+		}
+		relative_position_id = HOL_planning_emphasis
+		completion_reward = {
+			add_tech_bonus = {
+				category = engineers_tech
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Reconnaissance Companies
+	focus = {
+		id = HOL_reconnaissance_companies
+		icon = GFX_goal_radio
+		x = -1
+		y = 1
+		cost = 6
+		prerequisite = { focus = HOL_engineering_corps }
+		relative_position_id = HOL_engineering_corps
+		completion_reward = {
+			add_tech_bonus = {
+				category = recon_tech
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# The General Staff
+	focus = {
+		id = HOL_the_general_staff
+		icon = GFX_goal_generic_army_high_command
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = HOL_engineering_corps }
+		relative_position_id = HOL_engineering_corps
+		completion_reward = {
+			add_ideas = HOL_general_staff
+		}
+	}
+
+	# Weapons Production Expertise
+	focus = {
+		id = HOL_weapons_production_expertise
+		icon = GFX_goal_munitions_factories
+		x = 0
+		y = 1
+		cost = 6
+		prerequisite = { focus = HOL_the_general_staff }
+		relative_position_id = HOL_the_general_staff
+		completion_reward = {
+			add_ideas = HOL_weapons_production_expertise_idea
+		}
+	}
+
+	# Logistics Improvements
+	focus = {
+		id = HOL_logistics_improvements
+		icon = GFX_goal_generic_more_territorial_claims
+		x = -1
+		y = 1
+		cost = 6
+		prerequisite = { focus = HOL_reconnaissance_companies }
+		relative_position_id = HOL_reconnaissance_companies
+		completion_reward = {
+			add_tech_bonus = {
+				category = logistics_tech
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Marine Divisions
+	focus = {
+		id = HOL_marine_divisions
+		icon = GFX_goal_generic_amphibious_assault
+		x = 0
+		y = 2
+		cost = 6
+		prerequisite = { focus = HOL_reconnaissance_companies }
+		relative_position_id = HOL_reconnaissance_companies
+		completion_reward = {
+			add_tech_bonus = {
+				category = marine_tech
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Artillery Modernization
+	focus = {
+		id = HOL_artillery_modernization
+		icon = GFX_goal_generic_army_artillery2
+		x = 0
+		y = 1
+		cost = 6
+		prerequisite = { focus = HOL_firepower_emphasis }
+		relative_position_id = HOL_firepower_emphasis
+		completion_reward = {
+			add_tech_bonus = {
+				category = artillery
+				bonus = 1
+				uses = 1
+			}
+		}
+	}
+
+	# New Factories
+	focus = {
+		id = HOL_new_factories
+		icon = GFX_goal_generic_construct_mil_factory
+		x = 2
+		y = 1
+		cost = 6
+		prerequisite = { focus = HOL_firepower_emphasis }
+		relative_position_id = HOL_firepower_emphasis
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+						include_locked = yes
+					}
+				}
+
+				add_extra_state_shared_building_slots = 3
+				add_building_construction = {
+					type = arms_factory
+					level = 3
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	# Research Boost
+	focus = {
+		id = HOL_research_boost
+		icon = GFX_focus_research
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = HOL_artillery_modernization }
+		prerequisite = { focus = HOL_new_factories }
+		relative_position_id = HOL_artillery_modernization
+		completion_reward = {
+			add_timed_idea = {
+				idea = HOL_research_boost_idea
+				days = 360
+			}
+		}
+	}
+
+	# Tweaking our Doctrines
+	focus = {
+		id = HOL_tweaking_our_doctrines
+		icon = GFX_goal_graveyard
+		x = 1
+		y = 2
+		cost = 6
+		prerequisite = { focus = HOL_research_boost }
+		relative_position_id = HOL_research_boost
+		completion_reward = {
+			add_doctrine_cost_reduction = {
+				name = HOL_tweaking_our_doctrines
+				cost_reduction = 0.5
+				uses = 1
+				category = land_doctrine
+			}
+		}
+	}
+
+	# Production Quotas
+	focus = {
+		id = HOL_production_quotas
+		icon = GFX_goal_generic_military_equipment
+		x = 0
+		y = 1
+		cost = 6
+		prerequisite = { focus = HOL_research_boost }
+		relative_position_id = HOL_research_boost
+		completion_reward = {
+			add_ideas = HOL_production_quotas_idea
+		}
+	}
+
+	# New Propaganda
+	focus = {
+		id = HOL_new_propaganda
+		icon = GFX_goal_generic_propaganda
+		x = -1
+		y = 2
+		cost = 6
+		prerequisite = { focus = HOL_research_boost }
+		relative_position_id = HOL_research_boost
+		completion_reward = {
+			add_manpower = 10000
+			add_war_support = 0.15
+		}
+	}
+
+	# Defending Holland
+	focus = {
+		id = HOL_defending_holland
+		icon = GFX_goal_HOL_dutch_state
+		x = 0
+		y = 2
+		cost = 6
+		prerequisite = {
+			focus = HOL_experimental_armoured_cars
+			focus = HOL_recruiment_drive
+			focus = HOL_marine_divisions
+			focus = HOL_new_propaganda
+		}
+		relative_position_id = HOL_logistics_improvements
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = HOL_revaunchist_state
+				add_idea = HOL_revaunchist_state_1
+			}
+		}
+	}
+
+	#######################################################
+	#######################################################
+	#######################################################
+	#######################################################
+
+	# Address the Navy
+	focus = {
+		id = HOL_address_the_navy
+		icon = GFX_goal_HOL_dutch_navy
+		x = -2
+		y = 1
+		cost = 6
+		relative_position_id = HOL_defending_holland
+		completion_reward = {
+			navy_experience = 25
+		}
+	}
+
+	# Begin Naval Funding
+	focus = {
+		id = HOL_begin_naval_funding
+		icon = GFX_goal_generic_naval_fleet_in_being
+		x = -3
+		y = 1
+		cost = 6
+		prerequisite = { focus = HOL_address_the_navy }
+		relative_position_id = HOL_address_the_navy
+		completion_reward = {
+			add_ideas = HOL_kickstart_naval_production
+		}
+	}
+
+	# Carrier Research
+	focus = {
+		id = HOL_carrier_research
+		icon = GFX_goal_generic_navy_carrier
+		x = -1
+		y = 1
+		cost = 6
+		prerequisite = { focus = HOL_begin_naval_funding }
+		relative_position_id = HOL_begin_naval_funding
+		completion_reward = {
+			add_tech_bonus = {
+				category = cv_tech
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Battleship Research
+	focus = {
+		id = HOL_battleship_research
+		icon = GFX_goal_generic_navy_battleship3
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = HOL_begin_naval_funding }
+		relative_position_id = HOL_begin_naval_funding
+		completion_reward = {
+			add_tech_bonus = {
+				category = bb_tech
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Borrow German Naval Designs
+	focus = {
+		id = HOL_borrow_german_naval_designs
+		icon = GFX_goal_navy_decision
+		x = -1
+		y = 1
+		cost = 6
+		prerequisite = { focus = HOL_address_the_navy }
+		relative_position_id = HOL_address_the_navy
+		completion_reward = {
+			add_ideas = HOL_german_naval_designs
+		}
+	}
+
+	# Recall the Admirals
+	focus = {
+		id = HOL_recall_the_admirals
+		icon = GFX_goal_generic_naval_academy
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = HOL_address_the_navy }
+		relative_position_id = HOL_address_the_navy
+		completion_reward = {
+			add_naval_commander_role = {
+				character = HOL_Alfred_de_Booy
+				traits = { fly_swatter }
+				skill = 2
+				attack_skill = 1
+				defense_skill = 2
+				maneuvering_skill = 2
+				coordination_skill = 2
+			}
+			add_naval_commander_role = {
+				character = HOL_Karel_Doorman
+				traits = { superior_tactician }
+				skill = 3
+				attack_skill = 2
+				defense_skill = 3
+				maneuvering_skill = 2
+				coordination_skill = 3
+			}
+		}
+	}
+
+	# Decide on a Doctrine
+	focus = {
+		id = HOL_decide_on_a_doctrine
+		icon = GFX_goal_generic_navy_doctrines_tactics
+		x = 1
+		y = 1
+		cost = 1
+		prerequisite = { focus = HOL_borrow_german_naval_designs }
+		prerequisite = { focus = HOL_recall_the_admirals }
+		relative_position_id = HOL_borrow_german_naval_designs
+		completion_reward = {
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.5
+				uses = 1
+				category = naval_doctrine
+			}
+		}
+	}
+
+	# Submarine Modernization
+	focus = {
+		id = HOL_submarine_modernization
+		icon = GFX_goal_generic_navy_submarine
+		x = 2
+		y = 2
+		cost = 6
+		prerequisite = { focus = HOL_address_the_navy }
+		relative_position_id = HOL_address_the_navy
+		completion_reward = {
+			add_tech_bonus = {
+				category = ss_tech
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Destroyer Modernization
+	focus = {
+		id = HOL_destroyer_modernization
+		icon = GFX_goal_generic_navy_battleship3alt
+		x = 0
+		y = 2
+		cost = 6
+		prerequisite = { focus = HOL_recall_the_admirals }
+		prerequisite = { focus = HOL_submarine_modernization }
+		relative_position_id = HOL_recall_the_admirals
+		completion_reward = {
+			add_tech_bonus = {
+				category = dd_tech
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Cruiser Modernization
+	focus = {
+		id = HOL_cruiser_modernization
+		icon = GFX_goal_generic_navy_battleship
+		x = 0
+		y = 1
+		cost = 6
+		prerequisite = { focus = HOL_carrier_research }
+		prerequisite = { focus = HOL_battleship_research }
+		prerequisite = { focus = HOL_decide_on_a_doctrine }
+		relative_position_id = HOL_battleship_research
+		completion_reward = {
+			add_tech_bonus = {
+				category = ca_tech
+				category = cl_tech
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Improve our Naval Strategies
+	focus = {
+		id = HOL_improve_our_naval_strategies
+		icon = GFX_goal_generic_naval_base
+		x = 0
+		y = 2
+		cost = 6
+		prerequisite = { focus = HOL_cruiser_modernization }
+		prerequisite = { focus = HOL_destroyer_modernization }
+		relative_position_id = HOL_decide_on_a_doctrine
+		completion_reward = {
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.5
+				uses = 1
+				category = naval_doctrine
+			}
+		}
+	}
+
+	#######################################################
+	#######################################################
+	#######################################################
+	#######################################################
+
+	# Focus on the Air Force
+	focus = {
+		id = HOL_focus_on_the_air_force
+		icon = GFX_goal_HOL_luchtvaartafdeling
+		x = 3
+		y = 1
+		cost = 6
+		relative_position_id = HOL_defending_holland
+		completion_reward = {
+			air_experience = 25
+		}
+	}
+
+	# Our Own Air Doctrine
+	focus = {
+		id = HOL_our_own_air_doctrine
+		icon = GFX_goal_generic_air_doctrine
+		x = -1
+		y = 1
+		cost = 6
+		prerequisite = { focus = HOL_focus_on_the_air_force }
+		relative_position_id = HOL_focus_on_the_air_force
+		completion_reward = {
+			add_tech_bonus = {
+				category = air_doctrine
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Fighter Modernization
+	focus = {
+		id = HOL_fighter_modernization
+		icon = GFX_goal_generic_air_fighter
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = HOL_focus_on_the_air_force }
+		relative_position_id = HOL_focus_on_the_air_force
+		completion_reward = {
+			add_tech_bonus = {
+				category = light_fighter
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Construct Air Bases
+	focus = {
+		id = HOL_construct_air_bases
+		icon = GFX_goal_generic_air_production
+		x = 3
+		y = 1
+		cost = 6
+		prerequisite = { focus = HOL_focus_on_the_air_force }
+		relative_position_id = HOL_focus_on_the_air_force
+		completion_reward = {
+			random_owned_controlled_state = {
+				if = {
+					limit = {
+						free_building_slots = {
+							building = air_base
+							size > 1
+						}
+					}
+					add_building_construction = {
+						type = air_base
+						level = 2
+						instant_build = yes
+					}
+				}
+			}
+		}
+	}
+
+	# CAS Units
+	focus = {
+		id = HOL_cas_units
+		icon = GFX_goal_generic_CAS
+		x = -1
+		y = 1
+		cost = 6
+		prerequisite = { focus = HOL_fighter_modernization }
+		prerequisite = { focus = HOL_our_own_air_doctrine }
+		relative_position_id = HOL_fighter_modernization
+		completion_reward = {
+			add_tech_bonus = {
+				category = cas_bomber
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Tactical Bombers
+	focus = {
+		id = HOL_tactical_bombers
+		icon = GFX_goal_generic_air_bomber
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = HOL_fighter_modernization }
+		relative_position_id = HOL_fighter_modernization
+		completion_reward = {
+			add_tech_bonus = {
+				category = tactical_bomber
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Naval Bombers
+	focus = {
+		id = HOL_naval_bombers
+		icon = GFX_goal_generic_air_naval_bomber
+		x = 3
+		y = 1
+		cost = 6
+		prerequisite = { focus = HOL_fighter_modernization }
+		relative_position_id = HOL_fighter_modernization
+		completion_reward = {
+			add_tech_bonus = {
+				category = naval_bomber
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Recruit New Pilots
+	focus = {
+		id = HOL_recruit_new_pilots
+		icon = GFX_goal_conspiracy
+		x = 0
+		y = 2
+		cost = 6
+		prerequisite = { focus = HOL_our_own_air_doctrine }
+		prerequisite = { focus = HOL_cas_units }
+		relative_position_id = HOL_our_own_air_doctrine
+		completion_reward = {
+			add_manpower = 15000
+		}
+	}
+
+	# Heavy Fighters
+	focus = {
+		id = HOL_heavy_fighters
+		icon = GFX_focus_chi_flying_tigers
+		x = 0
+		y = 2
+		cost = 6
+		prerequisite = { focus = HOL_fighter_modernization }
+		relative_position_id = HOL_fighter_modernization
+		completion_reward = {
+			add_tech_bonus = {
+				category = medium_air
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Strategic Bombers
+	focus = {
+		id = HOL_strategic_bomber
+		icon = GFX_goal_generic_air_naval_bomber2_new
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = HOL_tactical_bombers }
+		prerequisite = { focus = HOL_naval_bombers }
+		relative_position_id = HOL_tactical_bombers
+		completion_reward = {
+			add_tech_bonus = {
+				category = cat_strategic_bomber
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Master of the Skies
+	focus = {
+		id = HOL_master_of_the_skies
+		icon = GFX_goal_checkmate
+		x = 0
+		y = 1
+		cost = 6
+		prerequisite = { focus = HOL_recruit_new_pilots }
+		prerequisite = { focus = HOL_heavy_fighters }
+		prerequisite = { focus = HOL_strategic_bomber }
+		relative_position_id = HOL_heavy_fighters
+		completion_reward = {
+			add_doctrine_cost_reduction = {
+				category = air_doctrine
+				cost_reduction = 0.5
+				uses = 1
+			}
+		}
+	}
+}

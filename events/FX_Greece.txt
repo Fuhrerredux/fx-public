@@ -1,0 +1,5686 @@
+#############################
+#       Hellas Events       #
+#############################
+#     Made by BobRossHD     #
+#############################
+#############################
+#       Hellas Events       #
+#############################
+#     Made by Fokel         #
+#############################
+#############################
+#	   Hellas Events 	    #
+#############################
+#  Made by thanasislanaras  #
+#############################
+
+add_namespace = gre
+
+### Introduction Event
+
+country_event = { #intro event
+	id = gre.0
+	immediate = {
+		log = "[GetDateText]: [Root.GetName]: event gre.0"
+	}
+	is_triggered_only = yes
+	title = gre.0.t
+	desc = gre.0.d
+	picture = GRE_athens
+
+	fire_only_once = yes
+
+	option = { #I KNOW WHAT I AM DOING!
+		name = gre.0.a
+	}
+	option = { #I DONT KNOW WHAT I AM DOING!
+		name = gre.0.b
+		country_event = {
+			id = gre.1
+		}
+	}
+}
+
+#GUIDE
+country_event = { 
+	id = gre.1
+	title = gre.1.t
+	desc = gre.1.d
+	
+	is_triggered_only = yes
+
+	option = {
+		name = gre.1.a
+	}
+	option = {
+		name = gre.1.b
+		country_event = {
+			id = gre.19
+		}
+	}
+}
+
+### Political Events
+
+# Greek Independence Day
+country_event = {
+	id = gre.2
+	immediate = { 
+		log = "[GetDateText]: [Root.GetName]: event gre.2 FROM = [From.GetName]" 
+		hidden_effect = {
+			country_event = {
+				id = gre.3
+				days = 365
+			}
+		}
+	}
+	title = gre.2.t
+	desc = gre.2.d
+	picture = GFX_report_event_GRE_crowd2
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		name = gre.2.a
+		add_political_power = 20
+	}
+}
+
+# Greek Independence Day (subsequent years)
+country_event = {
+	id = gre.3
+	immediate = { 
+		log = "[GetDateText]: [Root.GetName]: event gre.3 FROM = [From.GetName]" 
+		hidden_effect = {
+			country_event = {
+				id = gre.3
+				days = 365
+			}
+		}
+	}
+	title = gre.2.t
+	desc = gre.3.d
+	picture = GFX_report_event_GRE_crowd2
+
+	is_triggered_only = yes
+
+	trigger = {
+		is_subject = no
+	}
+
+	option = {
+		name = gre.3.a
+		add_political_power = 20
+	}
+}
+
+#elections
+country_event = {
+	id = gre.4 
+	immediate = { 
+		log = "[GetDateText]: [Root.GetName]: event gre.4 FROM = [From.GetName]"
+		hidden_effect = {
+			remove_every_minister = yes
+		}
+		# add_to_variable = {
+		# 	GRE_CURRENT_TERM = 1 #each time event gets fired, changes variable by one
+		# }
+		# every_character = {
+		# 	limit = {
+		# 		is_minister = yes
+		# 	}
+		# 	meta_effect = {
+		# 		text = {
+		# 			set_character_flag = GRE_MINISTER_SERVED_[GETTERM]_TERM # will be used after greek rework
+		# 		}
+		# 		GETTERM = "[?GRE_CURRENT_TERM]"
+		# 	}
+		# }
+	}
+	title = gre.4.t
+	desc = gre.4.d
+	picture = GFX_report_event_election_vote
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = { # SocLibs
+		name = gre.4.a
+		complete_national_focus = GRE_liberals
+		set_country_flag = GRE_path_lpf
+		trigger = {
+			has_country_flag = GRE_chose_rallis
+		}
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 10
+				has_country_flag = GRE_chose_rallis
+				has_country_flag = GRE_VENIZELISTS_AI
+			}
+		}
+		meta_effect = {
+			text = {
+				set_politics = {
+					ruling_party = social_liberal
+					elections_allowed = yes
+					last_election = [GetCurrentDate]
+					election_frequency = 48
+				}
+			}
+			GetCurrentDate = "[GetDate]"
+		}
+		increase_ruling_party_popularity_by_10 = yes
+		GRE_hire_soclibs = yes
+		add_ideas = parliamentary_republic
+	}
+	option = { # Marlibs
+		name = gre.4.b
+		complete_national_focus = GRE_glre
+		set_country_flag = GRE_path_glre
+		trigger = {
+			has_country_flag = GRE_chose_rallis
+		}
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 10
+				has_country_flag = GRE_chose_rallis
+				has_country_flag = GRE_GLRE_AI
+			}
+		}
+		meta_effect = {
+			text = {
+				set_politics = {
+					ruling_party = market_liberal
+					elections_allowed = yes
+					last_election = [GetCurrentDate]
+					election_frequency = 48
+				}
+			}
+			GetCurrentDate = "[GetDate]"
+		}
+		GRE_hire_marlibs = yes
+		increase_ruling_party_popularity_by_10 = yes
+		add_ideas = parliamentary_republic
+	}
+	option = {
+		name = gre.4.c
+		complete_national_focus = GRE_populists
+		set_country_flag = GRE_path_lpf
+		trigger = {
+			has_country_flag = GRE_chose_novas
+		}
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 10
+				has_country_flag = GRE_chose_novas
+				has_country_flag = GRE_LAIKOI_AI
+			}
+		}
+		meta_effect = {
+			text = {
+				set_politics = {
+					ruling_party = social_conservative
+					elections_allowed = yes
+					last_election = [GetCurrentDate]
+					election_frequency = 48
+				}
+			}
+			GetCurrentDate = "[GetDate]"
+		}
+		GRE_hire_soccons = yes
+		increase_ruling_party_popularity_by_10 = yes
+		add_ideas = parliamentary_republic
+	}
+	option = { #socdems
+		name = gre.4.e
+		complete_national_focus = GRE_progressives
+		set_country_flag = GRE_path_progressive
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 10
+				OR = {
+					has_country_flag = GRE_chose_rallis
+					has_country_flag = GRE_chose_glinos
+				}
+				has_country_flag = GRE_PROODEFTIKOI_AI
+			}
+		}
+		trigger = {
+			OR = {
+				has_country_flag = GRE_chose_glinos
+				has_country_flag = GRE_chose_rallis # a bit unlikely, but meh
+			}
+		}
+		meta_effect = {
+			text = {
+				set_politics = {
+					ruling_party = social_democrat
+					elections_allowed = yes
+					last_election = [GetCurrentDate]
+					election_frequency = 48
+				}
+			}
+			GetCurrentDate = "[GetDate]"
+		}
+		GRE_hire_socdems = yes
+		increase_ruling_party_popularity_by_10 = yes
+		set_country_flag = GRE_path_progressives
+		add_ideas = parliamentary_republic
+	}
+	option = { #vangs
+		name = gre.4.f
+		complete_national_focus = GRE_giotopoulos_archiomarxists
+		set_country_flag = GRE_path_archiomarxists
+		trigger = {
+			has_country_flag = GRE_chose_glinos
+		}
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 10
+				has_country_flag = GRE_chose_glinos
+				has_country_flag = GRE_KAKE_AI
+			}
+		}
+		meta_effect = {
+			text = {
+				set_politics = {
+					ruling_party = vanguardist
+					elections_allowed = no
+					last_election = [GetCurrentDate]
+					election_frequency = 48
+				}
+			}
+			GetCurrentDate = "[GetDate]"
+		}
+		GRE_hire_vangs = yes
+		increase_ruling_party_popularity_by_10 = yes
+		add_ideas = communist_state
+	}
+	option = { #cols/libsocs
+		name = gre.4.g
+		set_country_flag = GRE_path_socialists
+		trigger = {
+			has_country_flag = GRE_chose_glinos
+		}
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 10
+				has_country_flag = GRE_chose_glinos
+				OR = {
+					has_country_flag = GRE_KKE_HARDLINER_AI
+					has_country_flag = GRE_KKE_LIBERAL_AI
+				}
+			}
+		}
+		meta_effect = {
+			text = {
+				set_politics = {
+					ruling_party = collectivist
+					elections_allowed = no
+					last_election = [GetCurrentDate]
+					election_frequency = 48
+				}
+			}
+			GetCurrentDate = "[GetDate]"
+		}
+		increase_ruling_party_popularity_by_10 = yes
+		add_ideas = communist_state
+		country_event = {
+			id = gre.61
+			days = 5
+		}
+	}
+	option = { #triggers always - freethinkers
+		name = gre.4.h
+		set_country_flag = GRE_path_lpf
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 10
+				has_country_flag = GRE_FREETHINKER_AI
+			}
+		}
+		meta_effect = {
+			text = {
+				set_politics = {
+					ruling_party = paternal_autocrat
+					elections_allowed = no
+					last_election = [GetCurrentDate]
+					election_frequency = 48
+				}
+			}
+			GetCurrentDate = "[GetDate]"
+		}
+		GRE_hire_patauts = yes
+		country_event = {
+			id = gre.39
+			days = 5
+			random_hours = 4
+		}
+		increase_ruling_party_popularity_by_15 = yes
+		add_ideas = one_party_dictatorship
+	}
+}
+
+country_event = {
+	id = gre.5 #THE INCIDENT
+	immediate = { log = "[GetDateText]: [Root.GetName]: event gre.5 FROM = [From.GetName]" }
+	title = gre.5.t
+	desc = gre.5.d
+	picture = GFX_report_event_GRE_crowd2
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		name = gre.9.a
+		add_popularity = {
+			ideology = paternal_autocrat
+			popularity = -0.10
+		}
+		set_country_flag = GRE_incident
+	}
+}
+
+country_event = {
+	id = gre.6 #KING RETURNS
+	immediate = { log = "[GetDateText]: [Root.GetName]: event gre.6 FROM = [From.GetName]" }
+	title = gre.6.t
+	desc = gre.6.d
+	picture = GFX_report_event_GRE_athens
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		name = gre.6.a
+		add_political_power = 50
+		add_stability = 0.03
+		add_ideas = GRE_george_is_bacc
+		add_ideas = constitutional_monarchy
+		set_cosmetic_tag = GRE_kingdom
+		GRE_Georgios_II = {
+			add_country_leader_role = {
+				country_leader = {
+					ideology = paternal_autocrat_subtype
+					traits = {
+						hog_king_emperor
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				has_completed_focus = GRE_freethinker
+			}
+			remove_ideas_with_trait = head_of_government
+			activate_advisor = GRE_Ioannis_Michail_Metaxas_hog_pau
+		}
+		# GRE_Ioannis_Michail_Metaxas = {
+		# 	add_trait = {
+		# 		trait = hog_pragmatic_statesman
+		# 	}
+		# }
+	}
+}
+
+country_event = {
+	id = gre.7 #FREE GUNS
+	immediate = { log = "[GetDateText]: [Root.GetName]: event gre.9 FROM = [From.GetName]" }
+	title = gre.7.t
+	desc = gre.7.d
+	picture = GFX_report_event_generic_diplomacy3
+
+	trigger = {
+		tag = GRE
+		date > 1936.6.10
+	}
+
+	mean_time_to_happen = {
+		days = 0
+	}
+
+	fire_only_once = yes
+
+	option = {
+		name = gre.7.a
+		add_to_variable = {
+			var = golden_dawn_influence
+			value = 7
+		}
+		custom_effect_tooltip = add_5_to_var_tt
+		add_equipment_to_stockpile = {
+			type = infantry_equipment
+			amount = 200
+			producer = TUR
+		}
+		add_political_power = -10
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 100
+				has_country_flag = GRE_GOLDEN_DAWN_AI
+			}
+		}
+	}
+	option = {
+		name = gre.7.b
+		ai_chance = {
+			factor = 1
+		}
+	}
+}
+
+country_event = {
+	id = gre.8 #NATIONALIST BULLSHIT ON WALLS
+	immediate = { log = "[GetDateText]: [Root.GetName]: event gre.9 FROM = [From.GetName]" }
+	title = gre.8.t
+	desc = gre.8.d
+	picture = GFX_report_event_GRE_protest
+
+	trigger = {
+		tag = GRE
+		date > 1936.3.15
+	}
+
+	mean_time_to_happen = {
+		days = 0
+	}
+
+	fire_only_once = yes
+
+	option = {
+		name = gre.8.a
+		add_political_power = -20
+		ai_chance = {
+			factor = 1
+		}
+	}
+	option = {
+		name = gre.8.b
+		add_to_variable = {
+			var = golden_dawn_influence
+			value = 7
+		}
+		custom_effect_tooltip = add_5_to_var_tt
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 100
+				has_country_flag = GRE_GOLDEN_DAWN_AI
+			}
+		}
+		add_stability = -0.02
+	}
+}
+
+country_event = {
+	id = gre.9 #INTERNATIONAL SUPPORT
+	immediate = { log = "[GetDateText]: [Root.GetName]: event gre.9 FROM = [From.GetName]" }
+	title = gre.9.t
+	desc = gre.9.d
+	picture = GFX_report_event_generic_diplomacy1
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		name = gre.9.a
+		add_equipment_to_stockpile = {
+			type = infantry_equipment
+			amount = 500
+			producer = FRA
+		}
+		add_equipment_to_stockpile = {
+			type = infantry_equipment
+			amount = 500
+			producer = ITA
+		}
+	}
+}
+
+country_event = {
+	id = gre.10 #GERMANY_BAD
+	immediate = { log = "[GetDateText]: [Root.GetName]: event gre.10 FROM = [From.GetName]" }
+	title = gre.10.t
+	desc = gre.10.d
+	picture = GFX_report_event_GRE_crowd2
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		name = gre.10.a
+		TUR = {
+			add_political_power = -50
+		}
+		GER = {
+			add_stability = -0.03
+		}
+	}
+}
+
+country_event = {
+	id = gre.11 #EXECUTION
+	immediate = { log = "[GetDateText]: [Root.GetName]: event gre.11 FROM = [From.GetName]" }
+	title = gre.11.t
+	desc = gre.11.d
+	picture = GFX_report_event_GRE_crowd2
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		name = gre.11.a
+		TUR = {
+			add_manpower = -1
+		}
+		add_political_power = 50
+	}
+}
+
+country_event = {
+	id = gre.12 #MILITIA QUESTION
+	immediate = { log = "[GetDateText]: [Root.GetName]: event gre.11 FROM = [From.GetName]" }
+	title = gre.12.t
+	desc = gre.12.d
+	picture = GFX_report_event_GRE_golden_dawn
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		name = gre.12.a #FULL INTEGRATION
+		add_to_variable = {
+			var = golden_dawn_influence
+			value = 17
+		}
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 100
+				has_country_flag = GRE_GOLDEN_DAWN_AI
+			}
+		}
+		custom_effect_tooltip = add_15_to_var_tt
+		add_manpower = 10000
+		add_stability = -0.03
+	}
+	option = {
+		name = gre.12.b #SUPPORT
+		ai_chance = {
+			factor = 10
+		}
+		add_to_variable = {
+			var = golden_dawn_influence
+			value = 7
+		}
+		add_political_power = -15
+		custom_effect_tooltip = add_5_to_var_tt
+		
+	}
+}
+
+country_event = {
+	id = gre.13 #ANTI JEW MOMENT
+	immediate = { log = "[GetDateText]: [Root.GetName]: event gre.13 FROM = [From.GetName]" }
+	title = gre.13.t
+	desc = gre.13.d
+	picture = GFX_report_event_generic_big_city
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = gre.13.a
+		add_to_variable = {
+			var = golden_dawn_influence
+			value = 7
+		}
+		custom_effect_tooltip = add_5_to_var_tt
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 100
+				has_country_flag = GRE_GOLDEN_DAWN_AI
+			}
+		}
+		if = {
+			limit = {
+				check_variable = { golden_dawn_influence > 101 }
+			}
+			country_event = {
+				id = gre.15
+				days = 2
+			}
+		}
+	}
+	option = {
+		name = gre.13.b
+		add_to_variable = {
+			var = golden_dawn_influence
+			value = -7
+		}
+		custom_effect_tooltip = remove_5_from_var_tt
+		ai_chance = {
+			factor = 1
+		}
+		if = {
+			limit = {
+				check_variable = { golden_dawn_influence > 101 }
+			}
+			country_event = {
+				id = gre.15
+				days = 2
+			}
+		} 
+	}
+}
+
+country_event = {
+	id = gre.14 #ZEUS Is BACC
+	immediate = { log = "[GetDateText]: [Root.GetName]: event gre.14 FROM = [From.GetName]" }
+	title = gre.14.t
+	desc = gre.14.d
+	picture = GFX_report_event_GRE_hellenism
+
+	trigger = {
+		tag = GRE
+		date > 1936.8.29
+	}
+
+	mean_time_to_happen = {
+		days = 0
+	}
+
+	fire_only_once = yes
+
+	option = {
+		name = gre.14.a
+		add_to_variable = {
+			var = golden_dawn_influence
+			value = 7
+		}
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 100
+				has_country_flag = GRE_GOLDEN_DAWN_AI
+			}
+		}
+		custom_effect_tooltip = add_5_to_var_tt
+		add_stability = -0.2
+		add_political_power = 40
+	}
+	option = {
+		name = gre.14.b
+		add_stability = 0.2
+		ai_chance = {
+			factor = 1
+		}
+	}
+}
+
+country_event = {
+	id = gre.15 #GOLDEN DAWN TAKEOWER
+	immediate = { log = "[GetDateText]: [Root.GetName]: event gre.15 FROM = [From.GetName]" }
+	title = gre.15.t
+	desc = gre.15.d
+	picture = GFX_report_event_GRE_golden_dawn
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = gre.15.a
+		set_country_flag = GRE_golden_dawn_off
+		remove_ideas = GRE_golden_dawn
+		meta_effect = {
+			text = {
+				set_politics = {
+					ruling_party = valkist
+					elections_allowed = no
+					last_election = [GetCurrentDate]
+					election_frequency = 48
+				}
+			}
+			GetCurrentDate = "[GetDate]"
+		}
+		increase_ruling_party_popularity_by_10 = yes
+		GRE_hire_valkists = yes
+		country_event = {
+			id = gre.23
+			days = 3
+		}
+		add_to_temp_array = { GRE.flag_removal_temp = token:GRE_path_lpf }
+		add_to_temp_array = { GRE.flag_removal_temp = token:GRE_path_glre }
+		add_to_temp_array = { GRE.flag_removal_temp = token:GRE_path_progressive }
+		add_to_temp_array = { GRE.flag_removal_temp = token:GRE_path_archiomarxists }
+		add_to_temp_array = { GRE.flag_removal_temp = token:GRE_path_socialists }
+		for_each_loop = { #temp solution until i rework this war :>
+			array = GRE.flag_removal_temp
+			value = v
+			break = break
+			if = {
+				limit = {
+					meta_trigger = {
+						text = {
+							has_country_flag = [flag]
+						}
+						flag = "[?v.GetTokenKey]"
+					} 
+				}
+				meta_effect = {
+					text = {
+						clr_country_flag = [flag]
+					}
+					flag = "[?v.GetTokenKey]"
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = gre.16 #ENTENTE SUPPORT
+	immediate = { log = "[GetDateText]: [Root.GetName]: event gre.16 FROM = [From.GetName]" }
+	title = gre.16.t
+	desc = gre.16.d
+	picture = GFX_report_event_generic_diplomacy1
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		name = gre.16.a
+		add_equipment_to_stockpile = {
+			type = infantry_equipment
+			amount = 500
+			producer = ITA
+		}
+		add_equipment_to_stockpile = {
+			type = infantry_equipment
+			amount = 500
+			producer = FRA
+		}
+	}
+}
+
+country_event = {
+	id = gre.23 #SPARTA DED? IT WAS NUMBER 17 BUT IT ALWAYS CRASHED BECAUSE OF IT I DON'T KNOW WHY
+	immediate = { log = "[GetDateText]: [Root.GetName]: event gre.23 FROM = [From.GetName]" }
+	title = gre.23.t
+	desc = gre.23.d
+	picture = GFX_report_event_generic_diplomacy1
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = { #SPARTA
+		name = gre.23.a
+		complete_national_focus = GRE_golden_dawn_focus
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 100
+				has_country_flag = GRE_GOLDEN_DAWN_AI
+			}
+		}
+	}
+	option = { #EGDY BS
+		name = gre.23.b
+		complete_national_focus = GRE_eee
+		meta_effect = {
+			text = {
+				set_politics = {
+					ruling_party = national_populist
+					elections_allowed = no
+					last_election = [GetCurrentDate]
+					election_frequency = 48
+				}
+			}
+			GetCurrentDate = "[GetDate]"
+		}
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 100
+				has_country_flag = GRE_EEE_AI
+			}
+		}
+		GRE_hire_natpops = yes
+		increase_ruling_party_popularity_by_15 = yes
+	}
+}
+
+country_event = {
+	id = gre.18 #TRIP TO HYPERBOREA
+	immediate = { log = "[GetDateText]: [Root.GetName]: event gre.11 FROM = [From.GetName]" }
+	title = gre.18.t
+	desc = gre.18.d
+	picture = GFX_report_event_GRE_hellenism
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		name = gre.18.a
+		add_state_core = 911
+		add_state_core = 101
+		add_research_slot = 2
+	}
+}
+
+country_event = { #WHAT PATH SHOULD I PICK?
+	id = gre.19
+	title = gre.19.t
+	desc = gre.19.d
+	
+	is_triggered_only = yes
+
+	option = {
+		name = gre.19.a
+	}
+}
+
+country_event = {
+	id = gre.20 #RESISTANCE IN SMYRNA
+	immediate = { log = "[GetDateText]: [Root.GetName]: event gre.9 FROM = [From.GetName]" }
+	title = gre.20.t
+	desc = gre.20.d
+	picture = GFX_report_event_GRE_army
+
+	trigger = {
+		tag = GRE
+		date > 1936.11.7
+	}
+
+	mean_time_to_happen = {
+		days = 0
+	}
+
+	fire_only_once = yes
+
+	option = {
+		name = gre.20.a
+		add_to_variable = {
+			var = golden_dawn_influence
+			value = 17
+		}
+		custom_effect_tooltip = add_15_to_var_tt
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 100
+				has_country_flag = GRE_GOLDEN_DAWN_AI
+			}
+		}
+	}
+	option = {
+		name = gre.20.b
+		ai_chance = {
+			factor = 1
+		}
+	}
+}
+
+country_event = {
+	id = gre.21 #FALL
+	immediate = { log = "[GetDateText]: [Root.GetName]: event gre.9 FROM = [From.GetName]" }
+	title = gre.21.t
+	desc = gre.21.d
+	picture = GFX_report_event_GRE_army
+
+	# trigger = {
+	# 	# tag = .
+	# }
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = gre.21.a
+		# load_focus_tree = aughhhhhhhugugugugugugugug
+		add_ideas = GRE_fallen_state
+	}
+}
+
+country_event = {
+	id = gre.22 #COUP
+	immediate = { log = "[GetDateText]: [Root.GetName]: event gre.9 FROM = [From.GetName]" }
+	title = gre.22.t
+	desc = gre.22.d
+	picture = GFX_report_event_GRE_army
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		name = gre.22.a
+		# load_focus_tree = aughhhhhhhugugugugugugugug
+		add_ideas = GRE_chaos_in_state
+		remove_ideas = GRE_scorched_earth
+		remove_ideas = GRE_total_war
+	}
+}
+
+country_event = {
+	id = gre.24 #SER accepted GRE-SER Mutual Defence Agreement
+	immediate = { log = "[GetDateText]: [Root.GetName]: event gre.24 FROM = [From.GetName]" }
+	title = gre.24.t
+	desc = gre.24.d
+	picture = GFX_report_event_GRE_army
+	fire_only_once = yes
+	is_triggered_only = yes
+	option = {
+		name = gre.24.a
+		add_political_power = 20
+	}
+}
+
+country_event = {
+	id = gre.25 #SER refused GRE-SER Mutual Defence Agreement
+	immediate = { log = "[GetDateText]: [Root.GetName]: event gre.25 FROM = [From.GetName]" }
+	title = gre.25.t
+	desc = gre.25.d
+	picture = GFX_report_event_GRE_army
+	fire_only_once = yes
+	is_triggered_only = yes
+	option = {
+		name = gre.25.a
+		add_political_power = -20
+	}
+}
+
+country_event = {
+	id = gre.26 #SER accepted to join alliance
+	immediate = { log = "[GetDateText]: [Root.GetName]: event gre.26 FROM = [From.GetName]" }
+	title = gre.26.t
+	desc = gre.26.d
+	picture = GFX_report_event_GRE_army
+	fire_only_once = yes
+	is_triggered_only = yes
+	option = {
+		name = gre.26.a
+		add_political_power = 20
+	}
+}
+
+country_event = {
+	id = gre.27 #SER refused to join alliance
+	immediate = { log = "[GetDateText]: [Root.GetName]: event gre.27 FROM = [From.GetName]" }
+	title = gre.27.t
+	desc = gre.27.d
+	picture = GFX_report_event_GRE_army
+	fire_only_once = yes
+	is_triggered_only = yes
+	option = {
+		name = gre.27.a
+		add_political_power = -20
+	}
+}
+
+country_event = {
+	id = gre.28 #SER accepted to give bitola
+	immediate = { log = "[GetDateText]: [Root.GetName]: event gre.28 FROM = [From.GetName]" }
+	title = gre.28.t
+	desc = gre.28.d
+	picture = GFX_report_event_GRE_army
+	fire_only_once = yes
+	is_triggered_only = yes
+	option = {
+		name = gre.28.a
+		add_political_power = 20
+	}
+}
+
+country_event = {
+	id = gre.29 #SER refused to give bitola
+	immediate = { log = "[GetDateText]: [Root.GetName]: event gre.29 FROM = [From.GetName]" }
+	title = gre.29.t
+	desc = gre.29.d
+	picture = GFX_report_event_GRE_army
+	fire_only_once = yes
+	is_triggered_only = yes
+	option = {
+		name = gre.29.a
+		add_political_power = 20
+	}
+	option = {
+		name = gre.29.b
+		add_political_power = -20
+		add_stability = -0.02
+		add_state_claim = 787
+	}
+}
+
+country_event = {
+	id = gre.30 #BUL accepted to give Smolyan
+	immediate = { log = "[GetDateText]: [Root.GetName]: event gre.30 FROM = [From.GetName]" }
+	title = gre.30.t
+	desc = gre.30.d
+	picture = GFX_report_event_GRE_army
+	fire_only_once = yes
+	is_triggered_only = yes
+	option = {
+		name = gre.30.a
+		add_political_power = 20
+	}
+}
+
+country_event = {
+	id = gre.31 #BUL refused to give Smolyan
+	immediate = { log = "[GetDateText]: [Root.GetName]: event gre.31 FROM = [From.GetName]" }
+	title = gre.31.t
+	desc = gre.31.d
+	picture = GFX_report_event_GRE_army
+	fire_only_once = yes
+	is_triggered_only = yes
+	option = {
+		name = gre.31.a
+		add_political_power = 20
+	}
+	option = {
+		name = gre.31.b
+		add_political_power = -20
+		add_state_claim = 764
+	}
+}
+
+country_event = {
+	id = gre.32 #SER accepted to give North Macedonia	
+	immediate = { log = "[GetDateText]: [Root.GetName]: event gre.32 FROM = [From.GetName]" }
+	title = gre.32.t
+	desc = gre.32.d
+	picture = GFX_report_event_GRE_army
+	fire_only_once = yes
+	is_triggered_only = yes
+	option = {
+		name = gre.32.a
+		add_political_power = 20
+	}
+}
+
+country_event = {
+	id = gre.33 #SER refused to give North Macedonia
+	immediate = { log = "[GetDateText]: [Root.GetName]: event gre.33 FROM = [From.GetName]" }
+	title = gre.33.t
+	desc = gre.33.d
+	picture = GFX_report_event_GRE_army
+	fire_only_once = yes
+	is_triggered_only = yes
+	option = {
+		name = gre.33.a
+		add_political_power = 20
+	}
+	option = {
+		name = gre.33.b
+		add_political_power = -20
+		add_state_claim = 787
+		if = {
+			limit = {
+				787 = {
+					NOT = {
+						is_claimed_by = GRE 
+					}
+				}
+			}
+			add_state_claim = 787
+		}
+	}
+}
+
+country_event = {
+	id = gre.34 #ITA accepted to join the balkan alliance
+	immediate = { log = "[GetDateText]: [Root.GetName]: event gre.34 FROM = [From.GetName]" }
+	title = gre.34.t
+	desc = gre.34.d
+	picture = GFX_report_event_GRE_army
+	fire_only_once = yes
+	is_triggered_only = yes
+	option = {
+		name = gre.34.a
+		add_political_power = 20
+	}
+}
+
+country_event = {
+	id = gre.35 #ITA refused to join the balkan alliance
+	immediate = { log = "[GetDateText]: [Root.GetName]: event gre.35 FROM = [From.GetName]" }
+	title = gre.35.t
+	desc = gre.35.d
+	picture = GFX_report_event_GRE_army
+	fire_only_once = yes
+	is_triggered_only = yes
+	option = {
+		name = gre.35.a
+		add_political_power = -10
+	}
+}
+
+# country_event = {
+# 	id = gre.36 # Somebody else
+# 	title = gre.4.t
+# 	desc = gre.4.d
+# 	picture = GFX_report_event_GRE_crowd2
+# 	fire_only_once = yes
+# 	is_triggered_only = yes
+# 	option = {
+# 		name = gre.36.a
+# 		complete_national_focus = GRE_glre
+# 		set_country_flag = GRE_path_glre
+# 		meta_effect = {
+# 			text = {
+# 				set_politics = {
+# 					ruling_party = market_liberal
+# 					elections_allowed = no
+# 					last_election = [GetCurrentDate]
+# 					election_frequency = 48
+# 				}
+# 			}
+# 			GetCurrentDate = "[GetDate]"
+# 		}
+# 		GRE_hire_marlibs = yes
+# 		increase_ruling_party_popularity_by_10 = yes
+
+# 	}
+# 	option = {
+# 		name = gre.36.b
+# 		complete_national_focus = GRE_progressives
+# 		set_country_flag = GRE_path_progressive
+# 		meta_effect = {
+# 			text = {
+# 				set_politics = {
+# 					ruling_party = social_democrat
+# 					elections_allowed = no
+# 					last_election = [GetCurrentDate]
+# 					election_frequency = 48
+# 				}
+# 			}
+# 			GetCurrentDate = "[GetDate]"
+# 		}
+# 		GRE_hire_socdems = yes
+# 		increase_ruling_party_popularity_by_10 = yes
+# 	}
+# 	option = {
+# 		name = gre.36.c
+# 		complete_national_focus = GRE_giotopoulos_archiomarxists
+# 		set_country_flag = GRE_path_archiomarxists
+# 		meta_effect = {
+# 			text = {
+# 				set_politics = {
+# 					ruling_party = vanguardist
+# 					elections_allowed = no
+# 					last_election = [GetCurrentDate]
+# 					election_frequency = 48
+# 				}
+# 			}
+# 			GetCurrentDate = "[GetDate]"
+# 		}
+# 		GRE_hire_vangs = yes
+# 		increase_ruling_party_popularity_by_10 = yes
+# 	}
+# 	option = {
+# 		name = gre.36.f
+# 		country_event = gre.4
+# 	}
+	
+# }
+
+country_event = {
+	id = gre.37 # Death of Zaimis
+	title = gre.37.t
+	desc = gre.37.d
+	picture = GFX_report_event_gre_city_devastated
+	fire_only_once = yes
+	is_triggered_only = yes
+	# trigger = {
+	# 	date > "1936.9.30"
+	# 	date < "1936.11.1"
+	# }
+	# mean_time_to_happen = {
+	# 	days = 5
+	# }
+	option = { # The State Mourns
+		name = gre.37.a
+		kill_country_leader = yes
+		# retire_character = GRE_Alexandros_Zaimis
+		set_country_flag = GRE_ALEXANDROS_Z_DED
+		GRE_Eleftherios_Kyriakou_Venizelos = {
+			add_country_leader_role = {
+				country_leader = {
+					ideology = venizelism_subtype
+				}
+				promote_leader = yes
+			}
+		}
+		hidden_effect = {
+			country_event = {
+				id = gre.38
+				days = 2
+				random_hours = 5
+			}
+		}
+	}
+	
+}
+
+country_event = {
+	id = gre.38 # 1936 Snap presidential election
+	title = gre.38.t
+	desc = gre.38.d
+	picture = GFX_report_event_GRE_referendum
+	fire_only_once = yes
+	is_triggered_only = yes
+	immediate = {
+		hidden_effect = {
+			set_country_flag = GRE_had_1936_elections
+		}
+	}
+	trigger = {
+		tag = GRE
+		date > 1936.1.1
+		date < 1937.1.1
+		NOT = {
+			OR = {
+				has_country_flag = GRE_had_1936_elections
+			}
+		}
+	}
+	option = { # Athanasiadis (Moderate Democrat)
+		name = gre.38.a
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 10
+				has_country_flag = GRE_LAIKOI_AI
+			}
+		}
+		GRE_make_novas_head_of_all_democrats = yes
+		set_country_flag = GRE_chose_novas # allows authdems, soccons, 
+	}
+	option = { # Ioannis Rallis
+		name = gre.38.b
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 10
+				OR = {
+					has_country_flag = GRE_VENIZELISTS_AI
+					has_country_flag = GRE_GLRE_AI
+					has_country_flag = GRE_PURSUE_BYZANTIUM_AI
+				}
+			}
+		}
+		GRE_make_rallis_head_of_all_democrats = yes
+		set_country_flag = GRE_chose_rallis # Allows soclibs, marlibs
+	}
+
+	option = { # Dimitris Glinos
+		name = gre.38.c
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 10
+				OR = {
+					has_country_flag = GRE_PROODEFTIKOI_AI
+					has_country_flag = GRE_KAKE_AI
+					has_country_flag = GRE_KKE_HARDLINER_AI
+					has_country_flag = GRE_KKE_LIBERAL_AI
+				}
+			}
+		}
+		GRE_make_glinos_head_of_all_democrats = yes
+		set_country_flag = GRE_chose_glinos # Allows Socialists and Socdems
+	}
+}
+
+country_event = {
+	id = gre.39
+	title = gre.39.t
+	desc = gre.39.d
+	is_triggered_only = yes
+
+	immediate = {
+		log = "[ROOT.GetDateText]: [ROOT.GetName] event gre.39 FROM = [FROM.GetName]"
+	}
+
+	option = { #1st Hellenic civilisation
+		name = gre.39.a
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 10
+				has_country_flag = GRE_1ST_HELLENIC_CIV_AI
+			}
+		}
+		set_country_flag = first_hellenic_civ
+		custom_effect_tooltip = first_hellenic_civ_tt
+		GRE_Ioannis_Michail_Metaxas = {
+			add_country_leader_role = {
+				country_leader = {
+					ideology = val_metaxism_subtype
+				}
+				promote_leader = yes 
+			}
+		}
+		set_politics = {
+			ruling_party = valkist
+			election_frequency = 48
+			elections_allowed = no
+			name = GRE_paternal_autocrat_party
+			long_name = GRE_paternal_autocrat_party_long
+		}
+		complete_national_focus = GRE_emphasize_first_hellenic_civilisation
+		set_country_flag = GRE_golden_dawn_off
+	}
+	option = { # 2nd Hellenic Civilisation (PatAuts)
+		name = gre.39.b
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 10
+				has_country_flag = GRE_2ND_HELLENIC_CIV_PATAUT_AI
+			}
+		}
+		set_cosmetic_tag = BYZ
+		set_country_flag = second_hellenic_civ
+		custom_effect_tooltip = second_hellenic_civ_tt
+		complete_national_focus = GRE_emphasize_second_hellenic_civilisation
+	}
+	option = { #2nd Hellenic civilisation (NatPops)
+		name = gre.39.c
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 10
+				has_country_flag = GRE_2ND_HELLENIC_CIV_NATPOP_AI
+			}
+		}
+		set_cosmetic_tag = BYZ
+		set_country_flag = second_hellenic_civ
+		custom_effect_tooltip = second_hellenic_civ_tt
+		complete_national_focus = GRE_emphasize_second_hellenic_civilisation
+		GRE_Ioannis_Michail_Metaxas = {
+			add_country_leader_role = {
+				country_leader = {
+					ideology = metaxism_subtype
+				}
+				promote_leader = yes 
+			}
+		}
+		set_politics = {
+			ruling_party = national_populist
+			election_frequency = 48
+			elections_allowed = no
+			name = GRE_paternal_autocrat_party
+			long_name = GRE_paternal_autocrat_party_long
+		}
+	}
+	option = { #3rd Hellenic civilisation (PatAuts)
+		name = gre.39.e
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 10
+				has_country_flag = GRE_3RD_HELLENIC_CIV
+			}
+		}
+		complete_national_focus = GRE_freethinker
+		set_country_flag = third_hellenic_civ
+		custom_effect_tooltip = third_hellenic_civ_tt
+	}
+}
+
+
+country_event = {
+	id = gre.40
+	title = gre.40.t
+	desc = gre.40.d
+	is_triggered_only = yes
+
+	immediate = {
+		log = "[ROOT.GetDateText]: [ROOT.GetName] event gre.40 FROM = [FROM.GetName]"
+	}
+
+	option = { #Launch Invasion
+		name = gre.40.a
+		create_wargoal = {
+			target = SER
+			type = puppet_wargoal_focus
+		}
+	}
+	option = { #No
+		name = gre.40.b
+		set_country_flag = GRE_ACCEPTED_SERBIAN_FEDERATION
+		country_event = { id = gre.41 days = 3 random_hours = 6 }
+	}
+
+}
+
+
+country_event = {
+	id = gre.41
+	title = gre.41.t
+	desc = gre.41.d
+	is_triggered_only = yes
+
+	immediate = {
+		log = "[ROOT.GetDateText]: [ROOT.GetName] event gre.41 FROM = [FROM.GetName]"
+	}
+
+	option = { 
+		name = gre.41.a
+		country_event = { id = gre.42 days = 3 random_hours = 6 }
+	}
+
+}
+
+country_event = {
+	id = gre.42
+	title = gre.42.t
+	desc = gre.42.d
+	is_triggered_only = yes
+
+	immediate = {
+		log = "[ROOT.GetDateText]: [ROOT.GetName] event gre.42 FROM = [FROM.GetName]"
+	}
+
+	option = { 
+		name = gre.42.a
+		country_event = { id = gre.43 days = 3 random_hours = 6 }
+	}
+
+}
+
+
+country_event = {
+	id = gre.43
+	title = gre.43.t
+	desc = gre.43.d
+	is_triggered_only = yes
+
+	immediate = {
+		log = "[ROOT.GetDateText]: [ROOT.GetName] event gre.43 FROM = [FROM.GetName]"
+	}
+
+	option = { 
+		name = gre.43.a
+		hidden_effect = {
+			country_event = { id = gre.44 days = 10 random_hours = 6 }
+		}
+	}
+
+}
+
+
+country_event = {
+	id = gre.44
+	title = gre.44.t
+	desc = gre.44.d
+	is_triggered_only = yes
+
+	immediate = {
+		log = "[ROOT.GetDateText]: [ROOT.GetName] event gre.44 FROM = [FROM.GetName]"
+	}
+
+	option = { 
+		name = gre.44.a
+		set_cosmetic_tag = GRE_YUG
+	}
+	# option = { 
+	# 	name = gre.44.b # can be used for future expansion, for now will be hidden
+	#   custom_effect_tooltip = gre.44.b.tt
+	# }
+
+}
+
+country_event = {
+	id = gre.45
+	title = gre.45.t
+	desc = gre.45.d
+	picture = GFX_report_event_gre_venizelos_death
+	is_triggered_only = yes
+	fire_only_once = yes
+	trigger = {
+		date > 1941.2.1
+		date < 1941.3.1
+	}
+
+	immediate = {
+		log = "[ROOT.GetDateText]: [ROOT.GetName] event gre.45 FROM = [FROM.GetName]"
+	}
+
+	option = { 
+		name = gre.45.a
+		retire_character = GRE_Eleftherios_Kyriakou_Venizelos
+		hidden_effect = {
+			country_event = { id = gre.46 days = 2 random_hours = 6}
+		}
+	}
+}
+
+country_event = {
+	id = gre.46
+	title = gre.46.t
+	desc = gre.46.d
+	picture = GFX_report_event_election_vote
+	is_triggered_only = yes
+
+	immediate = {
+		log = "[ROOT.GetDateText]: [ROOT.GetName] event gre.46 FROM = [FROM.GetName]"
+	}
+
+	option = { 
+		name = gre.46.a
+		remove_every_minister = yes
+		GRE_hire_soclibs_sophoklis = yes
+		set_country_flag = GRE_chose_sophoklis
+		hidden_effect = {
+			set_party_name = {
+				ideology = social_liberal
+				long_name = GRE_social_liberal_party_sofoklis_long
+				name = GRE_social_liberal_party
+			}
+		}
+	}
+
+	option = { 
+		name = gre.46.b
+		remove_every_minister = yes
+		GRE_hire_soclibs_sofoulis = yes
+		set_country_flag = GRE_chose_themistoklis
+		hidden_effect = {
+			set_party_name = {
+				ideology = social_liberal
+				long_name = GRE_social_liberal_party_themistoklis_long
+				name = GRE_social_liberal_party
+			}
+		}
+				
+	}
+}
+
+country_event = { # 1941 Elections
+	id = gre.47
+	title = gre.47.t
+	desc = gre.47.d
+	picture = GFX_report_event_election_vote
+
+	immediate = {
+		log = "[ROOT.GetDateText]: [ROOT.GetName] event gre.47 FROM = [FROM.GetName]"
+		hidden_effect = {
+			set_country_flag = GRE_had_1941_elections
+		}
+	}
+	trigger = {
+		tag = GRE
+		date > 1941.1.1
+		date < 1942.1.1
+		NOT = {
+			OR = {
+				has_country_flag = GRE_had_1941_elections
+			}
+		}
+		has_democratic_government = yes
+	}
+	fire_only_once = yes
+	option = {
+		name = gre.47.a
+		set_country_flag = GRE_incumbent_1941
+	}
+	option = { # Gonatas
+		name = gre.47.b
+		trigger = {
+			OR = {
+				has_government = social_liberal
+				has_government = market_liberal
+				has_government = social_democrat
+			}
+		}
+		GRE_demote_previous_leader = yes
+		GRE_make_gonatas_head_of_all_democrats = yes
+		set_country_flag = GRE_chose_gonatas
+	}
+	option = { # Dragoumis
+		name = gre.47.c
+		trigger = {
+			OR = {
+				has_government = social_conservative
+				has_government = authoritarian_democrat
+			}
+		}
+		GRE_demote_previous_leader = yes
+		GRE_make_dragoumis_head_of_all_democrats = yes
+		set_country_flag = GRE_chose_dragoumis
+	}
+	option = { # Partsalidis
+		name = gre.47.e
+		trigger = {
+			has_government = social_democrat
+		}
+		GRE_demote_previous_leader = yes
+		GRE_make_partsalidis_head_of_all_democrats = yes
+		set_country_flag = GRE_chose_partsalidis
+	}
+}
+
+country_event = { # 1946 Elections
+	id = gre.48
+	title = gre.48.t
+	desc = gre.48.d
+	picture = GFX_report_event_election_vote
+	trigger = {
+		tag = GRE
+		date > 1946.1.1
+		date < 1947.1.1
+		NOT = {
+			OR = {
+				has_country_flag = GRE_had_1946_elections
+			}
+		}
+		has_democratic_government = yes
+	}
+	fire_only_once = yes
+	immediate = {
+		log = "[ROOT.GetDateText]: [ROOT.GetName] event gre.48 FROM = [FROM.GetName]"
+		hidden_effect = {
+			set_country_flag = GRE_had_1946_elections
+		}
+	}
+	option = {
+		name = gre.48.a
+		trigger = {
+			NOT = {
+				has_country_flag = GRE_incumbent_1941
+			}
+		}
+		set_country_flag = GRE_incumbent_1946
+	}
+	option = { # Iasonidis	
+		name = gre.48.b
+		trigger = {
+			OR = {
+				has_government = social_liberal
+				has_government = market_liberal
+			}
+		}
+		GRE_demote_previous_leader_1941 = yes
+		GRE_make_iasonidis_head_of_all_democrats = yes
+		set_country_flag = GRE_chose_iasonidis
+	}
+	option = { # Kyrozis
+		name = gre.48.c
+		trigger = {
+			OR = {
+				has_government = social_conservative
+				has_government = authoritarian_democrat
+			}
+		}
+		GRE_demote_previous_leader_1941 = yes
+		GRE_make_kyrozis_head_of_all_democrats = yes
+		set_country_flag = GRE_chose_kyrozis
+	}
+	option = { # Sofianopoulos
+		name = gre.48.e
+		trigger = {
+			has_government = social_democrat
+		}
+		GRE_demote_previous_leader_1941 = yes
+		GRE_make_sofianopoulos_head_of_all_democrats = yes
+		set_country_flag = GRE_chose_sofianopoulos
+	}
+}
+
+####################################################################################
+####################################################################################
+##################################### CRISIS #######################################
+####################################################################################
+####################################################################################
+
+country_event = {
+	id = gre.49 #ABOLISHMENT OF ISC 
+	immediate = { log = "[GetDateText]: [Root.GetName]: event gre.49 FROM = [From.GetName]" }
+	title = gre.49.t
+	desc = gre.49.d
+	picture = GFX_report_event_GRE_army
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		name = gre.49.a
+		GRE = {
+			transfer_state = 341
+			transfer_state = 1067
+		}
+		TUR = {
+			transfer_state = 347
+			transfer_state = 776
+			transfer_state = 340
+		}
+		341 = {
+			set_demilitarized_zone = yes
+			set_state_name = GRE_STATE_NAME_341
+		}
+		347 = {
+			set_demilitarized_zone = yes
+		}
+		776 = {
+			set_demilitarized_zone = yes
+		}
+		340 = {
+			set_demilitarized_zone = yes
+		}
+		1067 = {
+			set_demilitarized_zone = yes
+		}
+		hidden_effect = {
+			every_state = {
+				limit = {
+					is_core_of = ISC
+				}
+				remove_core_of = ISC
+			}
+			news_event = fxnews.69
+		}
+	}
+}
+
+country_event = {
+	id = gre.50 #START OF THE CRISIS
+	immediate = { log = "[GetDateText]: [Root.GetName]: event gre.50 FROM = [From.GetName]" }
+	title = gre.50.t
+	desc = gre.50.d
+	picture = GFX_report_event_GRE_crowd2
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		name = gre.50.a
+		complete_national_focus = GRE_smyrna_crisis
+		341 = {
+			set_demilitarized_zone = no
+		}
+		347 = {
+			set_demilitarized_zone = no
+		}
+		776 = {
+			set_demilitarized_zone = no
+		}
+		340 = {
+			set_demilitarized_zone = no
+		}
+		1067 = {
+			set_demilitarized_zone = no
+		}
+		set_global_flag = GRE_activate_pfw_mission
+		activate_mission = GRE_prepare_for_war_fx
+		hidden_effect = {
+			TUR = {
+				activate_mission = TUR_prepare_for_war_fx
+			}
+		}
+	}
+}
+
+country_event = {
+	id = gre.51 
+	immediate = { log = "[GetDateText]: [Root.GetName]: event gre.51 FROM = [From.GetName]" }
+	title = gre.51.t
+	desc = gre.51.d
+	picture = GFX_report_event_GRE_riot
+
+	fire_only_once = yes
+
+	is_triggered_only = yes
+
+	option = {
+		name = gre.51.a
+		TUR = {
+			declare_war_on = {
+                target = GRE
+                type = annex_everything
+            }
+		}
+		complete_national_focus = GRE_greco_turkish_war
+		set_country_flag = GRE_warwithturkey
+		remove_ideas = GRE_golden_dawn
+		activate_mission = GRE_greek_turkish_war_timer
+	}
+}
+
+country_event = {
+	id = gre.52 #RIP OTTOMAN EMPIRE - LIBERALS, POPULISTS, PROGRESSIVES FREETHINKERS
+	immediate = { 
+		log = "[GetDateText]: [Root.GetName]: event gre.52 FROM = [From.GetName]" 
+		hidden_effect = {
+			white_peace = TUR
+			set_country_flag = GRE_LIBCONFRE_victory
+			clr_country_flag = GRE_warwithturkey
+			GRE = {
+				set_rule = {
+					can_join_factions = yes
+				}
+				transfer_state = 776
+				transfer_state = 340
+				transfer_state = 347
+				if = {
+					limit = {
+						NOT = {
+							GRE = {
+								controls_state = 341
+							}
+						}
+					}
+					transfer_state = 341
+				}
+				if = {
+					limit = {
+						NOT = {
+							GRE = {
+								controls_state = 1067
+							}
+						}
+					}
+					transfer_state = 1067
+				}
+				white_peace = TUR
+			}
+			TUR = {
+				set_rule = {
+					can_join_factions = yes
+				}
+			}
+		}
+	}
+	title = gre.52.t
+	desc = gre.52.d
+	picture = GFX_report_event_GRE_crowd2
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		name = gre.52.a
+		effect_tooltip = {
+			white_peace = TUR
+			set_country_flag = GRE_LIBCONFRE_victory
+			clr_country_flag = GRE_warwithturkey
+			GRE = {
+				set_rule = {
+					can_join_factions = yes
+				}
+				transfer_state = 776
+				transfer_state = 340
+				transfer_state = 347
+				if = {
+					limit = {
+						NOT = {
+							GRE = {
+								controls_state = 341
+							}
+						}
+					}
+					transfer_state = 341
+				}
+				if = {
+					limit = {
+						NOT = {
+							GRE = {
+								controls_state = 1067
+							}
+						}
+					}
+					transfer_state = 1067
+				}
+				white_peace = TUR
+			}
+			TUR = {
+				set_rule = {
+					can_join_factions = yes
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = gre.53 #RIP OTTOMAN EMPIRE - GLRE
+	immediate = { 
+		log = "[GetDateText]: [Root.GetName]: event gre.53 FROM = [From.GetName]"
+		hidden_effect = {
+			set_rule = {
+				can_join_factions = yes
+			}
+			white_peace = TUR
+			clr_country_flag = GRE_warwithturkey
+			set_country_flag = GRE_EEK_victory
+			GRE = {
+				annex_country = {
+					target = TUR
+				}
+			}
+		}
+	}
+	title = gre.53.t
+	desc = gre.53.d
+	picture = GFX_report_event_GRE_crowd2
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		name = gre.53.a
+		effect_tooltip = {
+			set_rule = {
+				can_join_factions = yes
+			}
+			white_peace = TUR
+			clr_country_flag = GRE_warwithturkey
+			set_country_flag = GRE_EEK_victory
+			GRE = {
+				annex_country = {
+					target = TUR
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = gre.54 #RIP OTTOMAN EMPIRE - SOC
+	immediate = { 
+		log = "[GetDateText]: [Root.GetName]: event gre.54 FROM = [From.GetName]" 
+		hidden_effect = {
+			set_country_flag = GRE_SOC_victory
+			white_peace = TUR
+			set_autonomy = {
+				target = TUR
+				autonomy_state = autonomy_puppet
+			}
+			set_rule = {
+				can_join_factions = yes
+			}
+			GRE = { 
+				every_state = {
+					limit = {
+						OR = {
+							state = 776
+							state = 340
+							state = 347
+						}
+						is_owned_and_controlled_by = TUR
+					}
+					transfer_state_to = GRE
+					add_core_of = GRE
+				}
+			}
+			if = {
+				limit = {
+					345 = {
+						is_owned_and_controlled_by = TUR
+					}
+				}
+				345 = {
+					transfer_state_to = GRE
+					add_core_of = GRE
+				}
+			}
+			TUR = {
+				set_rule = {
+					can_join_factions = yes
+				}
+				set_cosmetic_tag = TUR_GRE
+				GRE = {
+					add_to_faction = PREV
+				}
+			}
+		}
+	}
+	title = gre.54.t
+	desc = gre.54.d
+	picture = GFX_report_event_GRE_crowd2
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		name = gre.54.a
+		effect_tooltip = {
+			set_country_flag = GRE_SOC_victory
+			white_peace = TUR
+			set_autonomy = {
+				target = TUR
+				autonomy_state = autonomy_puppet
+			}
+			set_rule = {
+				can_join_factions = yes
+			}
+			GRE = { 
+				every_state = {
+					limit = {
+						OR = {
+							state = 776
+							state = 340
+							state = 347
+						}
+						is_owned_and_controlled_by = TUR
+					}
+					transfer_state_to = GRE
+					add_core_of = GRE
+				}
+			}
+			if = {
+				limit = {
+					TUR = {
+						controls_state = 345
+					}
+				}
+				345 = {
+					transfer_state_to = GRE
+					add_core_of = GRE
+				}
+			}
+			TUR = {
+				set_rule = {
+					can_join_factions = yes
+				}
+				set_cosmetic_tag = TUR_GRE
+				GRE = {
+					add_to_faction = PREV
+				}
+			}
+		}
+	}
+}
+
+country_event = { #TURKEY WINS
+	id = gre.55
+	immediate = { 
+		log = "[GetDateText]: [Root.GetName]: event gre.55 FROM = [From.GetName]"
+		hidden_effect = {
+			white_peace = TUR
+			set_rule = {
+				can_join_factions = yes
+			}
+			TUR = {
+				set_rule = {
+					can_join_factions = yes
+				}
+				transfer_state = 341
+				transfer_state = 342
+				transfer_state = 187
+				transfer_state = 339
+				# transfer_state = 763
+				transfer_state = 1067
+				transfer_state = 1064 
+			}
+			clr_country_flag = GRE_warwithturkey
+		}
+	}
+	title = gre.55.t
+	desc = gre.55.d
+	picture = GFX_report_event_GRE_crowd2
+
+	fire_only_once = yes
+
+	is_triggered_only = yes
+	option = {
+		name = gre.55.a
+		effect_tooltip = {
+			white_peace = TUR
+			set_rule = {
+				can_join_factions = yes
+			}
+			TUR = {
+				set_rule = {
+					can_join_factions = yes
+				}
+				transfer_state = 341
+				transfer_state = 342
+				transfer_state = 187
+				transfer_state = 339
+				transfer_state = 763
+				transfer_state = 1067
+			}
+			clr_country_flag = GRE_warwithturkey
+		}
+	}
+}
+
+country_event = { #WAR IS STUCK AND TURKEY WINS
+	id = gre.56
+	immediate = { log = "[GetDateText]: [Root.GetName]: event gre.55 FROM = [From.GetName]" }
+	title = gre.56.t
+	desc = gre.56.d
+	picture = GFX_report_event_GRE_crowd2
+
+	fire_only_once = yes
+
+	is_triggered_only = yes
+	# trigger = {
+	# 	tag = NIGERIABALLSHD
+	# }
+	option = {
+		name = gre.56.a
+		set_rule = {
+			can_join_factions = yes
+		}
+		TUR = {
+			transfer_state = 339
+			transfer_state = 340
+			transfer_state = 1064
+			transfer_state = 776
+			transfer_state = 347
+			set_rule = {
+				can_join_factions = yes
+			}
+		}
+		white_peace = TUR
+		clr_country_flag = GRE_warwithturkey
+	}
+}
+
+# country_event = { #Third GRETUR war - Greece and Armenia join and win, AZR also joined
+# 	id = grepeace.6
+# 	immediate = {
+# 		log = "[GetDateText]: [Root.GetName]: event grepeace.6 FROM = [From.GetName]"
+# 	}
+# 	title = grepeace.6.t
+# 	desc = grepeace.6.d
+# 	picture = GFX_report_event_GRE_crowd2
+# 	fire_only_once = yes
+# 	is_triggered_only = yes
+# 	option = {
+# 		name = grepeace.6.a
+# 		ARM = {
+# 			add_political_power = 100
+# 			annex_country = {
+# 				target = AZR
+# 			}
+# 			country_event = gre.65
+# 		}
+# 		GRE = {
+# 			# if = {
+# 			# 	limit = {
+# 			# 		has_dlc_tfv = yes
+# 			# 	}
+# 			# 	set_autonomy = {
+# 			# 		target = TUR
+# 			# 		autonomy_state = autonomy_puppet 
+# 			# 	}
+# 			# 	else = {
+# 			# 		puppet = TUR
+
+# 			# 	}
+# 			# }
+# 			annex_country = {
+# 				target = TUR
+# 			}
+# 			white_peace = TUR
+# 			white_peace = AZR
+# 		}
+# 		ARM = {
+# 			white_peace = TUR
+# 			white_peace = AZR
+# 		}
+# 		# TUR = {
+# 		# 	set_cosmetic_tag = TUR_GRE
+# 		# }
+# 	}
+# }
+
+# country_event = { #Third GRETUR war - Greece and Armenia join and win, AZR doesn't join
+# 	id = grepeace.7
+# 	immediate = {
+# 		log = "[GetDateText]: [Root.GetName]: event grepeace.7 FROM = [From.GetName]"
+# 	}
+# 	title = grepeace.7.t
+# 	desc = grepeace.7.d
+# 	picture = GFX_report_event_GRE_crowd2
+# 	fire_only_once = yes
+# 	is_triggered_only = yes
+# 	option = {
+# 		name = grepeace.7.a
+# 		ARM = {
+# 			add_political_power = 100
+# 			white_peace = TUR
+# 			white_peace = AZR
+
+# 		}
+# 		GRE = {
+# 			# if = {
+# 			# 	limit = {
+# 			# 		has_dlc_tfv = yes
+# 			# 	}
+# 			# 	set_autonomy = {
+# 			# 		target = TUR
+# 			# 		autonomy_state = autonomy_puppet 
+# 			# 	}
+# 			# 	else = {
+# 			# 		puppet = TUR
+
+# 			# 	}
+# 			# }
+
+# 			annex_country = {
+# 				target = TUR
+# 			}
+			
+# 			white_peace = TUR
+# 			white_peace = AZR
+# 		}
+# 		# TUR = {
+# 		# 	set_cosmetic_tag = TUR_GRE
+# 		# }
+# 	}
+# }
+
+# country_event = { #Third GRETUR war - only Greece joins
+# 	id = grepeace.8
+# 	immediate = {
+# 		log = "[GetDateText]: [Root.GetName]: event grepeace.8 FROM = [From.GetName]"
+# 	}
+# 	title = grepeace.8.t
+# 	desc = grepeace.8.d
+# 	picture = GFX_report_event_GRE_crowd2
+# 	fire_only_once = yes
+# 	is_triggered_only = yes
+# 	option = {
+# 		name = grepeace.8.a
+# 		GRE = {
+# 			# if = {
+# 			# 	limit = {
+# 			# 		has_dlc_tfv = yes
+# 			# 	}
+# 			# 	set_autonomy = {
+# 			# 		target = TUR
+# 			# 		autonomy_state = autonomy_puppet 
+# 			# 	}
+# 			# 	else = {
+# 			# 		puppet = TUR
+# 			# 	}
+# 			# }
+
+# 			annex_country = {
+# 				target = TUR
+# 			}
+# 		}
+# 		# TUR = {
+# 		# 	set_cosmetic_tag = TUR_GRE
+# 		# }
+# 	}
+# }
+
+# country_event = { #Third GRETUR war - only Greece joins and loses
+# 	id = grepeace.9
+# 	immediate = {
+# 		log = "[GetDateText]: [Root.GetName]: event grepeace.9 FROM = [From.GetName]"
+# 	}
+# 	title = grepeace.9.t
+# 	desc = grepeace.9.d
+# 	picture = GFX_report_event_GRE_crowd2
+# 	fire_only_once = yes
+# 	is_triggered_only = yes
+# 	option = {
+# 		name = grepeace.9.a
+# 		TUR = {
+# 			transfer_state = 776
+# 			transfer_state = 347
+# 			transfer_state = 1055
+# 			transfer_state = 339
+# 			transfer_state = 340
+			
+# 			add_state_core = 776
+# 			add_state_core = 347
+# 			add_state_core = 1055
+# 			add_state_core = 339
+# 			add_state_core = 340
+
+# 			white_peace = GRE
+# 			AZR = {
+# 				white_peace = GRE
+# 			}
+# 		}
+# 	}
+# }
+
+# country_event = { #Third GRETUR war - both Greece and Armenia join and lose
+# 	id = grepeace.10
+# 	immediate = {
+# 		log = "[GetDateText]: [Root.GetName]: event grepeace.10 FROM = [From.GetName]"
+# 	}
+# 	title = grepeace.10.t
+# 	desc = grepeace.10.d
+# 	picture = GFX_report_event_GRE_crowd2
+# 	fire_only_once = yes
+# 	is_triggered_only = yes
+# 	option = {
+# 		name = grepeace.10.a
+# 		TUR = {
+# 			transfer_state = 776
+# 			transfer_state = 347
+# 			transfer_state = 1055
+# 			transfer_state = 339
+# 			transfer_state = 340
+
+# 			add_state_core = 776
+# 			add_state_core = 347
+# 			add_state_core = 1055
+# 			add_state_core = 339
+# 			add_state_core = 340
+
+# 			transfer_state = 354
+# 			add_state_claim = 354
+
+# 			white_peace = GRE
+# 			white_peace = ARM
+# 		}
+# 		if = {
+# 			limit = {
+# 				GRE = {
+# 					has_country_flag = GRE_AZR_JOINED_THIRD_GRETUR_WAR
+# 				}
+# 			}
+# 			AZR = {
+# 				white_peace = GRE
+# 				white_peace = ARM
+# 			}
+# 		}
+# 	}
+# }
+
+# country_event = { #Third GRETUR war - war is stalemated, AZR has capitulated, ARM wins
+# 	id = grepeace.11
+# 	immediate = {
+# 		log = "[GetDateText]: [Root.GetName]: event grepeace.11 FROM = [From.GetName]"
+# 	}
+# 	title = grepeace.11.t
+# 	desc = grepeace.11.d
+# 	picture = GFX_report_event_GRE_crowd2
+# 	fire_only_once = yes
+# 	is_triggered_only = yes
+# 	option = {
+# 		name = grepeace.11.a
+# 		ARM = {
+# 			annex_country = {
+# 				target = AZR
+# 			}
+# 			country_event = gre.65
+# 		}
+# 		GRE = {
+# 			white_peace = TUR 
+# 		}
+# 	}
+# }
+
+# country_event = { #Third GRETUR war - war is stalemated, just white peaces happen
+# 	id = grepeace.12
+# 	immediate = {
+# 		log = "[GetDateText]: [Root.GetName]: event grepeace.12 FROM = [From.GetName]"
+# 	}
+# 	title = grepeace.12.t
+# 	desc = grepeace.12.d
+# 	picture = GFX_report_event_GRE_crowd2
+# 	fire_only_once = yes
+# 	is_triggered_only = yes
+# 	option = {
+# 		name = grepeace.12.a
+# 		GRE = {
+# 			white_peace = TUR 
+# 			white_peace = AZR
+# 		}
+# 		ARM = {
+# 			white_peace = TUR 
+# 			white_peace = AZR
+# 		}
+# 	}
+# }
+
+country_event = { # TUR - Greece asks for peace
+	id = gre.57
+	immediate = {
+		log = "[GetDateText]: [Root.GetName]: event gre.57 FROM = [From.GetName]"
+	}
+	title = gre.57.t
+	desc = gre.57.d
+	picture = GFX_report_event_GRE_crowd2
+	fire_only_once = yes
+	is_triggered_only = yes
+	option = { #Accept
+		name = gre.57.a
+		trigger = {
+			GRE = {
+				OR = {
+					has_country_flag = GRE_path_progressives
+					has_country_flag = GRE_path_lpf
+				}
+			}
+		}
+		effect_tooltip = {
+			white_peace = TUR
+			set_country_flag = GRE_LIBCONFRE_victory
+			clr_country_flag = GRE_warwithturkey
+			GRE = {
+				set_rule = {
+					can_join_factions = yes
+				}
+				transfer_state = 776
+				transfer_state = 340
+				transfer_state = 347
+				if = {
+					limit = {
+						NOT = {
+							GRE = {
+								controls_state = 341
+							}
+						}
+					}
+					transfer_state = 341
+				}
+				if = {
+					limit = {
+						NOT = {
+							GRE = {
+								controls_state = 1067
+							}
+						}
+					}
+					transfer_state = 1067
+				}
+				white_peace = TUR
+			}
+			TUR = {
+				set_rule = {
+					can_join_factions = yes
+				}
+			}
+		}
+		hidden_effect = {
+			GRE = {
+				country_event = gre.52
+			}
+		}
+		ai_chance = {
+			factor = 10
+		}
+	}
+	option = { #Reject
+		name = gre.57.b
+		trigger = {
+			GRE = {
+				OR = {
+					has_country_flag = GRE_path_progressives
+					has_country_flag = GRE_path_lpf
+				}
+			}
+		}
+		ai_chance = {
+			factor = 0
+		}
+	}
+	option = {
+		name = gre.57.a
+		trigger = {
+			GRE = {
+				has_country_flag = GRE_warwithturkey 
+				has_country_flag = GRE_path_glre
+			}
+		}
+		effect_tooltip = {
+			GRE = {
+				white_peace = TUR
+				set_rule = {
+				can_join_factions = yes
+				}
+				clr_country_flag = GRE_warwithturkey
+				set_country_flag = GRE_EEK_victory
+				annex_country = {
+					target = TUR
+				}
+			}
+		}
+		hidden_effect = {
+			GRE = {
+				country_event = gre.53
+			}
+		}
+		ai_chance = {
+			factor = 10
+		}
+	}
+	option = {
+		name = gre.57.b
+		trigger = {
+			GRE = {
+				has_country_flag = GRE_warwithturkey 
+				has_country_flag = GRE_path_glre
+			}
+		}
+		ai_chance = {
+			factor = 0
+		}
+	}
+	option = {
+		name = gre.57.a
+		trigger = {
+			GRE = {
+				has_country_flag = GRE_warwithturkey
+				OR = {
+					has_country_flag = GRE_path_archiomarxists
+					has_country_flag = GRE_path_socialists
+				}
+			}
+		}
+		effect_tooltip = {
+			GRE = {
+				set_country_flag = GRE_SOC_victory
+				white_peace = TUR
+				set_autonomy = {
+					target = TUR
+					autonomy_state = autonomy_puppet
+				}
+				set_rule = {
+					can_join_factions = yes
+				}
+			}
+			TUR = {
+				set_rule = {
+					can_join_factions = yes
+				}
+				set_cosmetic_tag = TUR_GRE
+				GRE = {
+					add_to_faction = PREV
+				}
+			}
+		}
+		hidden_effect = {
+			GRE = {
+				country_event = gre.54
+			}
+		}
+		ai_chance = {
+			factor = 10
+		}
+	}
+	option = {
+		name = gre.57.b
+		trigger = {
+			GRE = {
+				has_country_flag = GRE_warwithturkey
+				OR = {
+					has_country_flag = GRE_path_archiomarxists
+					has_country_flag = GRE_path_socialists
+				}
+			}
+		}
+		ai_chance = {
+			factor = 0
+		}
+	}
+	option = {
+		name = gre.57.a
+		trigger = {
+			GRE = {
+				has_country_flag = GRE_warwithturkey 
+				has_war_with = TUR
+				TUR = {
+					controls_state = 340
+					controls_state = 342
+				}
+			}
+		}
+		effect_tooltip = {
+			GRE = {
+				white_peace = TUR
+				set_rule = {
+					can_join_factions = yes
+				}
+				clr_country_flag = GRE_warwithturkey
+			}
+			TUR = {
+				set_rule = {
+					can_join_factions = yes
+				}
+				transfer_state = 341
+				transfer_state = 342
+				transfer_state = 187
+				transfer_state = 339
+				transfer_state = 763
+				transfer_state = 1067
+			}
+		}
+		hidden_effect = {
+			GRE = {
+				country_event = gre.55
+			}
+		}
+		ai_chance = {
+			factor = 10
+		}
+	}
+	option = {
+		name = gre.57.b
+		trigger = {
+			GRE = {
+				has_country_flag = GRE_warwithturkey 
+				has_war_with = TUR
+				TUR = {
+					controls_state = 340
+					controls_state = 342
+				}
+			}
+		}
+		ai_chance = {
+			factor = 0
+		}
+	}
+}
+
+
+##################
+
+country_event = {
+	id = gre.58 #HIPPITY HOPPITY ALBANIA IS NOW MY PROPERTY HAHAHA
+	immediate = { log = "[GetDateText]: [Root.GetName]: event gre.58 FROM = [From.GetName]" }
+	title = gre.58.t
+	desc = gre.58.d
+	picture = GFX_report_event_GRE_crowd2
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		name = gre.58.a #yes
+	}
+
+	option = {
+		name = gre.58.b #no
+		create_wargoal = {
+			type = annex_everything
+			target = ALB
+		}
+		ai_chance = {
+            base = 0
+        }
+	}
+}
+
+country_event = {
+	id = gre.59 #ITALIAN ISLANDS
+	immediate = { log = "[GetDateText]: [Root.GetName]: event gre.59 FROM = [From.GetName]" }
+	title = gre.59.t
+	desc = gre.59.d
+	picture = GFX_report_event_GRE_crowd2
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		name = gre.59.a #yes
+		ai_chance = {
+            base = 70
+        }
+		164 = { transfer_state_to = GRE }
+	}
+
+	option = {
+		name = gre.59.b #no
+		GRE = {
+			create_wargoal = {
+				type = take_state_focus
+				target = ITA
+			}
+		}
+		ai_chance = {
+            base = 30
+			modifier = {
+				factor = -20
+				ITA = {
+					surrender_progress > 0.2
+				}
+			}
+			modifier = {
+				factor = -1000
+				ITA = {
+					surrender_progress > 0.5
+				}
+			}
+        }
+	}
+}
+
+country_event = {
+	id = gre.60 # Cyprus
+	immediate = { log = "[GetDateText]: [Root.GetName]: event gre.60 FROM = [From.GetName]" }
+	title = gre.60.t
+	desc = gre.60.d
+	picture = GFX_report_event_GRE_crowd2
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = gre.60.a #yes
+		ai_chance = {
+            base = 50
+			modifier = {
+				add = 20
+				check_variable = { opinion@GRE > 50 }
+			}
+			modifier = {
+				add = 20
+				surrender_progress > 0.3
+			}
+        }
+		183 = { transfer_state_to = GRE }
+		1070 = { transfer_state_to = GRE }
+	}
+
+	option = {
+		name = gre.60.b #no
+		GRE = {
+			create_wargoal = {
+				target = CYP
+				type = annex_everything
+			}
+		}
+		ai_chance = {
+            base = 30
+			modifier = {
+				factor = -10
+				ENG = {
+					surrender_progress > 0.2
+				}
+			}
+			modifier = {
+				add = 30
+				check_variable = { opinion@GRE < 50}
+			}
+			modifier = {
+				factor = -30
+				ENG = {
+					surrender_progress > 0.5
+				}
+			}
+        }
+	}
+}
+
+country_event = {
+	id = gre.61 #ENPOWER A SOCIALIST WING
+	immediate = { log = "[GetDateText]: [Root.GetName]: event gre.61 FROM = [From.GetName]" }
+	title = gre.61.t
+	desc = gre.61.d
+	picture = GFX_report_event_GRE_crowd2
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		name = gre.61.a #LIBERAL SOCIALISTS
+		complete_national_focus = GRE_liberal_socialism
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 10
+				has_country_flag = GRE_KKE_LIBERAL_AI
+			}
+		}
+		meta_effect = {
+			text = {
+				set_politics = {
+					ruling_party = libertarian_socialist
+					elections_allowed = no
+					last_election = [GetCurrentDate]
+					election_frequency = 48
+				}
+			}
+			GetCurrentDate = "[GetDate]"
+			end_coalition = yes
+		}
+		set_temp_variable = {
+			coalition_partner_var = token:collectivist
+		}
+		GRE_hire_libsocs = yes
+		add_to_coalition = yes
+		set_coalition_government_popularity = yes
+		increase_ruling_party_popularity_by_10 = yes
+	}
+
+	option = {
+		name = gre.61.b #HARDLINERS
+		complete_national_focus = GRE_hardliners
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 10
+				has_country_flag = GRE_KKE_HARDLINER_AI
+			}
+		}
+		end_coalition = yes
+		set_temp_variable = {
+			coalition_partner_var = token:libertarian_socialist
+		}
+		GRE_hire_cols = yes
+		add_to_coalition = yes
+		set_coalition_government_popularity = yes
+		increase_ruling_party_popularity_by_10 = yes
+
+	}
+
+}
+
+######## GLRE ########
+country_event = {
+	id = gre.62 
+	immediate = { log = "[GetDateText]: [Root.GetName]: event gre.62 FROM = [From.GetName]" }
+	title = gre.62.t
+	desc = gre.62.d
+	picture = GFX_report_event_GRE_crowd2
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		name = gre.62.a 
+	}
+}
+
+
+# country_event = { #Metaxas sympathies DEBUG
+# 	id = metaxas.0
+# 	title = metaxas.0.t
+# 	desc = metaxas.0.d
+# 	is_triggered_only = yes
+# 	option = {
+# 		name = "IF YOU SEE THIS EVENT, REPORT IT CONTENT MAY NOT WORK"
+# 		if = {
+# 			limit = {
+# 				check_variable = {
+# 					metaxas_natpop_symps > 0
+# 				}
+				
+# 			}
+# 			set_variable = {
+# 				metaxas_natpop_symps = 0
+# 			}
+# 		}
+# 		if = {
+# 			limit = {
+# 				check_variable = {
+# 					metaxas_valkist_symps > 0
+# 				}
+# 			}
+# 			set_variable = {
+# 				metaxas_valkist_symps = 0
+# 			}
+# 		}
+# 		if = {
+# 			limit = {
+# 				check_variable = {
+# 					metaxas_pataut_symps > 0
+# 				}	
+# 			}
+# 			set_variable = {
+# 				metaxas_pataut_symps = 0
+# 			}
+# 		}
+# 	}
+# }
+
+# # At start:
+# # PatAut: 65
+# # NatPop: 35
+# # Valkist: 0
+
+# country_event = { # The Royalist Coalition
+# 	id = metaxas.1
+# 	title = metaxas.1.t
+# 	desc = metaxas.1.d
+# 	fire_only_once = yes
+# 	is_triggered_only = yes
+# 	option = { # Side with the King ( +10% PatAut, -10% NatPop
+# 		name = metaxas.1.a
+# 		custom_effect_tooltip = GRE_metaxas_add_10_var_pataut_tt
+# 		hidden_effect = {
+# 			# if = {
+# 			# 	limit = {
+# 			# 		check_variable = {
+# 			# 			var = metaxas_pataut_symps
+# 			# 			value > 99
+# 			# 		}
+# 			# 	}
+# 			# 	else = {
+# 			# 		add_to_variable = {
+# 			# 			var = metaxas_pataut_symps
+# 			# 			value = 10
+# 			# 		}
+# 			# 		subtract_from_variable = {
+# 			# 			var = metaxas_natpop_symps
+# 			# 			value = 5
+# 			# 		}
+# 			# 		subtract_from_variable = {
+# 			# 			var = me
+# 			# 		}
+# 			# 	}
+# 			# }
+# 			# add_to_variable = {
+# 			# 	var = metaxas_pataut_symps
+# 			# 	value = 10
+# 			# }
+# 			add_to_variable = {
+# 				var = metaxas_pataut_symps
+# 				value = 10
+# 			}
+# 			subtract_from_variable = {
+# 				var = metaxas_natpop_symps
+# 				value = 10
+# 			}
+# 		}
+# 	}
+# 	option = { # Fallout with the King
+# 		name = metaxas.1.b
+# 		custom_effect_tooltip = GRE_metaxas_add_10_var_natpop_tt
+# 		hidden_effect = {
+# 			add_to_variable = {
+# 				var = metaxas_natpop_symps
+# 				value = 10
+# 			}
+# 			subtract_from_variable = {
+# 				var = metaxas_pataut_symps
+# 				value = 10
+# 			}
+# 		}
+
+# 	}
+# 	option = { # Turn to Valkism
+# 		name = metaxas.1.c
+# 		custom_effect_tooltip = GRE_metaxas_add_10_var_valkist_tt
+# 		hidden_effect = {
+# 			add_to_variable = {
+# 				var = metaxas_valkist_symps
+# 				value = 10
+# 			}
+# 			subtract_from_variable = {
+# 				var = metaxas_natpop_symps
+# 				value = 5
+# 			}
+# 			subtract_from_variable = {
+# 				var = metaxas_pataut_symps
+# 				value = 5
+# 			}
+# 			set_country_flag = GRE_VALKISTS_METAXISTS_HAVE_POWER
+# 		}
+# 	}
+# }
+
+# country_event = { # Employ Foreign Advisors
+# 	id = metaxas.2
+# 	title = metaxas.2.t
+# 	desc = metaxas.2.d
+# 	fire_only_once = yes
+# 	is_triggered_only = yes
+# 	option = { # British Advisors
+# 		name = metaxas.2.a
+# 		custom_effect_tooltip = GRE_metaxas_add_10_var_pataut_tt
+# 		hidden_effect = {
+# 			add_to_variable = {
+# 				var = metaxas_pataut_symps
+# 				value = 10
+# 			}
+# 			if = {
+# 				limit = {
+# 					has_country_flag = GRE_VALKISTS_METAXISTS_HAVE_POWER
+# 				}
+# 				subtract_from_variable = {
+# 					var = metaxas_natpop_symps
+# 					value = 5
+# 				}
+# 				subtract_from_variable = {
+# 					var = metaxas_valkist_symps
+# 					value = 5
+# 				}
+# 				else = {
+# 					subtract_from_variable = {
+# 						var = metaxas_natpop_symps
+# 						value = 10
+# 					}
+# 				}
+# 			}
+# 		}
+# 	}
+# 	option = { # We are better on our own
+# 		name = metaxas.2.b
+# 		custom_effect_tooltip = GRE_metaxas_add_10_var_natpop_tt
+# 		hidden_effect = {
+# 			add_to_variable = {
+# 				var = metaxas_natpop_symps
+# 				value = 10
+# 			}
+# 			if = {
+# 				limit = {
+# 					has_country_flag = GRE_VALKISTS_METAXISTS_HAVE_POWER
+# 				}
+# 				subtract_from_variable = {
+# 					var = metaxas_pataut_symps
+# 					value = 5
+# 				}
+# 				subtract_from_variable = {
+# 					var = metaxas_valkist_symps
+# 					value = 5
+# 				}
+# 				else = {
+# 					subtract_from_variable = {
+# 						var = metaxas_pataut_symps
+# 						value = 10
+# 					}
+# 				}
+# 			}
+# 		}
+
+# 	}
+# 	option = { # German Advisors
+# 		name = metaxas.2.c
+# 		custom_effect_tooltip = GRE_metaxas_add_10_var_valkist_tt
+# 		hidden_effect = {
+# 			add_to_variable = {
+# 				var = metaxas_valkist_symps
+# 				value = 10
+# 			}
+# 			subtract_from_variable = {
+# 				var = metaxas_natpop_symps
+# 				value = 5
+# 			}
+# 			subtract_from_variable = {
+# 				var = metaxas_pataut_symps
+# 				value = 5
+# 			}
+# 		}
+# 	}
+# }
+
+# country_event = { # German Culture Clubs
+# 	id = metaxas.3
+# 	title = metaxas.3.t
+# 	desc = metaxas.3.d
+# 	fire_only_once = yes
+# 	is_triggered_only = yes
+# 	option = { # Support them
+# 		name = metaxas.3.a
+# 		custom_effect_tooltip = GRE_metaxas_add_5_var_valkist_tt
+# 		hidden_effect = {
+# 			add_to_variable = {
+# 				var = metaxas_valkist_symps
+# 				value = 5
+# 			}
+# 			subtract_from_variable = {
+# 				var = metaxas_pataut_symps
+# 				value = 3
+# 			}
+# 			subtract_from_variable = {
+# 				var = metaxas_natpop_symps
+# 				value = 2
+# 			}
+# 		}
+# 	}
+# 	option = { # Ban them :banhammer:
+# 		name = metaxas.3.b
+# 		custom_effect_tooltip = GRE_metaxas_rm_5_var_valkist_tt
+# 		hidden_effect = {
+# 			add_to_variable = {
+# 				var = metaxas_natpop_symps
+# 				value = 3
+# 			}
+# 			subtract_from_variable = {
+# 				var = metaxas_valkist_symps
+# 				value = 5
+# 			}
+# 			add_to_variable = {
+# 				var = metaxas_pataut_symps
+# 				value = 2
+# 			}
+# 		}
+# 	}
+# }
+
+# country_event = { # Moderate Allies Complain :sobglasses:
+# 	id = metaxas.4
+# 	title = metaxas.4.t
+# 	desc = metaxas.4.d
+# 	fire_only_once = yes
+# 	is_triggered_only = yes
+# 	option = { # Shut them down :mwahahaha:
+# 		name = metaxas.4.a
+# 		custom_effect_tooltip = GRE_metaxas_add_5_var_natpop_tt
+# 		hidden_effect = {
+# 			add_to_variable = {
+# 				var = metaxas_natpop_symps
+# 				value = 5
+# 			}
+# 			subtract_from_variable = {
+# 				var = metaxas_pataut_symps
+# 				value = 5
+# 			}
+# 		}
+# 	}
+# 	option = { # allow some **minor** investement
+# 		name = metaxas.4.b
+# 		custom_effect_tooltip = GRE_metaxas_rm_5_var_pataut_tt
+# 		hidden_effect = {
+# 			add_to_variable = {
+# 				var = metaxas_pataut_symps
+# 				value = 5
+# 			}
+# 			subtract_from_variable = {
+# 				var = metaxas_natpop_symps
+# 				value = 5
+# 			}
+# 		}
+# 	}
+# }
+
+# country_event = { # Foreign Investement
+# 	id = metaxas.5
+# 	title = metaxas.5.t
+# 	desc = metaxas.5.d
+# 	fire_only_once = yes
+# 	is_triggered_only = yes
+# 	option = { # Britain
+# 		name = metaxas.5.a
+# 		custom_effect_tooltip = GRE_metaxas_add_5_var_natpop_tt
+# 		hidden_effect = {
+# 			if = {
+# 				limit = {
+# 					has_country_flag = GRE_VALKISTS_METAXISTS_HAVE_POWER
+# 				}
+# 				subtract_from_variable = {
+# 					var = metaxas_natpop_symps
+# 					value = 3
+# 				}
+# 				subtract_from_variable = {
+# 					var = metaxas_valkist_symps
+# 					value = 2
+# 				}
+# 				else = {
+# 					subtract_from_variable = {
+# 						var = metaxas_natpop_symps
+# 						value = 5
+# 					}
+# 				}
+# 			}
+# 			add_to_variable = {
+# 				var = metaxas_pataut_symps
+# 				value = 5
+# 			}
+# 		}
+# 		add_offsite_building = {
+# 			type = industrial_complex
+# 			level = 1
+# 		}
+		
+# 	}
+# 	option = { # French
+# 		name = metaxas.5.b
+# 		add_political_power = 100
+# 		add_offsite_building = {
+# 			type = industrial_complex
+# 			level = 1
+# 		}
+# 		add_offsite_building = {
+# 			type = arms_factory
+# 			level = 1
+# 		}
+# 		create_import = {
+# 			resource = steel
+# 			amount = 25
+# 			exporter = FRA
+# 			factories = 1
+# 		}
+# 		create_import = {
+# 			resource = aliminium
+# 			exporter = FRA
+# 			amount = 13
+# 			factories = 1
+# 		}
+# 		FRA = {
+# 			add_offsite_building = {
+# 				type = industrial_complex
+# 				level = 1
+# 			}
+# 			add_offsite_building = {
+# 				type = industrial_complex
+# 				level = 1
+# 			}
+# 			add_offsite_building = {
+# 				type = arms_factory
+# 				level = 1
+# 			}
+# 		}
+# 	}
+# 	option = { # Germania
+# 		name = metaxas.5.c
+# 		custom_effect_tooltip = GRE_metaxas_add_5_var_natpop_tt
+# 		hidden_effect = {
+# 			add_to_variable = {
+# 				var = metaxas_valkist_symps
+# 				value = 5
+# 			}
+# 			subtract_from_variable = {
+# 				var = metaxas_pataut_symps
+# 				value = 3
+# 			}
+# 			subtract_from_variable = {
+# 				var = metaxas_natpop_symps
+# 				value = 2
+# 			}
+# 		}
+# 		add_offsite_building = {
+# 			type = industrial_complex
+# 			level = 1
+# 		}
+# 	}
+# }
+
+# country_event = { # Entente and UK want us to Embargo Germania
+# 	id = metaxas.6
+# 	title = metaxas.6.t
+# 	desc = metaxas.6.d
+# 	fire_only_once = yes
+# 	is_triggered_only = yes
+# 	option = { # Sure 100% will do
+# 		name = metaxas.6.a
+# 		custom_effect_tooltip = GRE_metaxas_rm_5_var_valkist_tt
+# 		hidden_effect = {
+# 			if = {
+# 				limit = {
+# 					has_country_flag = GRE_VALKISTS_METAXISTS_HAVE_POWER
+# 				}
+# 				subtract_from_variable = {
+# 					var = metaxas_valkist_symps
+# 					value = 5
+# 				}
+# 				else = {
+# 					# do nothing
+# 				}
+# 			}
+# 			add_to_variable = {
+# 				var = metaxas_pataut_symps
+# 				value = 3
+# 			}
+# 			add_to_variable = {
+# 				var = metaxas_natpop_symps
+# 				value = 2
+# 			}
+# 		}
+
+# 		if = {
+# 			limit = {
+# 				has_dlc_bba = yes
+# 			}
+# 			if = {
+# 				limit = {
+# 					NOT = {
+# 						GER = {
+# 							is_embargoed_by = FRA
+# 						}
+# 					}
+# 				}
+# 				FRA = {
+# 					send_embargo = GER
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					NOT = {
+# 						GER = {
+# 							is_embargoed_by = ENG
+# 						}
+# 					}
+# 				}
+# 				ENG = {
+# 					send_embargo = GER
+# 				}
+# 			}
+# 			every_country = {
+# 				limit = {
+# 					OR = {
+# 						is_in_faction_with = FRA
+# 						is_in_faction_with = ENG 
+# 					}
+
+# 					NOT = {
+# 						is_embargoing = GER
+# 					}
+# 				}
+# 				country_event = gre.73
+# 			}
+# 			else  = {
+# 				GER = {
+# 					FRA = {
+# 						embargo_PREV = yes
+# 					}
+# 					ENG = {
+# 						embargo_PREV = yes
+# 					}
+# 				}
+# 				every_country = {
+# 					limit = {
+# 						OR = {
+# 							is_in_faction_with = FRA
+# 							is_in_faction_with = ENG
+# 						}
+# 					}
+# 					country_event = gre.73
+# 				}
+				
+# 			}
+# 		}
+# 		hidden_effect = {
+# 			every_country = {
+# 				limit = {
+# 					OR = {
+# 						has_opinion_modifier = embargo
+# 						is_embargoing = GER
+# 					}
+# 				}
+# 				add_to_variable = {
+# 					var = GRE_EMBARGO_GER_NUM
+# 					value = 1
+# 				}
+# 			}
+		
+# 		}
+
+# 		if = {
+# 			limit = {
+# 				has_dlc_bba = yes
+# 			}
+# 			send_embargo = GER
+# 			else = {
+# 				add_opinion_modifier = {
+# 					target = GER
+# 					modifier = embargo
+# 				}
+# 				reverse_add_opinion_modifier = {
+# 					target = GER
+# 					modifier = embargo
+# 				}
+# 			}
+# 		}
+# 		add_ideas = GRE_embargoed_germany #lol like GRE has anything that GER can import :rofl:
+		
+
+		
+
+# 	}
+# 	option = { # NO
+# 		name = metaxas.6.b
+# 		custom_effect_tooltip = GRE_metaxas_add_5_var_valkist_tt
+# 		hidden_effect = {
+# 			add_to_variable = {
+# 				var = metaxas_valkist_symps
+# 				value = 5
+# 			}
+# 			subtract_from_variable = {
+# 				var = metaxas_pataut_symps
+# 				value = 3
+# 			}
+# 			subtract_from_variable = {
+# 				var = metaxas_natpop_symps
+# 				value = 2
+# 			}
+# 		}
+# 		# GRE is removed from the entente council
+
+# 		GRE = {
+# 			if = {
+# 				limit = {
+# 					has_idea = GEN_entente_member
+# 				}
+# 				remove_ideas = GEN_entente_member
+# 			}
+# 		}
+# 	}
+# }
+
+# country_event = { # the other nations complain (smh)
+# 	id = metaxas.7
+# 	title = metaxas.7.t
+# 	desc = metaxas.7.d
+# 	fire_only_once = yes
+# 	is_triggered_only = yes
+# 	option = { # dont back down
+# 		name = metaxas.7.a
+# 		custom_effect_tooltip = GRE_metaxas_rm_5_var_valkist_tt
+# 		FRA = {
+# 			add_opinion_modifier = {
+# 				target = GRE
+# 				modifier = GRE_FRA_trade_pact
+# 			}
+# 			reverse_add_opinion_modifier = {
+# 				target = GRE
+# 				modifier = GRE_FRA_trade_pact
+# 			}
+# 		}
+# 		hidden_effect = {
+			
+# 		}
+# 	}
+# 	option = { # open trade to the great powers
+# 		name = metaxas.7.b
+# 		custom_effect_tooltip = GRE_metaxas_add_5_var_valkist_tt
+# 		ENG = {
+# 			add_opinion_modifier = {
+# 				target = GRE
+# 				modifier = GRE_tobacco_exports
+# 			}
+# 			reverse_add_opinion_modifier = {
+# 				target = GRE
+# 				modifier = GRE_tobacco_exports
+# 			}
+# 		}
+# 		FRA = {
+# 			add_opinion_modifier = {
+# 				target = GRE
+# 				modifier = GRE_tobacco_exports
+# 			}
+# 			reverse_add_opinion_modifier = {
+# 				target = GRE
+# 				modifier = GRE_tobacco_exports
+# 			}
+# 		}
+# 		ITA = {
+# 			add_opinion_modifier = {
+# 				target = GRE
+# 				modifier = GRE_tobacco_exports
+# 			}
+# 			reverse_add_opinion_modifier = {
+# 				target = GRE
+# 				modifier = GRE_tobacco_exports
+# 			}
+# 		}
+# 		GER = {
+# 			add_opinion_modifier = {
+# 				target = GRE
+# 				modifier = GRE_tobacco_exports
+# 			}
+# 			reverse_add_opinion_modifier = {
+# 				target = GRE
+# 				modifier = GRE_tobacco_exports
+# 			}
+# 		}
+# 		SOV = {
+# 			add_opinion_modifier = {
+# 				target = GRE
+# 				modifier = GRE_tobacco_exports
+# 			}
+# 			reverse_add_opinion_modifier = {
+# 				target = GRE
+# 				modifier = GRE_tobacco_exports
+# 			}
+# 		}
+# 		hidden_effect = {
+
+# 		}
+# 	}
+# }
+# country_event = { # The Question of the Volkists
+# 	id = metaxas.8
+# 	title = metaxas.8.t
+# 	desc = metaxas.8.d
+# 	fire_only_once = yes
+# 	is_triggered_only = yes
+# 	option = { # Purge'em
+# 		name = metaxas.8.a
+# 		custom_effect_tooltip = GRE_VALKISTS_WILL_GET_PURGED_tt
+# 		set_party_name = {
+# 			ideology = valkist
+# 			long_name = GRE_purged
+# 			name = GRE_purged
+# 		}
+# 		add_popularity = {
+# 			ideology = valkist
+# 			popularity = -1 # disband completely
+# 		}
+# 		set_variable = {
+# 			metaxas_valkist_symps = 0 
+# 			tooltip = GRE_metaxas_purge_valkists_tt
+# 		}
+# 		set_variable = {
+# 			metaxas_pataut_symps = 50
+# 		}
+# 		set_variable = {
+# 			metaxas_natpop_symps = 50
+# 		}
+# 		clr_country_flag = GRE_VALKISTS_METAXISTS_HAVE_POWER
+# 		remove_country_leader_role = {
+# 			ideology = val_metaxism_subtype
+# 			character = GRE_Ioannis_Michail_Metaxas 
+# 		}
+# 		set_country_flag = METAXAS_SYMPS_GUI_CLOSE
+# 	}
+# 	option = { # work with em temporarily
+# 		name = metaxas.8.b
+# 		custom_effect_tooltip = GRE_metaxas_add_5_var_valkist_tt
+# 		custom_effect_tooltip = GRE_metaxas_add_5_var_natpop_tt
+# 		custom_effect_tooltip = GRE_metaxas_rm_10_var_pataut_tt
+# 		hidden_effect = {
+# 			add_to_variable = {
+# 				var = metaxas_valkist_symps
+# 				value = 5
+# 			}
+# 			subtract_from_variable = {
+# 				var = metaxas_pataut_symps
+# 				value = 10
+# 			}
+# 			add_to_variable = {
+# 				var = metaxas_natpop_symps
+# 				value = 5
+# 			}
+# 		}
+# 	}
+# 	option = { # turn to valkism
+# 		name = metaxas.8.c
+# 		custom_effect_tooltip = GRE_metaxas_add_15_var_valkist_tt
+# 		custom_effect_tooltip = GRE_ALLOW_METAXAS_SWITCH_TO_VALKISM_tt
+# 		if = {
+# 			limit = {
+# 				check_variable = {
+# 					metaxas_valkist_symps > 49
+# 				}
+# 			}
+# 			set_politics = {
+# 				ruling_party = valkist
+# 				last_election = "1935.1.1"
+# 				elections_allowed = no
+# 				election_frequency = 48
+# 			}
+# 			add_country_leader_role = {
+# 				country_leader = {
+# 					ideology = val_metaxism_subtype
+# 				}
+# 				character = GRE_Ioannis_Michail_Metaxas
+# 			}
+# 			add_popularity = {
+# 				ideology = valkist
+# 				popularity = party_popularity@paternal_autocrat
+# 			}
+# 		}
+		
+# 	}
+# }
+
+country_event = { # ARM - Join alliance with GRE
+	id = gre.63
+	immediate = {
+		log = "[GetDateText]: [Root.GetName]: event gre.63 FROM = [From.GetName]"
+	}
+	title = gre.63.t
+	desc = gre.63.d
+	fire_only_once = yes
+	is_triggered_only = yes
+	picture = GFX_report_event_GRE_crowd2
+	option = {
+		name = gre.63.a
+		GRE = {
+			set_country_flag = GRE_ARM_ALLIANCE
+		}
+		GRE = {
+			set_country_flag = GRE_ARM_JOINED_THIRD_GRETUR_WAR
+		}
+		GRE = {
+			if = {
+				limit = {
+					GRE = {
+						is_in_faction = yes
+						is_faction_leader = yes
+					}
+				}
+				add_to_faction = ARM
+				else = {
+					create_faction = "Constantinople Pact"
+					add_to_faction = ARM
+				}
+			}
+		}
+		ai_chance = {
+			factor = 99999
+			# modifier = {
+			# 	add = -99999
+			# 	ARM = {
+			# 		exists = no
+			# 	}
+			# }
+		}
+		add_political_power = 20
+	}
+	option = {
+		name = gre.63.b # no thank you sir
+		ai_chance = {
+			factor = 0
+		}
+		GRE = {
+			set_country_flag = GRE_ARM_NOT_JOINED_THIRD_GRETUR_WAR
+		}
+		add_political_power = -20
+	}
+
+}
+
+country_event = { # AZR - Join the war that happens agaisnt turkey (3rd GRETUR war)
+	id = gre.64
+	immediate = {
+		log = "[GetDateText]: [Root.GetName]: event gre.64 FROM = [From.GetName]"
+	}
+	title = gre.64.t
+	desc = gre.64.d
+	fire_only_once = yes
+	is_triggered_only = yes
+	picture = GFX_report_event_GRE_crowd2
+	option = {
+		name = gre.64.a
+		GRE = {
+			set_country_flag = GRE_AZR_JOINED_THIRD_GRETUR_WAR
+		}
+		TUR = {
+			if = {
+				limit = {
+					TUR = {
+						is_in_faction = yes
+						is_faction_leader = yes
+					}
+				}
+				add_to_faction = AZR
+				else = {
+					create_faction = "Ankara Pact"
+					add_to_faction = AZR
+				}
+			}
+			
+		}
+		AZR = {
+			declare_war_on = {
+				target = ARM
+				type = annex_everything
+			}
+			declare_war_on = {
+				target = GRE
+				type = puppet_wargoal_focus
+			}
+		}
+		ai_chance = {
+			factor = 99999
+			# modifier = {
+			# 	add = -99999
+			# 	AZR = {
+			# 		exists = no
+			# 	}
+			# }
+		}
+		add_political_power = 20
+	}
+	option = {
+		name = gre.64.b # no thank you sir
+		ai_chance = {
+			factor = 0
+		}
+		GRE = {
+			set_country_flag = GRE_AZR_NOT_JOINED_THIRD_GRETUR_WAR
+		}
+		add_political_power = -20
+	}
+}
+
+country_event = { # ARM - puppet or annex AZR?
+	id = gre.65
+	immediate = {
+		log = "[GetDateText]: [Root.GetName]: event gre.65 FROM = [From.GetName]"
+	}
+	title = gre.65.t
+	desc = gre.65.d
+	fire_only_once = yes
+	is_triggered_only = yes
+	picture = GFX_report_event_GRE_crowd2
+	option = { # puppet
+		name = gre.65.a
+		ARM = {
+			set_autonomy = {
+				target = AZR
+				autonomy_state = autonomy_puppet
+			}
+		}
+		ai_chance = {
+			factor = 99999
+			# modifier = {
+			# 	add = -99999
+			# 	AZR = {
+			# 		exists = no
+			# 	}
+			# }
+		}
+		add_political_power = 20
+	}
+	option = {
+		name = gre.65.b # annex - claims state because I don't want to give core
+		ai_chance = {
+			factor = 0
+		}
+		ARM = {
+			add_state_claim = 229
+		}
+	}
+}
+
+country_event = { # SER - Agree to mutual defence agreement with Greece?
+	id = gre.66
+	immediate = {
+		log = "[GetDateText]: [Root.GetName]: event gre.66 FROM = [From.GetName]"
+	}
+	title = gre.66.t
+	desc = gre.66.d
+	fire_only_once = yes
+	is_triggered_only = yes
+	picture = GFX_report_event_GRE_crowd2
+	option = { # join
+		name = gre.66.a
+		ai_chance = {
+			factor = 99999
+		}
+		add_political_power = 20
+		GRE = {
+			give_guarantee = SER
+		}
+		SER = {
+			give_guarantee = GRE
+		}
+		GRE = {
+			country_event = gre.24
+		}
+	}
+	option = { # don't join
+		name = gre.66.b
+		ai_chance = {
+			factor = 0
+		}
+		add_political_power = -20
+		GRE = {
+			country_event = gre.25
+		}
+	}
+}
+
+country_event = { # SER - Agree to join alliance with Greece?
+	id = gre.67
+	immediate = {
+		log = "[GetDateText]: [Root.GetName]: event gre.67 FROM = [From.GetName]"
+	}
+	title = gre.67.t
+	desc = gre.67.d
+	fire_only_once = yes
+	is_triggered_only = yes
+	picture = GFX_report_event_GRE_crowd2
+	option = { # yes
+		name = gre.67.a
+		ai_chance = {
+			factor = 99999
+		}
+		add_political_power = 20
+		GRE = {
+			if = {
+				limit = {
+					is_in_faction = yes
+					is_faction_leader = yes
+				}
+				add_to_faction = SER
+			}
+			else = {
+				create_faction = "Athens-Bucharest Pact"
+				add_to_faction = SER
+			}
+		}
+		GRE = {
+			country_event = gre.26
+		}
+	}
+	option = { # no
+		name = gre.67.b
+		ai_chance = {
+			factor = 0
+		}
+		add_political_power = -20
+		GRE = {
+			country_event = gre.27
+		}
+	}
+}
+
+country_event = { # SER - Agree to give Bitola to Greece?
+	id = gre.68
+	immediate = {
+		log = "[GetDateText]: [Root.GetName]: event gre.68 FROM = [From.GetName]"
+	}
+	title = gre.68.t
+	desc = gre.68.d
+	fire_only_once = yes
+	is_triggered_only = yes
+	picture = GFX_report_event_GRE_crowd2
+	option = { # sure, here ya go
+		name = gre.68.a
+		ai_chance = {
+			factor = 75
+		}
+		add_political_power = 75
+		GRE = {
+			transfer_state = 787
+			add_state_claim = 787
+		}
+		GRE = {
+			country_event = gre.28
+		}
+	}
+	option = { # no, you cannot have mi land amigo
+		name = gre.68.b
+		ai_chance = {
+			factor = 25
+		}
+		add_political_power = -10
+		GRE = {
+			country_event = gre.29
+		}
+	}
+}
+
+country_event = { # BUL - Agree to give Smolyan to Greece?
+	id = gre.69
+	immediate = {
+		log = "[GetDateText]: [Root.GetName]: event gre.69 FROM = [From.GetName]"
+	}
+	title = gre.69.t
+	desc = gre.69.d
+	fire_only_once = yes
+	is_triggered_only = yes
+	picture = GFX_report_event_GRE_crowd2
+	option = { # sure, here ya go
+		name = gre.69.a
+		ai_chance = {
+			factor = 75
+		}
+		add_political_power = 75
+		GRE = {
+			transfer_state = 764
+			add_state_claim = 764
+		}
+		GRE = {
+			country_event = gre.30
+		}
+		764 ={
+			set_demilitarized_zone = no
+		}
+	}
+	option = { # no, you cannot have mi land amigo
+		name = gre.68.b
+		ai_chance = {
+			factor = 25
+		}
+		add_political_power = -10
+		GRE = {
+			country_event = gre.31
+		}
+	}
+}
+
+country_event = { # SER - Agree to give North Macedonia to Greece?
+	id = gre.70
+	immediate = {
+		log = "[GetDateText]: [Root.GetName]: event gre.70 FROM = [From.GetName]"
+	}
+	title = gre.70.t
+	desc = gre.70.d
+	fire_only_once = yes
+	is_triggered_only = yes
+	picture = GFX_report_event_GRE_crowd2
+	option = { # sure, here ya go
+		name = gre.70.a
+		ai_chance = {
+			factor = 75
+		}
+		add_political_power = 75
+		GRE = {
+			transfer_state = 106
+			add_state_claim = 106
+		}
+		GRE = {
+			country_event = gre.32
+		}
+	}
+	option = { # no, you cannot have mi land amigo
+		name = gre.70.b
+		ai_chance = {
+			factor = 25
+		}
+		add_political_power = -10
+		GRE = {
+			country_event = gre.33
+		}
+	}
+}
+
+country_event = { # TUR - Greece takes Pontus away from us
+	id = gre.71
+	immediate = {
+		log = "[GetDateText]: [Root.GetName]: event gre.71 FROM = [From.GetName]"
+	}
+	title = gre.71.t
+	desc = gre.71.d
+	fire_only_once = yes
+	is_triggered_only = yes
+	picture = GFX_report_event_GRE_crowd2
+	option = { # we cannot do anything....
+		name = gre.71.a
+		add_political_power = 75
+		GRE = {
+			transfer_state = 356
+			transfer_state = 355
+			transfer_state = 778
+			
+			add_state_claim = 356
+			add_state_claim = 355
+			add_state_claim = 778
+		}
+		356 = {
+			add_dynamic_modifier = {
+				modifier = GRE_pontus_integration
+				days = 60
+			}
+		}
+		355 = {
+			add_dynamic_modifier = {
+				modifier = GRE_pontus_integration
+				days = 60
+			}
+		}
+		778 = {
+			add_dynamic_modifier = {
+				modifier = GRE_pontus_integration
+				days = 60
+			}
+		}
+	}
+}
+
+country_event = { # ITA - Join the Balkan Alliance?
+	id = gre.72
+	immediate = {
+		log = "[GetDateText]: [Root.GetName]: event gre.72 FROM = [From.GetName]"
+	}
+	title = gre.72.t
+	desc = gre.72.d
+	fire_only_once = yes
+	is_triggered_only = yes
+	picture = GFX_report_event_GRE_crowd2
+	option = { # sure
+		name = gre.72.a
+		add_political_power = 75
+		GRE = {
+			give_guarantee = ITA
+		}
+		SER = {
+			give_guarantee = ITA
+		}
+		ITA = {
+			give_guarantee = GRE
+			give_guarantee = SER
+		}
+		ai_chance = {
+			factor = 100
+		}
+		GRE = {
+			country_event = gre.36
+		}
+	}
+	option = { # no way
+		name = gre.72.b
+		add_political_power = -20
+		GRE = {
+			country_event = gre.35
+		}
+	}
+}
+
+country_event = { # Embargo Germany (many many tags)
+	id = gre.73
+	immediate = {
+		log = "[GetDateText]: [Root.GetName]: event gre.73 FROM = [From.GetName]"
+	}
+	title = gre.73.t
+	desc = gre.73.d
+	fire_only_once = yes
+	is_triggered_only = yes
+	picture = GFX_report_event_GRE_crowd2
+	option = { # sure
+		name = gre.73.a
+		add_political_power = 10
+		ai_chance = {
+			factor = 100
+		}
+		ROOT = {
+			if = {
+				limit = {
+					has_dlc_bba = yes
+				}
+				send_embargo = GER
+				# else = {
+				# 	add_ideas = GRE_embargoed_germany_no_greece
+				# }
+				else = {
+					add_opinion_modifier = {
+						modifier = embargo
+						target = GER
+					}
+					reverse_add_opinion_modifier = {
+						modifier = embargo
+						target = ROOT
+					}
+				}
+			}
+		}
+	}
+	option = { # no way
+		name = gre.73.b
+		add_political_power = -10
+	}
+}
+
+country_event = { # Generic Event that demands a country becomes a puppet
+	id = gre.74
+	immediate = {
+		log = "[GetDateText]: [Root.GetName]: event gre.74 FROM = [From.GetName]"
+	}
+	title = gre.74.t
+	desc = gre.74.d
+	is_triggered_only = yes
+	picture = GFX_report_event_GRE_crowd2
+	option = { # sure
+		name = gre.74.a
+		custom_effect_tooltip = GRE_become_puppet_tt
+		FROM = {
+			puppet = ROOT
+			set_country_flag = GRE_puppeted_@ROOT
+		}
+		# The flags wont get necessarily used, might be good to have in the future tho
+		if = {
+			limit = {
+				FROM = {
+					original_tag = GRE
+					has_cosmetic_tag = BYZ
+				}
+			}
+			ROOT = {
+				set_temp_variable = {
+					tag_to_add_to_byz_commonwealth = ROOT
+				}
+				BYZ_add_to_commonwealth = yes
+				drop_cosmetic_tag = yes
+				meta_effect = {
+					text = {
+						set_cosmetic_tag = [BYZPuppetTag]_THEMA
+					}
+					BYZPuppetTag = "[ROOT.GetTag]"
+				}
+			}
+		}
+		FROM = {
+			country_event = { id = gre.75 days = 2 random_hours = 6 }
+		}
+		# AI - THIS WILL DO FOR NOW I SUPPOSE
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 25
+				has_army_manpower = {
+					size < 75000 # 75K soldiers is very few y'know...
+				}
+			}
+			modifier = {
+				add = 50
+				set_temp_variable = { industrial_capacity = ROOT.num_of_available_civilian_factories }
+				add_to_temp_variable = { industrial_capacity = ROOT.num_of_available_military_factories }
+				add_to_temp_variable = { industrial_capacity = ROOT.num_of_available_naval_factories }
+				check_variable = { industrial_capacity < 20 } # bruh
+			}
+			modifier = {
+				add = 25
+				set_temp_variable = { industrial_capacity = ROOT.num_of_available_civilian_factories }
+				add_to_temp_variable = { industrial_capacity = ROOT.num_of_available_military_factories }
+				add_to_temp_variable = { industrial_capacity = ROOT.num_of_available_naval_factories }
+				set_temp_variable = { GRE_industrial_capacity = FROM.num_of_available_civilian_factories }
+				add_to_temp_variable = { GRE_industrial_capacity = FROM.num_of_available_military_factories }
+				add_to_temp_variable = { GRE_industrial_capacity = FROM.num_of_available_naval_factories }
+				check_variable = { industrial_capacity < GRE_industrial_capacity } # less than greece
+			}
+			modifier = {
+				factor = 0
+				is_major = yes
+			}
+		}
+	}
+	option = { # no way
+		name = gre.74.b
+		FROM = {
+			country_event ={ id = gre.76 days = 2 random_hours = 6 }
+		}
+		# AI
+		ai_chance = {
+			base = 50
+			modifier = {
+				factor = 100 # always no
+				is_major = yes
+			}
+			modifier = {
+				factor = 0.25 # threatened by greece
+				ROOT = {
+					any_owned_state = {
+						OR = {
+							is_claimed_by = GRE
+							is_core_of = GRE
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+country_event = { # Generic Event that demands a country becomes a puppet, ACCEPTED
+	id = gre.75
+	immediate = {
+		log = "[GetDateText]: [Root.GetName]: event gre.75 FROM = [From.GetName]"
+	}
+	title = gre.75.t
+	desc = gre.75.d
+	is_triggered_only = yes
+	picture = GFX_report_event_GRE_crowd2
+	option = { # rejoice
+		name = gre.75.a
+		effect_tooltip = {
+			ROOT = {
+				puppet = FROM
+			}
+			set_country_flag = GRE_puppeted_@FROM
+			if = {
+				limit = {
+					ROOT = {
+						original_tag = GRE
+						has_cosmetic_tag = BYZ
+					}
+				}
+				FROM = {
+					set_temp_variable = {
+						tag_to_add_to_byz_commonwealth = ROOT
+					}
+					BYZ_add_to_commonwealth = yes
+					ROOT = {
+						drop_cosmetic_tag = yes
+						meta_effect = {
+							text = {
+								set_cosmetic_tag = [BYZPuppetTag]_THEMA
+							}
+							BYZPuppetTag = "[ROOT.GetTag]"
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+country_event = { # Generic Event that demands a country becomes a puppet, REJECTED
+	id = gre.76
+	immediate = {
+		log = "[GetDateText]: [Root.GetName]: event gre.76 FROM = [From.GetName]"
+	}
+	title = gre.76.t
+	desc = gre.76.d
+	is_triggered_only = yes
+	picture = GFX_report_event_GRE_crowd2
+	option = { # War!
+		name = gre.76.a
+		create_wargoal = {
+			target = FROM
+			type = puppet_wargoal_focus
+		}
+		add_opinion_modifier = {
+			target = FROM
+			modifier = rejected_demands
+		}
+	}
+	option = { # Back off
+		name = gre.76.b
+		add_opinion_modifier = {
+			target = FROM
+			modifier = rejected_demands
+		}
+	}
+}
+
+country_event = { # Generic events that demands a country gets annexed, OVERLORD event
+	id = gre.77
+	immediate = {
+		log = "[GetDateText]: [Root.GetName]: event gre.77 FROM = [From.GetName]"
+	}
+	title = gre.77.t
+	desc = gre.77.d
+	is_triggered_only = yes
+	picture = GFX_report_event_GRE_crowd2
+	option = { # Accept
+		name = gre.77.a
+		ROOT = {
+			every_subject_country = {
+				limit = {
+					tag = ALB
+				}
+				OVERLORD = {
+					if = {
+						limit = {
+							# has_dlc_tfv = yes
+							FROM = {
+								tag = GRE
+								has_cosmetic_tag = BYZ
+							}
+						}
+						set_autonomy = {
+							target = ALB
+							autonomy_state = autonomy_free
+						}
+						FROM = {
+							set_autonomy = {
+								target = ALB
+								autonomy_state = autonomy_thema
+							}
+							set_temp_variable = {
+								tag_to_add_to_byz_commonwealth = ALB
+							}
+							BYZ_add_to_commonwealth = yes
+							ALB = {
+								drop_cosmetic_tag = yes
+								meta_effect = {
+									text = {
+										set_cosmetic_tag = [BYZPuppetTag]_THEMA
+									}
+									BYZPuppetTag = "[?ALB.GetTag]"
+								}
+							}
+						}
+					} else_if = {
+						limit = {
+							FROM = {
+								tag = GRE
+								NOT = { has_cosmetic_tag = BYZ }
+							}
+						}
+						set_autonomy = {
+							target = ALB
+							autonomy_state = autonomy_free
+						}
+						FROM = {
+							set_autonomy = {
+								target = ALB
+								autonomy_state = autonomy_puppet
+							}
+						}
+					} else = {
+						# nothing
+					}
+				}
+			}
+		}
+	}
+	option = { # nein
+		name = gre.77.b
+		FROM = {
+			meta_effect = {
+				text = {
+					create_wargoal = {
+						target = [PUPPET_TAG_OVERLORD]
+						type = puppet_wargoal_focus
+					}
+					create_wargoal = {
+						target = [PUPPET_TAG]
+						type = puppet_wargoal_focus
+					}
+				}
+				PUPPET_TAG_OVELORD = "[ALB.OVERLORD.GetTag]"
+				PUPPET_TAG = "[ALB.GetTag]"
+			}
+		}
+	}
+}
+
+
+# Byzantium events
+
+country_event = { # ALB - Submit to Byzantium?
+	id = gre.78
+	title = gre.78.t
+	desc = gre.78.d
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = { # Yes, we must submit to our master 🥵
+		name = gre.78.a
+		ai_chance = {
+			factor = 55
+		}
+		GRE = {
+			country_event = gre.79
+			custom_effect_tooltip = BYZ_THE_GAME_WILL_END_FOR_FROM
+		}
+	}
+	option = { #no, are you fucking crazy?
+		name = gre.78.b
+		ai_chance = {
+			factor = 45
+		}
+		add_political_power = 20
+		add_stability = 0.02
+		hidden_effect = {
+			GRE = {
+				country_event = gre.80
+			}
+		}
+	}
+}
+country_event = {
+	id = gre.79
+	title = gre.79.t
+	desc = gre.79.d
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = { # Yes!
+		name = gre.79.a
+		annex_country = {
+			target = ALB
+		}
+		custom_effect_tooltip = BYZ_GET_CORES_ALB_tt
+		hidden_effect = {
+			every_state = {
+				limit = {
+					is_core_of = ALB
+				}
+				add_core_of = GRE
+			}
+		}
+	}
+}
+country_event = {
+	id = gre.80
+	title = gre.80.t
+	desc = gre.80.d
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = { # ANGRY BYZANTIUM MEME INSERT HERE
+		name = gre.80.a
+	}
+	option = { #We have no choice but to coup mwahahahahahhaha
+		name = gre.80.b
+		ALB = {
+			country_event = gre.81 
+		}
+	}
+}
+country_event = {
+	id = gre.81
+	title = gre.81.t
+	desc = gre.81.d
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = { # Byzantium couped the government, coup was successfull
+		name = gre.81.a
+		GRE = {
+			country_event = gre.82
+		}
+	}
+}
+country_event = {
+	id = gre.82
+	title = gre.82.t
+	desc = gre.82.d
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = { # Now we will puppet and integrate in 60 days :>
+		name = gre.82.a
+		if = {
+			limit = {
+				ALB = {
+					is_puppet = yes
+				}
+			}
+			ALB = {
+				OVERLORD = {
+					end_puppet = ALB
+					country_event = gre.83
+					save_event_target_as = ALB_OVERLORD
+				}
+			}
+		}
+		GRE = {
+			set_autonomy = {
+				target = ALB
+				autonomy_state = autonomy_thema
+			}
+			country_event = {
+				id = gre.84
+				days = 60
+				random_hours = 6
+			}
+		}
+	}
+}
+country_event = {
+	id = gre.83
+	title = gre.83.t
+	desc = gre.83.d
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = { # wait wut? Immediately go to war!
+		name = gre.83.a
+		ai_chance = {
+			factor = 0
+		}
+		event_target:ALB_OVERLORD = {
+			declare_war_on = {
+				target = GRE
+				type = puppet_wargoal_focus
+			}
+		}
+	}
+	option = { # who cares really
+		name = gre.83.b 
+		add_political_power = -20
+		ai_chance = {
+			factor = 100
+		}
+	}
+}
+country_event = { # integration of albania at last
+	id = gre.84
+	title = gre.84.t
+	desc = gre.84.d
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = { # finnaly
+		name = gre.84.a
+		custom_effect_tooltip = BYZ_GET_CORES_ALB_tt
+		hidden_effect = {
+			every_state = {
+				limit = {
+					is_core_of = ALB
+				}
+				add_core_of = GRE
+			}
+		}
+	}
+}
+country_event = { # ARM - Ally with BYZ?
+	id = gre.85
+	title = gre.85.t
+	desc = gre.85.d
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = { # yes
+		name = gre.85.a
+		ai_chance = {
+			factor = 100
+		}
+		custom_effect_tooltip = BYZ_ARM_WILL_GET_LAND
+		if = {
+			limit = {
+				GRE = {
+					is_in_faction = yes
+					is_faction_leader = yes
+				}
+			}
+			add_to_faction = ARM
+			else = {
+				create_faction = BYZ_FACTION_NAME_ARM
+				add_to_faction = ARM
+			}
+		}
+		hidden_effect = {
+			GRE = {
+				set_country_flag = BYZ_ARM_JOINS
+			}
+		}
+	}
+	option = { # no way
+		name = gre.85.b
+		ai_chance = {
+			factor = 0
+		}
+	}
+}
+country_event = { # ARM - Take on Georgia?
+	id = gre.86
+	title = gre.86.t
+	desc = gre.86.d
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = { # yes
+		name = gre.86.a
+		ai_chance = {
+			factor = 100
+		}
+		custom_effect_tooltip = BYZ_ARM_WILL_DECLARE_ON_GEO
+		# activate_mission = BYZ_ARM_GEO_WAR
+		hidden_effect = {
+			GRE = {
+				set_country_flag = BYZ_ARM_DECLARE_GEORGIA
+				country_event = gre.87
+			}
+		}
+	}
+	option = { # no way
+		name = gre.86.b
+		ai_chance = {
+			factor = 0
+		}
+		GRE = {
+			country_event = gre.88
+		}
+	}
+}
+country_event = { # ARM - georgia war said yes
+	id = gre.87
+	title = gre.87.t
+	desc = gre.87.d
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		name = gre.87.a
+		add_political_power = 20
+	}
+}
+country_event = { # ARM - georgia war said no?
+	id = gre.88
+	title = gre.88.t
+	desc = gre.88.d
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		name = gre.88.a
+		add_political_power = -20
+	}
+}
+country_event = { # ARM - Take on Azerbaijan?
+	id = gre.89
+	title = gre.89.t
+	desc = gre.89.d
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = { # yes
+		name = gre.89.a
+		ai_chance = {
+			factor = 100
+		}
+		custom_effect_tooltip = BYZ_ARM_WILL_DECLARE_ON_AZR
+		# activate_mission = BYZ_ARM_AZR_WAR
+		hidden_effect = {
+			GRE = {
+				set_country_flag = BYZ_ARM_DECLARE_AZERBAIJAN
+				country_event = gre.90
+			}
+		}
+	}
+	option = { # no way
+		name = gre.89.b
+		ai_chance = {
+			factor = 0
+		}
+		GRE = {
+			country_event = gre.91
+		}
+	}
+}
+country_event = { # ARM - azerbaijan war said yes
+	id = gre.90
+	title = gre.90.t
+	desc = gre.90.d
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		name = gre.90.a
+		add_political_power = 20
+	}
+}
+country_event = { # ARM - azerbaijan war said no?
+	id = gre.91
+	title = gre.91.t
+	desc = gre.91.d
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		name = gre.91.a
+		add_political_power = -20
+	}
+}
+# country_event = { # question on armenia?
+# 	id = gre.92
+# 	title = gre.92.t
+# 	desc = gre.92.d
+# 	is_triggered_only = yes
+# 	fire_only_once = yes
+# 	option = { # Special Operation in Armenia resulting in ARM becoming a Syntrofos
+# 		name = gre.92.a
+# 		ai_chance = {
+# 			factor = 0
+# 		}
+# 		trigger = {
+# 			always = no
+# 		}
+# 		hidden_effect = {
+# 			GRE = {
+# 				set_autonomy = {
+# 					target = ARM
+# 					autonomy_state = autonomy_syntrofos
+# 				}
+# 			}
+# 		}
+# 	}
+# 	option = { # Sponsor a Greater Armenia
+# 		name = gre.92.b
+# 		ai_chance = {
+# 			factor = 100
+# 		}
+# 		hidden_effect = {
+# 			complete_national_focus = BYZ_greater_armenia_proclaimed
+# 		}
+# 	}
+# 	option = { # do nothing
+# 		name = gre.92.c
+# 		ai_chance = {
+# 			factor = 0
+# 		}
+# 	}
+# }
+country_event = { # The Question on the royal succession
+	id = gre.93
+	title = gre.93.t
+	desc = gre.93.d
+	is_triggered_only = yes
+	# fire_only_once = yes
+	immediate = {
+		hidden_effect = {
+			set_cosmetic_tag = BYZ
+		}
+	}
+	option = { # The Glucksburgs are cool and stuff
+		name = gre.93.a
+		ai_chance = {
+			factor = 50
+		}
+		complete_national_focus = GRE_the_mainstream_royalists_glucksburg
+		GRE_Georgios_II = {
+			add_country_leader_role = {
+				country_leader = {
+					ideology = authoritarian_democrat_subtype
+					traits = {
+						byzantine_emperor
+					}
+				}
+				promote_leader = yes
+			}
+		}
+		set_country_leader_name = {
+			name = "Aftokrátor Geórgios II"
+			ideology = authoritarian_democrat
+		}
+		set_country_leader_portrait = {
+			portrait = GFX_Portrait_GRE_George_II_Emperor
+			ideology = authoritarian_democrat
+		}
+		meta_effect = {
+			text = {
+				set_politics = {
+					elections_allowed = no
+					last_election = [DATE]
+					ruling_party = authoritarian_democrat
+				}
+			}
+			DATE = "[GetDate]"
+		}
+		add_ideas = constitutional_monarchy
+		add_ideas = GRE_george_is_bacc
+	}
+	option = { # Invite Karrer
+		name = gre.93.b
+		ai_chance = {
+			factor = 50
+		}
+		GRE_Lucas_Karreris = {
+			add_country_leader_role = {
+				country_leader = {
+					ideology = authoritarian_democrat_subtype
+					traits = {
+						Loukas_Karrer_Emperor
+					}
+				}
+				promote_leader = yes
+			}
+		}
+		meta_effect = {
+			text = {
+				set_politics = {
+					elections_allowed = no
+					last_election = [DATE]
+					ruling_party = authoritarian_democrat
+				}
+			}
+			DATE = "[GetDate]"
+		}
+		add_ideas = constitutional_monarchy
+		complete_national_focus = GRE_byzantinists_succeed
+	}
+}
+country_event = { # The Question on the royal succession
+	id = gre.94
+	title = gre.94.t
+	desc = gre.94.d
+	is_triggered_only = yes
+	# fire_only_once = yes
+	option = { # He can do wtf he wants!
+		name = gre.94.a
+		
+	}
+}
+country_event = { # Metaxas raid
+	id = gre.95
+	title = gre.95.t
+	desc = gre.95.d
+	is_triggered_only = yes
+	# fire_only_once = yes
+	option = { # lethal force
+		name = gre.95.a
+		country_event = {
+			id = gre.96
+			days = 5
+			random_days = 2 
+			random_hours = 6
+		}
+	}
+	# option = { # maybe added later
+	# 	name = gre.95.b
+	# }
+}
+country_event = { # The Second Day
+	id = gre.96
+	title = gre.96.t
+	desc = gre.96.d
+	is_triggered_only = yes
+	# fire_only_once = yes
+	option = { # Who cares? Who asked?
+		name = gre.96.a
+		add_political_power = -50
+	}
+}
+country_event = { # The Question on the royal succession
+	id = gre.97
+	title = gre.97.t
+	desc = gre.97.d
+	is_triggered_only = yes
+	# fire_only_once = yes
+	option = { # He can do wtf he wants!
+		name = gre.97.a
+		
+	}
+}
+country_event = { # The Question on the royal succession
+	id = gre.98
+	title = gre.98.t
+	desc = gre.98.d
+	is_triggered_only = yes
+	# fire_only_once = yes
+	option = { # He can do wtf he wants!
+		name = gre.98.a
+		
+	}
+}
+# Union with Romania Byzantium stuff
+country_event = { # The Athens Conference
+	id = gre.99
+	title = gre.99.t
+	desc = gre.99.d
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = { # Ask Romania to unite
+		name = gre.99.a
+		ROM = {
+			country_event = gre.100
+		}
+	}
+	option = { # its not worth our time
+		name = gre.99.b
+	}
+}
+country_event = { # The Athens Conference - ROM: Greece asked that we join them and unite
+	id = gre.100
+	title = gre.100.t
+	desc = gre.100.d
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = { # Sure ig
+		name = gre.100.a
+		GRE = {
+			country_event = gre.101
+		}
+		ai_chance = {
+			factor = 100
+		}
+	}
+	option = { # No, just no
+		name = gre.100.b
+		ai_chance = {
+			factor = 0
+		}
+		GRE = {
+			country_event = gre.102
+		}
+	}
+}
+
+country_event = { # The Athens Conference - GRE: Romania accepted to join!
+	id = gre.101
+	title = gre.101.t
+	desc = gre.101.d
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = { # Yay!
+		name = gre.101.a
+		hidden_effect = {
+			every_character = {
+				limit = {
+					has_nationality = ROM
+				}
+				set_nationality = GRE
+			}
+			ROM = {
+				transfer_navy = {
+					target = GRE
+				}
+			}
+			GRE = {
+				inherit_technology = ROM
+			}
+		}
+		if = {
+			limit = {
+				ROM = {
+					is_ai = no
+				}
+			}
+			change_tag_from = GRE
+		}
+		GRE = {
+			annex_country = {
+				target = ROM
+				transfer_troops = yes
+			}
+		}
+	}
+}
+
+# country_event = { # The Athens Conference - GRE: Romania refused to join!
+# 	id = gre.102
+# 	title = gre.102.t
+# 	desc = gre.102.d
+# 	is_triggered_only = yes
+# 	fire_only_once = yes
+# 	option = { # Damn
+# 		name = gre.102.a
+# 	}
+# 	option = { #declare war
+# 		name = gre.102.b
+# 		GRE = {
+# 			complete_national_focus = GRE_strike_against_rom
+# 		}
+# 	}
+# }
+country_event = { # Reaffirm Claims
+	id = gre.103
+	title = gre.103.t
+	desc = gre.103.d
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = { # North Macedonia, Albania
+		name = gre.103.a
+		every_state = {
+			limit = {
+				OR = {
+					state = 787
+					state = 106
+					state = 44
+					state = 796
+				}
+			}
+			add_claim_by = GRE
+		}
+	}
+	option = { # Cyprus, Bulgaria, South Serbia, Albania
+		name = gre.103.b
+		every_state = {
+			limit = {
+				OR = {
+					state = 787
+					state = 106
+					state = 44
+					state = 796
+					state = 764
+				}
+			}
+			add_claim_by = GRE
+		}
+	}
+}
+
+country_event = {
+	id = gre.104
+	title = gre.104.t
+	desc = gre.104.d
+	is_triggered_only = yes
+	option = {
+		name = gre.104.a
+		add_stability = -0.1
+	}
+}
+
+country_event = { # ARM - Greece asks for an alliance
+	id = gre.105
+	title = gre.105.t
+	desc = gre.105.d
+	is_triggered_only = yes
+	option = { # Yes
+		name = gre.105.a
+		ai_chance = {
+			factor = 10
+		}
+		effect_tooltip = {
+			GRE = {
+				if = {
+					limit = {
+						is_in_faction = no
+					}
+					create_faction = Athens_Pact
+				}
+				else_if = {
+					limit = {
+						GRE = {
+							is_faction_leader = yes
+						}
+					}
+					add_to_faction = ARM
+				}
+			}
+		}
+		GRE = {
+			country_event = gre.106
+		}
+	}
+	option = {
+		name = gre.105.b
+		ai_chance = {
+			factor = 0
+		}
+		add_political_power = -20
+		GRE = {
+			country_event = gre.107
+		}
+	}
+}
+
+country_event = { # Armenia accepted to join
+	id = gre.106
+	title = gre.106.t
+	desc = gre.106.d
+	is_triggered_only = yes
+	option = { # Yes
+		name = gre.106.a
+		if = {
+			limit = {
+				is_in_faction = no
+			}
+			create_faction = Athens_Pact
+		}
+		else_if = {
+			limit = {
+				GRE = {
+					is_faction_leader = yes
+				}
+			}
+			add_to_faction = ARM
+		}
+	}
+}
+
+country_event = { # Armenia refused
+	id = gre.107
+	title = gre.107.t
+	desc = gre.107.d
+	is_triggered_only = yes
+	option = {
+		name = gre.107.a
+		
+	}
+}
+
+country_event = { # ARM - Greece asks to declare war to insert country
+	id = gre.108
+	title = gre.108.t
+	desc = gre.108.d
+	is_triggered_only = yes
+	option = { # Yes
+		name = gre.108.a
+		if = {
+			limit = {
+				GRE = { has_country_flag = BYZ_will_declare_war_AZR }
+			}
+			create_wargoal = {
+				target = AZR
+				type = annex_everything
+			}
+			GRE = {
+				create_wargoal = {
+					target = AZR
+					type = annex_everything
+				}
+			}
+			clr_country_flag = BYZ_will_declare_war_AZR
+		} else_if = {
+			limit = {
+				GRE = { has_country_flag = BYZ_will_declare_war_GEO }
+			}
+			create_wargoal = {
+				target = GEO
+				type = annex_everything
+			}
+			GRE = {
+				create_wargoal = {
+					target = GEO
+					type = annex_everything
+				}
+			}
+			clr_country_flag = BYZ_will_declare_war_GEO
+		} else_if = {
+			limit = {
+				GRE = { has_country_flag = BYZ_will_declare_war_KUR }
+			}
+			create_wargoal = {
+				target = KUR
+				type = annex_everything
+			}
+			GRE = {
+				create_wargoal = {
+					target = KUR
+					type = annex_everything
+				}
+			}
+			clr_country_flag = BYZ_will_declare_war_KUR
+		}
+	}
+}
+
+country_event = { # MEK Coups the government
+	id = gre.109
+	title = gre.109.t
+	desc = gre.109.d
+	fire_only_once = yes
+	trigger = {
+		has_country_flag = GRE_chose_rallis
+		date > "1937.1.1"
+	}
+	mean_time_to_happen = {
+		days = 2
+	}
+	option = { # Coup succeeded
+		name = gre.109.a
+		ai_chance = { 
+			base = 0
+			modifier = {
+				add = 10
+				has_country_flag = GRE_PURSUE_BYZANTIUM_AI
+			}
+		}
+		set_politics = {
+			ruling_party = authoritarian_democrat
+		}
+		GRE_hire_authdems = yes
+		hidden_effect = {
+			country_event = {
+				id = gre.110
+				days = 15
+				random_days = 2
+				random_hours = 6
+			}
+		}
+	}
+	option = { # Coup didn't succeed
+		name = gre.109.b
+		ai_chance = { factor = 1 }
+	}
+}
+
+country_event = { # MEK Leader is assasinated
+	id = gre.110
+	title = gre.110.t
+	desc = gre.110.d
+	is_triggered_only = yes
+	option = {
+		name = gre.110.a
+		GRE_Sotirios_Gotzamanis = {
+			remove_advisor_role = {
+				slot = head_of_government
+			}
+		}
+		GRE_Monarchist_Comitee = {
+			add_country_leader_role = {
+				country_leader = {
+					ideology = authoritarian_democrat_subtype
+				}
+				promote_leader = yes
+			}
+		}
+		complete_national_focus = GRE_the_royalists_succeed
+	}
+}
+
+country_event = { # GRE wants to ally us
+	id = gre.111
+	title = gre.111.t
+	desc = gre.111.d
+	is_triggered_only = yes
+	option = { # yeah sure
+		name = gre.111.a
+		ai_chance = {
+			base = 10
+			modifier = {
+				add = 100
+				original_tag = ARM
+			}
+			modifier = {
+				add = 50
+				strength_ratio = {
+					tag = FROM
+					ratio > 1
+				}
+			}
+			modifier = {
+				add = 20
+				OR = {
+					original_tag = SER
+					original_tag = ROM
+				}
+			}
+			modifier = {
+				add = 50
+				OR = {
+					is_guaranteed_by = FROM
+					has_non_aggression_pact_with = FROM
+					FROM = {
+						is_guaranteed_by = ROOT
+						has_non_aggression_pact_with = ROOT
+					}
+				}
+			}
+			modifier = {
+				add = -10
+			}
+		}
+		FROM = {
+			country_event = { id = gre.112 days = 1 random_hours = 6 }
+		}
+		effect_tooltip = {
+			FROM = {
+				if = {
+					limit = {
+						is_in_faction = yes
+						is_faction_leader = yes
+					}
+					add_to_faction = ROOT
+					else_if = {
+						limit = {
+							is_in_faction = no
+						}
+						create_faction = "Byzantine Commonwealth"
+						add_to_faction = ROOT
+					}
+					else = {
+						leave_faction = yes
+						create_faction = "Byzantine Commonwealth"
+						add_to_faction = ROOT
+					}
+				}
+			}
+		}
+	}
+	option = { # no
+		name = gre.111.b
+		ai_chance = {
+			base = 1
+		}
+		FROM = {
+			country_event = { id = gre.113 days = 1 random_hours = 6 }
+		}
+	}
+}
+
+country_event = { # GRE wants to ally us - ACCEPTED
+	id = gre.112
+	title = gre.112.t
+	desc = gre.112.d
+	is_triggered_only = yes
+	option = { # yay!
+		name = gre.112.a
+		add_political_power = 20
+		if = {
+			limit = {
+				is_in_faction = yes
+				is_faction_leader = yes
+			}
+			add_to_faction = FROM
+			else_if = {
+				limit = {
+					is_in_faction = no
+				}
+				create_faction = "Byzantine Commonwealth"
+				add_to_faction = FROM
+			}
+			else = {
+				leave_faction = yes
+				create_faction = "Byzantine Commonwealth"
+				add_to_faction = FROM
+			}
+		}
+	}
+}
+
+country_event = { # GRE wants to ally us - REJECTED
+	id = gre.113
+	title = gre.113.t
+	desc = gre.113.d
+	is_triggered_only = yes
+	option = { # damn
+		name = gre.112.a
+		add_political_power = -20
+	}
+}
+
+country_event = {
+	id = gre.114
+	hidden = yes
+	is_triggered_only = yes
+	trigger = {
+		all_state = {
+			OR = {
+				is_core_of = KUR
+				is_core_of = AZR
+				is_core_of = GEO
+			}
+			is_owned_by = ARM
+			is_claimed_by = ARM
+		}
+	}
+	option = {
+		set_country_flag = BYZ_will_declare_war_GOR
+		set_country_flag = BYZ_will_declare_war_PER
+	}
+}
+
+country_event = {
+	id = gre.115
+	hidden = yes
+	is_triggered_only = yes
+	trigger = {
+		OR = {
+			has_country_flag = GRE_angkyra_pacified
+			has_country_flag = GRE_angkyra_pacified2
+			has_country_flag = GRE_angkyra_pacified3
+			has_country_flag = GRE_angkyra_pacified4
+		}
+	}
+	option = {
+		if = {
+			limit = {
+				has_country_flag = GRE_angkyra_pacified
+			}
+			clr_country_flag = GRE_angkyra_pacified
+			activate_mission = GRE_deal_with_ankgkyra_resistance
+			else_if = {
+				limit = {
+					has_country_flag = GRE_angkyra_pacified2
+				}
+				clr_country_flag = GRE_angkyra_pacified2
+				activate_mission = GRE_force_angkyran_hellenisation
+			}
+			else_if = {
+				limit = {
+					has_country_flag = GRE_angkyra_pacified3
+				}
+				clr_country_flag = GRE_angkyra_pacified3
+				activate_mission = GRE_war_against_resistance
+			}
+		}
+	}
+}
+
+country_event = { # Ask to buy islands
+	id = gre.116
+	title = gre.116.t
+	desc = gre.116.d
+	is_triggered_only = yes
+	option = { #accept
+		name = gre.116.a
+		ai_chance = {
+			base = 100
+		}
+		every_state = {
+			limit = {
+				OR = {
+					state = 164
+					state = 345
+					state = 1030
+				}
+			}
+			transfer_state_to = GRE
+		}
+		GRE = {
+			add_state_claim = 345
+			add_state_claim = 1030
+			add_timed_idea = {
+				idea = GRE_italian_payment
+				days = 120
+			}
+			country_event = gre.117
+		}
+		ai_chance = {
+			base = 10
+			modifier = {
+				add = -10
+				NOT = {
+					is_in_faction_with = ITA
+				}
+			}
+		}
+	}
+	option = { # reject
+		name = gre.116.b
+		add_political_power = -10
+		country_event = gre.118
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 10
+				NOT = {
+					is_in_faction_with = ITA
+				}
+			}
+		}
+	}
+}
+
+country_event = { # ITA Accepted to give the islands
+	id = gre.117
+	title = gre.117.t
+	desc = gre.117.d
+	is_triggered_only = yes
+	option = { #yay
+		name = gre.117.a
+	}
+}
+
+country_event = { # ITA Rejected to give the islands
+	id = gre.118
+	title = gre.118.t
+	desc = gre.118.d
+	is_triggered_only = yes
+	option = { #noooo
+		name = gre.118.a
+		add_political_power = -20
+	}
+}
+
+country_event = { # Flavour Event: Epitaphios of Giannis Ritsos
+	id = gre.120
+	title = gre.120.t
+	desc = gre.120.d
+	picture = GFX_report_event_GRE_epitaphios
+	is_triggered_only = yes
+	option = {
+		name = gre.120.a
+		add_political_power = 20
+	}
+}
+
+country_event = {
+	id = gre.121
+	title = gre.121.t
+	desc = gre.121.d
+	picture = GFX_report_event_GRE_conquest_of_constantinople
+	is_triggered_only = yes
+	option = {
+		name = gre.121.a
+		341 = {
+			set_state_name = GRE_STATE_NAME_341
+			set_province_name = {
+				id = 9833
+				name = GRE_STATE_NAME_341
+			}
+		}
+		add_stability = 0.05
+		add_war_support = 0.05
+	}
+}
+
+# country_event = { #byzantium broken
+# 	id = brokenbyz.1
+# 	title = brokenbyz.1.t
+# 	desc = brokenbyz.1.d
+# 	is_triggered_only = yes
+# 	option = { # damn
+# 		name = brokenbyz.1.a
+# 		GRE = {
+# 			GRE_Eleftherios_Kyriakou_Venizelos = {
+# 				set_nationality = CRE
+# 			}
+# 		}
+# 		GRE_Eleftherios_Kyriakou_Venizelos = {
+# 			promote_leader = yes
+# 			add_country_leader_role = {
+# 				country_leader = {
+# 					ideology = social_liberal_subtype
+# 					traits = {
+# 						popular_figurehead
+# 					}
+# 				}
+# 			}
+# 		}
+# 		if = {
+# 			limit = {
+# 				GRE = {
+# 					controls_state = 787
+# 					controls_state = 106
+# 					controls_state = 108
+# 					controls_state = 107
+# 					controls_state = 1034
+# 					controls_state = 1038
+# 					controls_state = 105
+# 					controls_state = 102
+# 					controls_state = 103
+# 					controls_state = 109
+# 					NOT = {
+# 						SER = {
+# 							exists = yes
+# 						}
+# 						CRO = {
+# 							exists = yes
+# 						}
+# 						SLV = {
+# 							exists = yes
+# 						}
+# 					}
+# 				}
+# 			}
+# 			set_country_flag = BYZ_CONQUERED_SERLANDS
+# 		}
+# 		if = {
+# 			limit = {
+# 				GRE = {
+# 					any_state = {
+# 						is_original_bulgarian_state = yes
+# 					}
+# 					BUL = {
+# 						exists = no
+# 					}
+# 				}
+# 			}
+# 			set_country_flag = BYZ_CONQUERED_BULLANDS
+# 		}
+# 		if = {
+# 			limit = {
+# 				GRE = {
+# 					controls_state = 44
+# 					ALB = {
+# 						exists = no
+# 					}
+# 				}
+# 			}
+# 			set_country_flag = BYZ_CONQUERED_ALBLANDS
+# 		}
+
+# 		MAC = {
+# 			transfer_state = 731
+# 			transfer_state = 184
+# 			transfer_state = 763
+# 			transfer_state = 1056
+# 			transfer_state = 47
+
+# 			if = {
+# 				limit = {
+# 					has_country_flag = BYZ_CONQUERED_SERLANDS
+# 				}
+# 				MAC = {
+# 					transfer_state = 787
+# 					transfer_state = 106
+# 				}
+# 			}
+
+# 			add_state_core = 731
+# 			add_state_core = 184
+# 			add_state_core = 47
+# 			add_state_core = 763
+# 			add_state_core = 1056
+# 		}
+# 		ISC = {
+# 			set_cosmetic_tag = ISC_BYZ_MAIN
+# 			transfer_state = 341
+# 			transfer_state = 347
+# 			transfer_state = 776
+# 			transfer_state = 340
+# 			transfer_state = 342
+# 			transfer_state = 1057
+
+# 			add_state_core = 341
+# 			add_state_core = 347
+# 			add_state_core = 776
+# 			add_state_core = 340
+# 			add_state_core = 342
+# 			add_state_core = 1057
+# 			change_tag_from = GRE
+# 		}
+# 		ATH = {
+# 			transfer_state = 1045
+# 			transfer_state = 1058
+# 			transfer_state = 186
+
+# 			add_state_core = 1045
+# 			add_state_core = 1058
+# 			add_state_core = 186
+# 		}
+# 		CRE = {
+# 			transfer_state = 182
+# 			add_state_core = 182
+
+# 			# set_popularities = {
+# 			# 	authoritarian_democrat = 0
+# 			# 	social_liberal = 100
+# 			# }
+# 			# set_politics = {
+# 			# 	ruling_party = social_liberal
+# 			# 	election_frequency = 48
+# 			# 	elections_allowed = yes
+# 			# 	name = GRE_social_liberal_party
+# 			# 	long_name = GRE_social_liberal_party_long
+# 			# }
+# 			# CRE_Eleftherios_Kyriakou_Venizelos = {
+# 			# 	add_country_leader_role = {
+# 			# 		country_leader = {
+# 			# 			ideology = social_liberal_subtype
+# 			# 		}
+# 			# 	}
+# 			# }
+
+# 		}
+# 		ION = {
+# 			transfer_state = 339
+# 			transfer_state = 1055
+# 			transfer_state = 187
+
+# 			add_state_core = 339
+# 			add_state_core = 1055
+# 			add_state_core = 187
+# 		}
+# 		HEP = {
+# 			transfer_state = 1046
+# 			add_state_core = 1046
+# 		}
+# 		EPI = {
+# 			transfer_state = 765
+# 			transfer_state = 185
+
+# 			add_state_core = 765
+# 			add_state_core = 185
+# 		}
+# 		# factions
+# 		ISC = {
+# 			create_faction = "New Byzantium"
+# 			add_to_faction = MAC
+# 			add_to_faction = ION
+# 		}
+# 		EPI = {
+# 			create_faction = "Epirus Cooperative"
+# 			add_to_faction = HEP
+# 		}
+# 	}
+# }
+
+
+# country_event = {
+# 	id = brokenbyz.2
+# 	title = brokenbyz.2.t
+# 	desc = brokenbyz.2.d
+# 	is_triggered_only = yes
+# 	option = {
+# 		name = brokenbyz.2
+# 	}
+# }

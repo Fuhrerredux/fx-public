@@ -1,0 +1,795 @@
+focus_tree = {
+	id = FR_Socialist_Spain_CivilWar
+	country = {
+		factor = 0
+		modifier = {
+			add = 20
+			tag = SPA
+		}
+	}
+	default = no
+	continuous_focus_position = { x = 50 y = 1350 }
+
+	initial_show_position = {
+		focus = SPA_organize_revolutionaries
+	}
+
+	focus = {
+		id = SPA_organize_revolutionaries
+		icon = GFX_focus_SOV_support_spanish_poum
+		cost = 5.00
+		x = 6
+		y = 0
+
+		available = {
+			has_political_power > 0
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPA_organize_revolutionaries"
+			add_political_power = -25
+			add_stability = 0.01
+			add_war_support = 0.01
+			add_popularity = { ideology = collectivist popularity = 0.01 }
+			add_popularity = { ideology = libertarian_socialist popularity = 0.01 }
+		}
+
+	}
+	focus = {
+		id = SPA_organize_socialist_forces
+		icon = GFX_focus_generic_military_mission
+		cost = 5.00
+		x = 9
+		y = 0
+
+		available = {
+			has_political_power > 0
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPA_organize_socialist_forces"
+			add_political_power = -25
+			add_war_support = 0.03
+			swap_ideas = {
+				remove_idea = SPA_opposing_militia_groups_idea
+				add_idea = SPA_organize_socialist_forces_idea
+			}
+		}
+
+	}
+	focus = {
+		id = SPA_hill_fortresses_andalusia
+		icon = GFX_goal_yanshan
+		cost = 5.00
+		x = 11
+		y = 0
+
+		available = {
+			has_political_power > 0
+			controls_state = 173
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPA_hill_fortresses_andalusia"
+			add_political_power = -25
+			add_stability = 0.01
+			add_war_support = 0.01
+			173 = {
+				add_building_construction = {
+					type = bunker
+					level = 2
+					instant_build = yes
+					province = 9979
+				}
+				add_building_construction = {
+					type = bunker
+					level = 1
+					instant_build = yes
+					province = 12038
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = SPA_enact_war_socialism
+		icon = GFX_focus_generic_join_comintern
+		cost = 5.00
+		prerequisite = {
+			focus = SPA_organize_revolutionaries
+		}
+		prerequisite = {
+			focus = SPA_organize_socialist_forces
+		}
+		x = 3
+		y = 1
+
+		available = {
+			has_political_power > 0
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPR_pass_civil_war_emergency"
+			add_political_power = -25
+			add_war_support = 0.02
+			swap_ideas = {
+				remove_idea = SPR_weaken_leadership_idea
+				add_idea = SPR_pass_civil_war_emergency_idea
+			}
+		}
+
+	}
+	focus = {
+		id = SPA_success_of_lenin
+		icon = GFX_goal_syndicalist_lenin
+		cost = 5.00
+		prerequisite = {
+			focus = SPA_enact_war_socialism
+		}
+		mutually_exclusive = {
+			focus = SPA_emphazize_unity
+			focus = SPA_indpendent_revolutionaries
+		}
+		x = 1
+		y = 2
+
+		available = {
+			has_political_power > 0
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPA_success_of_lenin"
+			add_political_power = -20
+			add_stability = -0.02
+			add_popularity = { ideology = collectivist popularity = 0.02 }
+			swap_ideas = {
+				remove_idea = SPR_pass_civil_war_emergency_idea
+				add_idea = SPR_pass_civil_war_emergency1_idea
+			}
+		}
+
+	}
+	focus = {
+		id = SPA_emphazize_unity
+		icon = GFX_goal_ideology_radical_socialist
+		cost = 5.00
+		prerequisite = {
+			focus = SPA_enact_war_socialism
+		}
+		mutually_exclusive = {
+			focus = SPA_success_of_lenin
+			focus = SPA_indpendent_revolutionaries
+		}
+		x = 3
+		y = 2
+
+		available = {
+			has_political_power > 0
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPA_emphazize_unity"
+			add_political_power = -20
+			add_stability = 0.03
+			add_popularity = { ideology = vanguardist popularity = 0.01 }
+			add_popularity = { ideology = collectivist popularity = 0.01 }
+			add_popularity = { ideology = libertarian_socialist popularity = 0.01 }
+			add_popularity = { ideology = social_democrat popularity = 0.01 }
+			swap_ideas = {
+				remove_idea = SPR_pass_civil_war_emergency_idea
+				add_idea = SPR_pass_civil_war_emergency1_idea
+			}
+		}
+
+	}
+	focus = {
+		id = SPA_indpendent_revolutionaries
+		icon = GFX_goal_intergrate_the_militia
+		cost = 5.00
+		prerequisite = {
+			focus = SPA_enact_war_socialism
+		}
+		mutually_exclusive = {
+			focus = SPA_success_of_lenin
+			focus = SPA_emphazize_unity
+		}
+		x = 5
+		y = 2
+
+		available = {
+			has_political_power > 0
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPA_indpendent_revolutionaries"
+			add_political_power = -20
+			add_stability = -0.02
+			add_war_support = 0.02
+			add_popularity = { ideology = libertarian_socialist popularity = 0.02 }
+			swap_ideas = {
+				remove_idea = SPR_pass_civil_war_emergency_idea
+				add_idea = SPR_pass_civil_war_emergency1_idea
+			}
+		}
+
+	}
+	focus = {
+		id = SPA_legitimacy_from_working_class
+		icon = GFX_goal_syndicalist_workers
+		cost = 5.00
+		prerequisite = {
+			focus = SPA_success_of_lenin
+			focus = SPA_emphazize_unity
+			focus = SPA_indpendent_revolutionaries
+		}
+		x = 3
+		y = 3
+
+		available = {
+			has_political_power > 0
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPA_legitimacy_from_working_class"
+			add_political_power = -30
+			add_stability = 0.03
+			add_war_support = 0.03
+			remove_ideas = SPR_pass_civil_war_emergency1_idea
+		}
+
+	}
+	focus = {
+		id = SPA_soviet_support
+		icon = GFX_focus_SOV_the_path_of_marxism_leninism
+		cost = 5.00
+		prerequisite = {
+			focus = SPA_legitimacy_from_working_class
+		}
+		x = 2
+		y = 4
+
+		available = {
+			has_political_power > 0
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPA_emphazize_unity"
+			add_political_power = -25
+			add_manpower = 2500
+			add_equipment_to_stockpile = {
+				type = infantry_equipment
+				amount = 5000
+				producer = SOV
+			}
+		}
+
+	}
+	focus = {
+		id = SPA_international_brigades
+		icon = GFX_focus_SOV_builder_of_the_red_army
+		cost = 5.00
+		prerequisite = {
+			focus = SPA_legitimacy_from_working_class
+		}
+		x = 4
+		y = 4
+
+		available = {
+			has_political_power > 0
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPA_emphazize_unity"
+			add_political_power = -35
+			if = {
+				limit = {
+					NOR = {
+						OR = {
+							has_government = vanguardist
+							has_government = collectivist
+							has_government = libertarian_socialist
+							has_government = social_democrat
+						}
+					}
+				}
+				NOR = {
+					add_opinion_modifier = { target = SPF modifier = small_increase }
+				}
+				add_manpower = 700
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = 1000
+					producer = NOR
+				}
+			}
+			if = {
+				limit = {
+					ENG = {
+						OR = {
+							has_government = vanguardist
+							has_government = collectivist
+							has_government = libertarian_socialist
+							has_government = social_democrat
+						}
+					}
+				}
+				ENG = {
+					add_opinion_modifier = { target = SPF modifier = small_increase }
+				}
+				add_manpower = 300
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = 500
+					producer = ENG
+				}
+			}
+			if = {
+				limit = {
+					SWE = {
+						OR = {
+							has_government = vanguardist
+							has_government = collectivist
+							has_government = libertarian_socialist
+							has_government = social_democrat
+						}
+					}
+				}
+				SWE = {
+					add_opinion_modifier = { target = SPF modifier = small_increase }
+				}
+				add_manpower = 300
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = 500
+					producer = SWE
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = SPA_defence_of_catalonia
+		icon = GFX_goal_generic_construct_military
+		cost = 5.00
+		prerequisite = {
+			focus = SPA_organize_revolutionaries
+		}
+		prerequisite = {
+			focus = SPA_organize_socialist_forces
+		}
+		prerequisite = {
+			focus = SPA_hill_fortresses_andalusia
+		}
+		x = 8
+		y = 1
+
+		available = {
+			has_political_power > 0
+		}
+
+		bypass = {
+			has_global_flag = SPR_spanish_civil_war_ended_flag
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPA_defence_of_catalonia"
+			add_political_power = -35
+			swap_ideas = {
+				remove_idea = SPR_SPM_SPF_SPA_spanish_civil_war_idea
+				add_idea = SPR_surrounded_at_all_sides_idea
+			}
+		}
+
+	}
+	focus = {
+		id = SPA_recruitment_drive
+		icon = GFX_goal_generic_propaganda
+		cost = 5.00
+		prerequisite = {
+			focus = SPA_organize_revolutionaries
+		}
+		prerequisite = {
+			focus = SPA_organize_socialist_forces
+		}
+		prerequisite = {
+			focus = SPA_hill_fortresses_andalusia
+		}
+		x = 10
+		y = 1
+
+		available = {
+			has_political_power > 0
+		}
+
+		bypass = {
+			has_global_flag = SPR_spanish_civil_war_ended_flag
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPA_recruitment_drive"
+			add_political_power = -35
+			add_war_support = 0.03
+			add_manpower = 10000
+			country_event = { id = socspain.100 days = 1 }
+		}
+
+	}
+	focus = {
+		id = SPA_civil_war_offensive_planning
+		icon = GFX_focus_spr_masters_of_our_own_fate
+		cost = 8.00
+		prerequisite = {
+			focus = SPA_defence_of_catalonia
+		}
+		prerequisite = {
+			focus = SPA_recruitment_drive
+		}
+		x = 7
+		y = 2
+
+		available = {
+			has_political_power > 0
+			has_equipment = {
+				infantry_equipment_0 > 499
+			}
+			NOT = {
+				has_global_flag = SPR_spanish_civil_war_ended_flag
+			}
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPA_civil_war_offensive_planning"
+			add_political_power = -40
+			add_equipment_to_stockpile = {
+				type = infantry_equipment_0
+				amount = -500
+				producer = SPA
+			}
+			if = {
+				limit = {
+					has_idea = SPR_provide_proper_army_transport_idea
+				}
+				swap_ideas = {
+					remove_idea = SPR_provide_proper_army_transport_idea
+					add_idea = SPR_spanish_civil_war_finish_idea
+				}
+			}
+			else = {
+				swap_ideas = {
+					remove_idea = SPR_surrounded_at_all_sides_idea
+					add_idea = SPR_civil_war_offensive_planning_idea
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = SPA_provide_proper_army_transport
+		icon = GFX_focus_generic_truck
+		cost = 8.00
+		prerequisite = {
+			focus = SPA_defence_of_catalonia
+		}
+		prerequisite = {
+			focus = SPA_recruitment_drive
+		}
+		x = 11
+		y = 2
+
+		available = {
+			has_political_power > 0
+			has_equipment = {
+				motorized_equipment_1 > 299
+			}
+			has_equipment = {
+				infantry_equipment_0 > 299
+			}
+			NOT = {
+				has_global_flag = SPR_spanish_civil_war_ended_flag
+			}
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPA_provide_proper_army_transport"
+			add_political_power = -40
+			add_equipment_to_stockpile = {
+				type = motorized_equipment_1
+				amount = -300
+				producer = SPA
+			}
+			add_equipment_to_stockpile = {
+				type = infantry_equipment_0
+				amount = -300
+				producer = SPA
+			}
+			if = {
+				limit = {
+					has_idea = SPR_civil_war_offensive_planning_idea
+				}
+				swap_ideas = {
+					remove_idea = SPR_civil_war_offensive_planning_idea
+					add_idea = SPR_spanish_civil_war_finish_idea
+				}
+			}
+			else = {
+				swap_ideas = {
+					remove_idea = SPR_surrounded_at_all_sides_idea
+					add_idea = SPR_provide_proper_army_transport_idea
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = SPA_military_armament
+		icon = GFX_goal_generic_construct_mil_factory
+		cost = 5.00
+		prerequisite = {
+			focus = SPA_defence_of_catalonia
+		}
+		prerequisite = {
+			focus = SPA_recruitment_drive
+		}
+		x = 9
+		y = 3
+
+		available = {
+			has_political_power > 0
+			controls_state = 165
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPA_military_armament"
+			add_political_power = -50
+			165 = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = SPA_reeinforce_aragon_lines
+		icon = GFX_goal_Focus_Military_Mobilisation
+		cost = 5.00
+		prerequisite = {
+			focus = SPA_organize_socialist_forces
+		}
+		prerequisite = {
+			focus = SPA_hill_fortresses_andalusia
+		}
+		x = 14
+		y = 1
+
+		available = {
+			has_political_power > 0
+			controls_state = 1005
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPA_reeinforce_aragon_lines"
+			add_political_power = -25
+			1005 = {
+				add_building_construction = {
+					type = bunker
+					level = 2
+					instant_build = yes
+					province = 790
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					instant_build = yes
+					province = 11821
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					instant_build = yes
+					province = 3909
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = SPA_peace_in_south
+		icon = GFX_focus_rom_abdicate
+		cost = 5.00
+		prerequisite = {
+			focus = SPA_reeinforce_aragon_lines
+		}
+		x = 13
+		y = 2
+
+		available = {
+			has_political_power > 0
+			controls_state = 169
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPR_secure_andalucia"
+			add_political_power = -20
+			add_manpower = -200
+			add_stability = 0.03
+			add_war_support = 0.03
+			add_popularity = { ideology = authoritarian_democrat popularity = -0.02 }
+			169 = {
+				add_resistance = -10
+			}
+		}
+
+	}
+	focus = {
+		id = SPA_pasify_northern_resistance
+		icon = GFX_goal_HOL_ban_paramilitary
+		cost = 5.00
+		prerequisite = {
+			focus = SPA_reeinforce_aragon_lines
+		}
+		x = 15
+		y = 2
+
+		available = {
+			has_political_power > 0
+			controls_state = 171
+			controls_state = 174
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPA_pasify_northern_resistance"
+			add_political_power = -20
+			add_manpower = -200
+			add_stability = 0.03
+			add_war_support = 0.03
+			add_popularity = { ideology = national_populist popularity = -0.02 }
+			171 = {
+				add_resistance = -10
+			}
+			174 = {
+				add_resistance = -10
+			}
+		}
+
+	}
+	focus = {
+		id = SPA_revolutionaries_of_madrid
+		icon = GFX_focus_ARG_no_gods_no_masters
+		cost = 5.00
+		prerequisite = {
+			focus = SPA_peace_in_south
+			focus = SPA_pasify_northern_resistance
+		}
+		x = 13
+		y = 3
+
+		available = {
+			has_political_power > 0
+			controls_state = 41
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPA_revolutionaries_of_madrid"
+			add_political_power = -20
+			add_manpower = -200
+			add_stability = 0.03
+			add_war_support = 0.03
+			add_popularity = { ideology = social_liberal popularity = -0.02 }
+			add_popularity = { ideology = market_liberal popularity = -0.01 }
+			41 = {
+				add_resistance = -10
+			}
+		}
+
+	}
+	focus = {
+		id = SPA_spain_socialist_revolutionary
+		icon = GFX_focus_spr_maintain_the_republic
+		cost = 1.50
+		prerequisite = {
+			focus = SPA_military_armament
+		}
+		prerequisite = {
+			focus = SPA_revolutionaries_of_madrid
+		}
+		x = 11
+		y = 4
+
+		available = {
+			has_political_power > 0
+			SPR = { exists = no }
+			SPM = { exists = no }
+			SPF = { exists = no }
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPA_spain_socialist_revolutionary"
+			country_event = { id = socspain.9 days = 1 }
+		}
+
+	}
+}

@@ -1,0 +1,1869 @@
+##############################
+#Belgium Focus Tree by SibCDC#
+#Rework by Fokeł
+##############################
+
+######POLITICAL
+
+focus_tree = {
+	id = belgian_focus
+
+	country = {
+		factor = 0
+		modifier = {
+			add = 10
+			original_tag = BEL
+		}
+	}
+	default = no
+	reset_on_civilwar = no
+
+	focus = { #Elections
+		id = BEL_goal_elections
+		icon = GFX_goal_BEL_support_democracy
+		prerequisite = { }
+		x= 10
+		y = 0
+		cost = 7
+		available = {
+			hidden_trigger = {
+				always = no
+			}
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_elections"
+			custom_effect_tooltip = BEL_goal_elections_tt
+		}
+	}
+
+	focus = { #Commies win civilwar
+		id = BEL_goal_KPB
+		icon = GFX_goal_BEL_KPB
+		prerequisite = { focus = BEL_goal_elections }
+		x = 2
+		y = 1
+		cost = 7
+		available = {
+			hidden_trigger = {
+				always = no
+			}
+		}
+		completion_reward = { #PLACEHOLDER
+			custom_effect_tooltip = BEL_goal_KPB_tt
+			hidden_effect = {
+				country_event = {
+					id = bca.3
+					days = 3
+				}
+			}
+		}
+	}
+
+	focus = { #De Man takes control
+		id = BEL_goal_de_man
+		icon = GFX_goal_BEL_de_man
+		prerequisite = { focus = BEL_goal_KPB }
+		mutually_exclusive = { focus = BEL_goal_choose_KPB }
+		x = 0
+		y = 2
+		cost = 1
+		available = { has_war = no }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_de_man"
+			BEL = {
+				country_event = { id = bel.31 days = 1}
+			}
+		}
+	}
+
+	focus = { #Economic Secretariats
+		id = BEL_goal_economic_secretariats
+		icon = GFX_goal_generic_banking_legislation
+		prerequisite = { focus = BEL_goal_de_man }
+		x = 0
+		y = 3
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_economic_secretariats"
+			add_ideas = BEL_economic_secretariats
+		}
+	}
+
+	focus = { #Nationalize industries
+		id = BEL_goal_nationalize_industries
+		icon = GFX_goal_generic_seize_investments
+		prerequisite = { focus = BEL_goal_economic_secretariats }
+		x = 0
+		y = 4
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_nationalize_industries"
+			swap_ideas = {
+				add_idea = BEL_large_state_investments
+				remove_idea = BEL_black_wednesday
+			}
+		}
+	}
+
+	focus = { #Union of Craftsmen and Intellectuals
+		id = BEL_goal_union_of_craftsmen_and_intellectuals
+		icon = GFX_goal_generic_culture2
+		prerequisite = { focus = BEL_goal_nationalize_industries }
+		x = 0
+		y = 5
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_union_of_craftsmen_and_intellectuals"
+			add_ideas = BEL_union_of_craftsmen_and_intellectuals
+		}
+	}
+
+	focus = { #Head Office for Worker's Education
+		id = BEL_goal_head_office_worker_education
+		icon = GFX_goal_double_research
+		prerequisite = { focus = BEL_goal_union_of_craftsmen_and_intellectuals }
+		x = 0
+		y = 6
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_head_office_worker_education"
+			add_ideas = BEL_better_research
+		}
+	}
+
+	focus = { #Choose KPB
+		id = BEL_goal_choose_KPB
+		icon = GFX_goal_generic_communist_world_revolution
+		prerequisite = { focus = BEL_goal_KPB }
+		mutually_exclusive = { focus = BEL_goal_de_man }
+		x = 2
+		y = 2
+		cost = 1
+		available = { has_war = no }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_choose_KPB"
+			country_event = { id = bel.32 days = 1}
+		}
+	}
+
+	focus = { #Integrate BWP
+		id = BEL_goal_integrate_bwp
+		icon = GFX_goal_BEL_integrate_bwp
+		prerequisite = { focus = BEL_goal_choose_KPB }
+		x = 2
+		y = 3
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_integrate_bwp"
+			add_timed_idea = { idea = BEL_bwp_integrated days = 140 }
+		}
+	}
+
+	focus = { #Economic planning
+		id = BEL_goal_economic_planning
+		icon = GFX_goal_generic_financial_markets
+		prerequisite = { focus = BEL_goal_integrate_bwp }
+		x = 2
+		y = 4
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_economic_planning"
+			swap_ideas = {
+				add_idea = BEL_large_state_investments
+				remove_idea = BEL_black_wednesday
+			}
+		}
+	}
+
+	focus = { #Worker's universities
+		id = BEL_goal_worker_universities
+		icon = GFX_goal_KTG_Bookstack
+		prerequisite = { focus = BEL_goal_economic_planning }
+		x = 2
+		y = 5
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_worker_universities"
+			add_ideas = BEL_better_research
+		}
+	}
+
+	focus = { #Communist Brigades
+		id = BEL_goal_communist_brigades
+		icon = GFX_goal_generic_red_guard
+		prerequisite = { focus = BEL_goal_worker_universities }
+		x = 2
+		y = 6
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_communist_brigades"
+			add_ideas = BEL_communist_brigades
+		}
+	}
+
+	focus = { #BWP-KP Coalition
+		id = BEL_goal_BWP_KP_coalition
+		icon = GFX_goal_BEL_BWP_KP_coalition
+		prerequisite = { focus = BEL_goal_elections }
+		x = 6
+		y = 1
+		cost = 7
+		available = {
+			hidden_trigger = {
+				always = no
+			}
+		}
+		completion_reward = {
+			custom_effect_tooltip = BEL_goal_BWP_KP_coalition_tt
+		}
+	}
+
+	focus = { #Improve working conditions
+		id = BEL_goal_improve_working_conditions
+		icon = GFX_goal_generic_enforce_labor_regulation
+		prerequisite = { focus = BEL_goal_BWP_KP_coalition }
+		x = 6
+		y = 2
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_improve_working_conditions"
+			add_ideas = BEL_improved_working_conditions
+		}
+	}
+
+	focus = { #Subsidize the Boerenbond 1
+		id = BEL_goal_subsidize_the_boerenbond_1
+		icon = GFX_goal_BEL_subsidize_boerenbond
+		prerequisite = { focus = BEL_goal_improve_working_conditions }
+		mutually_exclusive = { focus = BEL_goal_introduce_conge_paye }
+		available = { has_government = social_conservative }
+		x = 5
+		y = 3
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_subsidize_the_boerenbond_1"
+			add_ideas = BEL_subsidized_boerenbond
+		}
+	}
+
+	focus = { #Introduce the Congé Payé
+		id = BEL_goal_introduce_conge_paye
+		icon = GFX_goal_generic_investments
+		prerequisite = { focus = BEL_goal_improve_working_conditions }
+		mutually_exclusive = { focus = BEL_goal_subsidize_the_boerenbond_1 }
+		available = { has_government = social_democrat }
+		x = 7
+		y = 3
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_introduce_conge_paye"
+			add_ideas = BEL_conge_paye
+		}
+	}
+
+	focus = { #Expand national industries
+		id = BEL_goal_expand_national_industries
+		icon = GFX_goal_generic_construct_civ_factory
+		prerequisite = { focus = BEL_goal_subsidize_the_boerenbond_1 focus = BEL_goal_introduce_conge_paye }
+		x = 6
+		y = 4
+		cost = 10
+		available = { 34 = { is_controlled_by = BEL } 6 = { is_controlled_by = BEL }}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_expand_national_industries"
+			34 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			6 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = { #Invest in education
+		id = BEL_goal_invest_in_education
+		icon = GFX_goal_BRA_catholic_education
+		prerequisite = { focus = BEL_goal_expand_national_industries }
+		x = 6
+		y = 5
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_invest_in_education"
+			add_ideas = BEL_better_research
+		}
+	}
+
+	focus = { #Large state investments
+		id = BEL_goal_large_state_investments
+		icon = GFX_goal_BEL_large_state_investments
+		prerequisite = { focus = BEL_goal_invest_in_education }
+		x = 6
+		y = 6
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_large_state_investments"
+			swap_ideas = {
+				add_idea = BEL_large_state_investments
+				remove_idea = BEL_black_wednesday
+			}
+		}
+	}
+
+	focus = { #KP-LP-PP Coalition
+		id = BEL_goal_KP_LP_PP_coalition
+		icon = GFX_goal_BEL_KP_LP_PP_coalition
+		prerequisite = { focus = BEL_goal_elections }
+		x = 10
+		y = 1
+		cost = 7
+		available = {
+			hidden_trigger = {
+				always = no
+			}
+		}
+		completion_reward = {
+			custom_effect_tooltip = BEL_goal_KP_LP_PP_coalition_tt
+		}
+	}
+
+	focus = { #Deregulate industries
+		id = BEL_goal_deregulate_industries
+		icon = GFX_goal_generic_privatization
+		prerequisite = { focus = BEL_goal_KP_LP_PP_coalition }
+		x = 10
+		y = 2
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_deregulate_industries"
+			add_ideas = BEL_deregulated_industry
+		}
+	}
+
+	focus = { #Subsidize the Boerenbond 2
+		id = BEL_goal_subsidize_the_boerenbond_2
+		icon = GFX_goal_BEL_subsidize_boerenbond
+		prerequisite = { focus = BEL_goal_deregulate_industries }
+		mutually_exclusive = { focus = BEL_goal_encourage_the_middle_class }
+		x = 9
+		y = 3
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_subsidize_the_boerenbond_2"
+			add_ideas = BEL_subsidized_boerenbond
+		}
+	}
+
+	focus = { #Encourage the Middle Class
+		id = BEL_goal_encourage_the_middle_class
+		icon = GFX_goal_generic_food_processing
+		prerequisite = { focus = BEL_goal_deregulate_industries }
+		mutually_exclusive = { focus = BEL_goal_subsidize_the_boerenbond_2 }
+		x = 11
+		y = 3
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_encourage_the_middle_class"
+			add_ideas = BEL_strong_middle_class
+		}
+	}
+
+	focus = { #Women suffrage
+		id = BEL_goal_women_suffrage
+		icon = GFX_goal_BEL_women_suffrage
+		prerequisite = { focus = BEL_goal_subsidize_the_boerenbond_2 focus = BEL_goal_encourage_the_middle_class }
+		x = 10
+		y = 4
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_women_suffrage"
+			add_ideas = BEL_women_suffrage
+		}
+	}
+
+	focus = { #Fund scientific research
+		id = BEL_goal_fund_scientific_research
+		icon = GFX_goal_great_science
+		prerequisite = { focus = BEL_goal_women_suffrage }
+		x = 10
+		y = 5
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_fund_scientific_research"
+			add_ideas = BEL_better_research
+		}
+	}
+
+	focus = { #Debase Belgian Frank
+		id = BEL_goal_debase_belgian_frank
+		icon = GFX_goal_BEL_debase_currency
+		prerequisite = { focus = BEL_goal_fund_scientific_research }
+		x = 10
+		y = 6
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_debase_belgian_frank"
+			remove_ideas = BEL_black_wednesday
+			add_timed_idea = { idea = BEL_debased_currency days = 365 }
+		}
+	}
+
+	focus = { #Royal coup
+		id = BEL_goal_royal_coup
+		icon = GFX_goal_BEL_royal_coup
+		prerequisite = { focus = BEL_goal_elections }
+		x = 13
+		y = 1
+		cost = 7
+		available = {
+			hidden_trigger = {
+				always = no
+			}
+		}
+		completion_reward = {
+			custom_effect_tooltip = BEL_goal_royal_coup_tt
+		}
+	}
+
+	focus = { #Politique des Mains Libres
+		id = BEL_goal_politique_des_mains_libres
+		icon = GFX_goal_generic_neutrality_focus
+		prerequisite = { focus = BEL_goal_royal_coup }
+		x = 13
+		y = 2
+		cost = 10
+		available = {
+			has_war = no
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_politique_des_mains_libres"
+			add_political_power = 150
+		}
+	}
+
+	focus = { #Armed neutrality
+		id = BEL_goal_armed_neutrality
+		icon = GFX_goal_BEL_armed_neutrality
+		prerequisite = { focus = BEL_goal_politique_des_mains_libres }
+		x = 13
+		y = 3
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_armed_neutrality"
+			add_ideas = BEL_armed_neutrality
+		}
+	}
+
+	focus = { #Develop royal domains
+		id = BEL_goal_develop_royal_domains
+		icon = GFX_goal_generic_capitalist_system
+		prerequisite = { focus = BEL_goal_armed_neutrality }
+		x = 13
+		y = 4
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_develop_royal_domains"
+			802 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = { #Fund Royal Academy
+		id = BEL_goal_fund_royal_academy
+		icon = GFX_focus_research2
+		prerequisite = { focus = BEL_goal_develop_royal_domains }
+		x = 13
+		y = 5
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_fund_royal_academy"
+			add_ideas = BEL_better_research
+		}
+	}
+
+	focus = { #Profits from the Congo
+		id = BEL_goal_profits_from_congo
+		icon = GFX_goal_BEL_profits_from_congo
+		prerequisite = { focus = BEL_goal_fund_royal_academy }
+		x = 13
+		y = 6
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_profits_from_congo"
+			swap_ideas = {
+				add_idea = BEL_profits_from_congo
+				remove_idea = BEL_black_wednesday
+			}
+		}
+	}
+
+	focus = { #VNV
+		id = BEL_goal_VNV
+		icon = GFX_goal_BEL_VNV
+		prerequisite = { focus = BEL_goal_elections }
+		x = 15
+		y = 1
+		cost = 7
+		available = {
+			hidden_trigger = {
+				always = no
+			}
+		}
+		completion_reward = {
+			custom_effect_tooltip = BEL_goal_VNV_tt
+		}
+	}
+
+	focus = { #Vlaamse Wacht
+		id = BEL_goal_vlaamse_wacht
+		icon = GFX_goal_BEL_vlaamse_wacht
+		prerequisite = { focus = BEL_goal_VNV }
+		prerequisite = { focus = BEL_goal_depillarize }
+		x = 15
+		y = 3
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_vlaamse_wacht"
+			add_ideas = BEL_vlaamse_wacht
+		}
+	}
+
+	focus = { #Cultural communities
+		id = BEL_goal_cultural_communities
+		icon = GFX_goal_generic_scientific_exchange
+		prerequisite = { focus = BEL_goal_vlaamse_wacht }
+		x = 15
+		y = 4
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_cultural_communities"
+			add_ideas = BEL_better_research
+		}
+	}
+
+	focus = { #Flemish independence
+		id = BEL_goal_flemish_independence
+		icon = GFX_goal_FLN_Enforce_Flemish
+		prerequisite = { focus = BEL_goal_cultural_communities }
+		x = 15
+		y = 5
+		cost = 20
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_flemish_independence"
+			BEL = {
+				country_event = { id = bel.29 days = 1}
+			}
+		}
+	}
+
+	focus = { #PB
+		id = BEL_goal_PB
+		icon = GFX_goal_BEL_PB
+		prerequisite = { focus = BEL_goal_elections }
+		x = 17
+		y = 1
+		cost = 7
+		available = {
+			hidden_trigger = {
+				always = no
+			}
+		}
+		completion_reward = {
+			custom_effect_tooltip = BEL_goal_PB_tt
+		}
+	}
+
+	focus = { #Purge opposition
+		id = BEL_goal_purge_opposition
+		icon = GFX_goal_BEL_purge_opposition
+		prerequisite = { focus = BEL_goal_PB }
+		prerequisite = { focus = BEL_goal_depillarize }
+		x = 17
+		y = 3
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_purge_opposition"
+			add_timed_idea = { idea = BEL_purging_opposition days = 30 }
+			add_political_power = 100
+		}
+	}
+
+	focus = { #Burgundian inheritence
+		id = BEL_goal_burgundian_inheritence
+		icon = GFX_goal_BEL_burgundian_inheritence
+		prerequisite = { focus = BEL_goal_purge_opposition }
+		x = 17
+		y = 4
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_burgundian_inheritence"
+			29 = { add_claim_by = BEL }
+			747 = { add_claim_by = BEL }
+			17 = { add_claim_by = BEL }
+			27 = { add_claim_by = BEL }
+			8 = { add_claim_by = BEL }
+			18 = { add_claim_by = BEL }
+			28 = { add_claim_by = BEL }
+		}
+	}
+
+	focus = { #Ultimatum to Luxembourg
+		id = BEL_goal_ultimatum_luxembourg
+		icon = GFX_goal_BEL_ultimatum_luxembourg
+		prerequisite = { focus = BEL_goal_burgundian_inheritence focus = BEL_goal_proclaim_south_dietsland }
+		available = {
+			NOT = { LUX = { is_in_faction_with = BEL } }
+		}
+		x = 18
+		y = 5
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_ultimatum_luxembourg"
+			LUX = {
+				country_event = { id = bel.15 days = 1}
+			}
+		}
+	}
+
+	focus = { #Ambiorix' Legacy
+		id = BEL_goal_ambiorix_legacy
+		icon = GFX_goal_BEL_ambiorix_legacy
+		prerequisite = { focus = BEL_goal_ultimatum_luxembourg }
+		prerequisite = { focus = BEL_goal_burgundian_inheritence }
+		available = {
+			NOT = { FRA = { is_in_faction_with = BEL } }
+		}
+		bypass = {
+			FRA = {
+				OR = {
+					exists = no
+					is_in_faction_with = BEL
+					has_war_with = ROOT
+				}
+			}
+		}
+		x = 17
+		y = 6
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_ambiorix_legacy"
+			create_wargoal = {
+				type = take_state_focus
+				target = FRA
+				generator = { 26 }
+			}
+		}
+	}
+
+	focus = { #Verdinaso
+		id = BEL_goal_Verdinaso
+		icon = GFX_goal_BEL_Verdinaso
+		prerequisite = { focus = BEL_goal_elections }
+		x = 19
+		y = 1
+		cost = 7
+		available = {
+			hidden_trigger = {
+				always = no
+			}
+		}
+		completion_reward = {
+			custom_effect_tooltip = BEL_goal_Verdinaso_tt
+		}
+	}
+
+	focus = { #Nieuwe Marsrichting
+		id = BEL_goal_nieuwe_marsrichting
+		icon = GFX_goal_HOL_dutch_state
+		prerequisite = { focus = BEL_goal_Verdinaso }
+		prerequisite = { focus = BEL_goal_depillarize }
+		x = 19
+		y = 3
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_nieuwe_marsrichting"
+			7 = { add_claim_by = BEL }
+			8 = { add_claim_by = BEL }
+			35 = { add_claim_by = BEL }
+			36 = { add_claim_by = BEL }
+		}
+	}
+
+	focus = { #Proclaim South Dietsland
+		id = BEL_goal_proclaim_south_dietsland
+		icon = GFX_goal_BEL_proclaim_south_dietsland
+		prerequisite = { focus = BEL_goal_nieuwe_marsrichting }
+		x = 19
+		y = 4
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_proclaim_south_dietsland"
+			set_cosmetic_tag = BEL_SDI
+			add_political_power = 100
+		}
+	}
+
+	focus = { #Pacification of Ghent
+		id = BEL_goal_pacification_of_ghent
+		icon = GFX_goal_BEL_pacification_of_ghent
+		prerequisite = { focus = BEL_goal_proclaim_south_dietsland }
+		prerequisite = { focus = BEL_goal_ultimatum_luxembourg }
+		x = 19
+		y = 6
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_pacification_of_ghent"
+			HOL = {
+				country_event = { id = bel.25 days = 1}
+			}
+		}
+	}
+
+	focus = { #Depillarize Belgium
+		id = BEL_goal_depillarize
+		icon = GFX_goal_HOL_depillarization
+		prerequisite = {
+			focus = BEL_goal_VNV
+			focus = BEL_goal_PB
+			focus = BEL_goal_Verdinaso
+		}
+		x = 17
+		y = 2
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_depillarize"
+			remove_ideas = BEL_pillarized_society
+			add_timed_idea = { idea = BEL_nationalizing_pillars days = 365 }
+		}
+	}
+
+	######INDUSTRY
+
+	focus = { #Aftermath of London Stock Market Crash
+		id = BEL_goal_aftermath_london
+		icon = GFX_goal_bankruptcy
+		prerequisite = { }
+		x = 26
+		y = 0
+		cost = 7
+		available = {
+			hidden_trigger = { always = no }
+		}
+		bypass = { has_global_flag = black_wednesday }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_aftermath_london"
+			custom_effect_tooltip = BEL_goal_aftermath_london_tt
+		}
+	}
+
+	focus = { #Expand Iron Rhine railway
+		id = BEL_goal_expand_iron_rhine
+		icon = GFX_goal_generic_railway_construction
+		prerequisite = { focus = BEL_goal_aftermath_london }
+		x = 26
+		y = 1
+		cost = 7
+		available = {
+			866 = { is_controlled_by = BEL }
+		}
+
+
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_expand_iron_rhine"
+			866 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = { #Expand Antwerp Harbour
+		id = BEL_goal_expand_antwerp_harbour
+		icon = GFX_goal_BEL_expand_antwerp_harbour
+		prerequisite = { focus = BEL_goal_expand_iron_rhine }
+		x = 23
+		y = 2
+		cost = 7
+		available = {
+			6 = { is_controlled_by = BEL }
+		}
+
+
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_expand_antwerp_harbour"
+			6 = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = dockyard
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = { #Antwerp oil refinery
+		id = BEL_goal_antwerp_oil_refinery
+		icon = GFX_goal_generic_pipeline
+		prerequisite = { focus = BEL_goal_expand_antwerp_harbour }
+		x = 22
+		y = 3
+		cost = 7
+		available = {
+			6 = { is_controlled_by = BEL }
+		}
+
+
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_antwerp_oil_refinery"
+			6 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = synthetic_refinery
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = { #Invest in diamond trade
+		id = BEL_goal_invest_diamond_trade
+		icon = GFX_goal_KTG_Jungle_Diamond_Mine
+		prerequisite = { focus = BEL_goal_expand_antwerp_harbour }
+		x = 24
+		y = 3
+		cost = 7
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_invest_diamond_trade"
+			add_ideas = BEL_diamond_trade
+		}
+	}
+
+	focus = { #Invest in Sillon industriel
+		id = BEL_goal_invest_sillon_industriel
+		icon = GFX_goal_generic_improve_industry
+		prerequisite = { focus = BEL_goal_expand_iron_rhine }
+		x = 26
+		y = 2
+		cost = 7
+		available = {
+			34 = { is_controlled_by = BEL }
+		}
+
+
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_invest_sillon_industriel"
+			34 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
+			add_tech_bonus = {
+				name = industrial_bonus
+				bonus = 0.25
+				uses = 2
+				category = industry
+			}
+			set_country_flag = BEL_invested_sillon
+		}
+	}
+
+	focus = { #Expand FN Herstal
+		id = BEL_goal_expand_fn_herstal
+		icon = GFX_goal_generic_loans
+		prerequisite = { focus = BEL_goal_invest_sillon_industriel }
+		x = 26
+		y = 3
+		cost = 7
+		available = {
+			34 = { is_controlled_by = BEL }
+		}
+
+
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_expand_fn_herstal"
+			34 = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = { #Expand Brussels industry
+		id = BEL_goal_expand_brussels_industry
+		icon = GFX_goal_BEL_expand_brussels_industry
+		prerequisite = { focus = BEL_goal_expand_iron_rhine }
+		x = 28
+		y = 2
+		cost = 7
+		available = {
+			6 = { is_controlled_by = BEL }
+		}
+
+
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_expand_brussels_industry"
+			6 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = { #Found Solvay institute
+		id = BEL_goal_solvay_institute
+		icon = GFX_goal_BEL_solvay_institute
+		prerequisite = { focus = BEL_goal_expand_brussels_industry }
+		prerequisite = { focus = BEL_goal_invest_sillon_industriel }
+		x = 28
+		y = 3
+		cost = 7
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_solvay_institute"
+			add_research_slot = 1
+			add_tech_bonus = {
+				name = synth_resources
+				bonus = 0.75
+				uses = 1
+				category = industry
+			}
+			custom_effect_tooltip = available_designer
+			show_ideas_tooltip = solvay
+		}
+	}
+
+	###### CONGO ######
+
+	focus = {
+		id = BEL_good_governor
+		icon = GFX_goal_BEL_good_governor
+		x = 38
+		y = 0
+		cost = 7
+		available = {
+			hidden_trigger = {
+				always = no
+			}
+		}
+		ai_will_do = {
+			factor = 40
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_good_governor"
+			custom_effect_tooltip = tooltip_focus_unlocked_by_event
+		}
+	}
+
+	####
+
+	focus = {
+		id = BEL_military_drills
+		icon = GFX_goal_BEL_military_drills
+		prerequisite = { focus = BEL_good_governor }
+		relative_position_id = BEL_good_governor
+		x = -6
+		y = 1
+		cost = 7
+		available = {
+			has_socialist_government = no
+			country_exists = COG
+			COG = { is_subject_of = ROOT }
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_military_drills"
+			COG = {
+				army_experience = 10
+			}
+		}
+	}
+
+	focus = {
+		id = BEL_goal_provide_equipment
+		icon = GFX_goal_generic_support_equipment
+		prerequisite = { focus = BEL_military_drills }
+		relative_position_id = BEL_military_drills
+		x = -1
+		y = 1
+		cost = 7
+		available = {
+			has_socialist_government = no
+			country_exists = COG
+			COG = { is_subject_of = ROOT }
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_provide_equipment"
+			add_equipment_to_stockpile = {
+				type = infantry_equipment
+				amount = -200
+				producer = BEL
+			}
+			add_equipment_to_stockpile = {
+				type = support_equipment
+				amount = -100
+				producer = BEL
+			}
+			COG = {
+				add_equipment_to_stockpile = {
+					type = support_equipment
+					amount = 100
+					producer = BEL
+				}
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = 200
+					producer = BEL
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = BEL_goal_expand_force_publique
+		icon = GFX_goal_BEL_goal_expand_force_publique
+		prerequisite = { focus = BEL_military_drills }
+		relative_position_id = BEL_military_drills
+		x = 1
+		y = 1
+		available = {
+			has_socialist_government = no
+			country_exists = COG
+			COG = { is_subject_of = ROOT }
+		}
+		cost = 7
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_expand_force_publique"
+			COG = {
+				add_manpower = 20000
+			}
+		}
+	}
+
+	focus = {
+		id = BEL_goal_fight_rebels
+		icon = GFX_goal_BEL_goal_fight_rebels
+		prerequisite = { focus = BEL_goal_expand_force_publique }
+		prerequisite = { focus = BEL_goal_provide_equipment }
+		relative_position_id = BEL_military_drills
+		x = 0
+		y = 3
+		available = {
+			has_socialist_government = no
+			country_exists = COG
+			COG = { is_subject_of = ROOT }
+		}
+		cost = 7
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_fight_rebels"
+			COG = {
+				add_manpower = -2500
+			}
+		}
+	}
+
+	#################
+
+	focus = { #Office des Transports Coloniaux
+		id = BEL_goal_office_transports_coloniaux
+		icon = GFX_goal_BEL_office_transports_coloniaux
+		prerequisite = { focus = BEL_good_governor }
+		relative_position_id = BEL_good_governor
+		x = 0
+		y = 1
+		available = {
+			has_socialist_government = no
+			country_exists = COG
+			COG = { is_subject_of = ROOT }
+		}
+		cost = 7
+		available = {
+			COG ={
+				controls_state = 295
+				controls_state = 538
+				controls_state = 718
+			}
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_office_transports_coloniaux"
+			538 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			295 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			718 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = { #Resource Extraction
+		id = BEL_goal_resource_extraction
+		icon = GFX_goal_BEL_goal_resource_extraction
+		prerequisite = { focus = BEL_goal_office_transports_coloniaux }
+		relative_position_id = BEL_goal_office_transports_coloniaux
+		x = -2
+		y = 1
+		available = {
+			has_socialist_government = no
+			country_exists = COG
+			COG = { is_subject_of = ROOT }
+		}
+		cost = 7
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_resource_extraction"
+			COG = {
+				add_tech_bonus = {
+					name = excavation_tech_bonus
+					bonus = 0.5
+					uses = 1
+					technology = excavation1
+					technology = excavation2
+					technology = excavation3
+					technology = excavation4
+					technology = excavation5
+				}
+			}
+		}
+	}
+
+	focus = { #Tungsten
+		id = BEL_goal_tungsten
+		icon = GFX_goal_BEL_goal_tungsten
+		prerequisite = { focus = BEL_goal_resource_extraction }
+		relative_position_id = BEL_goal_resource_extraction
+		x = -2
+		y = 1
+		available = {
+			has_socialist_government = no
+			country_exists = COG
+			COG = {
+				is_subject_of = ROOT
+				controls_state = 295
+				controls_state = 718
+			}
+		}
+		cost = 7
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_tungsten"
+			add_resource = {
+				type = tungsten
+				amount = 5
+				state = 718
+			}
+			add_resource = {
+				type = tungsten
+				amount = 1
+				state = 295
+			}
+		}
+	}
+
+	focus = { #Copper
+		id = BEL_goal_copper
+		icon = GFX_goal_BEL_goal_copper
+		prerequisite = { focus = BEL_goal_resource_extraction }
+		relative_position_id = BEL_goal_resource_extraction
+		x = 0
+		y = 1
+		available = {
+			has_socialist_government = no
+			country_exists = COG
+			COG = {
+				is_subject_of = ROOT
+				controls_state = 295
+			}
+		}
+		cost = 7
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_copper"
+			add_resource = {
+				type = steel
+				amount = 4
+				state = 295
+			}
+		}
+	}
+
+	focus = { #Rubber
+		id = BEL_goal_rubber
+		icon = GFX_goal_BEL_goal_rubber
+		prerequisite = { focus = BEL_goal_resource_extraction }
+		relative_position_id = BEL_goal_resource_extraction
+		x = 2
+		y = 1
+		available = {
+			has_socialist_government = no
+			country_exists = COG
+			COG = {
+				is_subject_of = ROOT
+				controls_state = 295
+				controls_state = 538
+				controls_state = 718
+			}
+		}
+		cost = 7
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_rubber"
+			add_resource = {
+				type = rubber
+				amount = 8
+				state = 538
+			}
+			add_resource = {
+				type = rubber
+				amount = 4
+				state = 295
+			}
+			add_resource = {
+				type = rubber
+				amount = 3
+				state = 718
+			}
+		}
+	}
+
+	focus = { #Uranium
+		id = BEL_goal_uranium
+		icon = GFX_goal_BEL_goal_uranium
+		prerequisite = { focus = BEL_goal_tungsten }
+		prerequisite = { focus = BEL_goal_copper }
+		prerequisite = { focus = BEL_goal_rubber }
+		relative_position_id = BEL_goal_resource_extraction
+		x = 0
+		y = 2
+		available = {
+			has_socialist_government = no
+			country_exists = COG
+			COG = { is_subject_of = ROOT }
+		}
+		cost = 7
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_uranium"
+			add_tech_bonus = {
+				name = nuclear_bonus
+				bonus = 1
+				uses = 1
+				category = nuclear
+			}
+		}
+	}
+
+	focus = { #Boma Harbour
+		id = BEL_goal_boma_harbour
+		icon = GFX_goal_BEL_boma_harbour
+		prerequisite = { focus = BEL_goal_office_transports_coloniaux }
+		relative_position_id = BEL_goal_office_transports_coloniaux
+		x = 3
+		y = 1
+		cost = 7
+		available = {
+			has_socialist_government = no
+			country_exists = COG
+			COG = {
+				is_subject_of = ROOT
+				controls_state = 295
+			}
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_boma_harbour"
+			295 = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = naval_base
+					level = 2
+					province = 10968
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = BEL_goal_congo_industry
+		icon = GFX_goal_generic_industry_reallocation
+		prerequisite = { focus = BEL_goal_boma_harbour }
+		relative_position_id = BEL_goal_boma_harbour
+		x = -1
+		y = 1
+		cost = 7
+		available = {
+			has_socialist_government = no
+			country_exists = COG
+			COG = {
+				is_subject_of = ROOT
+				controls_state = 295
+			}
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_congo_industry"
+			295 = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = BEL_congo_arms_production
+		icon = GFX_goal_USA_auto_industry
+		prerequisite = { focus = BEL_goal_boma_harbour }
+		relative_position_id = BEL_goal_boma_harbour
+		x = 1
+		y = 1
+		cost = 7
+		available = {
+			has_socialist_government = no
+			country_exists = COG
+			COG = {
+				is_subject_of = ROOT
+				controls_state = 295
+			}
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_congo_arms_production"
+			295 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = BEL_force_european_exports
+		icon = GFX_goal_BEL_force_european_exports
+		prerequisite = { focus = BEL_goal_congo_industry }
+		prerequisite = { focus = BEL_congo_arms_production }
+		relative_position_id = BEL_goal_boma_harbour
+		x = 0
+		y = 2
+		available = {
+			has_socialist_government = no
+			country_exists = COG
+			COG = { is_subject_of = ROOT }
+		}
+		cost = 7
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_force_european_exports"
+			COG = {
+				add_stability = -0.1
+			}
+			add_political_power = 100
+		}
+	}
+
+	#######
+
+	focus = {
+		id = BEL_colonialism_human_face
+		icon = GFX_goal_BEL_colonialism_human_face
+		prerequisite = { focus = BEL_good_governor }
+		relative_position_id = BEL_good_governor
+		x = 6
+		y = 1
+		available = {
+			has_socialist_government = no
+			country_exists = COG
+			COG = { is_subject_of = ROOT }
+		}
+		cost = 7
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_colonialism_human_face"
+			add_political_power = -50
+			COG = {
+				add_stability = 0.05
+			}
+		}
+	}
+
+	focus = {
+		id = BEL_civilize_people
+		icon = GFX_goal_BEL_civilize_people
+		prerequisite = { focus = BEL_colonialism_human_face }
+		relative_position_id = BEL_colonialism_human_face
+		x = -1
+		y = 1
+		available = {
+			has_socialist_government = no
+			country_exists = COG
+			COG = { is_subject_of = ROOT }
+		}
+		cost = 7
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_civilize_people"
+			add_political_power = 50
+		}
+	}
+
+	focus = {
+		id = BEL_provide_education
+		icon = GFX_goal_BRA_catholic_education
+		prerequisite = { focus = BEL_colonialism_human_face }
+		relative_position_id = BEL_colonialism_human_face
+		x = 1
+		y = 1
+		available = {
+			has_socialist_government = no
+			country_exists = COG
+			COG = { is_subject_of = ROOT }
+		}
+		cost = 7
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_provide_education"
+			COG = {
+				add_research_slot = 1
+			}
+		}
+	}
+
+	focus = {
+		id = BEL_fix_numbers
+		icon = GFX_goal_BEL_fix_numbers
+		prerequisite = { focus = BEL_civilize_people }
+		prerequisite = { focus = BEL_provide_education }
+		relative_position_id = BEL_colonialism_human_face
+		x = 0
+		y = 3
+		available = {
+			has_socialist_government = no
+			country_exists = COG
+			COG = { is_subject_of = ROOT }
+		}
+		cost = 7
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_fix_numbers"
+			COG = {
+				add_stability = 0.05
+			}
+		}
+	}
+
+	######
+
+	focus = {
+		id = BEL_integration
+		icon = GFX_goal_BEL_integration
+		prerequisite = { focus = BEL_goal_fight_rebels }
+		prerequisite = { focus = BEL_goal_uranium }
+		prerequisite = { focus = BEL_force_european_exports }
+		prerequisite = { focus = BEL_fix_numbers }
+		relative_position_id = BEL_good_governor
+		x = 0
+		y = 5
+		available = {
+			has_socialist_government = no
+			country_exists = COG
+			COG = { is_subject_of = ROOT }
+		}
+		cost = 7
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_integration"
+			annex_country = {
+				target = COG
+				transfer_troops = yes
+			}
+			COG = {
+				every_core_state = {
+					add_core_of = BEL
+				}
+			}
+			add_stability = -0.05
+		}
+	}
+
+	######ARMY
+
+	focus = { #Lessons from the Great War
+		id = BEL_goal_lessons_great_war
+		icon = GFX_goal_BEL_lessons_great_war
+		available = {
+			has_capitulated = no
+		}
+		x = 52
+		y = 0
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_lessons_great_war"
+			army_experience = 25
+		}
+	}
+
+	focus = { #Mobile defence
+		id = BEL_goal_mobile_defence
+		icon = GFX_goal_BEL_mobile_defence
+		prerequisite = { focus = BEL_goal_lessons_great_war }
+		x = -4
+		y = 2
+		cost = 7
+		relative_position_id = BEL_goal_lessons_great_war
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_mobile_defence"
+			add_tech_bonus = {
+				name = tank_bonus
+				bonus = 0.5
+				uses = 1
+				category = armor
+			}
+		}
+	}
+
+	focus = { #Bicycle divisions
+		id = BEL_goal_bicycle_divisions
+		icon = GFX_goal_generic_bicycle_infantry
+		prerequisite = { focus = BEL_goal_lessons_great_war }
+		relative_position_id = BEL_goal_lessons_great_war
+		x = -2
+		y = 2
+		cost = 7
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_bicycle_divisions"
+			set_technology = {
+				bicycle_infantry = 1
+			}
+		}
+	}
+
+	focus = { #Bilingualism in the army
+		id = BEL_goal_bilingualism
+		icon = GFX_goal_BEL_bilingualism
+		prerequisite = { focus = BEL_goal_lessons_great_war }
+		mutually_exclusive = { focus = BEL_goal_separate_divisions }
+		relative_position_id = BEL_goal_lessons_great_war
+		x = -1
+		y = 1
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_bilingualism"
+			swap_ideas = {
+				remove_idea = BEL_linguistic_debacle
+				add_idea = BEL_bilingualism
+			}
+		}
+	}
+
+	focus = { #Seperate language divisions
+		id = BEL_goal_separate_divisions
+		icon = GFX_goal_BEL_separate_divisions
+		prerequisite = { focus = BEL_goal_lessons_great_war }
+		mutually_exclusive = { focus = BEL_goal_bilingualism }
+		relative_position_id = BEL_goal_lessons_great_war
+		x = 1
+		y = 1
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_separate_divisions"
+			swap_ideas = {
+				remove_idea = BEL_linguistic_debacle
+				add_idea = BEL_separate_divisions
+			}
+		}
+	}
+
+	focus = { #Defensive doctrine
+		id = BEL_goal_defensive_doctrine
+		icon = GFX_goal_generic_army_grand_battleplan
+		prerequisite = { focus = BEL_goal_bilingualism focus = BEL_goal_separate_divisions }
+		mutually_exclusive = { focus = BEL_goal_offensive_doctrine }
+		relative_position_id = BEL_goal_lessons_great_war
+		x = -1
+		y = 5
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_defensive_doctrine"
+			add_doctrine_cost_reduction  = {
+				name = land_doc_bonus
+				cost_reduction = 0.50
+				uses = 2
+				category = cat_grand_battle_plan
+			}
+		}
+	}
+
+	focus = { #Offensive doctrine
+		id = BEL_goal_offensive_doctrine
+		icon = GFX_goal_generic_army_superior_firepower
+		prerequisite = { focus = BEL_goal_bilingualism focus = BEL_goal_separate_divisions }
+		mutually_exclusive = { focus = BEL_goal_defensive_doctrine }
+		relative_position_id = BEL_goal_lessons_great_war
+		x = 1
+		y = 5
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_offensive_doctrine"
+			add_doctrine_cost_reduction = {
+				name = doctrine_bonus
+				cost_reduction = 0.5
+				uses = 2
+				category = cat_superior_firepower
+			}
+		}
+	}
+
+	focus = { #Prepare for the next war
+		id = BEL_goal_prepare_next_war
+		icon = GFX_goal_generic_drafted_army
+		prerequisite = { focus = BEL_goal_defensive_doctrine focus = BEL_goal_offensive_doctrine }
+		relative_position_id = BEL_goal_lessons_great_war
+		x = 0
+		y = 6
+		cost = 10
+		available = {
+			OR = {
+				threat > 0.5
+				has_war = yes
+			}
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_prepare_next_war"
+			increase_conscription = yes
+			increase_mobilization = yes
+		}
+	}
+
+	focus = { #Modernize Liège fort belt
+		id = BEL_goal_modernize_liege_forts
+		icon = GFX_goal_generic_barricades
+		prerequisite = { focus = BEL_goal_lessons_great_war }
+		relative_position_id = BEL_goal_lessons_great_war
+		x = 0
+		y = 2
+		cost = 10
+		available = {
+			34 = { is_controlled_by = BEL }
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_modernize_liege_forts"
+			34 = {
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 11519
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = { #Fortify French border
+		id = BEL_goal_fortify_french_border
+		icon = GFX_goal_generic_bastion_of_democracy
+		prerequisite = { focus = BEL_goal_modernize_liege_forts }
+		mutually_exclusive = { focus = BEL_goal_fortify_meuse }
+		relative_position_id = BEL_goal_lessons_great_war
+		x = -1
+		y = 3
+		cost = 10
+		available = {
+			6 = { is_controlled_by = BEL }
+			34 = { is_controlled_by = BEL }
+			802 = { is_controlled_by = BEL }
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_fortify_french_border"
+			6 = {
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 6446
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 3576
+					instant_build = yes
+				}
+			}
+			34 = {
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 9536
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 13081
+					instant_build = yes
+				}
+			}
+			802 = {
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 9444
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 9418
+					instant_build = yes
+				}
+			}
+
+		}
+	}
+
+	focus = { #Fortify Meuse river
+		id = BEL_goal_fortify_meuse
+		icon = GFX_goal_fortify_the_westwall
+		prerequisite = { focus = BEL_goal_modernize_liege_forts }
+		mutually_exclusive = { focus = BEL_goal_fortify_french_border }
+		relative_position_id = BEL_goal_lessons_great_war
+		x = 1
+		y = 3
+		cost = 10
+		available = {
+			34 = { is_controlled_by = BEL }
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_fortify_meuse"
+			34 = {
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 13081
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 3516
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 11519
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = { #Modernize Antwerp fort belt
+		id = BEL_goal_modernize_antwerp_forts
+		icon = GFX_goal_nested_fortifications
+		prerequisite = { focus = BEL_goal_modernize_liege_forts }
+		relative_position_id = BEL_goal_lessons_great_war
+		x = 0
+		y = 4
+		cost = 10
+		available = {
+			6 = { is_controlled_by = BEL }
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_modernize_antwerp_forts"
+			6 = {
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 6598
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 1
+					province = 11419
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = { #Small arms
+		id = BEL_goal_small_arms
+		icon = GFX_goal_generic_military_equipment
+		prerequisite = { focus = BEL_goal_lessons_great_war }
+		relative_position_id = BEL_goal_lessons_great_war
+		x = 2
+		y = 2
+		cost = 7
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_small_arms"
+			add_tech_bonus = {
+				name = infantry_weapons_bonus
+				bonus = 0.5
+				uses = 1
+				category = infantry_weapons
+			}
+			add_ideas = BEL_small_arms_factory
+		}
+	}
+
+	focus = { #Artillery
+		id = BEL_goal_artillery
+		icon = GFX_goal_generic_army_artillery2
+		prerequisite = { focus = BEL_goal_lessons_great_war }
+		relative_position_id = BEL_goal_lessons_great_war
+		x = 4
+		y = 2
+		cost = 7
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus BEL_goal_artillery"
+			add_tech_bonus = {
+				name = tank_bonus
+				bonus = 0.3
+				uses = 2
+				category = artillery
+			}
+		}
+	}
+}

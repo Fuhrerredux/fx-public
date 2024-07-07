@@ -1,0 +1,586 @@
+﻿#####################
+#  Austrian Events  #
+#####################
+#   Started by CIA  #
+#####################
+
+add_namespace = austria
+
+# Introduction
+country_event = {
+	id = austria.1
+	immediate = {log = "[GetDateText]: [Root.GetName]: event austria.1"}
+	title = austria.1.t
+	desc = austria.1.d
+	picture = report_event_generic_conference
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	# trigger = {
+		# 	tag = AUS
+		# }
+
+	# mean_time_to_happen = {
+		# 	days = 0
+		# }
+
+	option = {
+		name = austria.1.a
+	}
+}
+
+# '37 Election
+country_event = {
+	id = austria.2
+	immediate = {log = "[GetDateText]: [Root.GetName]: event austria.2"}
+	title = "The 1937 Election"
+	desc = austria.2.d
+	picture = report_event_generic_conference
+
+	fire_only_once = yes
+
+	trigger = {
+		tag = AUS
+		date > 1937.3.1
+		has_country_flag = AUS_ELECTION_READY
+	}
+
+	mean_time_to_happen = {
+		days = 0
+	}
+
+	option = {
+		trigger = {
+			has_global_flag = AUS_SOCCDEMCOALITION
+		}
+		name = "The SDAPÖ-KPÖ Coalition"
+		ai_chance = { factor = 35 }
+		add_popularity = { ideology = social_democrat popularity = 0.1 }
+		add_popularity = { ideology = collectivist popularity = 0.1 }
+		set_politics = {
+			ruling_party = social_democrat
+			elections_allowed = no
+		}
+		country_event = { days = 24 id = austria.4 }
+		country_event = { days = 12 id = austria.5 }
+	}
+
+	option = {
+		name = "The CSP"
+		add_popularity = { ideology = social_conservative popularity = 0.2 }
+		set_politics = {
+			ruling_party = social_conservative
+			elections_allowed = no
+		}
+		ai_chance = { factor = 30 }
+		#country_event = { days = 12 id = austria.18 } # EVENT DOESN'T EXIST
+	}
+
+	option = {
+		name = "The CSP-Heimwehr Coalition"
+		add_stability = -0.05
+		add_popularity = { ideology = social_conservative popularity = 0.2 }
+		add_popularity = { ideology = paternal_autocrat popularity = 0.15 }
+		set_politics = {
+			ruling_party = social_conservative
+			elections_allowed = no
+		}
+		ai_chance = { factor = 35 }
+		country_event = { days = 12 id = austria.26 }
+	}
+}
+
+country_event = {
+	id = austria.3
+	immediate = {log = "[GetDateText]: [Root.GetName]: event austria.3"}
+	title = "The SDAPÖ seeks a coalition with the KPÖ."
+	desc = austria.3.d
+	picture = report_event_generic_conference
+
+	fire_only_once = yes
+
+	trigger = {
+		tag = AUS
+	}
+
+	mean_time_to_happen = {
+		days = 93
+	}
+
+	option = {
+		name = "An agreement isn't reached, the coalition isn't formed."
+		set_country_flag = AUS_ELECTION_READY
+		ai_chance = { factor = 0 }
+	}
+	option = {
+		name = "The SDAPÖ and KPÖ agree to form a Coalition."
+		add_popularity = { ideology = collectivist popularity = 0.1 }
+		add_popularity = { ideology = social_democrat popularity = 0.1 }
+		ai_chance = { factor = 100 }
+		set_global_flag = AUS_SOCCDEMCOALITION
+		set_country_flag = AUS_ELECTION_READY
+	}
+}
+
+country_event = {
+	id = austria.4
+	immediate = {log = "[GetDateText]: [Root.GetName]: event austria.4"}
+	title = "The Status of the Coalition"
+	desc = austria.4.d
+	picture = report_event_generic_conference
+
+	fire_only_once = yes
+
+	is_triggered_only = yes
+
+	option = {
+		name = "The SDAPÖ respects the Coalition and agrees to some reforms."
+		add_political_power = -50
+		add_popularity = { ideology = collectivist popularity = 0.05 }
+		ai_chance = { factor = 20 }
+		hidden_effect = {
+			country_event = { days = 62 id = austria.6 }
+		}
+	}
+	option = {
+		name = "The SDAPÖ rules alone!"
+		add_political_power = 100
+		add_popularity = { ideology = social_democrat popularity = 0.15 }
+		ai_chance = { factor = 60 }
+		set_global_flag = AUS_COMMIE_INSTABILITY
+	}
+	option = {
+		name = "The KPÖ gains a majority!"
+		add_political_power = 20
+		ai_chance = { factor = 30 }
+		add_popularity = { ideology = collectivist popularity = 0.15 }
+		add_popularity = { ideology = social_democrat popularity = -0.1 }
+		set_politics = {
+			ruling_party = collectivist
+			elections_allowed = no
+		}
+		set_global_flag = AUS_MODERATE_INSTABILITY
+	}
+}
+
+country_event = {
+	id = austria.5
+	immediate = {log = "[GetDateText]: [Root.GetName]: event austria.5"}
+	title = "The Crackdown on Valkists & German agitators"
+	desc = austria.5.d
+	picture = report_event_generic_conference
+
+	is_triggered_only = yes
+
+	option = {
+		name = "Put them behind bars!"
+		add_stability = -0.025
+		ai_chance = { factor = 100 }
+	}
+}
+
+country_event = {
+	id = austria.6
+	immediate = {log = "[GetDateText]: [Root.GetName]: event austria.6"}
+	title = "Mounting dissent from the Radical-Left"
+	desc = austria.6.d
+	picture = report_event_generic_conference
+
+	fire_only_once = yes
+
+	trigger = {
+		tag = AUS
+		has_global_flag = AUS_COMMIE_INSTABILITY
+	}
+
+	mean_time_to_happen = {
+		days = 20
+	}
+
+	option = {
+		name = "Worrying."
+		add_stability = -0.025
+		hidden_effect = {
+			country_event = { days = 31 id = austria.7 }
+		}
+		ai_chance = { factor = 100 }
+	}
+}
+
+country_event = {
+	id = austria.7
+	immediate = {log = "[GetDateText]: [Root.GetName]: event austria.7"}
+	title = "KPÖ Riots in Wien!"
+	desc = austria.7.d
+	picture = report_event_generic_conference
+
+	fire_only_once = yes
+
+	is_triggered_only = yes
+
+	option = {
+		name = "Deploy the Army!"
+		add_popularity = { ideology = collectivist popularity = 0.05 }
+		add_manpower = -10000
+		hidden_effect = {
+			country_event = { days = 31 id = austria.8 }
+		}
+		ai_chance = { factor = 100 }
+	}
+}
+
+country_event = {
+	id = austria.8
+	immediate = {log = "[GetDateText]: [Root.GetName]: event austria.8"}
+	title = "The Sozialnationalistische Coup"
+	desc = austria.8.d
+	picture = report_event_generic_conference
+
+	fire_only_once = yes
+
+	is_triggered_only = yes
+
+	option = {
+		name = "Our nation must be protected from the godless Leftists!"
+		add_popularity = { ideology = national_populist popularity = 0.3 }
+		add_ideas = one_party_dictatorship
+		set_politics = {
+			ruling_party = national_populist
+			elections_allowed = no
+		}
+		add_manpower = -30000
+		add_stability = -0.1
+		hidden_effect = {
+			country_event = { days = 31 id = austria.9 }
+		}
+		ai_chance = { factor = 40 }
+	}
+}
+
+country_event = { #Leftie Civil War
+	id = austria.9
+	immediate = {log = "[GetDateText]: [Root.GetName]: event austria.9"}
+	title = "The Austrian Civil War"
+	desc = austria.9.d
+	picture = report_event_generic_conference
+
+	fire_only_once = yes
+
+	is_triggered_only = yes
+
+	option = {
+		name = "We cannot handle this on our own; unify with Germany!"
+		add_named_threat = { threat = 5 name = AUS_acw_threat }
+		add_popularity = { ideology = collectivist popularity = -0.2 }
+		GER = { country_event = { days = 2 id = austria.10 } }
+		ai_chance = { factor = 100 }
+		retire_character = AUS_Otto_Bauer
+		ASR = {
+			add_ideas = revolutionary_movement
+			transfer_state = 153
+			transfer_state = 803
+			transfer_state = 913
+			load_oob = AUS_revolt
+			declare_war_on = {
+				type = annex_everything
+				target = AUS
+			}
+			every_state = {
+				limit = {
+					is_core_of = AUS
+				}
+				add_core_of = ASR
+			}
+		}
+	}
+	option = {
+		name = "We'll put these Socialists down ourselves!"
+		add_named_threat = { threat = 5 name = AUS_acw_threat }
+		add_popularity = { ideology = collectivist popularity = -0.2 }
+		retire_character = AUS_Otto_Bauer
+		ASR = {
+			add_ideas = revolutionary_movement
+			transfer_state = 153
+			load_oob = AUS_revolt
+			declare_war_on = {
+				type = annex_everything
+				target = AUS
+			}
+			every_state = {
+				limit = {
+					is_core_of = AUS
+				}
+				add_core_of = ASR
+			}
+		}
+		ai_chance = { factor = 60 }
+	}
+}
+
+country_event = {
+	id = austria.10
+	immediate = {log = "[GetDateText]: [Root.GetName]: event austria.10"}
+	title = "Austrians request Unification"
+	desc = austria.10.d
+	picture = report_event_generic_conference
+
+	fire_only_once = yes
+
+	is_triggered_only = yes
+
+	option = {
+		name = "Accept, and we'll make an example of these Collectivist revolters."
+		set_country_flag = GER_supported_austria
+		declare_war_on = {
+			type = annex_everything
+			target = ASR
+		}
+		annex_country = { target = AUS transfer_troops = yes }
+		ROOT = {
+			every_state = {
+				limit = {
+					is_core_of = AUS
+				}
+				add_core_of = ROOT
+			}
+		}
+		ROOT = {
+			every_state = {
+				limit = {
+					is_claimed_by = AUS
+				}
+				add_claim_by = ROOT
+			}
+		}
+		FRA = {
+			modify_country_flag = { flag = FRA_german_threat value = 1 }
+		}
+		ai_chance = { factor = 100 }
+	}
+
+	option = {
+		name = "Decline, Socialists are scary. Austria is on their own."
+		ai_chance = { factor = 0 }
+	}
+}
+
+country_event = {
+	id = austria.11
+	immediate = {log = "[GetDateText]: [Root.GetName]: event austria.11"}
+	title = "Mounting dissent from the Moderate-Left"
+	desc = austria.11.d
+	picture = report_event_generic_conference
+
+	fire_only_once = yes
+
+	trigger = {
+		tag = AUS
+		has_global_flag = AUS_MODERATE_INSTABILITY
+	}
+
+	mean_time_to_happen = {
+		days = 20
+	}
+
+	option = {
+		name = "Concerning."
+		add_stability = -0.025
+		hidden_effect = {
+			country_event = { days = 31 id = austria.12 }
+		}
+		ai_chance = { factor = 100 }
+	}
+}
+
+country_event = {
+	id = austria.12
+	immediate = {log = "[GetDateText]: [Root.GetName]: event austria.12"}
+	title = "Industrialization of Austria"
+	desc = austria.12.d
+	picture = report_event_generic_conference
+
+	fire_only_once = yes
+
+	is_triggered_only = yes
+
+	option = {
+		name = "Pass the Act."
+		add_political_power = 100
+		random_owned_state = {
+			limit = {
+				is_core_of = AUS
+			}
+			add_extra_state_shared_building_slots = 1
+			add_building_construction = {
+				type = industrial_complex
+				level = 1
+				instant_build = yes
+			}
+		}
+		random_owned_state = {
+			limit = {
+				is_core_of = AUS
+			}
+			add_extra_state_shared_building_slots = 1
+			add_building_construction = {
+				type = industrial_complex
+				level = 1
+				instant_build = yes
+			}
+		}
+		random_owned_state = {
+			limit = {
+				is_core_of = AUS
+			}
+			add_extra_state_shared_building_slots = 1
+			add_building_construction = {
+				type = industrial_complex
+				level = 1
+				instant_build = yes
+			}
+		}
+		# hidden_effect = {
+			# 	country_event = { days = 31 id = austria.13 }
+			# }
+		ai_chance = { factor = 100 }
+	}
+
+	option = { #This option does nothing and prevents the situation from getting worse.
+		name = "That's unnessecary and controversial."
+		add_political_power = -175
+		add_stability = 0.25
+		#hidden_effect = {
+			#	country_event = { days = 31 id = austria.X }
+			#}
+		ai_chance = { factor = 0 }
+	}
+}
+
+country_event = {
+	id = austria.26
+	immediate = {log = "[GetDateText]: [Root.GetName]: event austria.26"}
+	title = "Negotiating with the Valkists"
+	desc = austria.26.d
+	picture = report_event_generic_conference
+
+	fire_only_once = yes
+
+	is_triggered_only = yes
+
+	option = {
+		name = "Only through understanding can differences be settled."
+		add_popularity = { ideology = valkist popularity = 0.1 }
+		add_political_power = 100
+		add_stability = 0.1
+		hidden_effect = {
+			country_event = { days = 31 id = austria.27 }
+		}
+		ai_chance = { factor = 100 }
+	}
+}
+
+country_event = {
+	id = austria.27
+	immediate = {log = "[GetDateText]: [Root.GetName]: event austria.27"}
+	title = "Cracking down on the Austromarxists"
+	desc = austria.27.d
+	picture = report_event_generic_conference
+
+	fire_only_once = yes
+
+	is_triggered_only = yes
+
+	option = {
+		name = "I was lying about being understanding to the opposition."
+		add_popularity = { ideology = collectivist popularity = -0.1 }
+		hidden_effect = {
+			country_event = { days = 31 id = austria.28 }
+		}
+		ai_chance = { factor = 100 }
+	}
+}
+
+country_event = {
+	id = austria.28
+	immediate = {log = "[GetDateText]: [Root.GetName]: event austria.28"}
+	title = "Status of the Heimwehr"
+	desc = austria.28.d
+	picture = report_event_generic_conference
+
+	fire_only_once = yes
+
+	is_triggered_only = yes
+
+	option = {
+		name = "The Heimwehr is designated as the National Police Force."
+		add_political_power = 50
+		add_stability = 0.05
+		ai_chance = { factor = 25 }
+		hidden_effect = {
+			country_event = { days = 31 id = austria.30 }
+		}
+
+	}
+
+	option = {
+		name = "The Heimatblock gains a majority in the Coalition."
+		add_popularity = { ideology = paternal_autocrat popularity = 0.3 }
+		add_ideas = military_junta
+		set_politics = {
+			ruling_party = paternal_autocrat
+			elections_allowed = no
+		}
+		ai_chance = { factor = 50 }
+	}
+
+	option = {
+		name = "They Co-rule with the CSP."
+		hidden_effect = {
+			country_event = { days = 62 id = austria.29 }
+		}
+		ai_chance = { factor = 25 }
+	}
+}
+
+country_event = {
+	id = austria.29
+	immediate = {log = "[GetDateText]: [Root.GetName]: event austria.29"}
+	title = "Failed Valkist Coup"
+	desc = austria.29.d
+	picture = report_event_generic_conference
+
+	fire_only_once = yes
+
+	is_triggered_only = yes
+
+	option = {
+		name = "We tried to be understanding with you..."
+		add_political_power = -50
+		add_popularity = { ideology = valkist popularity = -0.20 }
+		ai_chance = { factor = 100 }
+	}
+}
+
+country_event = {
+	id = austria.30
+	immediate = {log = "[GetDateText]: [Root.GetName]: event austria.30"}
+	title = "Leftist uprisings across the Nation!"
+	desc = austria.30.d
+	picture = report_event_generic_conference
+
+	fire_only_once = yes
+
+	is_triggered_only = yes
+
+	option = {
+		name = "Blast!"
+		#add_political_power = -50
+		add_stability = -0.05
+		add_popularity = { ideology = collectivist popularity = 0.15 }
+		#hidden_effect = {
+			#	country_event = { days = 31 id = austria.31 }
+			#}
+		ai_chance = { factor = 100 }
+	}
+}

@@ -1,0 +1,1281 @@
+﻿#########################
+# French Council Events #
+#########################
+#    Made by Drowse 	#
+#########################
+
+add_namespace = FRA.council
+
+country_event = { # Entente Council Faction
+	id = FRA.council.1
+	immediate = {log = "[GetDateText]: [Root.GetName]: event FRA.council.1"}
+	title = FRA.council.1.t
+	desc = FRA.council.1.d
+	picture = GFX_report_event_communists_cheer
+
+	is_triggered_only = yes
+
+	option = {
+		name = FRA.council.1.a
+		FRA = {
+			add_to_faction = ROOT
+		}
+	}
+
+	option = {
+		name = FRA.council.1.b
+		add_political_power = 50
+	}
+}
+
+country_event = { # Entente Council is over
+	id = FRA.council.2
+	immediate = {log = "[GetDateText]: [Root.GetName]: event FRA.council.2"}
+	title = FRA.council.2.t
+	desc = FRA.council.2.d
+	picture = GFX_report_event_communists_cheer
+
+	trigger = {
+		original_tag = FRA
+		has_idea = FRA_entente_leader
+		FRA = {
+			check_variable = {
+				entente_faith < 5
+			}
+		}
+	}
+
+	mean_time_to_happen = {
+		days = 1
+	}
+
+	fire_only_once = yes
+
+	option = {
+		name = FRA.council.2.a
+		if = { limit = { tag = FRA } remove_ideas = FRA_entente_leader }
+		if = { limit = { tag = ITA } remove_ideas = ITA_entente_leader }
+		every_country = {
+			limit = {
+				OR = {
+					has_idea = GEN_entente_member
+					has_idea = FRA_entente_leader
+					has_idea = ITA_entente_leader
+				}
+			}
+			country_event = FRA.council.3
+		}
+	}
+}
+
+country_event = { # Entente Council is over
+	id = FRA.council.3
+	immediate = {log = "[GetDateText]: [Root.GetName]: event FRA.council.3"}
+	title = FRA.council.3.t
+	desc = FRA.council.3.d
+	picture = GFX_report_event_communists_cheer
+
+	is_triggered_only = yes
+
+	option = {
+		name = FRA.council.3.a
+		if = { limit = { tag = FRA } remove_ideas = FRA_entente_leader }
+		if = { limit = { tag = ITA } remove_ideas = ITA_entente_leader }
+	}
+}
+
+country_event = { # Entente Council goes to war
+	id = FRA.council.4
+	immediate = {log = "[GetDateText]: [Root.GetName]: event FRA.council.4"}
+	title = FRA.council.4.t
+	desc = FRA.council.4.d
+	picture = GFX_report_event_communists_cheer
+
+	is_triggered_only = yes
+
+	option = {
+		name = FRA.council.4.a
+	}
+}
+
+country_event = { # Entente Council - Member asks for support support
+	id = FRA.council.5
+	immediate = {log = "[GetDateText]: [Root.GetName]: event FRA.council.5"}
+	title = FRA.council.5.t
+	desc = FRA.council.5.d
+	picture = GFX_report_event_communists_cheer
+
+	is_triggered_only = yes
+
+	option = {
+		name = FRA.council.5.a
+		ai_chance = {
+			factor = 40
+			modifier = {
+				factor = 2
+				FRA = {
+					check_variable = {
+						entente_faith < 31
+					}
+				}
+			}
+			modifier = {
+				factor = 2
+				GER = {
+					has_offensive_war = yes
+				}
+			}
+		}
+		set_country_flag = FRA_support_done
+		FRA = {
+			add_equipment_to_stockpile = { type = infantry_equipment_1 amount = -4000 producer = FRA }
+			add_equipment_to_stockpile = { type = artillery_equipment_1 amount = -400 producer = FRA }
+			add_equipment_to_stockpile = { type = support_equipment amount = -200 producer = FRA }
+		}
+		custom_effect_tooltip = FRA_council_add5
+		FRA = {
+			add_to_variable = { # Members gain confidence
+				var = entente_faith
+				value = 5
+			}
+		}
+		FROM = {
+			country_event = FRA.council.6
+		}
+	}
+
+	option = {
+		name = FRA.council.5.b
+		ai_chance = {
+			factor = 40
+			modifier = {
+				factor = 3
+				FRA = {
+					surrender_progress > 0.15
+				}
+			}
+		}
+		set_country_flag = FRA_support_done
+		FRA = {
+			add_political_power = 50
+		}
+		custom_effect_tooltip = FRA_council_sub10
+		FRA = {
+			subtract_from_variable = { # Members lose confidence
+				var = entente_faith
+				value = 10
+			}
+		}
+		FROM = {
+			country_event = FRA.council.8
+		}
+	}
+}
+
+country_event = { # Entente Council - France offers support
+	id = FRA.council.6
+	immediate = {log = "[GetDateText]: [Root.GetName]: event FRA.council.6"}
+	title = FRA.council.6.t
+	desc = FRA.council.6.d
+	picture = GFX_report_event_communists_cheer
+
+	is_triggered_only = yes
+
+	option = {
+		name = FRA.council.6.a
+		ROOT = {
+			add_war_support = 0.05
+			add_equipment_to_stockpile = { type = infantry_equipment_1 amount = 4000 producer = FRA }
+			add_equipment_to_stockpile = { type = artillery_equipment_1 amount = 400 producer = FRA }
+			add_equipment_to_stockpile = { type = support_equipment amount = 200 producer = FRA }
+			add_opinion_modifier = {
+				target = FRA
+				modifier = FRA_gives_support
+			}
+		}
+	}
+}
+
+country_event = { # Entente Council - France refuses support
+	id = FRA.council.8
+	immediate = {log = "[GetDateText]: [Root.GetName]: event FRA.council.8"}
+	title = FRA.council.8.t
+	desc = FRA.council.8.d
+	picture = GFX_report_event_communists_cheer
+
+	is_triggered_only = yes
+
+	option = {
+		name = FRA.council.8.a
+		add_opinion_modifier = {
+			target = FRA
+			modifier = FRA_refuses_support
+		}
+	}
+}
+
+# Keeps looping - bad event
+# country_event = { # Entente Council member goes to war - not good
+	# id = FRA.council.6
+
+	# hidden = yes
+
+	# trigger = {
+		# original_tag = FRA
+		# any_country = {
+			# limit = {
+				# has_idea = GEN_entente_member
+				# has_war = yes
+				# NOT = {
+					# has_country_flag = GEN_war_checked # happens once per nation just to be safe
+					# }
+				# }
+			# }
+		# }
+
+	# mean_time_to_happen = {
+		# days = 1
+		# }
+
+	# option = {
+		# every_country = {
+			# limit = {
+				# has_idea = GEN_entente_member
+				# has_war = yes
+				# NOT = {
+					# has_country_flag = GEN_war_checked # happens once per nation just to be safe
+					# }
+				# }
+			# set_country_flag = GEN_war_checked
+			# }
+		# FRA = {
+			# subtract_from_variable = { # Members lose confidence
+				# var = entente_faith
+				# value = 5
+				# }
+			# }
+		# }
+	# }
+
+country_event = { # Germany goes to war against Entente Council - not good
+	id = FRA.council.7
+	immediate = {log = "[GetDateText]: [Root.GetName]: event FRA.council.7"}
+
+	hidden = yes
+
+	trigger = {
+		original_tag = FRA
+		FRA = {
+			has_defensive_war_with = GER
+		}
+	}
+
+	mean_time_to_happen = {
+		days = 1
+	}
+
+	fire_only_once = yes
+
+	option = {
+		custom_effect_tooltip = FRA_council_sub15
+		FRA = {
+			subtract_from_variable = { # Members lose confidence
+				var = entente_faith
+				value = 15
+			}
+		}
+	}
+}
+
+country_event = { # Germany takes aggressive foreign policy
+	id = FRA.council.9
+	immediate = {log = "[GetDateText]: [Root.GetName]: event FRA.council.9"}
+	title = FRA.council.9.t
+	desc = FRA.council.9.d
+	picture = GFX_report_event_communists_cheer
+
+	trigger = {
+		original_tag = FRA
+		GER = {
+			has_completed_focus = GER_pangerman
+		}
+	}
+
+	mean_time_to_happen = {
+		days = 1
+	}
+
+	fire_only_once = yes
+
+	option = {
+		name = FRA.council.9.a
+		custom_effect_tooltip = FRA_council_sub10
+		FRA = {
+			subtract_from_variable = { # Members lose confidence
+				var = entente_faith
+				value = 10
+			}
+		}
+	}
+}
+
+country_event = { # Germany - anti entente propaganda
+	id = FRA.council.10
+	immediate = {log = "[GetDateText]: [Root.GetName]: event FRA.council.10"}
+	title = FRA.council.10.t
+	desc = FRA.council.10.d
+	picture = GFX_report_event_communists_cheer
+
+	trigger = {
+		original_tag = FRA
+		GER = {
+			has_completed_focus = GER_anti_entente
+		}
+	}
+
+	mean_time_to_happen = {
+		days = 1
+	}
+
+	fire_only_once = yes
+
+	option = {
+		name = FRA.council.10.a
+		custom_effect_tooltip = FRA_council_sub10
+		FRA = {
+			subtract_from_variable = { # Members lose confidence
+				var = entente_faith
+				value = 10
+			}
+		}
+	}
+}
+
+country_event = { # Ally wants forts
+	id = FRA.council.11
+	immediate = {log = "[GetDateText]: [Root.GetName]: event FRA.council.11"}
+	title = FRA.council.11.t
+	desc = FRA.council.11.d
+	picture = GFX_report_event_communists_cheer
+
+	is_triggered_only = yes
+
+	option = {
+		trigger = {
+			AUS = {
+				has_country_flag = GEN_got_forts
+			}
+		}
+		name = FRA.council.11.a
+		custom_effect_tooltip = FRA_council_add5
+		FRA = {
+			add_to_variable = { # Members gain confidence
+				var = entente_faith
+				value = 5
+			}
+		}
+		AUS = {
+			clr_country_flag = GEN_got_forts
+		}
+		if = {
+			limit = {
+				AUS = {
+					controls_state = 153
+				}
+			}
+			153 = {
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 673
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 9636
+					instant_build = yes
+				}
+			}
+		}
+		if = {
+			limit = {
+				AUS = {
+					controls_state = 913
+				}
+			}
+			913 = {
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 688
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 3675
+					instant_build = yes
+				}
+			}
+		}
+		if = {
+			limit = {
+				AUS = {
+					controls_state = 152
+				}
+			}
+			913 = {
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 3703
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 732
+					instant_build = yes
+				}
+			}
+		}
+	}
+	option = {
+		trigger = {
+			CZE = {
+				has_country_flag = GEN_got_forts
+			}
+		}
+		name = FRA.council.11.a
+		custom_effect_tooltip = FRA_council_add5
+		FRA = {
+			add_to_variable = { # Members gain confidence
+				var = entente_faith
+				value = 5
+			}
+		}
+		CZE = {
+			clr_country_flag = GEN_got_forts
+		}
+		if = {
+			limit = {
+				CZE = {
+					controls_state = 69
+				}
+			}
+			153 = {
+				add_building_construction = {
+					type = bunker
+					level = 3
+					province = 11432
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 3
+					province = 469
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 3
+					province = 424
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 3
+					province = 9555
+					instant_build = yes
+				}
+			}
+		}
+		if = {
+			limit = {
+				CZE = {
+					controls_state = 9
+				}
+			}
+			9 = {
+				add_building_construction = {
+					type = bunker
+					level = 3
+					province = 11542
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 3
+					province = 6440
+					instant_build = yes
+				}
+			}
+		}
+	}
+	option = {
+		trigger = {
+			DEN = {
+				has_country_flag = GEN_got_forts
+			}
+		}
+		name = FRA.council.11.a
+		custom_effect_tooltip = FRA_council_add5
+		FRA = {
+			add_to_variable = { # Members gain confidence
+				var = entente_faith
+				value = 5
+			}
+		}
+		DEN = {
+			clr_country_flag = GEN_got_forts
+		}
+		if = {
+			limit = {
+				DEN = {
+					controls_state = 58
+				}
+			}
+			58 = {
+				add_building_construction = {
+					type = bunker
+					level = 3
+					province = 9320
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 3
+					province = 11331
+					instant_build = yes
+				}
+			}
+		}
+		if = {
+			limit = {
+				DEN = {
+					controls_state = 99
+				}
+			}
+			99 = {
+				add_building_construction = {
+					type = bunker
+					level = 3
+					province = 11251
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 3
+					province = 332
+					instant_build = yes
+				}
+			}
+		}
+		if = {
+			limit = {
+				DEN = {
+					controls_state = 37
+				}
+			}
+			37 = {
+				add_building_construction = {
+					type = bunker
+					level = 3
+					province = 6287
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = coastal_bunker
+					level = 3
+					province = 6287
+					instant_build = yes
+				}
+			}
+		}
+	}
+	option = {
+		trigger = {
+			POL = {
+				has_country_flag = GEN_got_forts
+			}
+		}
+		name = FRA.council.11.a
+		custom_effect_tooltip = FRA_council_add5
+		FRA = {
+			add_to_variable = { # Members gain confidence
+				var = entente_faith
+				value = 5
+			}
+		}
+		POL = {
+			clr_country_flag = GEN_got_forts
+		}
+		if = {
+			limit = {
+				POL = {
+					controls_state = 86
+				}
+			}
+			86 = {
+				add_building_construction = {
+					type = bunker
+					level = 3
+					province = 388
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 3
+					province = 3532
+					instant_build = yes
+				}
+			}
+		}
+		if = {
+			limit = {
+				POL = {
+					controls_state = 752
+				}
+			}
+			752 = {
+				add_building_construction = {
+					type = bunker
+					level = 3
+					province = 3295
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 3
+					province = 13213
+					instant_build = yes
+				}
+			}
+		}
+		if = {
+			limit = {
+				POL = {
+					controls_state = 10
+				}
+			}
+			10 = {
+				add_building_construction = {
+					type = bunker
+					level = 3
+					province = 11492
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = coastal_bunker
+					level = 3
+					province = 3544
+					instant_build = yes
+				}
+			}
+		}
+	}
+	option = {
+		name = FRA.council.11.b
+		add_political_power = 50
+		custom_effect_tooltip = FRA_council_sub10
+		FRA = {
+			subtract_from_variable = { # Members lose confidence
+				var = entente_faith
+				value = 10
+			}
+		}
+	}
+}
+
+country_event = { # Entente Council research
+	id = FRA.council.12
+	immediate = {log = "[GetDateText]: [Root.GetName]: event FRA.council.12"}
+	title = FRA.council.12.t
+	desc = FRA.council.12.d
+	picture = GFX_report_event_communists_cheer
+
+	is_triggered_only = yes
+
+	option = {
+		name = FRA.council.12.a
+		add_to_tech_sharing_group = entente_council_research
+		set_country_flag = FRA_entente_council_research
+		FRA = {
+			add_to_variable = { # Members gain confidence
+				var = entente_faith
+				value = 1
+			}
+		}
+	}
+
+	option = {
+		name = FRA.council.12.b
+		add_political_power = 50
+		FRA = {
+			subtract_from_variable = { # Members lose confidence
+				var = entente_faith
+				value = 1
+			}
+		}
+	}
+}
+
+country_event = { # Entente Council army exercise
+	id = FRA.council.13
+	immediate = {log = "[GetDateText]: [Root.GetName]: event FRA.council.13"}
+	title = FRA.council.13.t
+	desc = FRA.council.13.d
+	picture = GFX_report_event_communists_cheer
+
+	is_triggered_only = yes
+
+	option = {
+		name = FRA.council.13.a
+		army_experience = 15
+		add_tech_bonus = {
+			name = land_doc_bonus
+			bonus = 0.2
+			uses = 1
+			category = land_doctrine
+		}
+		FRA = {
+			add_to_variable = { # Members gain confidence
+				var = entente_faith
+				value = 1
+			}
+		}
+	}
+
+	option = {
+		name = FRA.council.13.b
+		add_political_power = 50
+		FRA = {
+			subtract_from_variable = { # Members lose confidence
+				var = entente_faith
+				value = 1
+			}
+		}
+	}
+}
+
+country_event = { # Entente council doesn't want to show up on start
+	id = FRA.council.14
+	immediate = {log = "[GetDateText]: [Root.GetName]: event FRA.council.14"}
+
+	hidden = yes
+	fire_only_once = yes
+	trigger = {
+		has_idea = GEN_entente_member
+		NOT = {
+			has_country_flag = FRA_why_wont_this_work
+		}
+	}
+
+	mean_time_to_happen = {
+		days = 1
+	}
+
+	option = {
+		set_country_flag = FRA_why_wont_this_work
+	}
+}
+
+country_event = { # Austria - France offers anti-German defenses
+	id = FRA.council.15
+	immediate = {log = "[GetDateText]: [Root.GetName]: event FRA.council.15"}
+	title = FRA.council.15.t
+	desc = FRA.council.15.d
+	picture = GFX_report_event_communists_cheer
+
+	is_triggered_only = yes
+
+	option = { # sure
+		ai_chance = {
+			factor = 40
+			modifier = {
+				factor = 4
+				has_opinion = {
+					target = FROM
+					value > 0
+				}
+			}
+		}
+		name = FRA.council.15.a
+		if = {
+			limit = {
+				AUS = {
+					controls_state = 152
+				}
+			}
+			152 = {
+				add_building_construction = {
+					type = bunker
+					province = 3703
+					level = 3
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					province = 6708
+					level = 3
+					instant_build = yes
+				}
+			}
+		}
+		if = {
+			limit = {
+				AUS = {
+					controls_state = 913
+				}
+			}
+			913 = {
+				add_building_construction = {
+					type = bunker
+					province = 688
+					level = 3
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					province = 3675
+					level = 3
+					instant_build = yes
+				}
+			}
+		}
+		FROM = {
+			country_event = FRA.council.16
+		}
+	}
+
+	option = {
+		ai_chance = {
+			factor = 40
+			modifier = {
+				factor = 2
+				has_opinion = {
+					target = FROM
+					value < 0
+				}
+			}
+		}
+		name = FRA.council.15.b
+		add_political_power = 50
+		FROM = {
+			country_event = FRA.council.17
+		}
+	}
+}
+
+country_event = { # France or Italy - FROM accepts bunkers
+	id = FRA.council.16
+	immediate = {log = "[GetDateText]: [Root.GetName]: event FRA.council.16"}
+	title = FRA.council.16.t
+	desc = FRA.council.16.d
+	picture = GFX_report_event_communists_cheer
+
+	is_triggered_only = yes
+
+	option = { # Nice
+		name = FRA.council.16.a
+		custom_effect_tooltip = FRA_council_add5
+		FRA = {
+			add_to_variable = { # Members gain confidence
+				var = entente_faith
+				value = 5
+			}
+		}
+	}
+}
+
+country_event = { # France or Italy - FROM refuses offer
+	id = FRA.council.17
+	immediate = {log = "[GetDateText]: [Root.GetName]: event FRA.council.17"}
+	title = FRA.council.17.t
+	desc = FRA.council.17.d
+	picture = GFX_report_event_communists_cheer
+
+	is_triggered_only = yes
+
+	option = { # Damn
+		name = FRA.council.17.a
+		custom_effect_tooltip = FRA_council_sub5
+		FRA = {
+			subtract_from_variable = { # Members lose confidence
+				var = entente_faith
+				value = 5
+			}
+		}
+	}
+}
+
+country_event = { # Czech - France offers anti-German defenses
+	id = FRA.council.18
+	immediate = {log = "[GetDateText]: [Root.GetName]: event FRA.council.18"}
+	title = FRA.council.18.t
+	desc = FRA.council.18.d
+	picture = GFX_report_event_communists_cheer
+
+	is_triggered_only = yes
+
+	option = { # sure
+		ai_chance = {
+			factor = 40
+			modifier = {
+				factor = 4
+				has_opinion = {
+					target = FROM
+					value > 0
+				}
+			}
+		}
+		name = FRA.council.18.a
+		if = {
+			limit = {
+				CZE = {
+					controls_state = 69
+				}
+			}
+			69 = {
+				add_building_construction = {
+					type = bunker
+					province = 11432
+					level = 3
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					province = 469
+					level = 3
+					instant_build = yes
+				}
+			}
+		}
+		if = {
+			limit = {
+				CZE = {
+					controls_state = 775
+				}
+			}
+			775 = {
+				add_building_construction = {
+					type = bunker
+					province = 11525
+					level = 3
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					province = 557
+					level = 3
+					instant_build = yes
+				}
+			}
+		}
+		if = {
+			limit = {
+				CZE = {
+					controls_state = 74
+				}
+			}
+			74 = {
+				add_building_construction = {
+					type = bunker
+					province = 3583
+					level = 3
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					province = 3413
+					level = 3
+					instant_build = yes
+				}
+			}
+		}
+		FROM = {
+			country_event = FRA.council.16
+		}
+	}
+
+	option = {
+		ai_chance = {
+			factor = 40
+			modifier = {
+				factor = 2
+				has_opinion = {
+					target = FROM
+					value < 0
+				}
+			}
+		}
+		name = FRA.council.18.b
+		add_political_power = 50
+		FROM = {
+			country_event = FRA.council.17
+		}
+	}
+}
+
+country_event = { # Denmark - France offers anti-German defenses
+	id = FRA.council.19
+	immediate = {log = "[GetDateText]: [Root.GetName]: event FRA.council.19"}
+	title = FRA.council.19.t
+	desc = FRA.council.19.d
+	picture = GFX_report_event_communists_cheer
+
+	is_triggered_only = yes
+
+	option = { # sure
+		ai_chance = {
+			factor = 40
+			modifier = {
+				factor = 4
+				has_opinion = {
+					target = FROM
+					value > 0
+				}
+			}
+		}
+		name = FRA.council.19.a
+		if = {
+			limit = {
+				DEN = {
+					controls_state = 99
+				}
+			}
+			99 = {
+				add_building_construction = {
+					type = bunker
+					province = 11251
+					level = 3
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					province = 332
+					level = 3
+					instant_build = yes
+				}
+			}
+		}
+		if = {
+			limit = {
+				DEN = {
+					controls_state = 37
+				}
+			}
+			37 = {
+				add_building_construction = {
+					type = coastal_bunker
+					province = 6287
+					level = 3
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = coastal_bunker
+					province = 3325
+					level = 3
+					instant_build = yes
+				}
+			}
+		}
+		FROM = {
+			country_event = FRA.council.16
+		}
+	}
+
+	option = {
+		ai_chance = {
+			factor = 40
+			modifier = {
+				factor = 2
+				has_opinion = {
+					target = FROM
+					value < 0
+				}
+			}
+		}
+		name = FRA.council.19.b
+		add_political_power = 50
+		FROM = {
+			country_event = FRA.council.17
+		}
+	}
+}
+
+country_event = { # Poland - France offers anti-German defenses
+	id = FRA.council.20
+	immediate = {log = "[GetDateText]: [Root.GetName]: event FRA.council.20"}
+	title = FRA.council.20.t
+	desc = FRA.council.20.d
+	picture = GFX_report_event_communists_cheer
+
+	is_triggered_only = yes
+
+	option = { # sure
+		ai_chance = {
+			factor = 40
+			modifier = {
+				factor = 4
+				has_opinion = {
+					target = FROM
+					value > 0
+				}
+			}
+		}
+		name = FRA.council.20.a
+		if = {
+			limit = {
+				POL = {
+					controls_state = 86
+				}
+			}
+			86 = {
+				add_building_construction = {
+					type = bunker
+					province = 388
+					level = 3
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					province = 3532
+					level = 3
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					province = 3460
+					level = 3
+					instant_build = yes
+				}
+			}
+		}
+		if = {
+			limit = {
+				DEN = {
+					controls_state = 752
+				}
+			}
+			752 = {
+				add_building_construction = {
+					type = coastal_bunker
+					province = 3295
+					level = 3
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = coastal_bunker
+					province = 13213
+					level = 3
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = coastal_bunker
+					province = 9346
+					level = 3
+					instant_build = yes
+				}
+			}
+		}
+		FROM = {
+			country_event = FRA.council.16
+		}
+	}
+
+	option = {
+		ai_chance = {
+			factor = 40
+			modifier = {
+				factor = 2
+				has_opinion = {
+					target = FROM
+					value < 0
+				}
+			}
+		}
+		name = FRA.council.20.b
+		add_political_power = 50
+		FROM = {
+			country_event = FRA.council.17
+		}
+	}
+}
+
+country_event = { # Partition of the Congo
+	id = FRA.council.21
+	immediate = {log = "[GetDateText]: [Root.GetName]: event FRA.council.21"}
+	title = FRA.council.21.t
+	desc = FRA.council.21.d
+	picture = GFX_report_event_communists_cheer
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		name = FRA.council.21.a
+		ai_chance = {
+			base = 100
+		}
+		KEN = {
+			transfer_state = 718
+			transfer_state = 992
+			transfer_state = 993
+		}
+		NFQ = {
+			transfer_state = 538
+			transfer_state = 295
+			transfer_state = 956
+		}
+		hidden_effect = {
+			news_event = {
+				id = fxnews.132 days = 1
+			}
+		}
+	}
+
+	option = {
+		name = FRA.council.21.b
+		ai_chance = {
+			base = 0
+		}
+		add_political_power = -100
+		NFQ = {
+			transfer_state = 538
+			transfer_state = 295
+			transfer_state = 956
+			transfer_state = 718
+			transfer_state = 992
+			transfer_state = 993
+		}
+		hidden_effect = {
+			every_country = {
+				limit = {
+					exists = yes
+				}
+				news_event = {
+					id = fxnews.133 days = 1
+				}
+			}
+		}
+	}
+}
+
+country_event = { # ANY - We are removed from the entente council
+	id = FRA.council.22
+	immediate = {log = "[GetDateText]: [Root.GetName]: event FRA.council.22 FROM = [FROM.GetName]"}
+	title = FRA.council.22.t
+	desc = FRA.council.22.d
+	picture = GFX_report_event_communists_cheer
+	is_triggered_only = yes
+
+	option = {
+		name = FRA.council.22.a
+		effect_tooltip = {
+			remove_ideas = GEN_entente_member
+		}
+	}
+}

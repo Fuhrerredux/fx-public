@@ -1,0 +1,3566 @@
+focus_tree = {
+	id = FR_Afghanistan
+	country = {
+		factor = 0
+		modifier = {
+			add = 20
+			tag = AFG
+		}
+	}
+	default = no
+
+	## Shared Tree (From FR_Afghanistan_shared)
+	focus = {
+		id = AFG_develop_nation
+		icon = GFX_goal_generic_position_armies
+		cost = 5.00
+		x = 17
+		y = 0
+		offset = {
+			x = -11
+			y = 0
+			trigger = {
+				NOT = {
+					has_country_flag = AFG_KALAKANI_TREE
+					has_country_flag = AFG_MONARCHIST_TREE
+					has_country_flag = AFG_REVOLUTION_TREE
+				}
+			}
+		}
+		available = {
+			has_country_flag = AFG_develop_nation_flag
+		}
+		bypass = {
+			has_country_flag = AFG_develop_nation_flag
+		}
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_develop_nation"
+		}
+	}
+
+	focus = {
+		id = AFG_towards_modernization
+		icon = GFX_goal_plantation_grants
+		cost = 5.00
+		prerequisite = {
+			focus = AFG_develop_nation
+		}
+		x = -4
+		y = 1
+		relative_position_id = AFG_develop_nation
+		available = {
+			has_country_flag = AFG_towards_modernization_flag
+		}
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_learn_from_previous_wars"
+			if = {
+				limit = {
+					has_idea = AFG_backward_army_and_economy_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_backward_army_and_economy_idea
+					add_idea = AFG_backward_army_and_economy4_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_backward_army_and_economy4_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_backward_army_and_economy4_idea
+					add_idea = AFG_backward_army_and_economy8_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_backward_army_and_economy1_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_backward_army_and_economy1_idea
+					add_idea = AFG_backward_army_and_economy5_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_backward_army_and_economy5_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_backward_army_and_economy5_idea
+					add_idea = AFG_backward_army_and_economy9_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_backward_army_and_economy2_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_backward_army_and_economy2_idea
+					add_idea = AFG_backward_army_and_economy6_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_backward_army_and_economy6_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_backward_army_and_economy6_idea
+					add_idea = AFG_backward_army_and_economy10_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_backward_army_and_economy3_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_backward_army_and_economy3_idea
+					add_idea = AFG_backward_army_and_economy7_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_backward_army_and_economy7_idea
+				}
+				remove_ideas = AFG_backward_army_and_economy7_idea
+			}
+			else_if = {
+				limit = {
+					OR = {
+						has_idea = AFG_backward_army_and_economy8_idea
+						has_idea = AFG_backward_army_and_economy9_idea
+						has_idea = AFG_backward_army_and_economy10_idea
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = AFG_start_industrialization
+		icon = GFX_goal_generic_production2
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_towards_modernization
+		}
+		x = -2
+		y = 1
+		relative_position_id = AFG_towards_modernization
+		available = {
+			controls_state = 267
+		}
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_start_industrialization"
+			add_tech_bonus = {
+				name = industry_bonus
+				bonus = 0.5
+				uses = 1
+				category = industry
+			}
+			267 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = AFG_urbanize_kabul
+		icon = GFX_goal_model_cities
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_start_industrialization
+		}
+		x = 0
+		y = 2
+		relative_position_id = AFG_start_industrialization
+		available = {
+			controls_state = 267
+		}
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_urbanize_kabul"
+			267 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = AFG_modernize_infrastucture
+		icon = GFX_goal_generic_construct_infrastructure
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_start_industrialization
+		}
+		x = 1
+		y = 1
+		relative_position_id = AFG_start_industrialization
+		available = {
+			has_completed_focus = AFG_learn_railway_construction
+			controls_state = 267
+			controls_state = 415
+		}
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_start_industrialization"
+			267 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			415 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = AFG_attract_foreign_investors
+		icon = GFX_focus_rom_parties_end
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_towards_modernization
+		}
+		x = 1
+		y = 1
+		relative_position_id = AFG_towards_modernization
+		available = {
+			controls_state = 415
+		}
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_attract_foreign_investors"
+			add_stability = 0.02
+			415 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			add_timed_idea = {
+				idea = AFG_attract_foreign_investors_idea
+				days = 500
+			}
+		}
+	}
+
+	focus = {
+		id = AFG_iranian_imports
+		icon = GFX_goal_generic_army_motorized
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_attract_foreign_investors
+		}
+		x = -1
+		y = 2
+		relative_position_id = AFG_attract_foreign_investors
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_iranian_imports"
+			add_stability = 0.05
+			add_timed_idea = {
+				idea = AFG_iranian_imports_idea
+				days = 300
+			}
+		}
+	}
+
+	focus = {
+		id = AFG_grow_domestic_buisnesses
+		icon = GFX_goal_generic_construct_civ_factory
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_urbanize_kabul
+		}
+		prerequisite = {
+			focus = AFG_iranian_imports
+		}
+		x = -1
+		y = 1
+		relative_position_id = AFG_iranian_imports
+		available = {
+			controls_state = 267
+			controls_state = 415
+		}
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_grow_domestic_buisnesses"
+			267 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			415 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = AFG_market_for_foreign_industries
+		icon = GFX_focus_generic_industry_1
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_attract_foreign_investors
+		}
+		x = 0
+		y = 1
+		relative_position_id = AFG_attract_foreign_investors
+		available = {
+			controls_state = 267
+		}
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_grow_domestic_buisnesses"
+			add_offsite_building = { type = industrial_complex level = 1 }
+		}
+	}
+
+	focus = {
+		id = AFG_focus_agriculture
+		icon = GFX_focus_AUS_agriculture
+		cost = 5.00
+		prerequisite = {
+			focus = AFG_develop_nation
+		}
+		x = 4
+		y = 1
+		relative_position_id = AFG_develop_nation
+		available = {
+			has_country_flag = AFG_focus_agriculture_flag
+		}
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_learn_from_previous_wars"
+			if = {
+				limit = {
+					has_idea = AFG_backward_army_and_economy_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_backward_army_and_economy_idea
+					add_idea = AFG_backward_army_and_economy4_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_backward_army_and_economy4_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_backward_army_and_economy4_idea
+					add_idea = AFG_backward_army_and_economy8_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_backward_army_and_economy1_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_backward_army_and_economy1_idea
+					add_idea = AFG_backward_army_and_economy5_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_backward_army_and_economy5_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_backward_army_and_economy5_idea
+					add_idea = AFG_backward_army_and_economy9_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_backward_army_and_economy2_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_backward_army_and_economy2_idea
+					add_idea = AFG_backward_army_and_economy6_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_backward_army_and_economy6_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_backward_army_and_economy6_idea
+					add_idea = AFG_backward_army_and_economy10_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_backward_army_and_economy3_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_backward_army_and_economy3_idea
+					add_idea = AFG_backward_army_and_economy7_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_backward_army_and_economy7_idea
+				}
+				remove_ideas = AFG_backward_army_and_economy7_idea
+			}
+			else_if = {
+				limit = {
+					OR = {
+						has_idea = AFG_backward_army_and_economy8_idea
+						has_idea = AFG_backward_army_and_economy9_idea
+						has_idea = AFG_backward_army_and_economy10_idea
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = AFG_search_for_resources
+		icon = GFX_goal_generic_oil_refinery
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_towards_modernization
+			focus = AFG_focus_agriculture
+		}
+		x = 3
+		y = 1
+		relative_position_id = AFG_towards_modernization
+		available = {
+			controls_state = 415
+		}
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_search_for_resources"
+			add_political_power = -50
+			add_resource = {
+				type = oil
+				amount = 12
+				state = 415
+			}
+		}
+	}
+
+	focus = {
+		id = AFG_purchase_tribal_land
+		icon = GFX_goal_generic_intelligence_exchange
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_towards_modernization
+			focus = AFG_focus_agriculture
+		}
+		x = -3
+		y = 1
+		relative_position_id = AFG_focus_agriculture
+		available = {
+			controls_state = 267
+			controls_state = 415
+		}
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_purchase_tribal_land"
+			add_political_power = -50
+			267 = {
+				add_extra_state_shared_building_slots = 1
+			}
+			415 = {
+				add_extra_state_shared_building_slots = 1
+			}
+		}
+	}
+
+	focus = {
+		id = AFG_expand_kabul_university
+		icon = GFX_focus_research
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_search_for_resources
+		}
+		prerequisite = {
+			focus = AFG_purchase_tribal_land
+		}
+		x = 1
+		y = 1
+		relative_position_id = AFG_search_for_resources
+		available = {
+			controls_state = 267
+		}
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_purchase_tribal_land"
+			add_political_power = -30
+			add_research_slot = 1
+		}
+	}
+
+	focus = {
+		id = AFG_agricultural_infrastructure
+		icon = GFX_IRE_farms
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_focus_agriculture
+		}
+		x = -1
+		y = 1
+		relative_position_id = AFG_focus_agriculture
+		available = {
+			controls_state = 267
+			controls_state = 415
+		}
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_agricultural_infrastructure"
+			267 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			415 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = AFG_import_foreign_tractors
+		icon = GFX_goal_generic_railroad
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_agricultural_infrastructure
+		}
+		x = 0
+		y = 1
+		relative_position_id = AFG_agricultural_infrastructure
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_iranian_imports"
+			add_stability = 0.03
+			add_timed_idea = {
+				idea = AFG_import_foreign_tractors_idea
+				days = 300
+			}
+		}
+	}
+
+	focus = {
+		id = AFG_recieve_german_aid
+		icon = GFX_focus_chi_mission_to_germany
+		cost = 5.00
+		prerequisite = {
+			focus = AFG_market_for_foreign_industries
+			focus = AFG_import_foreign_tractors
+		}
+		x = -2
+		y = 1
+		relative_position_id = AFG_expand_kabul_university
+		available = {
+			NOT = {
+				has_war_with = GER
+			}
+			NOT = {
+				has_completed_focus = AFG_recieve_soviet_aid
+			}
+			OR = {
+				has_country_flag = AFG_king_is_dead_long_live_king_flag
+				has_country_flag = AFG_kalakanis_return_flag
+			}
+		}
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_recieve_german_aid"
+			add_popularity = { ideology = valkist popularity = 0.02 }
+		}
+	}
+
+	focus = {
+		id = AFG_recieve_british_aid
+		icon = GFX_focus_chi_british_cooperation
+		cost = 5.00
+		prerequisite = {
+			focus = AFG_market_for_foreign_industries
+			focus = AFG_import_foreign_tractors
+		}
+		x = 0
+		y = 1
+		relative_position_id = AFG_expand_kabul_university
+		available = {
+			NOT = {
+				has_war_with = ENG
+			}
+			OR = {
+				has_country_flag = AFG_king_is_dead_long_live_king_flag
+				has_country_flag = AFG_kalakanis_return_flag
+			}
+		}
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_recieve_british_aid"
+			add_popularity = { ideology = market_liberal popularity = 0.02 }
+		}
+	}
+
+	focus = {
+		id = AFG_recieve_soviet_aid
+		icon = GFX_focus_chi_mission_to_the_soviet_union
+		cost = 5.00
+		prerequisite = {
+			focus = AFG_market_for_foreign_industries
+			focus = AFG_import_foreign_tractors
+		}
+		x = 2
+		y = 1
+		relative_position_id = AFG_expand_kabul_university
+		available = {
+			NOT = {
+				has_war_with = SOV
+			}
+			NOT = {
+				has_completed_focus = AFG_recieve_german_aid
+			}
+			OR = {
+				has_country_flag = AFG_king_is_dead_long_live_king_flag
+				has_country_flag = AFG_afghan_revolution_flag
+			}
+		}
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_recieve_soviet_aid"
+			add_popularity = { ideology = collectivist popularity = 0.02 }
+		}
+	}
+
+	focus = {
+		id = AFG_learn_from_west
+		icon = GFX_focus_generic_military_academy
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_recieve_german_aid
+			focus = AFG_recieve_british_aid
+			focus = AFG_recieve_soviet_aid
+		}
+		x = -1
+		y = 1
+		relative_position_id = AFG_recieve_british_aid
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_learn_from_previous_wars"
+			if = {
+				limit = {
+					has_idea = AFG_backward_army_and_economy_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_backward_army_and_economy_idea
+					add_idea = AFG_backward_army_and_economy4_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_backward_army_and_economy4_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_backward_army_and_economy4_idea
+					add_idea = AFG_backward_army_and_economy8_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_backward_army_and_economy1_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_backward_army_and_economy1_idea
+					add_idea = AFG_backward_army_and_economy5_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_backward_army_and_economy5_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_backward_army_and_economy5_idea
+					add_idea = AFG_backward_army_and_economy9_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_backward_army_and_economy2_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_backward_army_and_economy2_idea
+					add_idea = AFG_backward_army_and_economy6_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_backward_army_and_economy6_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_backward_army_and_economy6_idea
+					add_idea = AFG_backward_army_and_economy10_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_backward_army_and_economy3_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_backward_army_and_economy3_idea
+					add_idea = AFG_backward_army_and_economy7_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_backward_army_and_economy7_idea
+				}
+				remove_ideas = AFG_backward_army_and_economy7_idea
+			}
+			else_if = {
+				limit = {
+					OR = {
+						has_idea = AFG_backward_army_and_economy8_idea
+						has_idea = AFG_backward_army_and_economy9_idea
+						has_idea = AFG_backward_army_and_economy10_idea
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = AFG_learn_railway_construction
+		icon = GFX_goal_generic_construct_infrastructure
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_recieve_german_aid
+			focus = AFG_recieve_british_aid
+			focus = AFG_recieve_soviet_aid
+		}
+		x = 1
+		y = 1
+		relative_position_id = AFG_recieve_british_aid
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_learn_railway_construction"
+			add_tech_bonus = {
+				name = industry_bonus
+				bonus = 0.5
+				uses = 2
+				category = construction_tech
+			}
+		}
+	}
+
+	focus = {
+		id = AFG_collaborate_with_germany
+		icon = GFX_focus_ger_oppose_hitler
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_recieve_german_aid
+		}
+		x = -1
+		y = 1
+		relative_position_id = AFG_learn_from_west
+		available = {
+			NOT = {
+				has_war_with = GER
+			}
+			NOT = {
+				has_completed_focus = AFG_friend_of_empire
+				has_completed_focus = AFG_soviet_collaboration
+			}
+		}
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_collaborate_with_germany"
+			add_popularity = { ideology = valkist popularity = 0.02 }
+		}
+	}
+
+	focus = {
+		id = AFG_friend_of_empire
+		icon = GFX_focus_RAJ_indianisation_of_army
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_recieve_british_aid
+		}
+		x = 1
+		y = 1
+		relative_position_id = AFG_learn_from_west
+		available = {
+			NOT = {
+				has_war_with = ENG
+			}
+			NOT = {
+				has_completed_focus = AFG_collaborate_with_germany
+				has_completed_focus = AFG_soviet_collaboration
+			}
+		}
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_friend_of_empire"
+			add_popularity = { ideology = market_liberal popularity = 0.02 }
+		}
+	}
+
+	focus = {
+		id = AFG_soviet_collaboration
+		icon = GFX_focus_prc_agrarian_socialism
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_recieve_soviet_aid
+		}
+		x = 1
+		y = 1
+		relative_position_id = AFG_learn_railway_construction
+		available = {
+			NOT = {
+				has_war_with = SOV
+			}
+			NOT = {
+				has_completed_focus = AFG_collaborate_with_germany
+				has_completed_focus = AFG_friend_of_empire
+			}
+		}
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_soviet_collaboration"
+			add_popularity = { ideology = collectivist popularity = 0.02 }
+		}
+	}
+
+	focus = {
+		id = AFG_modernize_irrigation
+		icon = GFX_goal_generic_construction2
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_focus_agriculture
+		}
+		x = 1
+		y = 1
+		relative_position_id = AFG_focus_agriculture
+		available = {
+			controls_state = 415
+		}
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_modernize_irrigation"
+			add_stability = 0.03
+			415 = {
+				add_extra_state_shared_building_slots = 1
+			}
+		}
+	}
+
+	focus = {
+		id = AFG_subsidise_grain_production
+		icon = GFX_goal_wheat
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_modernize_irrigation
+		}
+		x = 0
+		y = 1
+		relative_position_id = AFG_modernize_irrigation
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_subsidise_grain_production"
+			add_ideas = AFG_subsidise_grain_production_idea
+		}
+	}
+
+	focus = {
+		id = AFG_fruits_and_nuts
+		icon = GFX_goal_bananas
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_subsidise_grain_production
+		}
+		x = -1
+		y = 1
+		relative_position_id = AFG_subsidise_grain_production
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_fruits_and_nuts"
+			if = {
+				limit = {
+					has_idea = AFG_control_opium_production_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_control_opium_production_idea
+					add_idea = AFG_fruit_nuts_opium_idea
+				}
+			}
+			else = {
+				swap_ideas = {
+					remove_idea = AFG_subsidise_grain_production_idea
+					add_idea = AFG_fruits_and_nuts_idea
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = AFG_control_opium_production
+		icon = GFX_goal_coffee_boom
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_subsidise_grain_production
+		}
+		x = 1
+		y = 1
+		relative_position_id = AFG_subsidise_grain_production
+		available = {
+			controls_state = 415
+		}
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_control_opium_production"
+			415 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			if = {
+				limit = {
+					has_idea = AFG_fruits_and_nuts_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_fruits_and_nuts_idea
+					add_idea = AFG_fruit_nuts_opium_idea
+				}
+			}
+			else = {
+				swap_ideas = {
+					remove_idea = AFG_subsidise_grain_production_idea
+					add_idea = AFG_control_opium_production_idea
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = AFG_new_silk_road
+		icon = GFX_goal_OTT_camels
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_fruits_and_nuts
+		}
+		prerequisite = {
+			focus = AFG_control_opium_production
+		}
+		x = 1
+		y = 1
+		relative_position_id = AFG_fruits_and_nuts
+		available = {
+			controls_state = 267
+		}
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_new_silk_road"
+			267 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			swap_ideas = {
+				remove_idea = AFG_fruit_nuts_opium_idea
+				add_idea = AFG_new_silk_road_idea
+			}
+		}
+	}
+
+	focus = {
+		id = AFG_reform_afghan_armed_forces
+		icon = GFX_focus_generic_military_mission
+		cost = 5.00
+		x = 28
+		y = 0
+		offset = {
+			x = -10
+			y = 0
+			trigger = {
+				NOT = {
+					has_country_flag = AFG_KALAKANI_TREE
+					has_country_flag = AFG_MONARCHIST_TREE
+					has_country_flag = AFG_REVOLUTION_TREE
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_reform_afghan_armed_forces"
+			army_experience = 10
+			air_experience = 10
+			if = {
+				limit = {
+					has_idea = AFG_backward_army_and_economy_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_backward_army_and_economy_idea
+					add_idea = AFG_backward_army_and_economy1_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_backward_army_and_economy1_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_backward_army_and_economy1_idea
+					add_idea = AFG_backward_army_and_economy2_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_backward_army_and_economy2_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_backward_army_and_economy2_idea
+					add_idea = AFG_backward_army_and_economy3_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_backward_army_and_economy4_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_backward_army_and_economy4_idea
+					add_idea = AFG_backward_army_and_economy5_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_backward_army_and_economy5_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_backward_army_and_economy5_idea
+					add_idea = AFG_backward_army_and_economy6_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_backward_army_and_economy6_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_backward_army_and_economy6_idea
+					add_idea = AFG_backward_army_and_economy7_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_backward_army_and_economy8_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_backward_army_and_economy8_idea
+					add_idea = AFG_backward_army_and_economy9_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_backward_army_and_economy9_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_backward_army_and_economy9_idea
+					add_idea = AFG_backward_army_and_economy10_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_backward_army_and_economy10_idea
+				}
+				remove_ideas = AFG_backward_army_and_economy10_idea
+			}
+			else_if = {
+				limit = {
+					OR = {
+						has_idea = AFG_backward_army_and_economy3_idea
+						has_idea = AFG_backward_army_and_economy7_idea
+						NOT = {
+							has_idea = AFG_backward_army_and_economy10_idea
+						}
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = AFG_afghan_army
+		icon = GFX_goal_AFG_army
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_reform_afghan_armed_forces
+		}
+		x = -1
+		y = 1
+		relative_position_id = AFG_reform_afghan_armed_forces
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_afghan_army"
+			army_experience = 15
+			add_manpower = 15000
+			add_war_support = 0.03
+			add_equipment_to_stockpile = {
+				type = infantry_equipment
+				amount = 500
+				producer = AFG
+			}
+		}
+	}
+
+	focus = {
+		id = AFG_foreign_assistance
+		icon = GFX_focus_generic_military_academy
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_afghan_army
+		}
+		mutually_exclusive = {
+			focus = AFG_learn_from_previous_wars
+		}
+		x = -1
+		y = 1
+		relative_position_id = AFG_afghan_army
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_foreign_assistance"
+			add_doctrine_cost_reduction = {
+				name = land_doc_bonus
+				cost_reduction = 0.5
+				uses = 1
+				category = cat_superior_firepower
+			}
+			if = {
+				limit = {
+					has_idea = AFG_backward_army_and_economy_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_backward_army_and_economy_idea
+					add_idea = AFG_backward_army_and_economy1_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_backward_army_and_economy1_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_backward_army_and_economy1_idea
+					add_idea = AFG_backward_army_and_economy2_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_backward_army_and_economy2_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_backward_army_and_economy2_idea
+					add_idea = AFG_backward_army_and_economy3_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_backward_army_and_economy4_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_backward_army_and_economy4_idea
+					add_idea = AFG_backward_army_and_economy5_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_backward_army_and_economy5_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_backward_army_and_economy5_idea
+					add_idea = AFG_backward_army_and_economy6_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_backward_army_and_economy6_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_backward_army_and_economy6_idea
+					add_idea = AFG_backward_army_and_economy7_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_backward_army_and_economy8_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_backward_army_and_economy8_idea
+					add_idea = AFG_backward_army_and_economy9_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_backward_army_and_economy9_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_backward_army_and_economy9_idea
+					add_idea = AFG_backward_army_and_economy10_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_backward_army_and_economy10_idea
+				}
+				remove_ideas = AFG_backward_army_and_economy10_idea
+			}
+			else_if = {
+				limit = {
+					OR = {
+						has_idea = AFG_backward_army_and_economy3_idea
+						has_idea = AFG_backward_army_and_economy7_idea
+						NOT = {
+							has_idea = AFG_backward_army_and_economy10_idea
+						}
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = AFG_learn_from_previous_wars
+		icon = GFX_goal_generic_military_sphere
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_afghan_army
+		}
+		mutually_exclusive = {
+			focus = AFG_foreign_assistance
+		}
+		x = 1
+		y = 1
+		relative_position_id = AFG_afghan_army
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_learn_from_previous_wars"
+			add_doctrine_cost_reduction  = {
+				name = land_doc_bonus
+				cost_reduction = 0.5
+				uses = 1
+				category = cat_grand_battle_plan
+			}
+			if = {
+				limit = {
+					has_idea = AFG_backward_army_and_economy_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_backward_army_and_economy_idea
+					add_idea = AFG_backward_army_and_economy1_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_backward_army_and_economy1_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_backward_army_and_economy1_idea
+					add_idea = AFG_backward_army_and_economy2_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_backward_army_and_economy2_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_backward_army_and_economy2_idea
+					add_idea = AFG_backward_army_and_economy3_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_backward_army_and_economy4_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_backward_army_and_economy4_idea
+					add_idea = AFG_backward_army_and_economy5_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_backward_army_and_economy5_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_backward_army_and_economy5_idea
+					add_idea = AFG_backward_army_and_economy6_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_backward_army_and_economy6_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_backward_army_and_economy6_idea
+					add_idea = AFG_backward_army_and_economy7_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_backward_army_and_economy8_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_backward_army_and_economy8_idea
+					add_idea = AFG_backward_army_and_economy9_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_backward_army_and_economy9_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_backward_army_and_economy9_idea
+					add_idea = AFG_backward_army_and_economy10_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_backward_army_and_economy10_idea
+				}
+				remove_ideas = AFG_backward_army_and_economy10_idea
+			}
+			else_if = {
+				limit = {
+					OR = {
+						has_idea = AFG_backward_army_and_economy3_idea
+						has_idea = AFG_backward_army_and_economy7_idea
+						NOT = {
+							has_idea = AFG_backward_army_and_economy10_idea
+						}
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = AFG_expand_funding_for_army
+		icon = GFX_focus_mex_privatisation
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_foreign_assistance
+			focus = AFG_learn_from_previous_wars
+		}
+		x = -1
+		y = 1
+		relative_position_id = AFG_foreign_assistance
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_learn_from_previous_wars"
+			add_political_power = -50
+			if = {
+				limit = {
+					has_idea = AFG_backward_army_and_economy_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_backward_army_and_economy_idea
+					add_idea = AFG_backward_army_and_economy1_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_backward_army_and_economy1_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_backward_army_and_economy1_idea
+					add_idea = AFG_backward_army_and_economy2_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_backward_army_and_economy2_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_backward_army_and_economy2_idea
+					add_idea = AFG_backward_army_and_economy3_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_backward_army_and_economy4_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_backward_army_and_economy4_idea
+					add_idea = AFG_backward_army_and_economy5_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_backward_army_and_economy5_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_backward_army_and_economy5_idea
+					add_idea = AFG_backward_army_and_economy6_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_backward_army_and_economy6_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_backward_army_and_economy6_idea
+					add_idea = AFG_backward_army_and_economy7_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_backward_army_and_economy8_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_backward_army_and_economy8_idea
+					add_idea = AFG_backward_army_and_economy9_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_backward_army_and_economy9_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_backward_army_and_economy9_idea
+					add_idea = AFG_backward_army_and_economy10_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_backward_army_and_economy10_idea
+				}
+				remove_ideas = AFG_backward_army_and_economy10_idea
+			}
+			else_if = {
+				limit = {
+					OR = {
+						has_idea = AFG_backward_army_and_economy3_idea
+						has_idea = AFG_backward_army_and_economy7_idea
+						NOT = {
+							has_idea = AFG_backward_army_and_economy10_idea
+						}
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = AFG_modernize_military_communication
+		icon = GFX_goal_generic_radar
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_foreign_assistance
+			focus = AFG_learn_from_previous_wars
+		}
+		x = 1
+		y = 1
+		relative_position_id = AFG_foreign_assistance
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_modernize_military_communication"
+			add_tech_bonus = {
+				name = electronics_bonus
+				bonus = 0.5
+				uses = 2
+				category = electronics
+			}
+		}
+	}
+
+	focus = {
+		id = AFG_future_of_cavalry
+		icon = GFX_goal_generic_cavalry
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_expand_funding_for_army
+		}
+		x = 1
+		y = 1
+		relative_position_id = AFG_expand_funding_for_army
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_future_of_cavalry"
+			if = {
+				limit = {
+					has_idea = AFG_recruitment_efforts_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_recruitment_efforts_idea
+					add_idea = AFG_recruitment_efforts_cav_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_tribal_recruitment_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_tribal_recruitment_idea
+					add_idea = AFG_tribal_recruitment_cav_idea
+				}
+			}
+			else_if = {
+				limit = {
+					NOT = {
+						has_idea = AFG_future_of_cavalry_idea
+					}
+				}
+				add_ideas = AFG_future_of_cavalry_idea
+			}
+		}
+	}
+
+	focus = {
+		id = AFG_purchase_foreign_trucks
+		icon = GFX_goal_generic_army_motorized
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_future_of_cavalry
+		}
+		x = -1
+		y = 1
+		relative_position_id = AFG_future_of_cavalry
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_purchase_foreign_trucks"
+			add_tech_bonus = {
+				name = motor_bonus
+				bonus = 0.5
+				uses = 1
+				category = motorized_equipment
+			}
+			add_equipment_to_stockpile = {
+				type = motorized_equipment
+				amount = 500
+				producer = SOV
+			}
+			add_equipment_to_stockpile = {
+				type = motorized_equipment
+				amount = 500
+				producer = ENG
+			}
+		}
+	}
+
+	focus = {
+		id = AFG_modernize_equipments
+		icon = GFX_goal_generic_small_arms
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_expand_funding_for_army
+		}
+		x = 3
+		y = 1
+		relative_position_id = AFG_expand_funding_for_army
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_modernize_equipments"
+			add_tech_bonus = {
+				name = infantry_bonus
+				bonus = 0.5
+				uses = 2
+				category = infantry_weapons
+			}
+		}
+	}
+
+	focus = {
+		id = AFG_invest_artillary
+		icon = GFX_goal_generic_army_artillery2
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_future_of_cavalry
+		}
+		prerequisite = {
+			focus = AFG_modernize_equipments
+		}
+		x = 1
+		y = 1
+		relative_position_id = AFG_future_of_cavalry
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_invest_artillary"
+			add_tech_bonus = {
+				name = artillery_bonus
+				bonus = 0.5
+				uses = 2
+				category = artillery
+			}
+		}
+	}
+
+	focus = {
+		id = AFG_doctrine_for_army
+		icon = GFX_goal_generic_army_doctrines
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_invest_artillary
+		}
+		x = 0
+		y = 1
+		relative_position_id = AFG_invest_artillary
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_doctrine_for_army"
+			army_experience = 5
+			add_doctrine_cost_reduction = {
+				name = AFG_doctrine_for_army
+				cost_reduction = 0.5
+				uses = 1
+				category = land_doctrine
+			}
+		}
+	}
+
+	focus = {
+		id = AFG_recruitment_efforts
+		icon = GFX_goal_conscription
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_foreign_assistance
+			focus = AFG_learn_from_previous_wars
+		}
+		x = 1
+		y = 1
+		relative_position_id = AFG_learn_from_previous_wars
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_recruitment_efforts"
+			if = {
+				limit = {
+					has_idea = AFG_future_of_cavalry_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_future_of_cavalry_idea
+					add_idea = AFG_recruitment_efforts_cav_idea
+				}
+			}
+			else = {
+				add_ideas = AFG_recruitment_efforts_idea
+			}
+		}
+	}
+
+	focus = {
+		id = AFG_tribal_recruitment
+		icon = GFX_goal_enlist_the_police
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_recruitment_efforts
+		}
+		x = 0
+		y = 2
+		relative_position_id = AFG_recruitment_efforts
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_tribal_recruitment"
+			if = {
+				limit = {
+					has_idea = AFG_recruitment_efforts_cav_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_recruitment_efforts_cav_idea
+					add_idea = AFG_tribal_recruitment_cav_idea
+				}
+			}
+			else = {
+				swap_ideas = {
+					remove_idea = AFG_recruitment_efforts_idea
+					add_idea = AFG_tribal_recruitment_idea
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = AFG_rebuild_air_force
+		icon = GFX_goal_AFG_air_force
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_reform_afghan_armed_forces
+		}
+		x = 3
+		y = 1
+		relative_position_id = AFG_reform_afghan_armed_forces
+		available = {
+			controls_state = 267
+		}
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_rebuild_air_force"
+			air_experience = 15
+			if = {
+				limit = {
+					has_dlc_bba = no
+					has_tech = early_fighter
+				}
+				add_equipment_to_stockpile = {
+					type = fighter_equipment_0
+					amount = 15
+					producer = AFG
+				}
+			}
+			else_if = {
+				limit = {
+					has_dlc_bba = no
+					NOT = { has_tech = early_fighter }
+				}
+				set_technology = {
+					early_fighter = 1
+				}
+			}
+			else = {
+				add_tech_bonus = {
+					category = air_equipment
+					bonus = 1.0
+					uses = 2
+				}
+			}
+			267 = {
+				add_building_construction = {
+					type = air_base
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = AFG_soviet_air_planes
+		icon = GFX_focus_chi_mission_to_the_soviet_union
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_rebuild_air_force
+		}
+		mutually_exclusive = {
+			focus = AFG_british_air_planes
+		}
+		x = -1
+		y = 1
+		relative_position_id = AFG_rebuild_air_force
+		available = {
+			NOT = {
+				has_war_with = SOV
+			}
+			OR = {
+				has_country_flag = AFG_king_is_dead_long_live_king_flag
+				has_country_flag = AFG_afghan_revolution_flag
+			}
+		}
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_soviet_air_planes"
+			add_popularity = { ideology = collectivist popularity = 0.02 }
+			add_tech_bonus = {
+				name = fighter_bonus
+				bonus = 0.5
+				uses = 1
+				category = light_fighter
+			}
+			if = {
+				limit = { has_dlc_bba = yes }
+				add_equipment_to_stockpile = {
+					type = small_plane_airframe_0
+					amount = 25
+					producer = SOV
+				}
+			}
+			else = {
+				add_equipment_to_stockpile = {
+					type = fighter_equipment_0
+					amount = 25
+					producer = SOV
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = AFG_british_air_planes
+		icon = GFX_focus_chi_british_cooperation
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_rebuild_air_force
+		}
+		mutually_exclusive = {
+			focus = AFG_soviet_air_planes
+		}
+		x = 1
+		y = 1
+		relative_position_id = AFG_rebuild_air_force
+		available = {
+			NOT = {
+				has_war_with = ENG
+			}
+			OR = {
+				has_country_flag = AFG_king_is_dead_long_live_king_flag
+				has_country_flag = AFG_kalakanis_return_flag
+			}
+		}
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_british_air_planes"
+			add_popularity = { ideology = market_liberal popularity = 0.02 }
+			add_tech_bonus = {
+				name = fighter_bonus
+				bonus = 0.5
+				uses = 1
+				category = light_fighter
+			}
+			if = {
+				limit = { has_dlc_bba = yes }
+				add_equipment_to_stockpile = {
+					type = small_plane_airframe_0
+					amount = 25
+					producer = ENG
+				}
+			}
+			else = {
+				add_equipment_to_stockpile = {
+					type = fighter_equipment_0
+					amount = 25
+					producer = ENG
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = AFG_domestic_air_production
+		icon = GFX_goal_generic_air_production
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_soviet_air_planes
+			focus = AFG_british_air_planes
+		}
+		x = 1
+		y = 1
+		relative_position_id = AFG_soviet_air_planes
+		available = {
+			controls_state = 267
+		}
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_domestic_air_production"
+			267 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = air_base
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = AFG_train_afghan_pilots
+		icon = GFX_goal_generic_air_doctrine
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_domestic_air_production
+		}
+		x = 0
+		y = 1
+		relative_position_id = AFG_domestic_air_production
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_train_afghan_pilots"
+			air_experience = 5
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.5
+				uses = 1
+				category = air_doctrine
+			}
+		}
+	}
+
+	focus = {
+		id = AFG_king_is_dead_long_live_king
+		icon = GFX_goal_afghanistan
+		cost = 5.00
+		x = 5
+		y = 0
+
+
+		allow_branch = {
+			has_country_flag = AFG_MONARCHIST_TREE
+			NOT = {
+				has_country_flag = AFG_REVOLUTION_TREE
+				has_country_flag = AFG_KALAKANI_TREE
+			}
+		}
+
+		available = {
+			has_country_flag = AFG_king_is_dead_long_live_king_flag
+		}
+
+		bypass = {
+			has_country_flag = AFG_king_is_dead_long_live_king_flag
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_king_is_dead_long_live_king"
+		}
+
+	}
+	focus = {
+		id = AFG_new_generation
+		icon = GFX_goal_monarchism
+		cost = 5.00
+		prerequisite = {
+			focus = AFG_king_is_dead_long_live_king
+		}
+		x = 2
+		y = 1
+
+		available = {
+			has_country_flag = AFG_new_generation_flag
+		}
+
+		bypass = {
+			has_country_flag = AFG_new_generation_flag
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_new_generation"
+		}
+
+	}
+	focus = {
+		id = AFG_secure_musahiban_control
+		icon = GFX_goal_tfv_strengthen_commonwealth_ties
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_new_generation
+		}
+		x = 1
+		y = 2
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_secure_musahiban_control"
+			add_popularity = { ideology = authoritarian_democrat popularity = 0.03 }
+			add_popularity = { ideology = paternal_autocrat popularity = 0.03 }
+			if = {
+				limit = {
+					has_idea = AFG_opposition_mohammed_zahir_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_opposition_mohammed_zahir_idea
+					add_idea = AFG_opposition_recovering1_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_opposition_recovering1_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_opposition_recovering1_idea
+					add_idea = AFG_opposition_recovering2_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_opposition_recovering2_idea
+				}
+				remove_ideas = AFG_opposition_recovering2_idea
+			}
+			else = {
+				add_stability = 0.03
+			}
+		}
+
+	}
+	focus = {
+		id = AFG_sons_vengeance
+		icon = GFX_goal_generic_secret_weapon
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_new_generation
+		}
+		x = 3
+		y = 2
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_sons_vengeance"
+			add_popularity = { ideology = libertarian_socialist popularity = -0.03 }
+			add_popularity = { ideology = social_democrat popularity = -0.03 }
+			add_popularity = { ideology = national_populist popularity = -0.03 }
+			if = {
+				limit = {
+					has_idea = AFG_opposition_mohammed_zahir_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_opposition_mohammed_zahir_idea
+					add_idea = AFG_opposition_recovering1_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_opposition_recovering1_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_opposition_recovering1_idea
+					add_idea = AFG_opposition_recovering2_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_opposition_recovering2_idea
+				}
+				remove_ideas = AFG_opposition_recovering2_idea
+			}
+			else = {
+				add_stability = 0.03
+			}
+		}
+
+	}
+	focus = {
+		id = AFG_return_of_the_king
+		icon = GFX_GRE_empower_monarchy
+		cost = 5.00
+		prerequisite = {
+			focus = AFG_king_is_dead_long_live_king
+		}
+		x = 8
+		y = 1
+
+		available = {
+			has_country_flag = AFG_return_of_the_king_flag
+		}
+
+		bypass = {
+			has_country_flag = AFG_return_of_the_king_flag
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_return_of_the_king"
+		}
+
+	}
+	focus = {
+		id = AFG_secure_tribal_loyalty
+		icon = GFX_goal_generic_political_pressure
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_new_generation
+			focus = AFG_return_of_the_king
+		}
+		x = 5
+		y = 2
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_secure_tribal_loyalty"
+			add_popularity = { ideology = authoritarian_democrat popularity = 0.02 }
+			add_war_support = 0.02
+			if = {
+				limit = {
+					has_idea = AFG_opposition_mohammed_zahir_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_opposition_mohammed_zahir_idea
+					add_idea = AFG_opposition_recovering1_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_opposition_amanullah_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_opposition_amanullah_idea
+					add_idea = AFG_opposition_recovering1_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_opposition_recovering1_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_opposition_recovering1_idea
+					add_idea = AFG_opposition_recovering2_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_opposition_recovering2_idea
+				}
+				remove_ideas = AFG_opposition_recovering2_idea
+			}
+			else = {
+				add_stability = 0.03
+			}
+			country_event = {
+				id = afghan.102 days = 15
+			}
+		}
+
+	}
+	focus = {
+		id = AFG_upheld_status_quo
+		icon = GFX_goal_ideology_social_conservative
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_secure_musahiban_control
+		}
+		prerequisite = {
+			focus = AFG_sons_vengeance
+		}
+		prerequisite = {
+			focus = AFG_secure_tribal_loyalty
+		}
+		mutually_exclusive = {
+			focus = AFG_need_for_modernization
+		}
+		x = 1
+		y = 3
+
+		available = {
+			has_country_flag = AFG_upheld_status_quo_flag
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_upheld_status_quo"
+			add_stability = 0.05
+			add_popularity = { ideology = social_conservative popularity = -0.02 }
+			add_popularity = { ideology = national_populist popularity = -0.02 }
+			add_popularity = { ideology = authoritarian_democrat popularity = -0.02 }
+			add_popularity = { ideology = paternal_autocrat popularity = 0.05 }
+		}
+
+	}
+	focus = {
+		id = AFG_traditional_style_ruling
+		icon = GFX_goal_authoritarian
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_upheld_status_quo
+		}
+		x = 2
+		y = 4
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_traditional_style_ruling"
+			add_stability = 0.03
+			country_event = {
+				id = afghan.100 days = 1
+			}
+		}
+
+	}
+	focus = {
+		id = AFG_appeace_religious_leaders
+		icon = GFX_goal_OTT_caliph
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_upheld_status_quo
+		}
+		x = 1
+		y = 5
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_traditional_style_ruling"
+			add_ideas = AFG_appeace_religious_leaders_idea
+		}
+
+	}
+	focus = {
+		id = AFG_need_for_modernization
+		icon = GFX_goal_HOL_list_left
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_secure_musahiban_control
+		}
+		prerequisite = {
+			focus = AFG_sons_vengeance
+		}
+		prerequisite = {
+			focus = AFG_secure_tribal_loyalty
+		}
+		mutually_exclusive = {
+			focus = AFG_upheld_status_quo
+		}
+		x = 4
+		y = 3
+
+		available = {
+			has_country_flag = AFG_need_for_modernization_flag
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_need_for_modernization"
+			add_stability = 0.05
+			add_popularity = { ideology = libertarian_socialist popularity = -0.02 }
+			add_popularity = { ideology = social_democrat popularity = -0.02 }
+			add_popularity = { ideology = paternal_autocrat popularity = -0.02 }
+			add_popularity = { ideology = authoritarian_democrat popularity = 0.05 }
+		}
+
+	}
+	focus = {
+		id = AFG_harsh_on_banditry
+		icon = GFX_HOL_crackdown_natpop
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_return_of_the_king
+		}
+		x = 7
+		y = 2
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_harsh_on_banditry"
+			add_war_support = 0.02
+			add_popularity = { ideology = national_populist popularity = -0.05 }
+			if = {
+				limit = {
+					has_idea = AFG_opposition_amanullah_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_opposition_amanullah_idea
+					add_idea = AFG_opposition_recovering1_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_opposition_recovering1_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_opposition_recovering1_idea
+					add_idea = AFG_opposition_recovering2_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_opposition_recovering2_idea
+				}
+				remove_ideas = AFG_opposition_recovering2_idea
+			}
+			else = {
+				add_stability = 0.03
+			}
+		}
+
+	}
+	focus = {
+		id = AFG_deal_with_musahibans
+		icon = GFX_goal_DOM_The_Trial
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_return_of_the_king
+		}
+		x = 9
+		y = 2
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_harsh_on_banditry"
+			country_event = {
+				id = afghan.101 days = 1
+			}
+			if = {
+				limit = {
+					has_idea = AFG_opposition_amanullah_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_opposition_amanullah_idea
+					add_idea = AFG_opposition_recovering1_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_opposition_recovering1_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_opposition_recovering1_idea
+					add_idea = AFG_opposition_recovering2_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_opposition_recovering2_idea
+				}
+				remove_ideas = AFG_opposition_recovering2_idea
+			}
+			else = {
+				add_stability = 0.03
+			}
+		}
+
+	}
+	focus = {
+		id = AFG_reimplement_amanullahs_reforms
+		icon = GFX_goal_POR_royal_edicts
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_secure_tribal_loyalty
+		}
+		prerequisite = {
+			focus = AFG_harsh_on_banditry
+		}
+		prerequisite = {
+			focus = AFG_deal_with_musahibans
+		}
+		x = 8
+		y = 3
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_reimplement_amanullahs_reforms"
+			add_stability = 0.05
+			add_popularity = { ideology = libertarian_socialist popularity = -0.02 }
+			add_popularity = { ideology = social_democrat popularity = -0.02 }
+			add_popularity = { ideology = paternal_autocrat popularity = -0.02 }
+			add_popularity = { ideology = authoritarian_democrat popularity = 0.05 }
+			country_event = {
+				id = afghan.38 days = 1
+			}
+		}
+
+	}
+	focus = {
+		id = AFG_civil_rights_for_afghans
+		icon = GFX_goal_new_treaty
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_need_for_modernization
+			focus = AFG_reimplement_amanullahs_reforms
+		}
+		x = 5
+		y = 4
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_civil_rights_for_afghans"
+			add_stability = 0.05
+			if = {
+				limit = {
+					has_idea = AFG_secure_equal_rights_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_secure_equal_rights_idea
+					add_idea = AFG_civil_rights_idea
+				}
+			}
+			else = {
+				add_ideas = AFG_civil_rights_for_afghans_idea
+			}
+		}
+
+	}
+	focus = {
+		id = AFG_secure_equal_rights
+		icon = GFX_goal_liberty
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_need_for_modernization
+			focus = AFG_reimplement_amanullahs_reforms
+		}
+		x = 7
+		y = 4
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_civil_rights_for_afghans"
+			add_stability = 0.05
+			if = {
+				limit = {
+					has_idea = AFG_civil_rights_for_afghans_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_civil_rights_for_afghans_idea
+					add_idea = AFG_civil_rights_idea
+				}
+			}
+			else = {
+				add_ideas = AFG_secure_equal_rights_idea
+			}
+		}
+
+	}
+	focus = {
+		id = AFG_permanent_parliament
+		icon = GFX_focus_generic_self_management
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_civil_rights_for_afghans
+		}
+		prerequisite = {
+			focus = AFG_secure_equal_rights
+		}
+		x = 5
+		y = 5
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_permanent_parliament"
+			add_popularity = { ideology = authoritarian_democrat popularity = 0.05 }
+			set_party_name = {
+				ideology = authoritarian_democrat
+				long_name = AFG_autdem_party_long
+				name = AFG_autdem_party
+			}
+			add_popularity = { ideology = social_democrat popularity = 0.02 }
+			set_party_name = {
+				ideology = social_democrat
+				long_name = AFG_socdem_party_long
+				name = AFG_socdem_party
+			}
+			add_popularity = { ideology = social_liberal popularity = 0.02 }
+			set_party_name = {
+				ideology = social_liberal
+				long_name = AFG_soclib_party_long
+				name = AFG_soclib_party
+			}
+			add_popularity = { ideology = social_conservative popularity = 0.02 }
+			set_party_name = {
+				ideology = social_conservative
+				long_name = AFG_soccon_party_long
+				name = AFG_soccon_party
+			}
+			add_popularity = { ideology = paternal_autocrat popularity = -0.05 }
+		}
+
+	}
+	focus = {
+		id = AFG_sorayas_fight_for_women
+		icon = GFX_IRE_women_industry
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_secure_equal_rights
+		}
+		prerequisite = {
+			focus = AFG_reimplement_amanullahs_reforms
+		}
+		x = 8
+		y = 5
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_sorayas_fight_for_women"
+			add_political_power = -40
+			add_popularity = { ideology = authoritarian_democrat popularity = 0.03 }
+			add_ideas = AFG_sorayas_fight_for_women_idea
+		}
+
+	}
+	### Revolution
+	focus = {
+		id = AFG_afghan_revolution
+		icon = GFX_goal_USA_sabotabby
+		cost = 5.00
+		x = 5
+		y = 0
+
+
+		allow_branch = {
+			has_country_flag = AFG_REVOLUTION_TREE
+			NOT = {
+				has_country_flag = AFG_MONARCHIST_TREE
+				has_country_flag = AFG_KALAKANI_TREE
+			}
+		}
+
+		available = {
+			has_country_flag = AFG_afghan_revolution_flag
+		}
+
+		bypass = {
+			has_country_flag = AFG_afghan_revolution_flag
+		}
+
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_afghan_revolution"
+		}
+
+	}
+	focus = {
+		id = AFG_socialism_in_afghanistan
+		icon = GFX_goal_ideology_radical_socialist
+		cost = 5.00
+		prerequisite = {
+			focus = AFG_afghan_revolution
+		}
+		x = 3
+		y = 1
+
+		available = {
+			has_country_flag = AFG_socialism_in_afghanistan_flag
+		}
+
+		bypass = {
+			has_country_flag = AFG_socialism_in_afghanistan_flag
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_new_generation"
+		}
+
+	}
+	focus = {
+		id = AFG_destroy_enemies_revolution
+		icon = GFX_goal_crush_monarchy
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_socialism_in_afghanistan
+		}
+		x = 2
+		y = 2
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_destroy_enemies_revolution"
+			add_popularity = { ideology = authoritarian_democrat popularity = -0.03 }
+			add_popularity = { ideology = national_populist popularity = -0.03 }
+			if = {
+				limit = {
+					has_idea = AFG_opposition_revolution_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_opposition_revolution_idea
+					add_idea = AFG_opposition_recovering1_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_opposition_recovering1_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_opposition_recovering1_idea
+					add_idea = AFG_opposition_recovering2_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_opposition_recovering2_idea
+				}
+				remove_ideas = AFG_opposition_recovering2_idea
+			}
+			else = {
+				add_stability = 0.03
+			}
+		}
+
+	}
+	focus = {
+		id = AFG_socialist_propaganda
+		icon = GFX_goal_generic_propaganda
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_destroy_enemies_revolution
+		}
+		x = 1
+		y = 3
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_socialist_propaganda"
+			add_political_power = -30
+			add_popularity = { ideology = libertarian_socialist popularity = 0.04 }
+			add_popularity = { ideology = social_democrat popularity = -0.03 }
+		}
+
+	}
+	focus = {
+		id = AFG_tarakis_land_reform
+		icon = GFX_goal_RAJ_Decentralized_Land_Reform
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_destroy_enemies_revolution
+		}
+		x = 3
+		y = 3
+
+		available = {
+			controls_state = 267
+			controls_state = 415
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_tarakis_land_reform"
+			add_stability = 0.03
+			add_political_power = -40
+			415 = {
+				add_extra_state_shared_building_slots = 1
+			}
+			add_ideas = AFG_tarakis_land_reform_idea
+		}
+
+	}
+	focus = {
+		id = AFG_strengthen_general_secretary
+		icon = GFX_goal_NOR_secret_police
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_socialist_propaganda
+		}
+		prerequisite = {
+			focus = AFG_tarakis_land_reform
+		}
+		x = 1
+		y = 4
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_strengthen_general_secretary"
+			add_political_power = -30
+			add_popularity = { ideology = libertarian_socialist popularity = 0.03 }
+			add_popularity = { ideology = vanguardist popularity = 0.03 }
+			swap_ideas = {
+				remove_idea = AFG_tarakis_land_reform_idea
+				add_idea = AFG_strengthen_general_secretary_idea
+			}
+		}
+
+	}
+	focus = {
+		id = AFG_renounce_pro_soviet_politics
+		icon = GFX_goal_anti_comintern_pact
+		cost = 5.00
+		prerequisite = {
+			focus = AFG_afghan_revolution
+		}
+		x = 7
+		y = 1
+
+		available = {
+			has_country_flag = AFG_renounce_pro_soviet_politics_flag
+		}
+
+		bypass = {
+			has_country_flag = AFG_renounce_pro_soviet_politics_flag
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_new_generation"
+		}
+
+	}
+	focus = {
+		id = AFG_curb_tribal_influence
+		icon = GFX_goal_purge_opposition
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_socialism_in_afghanistan
+			focus = AFG_renounce_pro_soviet_politics
+		}
+		x = 5
+		y = 2
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_secure_tribal_loyalty"
+			add_popularity = { ideology = authoritarian_democrat popularity = -0.03 }
+			add_war_support = 0.02
+			if = {
+				limit = {
+					has_idea = AFG_opposition_revolution_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_opposition_revolution_idea
+					add_idea = AFG_opposition_recovering1_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_opposition_recovering1_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_opposition_recovering1_idea
+					add_idea = AFG_opposition_recovering2_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_opposition_recovering2_idea
+				}
+				remove_ideas = AFG_opposition_recovering2_idea
+			}
+			else = {
+				add_stability = 0.03
+			}
+			country_event = {
+				id = afghan.103 days = 15
+			}
+		}
+
+	}
+	focus = {
+		id = AFG_secure_social_justice
+		icon = GFX_Socialist_Law
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_curb_tribal_influence
+		}
+		x = 5
+		y = 3
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_secure_social_justice"
+			add_stability = 0.05
+			add_ideas = AFG_secure_social_justice_idea
+		}
+
+	}
+	focus = {
+		id = AFG_rapid_literacy_campaign
+		icon = GFX_goal_KTG_Bookstack
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_tarakis_land_reform
+		}
+		prerequisite = {
+			focus = AFG_secure_social_justice
+		}
+		x = 4
+		y = 4
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_rapid_literacy_campaign"
+			add_popularity = { ideology = authoritarian_democrat popularity = -0.02 }
+			add_stability = 0.03
+			swap_ideas = {
+				remove_idea = AFG_secure_social_justice_idea
+				add_idea = AFG_rapid_literacy_campaign_idea
+			}
+		}
+
+	}
+	focus = {
+		id = AFG_socialist_modernization
+		icon = GFX_goal_red_star_green_wreath
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_strengthen_general_secretary
+		}
+		prerequisite = {
+			focus = AFG_rapid_literacy_campaign
+		}
+		x = 3
+		y = 5
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_socialist_modernization"
+			add_stability = 0.05
+			add_war_support = 0.03
+			add_popularity = { ideology = libertarian_socialist popularity = 0.05 }
+			if = {
+				limit = {
+					has_idea = AFG_opposition_revolution_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_opposition_revolution_idea
+					add_idea = AFG_opposition_recovering1_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_opposition_recovering1_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_opposition_recovering1_idea
+					add_idea = AFG_opposition_recovering2_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_opposition_recovering2_idea
+				}
+				remove_ideas = AFG_opposition_recovering2_idea
+			}
+			else = {
+				add_stability = 0.03
+			}
+			country_event = {
+				id = afghan.39 days = 1
+			}
+		}
+
+	}
+	focus = {
+		id = AFG_establish_parliament
+		icon = GFX_goal_government_icon
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_renounce_pro_soviet_politics
+		}
+		x = 8
+		y = 2
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_establish_parliament"
+			add_popularity = { ideology = social_democrat popularity = 0.03 }
+			add_popularity = { ideology = social_liberal popularity = 0.02 }
+			set_party_name = {
+				ideology = social_liberal
+				long_name = AFG_soclib_party_long
+				name = AFG_soclib_party
+			}
+			add_popularity = { ideology = social_conservative popularity = 0.02 }
+			set_party_name = {
+				ideology = social_conservative
+				long_name = AFG_soccon_party_long
+				name = AFG_soccon_party
+			}
+			add_popularity = { ideology = libertarian_socialist popularity = -0.03 }
+			add_popularity = { ideology = vanguardist popularity = -0.01 }
+			if = {
+				limit = {
+					has_idea = AFG_opposition_revolution_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_opposition_revolution_idea
+					add_idea = AFG_opposition_recovering1_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_opposition_recovering1_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_opposition_recovering1_idea
+					add_idea = AFG_opposition_recovering2_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_opposition_recovering2_idea
+				}
+				remove_ideas = AFG_opposition_recovering2_idea
+			}
+			else = {
+				add_stability = 0.03
+			}
+		}
+
+	}
+	focus = {
+		id = AFG_rights_for_men_and_women
+		icon = GFX_IRE_women_industry
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_establish_parliament
+		}
+		x = 7
+		y = 3
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_secure_social_justice"
+			add_stability = 0.03
+			add_ideas = AFG_secure_equal_rights_idea
+		}
+
+	}
+	focus = {
+		id = AFG_free_elections
+		icon = GFX_goal_DOM_Call_Special_Election
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_secure_social_justice
+		}
+		prerequisite = {
+			focus = AFG_rights_for_men_and_women
+		}
+		x = 6
+		y = 4
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_rapid_literacy_campaign"
+			add_popularity = { ideology = social_democrat popularity = 0.04 }
+			add_popularity = { ideology = social_liberal popularity = 0.02 }
+			add_popularity = { ideology = social_conservative popularity = 0.02 }
+			add_stability = 0.03
+		}
+
+	}
+	focus = {
+		id = AFG_provide_education
+		icon = GFX_goal_workers_rights
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_establish_parliament
+		}
+		x = 9
+		y = 3
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_provide_education"
+			add_stability = 0.03
+			add_ideas = AFG_provide_education_idea
+		}
+
+	}
+	focus = {
+		id = AFG_encourage_progressive_voices
+		icon = GFX_goal_HOL_list_left
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_rights_for_men_and_women
+		}
+		prerequisite = {
+			focus = AFG_provide_education
+		}
+		x = 9
+		y = 4
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_encourage_progressive_voices"
+			add_popularity = { ideology = social_democrat popularity = 0.05 }
+			add_popularity = { ideology = social_liberal popularity = 0.03 }
+			add_popularity = { ideology = libertarian_socialist popularity = -0.02 }
+			add_popularity = { ideology = social_conservative popularity = -0.02 }
+			add_popularity = { ideology = authoritarian_democrat popularity = -0.02 }
+			add_stability = 0.03
+			add_political_power = -30
+		}
+
+	}
+	focus = {
+		id = AFG_strengthen_afghan_democracy
+		icon = GFX_goal_support_democracy
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_free_elections
+		}
+		prerequisite = {
+			focus = AFG_encourage_progressive_voices
+		}
+		x = 7
+		y = 5
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_strengthen_afghan_democracy"
+			add_stability = 0.05
+			add_war_support = 0.03
+			add_popularity = { ideology = social_democrat popularity = 0.04 }
+			add_popularity = { ideology = social_liberal popularity = 0.01 }
+			add_popularity = { ideology = social_conservative popularity = 0.01 }
+			if = {
+				limit = {
+					has_idea = AFG_opposition_revolution_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_opposition_revolution_idea
+					add_idea = AFG_opposition_recovering1_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_opposition_recovering1_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_opposition_recovering1_idea
+					add_idea = AFG_opposition_recovering2_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_opposition_recovering2_idea
+				}
+				remove_ideas = AFG_opposition_recovering2_idea
+			}
+			else = {
+				add_stability = 0.03
+			}
+			country_event = {
+				id = afghan.39 days = 1
+			}
+		}
+
+	}
+
+	## Kalakani
+	focus = {
+		id = AFG_kalakanis_return
+		icon = GFX_goal_islamic_government
+		cost = 5.00
+		x = 4
+		y = 0
+
+		allow_branch = {
+			has_country_flag = AFG_KALAKANI_TREE
+			NOT = {
+				has_country_flag = AFG_REVOLUTION_TREE
+				has_country_flag = AFG_MONARCHIST_TREE
+			}
+		}
+
+
+		available = {
+			has_country_flag = AFG_kalakanis_return_flag
+		}
+
+		bypass = {
+			has_country_flag = AFG_kalakanis_return_flag
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_kalakanis_return"
+		}
+
+	}
+	focus = {
+		id = AFG_remove_barakzai_kings
+		icon = GFX_goal_imprison_opposition1
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_kalakanis_return
+		}
+		x = 3
+		y = 1
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_remove_barakzai_kings"
+			add_popularity = { ideology = authoritarian_democrat popularity = -0.05 }
+			if = {
+				limit = {
+					has_idea = AFG_opposition_kalakani_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_opposition_kalakani_idea
+					add_idea = AFG_opposition_recovering1_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_opposition_recovering1_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_opposition_recovering1_idea
+					add_idea = AFG_opposition_recovering2_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_opposition_recovering2_idea
+				}
+				remove_ideas = AFG_opposition_recovering2_idea
+			}
+			else = {
+				add_stability = 0.03
+			}
+		}
+
+	}
+	focus = {
+		id = AFG_weaken_tribal_identity
+		icon = GFX_goal_split_helmet
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_kalakanis_return
+		}
+		x = 5
+		y = 1
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_remove_barakzai_kings"
+			add_popularity = { ideology = authoritarian_democrat popularity = -0.05 }
+			if = {
+				limit = {
+					has_idea = AFG_opposition_kalakani_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_opposition_kalakani_idea
+					add_idea = AFG_opposition_recovering1_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_opposition_recovering1_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_opposition_recovering1_idea
+					add_idea = AFG_opposition_recovering2_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_opposition_recovering2_idea
+				}
+				remove_ideas = AFG_opposition_recovering2_idea
+			}
+			else = {
+				add_stability = 0.03
+			}
+			country_event = {
+				id = afghan.104 days = 15
+			}
+		}
+
+	}
+	focus = {
+		id = AFG_purge_revolutionaries
+		icon = GFX_HOL_crackdown_syndie
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_remove_barakzai_kings
+		}
+		prerequisite = {
+			focus = AFG_weaken_tribal_identity
+		}
+		x = 4
+		y = 2
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_remove_barakzai_kings"
+			add_popularity = { ideology = libertarian_socialist popularity = -0.04 }
+			add_popularity = { ideology = social_democrat popularity = -0.04 }
+			if = {
+				limit = {
+					has_idea = AFG_opposition_kalakani_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_opposition_kalakani_idea
+					add_idea = AFG_opposition_recovering1_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_opposition_recovering1_idea
+				}
+				swap_ideas = {
+					remove_idea = AFG_opposition_recovering1_idea
+					add_idea = AFG_opposition_recovering2_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = AFG_opposition_recovering2_idea
+				}
+				remove_ideas = AFG_opposition_recovering2_idea
+			}
+			else = {
+				add_stability = 0.03
+			}
+		}
+
+	}
+	focus = {
+		id = AFG_defender_of_islam
+		icon = GFX_goal_generic_defence
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_purge_revolutionaries
+		}
+		x = 3
+		y = 3
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_secure_social_justice"
+			add_stability = 0.03
+			add_war_support = 0.03
+			add_popularity = { ideology = national_populist popularity = 0.05 }
+			add_ideas = AFG_defender_of_islam_idea
+		}
+
+	}
+	focus = {
+		id = AFG_traditional_gender_roles
+		icon = GFX_goal_OTT_caliph
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_defender_of_islam
+		}
+		x = 2
+		y = 4
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_traditional_gender_roles"
+			add_stability = 0.03
+			add_popularity = { ideology = social_democrat popularity = -0.03 }
+			swap_ideas = {
+				remove_idea = AFG_defender_of_islam_idea
+				add_idea = AFG_traditional_gender_roles_idea
+			}
+		}
+
+	}
+	focus = {
+		id = AFG_deal_with_aggressive_religions
+		icon = GFX_focus_mex_triumph_over_the_cristeros
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_defender_of_islam
+		}
+		x = 4
+		y = 4
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_deal_with_aggressive_religions"
+			add_political_power = -25
+			add_stability = 0.01
+			add_war_support = 0.03
+			country_event = {
+				id = afghan.105 days = 1
+			}
+		}
+
+	}
+	focus = {
+		id = AFG_better_tajik_pashtun_relations
+		icon = GFX_goal_generic_major_alliance
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_traditional_gender_roles
+		}
+		prerequisite = {
+			focus = AFG_deal_with_aggressive_religions
+		}
+		x = 4
+		y = 5
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_traditional_gender_roles"
+			add_stability = 0.05
+			add_war_support = 0.03
+			add_popularity = { ideology = paternal_autocrat popularity = 0.04 }
+			add_popularity = { ideology = national_populist popularity = 0.04 }
+			remove_ideas = AFG_pashtun_tajik_tentions_idea
+		}
+
+	}
+	focus = {
+		id = AFG_bandit_king_afghanistan
+		icon = GFX_GEA_counter_insurgency
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_purge_revolutionaries
+		}
+		x = 6
+		y = 3
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_bandit_king_afghanistan"
+			add_stability = -0.02
+			add_war_support = 0.01
+			add_political_power = 50
+			add_ideas = AFG_bandit_king_afghanistan_idea
+			country_event = {
+				id = afghan.106 days = 25
+			}
+		}
+
+	}
+	focus = {
+		id = AFG_guerilla_raiders
+		icon = GFX_focus_prc_infiltration
+		cost = 8.00
+		prerequisite = {
+			focus = AFG_bandit_king_afghanistan
+		}
+		x = 6
+		y = 4
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AFG_guerilla_raiders"
+			add_war_support = 0.04
+			add_political_power = 50
+			add_manpower = 7000
+			army_experience = 15
+			air_experience = 3
+		}
+
+	}
+}

@@ -1,0 +1,418 @@
+﻿###########################
+# Libyan Events
+###########################
+
+add_namespace = lba
+
+country_event = {
+	id = lba.0
+	immediate = {log = "[GetDateText]: [Root.GetName]: event lba.0"}
+
+	trigger = {
+		tag = LBA
+		has_cosmetic_tag = LBA_colony
+		is_puppet = no
+	}
+
+	mean_time_to_happen = { days = 1 }
+
+	fire_only_once = yes
+
+	hidden = yes
+
+	option = {
+		drop_cosmetic_tag = yes
+	}
+}
+
+country_event = { # Attack British Kufra
+	id = lba.1
+	immediate = {log = "[GetDateText]: [Root.GetName]: event lba.1"}
+	title = lba.1.t
+	desc = lba.1.d
+	picture = GFX_report_event_warlord_battle
+
+	trigger = {
+		tag = LBA
+		date > 1936.3.1
+	}
+
+	mean_time_to_happen = { days = 1 }
+
+	fire_only_once = yes
+
+	option = {
+		name = lba.1.a
+		hidden_effect = {
+			LBA = {
+				country_event = { id = lba.4 days = 1 }
+			}
+		}
+
+	}
+}
+
+country_event = { # Britain doesn't like that
+	id = lba.2
+	immediate = {log = "[GetDateText]: [Root.GetName]: event lba.2"}
+	title = lba.2.t
+	desc = lba.2.d
+	picture = GFX_report_event_british_inspect_troops
+
+	is_triggered_only = yes
+
+	option = {
+		name = lba.2.a
+		if = {
+			limit = {
+				OR = {
+					ENG = {
+						owns_state = 769
+					}
+					ROOT = {
+						owns_state = 769
+						is_puppet_of = ENG
+					}
+				}
+			}
+			ITA = {
+				country_event = lba.3
+			}
+		}
+	}
+	option = {
+		name = lba.2.b
+	}
+}
+
+country_event = { # London wants Rome to apologies
+	id = lba.3
+	immediate = {log = "[GetDateText]: [Root.GetName]: event lba.3"}
+	title = lba.3.t
+	desc = lba.3.d
+	picture = GFX_partition_brit
+
+	is_triggered_only = yes
+
+	option = {
+		name = lba.3.a # Sure
+		# add_opinion_modifier
+		if = {
+			limit = {
+				has_government = social_democrat
+			}
+			add_popularity = {
+				ideology = social_democrat
+				popularity = -0.02
+			}
+		}
+
+		if = {
+			limit = {
+				has_government = social_conservative
+			}
+			add_popularity = {
+				ideology = social_conservative
+				popularity = -0.02
+			}
+		}
+		add_political_power = -50
+		LBA = {
+			country_event = lba.5
+		}
+	}
+
+	option = {
+		name = lba.3.b # Never
+		# add_opinion_modifier
+		add_popularity = {
+			ideology = national_populist
+			popularity = 0.02
+		}
+	}
+}
+
+country_event = { # Libya - Captured Omar
+	id = lba.4
+	immediate = {log = "[GetDateText]: [Root.GetName]: event lba.4"}
+	title = lba.4.t
+	desc = lba.4.d
+	picture = GFX_report_event_ITA_omar_captured
+
+	is_triggered_only = yes
+
+	option = {
+		name = lba.4.a
+		add_political_power = 100
+		remove_ideas = ITA_guerrilla_conflict
+		hidden_effect = {
+			every_country = {
+				limit = {
+					owns_state = 769
+				}
+				THIS = {
+					country_event = { id = lba.2 days = 2 }
+				}
+			}
+			LBA = {
+				country_event = { id = lba.9 days = 14 }
+			}
+		}
+	}
+}
+
+country_event = { # Rome yells at Balbo
+	id = lba.5
+	immediate = {log = "[GetDateText]: [Root.GetName]: event lba.5"}
+	title = lba.5.t
+	desc = lba.5.d
+	picture = GFX_report_event_SRI_palace
+
+	is_triggered_only = yes
+
+	option = {
+		name = lba.5.a
+		add_political_power = -50
+	}
+}
+
+country_event = { # Balbo wants to return to Rome
+	id = lba.6
+	immediate = {log = "[GetDateText]: [Root.GetName]: event lba.6"}
+	title = lba.6.t
+	desc = lba.6.d
+	picture = italo_chiarman
+
+	trigger = {
+		tag = LBA
+		date > 1936.4.15
+	}
+
+	fire_only_once = yes
+
+	mean_time_to_happen = {
+		days = 1
+	}
+
+	option = {
+		name = lba.6.a
+		ITA = {
+			country_event = lba.7
+			ITA_Adalberto_di_Savoia = {
+				set_nationality = LBA
+			}
+		}
+		add_country_leader_role = {
+			character = ITA_Adalberto_di_Savoia
+			promote_leader = yes
+			country_leader = {
+				ideology = authoritarian_democrat_subtype
+				traits = {}
+			}
+		}
+		ITA_Italo_Balbo = {
+			set_nationality = ITA
+		}
+	}
+}
+
+# ITALO BALBO returns
+country_event = {
+	id = lba.7
+	immediate = {log = "[GetDateText]: [Root.GetName]: event lba.7"}
+	title =  lba.7.t
+	desc = lba.7.d
+	picture = italo_chiarman
+	is_triggered_only = yes
+
+	option = {
+		name = lba.7.a
+		add_political_power = 50
+		add_popularity = { ideology = national_populist popularity = 0.02 }
+		set_country_flag = ITA_balbo_boi
+	}
+
+	option = {
+		name = lba.7.b
+		add_political_power = -50
+		set_country_flag = ITA_balbo_boi
+	}
+}
+
+country_event = { # Fate of the Senussi
+	id = lba.8
+	immediate = {log = "[GetDateText]: [Root.GetName]: event lba.8"}
+	title = lba.8.t
+	desc = lba.8.d
+	picture = soviet_farmers
+
+	trigger = {
+		tag = LBA
+		date > 1936.7.0
+	}
+
+	fire_only_once = yes
+
+	mean_time_to_happen = {
+		days = 1
+	}
+
+	option = {
+		name = lba.8.a
+		add_stability = -0.05
+		random_state = {
+			limit = {
+				is_core_of = LBA
+				is_owned_by = LBA
+			}
+			add_building_construction = {
+				type = industrial_complex
+				level = 1
+				instant_build = yes
+			}
+		}
+	}
+
+	option = {
+		name = lba.8.b
+		add_stability = 0.05
+	}
+}
+
+country_event = {
+	id = lba.9
+	immediate = {log = "[GetDateText]: [Root.GetName]: event lba.9"}
+	title = lba.9.t
+	desc = lba.9.d
+	picture = GFX_report_event_libya
+
+	is_triggered_only = yes
+
+	option = {
+		name = lba.9.a
+		add_political_power = 50
+		add_stability = -0.05
+	}
+
+	option = {
+		name = lba.9.b
+		add_stability = 0.05
+	}
+}
+
+country_event = { # Italy installs transitional government in Libya
+	id = lba.10
+	immediate = {log = "[GetDateText]: [Root.GetName]: event lba.10"}
+	title = lba.10.t
+	desc = lba.10.d
+	picture = GFX_report_event_libya
+
+	is_triggered_only = yes
+
+	option = {
+		name = lba.10.a
+		LBA_Provisional_Government = {
+			add_country_leader_role = {
+				promote_leader = yes
+				country_leader = {
+					ideology = authoritarian_democrat_subtype
+					traits = { }
+				}
+			}
+		}
+		add_political_power = 50
+		add_stability = 0.1
+	}
+}
+
+country_event = { # Italy installs Idris
+	id = lba.11
+	immediate = {log = "[GetDateText]: [Root.GetName]: event lba.11"}
+	title = lba.11.t
+	desc = lba.11.d
+	picture = GFX_report_event_libya
+
+	is_triggered_only = yes
+
+	option = {
+		name = lba.11.a
+		if = {
+			limit = {
+				NOT = {
+					has_country_leader = {
+						character = LBA_Idris_Senussi
+						ruling_only = yes
+					}
+				}
+			}
+			swap_ideas = {
+				remove_idea = colonial_government
+				add_idea = constitutional_monarchy
+			}
+			set_politics = {
+				ruling_party = social_conservative
+				elections_allowed = no
+			}
+			add_country_leader_role = {
+				character = LBA_Idris_Senussi
+				promote_leader = yes
+				country_leader = {
+					ideology = social_conservative_subtype
+					traits = { }
+				}
+			}
+			add_country_leader_role = {
+				character = LBA_Idris_Senussi
+				promote_leader = yes
+				country_leader = {
+					ideology = social_liberal_subtype
+					traits = { }
+				}
+			}
+			add_country_leader_role = {
+				character = LBA_Idris_Senussi
+				promote_leader = yes
+				country_leader = {
+					ideology = market_liberal_subtype
+					traits = { }
+				}
+			}
+			add_country_leader_role = {
+				character = LBA_Idris_Senussi
+				promote_leader = yes
+				country_leader = {
+					ideology = social_democrat_subtype
+					traits = { }
+				}
+			}
+			add_country_leader_role = {
+				character = LBA_Idris_Senussi
+				promote_leader = yes
+				country_leader = {
+					ideology = national_populist_subtype
+					traits = { }
+				}
+			}
+			add_country_leader_role = {
+				character = LBA_Idris_Senussi
+				promote_leader = yes
+				country_leader = {
+					ideology = paternal_autocrat_subtype
+					traits = { }
+				}
+			}
+			add_country_leader_role = {
+				character = LBA_Idris_Senussi
+				promote_leader = yes
+				country_leader = {
+					ideology = authoritarian_democrat_subtype
+					traits = { }
+				}
+			}
+		}
+		set_country_flag = LBA_Local_admin
+		add_political_power = 50
+		add_stability = 0.1
+		drop_cosmetic_tag = yes
+	}
+}

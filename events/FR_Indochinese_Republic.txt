@@ -1,0 +1,145 @@
+add_namespace = indrep
+add_namespace = indrepfor
+country_event = {
+	id = indrep.1
+	title = "Revolutionay Indochinese Independence Movement in South Annam"
+	desc = indrep.1.d
+	is_triggered_only = yes
+	immediate = {
+		FIC = { add_ideas = vietnamese_revolutionary_in_territory }
+		ICR = {
+			add_ideas = {
+				fight_with_revolutionary_movement
+				revolutionary_movement
+			}
+		}
+		every_state = {
+			limit = { is_core_of = FIC }
+			THIS = { add_core_of = ICR }
+		}
+	}
+	option = {
+		name = "Grab the Gun, Fun with Bullet"
+		FIC = {
+			ICR = {
+				transfer_state = 961
+				transfer_state = 286
+			}
+			ICR = {
+				load_oob = "ICR_REBEL"
+			}
+			ICR = { country_event = { id = indrep.2 hours = 8 } }
+		}
+	}
+	option = {
+		name = "Release our Motherland from colonialism!"
+		FIC = {
+			ICR = {
+				transfer_state = 961
+				transfer_state = 286
+			}
+			ICR = {
+				load_oob = "ICR_REBEL"
+			}
+			ICR = { country_event = { id = indrep.2 hours = 8 } }
+		}
+		ICR = {
+			change_tag_from = FIC
+		}
+	}
+}
+country_event = {
+	id = indrep.2
+	title = "Indochinese Provisional Government is formed"
+	desc = indrep.2.d
+	is_triggered_only = yes
+	option = {
+		name = "Long Live our Motherland"
+		hidden_effect = {
+			add_political_power = 300
+			add_stability = 0.1
+			set_temp_variable = { gun = token:infantry_equipment }
+			add_equipment_to_stockpile = {
+				type = var:gun
+				amount = infantry_eq
+			}
+			add_manpower = manp
+			declare_war_on = {
+				target = FIC
+				type = take_core_state
+			}
+			hidden_effect = {
+				SIA = {
+					clear_variable = infantry_eq
+					clear_variable = manp
+				}
+			}
+		}
+	}
+}
+
+##Foreign
+country_event = {
+	id = indrepfor.1
+	title = "We lose in Indochina"
+	desc = ""
+	is_triggered_only = yes
+	fire_only_once = yes
+	immediate = {
+		every_state = {
+			limit = { is_core_of = FIC }
+			THIS = { add_core_of = ICR }
+		}
+	}
+	option = {
+		name = "Shall our time in Asia is over?"
+		##Indochinese Rebel takes over Indochinese Peninsula
+		ICR = {
+			every_state = {
+				limit = {
+					is_core_of = ICR
+					NOT = { is_controlled_by = SIA }
+				}
+				ICR = { transfer_state = PREV }
+			}
+		}
+		##France dissolves the French Indochinese Government
+		FRA = {
+			set_autonomy = {
+				target = FIC
+				autonomous_state = autonomy_free
+			}
+		}
+		##Indochina Rebel gives the Fort Bayard back to Owner #728
+		if = {
+			random_country = {
+				limit = {
+					OR = {
+						tag = KMT
+						tag = FNG
+						tag = ZHI
+					}
+					exists = yes
+					728 = {
+						is_core_of = PREV
+					}
+					has_full_control_of_state = 592
+				}
+				THIS = { transfer_state = 728 }
+			}
+		}
+		##White Peace with every country
+		every_country = {
+			limit = {
+				AND = {
+					has_war_with = ICR
+					OR = {
+						is_in_faction_with = FRA
+						tag = FRA
+					}
+				}
+			}
+			white_peace = ICR
+		}
+	}
+}

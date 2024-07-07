@@ -1,0 +1,413 @@
+####White Russia National Focus tree coded by fbruchmueller####
+
+
+focus_tree = {
+	id = rus_np
+
+	country = {
+		factor = 0
+
+		modifier = {
+			add = 1
+			tag = RUS
+		}
+	}
+
+	shared_focus = RUS_army
+	shared_focus = RUS_airforce
+	shared_focus = RUS_navy
+	shared_focus = RUS_five_year_plan
+	shared_focus = RUS_control_economy
+	shared_focus = RUS_kickstart_war_economy
+	shared_focus = RUS_Prepare_Against_Soviets
+
+	continuous_focus_position = { x = 50 y = 3200 }
+
+	default = no
+
+	#############################
+	###   INTERNAL POLITICS   ###
+	#############################
+
+	focus = {
+		id = RUS_puppet_goverment
+		icon = GFX_goal_consolidating_coalitionv2
+		available = {
+			has_country_flag = RUS_np_victorious
+		}
+		bypass = {
+			has_country_flag = National_Center_Victorious
+		}
+		x = 5
+		y = 0
+		cost = 2
+		ai_will_do = {
+			factor = 2
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RUS_puppet_goverment"
+			custom_effect_tooltip = RUS_unlock_focuses
+		}
+	}
+
+	focus = {
+		id = RUS_expand_recruitment
+		icon = GFX_goal_army_guy_2
+		available = {
+		}
+		prerequisite = {
+			focus = RUS_puppet_goverment
+		}
+		bypass = {
+		}
+		x = 0
+		y = 1
+		relative_position_id = RUS_puppet_goverment
+		cost = 4
+		ai_will_do = {
+			factor = 2
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RUS_expand_recruitment"
+			add_ideas = RUS_aggresive
+		}
+	}
+
+	focus = {
+		id = RUS_militarize_economy
+		icon = GFX_focus_generic_tank_production
+		available = {
+		}
+		prerequisite = {
+			focus = RUS_expand_recruitment
+		}
+		bypass = {
+		}
+		x = 0
+		y = 1
+		relative_position_id = RUS_expand_recruitment
+		cost = 4
+		ai_will_do = {
+			factor = 2
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RUS_militarize_economy"
+			add_ideas = war_economy
+		}
+	}
+
+
+	focus = {
+		id = RUS_contacts_to_america
+		icon = GFX_america_goal_eagle_deal
+		available = {
+		}
+		prerequisite = {
+			focus = RUS_militarize_economy
+		}
+		bypass = {
+		}
+		x = 0
+		y = 1
+		relative_position_id = RUS_militarize_economy
+		cost = 4
+		ai_will_do = {
+			factor = 2
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RUS_contacts_to_america"
+			add_equipment_to_stockpile = {
+				type = infantry_equipment
+				amount = 2000
+				producer = USA
+			}
+		}
+	}
+
+	focus = {
+		id = RUS_direct_rule
+		icon = GFX_goal_POR_Imperial_Lunada
+		prerequisite = {
+			focus = RUS_contacts_to_america
+		}
+		will_lead_to_war_with = JAP
+		x = 0
+		y = 1
+		relative_position_id = RUS_contacts_to_america
+		cost = 4
+		ai_will_do = {
+			factor = 2
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RUS_direct_rule"
+			declare_war_on = {
+				type = annex_everything
+				target = JAP
+			}
+			set_country_flag = RUS_japan_war
+		}
+	}
+
+	focus = {
+		id = RUS_voeyvoda
+		icon = GFX_goal_COS_War
+		available = {
+			has_country_flag = RUS_victory_japan
+		}
+		bypass = {
+			has_country_flag = RUS_victory_japan
+		}
+		x = 10
+		y = 0
+		cost = 2
+		ai_will_do = {
+			factor = 2
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RUS_voeyvoda"
+			custom_effect_tooltip = RUS_unlock_focuses
+		}
+	}
+
+	focus = {
+		id = RUS_reetablish_monarchy
+		icon = GFX_goal_monarchism_black
+		prerequisite = {
+			focus = RUS_voeyvoda
+		}
+		x = 0
+		y = 1
+		relative_position_id = RUS_voeyvoda
+		cost = 2
+		ai_will_do = {
+			factor = 2
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RUS_reetablish_monarchy"
+			custom_effect_tooltip = RUS_restore_monarchy_tooltip
+			set_cosmetic_tag = RUS_monarchy
+			hidden_effect = {
+				if = {
+					limit = { has_character = RUS_Kyril_Romanov }
+					RUS_crown_kyril = yes
+				}
+				else_if = {
+					limit = { has_character = RUS_Vladimir_Romanov }
+					RUS_crown_vladimir = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = RUS_corporatism
+		icon = GFX_goal_factory_complex
+		prerequisite = {
+			focus = RUS_reetablish_monarchy
+		}
+		x = -1
+		y = 1
+		relative_position_id = RUS_reetablish_monarchy
+		cost = 8
+		ai_will_do = {
+			factor = 2
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RUS_corporatism"
+			add_ideas = RUS_corporatism
+		}
+	}
+
+	focus = {
+		id = RUS_support_worker
+		icon = GFX_goal_RAJ_India_Worker_Rights
+		prerequisite = {
+			focus = RUS_corporatism
+		}
+		x = 0
+		y = 1
+		relative_position_id = RUS_corporatism
+		cost = 8
+		ai_will_do = {
+			factor = 2
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RUS_support_worker"
+			swap_ideas = {
+				remove_idea = RUS_corporatism
+				add_idea = RUS_corporatism2
+			}
+		}
+	}
+
+	focus = {
+		id = RUS_local_power_church_parishes
+		icon = GFX_PAP_holy_war
+		prerequisite = {
+			focus = RUS_reetablish_monarchy
+		}
+		x = 1
+		y = 1
+		relative_position_id = RUS_reetablish_monarchy
+		cost = 8
+		ai_will_do = {
+			factor = 2
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RUS_local_power_church_parishes"
+			add_stability = 0.05
+		}
+	}
+
+	focus = {
+		id = RUS_ban_parties
+		icon = GFX_goal_AST_skip_plebiscite
+		prerequisite = {
+			focus = RUS_local_power_church_parishes
+		}
+		x = 0
+		y = 1
+		relative_position_id = RUS_local_power_church_parishes
+		cost = 8
+		ai_will_do = {
+			factor = 2
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RUS_ban_parties"
+			add_popularity = {
+				ideology = national_populist
+				popularity = 0.05
+			}
+		}
+	}
+
+	focus = {
+		id = RUS_create_zemsky_sober
+		icon = GFX_goal_POR_royal_edicts
+		prerequisite = {
+			focus = RUS_ban_parties
+		}
+		prerequisite = {
+			focus = RUS_support_worker
+		}
+		x = -1
+		y = 1
+		relative_position_id = RUS_ban_parties
+		cost = 8
+		ai_will_do = {
+			factor = 2
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RUS_create_zemsky_sober"
+			add_stability = 0.05
+		}
+	}
+
+	focus = {
+		id = RUS_give_land_peasants
+		icon = GFX_goal_RAJ_Decentralized_Land_Reform
+		prerequisite = {
+			focus = RUS_create_zemsky_sober
+		}
+		x = -2
+		y = 1
+		relative_position_id = RUS_create_zemsky_sober
+		cost = 8
+		ai_will_do = {
+			factor = 2
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RUS_give_land_peasants"
+			add_stability = 0.1
+		}
+	}
+
+	focus = {
+		id = RUS_purge_unions
+		icon = GFX_reign_of_terror
+		prerequisite = {
+			focus = RUS_create_zemsky_sober
+		}
+		x = 0
+		y = 1
+		relative_position_id = RUS_create_zemsky_sober
+		cost = 8
+		ai_will_do = {
+			factor = 2
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RUS_purge_unions"
+			add_popularity = {
+				ideology = social_democrat
+				popularity = -0.1
+			}
+			add_popularity = {
+				ideology = social_liberal
+				popularity = -0.1
+			}
+		}
+	}
+
+	focus = {
+		id = RUS_indoctrinate_children
+		icon = GFX_focus_generic_strike_at_democracy2
+		prerequisite = {
+			focus = RUS_create_zemsky_sober
+		}
+		x = 2
+		y = 1
+		relative_position_id = RUS_create_zemsky_sober
+		cost = 8
+		ai_will_do = {
+			factor = 2
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RUS_indoctrinate_children"
+			add_popularity = {
+				ideology = national_populist
+				popularity = 0.1
+			}
+		}
+	}
+
+	focus = {
+		id = RUS_kill_corrupt_officials
+		icon = GFX_goal_big_news
+		prerequisite = {
+			focus = RUS_purge_unions
+		}
+		prerequisite = {
+			focus = RUS_indoctrinate_children
+		}
+		prerequisite = {
+			focus = RUS_give_land_peasants
+		}
+		x = 0
+		y = 1
+		relative_position_id = RUS_purge_unions
+		cost = 10
+		ai_will_do = {
+			factor = 2
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RUS_kill_corrupt_officials"
+			remove_ideas = RUS_corruption
+		}
+	}
+}

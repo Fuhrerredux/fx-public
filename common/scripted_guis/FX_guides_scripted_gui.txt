@@ -1,0 +1,173 @@
+scripted_gui = {
+
+	FX_guides_open_button = {
+		window_name = "FX_guides_open_button"
+		parent_window_token = politics_tab
+		context_type = player_context
+		dirty = FX_guides_grid_dirty
+
+
+		ai_enabled = {
+			always = no
+		}
+
+		visible = {
+			is_ai = no #had problems with this
+			country_has_guides = yes
+		}
+
+		effects = {
+			guides_pol_open_button_click = {
+				if = {
+					# Main Open
+					limit = {
+						has_country_flag = FX_guides_window_open
+						NOT = {
+							has_country_flag = FX_show_guides_explanation_window
+						}
+					}
+					clr_country_flag = FX_guides_window_open
+					# Explanation Open
+					else_if = {
+						limit = {
+							has_country_flag = FX_show_guides_explanation_window
+							NOT = {
+								has_country_flag = FX_guides_window_open
+							}
+						}
+						clr_country_flag = FX_show_guides_explanation_window
+					}
+					# None Open
+					else_if = {
+						limit = {
+							NOT = {
+								has_country_flag = FX_guides_window_open
+								has_country_flag = FX_show_guides_explanation_window
+							}
+						}
+						set_country_flag = FX_guides_window_open
+					}
+					# Both Open (how?)
+					else = {
+						clr_country_flag = FX_guides_window_open
+						clr_country_flag = FX_show_guides_explanation_window
+					}
+
+				}
+				set_temp_variable = {
+					FX_guides_grid_dirty = 1
+				}
+			}
+		}
+
+	}
+
+	FX_guides_window = {
+		window_name = "FX_guides_window"
+		context_type = player_context
+		dirty = FX_guides_window_grid_dirty
+
+		ai_enabled = {
+			always = no
+		}
+
+		effects = {
+			FX_guides_window_close_btn_click = {
+				clr_country_flag = FX_guides_window_open
+				if = {
+					limit = {
+						has_country_flag = FX_GUIDES_CLOSE_OPEN_SPLASH
+					}
+					set_variable = {
+						FX_welcome_splash_variable = 1
+					}
+				}
+				set_temp_variable = {
+					FX_guides_window_grid_dirty = 1
+				}
+			}
+			FX_guide_entry_open_btn_click = {
+				set_country_flag = FX_show_guides_explanation_window
+				clr_country_flag = FX_guides_window_open
+				set_temp_variable = {
+					FX_guides_window_grid_dirty = 1
+				}
+
+				### Modifier Utilisation
+				hidden_effect = {
+					clear_variable = guide_num_to_display
+					set_variable = {
+						guide_num_to_display = guide_value
+					}
+					clear_variable = guides_expl_title_var 
+					set_variable = {
+						guides_expl_title_var = guide_value
+					}
+				}
+			}
+		}
+
+		
+		dynamic_lists = {
+			FX_guide_window_main_list = {
+				entry_container = FX_guides_entry
+				array = ROOT.guides_array
+				change_scope = no
+				value = guide_value
+				index = guide_index
+			}
+		}
+
+
+		properties = {
+			FX_guides_window_country_flag = {
+				image = "[THIS.GetFlag]"
+			}
+			
+		}
+
+		visible = {
+			has_country_flag = FX_guides_window_open
+		}
+
+	}
+
+	FX_guides_explanation = {
+		window_name = "FX_guides_explanation"
+		context_type = player_context
+		dirty = FX_guides_explanation_dirty
+
+		ai_enabled = {
+			always = no
+		}
+
+		visible = {
+			has_country_flag = FX_show_guides_explanation_window
+		}
+
+		effects = {
+			FX_guides_explanation_close_btn_click = {
+				clr_country_flag = FX_show_guides_explanation_window
+				set_country_flag = FX_guides_window_open
+				set_temp_variable = {
+					FX_guides_explanation_dirty = 1
+				}
+			}
+			FX_guides_explanation_main_close_btn_click = {
+				clr_country_flag = FX_show_guides_explanation_window
+				set_country_flag = FX_guides_window_open
+				set_temp_variable = {
+					FX_guides_explanation_dirty = 1
+				}
+			}
+		}
+
+		properties = {
+			FX_guides_explanation_country_flag = {
+				image = "[This.GetFlag]"
+			}
+		}
+	}
+
+
+}

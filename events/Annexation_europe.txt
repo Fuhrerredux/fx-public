@@ -1,0 +1,7653 @@
+add_namespace = annex
+
+country_event = { #Check for possible annexations (donotlog)
+	id = annex.1
+	hidden = yes
+	is_triggered_only = yes
+
+	trigger = {
+		is_subject = no
+		NOT = {
+			# Special tags - these shouldn't exist outside of very specific circumstances
+			tag = XXB #debug tag
+		}
+	}
+
+	option = {
+		log = "event"
+		every_owned_state = {
+			limit = {
+				is_in_array = { global.annexation_relevant_states = THIS }
+				NOT = { is_core_of = ROOT }
+				is_controlled_by = ROOT
+			}
+			check_potential_annexations = yes
+		}
+		clr_country_flag = FX_checking_for_possible_annexations
+	}
+}
+
+###########################################################
+###########################################################
+###########################################################
+###########################################################
+
+country_event = { # Fate of Aland
+	id = annex.100
+	title = annexation_ALAND_CONQ
+	desc = annexation_ALAND_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	option = { # Give it to Sweden
+		log = "[GetLogInfo]: event annex.100 option annex.100.a"
+		name = annex.100.a
+		trigger = {
+			SWE = { ROOT_can_grant_land = yes }
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				is_ally_with = FIN
+			}
+		}
+		set_temp_variable = { tag_to_release = SWE }
+		145 = { transfer_state_and_add_core = yes }
+	}
+
+	option = { # Give in to Finland
+		log = "[GetLogInfo]: event annex.100 option annex.100.b"
+		name = annex.100.b
+		trigger = {
+			FIN = { ROOT_can_grant_land = yes }
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				is_ally_with = SWE
+			}
+		}
+		set_temp_variable = { tag_to_release = FIN }
+		145 = { transfer_state_and_add_core = yes }
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.100 option annex.occupation"
+		name = annex.occupation
+		trigger = {
+			is_ai = no
+		}
+		occupy_small_country = yes
+		set_country_flag = ALAND_CONQ
+	}
+}
+
+country_event = { # Fate of Albania
+	id = annex.101
+	title = annexation_ALB_CONQ
+	desc = annexation_ALB_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = ALB }
+			remove_all_cores_and_claims_of_tags = yes
+			44 = { add_core_of = ALB }
+			ALB = { drop_cosmetic_tag = yes }
+		}
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.101 option annex.101.a"
+		name = annex.101.a
+		ai_chance = {
+			base = 100
+		}
+		set_temp_variable = { tag_to_release = ALB }
+		release_targeted_tag = yes
+	}
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.101 option annex.occupation"
+		name = annex.occupation
+		ai_chance = {
+			base = 0
+		}
+		occupy_small_country = yes
+		set_country_flag = ALB_CONQ
+	}
+}
+
+country_event = { # Fate of Austria
+	id = annex.102
+	title = annexation_AUS_CONQ
+	desc = annexation_AUS_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = AUS }
+			remove_all_cores_and_claims_of_tags = yes
+			4 = { add_core_of = AUS } # Vienna
+			152 = { add_core_of = AUS } # Upper Austria
+			153 = { add_core_of = AUS } # Tyrol
+			803 = { add_core_of = AUS } # North Austria
+			912 = { add_core_of = AUS } # Klagenfurt
+			913 = { add_core_of = AUS } # Salzburg
+			AUS = { drop_cosmetic_tag = yes }
+		}
+	}
+
+	option = { # Puppet an Austrian Republic
+		log = "[GetLogInfo]: event annex.102 option annex.102.a"
+		name = annex.102.a
+		trigger = {
+			NOT = { tag = GER }
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				add = -100
+				is_german_tag = yes
+			}
+		}
+		set_temp_variable = { tag_to_release = AUS }
+		release_targeted_tag = yes
+		AUS = {
+			if = {
+				limit = {
+					ROOT = {
+						tag = GER
+						has_government = valkist
+					}
+				}
+				set_cosmetic_tag = GER_AUS_rk
+			}
+		}
+	}
+	option = { # Integrate it to Germany
+		log = "[GetLogInfo]: event annex.102 option annex.102.b"
+		name = annex.102.b
+		trigger = {
+			OR = {
+				is_ally_with = GER
+				tag = GER
+			}
+		}
+		ai_chance = {
+			base = 100
+		}
+		4 = { add_core_of = GER }
+		39 = { add_core_of = GER }
+		152 = { add_core_of = GER }
+		153 = { add_core_of = GER }
+		803 = { add_core_of = GER }
+		912 = { add_core_of = GER }
+		913 = { add_core_of = GER }
+		set_country_flag = AUS_CONQ
+	}
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.102 option annex.occupation"
+		name = annex.occupation
+		ai_chance = {
+			base = 0
+		}
+		trigger = {
+			is_german_tag = no
+		}
+		set_country_flag = AUS_CONQ
+		occupy_medium_country = yes
+	}
+}
+
+country_event = { # North German Confederation
+	id = annex.103
+	title = annexation_NGF_CONQ
+	desc = annexation_NGF_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			if = {
+				limit = { NOT = { country_exists = NGF } }
+				add_to_temp_array = { core_removal_array = NGF }
+				remove_all_cores_and_claims_of_tags = yes
+			}
+		}
+		if = {
+			limit = {
+				var:60.owner = { # Thuringen
+					is_germany_or_splinter_tag = yes
+					ROOT_can_grant_land = yes
+				}
+			}
+			var:60.owner = { save_event_target_as = german_magdeburg }
+		}
+		if = {
+			limit = {
+				var:54.owner = { # Franken
+					is_germany_or_splinter_tag = yes
+					ROOT_can_grant_land = yes
+				}
+			}
+			var:147.owner = { save_event_target_as = german_franken }
+		}
+		if = {
+			limit = {
+				var:51.owner = { # Western Rhineland
+					is_germany_or_splinter_tag = yes
+					ROOT_can_grant_land = yes
+					NOT = { tag = event_target:german_magdeburg }
+					NOT = { tag = event_target:german_franconia }
+				}
+			}
+			var:51.owner = { save_event_target_as = german_rhineland }
+		}
+	}
+
+	option = { # puppet
+		log = "[GetLogInfo]: event annex.103 option annex.103.a"
+		name = annex.103.a
+		trigger = {
+			NOT = { country_exists = NGF }
+		}
+		ai_chance = {
+			base = 20
+			modifier = {
+				factor = 0
+				OR = {
+					has_event_target = german_magdeburg
+					has_event_target = german_franconia
+					has_event_target = german_rhineland
+				}
+				AI_trigger_country_wants_to_dismantle_germany = no
+			}
+			modifier = {
+				factor = 4
+				AI_trigger_country_wants_to_dismantle_germany = yes
+			}
+		}
+
+		set_temp_variable = { tag_to_release = NGF }
+		every_state = {
+			limit = { is_north_germany = yes }
+			add_core_of = var:tag_to_release
+		}
+		release_targeted_tag = yes
+		recheck_annexations = yes
+	}
+
+	option = { #Give to German tag 1 (owner of Prussian Saxony)
+		log = "[GetLogInfo]: event annex.103 option annex.103.b"
+		name = annex.103.b
+		trigger = {
+			has_event_target = german_magdeburg
+		}
+		ai_chance = {
+			base = 20
+			modifier = {
+				factor = 0
+				AI_trigger_country_wants_to_dismantle_germany = no
+				OR = {
+					is_ally_with = event_target:german_franconia
+					is_ally_with = event_target:german_rhineland
+					AND = {
+						is_major = yes
+						NOT = { country_exists = NGF }
+					}
+				}
+				NOT = { is_ally_with = event_target:german_magdeburg }
+			}
+		}
+		set_temp_variable = { tag_to_release = event_target:german_magdeburg }
+		every_state = {
+			limit = { is_north_germany = yes }
+			add_core_of = var:tag_to_release
+		}
+		every_owned_state = {
+			limit = {
+				is_north_germany = yes
+				is_claim_or_core_of_ROOT = no
+			}
+			transfer_state_to = var:tag_to_release
+		}
+		recheck_annexations = yes
+	}
+
+	option = { #Give to German tag 2 (owner of Franken)
+		log = "[GetLogInfo]: event annex.103 option annex.103.c"
+		name = annex.103.c
+		trigger = {
+			has_event_target = german_franken
+		}
+		ai_chance = {
+			base = 20
+			modifier = {
+				factor = 0
+				AI_trigger_country_wants_to_dismantle_germany = no
+				OR = {
+					is_ally_with = event_target:german_magdeburg
+					is_ally_with = event_target:german_rhineland
+					AND = {
+						is_major = yes
+						NOT = { country_exists = NGF }
+					}
+				}
+				NOT = { is_ally_with = event_target:german_franken }
+			}
+		}
+		set_temp_variable = { tag_to_release = event_target:german_franken }
+		every_state = {
+			limit = { is_north_germany = yes }
+			add_core_of = var:tag_to_release
+		}
+		every_owned_state = {
+			limit = {
+				is_north_germany = yes
+				is_claim_or_core_of_ROOT = no
+			}
+			transfer_state_to = var:tag_to_release
+		}
+		recheck_annexations = yes
+	}
+
+	option = { #Give to German tag 3 (owner of Eastern Rhineland)
+		log = "[GetLogInfo]: event annex.103 option annex.103.d"
+		name = annex.103.d
+		trigger = {
+			has_event_target = german_rhineland
+		}
+		ai_chance = {
+			base = 20
+			modifier = {
+				factor = 0
+				AI_trigger_country_wants_to_dismantle_germany = no
+				OR = {
+					is_ally_with = event_target:german_magdeburg
+					is_ally_with = event_target:german_franconia
+					AND = {
+						is_major = yes
+						NOT = { country_exists = NGF }
+					}
+				}
+				NOT = { is_ally_with = event_target:german_rhineland }
+			}
+		}
+		set_temp_variable = { tag_to_release = event_target:german_rhineland }
+		every_state = {
+			limit = { is_north_germany = yes }
+			add_core_of = var:tag_to_release
+		}
+		every_owned_state = {
+			limit = {
+				is_north_germany = yes
+				is_claim_or_core_of_ROOT = no
+			}
+			transfer_state_to = var:tag_to_release
+		}
+		recheck_annexations = yes
+	}
+
+	option = { #occupy
+		log = "[GetLogInfo]: event annex.103 option annex.occupation"
+		name = annex.occupation
+
+		ai_chance = { base = 0 }
+		occupy_large_country = yes
+		set_country_flag = NGF_CONQ
+		recheck_annexations = yes
+	}
+}
+
+country_event = { # Fate of Bavaria
+	id = annex.104
+	title = annexation_BAY_CONQ
+	desc = annexation_BAY_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			if = {
+				limit = { NOT = { country_exists = BAY } }
+				add_to_temp_array = { core_removal_array = BAY }
+				remove_all_cores_and_claims_of_tags = yes
+			}
+		}
+		if = {
+			limit = {
+				var:55.owner = { # Hessen
+					is_germany_or_splinter_tag = yes
+					ROOT_can_grant_land = yes
+				}
+			}
+			var:55.owner = { save_event_target_as = german_hesse }
+		}
+		if = {
+			limit = {
+				var:60.owner = { # Thuringia
+					is_germany_or_splinter_tag = yes
+					ROOT_can_grant_land = yes
+					NOT = { tag = event_target:german_hesse }
+				}
+			}
+			var:60.owner = { save_event_target_as = german_thuringia }
+		}
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.104 option annex.104.a"
+		name = annex.104.a
+		trigger = {
+			NOT = { country_exists = BAY }
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				add = -100
+				is_german_tag = yes
+			}
+			modifier = {
+				add = -100
+				is_ally_with = GER
+			}
+			modifier = {
+				add = -100
+				is_ally_with = GPR
+			}
+		}
+
+		set_temp_variable = { tag_to_release = BAY }
+		every_state = {
+			limit = { is_south_germany = yes }
+			add_core_of = var:tag_to_release
+		}
+		release_targeted_tag = yes
+		recheck_annexations = yes
+	}
+
+	option = { #Give to German tag 1 (owner of Hesse)
+		log = "[GetLogInfo]: event annex.104 option annex.104.b"
+		name = annex.104.b
+		trigger = {
+			has_event_target = german_hesse
+		}
+		ai_chance = {
+			base = 40
+			modifier = {
+				factor = 0
+				original_tag = AUS
+				has_subject = event_target:german_hesse
+			}
+			modifier = {
+				factor = 0
+				OR = {
+					is_ally_with = event_target:german_thuringia
+					AND = {
+						is_major = yes
+						NOT = { country_exists = BAY }
+					}
+				}
+				NOT = { is_ally_with = event_target:german_hesse }
+				AI_trigger_country_wants_to_dismantle_germany = no
+			}
+		}
+		set_temp_variable = { tag_to_release = event_target:german_hesse }
+		every_state = {
+			limit = { is_south_germany = yes }
+			add_core_of = var:tag_to_release
+		}
+		every_owned_state = {
+			limit = {
+				is_south_germany = yes
+				is_claim_or_core_of_ROOT = no
+			}
+			transfer_state_to = var:tag_to_release
+		}
+		recheck_annexations = yes
+	}
+
+	option = { #Give to German tag 2 (owner of Thuringia)
+		log = "[GetLogInfo]: event annex.104 option annex.104.c"
+		name = annex.104.c
+		trigger = {
+			has_event_target = german_thuringia
+		}
+		ai_chance = {
+			base = 40
+			modifier = {
+				factor = 0
+				OR = {
+					is_ally_with = event_target:german_hesse
+					AND = {
+						is_major = yes
+						NOT = { country_exists = BAY }
+					}
+				}
+				NOT = { is_ally_with = event_target:german_thuringia }
+				AI_trigger_country_wants_to_dismantle_germany = no
+			}
+		}
+		set_temp_variable = { tag_to_release = event_target:german_thuringia }
+		every_state = {
+			limit = { is_south_germany = yes }
+			add_core_of = var:tag_to_release
+		}
+		every_owned_state = {
+			limit = {
+				is_south_germany = yes
+				is_claim_or_core_of_ROOT = no
+			}
+			transfer_state_to = var:tag_to_release
+		}
+		recheck_annexations = yes
+	}
+
+	option = { # Give to GRP
+		log = "[GetLogInfo]: event annex.104 option annex.give_to_grp"
+		name = annex.give_to_grp
+		trigger = {
+			GRP = { is_ally_of_ROOT = yes }
+		}
+		ai_chance = { base = 200 }
+		every_owned_state = {
+			limit = { is_south_germany = yes }
+			transfer_state_to = GRP
+		}
+		recheck_annexations = yes
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.104 option annex.occupation"
+		name = annex.occupation
+		set_country_flag = BAY_CONQ
+		occupy_small_country = yes
+	}
+}
+
+country_event = {
+	id = annex.105
+	title = annexation_BEL_CONQ
+	desc = annexation_BEL_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = BEL }
+			remove_all_cores_and_claims_of_tags = yes
+			BEL = {
+				add_state_core = 6 # Hainaut
+				add_state_core = 34 # Wallonie
+				add_state_core = 802 # Bastogne
+				add_state_core = 806 # Eupen-Malmedy
+				drop_cosmetic_tag = yes
+			}
+		}
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.105 option annex.105.a"
+		name = annex.105.a
+		ai_chance = {
+			base = 40
+			modifier = {
+				add = 60
+				tag = ENG
+			}
+		}
+		set_temp_variable = { tag_to_release = BEL }
+		release_targeted_tag = yes
+	}
+
+	option = { # Split
+		log = "[GetLogInfo]: event annex.105 option annex.105.b"
+		name = annex.105.b
+		ai_chance = {
+			base = 40
+			modifier = {
+				add = 60
+				tag = FRA
+			}
+		}
+		set_country_flag = { flag = BEL_CONQ days = 100 value = 1 }
+		recheck_annexations_immediate = yes
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.105 option annex.occupation"
+		name = annex.occupation
+		ai_chance = {
+			factor = 0
+		}
+		set_country_flag = FLA_CONQ
+		set_country_flag = BEL_CONQ
+		occupy_medium_country = yes
+	}
+}
+
+country_event = { # Fate of Belarus
+	id = annex.106
+	title = annexation_BLR_CONQ
+	desc = annexation_BLR_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = BLR }
+			remove_all_cores_and_claims_of_tags = yes
+			BLR = {
+				add_state_core = 95
+				add_state_core = 97
+				add_state_core = 194
+				add_state_core = 204
+				add_state_core = 206
+				add_state_core = 207
+				drop_cosmetic_tag = yes
+			}
+		}
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.106 option annex.106.a"
+		name = annex.106.a
+		ai_chance = { base = 100 }
+		set_temp_variable = { tag_to_release = BLR }
+		release_targeted_tag = yes
+		BLR = {
+			if = {
+				limit = {
+					has_idea = constitutional_monarchy
+				}
+
+				BLR_remove_monarchy = yes
+			}
+			if = {
+				limit = {
+					ROOT = {
+						tag = GER
+						has_government = valkist
+					}
+				}
+				set_cosmetic_tag = GER_BLR_rk
+			}
+			else_if = {
+				limit = {
+					ROOT = {
+						tag = UKR
+						has_government = national_populist
+					}
+				}
+				set_cosmetic_tag = UKR_BLR
+			}
+		}
+	}
+
+	option = { # Integrate
+		log = "[GetLogInfo]: event annex.106 option annex.integrate"
+		name = annex.integrate
+		ai_chance = { base = 100 }
+		trigger = {
+			tag = UKR
+			has_government = national_populist
+		}
+
+		set_country_flag = UKR_integrate_belarus
+		set_country_flag = BLR_CONQ
+		recheck_annexations = yes
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.106 option {"
+		ai_chance = {
+			base = 0
+		}
+		name = annex.occupation
+		set_country_flag = BLR_CONQ
+		occupy_medium_country = yes
+	}
+}
+
+country_event = { # Fate of West Prussia
+	id = annex.107
+	title = annexation_WEST_PRUSSIA_CONQ
+	desc = annexation_WEST_PRUSSIA_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		if = {
+			limit = {
+				var:63.owner = { #Farther Pomerania
+					is_germany_or_splinter_tag = yes
+					ROOT_can_grant_land = yes
+				}
+			}
+			var:63.owner = { save_event_target_as = german_pomerania }
+		}
+		if = {
+			limit = {
+				var:752.owner = { #Masuria
+					is_germany_or_splinter_tag = yes
+					ROOT_can_grant_land = yes
+					NOT = { tag = event_target:german_pomerania }
+				}
+			}
+			var:752.owner = { save_event_target_as = german_masuria }
+		}
+	}
+
+	option = { #Give it to German tag 1 (owner of Farther Pomerania)
+		log = "[GetLogInfo]: event annex.107 option annex.107.b"
+		name = annex.107.b
+		trigger = {
+			has_event_target = german_pomerania
+			is_germany_or_splinter_tag = no
+			NOT = { original_tag = POL }
+		}
+		ai_chance = {
+			base = 15
+			modifier = {
+				factor = 0
+				has_event_target = poland
+				AI_trigger_country_wants_to_dismantle_germany = yes
+			}
+			modifier = {
+				factor = 0
+				has_event_target = german_masuria
+				event_target:german_masuria = { original_tag = EPR }
+			}
+			modifier = {
+				factor = 0
+				OR = {
+					is_ally_with = event_target:poland
+					is_ally_with = event_target:german_masuria
+				}
+				NOT = { is_ally_with = event_target:german_pomerania }
+			}
+		}
+		set_temp_variable = { tag_to_release = event_target:german_pomerania }
+		85 = { transfer_state_and_add_claim = yes }
+		807 = { transfer_state_and_add_claim = yes }
+		recheck_annexations = yes
+	}
+
+	option = { #Give it to German tag 2 (owner of Masuria)
+		log = "[GetLogInfo]: event annex.107 option annex.107.c"
+		name = annex.107.c
+		trigger = {
+			has_event_target = german_masuria
+			is_germany_or_splinter_tag = no
+			NOT = { original_tag = POL }
+		}
+		ai_chance = {
+			base = 15
+			modifier = {
+				factor = 0
+				has_event_target = poland
+				AI_trigger_country_wants_to_dismantle_germany = yes
+			}
+			modifier = {
+				factor = 0
+				OR = {
+					is_ally_with = event_target:poland
+					is_ally_with = event_target:german_pomerania
+				}
+				has_event_target = german_masuria
+				NOT = {
+					is_ally_with = event_target:german_masuria
+					event_target:german_masuria = { original_tag = EPR }
+				}
+			}
+		}
+		set_temp_variable = { tag_to_release = event_target:german_masuria }
+		85 = { transfer_state_and_add_claim = yes }
+		807 = { transfer_state_and_add_claim = yes }
+		recheck_annexations = yes
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.107 option annex.occupation"
+		name = annex.occupation
+		ai_chance = {
+			base = 0
+		}
+		set_country_flag = WEST_PRUSSIA_CONQ
+		occupy_medium_country = yes
+	}
+}
+
+country_event = { # Fate of Bulgaria
+	id = annex.108
+	title = annexation_BUL_CONQ
+	desc = annexation_BUL_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = BUL }
+			remove_all_cores_and_claims_of_tags = yes
+			BUL = {
+				add_state_core = 48
+				add_state_core = 211
+				add_state_core = 212
+				add_state_core = 764
+				add_state_core = 1066
+				add_state_core = 766
+				drop_cosmetic_tag = yes
+			}
+		}
+	}
+
+	option = { # Puppet Bulgaria
+		log = "[GetLogInfo]: event annex.108 option annex.108.a"
+		name = annex.108.a
+		ai_chance = {
+			base = 100
+		}
+		trigger = {
+			NOT = {
+				AND = {
+					tag = ROM
+					has_completed_focus = ROM_resurrect_an_empire
+				}
+			}
+		}
+		set_temp_variable = { tag_to_release = BUL }
+		release_targeted_tag = yes
+	}
+
+	option = { # Romanian Byzantium
+		log = "[GetLogInfo]: event annex.108 option annex.integrate"
+		name = annex.integrate
+		trigger = {
+			tag = ROM
+			has_completed_focus = ROM_resurrect_an_empire
+		}
+
+		set_country_flag = BUL_CONQ
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.108 option annex.occupation"
+		name = annex.occupation
+		ai_chance = {
+			base = 0
+		}
+		occupy_medium_country = yes
+		set_country_flag = BUL_CONQ
+	}
+}
+
+country_event = { # Fate of Czechoslovakia
+	id = annex.109
+	title = annexation_CZE_CONQ
+	desc = annexation_CZE_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = CZE }
+			remove_all_cores_and_claims_of_tags = yes
+			CZE = {
+				add_state_core = 9
+				add_state_core = 69
+				add_state_core = 74
+				add_state_core = 75
+				add_state_core = 775
+				drop_cosmetic_tag = yes
+			}
+		}
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.109 option annex.109.a"
+		name = annex.109.a
+		ai_chance = {
+			base = 100
+		}
+		trigger = {
+			NOT = {
+				tag = GER
+				has_government = valkist
+			}
+		}
+		set_temp_variable = { tag_to_release = CZE }
+		release_targeted_tag = yes
+	}
+
+	option = { # Integrate to the Reich
+		log = "[GetLogInfo]: event annex.109 option annex.109.b"
+		name = annex.109.b
+		ai_chance = {
+			base = 100
+		}
+		trigger = {
+			tag = GER
+			has_government = valkist
+		}
+		set_country_flag = CZE_CONQ
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.109 option annex.occupation"
+		name = annex.occupation
+		ai_chance = {
+			base = 0
+		}
+		occupy_medium_country = yes
+		set_country_flag = CZE_CONQ
+	}
+}
+
+country_event = { # Fate of Denmark
+	id = annex.110
+	title = annexation_DEN_CONQ
+	desc = annexation_DEN_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = DEN }
+			remove_all_cores_and_claims_of_tags = yes
+			DEN = {
+				add_state_core = 37
+				add_state_core = 99
+				add_state_core = 337
+				add_state_core = 800
+				drop_cosmetic_tag = yes
+			}
+		}
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.110 option annex.110.a"
+		name = annex.110.a
+		ai_chance = {
+			base = 100
+		}
+		set_temp_variable = { tag_to_release = DEN }
+		release_targeted_tag = yes
+		DEN = {
+			if = {
+				limit = {
+					ROOT = {
+						tag = GER
+						has_government = valkist
+					}
+				}
+				set_cosmetic_tag = GER_DEN_rk
+			}
+		}
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.110 option annex.occupation"
+		name = annex.occupation
+		ai_chance = {
+			base = 0
+		}
+		occupy_medium_country = yes
+		set_country_flag = DEN_CONQ
+	}
+}
+
+country_event = { # Fate of England
+	id = annex.111
+	title = annexation_ENG_CONQ
+	desc = annexation_ENG_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = ENG }
+			add_to_temp_array = { core_removal_array = EGL }
+			remove_all_cores_and_claims_of_tags = yes
+			EGL = {
+				add_state_core = 123 # Cornwall
+				add_state_core = 125 # East Anglia
+				add_state_core = 126 # Greater London Area
+				add_state_core = 127 # South-East England
+				add_state_core = 128 # West Midlands
+				add_state_core = 129 # East Midlands
+				add_state_core = 130 # Yorkshire
+				add_state_core = 131 # Northern England
+				add_state_core = 132 # Northwest England
+				add_state_core = 338 # Gloucestershire
+				drop_cosmetic_tag = yes
+			}
+		}
+	}
+
+	option = { # Puppet - Republic
+		log = "[GetLogInfo]: event annex.111 option annex.111.a"
+		name = annex.111.a
+		ai_chance = {
+			base = 100
+		}
+		set_temp_variable = { tag_to_release = EGL }
+		release_targeted_tag = yes
+		EGL = {
+			if = {
+				limit = {
+					ROOT = {
+						tag = GER
+						has_government = valkist
+					}
+				}
+				set_cosmetic_tag = GER_ENG_rk
+			}
+			EGL_create_republican_britain = yes
+		}
+	}
+
+	option = { # Puppet - Monarchy
+		log = "[GetLogInfo]: event annex.111 option annex.111.b"
+		name = annex.111.b
+		trigger = {
+			has_socialist_government = no
+		}
+		ai_chance = {
+			base = 100
+		}
+		set_temp_variable = { tag_to_release = EGL }
+		release_targeted_tag = yes
+		EGL = {
+			if = {
+				limit = {
+					ROOT = {
+						tag = GER
+						has_government = valkist
+					}
+				}
+				set_cosmetic_tag = GER_ENG_rk
+			}
+			EGL_create_monarchist_britain = yes
+		}
+	}
+
+	option = { # Create the United Kingdom
+		log = "[GetLogInfo]: event annex.111 option annex.111.c"
+		name = annex.111.c
+		ai_chance = {
+			base = 20
+		}
+		trigger = {
+			OR = {
+				tag = AST
+				tag = CAN
+				tag = SAF
+				tag = NZL
+				tag = NFL
+			}
+		}
+		add_to_temp_array = { core_removal_array = ENG }
+		add_to_temp_array = { core_removal_array = EGL }
+		remove_all_cores_and_claims_of_tags = yes
+		ENG = {
+			add_state_core = 123 # Cornwall
+			add_state_core = 125 # East Anglia
+			add_state_core = 126 # Greater London Area
+			add_state_core = 127 # South-East England
+			add_state_core = 128 # West Midlands
+			add_state_core = 129 # East Midlands
+			add_state_core = 130 # Yorkshire
+			add_state_core = 131 # Northern England
+			add_state_core = 132 # Northwest England
+			add_state_core = 338 # Gloucestershire
+			drop_cosmetic_tag = yes
+		}
+		set_temp_variable = { tag_to_release = ENG }
+		release_targeted_tag = yes
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.111 option annex.occupation"
+		name = annex.occupation
+		ai_chance = {
+			base = 0
+		}
+		set_country_flag = ENG_CONQ
+		occupy_medium_country = yes
+	}
+}
+
+country_event = { # Fate of Posen
+	id = annex.112
+	title = annexation_POSEN_CONQ
+	desc = annexation_POSEN_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		if = {
+			limit = { POL = { ROOT_can_grant_land = yes } }
+			POL = { save_event_target_as = poland }
+		}
+		if = {
+			limit = {
+				var:66.owner = { #Lower Silesia
+					is_germany_or_splinter_tag = yes
+					ROOT_can_grant_land = yes
+				}
+			}
+			var:66.owner = { save_event_target_as = german_silesia }
+		}
+		if = {
+			limit = {
+				var:68.owner = { #Neumark
+					is_germany_or_splinter_tag = yes
+					ROOT_can_grant_land = yes
+					NOT = { tag = event_target:german_silesia }
+				}
+			}
+			var:68.owner = { save_event_target_as = german_neumark }
+		}
+	}
+
+	option = { #Give it to Poland
+		log = "[GetLogInfo]: event annex.112 option annex.112.a"
+		name = annex.112.a
+		trigger = {
+			has_event_target = poland
+			is_germany_or_splinter_tag = no
+			NOT = { original_tag = POL }
+		}
+		ai_chance = {
+			base = 70
+			modifier = {
+				factor = 0
+				OR = {
+					is_ally_with = event_target:german_silesia
+					is_ally_with = event_target:german_neumark
+				}
+				NOT = { is_ally_with = event_target:poland }
+				AI_trigger_country_wants_to_dismantle_germany = no
+			}
+		}
+		set_temp_variable = { tag_to_release = event_target:poland }
+		86 = { transfer_state_and_add_claim = yes }
+		recheck_annexations = yes
+	}
+
+	option = { #Give to German tag 1 (owner of Lower Silesia)
+		log = "[GetLogInfo]: event annex.112 option annex.112.b"
+		name = annex.112.b
+		trigger = {
+			has_event_target = german_silesia
+			is_germany_or_splinter_tag = no
+			NOT = { original_tag = POL }
+		}
+		ai_chance = {
+			base = 15
+			modifier = {
+				factor = 0
+				has_event_target = poland
+				AI_trigger_country_wants_to_dismantle_germany = yes
+			}
+			modifier = {
+				factor = 0
+				OR = {
+					is_ally_with = event_target:poland
+					is_ally_with = event_target:german_neumark
+				}
+				NOT = { is_ally_with = event_target:german_silesia }
+			}
+		}
+		set_temp_variable = { tag_to_release = event_target:german_silesia }
+		86 = { transfer_state_and_add_claim = yes }
+		recheck_annexations = yes
+	}
+
+	option = { #Give to German tag 2 (owner of Neumark)
+		log = "[GetLogInfo]: event annex.112 option annex.112.c"
+		name = annex.112.c
+		trigger = {
+			has_event_target = german_neumark
+			is_germany_or_splinter_tag = no
+			NOT = { original_tag = POL }
+		}
+		ai_chance = {
+			base = 15
+			modifier = {
+				factor = 0
+				has_event_target = poland
+				AI_trigger_country_wants_to_dismantle_germany = yes
+			}
+			modifier = {
+				factor = 0
+				OR = {
+					is_ally_with = event_target:poland
+					is_ally_with = event_target:german_silesia
+				}
+				NOT = { is_ally_with = event_target:german_neumark }
+			}
+		}
+		set_temp_variable = { tag_to_release = event_target:german_neumark }
+		86 = { transfer_state_and_add_claim = yes }
+		recheck_annexations = yes
+	}
+
+	option = { #Integrate
+		log = "[GetLogInfo]: event annex.112 option annex.integration"
+		name = annex.integration
+		trigger = {
+			OR = {
+				original_tag = POL
+				is_germany_or_splinter_tag = yes
+				AND = {
+					is_russian_tag = yes
+					10 = { is_claimed_by = ROOT }
+				}
+			}
+		}
+		ai_chance = { base = 1000 }
+		86 = { add_claim_of_ROOT = yes }
+		recheck_annexations = yes
+	}
+
+	option = { #occupy
+		log = "[GetLogInfo]: event annex.112 option annex.occupation"
+		name = annex.occupation
+		trigger = {
+			is_germany_or_splinter_tag = no
+			NOT = {
+				original_tag = POL
+				AND = {
+					is_russian_tag = yes
+					10 = { is_claimed_by = ROOT }
+				}
+			}
+		}
+		ai_chance = { base = 0 }
+		occupy_small_country = yes
+		set_country_flag = POSEN_CONQ
+		recheck_annexations = yes
+	}
+}
+
+country_event = { # Fate of Estonia
+	id = annex.113
+	title = annexation_EST_CONQ
+	desc = annexation_EST_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = EST }
+			remove_all_cores_and_claims_of_tags = yes
+			EST = {
+				add_state_core = 13
+				add_state_core = 191
+			}
+		}
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.113 option annex.113.a"
+		name = annex.113.a
+		ai_chance = {
+			base = 100
+		}
+		trigger = {
+			NOT = {
+				AND = {
+					tag = UKR
+					has_government = national_populist
+				}
+			}
+		}
+		set_temp_variable = { tag_to_release = EST }
+		release_targeted_tag = yes
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.113 option annex.113.a"
+		name = annex.113.a
+		ai_chance = {
+			base = 100
+		}
+		trigger = {
+			tag = UKR
+			has_government = national_populist
+			NOT = { country_exists = BAT }
+		}
+		set_temp_variable = { tag_to_release = EST }
+		release_targeted_tag = yes
+
+		EST = {
+			set_cosmetic_tag = UKR_BAT
+			event_target:unified_baltic = {
+				clear_global_event_target = unified_baltic
+			}
+			save_global_event_target_as = unified_baltic
+		}
+		create_unified_baltic = yes
+	}
+
+	option = { # Transfer to the Baltic Puppet
+		log = "[GetLogInfo]: event annex.113 option annex.113.b"
+		name = annex.113.b
+		trigger = {
+			tag = UKR
+			has_government = national_populist
+			country_exists = BAT
+			BAT = { is_subject_of = ROOT }
+		}
+		set_temp_variable = { tag_to_release = BAT }
+		every_owned_state = {
+			limit = { is_core_of = EST }
+			transfer_state_and_add_core = yes
+		}
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.113 option annex.occupation"
+		name = annex.occupation
+		ai_chance = {
+			base = 0
+		}
+		set_country_flag = EST_CONQ
+		occupy_small_country = yes
+	}
+}
+
+country_event = {
+	id = annex.114
+	title = annexation_FIN_CONQ
+	desc = annexation_FIN_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = FIN }
+			remove_all_cores_and_claims_of_tags = yes
+			FIN = {
+				add_state_core = 111
+				add_state_core = 145
+				add_state_core = 146
+				add_state_core = 147
+				add_state_core = 148
+				add_state_core = 149
+				add_state_core = 150
+				add_state_core = 844
+				drop_cosmetic_tag = yes
+			}
+		}
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.114 option annex.114.a"
+		name = annex.114.a
+		ai_chance = {
+			base = 100
+		}
+		set_temp_variable = { tag_to_release = FIN }
+		release_targeted_tag = yes
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.114 option annex.occupation"
+		name = annex.occupation
+		ai_chance = {
+			base = 0
+		}
+		set_country_flag = FIN_CONQ
+		occupy_large_country = yes
+	}
+}
+
+country_event = { # Fate of Fladers
+	id = annex.115
+	title = annexation_FLA_CONQ
+	desc = annexation_FLA_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = FLA }
+			remove_all_cores_and_claims_of_tags = yes
+			FLA = {
+				add_state_core = 6
+				add_state_core = 657
+				drop_cosmetic_tag = yes
+			}
+		}
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.115 option annex.115.a"
+		name = annex.115.a
+		ai_chance = {
+			base = 100
+		}
+		set_temp_variable = { tag_to_release = FLA }
+		release_targeted_tag = yes
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.115 option annex.occupation"
+		name = annex.occupation
+		ai_chance = {
+			base = 0
+		}
+		occupy_small_country = yes
+		set_country_flag = FLA_CONQ
+	}
+}
+
+country_event = { # Fate of France
+	id = annex.116
+	title = annexation_FRA_CONQ
+	desc = annexation_FRA_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			add_to_temp_array = { add_to_temp_array = FRA }
+			remove_all_cores_and_claims_of_tags = yes
+			FRP = {
+				add_state_core = 1
+				add_state_core = 14
+				add_state_core = 15
+				add_state_core = 16
+				add_state_core = 17
+				add_state_core = 18
+				add_state_core = 19
+				add_state_core = 20
+				add_state_core = 21
+				add_state_core = 22
+				add_state_core = 23
+				add_state_core = 24
+				add_state_core = 25
+				add_state_core = 26
+				add_state_core = 27
+				add_state_core = 29
+				add_state_core = 30
+				add_state_core = 31
+				add_state_core = 32
+				add_state_core = 33
+				add_state_core = 735
+				add_state_core = 743
+				add_state_core = 747
+				add_state_core = 748
+				add_state_core = 749
+				add_state_core = 868
+				add_state_core = 989
+				add_state_core = 990
+				add_state_core = 1004
+				add_state_core = 1015
+				add_state_core = 1016
+				add_state_core = 1017
+				drop_cosmetic_tag = yes
+			}
+		}
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.116 option annex.116.a"
+		name = annex.116.a
+		ai_chance = {
+			base = 100
+		}
+		set_temp_variable = { tag_to_release = FRP }
+		release_targeted_tag = yes
+		FRP = {
+			if = {
+				limit = {
+					ROOT = { tag = ENG }
+				}
+				set_cosmetic_tag = ENG_FRP
+			}
+			else_if = {
+				limit = {
+					ROOT = {
+						tag = GER
+						has_government = valkist
+					}
+				}
+				set_cosmetic_tag = GER_FRA_rk
+			}
+			else_if = {
+				limit = {
+					ROOT = {
+						tag = GER
+						has_global_flag = GER_ADECOUP
+					}
+				}
+				set_cosmetic_tag = FRA_kingdom
+			}
+			else_if = {
+				limit = {
+					ROOT = {
+						has_socialist_government = yes
+					}
+				}
+				set_cosmetic_tag = FRA_commune
+			}
+		}
+	}
+
+	option = {
+		log = "[GetLogInfo]: event annex.116 option annex.occupation"
+		name = annex.occupation
+		ai_chance = {
+			base = 0
+		}
+		set_country_flag = FRA_CONQ
+		occupy_large_country = yes
+	}
+}
+
+country_event = { # Fate of Great Britain
+	id = annex.117
+	title = annexation_GBR_CONQ
+	desc = annexation_GBR_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			every_owned_state = {
+				limit = {
+					OR = {
+						state = 119
+						state = 120
+						state = 121
+						state = 122
+						state = 123
+						state = 125
+						state = 126
+						state = 127
+						state = 128
+						state = 129
+						state = 130
+						state = 131
+						state = 132
+						state = 133
+						state = 136
+						state = 338
+					}
+				}
+
+				if = {
+					limit = {
+						ROOT = { has_socialist_government = no }
+					}
+					add_core_of = EGL
+				}
+				else = {
+					add_core_of = UOB
+				}
+			}
+			add_to_temp_array = { core_removal_array = ENG }
+			remove_all_cores_and_claims_of_tags = yes
+		}
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.117 option annex.117.a"
+		name = annex.117.a
+		trigger = {
+			has_socialist_government = no
+		}
+		ai_chance = {
+			base = 60
+		}
+		set_temp_variable = { tag_to_release = EGL }
+		release_targeted_tag = yes
+		EGL = {
+			if = {
+				limit = {
+					ROOT = {
+						tag = GER
+						has_government = valkist
+					}
+				}
+				set_cosmetic_tag = GER_ENG_rk
+			}
+			else = {
+				set_cosmetic_tag = EGL_uk
+			}
+		}
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.117 option annex.117.a"
+		name = annex.117.a
+		trigger = {
+			has_socialist_government = yes
+		}
+		ai_chance = {
+			base = 60
+		}
+		set_temp_variable = { tag_to_release = UOB }
+		release_targeted_tag = yes
+	}
+
+	option = { # Split
+		log = "[GetLogInfo]: event annex.117 option annex.117.b"
+		name = annex.117.b
+		ai_chance = {
+			base = 60
+		}
+		set_country_flag = { flag = GBR_CONQ days = 100 value = 100 }
+		recheck_annexations_immediate = yes
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.117 option annex.occupation"
+		name = annex.occupation
+		ai_chance = {
+			base = 0
+		}
+		set_country_flag = ENG_CONQ
+		set_country_flag = GBR_CONQ
+		occupy_large_country = yes
+	}
+}
+
+country_event = { # Fate of Germany
+	id = annex.118
+	title = annexation_GER_CONQ
+	desc = annexation_GER_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = GER }
+			add_to_temp_array = { core_removal_array = WGR }
+			add_to_temp_array = { core_removal_array = DDR }
+			remove_all_cores_and_claims_of_tags = yes
+			GRP = {
+				add_state_core = 5
+				add_state_core = 50
+				add_state_core = 52
+				add_state_core = 53
+				add_state_core = 54
+				add_state_core = 55
+				add_state_core = 56
+				add_state_core = 57
+				add_state_core = 59
+				add_state_core = 60
+				add_state_core = 61
+				add_state_core = 62
+				add_state_core = 63
+				add_state_core = 64
+				add_state_core = 65
+				add_state_core = 66
+				add_state_core = 67
+				add_state_core = 85
+				add_state_core = 773
+				add_state_core = 782
+				add_state_core = 783
+				add_state_core = 786
+				add_state_core = 794
+				add_state_core = 795
+				add_state_core = 807
+			}
+		}
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.118 option annex.118.a"
+		name = annex.118.a
+		ai_chance = {
+			base = 60
+		}
+
+		hidden_effect = {
+			GER_transfer_characters_to_puppet = yes
+		}
+		set_temp_variable = { tag_to_release = GRP }
+		release_targeted_tag = yes
+	}
+
+	option = {
+		log = "[GetLogInfo]: event annex.118 option annex.118.b"
+		name = annex.118.b
+		ai_chance = {
+			base = 60
+		}
+
+		custom_effect_tooltip = new_annexation_decisions_tt
+		set_country_flag = { flag = GER_CONQ days = 100 value = 1 }
+		recheck_annexations_immediate = yes
+	}
+
+	option = {
+		log = "[GetLogInfo]: event annex.118 option annex.occupation"
+		name = annex.occupation
+		ai_chance = {
+			base = 0
+		}
+		set_country_flag = GER_CONQ
+		occupy_large_country = yes
+	}
+}
+
+country_event = { # Fate of Greece
+	id = annex.119
+	title = annexation_GRE_CONQ
+	desc = annexation_GRE_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = GRE }
+			remove_all_cores_and_claims_of_tags = yes
+			GRE = {
+				add_state_core = 47 # Thessalía
+				add_state_core = 164 # Dodecanese
+				add_state_core = 182 # Beira Alta
+				add_state_core = 185 # Ípeiros
+				add_state_core = 186 # Pelopónnisos
+				add_state_core = 187 # Nísoi Aigaíou
+				add_state_core = 1045 # Stereá Elláda
+				add_state_core = 1046 # Stereá Elláda
+				add_state_core = 1068 # Kykládes
+				drop_cosmetic_tag = yes
+			}
+		}
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.119 option annex.119.a"
+		name = annex.119.a
+		ai_chance = {
+			base = 100
+		}
+		trigger = {
+			NOT = {
+				AND = {
+					tag = ROM
+					has_completed_focus = ROM_resurrect_an_empire
+				}
+			}
+		}
+		set_temp_variable = { tag_to_release = GRE }
+		release_targeted_tag = yes
+	}
+
+	option = { # Romanian Byzantium
+		log = "[GetLogInfo]: event annex.119 option annex.integrate"
+		name = annex.integrate
+		trigger = {
+			tag = ROM
+			has_completed_focus = ROM_resurrect_an_empire
+		}
+
+		set_country_flag = GRE_CONQ
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.119 option annex.occupation"
+		name = annex.occupation
+		ai_chance = {
+			base = 0
+		}
+		set_country_flag = GRE_CONQ
+		occupy_medium_country = yes
+	}
+}
+
+country_event = { # Fate of East Prussia
+	id = annex.120
+	title = annexation_EAST_PRUSSIA_CONQ
+	desc = annexation_EAST_PRUSSIA_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		188 = { retain_state = yes } #Memel
+		776 = { retain_state = yes } #West Prussia
+		777 = { retain_state = yes } #Masuria
+	}
+
+	option = { #Release East Prussia
+		log = "[GetLogInfo]: event annex.120 option annex.120.a"
+		name = annex.120.a
+		trigger = {
+			is_germany_or_splinter_tag = no
+		}
+		ai_chance = {
+			base = 100
+		}
+		set_temp_variable = { tag_to_release = EPR }
+		every_state = {
+			limit = { is_prussia = yes }
+			add_core_of = var:tag_to_release
+		}
+		release_targeted_tag = yes
+		recheck_annexations = yes
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.120 option annex.120.b"
+		name = annex.120.b
+		trigger = {
+			is_germany_or_splinter_tag = no
+			var:63.owner = {
+				is_germany_or_splinter_tag = yes
+				ROOT_can_grant_land = yes
+			}
+		}
+		ai_chance = {
+			base = 100
+		}
+		set_temp_variable = { tag_to_release = 63.owner }
+		5 = { transfer_state_and_add_claim = yes } #East Prussia
+		recheck_annexations = yes
+	}
+
+	option = { # Integrate
+		log = "[GetLogInfo]: event annex.120 option annex.integration"
+		name = annex.integration
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 100
+				is_german_tag = yes
+			}
+		}
+		trigger = {
+			original_tag = POL
+		}
+		add_state_claim = 5
+		occupy_medium_country = yes
+		recheck_annexations = yes
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.120 option annex.occupation"
+		name = annex.occupation
+		set_country_flag = EAST_PRUSSIA_CONQ
+		occupy_medium_country = yes
+	}
+}
+
+country_event = { # Fate of Holstein
+	id = annex.121
+	title = annexation_HOLSTEIN_CONQ
+	desc = annexation_HOLSTEIN_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		if = {
+			limit = {
+				var:61.owner = { #Mecklenberg
+					is_germany_or_splinter_tag = yes
+					ROOT_can_grant_land = yes
+				}
+			}
+			var:61.owner = { save_event_target_as = german_mecklenberg }
+		}
+		if = {
+			limit = {
+				var:59.owner = { #Hannover
+					is_germany_or_splinter_tag = yes
+					ROOT_can_grant_land = yes
+					NOT = { tag = event_target:german_mecklenberg }
+				}
+			}
+			var:59.owner = { save_event_target_as = german_hannover }
+		}
+	}
+
+	option = { #Give it to German tag 1 (owner of Mecklenberg)
+		log = "[GetLogInfo]: event annex.121 option annex.121.a"
+		name = annex.121.a
+		trigger = {
+			has_event_target = german_mecklenberg
+			is_germany_or_splinter_tag = no
+			NOT = { original_tag = POL }
+		}
+		ai_chance = {
+			base = 15
+			modifier = {
+				factor = 0
+				has_event_target = german_mecklenberg
+			}
+			modifier = {
+				factor = 0
+				OR = {
+					is_ally_with = event_target:poland
+					is_ally_with = event_target:german_mecklenberg
+				}
+				NOT = { is_ally_with = event_target:german_hannover }
+			}
+		}
+		set_temp_variable = { tag_to_release = event_target:german_mecklenberg }
+		915 = { transfer_state_and_add_claim = yes }
+		991 = { transfer_state_and_add_claim = yes }
+		recheck_annexations = yes
+	}
+
+	option = { #Give it to German tag 2 (owner of Hannover)
+		log = "[GetLogInfo]: event annex.121 option annex.121.b"
+		name = annex.121.b
+		trigger = {
+			has_event_target = german_hannover
+			is_germany_or_splinter_tag = no
+			NOT = { original_tag = POL }
+		}
+		ai_chance = {
+			base = 15
+			modifier = {
+				factor = 0
+				OR = {
+					is_ally_with = event_target:poland
+					is_ally_with = event_target:german_hannover
+				}
+				has_event_target = german_hannover
+				NOT = {
+					is_ally_with = event_target:german_mecklenberg
+				}
+			}
+		}
+		set_temp_variable = { tag_to_release = event_target:german_hannover }
+		915 = { transfer_state_and_add_claim = yes }
+		991 = { transfer_state_and_add_claim = yes }
+		recheck_annexations = yes
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.121 option annex.occupation"
+		name = annex.occupation
+		trigger = {
+			is_germany_or_splinter_tag = no
+		}
+		ai_chance = {
+			base = 0
+		}
+		set_country_flag = HOLSTEIN_CONQ
+		occupy_small_country = yes
+		recheck_annexations = yes
+	}
+}
+
+country_event = { # Fate of Netherlands
+	id = annex.122
+	title = annexation_HOL_CONQ
+	desc = annexation_HOL_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = HOL }
+			remove_all_cores_and_claims_of_tags = yes
+			HOL = {
+				add_state_core = 7
+				add_state_core = 35
+				add_state_core = 36
+				add_state_core = 754
+				add_state_core = 938
+				drop_cosmetic_tag = yes
+			}
+		}
+	}
+
+	option = { # Puppet a Batavian Republic
+		log = "[GetLogInfo]: event annex.122 option annex.122.a"
+		name = annex.122.a
+		trigger = {
+			NOT = { is_in_faction_with = KNE }
+		}
+		ai_chance = {
+			base = 100
+		}
+		HOL = { get_current_government_type = yes }
+		set_temp_variable = { tag_to_release = HOL }
+		release_targeted_tag = yes
+		if = {
+			limit = {
+				ROOT = {
+					tag = GER
+					OR = {
+						has_government = national_populist
+						has_government = valkist
+					}
+				}
+			}
+			HOL = {
+				restore_previous_government_type = yes
+				HOL_reset_path = yes
+				set_country_flag = HOL_junta_path
+				set_country_flag = political_branch_ready
+				mark_focus_tree_layout_dirty = yes
+				set_politics = {
+					ruling_party = paternal_autocrat
+					elections_allowed = no
+				}
+
+				increase_ruling_party_popularity_by_10 = yes
+				remove_every_minister = yes
+				activate_advisor = HOL_Godfried_van_Voorst_tot_Voorst_hog_ade
+				activate_advisor = HOL_Jan_Baars_for_pau
+				activate_advisor = HOL_Henri_Johannes_ter_Hal_eco_pau
+				activate_advisor = HOL_Johannes_Linthorst_Homan_sec_pau
+			}
+		}
+	}
+
+	option = { # Restore the House of Orange
+		log = "[GetLogInfo]: event annex.122 option annex.122.b"
+		name = annex.122.b
+		trigger = {
+			NOT = {
+				country_exists = KNE
+			}
+		}
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 100
+				is_ally_with = KNE
+			}
+		}
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = HOL }
+			remove_all_cores_and_claims_of_tags = yes
+			KNE = {
+				set_capital = { state = 7 }
+				add_state_core = 7
+				add_state_core = 35
+				add_state_core = 36
+				add_state_core = 754
+				add_state_core = 938
+			}
+		}
+		if = {
+			limit = {
+				NOT = {
+					country_exists = HOL
+					country_exists = KNE
+				}
+			}
+			set_temp_variable = { tag_to_release = KNE }
+			release_targeted_tag = yes
+		}
+	}
+
+	option = { # Transfer to the Suriname Faction
+		log = "[GetLogInfo]: event annex.122 option annex.122.c"
+		name = annex.122.c
+		trigger = {
+			country_exists = KNE
+			ROOT = { is_in_faction_with = KNE }
+		}
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 200
+				is_ally_with = KNE
+			}
+		}
+
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = HOL }
+			remove_all_cores_and_claims_of_tags = yes
+			KNE = {
+				add_state_core = 7
+				add_state_core = 35
+				add_state_core = 36
+				add_state_core = 754
+				add_state_core = 938
+
+				transfer_state = 7
+				transfer_state = 35
+				transfer_state = 36
+				transfer_state = 754
+				transfer_state = 938
+
+				set_capital = { state = 7 }
+			}
+		}
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.122 option annex.occupation"
+		name = annex.occupation
+		occupy_medium_country = yes
+		set_country_flag = HOL_CONQ
+	}
+
+}
+
+country_event = { # Fate of Hungary
+	id = annex.123
+	title = annexation_HUN_CONQ
+	desc = annexation_HUN_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = HUN }
+			remove_all_cores_and_claims_of_tags = yes
+			HUN = {
+				add_state_core = 43
+				add_state_core = 154
+				add_state_core = 155
+				add_state_core = 664
+				add_state_core = 751
+				add_state_core = 940
+				drop_cosmetic_tag = yes
+			}
+		}
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.123 option annex.123.a"
+		name = annex.123.a
+		ai_chance = {
+			base = 100
+		}
+		trigger = {
+			NOT = {
+				tag = UKR
+				has_government = national_populist
+			}
+		}
+		set_temp_variable = { tag_to_release = HUN }
+		release_targeted_tag = yes
+		if = {
+			limit = {
+				tag = GER
+				has_government = valkist
+			}
+			HUN = { set_cosmetic_tag = GER_HUN_rk }
+		}
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.123 option annex.123.a"
+		name = annex.123.a
+		ai_chance = {
+			base = 100
+		}
+		trigger = {
+			tag = UKR
+			has_government = national_populist
+			NOT = { country_exists = CRP }
+		}
+		set_temp_variable = { tag_to_release = HUN }
+		release_targeted_tag = yes
+
+		HUN = {
+			set_cosmetic_tag = UKR_CRP
+			event_target:unified_carpathia = {
+				clear_global_event_target = unified_carpathia
+			}
+			save_global_event_target_as = unified_carpathia
+		}
+		create_unified_carpathia = yes
+	}
+
+	option = { # Transfer the lands to Carpathia
+		log = "[GetLogInfo]: event annex.123 option annex.123.b"
+		name = annex.123.b
+		ai_chance = { base = 100 }
+		trigger = {
+			tag = UKR
+			has_government = national_populist
+			country_exists = CRP
+			CRP = { is_subject_of = ROOT }
+		}
+		set_temp_variable = { tag_to_release = CRP }
+		every_owned_state = {
+			limit = { is_core_of = HUN }
+			transfer_state_and_add_core = yes
+		}
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.123 option annex.occupation"
+		name = annex.occupation
+		ai_chance = {
+			base = 0
+		}
+		set_country_flag = HUN_CONQ
+		occupy_small_country = yes
+	}
+}
+
+country_event = { # Fate of Ireland
+	id = annex.124
+	title = annexation_IRE_CONQ
+	desc = annexation_IRE_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = IRE }
+			remove_all_cores_and_claims_of_tags = yes
+			IRE = {
+				add_state_core = 113
+				add_state_core = 119
+				add_state_core = 134
+				add_state_core = 135
+				add_state_core = 815
+				add_state_core = 816
+				drop_cosmetic_tag = yes
+			}
+		}
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.124 option annex.124.a"
+		name = annex.124.a
+		ai_chance = {
+			base = 100
+		}
+
+		set_temp_variable = { tag_to_release = IRE }
+		release_targeted_tag = yes
+		IRE = {
+			if = {
+				limit = {
+					ROOT = { tag = ENG }
+				}
+				set_cosmetic_tag = ENG_IRE
+			}
+			else_if = {
+				limit = {
+					ROOT = {
+						tag = GER
+						has_government = valkist
+					}
+				}
+				set_cosmetic_tag = GER_IRE_rk
+			}
+		}
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.124 option annex.occupation"
+		name = annex.occupation
+		ai_chance = {
+			base = 0
+		}
+
+		occupy_medium_country = yes
+		set_country_flag = IRE_CONQ
+	}
+}
+
+country_event = { # Fate of Italy
+	id = annex.125
+	title = annexation_ITA_CONQ
+	desc = annexation_ITA_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = ITA }
+			remove_all_cores_and_claims_of_tags = yes
+			if = {
+				limit = {
+					tag = GER
+					has_government = valkist
+				}
+				ITP = { save_global_event_target_as = italy_tag }
+			}
+			else = {
+				ITA = { save_global_event_target_as = italy_tag }
+			}
+
+			event_target:italy_tag = {
+				add_state_core = 2
+				add_state_core = 114
+				add_state_core = 115
+				add_state_core = 117
+				add_state_core = 156
+				add_state_core = 157
+				add_state_core = 158
+				add_state_core = 159
+				add_state_core = 160
+				add_state_core = 161
+				add_state_core = 162
+				add_state_core = 736
+				add_state_core = 768
+				add_state_core = 770
+				add_state_core = 774
+				add_state_core = 849
+				add_state_core = 850
+				add_state_core = 851
+				add_state_core = 852
+				add_state_core = 917
+				add_state_core = 968
+				drop_cosmetic_tag = yes
+			}
+		}
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.125 option annex.125.a"
+		name = annex.125.a
+		ai_chance = {
+			base = 80
+		}
+		trigger = {
+			AND = {
+				tag = GER
+				has_government = valkist
+			}
+		}
+
+		set_temp_variable = { tag_to_release = ITP }
+		release_targeted_tag = yes
+		if = {
+			limit = {
+				tag = GER
+				has_government = valkist
+			}
+			ITP = { set_cosmetic_tag = GER_ITA_rk }
+		}
+	}
+
+	option = {
+		log = "[GetLogInfo]: event annex.125 option annex.125.a"
+		name = annex.125.a
+		trigger = {
+			NOT = {
+				AND = {
+					tag = GER
+					has_government = valkist
+				}
+			}
+		}
+
+		set_temp_variable = { tag_to_release = ITA }
+		release_targeted_tag = yes
+		ITA_become_republic = yes
+	}
+
+	option = { # Kingdom
+		log = "[GetLogInfo]: event annex.125 option annex.125.b"
+		name = annex.125.b
+		trigger = {
+			has_socialist_government = no
+			NOT = { has_government = valkist }
+		}
+
+		set_temp_variable = { tag_to_release = ITA }
+		release_targeted_tag = yes
+		ITA_become_kingdom = yes
+	}
+
+	option = { # Split
+		log = "[GetLogInfo]: event annex.125 option annex.125.c"
+		name = annex.125.c
+		ai_chance = {
+			base = 80
+		}
+
+		set_country_flag = { flag = ITA_CONQ days = 1000 value = 1 }
+		recheck_annexations_immediate = yes
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.125 option annex.occupation"
+		name = annex.occupation
+		ai_chance = {
+			base = 0
+		}
+
+		occupy_large_country = yes
+		set_country_flag = ITA_CONQ
+		set_country_flag = UPC_CONQ
+	}
+}
+
+country_event = { # Fate of Latvia
+	id = annex.126
+	title = annexation_LAT_CONQ
+	desc = annexation_LAT_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = LAT }
+			remove_all_cores_and_claims_of_tags = yes
+			LAT = {
+				add_state_core = 12
+				add_state_core = 190
+				add_state_core = 757
+				add_state_core = 914
+				add_state_core = 758
+				drop_cosmetic_tag = yes
+			}
+		}
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.126 option annex.126.a"
+		name = annex.126.a
+		ai_chance = {
+			base = 100
+		}
+		trigger = {
+			NOT = {
+				AND = {
+					tag = UKR
+					has_government = national_populist
+				}
+			}
+		}
+		set_temp_variable = { tag_to_release = LAT }
+		release_targeted_tag = yes
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.126 option annex.126.a"
+		name = annex.126.a
+		ai_chance = {
+			base = 100
+		}
+		trigger = {
+			tag = UKR
+			has_government = national_populist
+			NOT = { country_exists = BAT }
+		}
+		set_temp_variable = { tag_to_release = LAT }
+		release_targeted_tag = yes
+
+		LAT = {
+			set_cosmetic_tag = UKR_BAT
+			event_target:unified_baltic = {
+				clear_global_event_target = unified_baltic
+			}
+			save_global_event_target_as = unified_baltic
+		}
+		create_unified_baltic = yes
+	}
+
+	option = { # Transfer to the Baltic Puppet
+		log = "[GetLogInfo]: event annex.126 option annex.113.b"
+		name = annex.113.b
+		trigger = {
+			tag = UKR
+			has_government = national_populist
+			country_exists = BAT
+			BAT = { is_subject_of = ROOT }
+		}
+		set_temp_variable = { tag_to_release = BAT }
+		every_owned_state = {
+			limit = { is_core_of = LAT }
+			transfer_state_and_add_core = yes
+		}
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.126 option annex.occupation"
+		name = annex.occupation
+		ai_chance = {
+			base = 0
+		}
+		occupy_small_country = yes
+		set_country_flag = LAT_CONQ
+	}
+}
+
+country_event = { # Fate of Lithuania
+	id = annex.127
+	title = annexation_LIT_CONQ
+	desc = annexation_LIT_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = LIT }
+			remove_all_cores_and_claims_of_tags = yes
+			LIT = {
+				add_state_core = 11
+				add_state_core = 96
+				add_state_core = 188
+				add_state_core = 189
+				drop_cosmetic_tag = yes
+			}
+		}
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.127 option annex.127.a"
+		name = annex.127.a
+		ai_chance = {
+			base = 100
+		}
+		trigger = {
+			NOT = {
+				AND = {
+					tag = UKR
+					has_government = national_populist
+				}
+			}
+		}
+		set_temp_variable = { tag_to_release = LIT }
+		release_targeted_tag = yes
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.127 option annex.127.a"
+		name = annex.127.a
+		ai_chance = {
+			base = 100
+		}
+		trigger = {
+			tag = UKR
+			has_government = national_populist
+			NOT = { country_exists = BAT }
+		}
+		set_temp_variable = { tag_to_release = LIT }
+		release_targeted_tag = yes
+
+		LIT = {
+			set_cosmetic_tag = UKR_BAT
+			event_target:unified_baltic = {
+				clear_global_event_target = unified_baltic
+			}
+			save_global_event_target_as = unified_baltic
+		}
+		create_unified_baltic = yes
+	}
+
+	option = { # Transfer to the Baltic Puppet
+		log = "[GetLogInfo]: event annex.127 option annex.113.b"
+		name = annex.113.b
+		trigger = {
+			tag = UKR
+			has_government = national_populist
+			country_exists = BAT
+			BAT = { is_subject_of = ROOT }
+		}
+		set_temp_variable = { tag_to_release = BAT }
+		every_owned_state = {
+			limit = { is_core_of = LIT }
+			transfer_state_and_add_core = yes
+		}
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.127 option annex.occupation"
+		name = annex.occupation
+		ai_chance = {
+			base = 0
+		}
+		occupy_small_country = yes
+		set_country_flag = LIT_CONQ
+	}
+}
+
+country_event = { # Fate of Lombardy
+	id = annex.128
+	title = annexation_LOM_CONQ
+	desc = annexation_LOM_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = LOM }
+			remove_all_cores_and_claims_of_tags = yes
+			LOM = {
+				add_state_core = 159
+			}
+		}
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.128 option annex.128.a"
+		name = annex.128.a
+		ai_chance = {
+			base = 100
+		}
+		set_temp_variable = { tag_to_release = LOM }
+		release_targeted_tag = yes
+	}
+
+	option = { # Integrate
+		log = "[GetLogInfo]: event annex.128 option annex.128.b"
+		name = annex.128.b
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 100
+				is_italian_tag = yes
+			}
+		}
+		trigger = {
+			is_italian_tag = yes
+		}
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = LOM }
+			remove_all_cores_and_claims_of_tags = yes
+		}
+		ROOT = {
+			add_state_core = 159
+		}
+	}
+
+	option = { # Transfer
+		log = "[GetLogInfo]: event annex.128 option annex.128.c"
+		name = annex.128.c
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 100
+				is_ally_with = ITA
+			}
+			modifier = {
+				add = 100
+				is_ally_with = ITP
+			}
+		}
+		trigger = {
+			is_italian_tag = yes
+			OR = {
+				country_exists = ITA
+				country_exists = ITP
+			}
+		}
+		if = {
+			limit = { country_exists = ITA }
+			ITA = {
+				transfer_state = 159
+			}
+		}
+		else = {
+			ITP = {
+				transfer_state = 159
+			}
+		}
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.128 option annex.occupation"
+		name = annex.occupation
+		ai_chance = {
+			base = 0
+		}
+		occupy_medium_country = yes
+		set_country_flag = LOM_CONQ
+	}
+}
+
+country_event = { # Fate of Luxembourg
+	id = annex.129
+	title = annexation_LUX_CONQ
+	desc = annexation_LUX_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = LUX }
+			remove_all_cores_and_claims_of_tags = yes
+			LUX = {
+				add_state_core = 8
+				drop_cosmetic_tag = yes
+			}
+		}
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.129 option annex.129.a"
+		name = annex.129.a
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				tag = FRA
+			}
+			modifier = {
+				factor = 0.25
+				tag = GER
+			}
+		}
+		set_temp_variable = { tag_to_release = LUX }
+		release_targeted_tag = yes
+	}
+
+	option = { # Integrate
+		log = "[GetLogInfo]: event annex.129 option annex.129.b"
+		name = annex.129.b
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 40
+				tag = FRA
+			}
+			modifier = {
+				add = 40
+				tag = GER
+			}
+		}
+		trigger = {
+			OR = {
+				tag = FRA
+				tag = GER
+			}
+		}
+		ROOT = {
+			add_state_core = 8
+		}
+		set_country_flag = LUX_CONQ
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.129 option annex.occupation"
+		name = annex.occupation
+		trigger = {
+			NOT = {
+				OR = {
+					tag = FRA
+					tag = GER
+				}
+			}
+		}
+		ai_chance = {
+			base = 0
+		}
+		set_country_flag = LUX_CONQ
+		occupy_small_country = yes
+	}
+}
+
+country_event = { # Fate of Naples
+	id = annex.130
+	title = annexation_NAP_CONQ
+	desc = annexation_NAP_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = NAP }
+			remove_all_cores_and_claims_of_tags = yes
+			NAP = {
+				add_state_core = 117
+				add_state_core = 156
+				add_state_core = 157
+				add_state_core = 849
+				add_state_core = 850
+			}
+		}
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.130 option annex.130.a"
+		name = annex.130.a
+		ai_chance = {
+			base = 100
+		}
+		set_temp_variable = { tag_to_release = NAP }
+		release_targeted_tag = yes
+	}
+
+	option = { # Integrate
+		log = "[GetLogInfo]: event annex.130 option annex.130.b"
+		name = annex.130.b
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 100
+				is_italian_tag = yes
+			}
+		}
+		trigger = {
+			is_italian_tag = yes
+		}
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = NAP }
+			remove_all_cores_and_claims_of_tags = yes
+		}
+		ROOT = {
+			add_state_core = 117
+			add_state_core = 156
+			add_state_core = 157
+			add_state_core = 849
+			add_state_core = 850
+		}
+	}
+
+	option = { # Transfer
+		log = "[GetLogInfo]: event annex.130 option annex.130.c"
+		name = annex.130.c
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 100
+				is_ally_with = ITA
+			}
+			modifier = {
+				add = 100
+				is_ally_with = ITP
+			}
+		}
+		trigger = {
+			is_italian_tag = yes
+			OR = {
+				country_exists = ITA
+				country_exists = ITP
+			}
+		}
+		if = {
+			limit = { country_exists = ITA }
+			ITA = {
+				transfer_state = 159
+			}
+		}
+		else = {
+			ITP = {
+				transfer_state = 159
+			}
+		}
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.130 option annex.occupation"
+		name = annex.occupation
+		ai_chance = {
+			base = 0
+		}
+		occupy_medium_country = yes
+		set_country_flag = NAP_CONQ
+	}
+}
+
+country_event = { # Fate of Norway
+	id = annex.131
+	title = annexation_NOR_CONQ
+	desc = annexation_NOR_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = NOR }
+			remove_all_cores_and_claims_of_tags = yes
+			NOR = {
+				add_state_core = 110
+				add_state_core = 142
+				add_state_core = 143
+				add_state_core = 144
+				add_state_core = 910
+				drop_cosmetic_tag = yes
+			}
+		}
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.131 option annex.131.a"
+		name = annex.131.a
+		ai_chance = {
+			base = 100
+		}
+		set_temp_variable = { tag_to_release = NOR }
+		release_targeted_tag = yes
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.131 option annex.occupation"
+		name = annex.occupation
+		ai_chance = {
+			base = 0
+		}
+		occupy_medium_country = yes
+		set_country_flag = NOR_CONQ
+	}
+}
+
+country_event = { # Fate of Piedmont
+	id = annex.132
+	title = annexation_PIE_CONQ
+	desc = annexation_PIE_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = PIE }
+			remove_all_cores_and_claims_of_tags = yes
+			PIE = {
+				add_state_core = 158
+				add_state_core = 968
+			}
+		}
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.132 option annex.132.a"
+		name = annex.132.a
+		trigger = {
+			NOT = {
+				OR = {
+					is_ally_with = ITA
+					is_ally_with = ITP
+				}
+			}
+		}
+		ai_chance = {
+			base = 100
+		}
+		set_temp_variable = { tag_to_release = PIE }
+		release_targeted_tag = yes
+	}
+
+	option = { # Integrate
+		log = "[GetLogInfo]: event annex.132 option annex.132.b"
+		name = annex.132.b
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 100
+				is_italian_tag = yes
+			}
+		}
+		trigger = {
+			is_italian_tag = yes
+		}
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = PIE }
+			remove_all_cores_and_claims_of_tags = yes
+		}
+		ROOT = {
+			add_state_core = 158
+			add_state_core = 968
+		}
+	}
+
+	option = { # Transfer
+		log = "[GetLogInfo]: event annex.132 option annex.132.c"
+		name = annex.132.c
+		ai_chance = {
+			base = 100
+			modifier = {
+				add = 100
+				OR = {
+					is_ally_with = ITA
+					is_ally_with = ITP
+				}
+			}
+		}
+		trigger = {
+			OR = {
+				country_exists = ITA
+				country_exists = ITP
+			}
+		}
+		if = {
+			limit = { country_exists = ITA }
+			ITA = {
+				transfer_state = 158
+				transfer_state = 968
+			}
+		}
+		else = {
+			ITP = {
+				transfer_state = 158
+				transfer_state = 968
+			}
+		}
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.132 option annex.occupation"
+		name = annex.occupation
+		ai_chance = {
+			base = 0
+		}
+		occupy_medium_country = yes
+		set_country_flag = PIE_CONQ
+	}
+}
+
+country_event = { # Fate of Poland
+	id = annex.133
+	title = annexation_POL_CONQ
+	desc = annexation_POL_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = POL }
+			remove_all_cores_and_claims_of_tags = yes
+			POL = {
+				add_state_core = 10
+				add_state_core = 67
+				add_state_core = 87
+				add_state_core = 88
+				add_state_core = 89
+				add_state_core = 90
+				add_state_core = 91
+				add_state_core = 92
+				add_state_core = 98
+				add_state_core = 799
+				add_state_core = 889
+				add_state_core = 1065
+				drop_cosmetic_tag = yes
+			}
+		}
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.133 option annex.133.a"
+		name = annex.133.a
+		ai_chance = { base = 100 }
+		set_temp_variable = { tag_to_release = POL }
+		release_targeted_tag = yes
+		if = {
+			limit = {
+				tag = GER
+				has_government = valkist
+			}
+			POL = { set_cosmetic_tag = GER_POL_rk }
+		}
+		else_if = {
+			limit = {
+				tag = UKR
+				has_government = national_populist
+			}
+			POL = { set_cosmetic_tag = UKR_POL }
+		}
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.133 option annex.occupation"
+		name = annex.occupation
+		ai_chance = {
+			base = 0
+		}
+		occupy_large_country = yes
+		set_country_flag = POL_CONQ
+	}
+}
+
+country_event = { # Fate of Masuria
+	id = annex.134
+	title = annexation_MASURIA_CONQ
+	desc = annexation_MASURIA_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		if = {
+			limit = { POL = { ROOT_can_grant_land = yes } }
+			POL = { save_event_target_as = poland }
+		}
+		if = {
+			limit = {
+				var:5.owner = { #East Prussia
+					is_germany_or_splinter_tag = yes
+					ROOT_can_grant_land = yes
+				}
+			}
+			var:5.owner = { save_event_target_as = germany }
+		}
+	}
+
+	option = { #Give it to Poland
+		log = "[GetLogInfo]: event annex.134 option annex.134.a"
+		name = annex.134.a
+		trigger = {
+			has_event_target = poland
+			is_germany_or_splinter_tag = no
+			NOT = { original_tag = POL }
+		}
+		ai_chance = {
+			base = 70
+			modifier = {
+				factor = 0
+				AI_trigger_country_wants_to_dismantle_germany = no
+				is_ally_with = event_target:germany
+				NOT = { is_ally_with = event_target:poland }
+			}
+		}
+		set_temp_variable = { tag_to_release = event_target:poland }
+		752 = { transfer_state_and_add_claim = yes }
+		recheck_annexations = yes
+	}
+
+	option = { #Give it to the Germans
+		log = "[GetLogInfo]: event annex.134 option annex.134.b"
+		name = annex.134.b
+		trigger = {
+			has_event_target = germany
+			is_germany_or_splinter_tag = no
+			NOT = { original_tag = POL }
+		}
+		ai_chance = {
+			base = 30
+			modifier = {
+				factor = 0
+				has_event_target = poland
+				AI_trigger_country_wants_to_dismantle_germany = yes
+			}
+			modifier = {
+				factor = 0
+				is_ally_with = event_target:poland
+				NOT = { is_ally_with = event_target:germany }
+			}
+		}
+		set_temp_variable = { tag_to_release = event_target:germany }
+		752 = { transfer_state_and_add_claim = yes }
+		recheck_annexations = yes
+	}
+
+	option = { #Integrate
+		log = "[GetLogInfo]: event annex.134 option annex.integration"
+		name = annex.integration
+		trigger = {
+			OR = {
+				original_tag = POL
+				is_germany_or_splinter_tag = yes
+				AND = {
+					is_russian_tag = yes
+					10 = { is_claimed_by = ROOT }
+				}
+			}
+		}
+		ai_chance = { base = 1000 }
+		777 = { add_claim_of_ROOT = yes }
+		recheck_annexations = yes
+	}
+
+	option = { #occupy
+		log = "[GetLogInfo]: event annex.134 option annex.occupation"
+		name = annex.occupation
+		trigger = {
+			is_germany_or_splinter_tag = no
+			NOT = {
+				original_tag = POL
+				AND = {
+					is_russian_tag = yes
+					10 = { is_claimed_by = ROOT }
+				}
+			}
+		}
+		ai_chance = { base = 0 }
+		occupy_small_country = yes
+		set_country_flag = MASURIA_CONQ
+		recheck_annexations = yes
+	}
+}
+
+country_event = { # Fate of Portugal
+	id = annex.135
+	title = annexation_POR_CONQ
+	desc = annexation_POR_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = POR }
+			add_to_temp_array = { core_removal_array = PRR }
+			remove_all_cores_and_claims_of_tags = yes
+			POR = {
+				add_state_core = 112
+				add_state_core = 179
+				add_state_core = 180
+				add_state_core = 181
+				add_state_core = 697
+				add_state_core = 698
+				add_state_core = 721
+				add_state_core = 998
+				add_state_core = 999
+				add_state_core = 1000
+				add_state_core = 1001
+				drop_cosmetic_tag = yes
+			}
+			PRR = {
+				drop_cosmetic_tag = yes
+			}
+		}
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.135 option annex.135.a"
+		name = annex.135.a
+		ai_chance = {
+			base = 80
+		}
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = POR }
+			add_to_temp_array = { core_removal_array = PRR }
+			remove_all_cores_and_claims_of_tags = yes
+			PRR = {
+				add_state_core = 112
+				add_state_core = 179
+				add_state_core = 180
+				add_state_core = 181
+				add_state_core = 697
+				add_state_core = 698
+				add_state_core = 721
+				add_state_core = 998
+				add_state_core = 999
+				add_state_core = 1000
+				add_state_core = 1001
+				drop_cosmetic_tag = yes
+			}
+		}
+		set_temp_variable = { tag_to_release = PRR }
+		release_targeted_tag = yes
+	}
+
+	option = { # Puppet Monarchy
+		log = "[GetLogInfo]: event annex.135 option annex.135.b"
+		name = annex.135.b
+		ai_chance = {
+			base = 80
+		}
+		set_temp_variable = { tag_to_release = POR }
+		release_targeted_tag = yes
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.135 option annex.occupation"
+		name = annex.occupation
+		ai_chance = {
+			base = 0
+		}
+		occupy_medium_country = yes
+		set_country_flag = POR_CONQ
+	}
+}
+
+country_event = { # Fate of Rhineland
+	id = annex.136
+	title = annexation_RHI_CONQ
+	desc = annexation_RHI_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = RHI }
+			remove_all_cores_and_claims_of_tags = yes
+			RHI = {
+				add_state_core = 42
+				add_state_core = 746
+				add_state_core = 806
+				add_state_core = 981
+				drop_cosmetic_tag = yes
+			}
+		}
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.136 option annex.136.a"
+		name = annex.136.a
+		ai_chance = {
+			base = 100
+		}
+		set_temp_variable = { tag_to_release = RHI }
+		release_targeted_tag = yes
+	}
+
+	option = { # Integrate
+		log = "[GetLogInfo]: event annex.136 option annex.136.b"
+		name = annex.136.b
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 100
+				is_german_tag = yes
+			}
+		}
+		trigger = {
+			is_german_tag = yes
+		}
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = RHI }
+			remove_all_cores_and_claims_of_tags = yes
+		}
+		ROOT = {
+			add_state_core = 42
+			add_state_core = 746
+			add_state_core = 806
+			add_state_core = 981
+		}
+	}
+
+	option = { # Transfer
+		log = "[GetLogInfo]: event annex.136 option annex.136.c"
+		name = annex.136.c
+		ai_chance = {
+			factor = 0
+			modifier = {
+				add = 100
+				is_ally_with = GER
+			}
+			modifier = {
+				add = 100
+				is_ally_with = GRP
+			}
+		}
+		trigger = {
+			is_germany_or_splinter_tag = no
+			OR = {
+				country_exists = GER
+				country_exists = GRP
+			}
+		}
+		if = {
+			limit = { is_ally_with = GER }
+			GER = {
+				transfer_state = 42
+				transfer_state = 51
+				transfer_state = 746
+				transfer_state = 806
+				transfer_state = 981
+			}
+		}
+		else = {
+			GRP = {
+				transfer_state = 42
+				transfer_state = 51
+				transfer_state = 746
+				transfer_state = 806
+				transfer_state = 981
+			}
+		}
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.136 option annex.occupation"
+		name = annex.occupation
+		ai_chance = {
+			base = 0
+		}
+		set_country_flag = RHI_CONQ
+		occupy_medium_country = yes
+	}
+}
+
+country_event = { # Fate of Romania
+	id = annex.137
+	title = annexation_ROM_CONQ
+	desc = annexation_ROM_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = ROM }
+			remove_all_cores_and_claims_of_tags = yes
+			ROM = {
+				add_state_core = 46
+				add_state_core = 77
+				add_state_core = 78
+				add_state_core = 79
+				add_state_core = 80
+				add_state_core = 81
+				add_state_core = 853
+				add_state_core = 861
+				add_state_core = 1041
+				drop_cosmetic_tag = yes
+			}
+		}
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.137 option annex.137.a"
+		name = annex.137.a
+		ai_chance = {
+			base = 100
+		}
+		trigger = {
+			NOT = {
+				AND = {
+					tag = UKR
+					has_government = national_populist
+				}
+			}
+		}
+		set_temp_variable = { tag_to_release = ROM }
+		release_targeted_tag = yes
+
+		if = {
+			limit = {
+				OR = {
+					tag = ENG
+					AND = {
+						tag = FRA
+						has_government = paternal_autocrat
+					}
+				}
+			}
+
+			ROM = {
+				if = {
+					limit = { has_country_flag = ROM_michael_assassinated }
+					ROM_make_nicholas_king = yes
+				}
+				else = {
+					ROM_make_michael_king = yes
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				original_tag = GRE
+				has_cosmetic_tag = BYZ
+			}
+
+			ROM = {
+				set_country_flag = BYZ_PUPPET
+				ROM_become_republic = yes
+			}
+
+		}
+		else = {
+			ROM = { ROM_become_republic = yes }
+		}
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.137 option annex.137.a"
+		name = annex.137.a
+		ai_chance = {
+			base = 100
+		}
+		trigger = {
+			tag = UKR
+			has_government = national_populist
+			NOT = { country_exists = CRP }
+		}
+		set_temp_variable = { tag_to_release = ROM }
+		release_targeted_tag = yes
+
+		ROM = {
+			set_cosmetic_tag = UKR_CRP
+			event_target:unified_carpathia = {
+				clear_global_event_target = unified_carpathia
+			}
+			save_global_event_target_as = unified_carpathia
+		}
+		create_unified_carpathia = yes
+	}
+
+	option = { # Transfer the lands to Carpathia
+		log = "[GetLogInfo]: event annex.137 option annex.145.b"
+		name = annex.145.b
+		ai_chance = { base = 100 }
+		trigger = {
+			tag = UKR
+			has_government = national_populist
+			country_exists = CRP
+			CRP = { is_subject_of = ROOT }
+		}
+		set_temp_variable = { tag_to_release = CRP }
+		every_owned_state = {
+			limit = { is_core_of = ROM }
+			transfer_state_and_add_core = yes
+		}
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.137 option annex.occupation"
+		name = annex.occupation
+		ai_chance = {
+			base = 0
+		}
+		set_country_flag = ROM_CONQ
+		occupy_medium_country = yes
+	}
+}
+
+country_event = { # Fate of Russia
+	id = annex.138
+	title = annexation_RUS_CONQ
+	desc = annexation_RUS_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			if = {
+				limit = {
+					OR = {
+						NOT = { country_exists = SOV }
+						NOT = { country_exists = VRS }
+					}
+				}
+				every_owned_state = {
+					limit = { is_core_of = SOV }
+					RUS = {
+						add_state_core = PREV
+					}
+				}
+				add_to_temp_array = { core_removal_array = SOV }
+				remove_all_cores_and_claims_of_tags = yes
+
+			}
+			else = {
+				add_to_temp_array = { core_removal_array = RUS }
+				remove_all_cores_and_claims_of_tags = yes
+				RUS = {
+					add_state_core = 408
+					add_state_core = 409
+					add_state_core = 560
+					add_state_core = 561
+					add_state_core = 563
+					add_state_core = 564
+					add_state_core = 565
+					add_state_core = 657
+				}
+			}
+		}
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.138 option annex.138.a"
+		name = annex.138.a
+		ai_chance = {
+			base = 100
+		}
+		set_temp_variable = { tag_to_release = RUS }
+		release_targeted_tag = yes
+	}
+
+	option = { # Integrate
+		log = "[GetLogInfo]: event annex.138 option annex.integrate"
+		name = annex.integrate
+		trigger = {
+			tag = UKR
+			has_government = valkist
+		}
+
+		set_country_flag = RUS_CONQ
+		recheck_annexations = yes
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.138 option annex.occupation"
+		name = annex.occupation
+		ai_chance = {
+			base = 0
+		}
+		occupy_massive_country = yes
+		set_country_flag = RUS_CONQ
+	}
+}
+
+country_event = { # Fate of Saxony
+	id = annex.139
+	title = annexation_SAXONY_CONQ
+	desc = annexation_SAXONY_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		if = {
+			limit = {
+				var:59.owner = { #Hanover
+					is_germany_or_splinter_tag = yes
+					ROOT_can_grant_land = yes
+				}
+			}
+			var:59.owner = { save_event_target_as = german_hannover }
+		}
+		if = {
+			limit = {
+				var:64.owner = { #Brandenburg
+					is_germany_or_splinter_tag = yes
+					ROOT_can_grant_land = yes
+					NOT = { tag = event_target:german_hannover }
+				}
+			}
+			var:64.owner = { save_event_target_as = german_brandenburg }
+		}
+	}
+
+	option = { #Give to German tag 1 (owner of Hanover)
+		log = "[GetLogInfo]: event annex.139 option annex.139.a"
+		name = annex.139.a
+		trigger = {
+			is_germany_or_splinter_tag = no
+			has_event_target = german_hannover
+		}
+		ai_chance = {
+			base = 40
+			modifier = {
+				factor = 0
+				is_ally_with = event_target:german_brandenburg
+				NOT = { is_ally_with = event_target:german_hannover }
+			}
+		}
+		set_temp_variable = { tag_to_release = event_target:german_hannover }
+		every_state = {
+			limit = { is_saxony = yes }
+			add_core_of = var:tag_to_release
+		}
+		every_owned_state = {
+			limit = {
+				is_saxony = yes
+				is_claim_or_core_of_ROOT = no
+			}
+			transfer_state_to = var:tag_to_release
+		}
+		recheck_annexations = yes
+	}
+
+	option = { #Give to German tag 2 (owner of Brandenburg)
+		log = "[GetLogInfo]: event annex.139 option annex.139.b"
+		name = annex.139.b
+		trigger = {
+			is_germany_or_splinter_tag = no
+			has_event_target = german_brandenburg
+		}
+		ai_chance = {
+			base = 60
+			modifier = {
+				factor = 0
+				is_ally_with = event_target:german_hannover
+				NOT = { is_ally_with = event_target:german_brandenburg }
+			}
+		}
+		set_temp_variable = { tag_to_release = event_target:german_brandenburg }
+		every_state = {
+			limit = { is_saxony = yes }
+			add_core_of = var:tag_to_release
+		}
+		every_owned_state = {
+			limit = {
+				is_saxony = yes
+				is_claim_or_core_of_ROOT = no
+			}
+			transfer_state_to = var:tag_to_release
+		}
+		recheck_annexations = yes
+	}
+
+	option = { #Integrate
+		log = "[GetLogInfo]: event annex.139 option annex.integration"
+		name = annex.integration
+		trigger = {
+			is_germany_or_splinter_tag = yes
+		}
+		ai_chance = { base = 100 }
+		every_state = {
+			limit = {
+				is_saxony = yes
+				NOT = { is_core_of = ROOT }
+			}
+			add_claim_of_ROOT = yes
+		}
+		recheck_annexations = yes
+	}
+
+	option = { #occupy
+		log = "[GetLogInfo]: event annex.139 option annex.occupation"
+		name = annex.occupation
+		trigger = {
+			is_germany_or_splinter_tag = no
+		}
+		ai_chance = { base = 0 }
+		set_country_flag = SAXONY_CONQ
+		occupy_large_country = yes
+		recheck_annexations = yes
+	}
+}
+
+country_event = { # Fate of Scotland
+	id = annex.140
+	title = annexation_SCO_CONQ
+	desc = annexation_SCO_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = SCO }
+			remove_all_cores_and_claims_of_tags = yes
+			SCO = {
+				add_state_core = 120
+				add_state_core = 121
+				add_state_core = 133
+				add_state_core = 136
+				drop_cosmetic_tag = yes
+			}
+		}
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.140 option annex.140.a"
+		name = annex.140.a
+		ai_chance = {
+			base = 100
+		}
+		set_temp_variable = { tag_to_release = SCO }
+		release_targeted_tag = yes
+		SCO = {
+			if = {
+				limit = {
+					ROOT = {
+						tag = GER
+						has_government = valkist
+					}
+				}
+				set_cosmetic_tag = GER_SCO_rk
+			}
+		}
+	}
+
+	option = { # Integrate
+		log = "[GetLogInfo]: event annex.140 option annex.140.b"
+		name = annex.140.b
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 100
+				is_british_isles_tag = yes
+			}
+		}
+		trigger = {
+			is_british_isles_tag = yes
+		}
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = RHI }
+			remove_all_cores_and_claims_of_tags = yes
+		}
+		ROOT = {
+			add_state_core = 120
+			add_state_core = 121
+			add_state_core = 133
+			add_state_core = 136
+		}
+	}
+
+	option = { # Transfer
+		log = "[GetLogInfo]: event annex.140 option annex.140.c"
+		name = annex.140.c
+		ai_chance = {
+			factor = 0
+			modifier = {
+				add = 100
+				is_ally_with = ENG
+			}
+		}
+		trigger = {
+			is_british_isles_tag = no
+			country_exists = ENG
+		}
+		if = {
+			limit = { is_ally_with = ENG }
+			ENG = {
+				add_state_core = 120
+				add_state_core = 121
+				add_state_core = 133
+				add_state_core = 136
+			}
+		}
+		else = {
+			EGL = {
+				add_state_core = 120
+				add_state_core = 121
+				add_state_core = 133
+				add_state_core = 136
+			}
+		}
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.140 option annex.occupation"
+		name = annex.occupation
+		ai_chance = {
+			base = 0
+		}
+		set_country_flag = SCO_CONQ
+		occupy_medium_country = yes
+	}
+}
+
+country_event = { # Fate of Schleswig-Holstein
+	id = annex.141
+	title = annexation_SHO_CONQ
+	desc = annexation_SHO_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = SHO }
+			remove_all_cores_and_claims_of_tags = yes
+			SHO = {
+				add_state_core = 58
+				add_state_core = 784
+				add_state_core = 915
+				add_state_core = 991
+				drop_cosmetic_tag = yes
+			}
+		}
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.141 option annex.141.a"
+		name = annex.141.a
+		ai_chance = {
+			base = 100
+		}
+		set_temp_variable = { tag_to_release = SHO }
+		release_targeted_tag = yes
+	}
+
+	option = { # Integrate
+		log = "[GetLogInfo]: event annex.141 option annex.141.b"
+		name = annex.141.b
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 100
+				is_german_tag = yes
+			}
+		}
+		trigger = {
+			is_german_tag = yes
+		}
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = SHO }
+			remove_all_cores_and_claims_of_tags = yes
+		}
+		ROOT = {
+			add_state_core = 58
+			add_state_core = 784
+			add_state_core = 915
+			add_state_core = 991
+		}
+	}
+
+	option = { # Transfer
+		log = "[GetLogInfo]: event annex.141 option annex.141.c"
+		name = annex.141.c
+		ai_chance = {
+			factor = 0
+			modifier = {
+				add = 100
+				is_ally_with = GER
+			}
+			modifier = {
+				add = 100
+				is_ally_with = GRP
+			}
+		}
+		trigger = {
+			is_germany_or_splinter_tag = no
+			OR = {
+				country_exists = GER
+				country_exists = GRP
+			}
+		}
+		if = {
+			limit = { country_exists = GER }
+			GER = {
+				transfer_state = 58
+				transfer_state = 784
+				transfer_state = 915
+				transfer_state = 991
+			}
+		}
+		else = {
+			GRP = {
+				transfer_state = 58
+				transfer_state = 784
+				transfer_state = 915
+				transfer_state = 991
+			}
+		}
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.141 option annex.occupation"
+		name = annex.occupation
+		ai_chance = {
+			base = 0
+		}
+		set_country_flag = SHO_CONQ
+		occupy_medium_country = yes
+	}
+}
+
+country_event = { # Fate of Serbia
+	id = annex.142
+	title = annexation_SER_CONQ
+	desc = annexation_SER_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.142 option annex.142.a"
+		name = annex.142.a
+		ai_chance = {
+			base = 100
+		}
+		trigger = {
+			NOT = {
+				AND = {
+					tag = ROM
+					has_completed_focus = ROM_resurrect_an_empire
+				}
+			}
+		}
+		set_temp_variable = { tag_to_release = SER }
+		release_targeted_tag = yes
+	}
+
+	option = { # Romanian Byzantium
+		log = "[GetLogInfo]: event annex.142 option annex.integrate"
+		name = annex.integrate
+		trigger = {
+			tag = ROM
+			has_completed_focus = ROM_resurrect_an_empire
+		}
+
+		set_country_flag = SER_CONQ
+	}
+
+	option = {
+		log = "[GetLogInfo]: event annex.142 option annex.occupation"
+		name = annex.occupation
+		ai_chance = {
+			base = 0
+		}
+		occupy_medium_country = yes
+		set_country_flag = SER_CONQ
+	}
+}
+
+country_event = { # Fate of Sicily
+	id = annex.143
+	title = annexation_SIC_CONQ
+	desc = annexation_SIC_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = SIC }
+			remove_all_cores_and_claims_of_tags = yes
+			SIC = {
+				add_state_core = 115
+			}
+		}
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.143 option annex.143.a"
+		name = annex.143.a
+		ai_chance = {
+			base = 100
+		}
+		set_temp_variable = { tag_to_release = SIC }
+		release_targeted_tag = yes
+	}
+
+	option = { # Integrate
+		log = "[GetLogInfo]: event annex.143 option annex.143.b"
+		name = annex.143.b
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 100
+				is_italian_tag = yes
+			}
+		}
+		trigger = {
+			is_italian_tag = yes
+		}
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = SIC }
+			remove_all_cores_and_claims_of_tags = yes
+		}
+		ROOT = {
+			add_state_core = 115
+		}
+	}
+
+	option = { # Transfer
+		log = "[GetLogInfo]: event annex.143 option annex.143.c"
+		name = annex.143.c
+		ai_chance = {
+			base = 100
+			modifier = {
+				add = 100
+				OR = {
+					is_ally_with = ITA
+					is_ally_with = ITP
+				}
+			}
+		}
+		trigger = {
+			OR = {
+				country_exists = ITA
+				country_exists = ITP
+			}
+		}
+		if = {
+			limit = { country_exists = ITA }
+			ITA = {
+				transfer_state = 115
+			}
+		}
+		else = {
+			ITP = {
+				transfer_state = 115
+			}
+		}
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.143 option annex.occupation"
+		name = annex.occupation
+		ai_chance = {
+			base = 0
+		}
+		occupy_medium_country = yes
+		set_country_flag = SIC_CONQ
+	}
+}
+
+country_event = { # Fate of Silesia
+	id = annex.144
+	title = annexation_SILESIA_CONQ
+	desc = annexation_SILESIA_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			if = {
+				limit = { NOT = { country_exists = PRS } }
+				add_to_temp_array = { core_removal_array = PRS }
+				remove_all_cores_and_claims_of_tags = yes
+			}
+		}
+		if = {
+			limit = {
+				var:64.owner = { #Brandenburg
+					is_germany_or_splinter_tag = yes
+					ROOT_can_grant_land = yes
+				}
+			}
+			var:64.owner = { save_event_target_as = german_brandenburg }
+		}
+		if = {
+			limit = {
+				var:62.owner = { #Farther Pomerania
+					is_germany_or_splinter_tag = yes
+					ROOT_can_grant_land = yes
+					NOT = { tag = event_target:german_brandenburg }
+				}
+			}
+			var:62.owner = { save_event_target_as = german_pomerania }
+		}
+	}
+
+	option = { #puppet PRS
+		log = "[GetLogInfo]: event annex.144 option annex.144.a"
+		name = annex.144.a
+		trigger = {
+			NOT = { country_exists = PRS }
+			is_germany_or_splinter_tag = no
+		}
+		ai_chance = {
+			base = 20
+			modifier = {
+				factor = 0
+				OR = {
+					has_event_target = german_brandenburg
+					has_event_target = german_pomerania
+				}
+				AI_trigger_country_wants_to_dismantle_germany = no
+			}
+			modifier = {
+				factor = 4
+				AI_trigger_country_wants_to_dismantle_germany = yes
+			}
+		}
+		set_temp_variable = { tag_to_release = PRS }
+		every_state = {
+			limit = { is_silesia = yes }
+			add_core_of = var:tag_to_release
+		}
+		release_targeted_tag = yes
+		recheck_annexations = yes
+	}
+
+	option = { #Give to German tag 1 (owner of Brandenburg)
+		log = "[GetLogInfo]: event annex.144 option annex.144.b"
+		name = annex.144.b
+		trigger = {
+			has_event_target = german_brandenburg
+			is_germany_or_splinter_tag = no
+		}
+		ai_chance = {
+			base = 60
+			modifier = {
+				factor = 0
+				OR = {
+					is_ally_with = event_target:german_pomerania
+					AND = {
+						is_major = yes
+						NOT = { country_exists = PRS }
+					}
+				}
+				NOT = { is_ally_with = event_target:german_brandenburg }
+				AI_trigger_country_wants_to_dismantle_germany = no
+			}
+		}
+		set_temp_variable = { tag_to_release = event_target:german_brandenburg }
+		every_state = {
+			limit = { is_silesia = yes }
+			add_core_of = var:tag_to_release
+		}
+		every_owned_state = {
+			limit = {
+				is_silesia = yes
+				is_claim_or_core_of_ROOT = no
+			}
+			transfer_state_to = var:tag_to_release
+		}
+		recheck_annexations = yes
+	}
+
+	option = { #Give to German tag 2 (owner of Hither Pomerania)
+		log = "[GetLogInfo]: event annex.144 option annex.144.c"
+		name = annex.144.c
+		trigger = {
+			has_event_target = german_pomerania
+			is_germany_or_splinter_tag = no
+		}
+		ai_chance = {
+			base = 20
+			modifier = {
+				factor = 0
+				OR = {
+					is_ally_with = event_target:german_brandenburg
+					AND = {
+						is_major = yes
+						NOT = { country_exists = PRS }
+					}
+				}
+				NOT = { is_ally_with = event_target:german_pomerania }
+				AI_trigger_country_wants_to_dismantle_germany = no
+			}
+		}
+		set_temp_variable = { tag_to_release = event_target:german_pomerania }
+		every_state = {
+			limit = { is_silesia = yes }
+			add_core_of = var:tag_to_release
+		}
+		every_owned_state = {
+			limit = {
+				is_silesia = yes
+				is_claim_or_core_of_ROOT = no
+			}
+			transfer_state_to = var:tag_to_release
+		}
+		recheck_annexations = yes
+	}
+
+	option = { #Give to Poland
+		log = "[GetLogInfo]: event annex.144 option annex.144.e"
+		name = annex.144.e
+		trigger = {
+			POL = { is_ally_of_ROOT = yes }
+			is_germany_or_splinter_tag = no
+		}
+		ai_chance = { base = 0 }
+		set_temp_variable = { tag_to_release = POL }
+		every_state = {
+			limit = {
+				OR = {
+					is_silesia = yes
+					state = 86 #Posen
+					state = 67 #Upper Silesia
+				}
+			}
+			add_claim_by = var:tag_to_release
+		}
+		every_owned_state = {
+			limit = {
+				OR = {
+					is_silesia = yes
+					state = 86 #Posen
+					state = 67 #Upper Silesia
+				}
+				is_claim_or_core_of_ROOT = no
+			}
+			transfer_state_to = var:tag_to_release
+		}
+		recheck_annexations = yes
+	}
+
+	option = { #Integrate
+		log = "[GetLogInfo]: event annex.144 option annex.integration"
+		name = annex.integration
+		trigger = {
+			is_germany_or_splinter_tag = yes
+		}
+		ai_chance = { base = 100 }
+		every_state = {
+			limit = {
+				is_silesia = yes
+				NOT = { is_core_of = ROOT }
+			}
+			add_claim_of_ROOT = yes
+		}
+		recheck_annexations = yes
+	}
+
+	option = { #occupy
+		log = "[GetLogInfo]: event annex.144 option annex.occupation"
+		name = annex.occupation
+		trigger = {
+			is_germany_or_splinter_tag = no
+		}
+		ai_chance = { base = 0 }
+		set_country_flag = SILESIA_CONQ
+		occupy_medium_country = yes
+		recheck_annexations = yes
+	}
+}
+
+country_event = { # Fate of Slovakia
+	id = annex.145
+	title = annexation_SLO_CONQ
+	desc = annexation_SLO_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = SLO }
+			remove_all_cores_and_claims_of_tags = yes
+			SLO = {
+				add_state_core = 70
+				add_state_core = 71
+				add_state_core = 73
+				add_state_core = 664
+				add_state_core = 1043
+				add_state_core = 1042
+				drop_cosmetic_tag = yes
+			}
+		}
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.145 option annex.145.a"
+		name = annex.145.a
+		ai_chance = {
+			base = 100
+		}
+		trigger = {
+			NOT = {
+				AND = {
+					tag = UKR
+					has_government = national_populist
+				}
+			}
+		}
+		set_temp_variable = { tag_to_release = SLO }
+		release_targeted_tag = yes
+
+		if = {
+			limit = {
+				tag = GER
+				has_government = valkist
+			}
+
+			SLO = { set_cosmetic_tag = GER_SLO_rk }
+		}
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.145 option annex.145.a"
+		name = annex.145.a
+		ai_chance = {
+			base = 100
+		}
+		trigger = {
+			tag = UKR
+			has_government = national_populist
+			NOT = { country_exists = CRP }
+		}
+
+		set_temp_variable = { tag_to_release = SLO }
+		release_targeted_tag = yes
+
+		SLO = {
+			set_cosmetic_tag = UKR_CRP
+			event_target:unified_carpathia = {
+				clear_global_event_target = unified_carpathia
+			}
+			save_global_event_target_as = unified_carpathia
+		}
+		create_unified_carpathia = yes
+	}
+
+	option = { # Transfer the lands to Carpathia
+		log = "[GetLogInfo]: event annex.145 option annex.125.b"
+		name = annex.125.b
+		ai_chance = { base = 100 }
+		trigger = {
+			tag = UKR
+			has_government = national_populist
+			country_exists = CRP
+			CRP = { is_subject_of = ROOT }
+		}
+		set_temp_variable = { tag_to_release = CRP }
+		every_owned_state = {
+			limit = { is_core_of = SLO }
+			transfer_state_and_add_core = yes
+		}
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.145 option annex.occupation"
+		name = annex.occupation
+		ai_chance = {
+			base = 0
+		}
+		set_country_flag = SLO_CONQ
+		occupy_small_country = yes
+	}
+}
+
+country_event = { # Fate of Soviet Union
+	id = annex.146
+	title = annexation_SOV_CONQ
+	desc = annexation_SOV_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			every_state = {
+				limit = { is_core_of = SOV }
+				VRS = { add_state_core = PREV }
+			}
+			add_to_temp_array = { core_removal_array = SOV }
+			remove_all_cores_and_claims_of_tags = yes
+		}
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.146 option annex.146.a"
+		name = annex.146.a
+		ai_chance = {
+			base = 100
+		}
+		set_temp_variable = { tag_to_release = VRS }
+		release_targeted_tag = yes
+
+		if = {
+			limit = {
+				tag = UKR
+				has_government = national_populist
+			}
+			VRS = { set_cosmetic_tag = UKR_VRS }
+		}
+	}
+
+	option = { # Give to Russia
+		log = "[GetLogInfo]: event annex.146 option annex.146.b"
+		name = annex.146.b
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 2
+				is_ally_with = RUS
+			}
+		}
+		trigger = {
+			is_ally_with = RUS
+		}
+		every_owned_state = {
+			limit = { is_core_of = VRS }
+			RUS = { transfer_state = PREV }
+		}
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.146 option annex.occupation"
+		name = annex.occupation
+		ai_chance = {
+			base = 0
+		}
+		occupy_massive_country = yes
+		set_country_flag = SOV_CONQ
+	}
+}
+
+country_event = { # Fate of Spain
+	id = annex.147
+	title = annexation_SPA_CONQ
+	desc = annexation_SPA_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = SPA }
+			add_to_temp_array = { core_removal_array = SPF }
+			add_to_temp_array = { core_removal_array = SPR }
+			add_to_temp_array = { core_removal_array = SPM }
+			remove_all_cores_and_claims_of_tags = yes
+		}
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.147 option annex.147.a"
+		name = annex.147.a
+		trigger = {
+			NOT = { tag = ENG }
+		}
+		ai_chance = {
+			base = 100
+		}
+		if = {
+			limit = { has_socialist_government = yes }
+			set_temp_variable = { tag_to_release = SPA }
+			core_spain_for_faction = yes
+			release_targeted_tag = yes
+		}
+		else_if = {
+			limit = { has_democratic_government = yes }
+			set_temp_variable = { tag_to_release = SPR }
+			core_spain_for_faction = yes
+			release_targeted_tag = yes
+			SPR = { SPR_puppet_setup = yes }
+		}
+		else_if = {
+			limit = { has_dictatorship_government = yes }
+			set_temp_variable = { tag_to_release = SPF }
+			core_spain_for_faction = yes
+			release_targeted_tag = yes
+			SPF = { SPF_puppet_setup = yes }
+		}
+	}
+
+	option = { # Puppet Kingdom
+		log = "[GetLogInfo]: event annex.147 option annex.147.b"
+		name = annex.147.b
+		ai_chance = {
+			base = 100
+		}
+		trigger = {
+			tag = ENG
+		}
+		set_temp_variable = { tag_to_release = SPM }
+		core_spain_for_faction = yes
+		release_targeted_tag = yes
+		SPM = { SPM_puppet_setup = yes }
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.147 option annex.occupation"
+		name = annex.occupation
+		ai_chance = {
+			base = 0
+		}
+		set_country_flag = SPA_CONQ
+		occupy_medium_country = yes
+	}
+}
+
+country_event = { # Fate of Sweden
+	id = annex.148
+	title = annexation_SWE_CONQ
+	desc = annexation_SWE_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = SWE }
+			remove_all_cores_and_claims_of_tags = yes
+			SWE = {
+				add_state_core = 38
+				add_state_core = 124
+				add_state_core = 138
+				add_state_core = 139
+				add_state_core = 140
+				add_state_core = 141
+				add_state_core = 666
+				add_state_core = 906
+				add_state_core = 907
+				add_state_core = 909
+				drop_cosmetic_tag = yes
+			}
+		}
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.148 option annex.148.a"
+		name = annex.148.a
+		ai_chance = {
+			base = 100
+		}
+		set_temp_variable = { tag_to_release = SWE }
+		release_targeted_tag = yes
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.148 option annex.occupation"
+		name = annex.occupation
+		ai_chance = {
+			base = 0
+		}
+		occupy_large_country = yes
+		set_country_flag = SWE_CONQ
+	}
+}
+
+country_event = { # Fate of Ukraine
+	id = annex.149
+	title = annexation_UKR_CONQ
+	desc = annexation_UKR_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = UKR }
+			remove_all_cores_and_claims_of_tags = yes
+			UKR = {
+				add_state_core = 72
+				add_state_core = 93
+				add_state_core = 94
+				add_state_core = 137
+				add_state_core = 192
+				add_state_core = 193
+				add_state_core = 196
+				add_state_core = 197
+				add_state_core = 198
+				add_state_core = 199
+				add_state_core = 200
+				add_state_core = 201
+				add_state_core = 202
+				add_state_core = 203
+				add_state_core = 221
+				add_state_core = 225
+				add_state_core = 226
+				add_state_core = 241
+				add_state_core = 259
+				add_state_core = 798
+				add_state_core = 953
+			}
+		}
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.149 option annex.149.a"
+		name = annex.149.a
+		ai_chance = {
+			base = 100
+		}
+		set_temp_variable = { tag_to_release = UKR }
+		release_targeted_tag = yes
+		UKR = { UKR_remove_monarchy = yes }
+		if = {
+			limit = {
+				tag = GER
+				has_government = valkist
+			}
+			UKR = { set_cosmetic_tag = GER_UKR_rk }
+		}
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.149 option annex.occupation"
+		name = annex.occupation
+		ai_chance = {
+			base = 0
+		}
+		set_country_flag = UKR_CONQ
+		occupy_large_country = yes
+	}
+}
+
+country_event = { # Fate of Venice
+	id = annex.150
+	title = annexation_SRV_CONQ
+	desc = annexation_SRV_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = SRV }
+			remove_all_cores_and_claims_of_tags = yes
+			SRV = {
+				add_state_core = 160
+				add_state_core = 163
+				add_state_core = 736
+				add_state_core = 770
+				add_state_core = 774
+				add_state_core = 917
+				drop_cosmetic_tag = yes
+			}
+		}
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.150 option annex.150.a"
+		name = annex.150.a
+		ai_chance = {
+			base = 100
+		}
+		set_temp_variable = { tag_to_release = SRV }
+		release_targeted_tag = yes
+	}
+
+	option = {
+		log = "[GetLogInfo]: event annex.150 option annex.occupation"
+		name = annex.occupation
+		ai_chance = {
+			base = 0
+		}
+		set_country_flag = SRV_CONQ
+		occupy_medium_country = yes
+	}
+}
+
+country_event = { # Fate of Wales
+	id = annex.151
+	title = annexation_WLS_CONQ
+	desc = annexation_WLS_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = WLS }
+			remove_all_cores_and_claims_of_tags = yes
+			WLS = {
+				add_state_core = 122
+				drop_cosmetic_tag = yes
+			}
+		}
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.151 option annex.151.a"
+		name = annex.151.a
+		ai_chance = {
+			base = 100
+		}
+		set_temp_variable = { tag_to_release = WLS }
+		release_targeted_tag = yes
+		WLS = {
+			if = {
+				limit = {
+					ROOT = {
+						tag = GER
+						has_government = valkist
+					}
+				}
+				set_cosmetic_tag = GER_WLS_rk
+			}
+		}
+	}
+
+	option = { # Integrate
+		log = "[GetLogInfo]: event annex.151 option annex.151.b"
+		name = annex.151.b
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 100
+				is_british_isles_tag = yes
+			}
+		}
+		trigger = {
+			is_british_isles_tag = yes
+		}
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = RHI }
+			remove_all_cores_and_claims_of_tags = yes
+		}
+		ROOT = {
+			add_state_core = 122
+		}
+	}
+
+	option = { # Transfer
+		log = "[GetLogInfo]: event annex.151 option annex.151.c"
+		name = annex.151.c
+		ai_chance = {
+			factor = 0
+			modifier = {
+				add = 100
+				is_ally_with = ENG
+			}
+		}
+		trigger = {
+			is_british_isles_tag = no
+			country_exists = ENG
+		}
+		if = {
+			limit = { is_ally_with = ENG }
+			ENG = {
+				add_state_core = 122
+			}
+		}
+		else = {
+			EGL = {
+				add_state_core = 122
+			}
+		}
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.151 option annex.occupation"
+		name = annex.occupation
+		ai_chance = {
+			base = 0
+		}
+		set_country_flag = WLS_CONQ
+		occupy_medium_country = yes
+	}
+}
+
+country_event = { # Fate of Wallonia
+	id = annex.152
+	title = annexation_WLL_CONQ
+	desc = annexation_WLL_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = WLL }
+			remove_all_cores_and_claims_of_tags = yes
+			WLL = {
+				add_state_core = 802
+				add_state_core = 806
+				add_state_core = 34
+				drop_cosmetic_tag = yes
+			}
+		}
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.152 option annex.152.a"
+		name = annex.152.a
+		ai_chance = {
+			base = 100
+		}
+		set_temp_variable = { tag_to_release = WLL }
+		release_targeted_tag = yes
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.152 option annex.occupation"
+		name = annex.occupation
+		ai_chance = {
+			base = 0
+		}
+		set_country_flag = WLL_CONQ
+		occupy_small_country = yes
+	}
+}
+
+country_event = { # Fate of Burgenland
+	id = annex.153
+	title = annexation_BURGENLAND_CONQ
+	desc = annexation_BURGENLAND_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	option = { # Give it to Austria
+		log = "[GetLogInfo]: event annex.153 option annex.153.a"
+		name = annex.153.a
+		trigger = {
+			AUS = { ROOT_can_grant_land = yes }
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				is_ally_with = HUN
+			}
+		}
+		set_temp_variable = { tag_to_release = AUS }
+		772 = { transfer_state_and_add_core = yes }
+	}
+
+	option = { # Give in to Hungary
+		log = "[GetLogInfo]: event annex.153 option annex.153.b"
+		name = annex.153.b
+		trigger = {
+			HUN = { ROOT_can_grant_land = yes }
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				is_ally_with = AUS
+			}
+		}
+		set_temp_variable = { tag_to_release = HUN }
+		772 = { transfer_state_and_add_core = yes }
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.153 option annex.occupation"
+		name = annex.occupation
+		trigger = {
+			is_ai = no
+		}
+		occupy_small_country = yes
+		set_country_flag = ALAND_CONQ
+	}
+}
+
+country_event = { # Fate of West Banat
+	id = annex.154
+	title = annexation_WEST_BANAT_CONQ
+	desc = annexation_WEST_BANAT_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	option = { # Give it to Greece
+		log = "[GetLogInfo]: event annex.154 option annex.154.a"
+		name = annex.154.a
+		trigger = {
+			HUN = { ROOT_can_grant_land = yes }
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				is_ally_with = SER
+			}
+		}
+		set_temp_variable = { tag_to_release = HUN }
+		750 = { transfer_state_and_add_core = yes }
+	}
+
+	option = { # Give it to Bulgaria
+		log = "[GetLogInfo]: event annex.154 option annex.154.b"
+		name = annex.154.b
+		trigger = {
+			SER = { ROOT_can_grant_land = yes }
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				is_ally_with = HUN
+			}
+		}
+		set_temp_variable = { tag_to_release = SER }
+		750 = { transfer_state_and_add_core = yes }
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.154 option annex.occupation"
+		name = annex.occupation
+		trigger = {
+			is_ai = no
+		}
+		occupy_small_country = yes
+		set_country_flag = WEST_BANAT_CONQ
+	}
+}
+
+country_event = { # Fate of Switzerland
+	id = annex.155
+	title = annexation_SWI_CONQ
+	desc = annexation_SWI_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = SWI }
+			remove_all_cores_and_claims_of_tags = yes
+			SWI = {
+				add_state_core = 3
+				add_state_core = 151
+				add_state_core = 755
+				add_state_core = 756
+				add_state_core = 937
+				drop_cosmetic_tag = yes
+			}
+		}
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.155 option annex.155.a"
+		name = annex.155.a
+		ai_chance = {
+			base = 100
+		}
+		set_temp_variable = { tag_to_release = SWI }
+		release_targeted_tag = yes
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.155 option annex.occupation"
+		name = annex.occupation
+		ai_chance = {
+			base = 0
+		}
+		occupy_small_country = yes
+		set_country_flag = SWI_CONQ
+	}
+}
+
+country_event = { # Fate of the United Provinces of Central Italy
+	id = annex.156
+	title = annexation_UPC_CONQ
+	desc = annexation_UPC_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = UPC }
+			remove_all_cores_and_claims_of_tags = yes
+			UPC = {
+				add_state_core = 161
+				add_state_core = 162
+				add_state_core = 851
+				add_state_core = 852
+				add_state_core = 2
+				drop_cosmetic_tag = yes
+			}
+		}
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.156 option annex.156.a"
+		name = annex.156.a
+		ai_chance = {
+			base = 100
+		}
+		set_temp_variable = { tag_to_release = UPC }
+		release_targeted_tag = yes
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.156 option annex.occupation"
+		name = annex.occupation
+		ai_chance = {
+			base = 0
+		}
+		occupy_large_country = yes
+		set_country_flag = UPC_CONQ
+	}
+}
+
+country_event = { # Fate of Sardinia
+	id = annex.157
+	title = annexation_SAR_CONQ
+	desc = annexation_SAR_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = SRD }
+			remove_all_cores_and_claims_of_tags = yes
+			SRD = {
+				add_state_core = 114
+				add_state_core = 768
+				drop_cosmetic_tag = yes
+			}
+		}
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.157 option annex.157.a"
+		name = annex.157.a
+		ai_chance = {
+			base = 100
+		}
+		set_temp_variable = { tag_to_release = SRD }
+		release_targeted_tag = yes
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.157 option annex.occupation"
+		name = annex.occupation
+		ai_chance = {
+			base = 0
+		}
+		occupy_tiny_country = yes
+		set_country_flag = SAR_CONQ
+	}
+}
+
+country_event = { # Fate of Transylvania
+	id = annex.186
+	title = annexation_TRANSYLVANIA_CONQ
+	desc = annexation_TRANSYLVANIA_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	option = { # Give it to Hungary
+		log = "[GetLogInfo]: event annex.186 option annex.186.a"
+		name = annex.186.a
+		trigger = {
+			HUN = { ROOT_can_grant_land = yes }
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				is_ally_with = ROM
+			}
+		}
+		set_temp_variable = { tag_to_release = HUN }
+		84 = { transfer_state_and_add_core = yes }
+		76 = { transfer_state_and_add_core = yes }
+		1040 = { transfer_state_and_add_core = yes }
+	}
+
+	option = { # Give in to Romania
+		log = "[GetLogInfo]: event annex.186 option annex.186.b"
+		name = annex.186.b
+		trigger = {
+			ROM = { ROOT_can_grant_land = yes }
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				is_ally_with = HUN
+			}
+		}
+		set_temp_variable = { tag_to_release = ROM }
+		84 = { transfer_state_and_add_core = yes }
+		76 = { transfer_state_and_add_core = yes }
+		1040 = { transfer_state_and_add_core = yes }
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.186 option annex.occupation"
+		name = annex.occupation
+		trigger = {
+			is_ai = no
+		}
+		occupy_medium_country = yes
+		set_country_flag = TRANSYLVANIA_CONQ
+	}
+}
+
+country_event = { # Fate of Alfold
+	id = annex.158
+	title = annexation_ALFOLD_CONQ
+	desc = annexation_ALFOLD_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	option = { # Give it to Hungary
+		log = "[GetLogInfo]: event annex.158 option annex.158.a"
+		name = annex.158.a
+		trigger = {
+			HUN = { ROOT_can_grant_land = yes }
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				is_ally_with = ROM
+			}
+		}
+		set_temp_variable = { tag_to_release = HUN }
+		154 = { transfer_state_and_add_core = yes }
+	}
+
+	option = { # Give in to Romania
+		log = "[GetLogInfo]: event annex.158 option annex.158.b"
+		name = annex.158.b
+		trigger = {
+			ROM = { ROOT_can_grant_land = yes }
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				is_ally_with = HUN
+			}
+		}
+		set_temp_variable = { tag_to_release = ROM }
+		154 = { transfer_state_and_add_core = yes }
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.158 option annex.occupation"
+		name = annex.occupation
+		trigger = {
+			is_ai = no
+		}
+		occupy_small_country = yes
+		set_country_flag = ALFOLD_CONQ
+	}
+}
+
+country_event = { # Fate of Limburg
+	id = annex.159
+	title = annexation_LIMBURG_CONQ
+	desc = annexation_LIMBURG_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	option = { # Give it to Belgium
+		log = "[GetLogInfo]: event annex.159 option annex.159.a"
+		name = annex.159.a
+		trigger = {
+			OR = {
+				BEL = { ROOT_can_grant_land = yes }
+				FLA = { ROOT_can_grant_land = yes }
+			}
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				is_ally_with = HOL
+			}
+		}
+		if = {
+			limit = { country_exists = BEL }
+			set_temp_variable = { tag_to_release = BEL }
+			866 = { transfer_state_and_add_core = yes }
+			} else = {
+			set_temp_variable = { tag_to_release = FLA }
+			866 = { transfer_state_and_add_core = yes }
+		}
+	}
+
+	option = { # Give in to the Dutch
+		log = "[GetLogInfo]: event annex.159 option annex.159.b"
+		name = annex.159.b
+		trigger = {
+			country_exists = HOL
+			HOL = { ROOT_can_grant_land = yes }
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				is_ally_with = BEL
+			}
+		}
+		set_temp_variable = { tag_to_release = HOL }
+		866 = { transfer_state_and_add_core = yes }
+	}
+
+	option = { # Give in to the other Dutch
+		log = "[GetLogInfo]: event annex.159 option annex.159.c"
+		name = annex.159.c
+		trigger = {
+			country_exists = KNE
+			KNE = { ROOT_can_grant_land = yes }
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				is_ally_with = BEL
+			}
+		}
+		set_temp_variable = { tag_to_release = KNE }
+		866 = { transfer_state_and_add_core = yes }
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.159 option annex.occupation"
+		name = annex.occupation
+		trigger = {
+			is_ai = no
+		}
+		occupy_medium_country = yes
+		set_country_flag = LIMBURG_CONQ
+	}
+}
+
+country_event = { # Fate of Zeuss-Vlaanderen
+	id = annex.160
+	title = annexation_ZEUSS_VLAANDEREN_CONQ
+	desc = annexation_ZEUSS_VLAANDEREN_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	option = { # Give it to Belgium
+		log = "[GetLogInfo]: event annex.160 option annex.160.a"
+		name = annex.160.a
+		trigger = {
+			OR = {
+				BEL = { ROOT_can_grant_land = yes }
+				WLL = { ROOT_can_grant_land = yes }
+			}
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				is_ally_with = HOL
+			}
+		}
+		if = {
+			limit = { country_exists = WLL }
+			set_temp_variable = { tag_to_release = WLL }
+			867 = { transfer_state_and_add_core = yes }
+			} else = {
+			set_temp_variable = { tag_to_release = BEL }
+			867 = { transfer_state_and_add_core = yes }
+		}
+	}
+
+	option = { # Give in to the Dutch
+		log = "[GetLogInfo]: event annex.160 option annex.160.b"
+		name = annex.160.b
+		trigger = {
+			country_exists = HOL
+			HOL = { ROOT_can_grant_land = yes }
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				is_ally_with = BEL
+			}
+		}
+		set_temp_variable = { tag_to_release = HOL }
+		867 = { transfer_state_and_add_core = yes }
+	}
+
+	option = { # Give in to the Dutch
+		log = "[GetLogInfo]: event annex.160 option annex.160.c"
+		name = annex.160.c
+		trigger = {
+			country_exists = KNE
+			KNE = { ROOT_can_grant_land = yes }
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				is_ally_with = BEL
+			}
+		}
+		set_temp_variable = { tag_to_release = KNE }
+		867 = { transfer_state_and_add_core = yes }
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.160 option annex.occupation"
+		name = annex.occupation
+		trigger = {
+			is_ai = no
+		}
+		occupy_medium_country = yes
+		set_country_flag = LIMBURG_CONQ
+	}
+}
+
+country_event = { # Fate of Vlore
+	id = annex.161
+	title = annexation_VLORE_CONQ
+	desc = annexation_VLORE_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	option = { # Give it to the Italian Puppet
+		log = "[GetLogInfo]: event annex.161 option annex.161.a"
+		name = annex.161.a
+		trigger = {
+			country_exists = ITP
+			ITP = { ROOT_can_grant_land = yes }
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				is_ally_with = ALB
+			}
+		}
+		set_temp_variable = { tag_to_release = ITP }
+		796 = { transfer_state_and_add_core = yes }
+	}
+
+	option = { # Give it to the Italians
+		log = "[GetLogInfo]: event annex.161 option annex.161.b"
+		name = annex.161.b
+		trigger = {
+			country_exists = ITA
+			ITA = { ROOT_can_grant_land = yes }
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				is_ally_with = ALB
+			}
+		}
+		set_temp_variable = { tag_to_release = ITA }
+		796 = { transfer_state_and_add_core = yes }
+	}
+
+	option = { # Give it to the Albanians
+		log = "[GetLogInfo]: event annex.161 option annex.161.c"
+		name = annex.161.c
+		trigger = {
+			ALB = { ROOT_can_grant_land = yes }
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				is_ally_with = ITA
+			}
+		}
+		set_temp_variable = { tag_to_release = ALB }
+		796 = { transfer_state_and_add_core = yes }
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.161 option annex.occupation"
+		name = annex.occupation
+		trigger = {
+			is_ai = no
+		}
+		occupy_tiny_country  = yes
+		set_country_flag = VLORE_CONQ
+	}
+}
+
+country_event = { # Fate of Shkoder
+	id = annex.162
+	title = annexation_SHKODER_CONQ
+	desc = annexation_SHKODER_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	option = { # Give it to the Serbians
+		log = "[GetLogInfo]: event annex.162 option annex.162.a"
+		name = annex.162.a
+		trigger = {
+			SER = { ROOT_can_grant_land = yes }
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				is_ally_with = ALB
+			}
+		}
+		set_temp_variable = { tag_to_release = SER }
+		931 = { transfer_state_and_add_core = yes }
+	}
+
+	option = { # Give it to the Albanians
+		log = "[GetLogInfo]: event annex.162 option annex.162.b"
+		name = annex.162.b
+		trigger = {
+			ALB = { ROOT_can_grant_land = yes }
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				is_ally_with = SER
+			}
+		}
+		set_temp_variable = { tag_to_release = ALB }
+		931 = { transfer_state_and_add_core = yes }
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.162 option annex.occupation"
+		name = annex.occupation
+		trigger = {
+			is_ai = no
+		}
+		occupy_tiny_country  = yes
+		set_country_flag = SHKODER_CONQ
+	}
+}
+
+country_event = { # Fate of North Epirus
+	id = annex.163
+	title = annexation_NORTH_EPIRUS_CONQ
+	desc = annexation_NORTH_EPIRUS_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	option = { # Give it to the Greeks
+		log = "[GetLogInfo]: event annex.163 option annex.163.a"
+		name = annex.163.a
+		trigger = {
+			GRE = { ROOT_can_grant_land = yes }
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				is_ally_with = ALB
+			}
+		}
+		set_temp_variable = { tag_to_release = GRE }
+		765 = { transfer_state_and_add_core = yes }
+	}
+
+	option = { # Give it to the Albanians
+		log = "[GetLogInfo]: event annex.163 option annex.163.b"
+		name = annex.163.b
+		trigger = {
+			ALB = { ROOT_can_grant_land = yes }
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				is_ally_with = SER
+			}
+		}
+		set_temp_variable = { tag_to_release = ALB }
+		765 = { transfer_state_and_add_core = yes }
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.163 option annex.occupation"
+		name = annex.occupation
+		trigger = {
+			is_ai = no
+		}
+		occupy_tiny_country  = yes
+		set_country_flag = NORTH_EPIRUS_CONQ
+	}
+}
+
+country_event = { # Fate of Iceland
+	id = annex.164
+	title = annexation_ICE_CONQ
+	desc = annexation_ICE_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.164 option annex.164.a"
+		name = annex.164.a
+		ai_chance = {
+			base = 100
+		}
+		ICE = {
+			add_state_core = 100
+		}
+		set_temp_variable = { tag_to_release = ICE }
+		release_targeted_tag = yes
+	}
+
+	option = { # Give it to the Danish
+		log = "[GetLogInfo]: event annex.164 option annex.164.b"
+		name = annex.164.b
+		trigger = {
+			DEN = { ROOT_can_grant_land = yes }
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				is_ally_with = NOR
+			}
+		}
+		set_temp_variable = { tag_to_release = DEN }
+		100 = { transfer_state_and_add_core = yes }
+	}
+
+	option = { # Give it to the Norwegians
+		log = "[GetLogInfo]: event annex.164 option annex.164.c"
+		name = annex.164.c
+		trigger = {
+			NOR = { ROOT_can_grant_land = yes }
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				is_ally_with = DEN
+			}
+		}
+		set_temp_variable = { tag_to_release = NOR }
+		100 = { transfer_state_and_add_core = yes }
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.164 option annex.occupation"
+		name = annex.occupation
+		trigger = {
+			is_ai = no
+		}
+		occupy_tiny_country  = yes
+		set_country_flag = ICE_CONQ
+	}
+}
+
+country_event = { # Fate of Greenland
+	id = annex.165
+	title = annexation_GREENLAND_CONQ
+	desc = annexation_GREENLAND_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	option = { # Give it to the Danish
+		log = "[GetLogInfo]: event annex.165 option annex.165.a"
+		name = annex.165.a
+		trigger = {
+			DEN = { ROOT_can_grant_land = yes }
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				is_ally_with = NOR
+			}
+		}
+		set_temp_variable = { tag_to_release = DEN }
+		100 = { transfer_state_and_add_core = yes }
+		911 = { transfer_state_and_add_core = yes }
+	}
+
+	option = { # Give it to the Norwagians
+		log = "[GetLogInfo]: event annex.165 option annex.165.b"
+		name = annex.165.b
+		trigger = {
+			NOR = { ROOT_can_grant_land = yes }
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				is_ally_with = DEN
+			}
+		}
+		set_temp_variable = { tag_to_release = NOR }
+		100 = { transfer_state_and_add_core = yes }
+		911 = { transfer_state_and_add_core = yes }
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.165 option annex.occupation"
+		name = annex.occupation
+		trigger = {
+			is_ai = no
+		}
+		occupy_tiny_country  = yes
+		set_country_flag = GREENLAND_CONQ
+	}
+}
+
+country_event = { # Fate of Eastern Thrace
+	id = annex.166
+	title = annexation_EAST_THRACE_CONQ
+	desc = annexation_EAST_THRACE_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	option = { # Give it to the Greek
+		log = "[GetLogInfo]: event annex.166 option annex.166.a"
+		name = annex.166.a
+		trigger = {
+			GRE = { ROOT_can_grant_land = yes }
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				OR = {
+					is_ally_with = BUL
+					is_ally_with = TUR
+				}
+			}
+		}
+		set_temp_variable = { tag_to_release = GRE }
+		342 = { transfer_state_and_add_core = yes }
+	}
+
+	option = { # Give it to the Bulgarians
+		log = "[GetLogInfo]: event annex.166 option annex.166.b"
+		name = annex.166.b
+		trigger = {
+			BUL = { ROOT_can_grant_land = yes }
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				OR = {
+					is_ally_with = GRE
+					is_ally_with = TUR
+				}
+			}
+		}
+		set_temp_variable = { tag_to_release = BUL }
+		342 = { transfer_state_and_add_core = yes }
+	}
+
+	option = { # Give it to the Turks
+		log = "[GetLogInfo]: event annex.166 option annex.166.c"
+		name = annex.166.c
+		trigger = {
+			TUR = { ROOT_can_grant_land = yes }
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				OR = {
+					is_ally_with = BUL
+					is_ally_with = GRE
+				}
+			}
+		}
+		set_temp_variable = { tag_to_release = TUR }
+		342 = { transfer_state_and_add_core = yes }
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.166 option annex.occupation"
+		name = annex.occupation
+		trigger = {
+			is_ai = no
+		}
+		occupy_tiny_country  = yes
+		set_country_flag = EAST_THRACE_CONQ
+	}
+}
+
+country_event = { # Fate of Western Thrace
+	id = annex.167
+	title = annexation_WEST_THRACE_CONQ
+	desc = annexation_WEST_THRACE_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	option = { # Give it to the Greek
+		log = "[GetLogInfo]: event annex.167 option annex.167.a"
+		name = annex.167.a
+		trigger = {
+			GRE = { ROOT_can_grant_land = yes }
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				is_ally_with = BUL
+			}
+		}
+		set_temp_variable = { tag_to_release = GRE }
+		763 = { transfer_state_and_add_core = yes }
+	}
+
+	option = { # Give it to the Bulgarians
+		log = "[GetLogInfo]: event annex.167 option annex.167.b"
+		name = annex.167.b
+		trigger = {
+			BUL = { ROOT_can_grant_land = yes }
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				is_ally_with = GRE
+			}
+		}
+		set_temp_variable = { tag_to_release = BUL }
+		763 = { transfer_state_and_add_core = yes }
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.167 option annex.occupation"
+		name = annex.occupation
+		trigger = {
+			is_ai = no
+		}
+		occupy_tiny_country  = yes
+		set_country_flag = WEST_THRACE_CONQ
+	}
+}
+
+country_event = { # Fate of Central Macedonia
+	id = annex.168
+	title = annexation_CENTRAL_MACEDONIA_CONQ
+	desc = annexation_CENTRAL_MACEDONIA_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		if = {
+			limit = {
+				OR = {
+					original_tag = GRE
+					764 = { # either BUL or SER
+						is_owned_by = ROOT
+						is_claim_or_core_of_ROOT = yes
+					}
+				}
+			}
+			save_event_target_as = can_annex_central_macedonia
+		}
+		if = {
+			limit = { GRE = { ROOT_can_grant_land = yes } }
+			GRE = { save_event_target_as = greece }
+		}
+	}
+
+	option = { # Give it to the Greek
+		log = "[GetLogInfo]: event annex.168 option annex.168.a"
+		name = annex.168.a
+		trigger = {
+			has_event_target = greece
+		}
+		ai_chance = {
+			base = 80
+			modifier = {
+				factor = 0
+				has_event_target = can_annex_central_macedonia
+			}
+			modifier = {
+				add = -40
+				is_ally_with = event_target:bulgaria
+				NOT = { is_ally_with = event_target:greece }
+			}
+		}
+		set_temp_variable = { tag_to_release = event_target:greece }
+		731 = { transfer_state_and_add_core = yes }
+		recheck_annexations = yes
+	}
+
+	option = { # Give it to the Bulgarians
+		log = "[GetLogInfo]: event annex.168 option annex.168.b"
+		name = annex.168.b
+		trigger = {
+			has_event_target = bulgaria
+		}
+		ai_chance = {
+			base = 20
+			modifier = {
+				factor = 0
+				has_event_target = can_annex_central_macedonia
+			}
+			modifier = {
+				factor = 0
+				is_ally_with = event_target:greece
+				NOT = { is_ally_with = event_target:bulgaria }
+			}
+		}
+		set_temp_variable = { tag_to_release = event_target:bulgaria }
+		731 = { transfer_state_and_add_core = yes }
+		recheck_annexations = yes
+	}
+
+	option = {
+		log = "[GetLogInfo]: event annex.168 option annex.integration"
+		name = annex.integration
+		trigger = {
+			original_tag = GRE
+		}
+		ai_chance = { base = 100 }
+		731 = { remove_claim_and_add_core_of_ROOT = yes } # Central Macedonia
+		recheck_annexations = yes
+	}
+
+	option = { #annex
+		log = "[GetLogInfo]: event annex.168 option annex.integration"
+		name = annex.integration
+		trigger = {
+			106 = { #Macedonia - covers BUL and any Yugoslavia
+				is_owned_by = ROOT
+				is_claim_or_core_of_ROOT = yes
+			}
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0
+				NOT = { original_tag = BUL }
+			}
+		}
+		731 = { add_claim_of_ROOT = yes } # Central Macedonia
+		recheck_annexations = yes
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.168 option annex.occupation"
+		name = annex.occupation
+		trigger = {
+			NOT = { has_event_target = can_annex_central_macedonia }
+		}
+		occupy_tiny_country  = yes
+		set_country_flag = CENTRAL_MACEDONIA_CONQ
+		recheck_annexations = yes
+	}
+}
+
+country_event = { # Fate of East Macedonia
+	id = annex.169
+	title = annexation_EASTERN_MACEDONIA_CONQ
+	desc = annexation_EASTERN_MACEDONIA_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		if = {
+			limit = { 184 = { is_valid_annexation_state = yes } } # Komotini
+			184 = { save_event_target_as = komotini }
+		}
+		if = {
+			limit = { 763 = { is_valid_annexation_state = yes } } # Serres
+			763 = { save_event_target_as = serres }
+		}
+		if = {
+			limit = { 1066 = { is_valid_annexation_state = yes } } # Kardzhali
+			1066 = { save_event_target_as = kardzhali }
+		}
+		if = {
+			limit = {
+				OR = {
+					AND = {
+						original_tag = GRE
+						OR = {
+							has_event_target = komotini
+							has_event_target = serres
+							AND = {
+								has_event_target = kardzhali
+								owns_state = 184 # Komotini
+							}
+						}
+					}
+					AND = {
+						original_tag = BUL
+						owns_state = 212 # Plovdiv
+						48 = { is_claim_or_core_of_ROOT = yes } # Sofia
+						OR = {
+							has_event_target = serres
+							has_event_target = kardzhali
+							AND = {
+								has_event_target = komotini
+								owns_state = 1066 # Kardzhali
+							}
+						}
+					}
+					AND = {
+						original_tag = TUR
+						owns_state = 342 # Adrianople
+						OR = {
+							has_event_target = komotini
+							AND = {
+								has_event_target = kardzhali
+								owns_state = 184 #Komotini
+							}
+						}
+					}
+				}
+			}
+			save_event_target_as = can_annex_western_thrace
+		}
+		if = {
+			limit = {
+				GRE = {
+					ROOT_can_grant_land = yes
+					OR = {
+						AND = {
+							has_event_target = komotini
+							OR = {
+								owns_state = 763 # Serres
+								owns_state = 342 # Adrianople
+							}
+						}
+						AND = {
+							has_event_target = serres
+							OR = {
+								owns_state = 731 # Central Macedonia
+								AND = {
+									owns_state = 342
+									has_event_target = komotini
+								}
+							}
+						}
+						AND = {
+							has_event_target = kardzhali
+							OR = {
+								owns_state = 184
+								has_event_target = komotini
+							}
+						}
+					}
+				}
+			}
+			GRE = { save_event_target_as = greece }
+		}
+		if = {
+			limit = {
+				BUL = {
+					48 = { is_claim_or_core_of_PREV = yes } #Sofia
+					ROOT_can_grant_land = yes
+					OR = {
+						has_event_target = serres
+						has_event_target = kardzhali
+						AND = {
+							has_event_target = komotini
+							owns_state = 1066 #Kardzhali
+						}
+					}
+				}
+			}
+			BUL = { save_event_target_as = bulgaria }
+		}
+		if = {
+			limit = {
+				TUR = {
+					ROOT_can_grant_land = yes
+					owns_state = 342 # Adrianople
+					OR = {
+						has_event_target = komotini
+						AND = {
+							has_event_target = kardzhali
+							owns_state = 184
+						}
+					}
+				}
+			}
+		}
+	}
+
+	option = { # Give it to the Greek
+		log = "[GetLogInfo]: event annex.169 option annex.169.a"
+		name = annex.169.a
+		trigger = {
+			has_event_target = greece
+		}
+		ai_chance = {
+			base = 60
+			modifier = {
+				factor = 0
+				has_event_target = can_annex_western_thrace
+			}
+			modifier = {
+				factor = 0
+				NOT = { is_ally_with = event_target:greece }
+				OR = {
+					is_ally_with = event_target:bulgaria
+					is_ally_with = event_target:turkey
+				}
+			}
+			modifier = {
+				factor = 0.5
+				event_target:greece = { is_subject = yes }
+			}
+		}
+		set_temp_variable = { tag_to_release = event_target:greece }
+		if = {
+			limit = { has_event_target = komotini }
+			184 = { transfer_state_and_add_core = yes }
+		}
+		if = {
+			limit = { has_event_target = serres }
+			763 = { transfer_state_and_add_core = yes }
+		}
+		if = {
+			limit = {
+				has_event_target = kardzhali
+				OR = {
+					has_event_target = komotini
+					184 = { is_owned_by = var:tag_to_release } # Central Macedonia
+				}
+			}
+			1066 = { transfer_state_and_add_core = yes }
+		}
+		recheck_annexations = yes
+	}
+
+	option = { # Give it to the Bulgarians
+		log = "[GetLogInfo]: event annex.169 option annex.169.b"
+		name = annex.169.b
+		trigger = {
+			has_event_target = bulgaria
+		}
+		ai_chance = {
+			base = 20
+			modifier = {
+				factor = 0
+				has_event_target = can_annex_western_thrace
+			}
+			modifier = {
+				factor = 0
+				NOT = { is_ally_with = event_target:bulgaria }
+				OR = {
+					is_ally_with = event_target:greece
+					is_ally_with = event_target:turkey
+				}
+			}
+			modifier = {
+				factor = 0.5
+				event_target:bulgaria = { is_subject = yes }
+			}
+		}
+		set_temp_variable = { tag_to_release = event_target:bulgaria }
+		if = {
+			limit = { has_event_target = komotini }
+			184 = { transfer_state_and_add_core = yes } # Komotini
+		}
+		if = {
+			limit = { has_event_target = kardzhali }
+			1066 = { transfer_state_and_add_claim = yes } # Kardzhali
+		}
+		if = {
+			limit = { has_event_target = serres }
+			763 = { transfer_state_and_add_core = yes }
+		}
+		recheck_annexations = yes
+	}
+
+	option = { # Give to Turkey
+		log = "[GetLogInfo]: event annex.169 option annex.169.c"
+		name = annex.169.c
+		trigger = {
+			has_event_target = turkey
+			NOT = { has_event_target = serres }
+		}
+		ai_chance = {
+			base = 20
+			modifier = {
+				factor = 0
+				has_event_target = can_annex_western_thrace
+			}
+			modifier = {
+				factor = 0
+				NOT = { is_ally_with = event_target:turkey }
+				OR = {
+					is_ally_with = event_target:greece
+					is_ally_with = event_target:bulgaria
+				}
+			}
+			modifier = {
+				factor = 0.5
+				event_target:turkey = { is_subject = yes }
+			}
+		}
+		set_temp_variable = { tag_to_release = event_target:turkey }
+		if = {
+			limit = { has_event_target = komotini }
+			184 = { transfer_state_and_add_core = yes } # Komotini
+		}
+		if = {
+			limit = { has_event_target = kardzhali }
+			1066 = { transfer_state_and_add_core = yes } # Kardzhali
+		}
+		recheck_annexations = yes
+	}
+
+	option = { # Split between GRE and BUL
+		log = "[GetLogInfo]: event annex.169 option annex.169.d"
+		name = annex.169.d
+		trigger = {
+			has_event_target = greece
+			has_event_target = serres
+			has_event_target = bulgaria
+			OR = {
+				has_event_target = kardzhali
+				AND = {
+					has_event_target = komotini
+					1066 = { is_owned_by = event_target:bulgaria }
+				}
+			}
+		}
+		ai_chance = {
+			base = 70
+			modifier = {
+				factor = 0
+				has_event_target = can_annex_western_thrace
+			}
+			modifier = {
+				factor = 0
+				is_ally_with = event_target:greece
+				NOT = { is_ally_with = event_target:bulgaria }
+			}
+			modifier = {
+				factor = 0
+				is_ally_with = event_target:bulgaria
+				NOT = { is_ally_with = event_target:greece }
+			}
+			modifier = {
+				factor = 0
+				event_target:greece = { is_subject = no }
+				event_target:bulgaria = { is_subject = yes }
+			}
+			modifier = {
+				factor = 0
+				event_target:greece = { is_subject = yes }
+				event_target:bulgaria = { is_subject = no }
+			}
+		}
+		set_temp_variable = { tag_to_release = event_target:greece }
+		184 = { transfer_state_and_add_core = yes }
+
+		custom_effect_tooltip = tooltip_white_line
+		set_temp_variable = { tag_to_release = event_target:bulgaria }
+		if = {
+			limit = {
+				has_event_target = serres
+				OR = {
+					has_event_target = kardzhali
+					1066 = { is_owned_by = var:tag_to_release } # Kardzhali
+				}
+			}
+			763 = { transfer_state_and_add_core = yes }
+		}
+		if = {
+			limit = { has_event_target = kardzhali }
+			1066 = { transfer_state_and_add_core = yes } # Kardzhali
+		}
+		recheck_annexations = yes
+	}
+
+	option = { # Split between GRE and TUR
+		log = "[GetLogInfo]: event annex.169 option annex.169.e"
+		name = annex.169.e
+		trigger = {
+			has_event_target = greece
+			has_event_target = serres
+			has_event_target = turkey
+			OR = {
+				has_event_target = komotini
+				AND = {
+					has_event_target = kardzhali
+					763 = { is_owned_by = event_target:turkey }
+				}
+			}	
+		}
+		ai_chance = {
+			base = 20
+			modifier = {
+				factor = 0
+				has_event_target = can_annex_western_thrace
+			}
+			modifier = {
+				factor = 0
+				is_ally_with = event_target:greece
+				NOT = { is_ally_with = event_target:turkey }
+			}
+			modifier = {
+				factor = 0
+				is_ally_with = event_target:turkey
+				NOT = { is_ally_with = event_target:greece }
+			}
+			modifier = {
+				factor = 0
+				event_target:greece = { is_subject = no }
+				event_target:turkey = { is_subject = yes }
+			}
+			modifier = {
+				factor = 0
+				event_target:greece = { is_subject = yes }
+				event_target:turkey = { is_subject = no }
+			}
+		}
+		set_temp_variable = { tag_to_release = event_target:greece }
+		184 = { transfer_state_and_add_core = yes }
+
+		custom_effect_tooltip = tooltip_white_line
+		set_temp_variable = { tag_to_release = event_target:turkey }
+		if = {
+			limit = {
+				has_event_target = serres
+				OR = {
+					has_event_target = kardzhali
+					1066 = { is_owned_by = var:tag_to_release } # Kardzhali
+				}
+			}
+			763 = { transfer_state_and_add_core = yes }
+		}
+		if = {
+			limit = { has_event_target = kardzhali }
+			1066 = { transfer_state_and_add_core = yes } # Kardzhali
+		}
+		recheck_annexations = yes
+	}
+
+	option = { # Split between GRE, BUL and TUR
+		log = "[GetLogInfo]: event annex.169 option annex.169.f"
+		name = annex.169.f
+		trigger = {
+			has_event_target = greece
+			has_event_target = serres
+			has_event_target = bulgaria
+			has_event_target = kardzhali
+			has_event_target = turkey
+			has_event_target = komotini
+		}
+		ai_chance = {
+			base = 10
+			modifier = {
+				factor = 0
+				has_event_target = can_annex_western_thrace
+			}
+			modifier = {
+				factor = 0 #is ally with one, but not all three
+				OR = {
+					is_ally_with = event_target:greece
+					is_ally_with = event_target:bulgaria
+					is_ally_with = event_target:turkey
+				}
+				OR = {
+					NOT = { is_ally_with = event_target:greece }
+					NOT = { is_ally_with = event_target:bulgaria }
+					NOT = { is_ally_with = event_target:turkey }
+				}
+			}
+			modifier = {
+				factor = 0 #one is a puppet, but not all three
+				OR = {
+					event_target:greece = { is_subject = no }
+					event_target:bulgaria = { is_subject = no }
+					event_target:turkey = { is_subject = no }
+				}
+				OR = {
+					event_target:greece = { is_subject = yes }
+					event_target:bulgaria = { is_subject = yes }
+					event_target:turkey = { is_subject = yes }
+				}
+			}
+		}
+		set_temp_variable = { tag_to_release = event_target:greece }
+		184 = { transfer_state_and_add_claim = yes } #Serres
+
+		custom_effect_tooltip = tooltip_white_line
+		set_temp_variable = { tag_to_release = event_target:turkey }
+		763 = { transfer_state_and_add_claim = yes } #Komotini
+
+		custom_effect_tooltip = tooltip_white_line
+		set_temp_variable = { tag_to_release = event_target:bulgaria }
+		1066 = { transfer_state_and_add_claim = yes } #Kardzhali
+		recheck_annexations = yes
+	}
+	
+	option = { # annex - Greece
+		log = "[GetLogInfo]: event annex.169 option annex.integrate"
+		name = annex.integrate
+		trigger = {
+			original_tag = GRE
+		}
+		ai_chance = { base = 100 }
+		if = {
+			limit = { has_event_target = komotini }
+			184 = { add_claim_of_ROOT = yes } #Komotini
+		}
+		if = {
+			limit = { has_event_target = serres }
+			763 = { add_claim_of_ROOT = yes } #Serres
+		}
+		if = {
+			limit = {
+				has_event_target = kardzhali
+				owns_state = 184 #Komotini
+			}
+			1066 = { add_claim_of_ROOT = yes } #Kardzhali
+		}
+		recheck_annexations = yes
+	}
+
+	option = { # annex - BUL/SER
+		log = "[GetLogInfo]: event annex.169 option annex.integrate"
+		name = annex.integrate
+		trigger = {
+			owns_state = 212
+			48 = { is_claim_or_core_of_ROOT = yes }
+		}
+		ai_chance = { base = 100 }
+		if = {
+			limit = {
+				has_event_target = komotini
+				owns_state = 1089 #Kardzhali
+			}
+			184 = { add_claim_of_ROOT = yes } #Komotini
+		}
+		if = {
+			limit = { has_event_target = serres }
+			763 = { add_claim_of_ROOT = yes } #Serres
+		}
+		if = {
+			limit = { has_event_target = kardzhali }
+			1066 = { add_claim_of_ROOT = yes } #Kardzhali
+		}
+		recheck_annexations = yes
+	}
+
+	option = { # annex - TUR
+		log = "[GetLogInfo]: event annex.169 option annex.integrate"
+		name = annex.integrate
+		trigger = {
+			original_tag = TUR
+			owns_state = 342 #Adrianople
+		}
+		ai_chance = { base = 100 }
+		if = {
+			limit = { has_event_target = komotini }
+			763 = { add_claim_of_ROOT = yes } #Komotini
+		}
+		if = {
+			limit = {
+				has_event_target = kardzhali
+				owns_state = 184 #Komotini
+			}
+			1066 = { add_claim_of_ROOT = yes } #Kardzhali
+		}
+		if = {
+			limit = {
+				has_event_target = serres
+				OR = {
+					owns_state = 1066 #Kardzhali
+					owns_state = 763 #Kardzhali
+				}
+			}
+			184 = { add_claim_of_ROOT = yes } #Komotini
+		}
+		recheck_annexations = yes
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.169 option annex.occupation"
+		name = annex.occupation
+		trigger = {
+			is_ai = no
+		}
+		occupy_tiny_country  = yes
+		set_country_flag = EASTERN_MACEDONIA_CONQ
+	}
+}
+
+country_event = { # Fate of Dardanellia
+	id = annex.170
+	title = annexation_DARDANELLIA_CONQ
+	desc = annexation_DARDANELLIA_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	option = { # Give it to the Greek
+		log = "[GetLogInfo]: event annex.170 option annex.170.a"
+		name = annex.170.a
+		trigger = {
+			GRE = { ROOT_can_grant_land = yes }
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				is_ally_with = BUL
+			}
+		}
+		set_temp_variable = { tag_to_release = GRE }
+		340 = { transfer_state_and_add_core = yes }
+	}
+
+	option = { # Give it to the Turkish
+		log = "[GetLogInfo]: event annex.170 option annex.170.b"
+		name = annex.170.b
+		trigger = {
+			TUR = { ROOT_can_grant_land = yes }
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				is_ally_with = GRE
+			}
+		}
+		set_temp_variable = { tag_to_release = TUR }
+		340 = { transfer_state_and_add_core = yes }
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.170 option annex.occupation"
+		name = annex.occupation
+		trigger = {
+			is_ai = no
+		}
+		occupy_tiny_country  = yes
+		set_country_flag = DARDANELLIA_CONQ
+	}
+}
+
+country_event = { # Fate of Smyrna
+	id = annex.171
+	title = annexation_SMYRNA_CONQ
+	desc = annexation_SMYRNA_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	option = { # Give it to the Greek
+		log = "[GetLogInfo]: event annex.171 option annex.171.a"
+		name = annex.171.a
+		trigger = {
+			GRE = { ROOT_can_grant_land = yes }
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				is_ally_with = BUL
+			}
+		}
+		set_temp_variable = { tag_to_release = GRE }
+		339 = { transfer_state_and_add_core = yes }
+		1064 = { transfer_state_and_add_core = yes }
+	}
+
+	option = { # Give it to the Turkish
+		log = "[GetLogInfo]: event annex.171 option annex.171.b"
+		name = annex.171.b
+		trigger = {
+			TUR = { ROOT_can_grant_land = yes }
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				is_ally_with = GRE
+			}
+		}
+		set_temp_variable = { tag_to_release = TUR }
+		339 = { transfer_state_and_add_core = yes }
+		1064 = { transfer_state_and_add_core = yes }
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.171 option annex.occupation"
+		name = annex.occupation
+		trigger = {
+			is_ai = no
+		}
+		occupy_tiny_country  = yes
+		set_country_flag = SMYRNA_CONQ
+	}
+}
+
+country_event = { # Fate of Brandenburg
+	id = annex.172
+	title = annexation_BRANDENBURG_CONQ
+	desc = annexation_BRANDENBURG_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			if = {
+				limit = { NOT = { country_exists = PRS } }
+				add_to_temp_array = { core_removal_array = PRS }
+				remove_all_cores_and_claims_of_tags = yes
+			}
+		}
+		if = {
+			limit = {
+				var:59.owner = { #Hanover
+					is_germany_or_splinter_tag = yes
+					ROOT_can_grant_land = yes
+					NOT = { tag = PRS }
+				}
+			}
+			var:59.owner = { save_event_target_as = german_hannover }
+		}
+		if = {
+			limit = {
+				var:58.owner = { #Schleswig-Holstein
+					is_germany_or_splinter_tag = yes
+					ROOT_can_grant_land = yes
+					NOT = { tag = PRS }
+					NOT = { tag = event_target:german_hannover }
+				}
+			}
+			var:58.owner = { save_event_target_as = german_holstein }
+		}
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.172 option annex.172.a"
+		name = annex.172.a
+		trigger = {
+			NOT = { country_exists = PRS }
+			64 = { is_valid_annexation_state = yes } #Brandenburg
+		}
+		ai_chance = {
+			base = 20
+			modifier = {
+				factor = 0
+				OR = {
+					has_event_target = german_hannover
+					has_event_target = german_holstein
+				}
+				AI_trigger_country_wants_to_dismantle_germany = no
+			}
+			modifier = {
+				factor = 4
+				AI_trigger_country_wants_to_dismantle_germany = yes
+			}
+		}
+		set_temp_variable = { tag_to_release = PRS }
+		every_state = {
+			limit = { is_brandenburg = yes }
+			add_core_of = var:tag_to_release
+		}
+		release_targeted_tag = yes
+		recheck_annexations = yes
+	}
+
+	option = { #Give to PRS
+		log = "[GetLogInfo]: event annex.172 option annex.172.b"
+		name = annex.172.b
+		trigger = {
+			PRS = { ROOT_can_grant_land = yes }
+		}
+		ai_chance = {
+			base = 70
+			modifier = {
+				factor = 0
+				OR = {
+					is_ally_with = event_target:german_hannover
+					is_ally_with = event_target:german_holstein
+				}
+				NOT = { is_ally_with = PRS }
+			}
+		}
+		set_temp_variable = { tag_to_release = PRS }
+		every_state = {
+			limit = { is_brandenburg = yes }
+			add_core_of = var:tag_to_release
+		}
+		every_owned_state = {
+			limit = {
+				is_brandenburg = yes
+				is_claim_or_core_of_ROOT = no
+			}
+			transfer_state_to = var:tag_to_release
+		}
+		recheck_annexations = yes
+	}
+
+	option = { #Give to German tag 1 (owner of Hanover)
+		log = "[GetLogInfo]: event annex.172 option annex.172.c"
+		name = annex.172.c
+		trigger = {
+			has_event_target = german_hannover
+		}
+		ai_chance = {
+			base = 30
+			modifier = {
+				factor = 0
+				AI_trigger_country_wants_to_dismantle_germany = no
+				OR = {
+					is_ally_with = PRS
+					is_ally_with = event_target:german_holstein
+					AND = {
+						is_major = yes
+						NOT = { country_exists = PRS }
+					}
+				}
+				NOT = { is_ally_with = event_target:german_hannover }
+			}
+		}
+		set_temp_variable = { tag_to_release = event_target:german_hannover }
+		if = {
+			limit = { 64 = { is_valid_annexation_state = yes } } #Brandenburg
+			every_state = {
+				limit = {
+					OR = {
+						is_brandenburg = yes
+						is_saxony = yes
+					}
+				}
+				add_core_of = var:tag_to_release
+			}
+			every_owned_state = {
+				limit = {
+					OR = {
+						is_brandenburg = yes
+						is_saxony = yes
+					}
+					is_claim_or_core_of_ROOT = no
+				}
+				transfer_state_to = var:tag_to_release
+			}
+		}
+		else = {
+			every_state = {
+				limit = { is_brandenburg = yes }
+				add_core_of = var:tag_to_release
+			}
+			every_owned_state = {
+				limit = {
+					is_brandenburg = yes
+					is_claim_or_core_of_ROOT = no
+				}
+				transfer_state_to = var:tag_to_release
+			}
+		}
+		recheck_annexations = yes
+	}
+
+	option = { #Give to German tag 2 (owner of Schleswig-Holstein)
+		log = "[GetLogInfo]: event annex.172 option annex.172.e"
+		name = annex.172.e
+		trigger = {
+			has_event_target = german_holstein
+		}
+		ai_chance = {
+			base = 30
+			modifier = {
+				factor = 0
+				AI_trigger_country_wants_to_dismantle_germany = no
+				OR = {
+					is_ally_with = PRS
+					is_ally_with = event_target:german_hannover
+					AND = {
+						is_major = yes
+						NOT = { country_exists = PRS }
+					}
+				}
+				NOT = { is_ally_with = event_target:german_holstein }
+			}
+		}
+		set_temp_variable = { tag_to_release = event_target:german_holstein }
+		if = {
+			limit = { 64 = { is_valid_annexation_state = yes } } #Brandenburg
+			every_state = {
+				limit = {
+					OR = {
+						is_brandenburg = yes
+						is_saxony = yes
+					}
+				}
+				add_core_of = var:tag_to_release
+			}
+			every_owned_state = {
+				limit = {
+					OR = {
+						is_brandenburg = yes
+						is_saxony = yes
+					}
+					is_claim_or_core_of_ROOT = no
+				}
+				transfer_state_to = var:tag_to_release
+			}
+		}
+		else = {
+			every_state = {
+				limit = { is_brandenburg = yes }
+				add_core_of = var:tag_to_release
+			}
+			every_owned_state = {
+				limit = {
+					is_brandenburg = yes
+					is_claim_or_core_of_ROOT = no
+				}
+				transfer_state_to = var:tag_to_release
+			}
+		}
+		recheck_annexations = yes
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.172 option annex.occupation"
+		name = annex.occupation
+		ai_chance = {
+			base = 0
+		}
+		set_country_flag = PRS_CONQ
+		occupy_medium_country = yes
+		recheck_annexations = yes
+	}
+}
+
+country_event = { # Fate of Sudtirol
+	id = annex.173
+	title = annexation_SUDTIROL_CONQ
+	desc = annexation_SUDTIROL_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	option = { # Give it to the Austria
+		log = "[GetLogInfo]: event annex.173 option annex.173.a"
+		name = annex.173.a
+		trigger = {
+			AUS = { ROOT_can_grant_land = yes }
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				is_ally_with = ITA
+			}
+		}
+		set_temp_variable = { tag_to_release = AUS }
+		39 = { transfer_state_and_add_core = yes }
+	}
+
+	option = { # Give it to the Italians
+		log = "[GetLogInfo]: event annex.173 option annex.173.b"
+		name = annex.173.b
+		trigger = {
+			ITA = { ROOT_can_grant_land = yes }
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				is_ally_with = AUS
+			}
+		}
+		set_temp_variable = { tag_to_release = ITA }
+		39 = { transfer_state_and_add_core = yes }
+	}
+
+	option = { # Give it to the Italians
+		log = "[GetLogInfo]: event annex.173 option annex.173.b"
+		name = annex.173.b
+		trigger = {
+			ITP = { ROOT_can_grant_land = yes }
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				is_ally_with = AUS
+			}
+		}
+		set_temp_variable = { tag_to_release = ITP }
+		39 = { transfer_state_and_add_core = yes }
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.173 option annex.occupation"
+		name = annex.occupation
+		trigger = {
+			is_ai = no
+		}
+		occupy_small_country  = yes
+		set_country_flag = SUDTIROL_CONQ
+	}
+}
+
+country_event = { # Fate of Gorskaya
+	id = annex.178
+	title = annexation_GOR_CONQ
+	desc = annexation_GOR_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = GOR }
+			remove_all_cores_and_claims_of_tags = yes
+			GOR = {
+				add_state_core = 232
+				add_state_core = 233
+				add_state_core = 857
+				add_state_core = 859
+				add_state_core = 860
+				drop_cosmetic_tag = yes
+			}
+		}
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.178 option annex.178.a"
+		name = annex.178.a
+		ai_chance = {
+			base = 100
+		}
+		trigger = {
+			NOT = {
+				AND = {
+					tag = UKR
+					has_government = national_populist
+				}
+			}
+		}
+		set_temp_variable = { tag_to_release = GOR }
+		release_targeted_tag = yes
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.178 option annex.178.a"
+		name = annex.178.a
+		ai_chance = {
+			base = 100
+		}
+		trigger = {
+			tag = UKR
+			has_government = national_populist
+			NOT = { country_exists = CAU }
+		}
+		set_temp_variable = { tag_to_release = GOR }
+		release_targeted_tag = yes
+
+		GOR = {
+			set_cosmetic_tag = UKR_CAU
+			save_global_event_target_as = unified_caucasia
+		}
+		create_unified_caucasia = yes
+	}
+
+	option = { # Transfer to Caucasia
+		log = "[GetLogInfo]: event annex.178 option annex.3012.b"
+		name = annex.3012.b
+		ai_chance = { base = 100 }
+		trigger = {
+			tag = UKR
+			has_government = national_populist
+			country_exists = CAU
+			CAU = { is_subject_of = ROOT }
+		}
+		set_temp_variable = { tag_to_release = CAU }
+		every_owned_state = {
+			limit = { is_core_of = GOR }
+			transfer_state_and_add_core = yes
+		}
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.178 option annex.occupation"
+		name = annex.occupation
+		ai_chance = {
+			base = 0
+		}
+		set_country_flag = GOR_CONQ
+		occupy_small_country = yes
+	}
+}
+
+country_event = { # Fate of Turkey
+	id = annex.179
+	title = annexation_TUR_CONQ
+	desc = annexation_TUR_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			add_to_temp_array = { core_removal_array = TUR }
+			remove_all_cores_and_claims_of_tags = yes
+			TUR = {
+				add_state_core = 49
+				add_state_core = 340
+				add_state_core = 341
+				add_state_core = 342
+				add_state_core = 343
+				add_state_core = 344
+				add_state_core = 345
+				add_state_core = 346
+				add_state_core = 347
+				add_state_core = 348
+				add_state_core = 349
+				add_state_core = 350
+				add_state_core = 354
+				add_state_core = 355
+				add_state_core = 356
+				add_state_core = 776
+				add_state_core = 777
+				add_state_core = 778
+				add_state_core = 779
+				add_state_core = 780
+				add_state_core = 781
+				add_state_core = 1030
+				add_state_core = 1076
+				add_state_core = 1077
+				add_state_core = 1078
+				add_state_core = 1079
+				add_state_core = 1080
+				drop_cosmetic_tag = yes
+			}
+		}
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.179 option annex.179.a"
+		name = annex.179.a
+		trigger = {
+			NOT = {
+				AND = {
+					tag = ROM
+					has_completed_focus = ROM_resurrect_an_empire
+				}
+			}
+		}
+		ai_chance = {
+			base = 100
+		}
+		set_temp_variable = { tag_to_release = TUR }
+		release_targeted_tag = yes
+	}
+
+	option = { # Romanian Byzantium
+		log = "[GetLogInfo]: event annex.179 option annex.integrate"
+		name = annex.integrate
+		trigger = {
+			tag = ROM
+			has_completed_focus = ROM_resurrect_an_empire
+		}
+
+		set_country_flag = TUR_CONQ
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.179 option annex.occupation"
+		name = annex.occupation
+		ai_chance = {
+			base = 0
+		}
+		set_country_flag = TUR_CONQ
+		occupy_small_country = yes
+	}
+}
+
+country_event = { # Fate of Alsace
+	id = annex.180
+	title = annexation_ALSACE_CONQ
+	desc = annexation_ALSACE_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	option = { # Give it to the French
+		log = "[GetLogInfo]: event annex.180 option annex.180.a"
+		name = annex.180.a
+		trigger = {
+			FRA = { ROOT_can_grant_land = yes }
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				OR = {
+					is_ally_with = GER
+					is_ally_with = GRP
+				}
+			}
+		}
+		set_temp_variable = { tag_to_release = FRA }
+		28 = { transfer_state_and_add_core = yes }
+		868 = { transfer_state_and_add_core = yes }
+	}
+
+	option = { # Give it to our French Puppet
+		log = "[GetLogInfo]: event annex.180 option annex.180.a"
+		name = annex.180.a
+		trigger = {
+			FRP = { ROOT_can_grant_land = yes }
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				OR = {
+					is_ally_with = GER
+					is_ally_with = GRP
+				}
+			}
+		}
+		set_temp_variable = { tag_to_release = FRP }
+		28 = { transfer_state_and_add_core = yes }
+		868 = { transfer_state_and_add_core = yes }
+	}
+
+	option = { # Give it to the Germans
+		log = "[GetLogInfo]: event annex.180 option annex.180.b"
+		name = annex.180.b
+		trigger = {
+			GER = { ROOT_can_grant_land = yes }
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				OR = {
+					is_ally_with = FRA
+					is_ally_with = FRP
+				}
+			}
+		}
+		set_temp_variable = { tag_to_release = GER }
+		28 = { transfer_state_and_add_core = yes }
+		868 = { transfer_state_and_add_core = yes }
+	}
+
+	option = { # Give it to the Germans
+		log = "[GetLogInfo]: event annex.180 option annex.180.b"
+		name = annex.180.b
+		trigger = {
+			GRP = { ROOT_can_grant_land = yes }
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				OR = {
+					is_ally_with = FRA
+					is_ally_with = FRP
+				}
+			}
+		}
+		set_temp_variable = { tag_to_release = GRP }
+		28 = { transfer_state_and_add_core = yes }
+		868 = { transfer_state_and_add_core = yes }
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.180 option annex.occupation"
+		name = annex.occupation
+		trigger = {
+			is_ai = no
+		}
+		occupy_small_country  = yes
+		set_country_flag = ALSACE_CONQ
+	}
+}
+
+country_event = { # Fate of Saarland
+	id = annex.181
+	title = annexation_SAARLAND_CONQ
+	desc = annexation_SAARLAND_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	option = { # Give it to the French
+		log = "[GetLogInfo]: event annex.181 option annex.181.a"
+		name = annex.181.a
+		trigger = {
+			FRA = { ROOT_can_grant_land = yes }
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				OR = {
+					is_ally_with = GER
+					is_ally_with = GRP
+				}
+			}
+		}
+		set_temp_variable = { tag_to_release = FRA }
+		981 = { transfer_state_and_add_core = yes }
+	}
+
+	option = { # Give it to our French Puppet
+		log = "[GetLogInfo]: event annex.181 option annex.181.a"
+		name = annex.181.a
+		trigger = {
+			FRP = { ROOT_can_grant_land = yes }
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				OR = {
+					is_ally_with = GER
+					is_ally_with = GRP
+				}
+			}
+		}
+		set_temp_variable = { tag_to_release = FRP }
+		981 = { transfer_state_and_add_core = yes }
+	}
+
+	option = { # Give it to the Germans
+		log = "[GetLogInfo]: event annex.181 option annex.181.b"
+		name = annex.181.b
+		trigger = {
+			GER = { ROOT_can_grant_land = yes }
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				OR = {
+					is_ally_with = FRA
+					is_ally_with = FRP
+				}
+			}
+		}
+		set_temp_variable = { tag_to_release = GER }
+		981 = { transfer_state_and_add_core = yes }
+	}
+
+	option = { # Give it to the Germans
+		log = "[GetLogInfo]: event annex.181 option annex.181.b"
+		name = annex.181.b
+		trigger = {
+			GRP = { ROOT_can_grant_land = yes }
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				OR = {
+					is_ally_with = FRA
+					is_ally_with = FRP
+				}
+			}
+		}
+		set_temp_variable = { tag_to_release = GRP }
+		981 = { transfer_state_and_add_core = yes }
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.181 option annex.occupation"
+		name = annex.occupation
+		trigger = {
+			is_ai = no
+		}
+		occupy_small_country  = yes
+		set_country_flag = SAARLAND_CONQ
+	}
+}
+
+country_event = { # Fate of Banat
+	id = annex.182
+	title = annexation_BANAT_CONQ
+	desc = annexation_BANAT_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	option = { # Give it to Hungary
+		log = "[GetLogInfo]: event annex.182 option annex.182.a"
+		name = annex.182.a
+		trigger = {
+			HUN = { ROOT_can_grant_land = yes }
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				is_ally_with = ROM
+			}
+		}
+		set_temp_variable = { tag_to_release = HUN }
+		82 = { transfer_state_and_add_core = yes }
+	}
+
+	option = { # Give it to Bulgaria
+		log = "[GetLogInfo]: event annex.182 option annex.182.b"
+		name = annex.182.b
+		trigger = {
+			ROM = { ROOT_can_grant_land = yes }
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				is_ally_with = HUN
+			}
+		}
+		set_temp_variable = { tag_to_release = ROM }
+		82 = { transfer_state_and_add_core = yes }
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.182 option annex.occupation"
+		name = annex.occupation
+		trigger = {
+			is_ai = no
+		}
+		occupy_small_country = yes
+		set_country_flag = BANAT_CONQ
+	}
+}
+
+country_event = { # Fate of Crisana
+	id = annex.183
+	title = annexation_CRISANA_CONQ
+	desc = annexation_CRISANA_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		if = {
+			limit = {
+				var:84.owner = { # Transylvania
+					OR = {
+						tag = ROM
+						tag = HUN
+					}
+					ROOT_can_grant_land = yes
+				}
+			}
+			var:84.owner = { save_event_target_as = transylvania_owner }
+		}
+		if = {
+			limit = {
+				var:154.owner = {
+					OR = {
+						tag = ROM
+						tag = HUN
+					}
+					ROOT_can_grant_land = yes
+					NOT = { tag = event_target:transylvania_owner }
+				}
+			}
+			var:154.owner = { save_event_target_as = alfold_owner }
+		}
+	}
+
+	option = { # Give it to Alfold's Owner
+		log = "[GetLogInfo]: event annex.183 option annex.183.a"
+		name = annex.183.a
+		trigger = {
+			has_event_target = alfold_owner
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				is_ally_with = ROM
+			}
+		}
+		set_temp_variable = { tag_to_release = event_target:alfold_owner }
+		83 = { transfer_state_and_add_core = yes }
+	}
+
+	option = { # Give it to Transylvania's Owner
+		log = "[GetLogInfo]: event annex.183 option annex.183.b"
+		name = annex.183.b
+		trigger = {
+			has_event_target = transylvania_owner
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				is_ally_with = HUN
+			}
+		}
+		set_temp_variable = { tag_to_release = event_target:transylvania_owner }
+		83 = { transfer_state_and_add_core = yes }
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.183 option annex.occupation"
+		name = annex.occupation
+		trigger = {
+			is_ai = no
+		}
+		occupy_small_country = yes
+		set_country_flag = CRISANA_CONQ
+	}
+}
+
+country_event = { # Fate of Oradea
+	id = annex.184
+	title = annexation_ORADEA_CONQ
+	desc = annexation_ORADEA_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		if = {
+			limit = {
+				var:76.owner = { # North Transylvania
+					ROOT_can_grant_land = yes
+				}
+			}
+			var:76.owner = { save_event_target_as = transylvania_owner }
+		}
+		if = {
+			limit = {
+				var:154.owner = {
+					OR = {
+						tag = ROM
+						tag = HUN
+					}
+					ROOT_can_grant_land = yes
+					NOT = { tag = event_target:transylvania_owner }
+				}
+			}
+			var:154.owner = { save_event_target_as = alfold_owner }
+		}
+	}
+
+	option = { # Give it to Hungary
+		log = "[GetLogInfo]: event annex.184 option annex.184.a"
+		name = annex.184.a
+		trigger = {
+			has_event_target = alfold_owner
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				is_ally_with = ROM
+			}
+		}
+		set_temp_variable = { tag_to_release = event_target:alfold_owner }
+		762 = { transfer_state_and_add_core = yes }
+	}
+
+	option = { # Give it to Bulgaria
+		log = "[GetLogInfo]: event annex.184 option annex.184.b"
+		name = annex.184.b
+		trigger = {
+			has_event_target = transylvania_owner
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				is_ally_with = HUN
+			}
+		}
+		set_temp_variable = { tag_to_release = event_target:transylvania_owner }
+		762 = { transfer_state_and_add_core = yes }
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.184 option annex.occupation"
+		name = annex.occupation
+		trigger = {
+			is_ai = no
+		}
+		occupy_small_country = yes
+		set_country_flag = ORADEA_CONQ
+	}
+}
+
+country_event = { # Fate of European Russia
+	id = annex.185
+	title = annexation_VRS_CONQ
+	desc = annexation_VRS_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			every_owned_state = {
+				limit = {
+					is_core_of = SOV
+				}
+				VRS = { add_state_core = PREV }
+			}
+		}
+	}
+
+	option = { # Puppet
+		log = "[GetLogInfo]: event annex.185 option annex.185.a"
+		name = annex.185.a
+		ai_chance = {
+			base = 100
+		}
+		set_temp_variable = { tag_to_release = VRS }
+		release_targeted_tag = yes
+		if = {
+			limit = {
+				ROOT = {
+					tag = GER
+					has_government = valkist
+				}
+			}
+			VRS = {
+				set_party_name = {
+					ideology = valkist
+					long_name = VRS_rk_party
+					name = VRS_rk_party_long
+				}
+			}
+		}
+		else = {
+			VRS = {
+				set_party_name = {
+					ideology = valkist
+					long_name = VRS_valkist_party
+					name = VRS_valkist_party_long
+				}
+			}
+		}
+	}
+
+	option = { # Give to Russia
+		log = "[GetLogInfo]: event annex.185 option annex.185.b"
+		name = annex.185.b
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 2
+				is_ally_with = RUS
+			}
+		}
+		trigger = {
+			is_ally_with = RUS
+		}
+		every_owned_state = {
+			limit = { is_core_of = VRS }
+			RUS = { transfer_state = PREV }
+		}
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.185 option annex.occupation"
+		name = annex.occupation
+		ai_chance = {
+			base = 0
+		}
+		occupy_massive_country = yes
+		set_country_flag = VRS_CONQ
+	}
+}
+
+country_event = { # Fate of Sarny
+	id = annex.187
+	title = annexation_SARNY_CONQ
+	desc = annexation_SARNY_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	option = { # Give it to Ukraine
+		log = "[GetLogInfo]: event annex.187 option annex.183.a"
+		name = annex.183.a
+		trigger = {
+			UKR = { ROOT_can_grant_land = yes }
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				is_ally_with = BLR
+			}
+		}
+		set_temp_variable = { tag_to_release = UKR }
+		953 = { transfer_state_and_add_core = yes }
+	}
+
+	option = { # Give it to Belarus
+		log = "[GetLogInfo]: event annex.187 option annex.183.b"
+		name = annex.183.b
+		trigger = {
+			BLR = { ROOT_can_grant_land = yes }
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				is_ally_with = UKR
+			}
+		}
+		set_temp_variable = { tag_to_release = BLR }
+		953 = { transfer_state_and_add_core = yes }
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.187 option annex.occupation"
+		name = annex.occupation
+		trigger = {
+			is_ai = no
+		}
+		occupy_small_country = yes
+		set_country_flag = SARNY_CONQ
+	}
+}
+
+country_event = { # Fate of Eastern Rhineland
+	id = annex.188
+	title = annexation_EASTERN_RHINELAND_CONQ
+	desc = annexation_EASTERN_RHINELAND_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		if = {
+			limit = {
+				var:55.owner = { # Hessen
+					is_germany_or_splinter_tag = yes
+					ROOT_can_grant_land = yes
+				}
+			}
+			var:55.owner = { save_event_target_as = german_hesse }
+		}
+		if = {
+			limit = {
+				var:746.owner = { # Western Rhineland
+					is_germany_or_splinter_tag = yes
+					ROOT_can_grant_land = yes
+				}
+			}
+			var:746.owner = { save_event_target_as = german_rhineland }
+		}
+	}
+
+	option = { #Give to German tag 1 (owner of Hesse)
+		log = "[GetLogInfo]: event annex.188 option annex.188.a"
+		name = annex.188.a
+		trigger = {
+			is_germany_or_splinter_tag = no
+			has_event_target = german_hesse
+		}
+		ai_chance = {
+			base = 40
+			modifier = {
+				factor = 0
+				is_ally_with = event_target:german_rhineland
+				NOT = { is_ally_with = event_target:german_hesse }
+			}
+		}
+		set_temp_variable = { tag_to_release = event_target:german_hesse }
+		51 = { transfer_state_and_add_claim = yes }
+		recheck_annexations = yes
+	}
+
+	option = { #Give to German tag 2 (owner of Western Rhineland)
+		log = "[GetLogInfo]: event annex.188 option annex.188.b"
+		name = annex.188.b
+		trigger = {
+			is_germany_or_splinter_tag = no
+			has_event_target = german_rhineland
+		}
+		ai_chance = {
+			base = 60
+			modifier = {
+				factor = 0
+				is_ally_with = event_target:german_rhineland
+				NOT = { is_ally_with = event_target:german_hesse }
+			}
+		}
+		set_temp_variable = { tag_to_release = event_target:german_rhineland }
+		51 = { transfer_state_and_add_claim = yes }
+		recheck_annexations = yes
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.188 option annex.occupation"
+		name = annex.occupation
+		ai_chance = {
+			base = 0
+		}
+		set_country_flag = EASTERN_RHINELAND_CONQ
+		occupy_medium_country = yes
+		recheck_annexations = yes
+	}
+}
+
+country_event = { # Fate of Luhansk and Donetsk
+	id = annex.189
+	title = annexation_LUHANSK_CONQ
+	desc = annexation_LUHANSK_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	option = { #Give it to Ukraine
+		log = "[GetLogInfo]: event annex.189 option annex.189.a"
+		name = annex.189.a
+		trigger = {
+			UKR = { ROOT_can_grant_land = yes }
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				is_ally_with = SOV
+			}
+		}
+		set_temp_variable = { tag_to_release = UKR }
+		227 = { transfer_state_and_add_core = yes }
+		228 = { transfer_state_and_add_core = yes }
+		recheck_annexations = yes
+	}
+
+	option = { #Give it to Soviets
+		log = "[GetLogInfo]: event annex.189 option annex.189.b"
+		name = annex.188.b
+		trigger = {
+			SOV = { ROOT_can_grant_land = yes }
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				is_ally_with = UKR
+			}
+		}
+		set_temp_variable = { tag_to_release = SOV }
+		227 = { transfer_state_and_add_core = yes }
+		228 = { transfer_state_and_add_core = yes }
+		recheck_annexations = yes
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.189 option annex.occupation"
+		name = annex.occupation
+		ai_chance = {
+			base = 0
+		}
+		trigger = {
+			is_ai = no
+		}
+		occupy_small_country = yes
+		set_country_flag = LUHANSK_CONQ
+	}
+}

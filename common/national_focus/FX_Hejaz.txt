@@ -1,0 +1,2003 @@
+### Hashemite Arabia focus tree
+### created by: dax0102
+
+focus_tree = {
+	id = hashemite_focus
+
+	country = {
+		factor = 0
+		modifier = {
+			add = 10
+			tag = HEJ
+		}
+	}
+	default = no
+	continuous_focus_position = { x = 300 y = 900 }
+
+	focus = { # Modernization of the Arabian Peninsula
+		id = HEJ_modernize_peninsula
+		icon = GFX_goal_HEJ_modernize
+		x = 3
+		y = 0
+		cost = 5
+		ai_will_do = { base = 800 }
+		available = {
+			has_capitulated = no
+		}
+		completion_reward = {
+			add_tech_bonus = {
+				category = industry
+				bonus = 0.75
+				uses = 2
+			}
+		}
+		search_filters = { FOCUS_FILTER_RESEARCH }
+	}
+
+	focus = { # London's Economic Assistance
+		id = HEJ_london_economic_assistance
+		icon = GFX_goal_GBR_big_ben
+		x = -3
+		y = 1
+		cost = 6
+		available = {
+			country_exists = ENG
+			NOT = { has_war_with = ENG }
+			has_capitulated = no
+		}
+		mutually_exclusive = {
+			focus = HEJ_expand_trading_partners
+		}
+		prerequisite = { focus = HEJ_modernize_peninsula }
+		relative_position_id = HEJ_modernize_peninsula
+		completion_reward = {
+			679 = {
+				if = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = industrial_complex
+						level = 2
+						instant_build = yes
+					}
+				}
+			}
+			1031 = {
+				if = {
+					limit = {
+						free_building_slots = {
+							building = arms_factory
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = arms_factory
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			set_temp_variable = { british_control_temp = 5 }
+			HEJ_increase_british_control = yes
+		}
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_PRODUCTION }
+	}
+
+	focus = { # Expand Trading Partners
+		id = HEJ_expand_trading_partners
+		icon = GFX_goal_AST_new_markets
+		x = 3
+		y = 1
+		cost = 6
+		available = {
+			NOT = { is_subject_of = ENG }
+		}
+		mutually_exclusive = {
+			focus = HEJ_london_economic_assistance
+		}
+		prerequisite = { focus = HEJ_modernize_peninsula }
+		relative_position_id = HEJ_modernize_peninsula
+		completion_reward = {
+			679 = {
+				if = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			set_temp_variable = { british_control_temp = 5 }
+			HEJ_decrease_british_control = yes
+		}
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_PRODUCTION }
+	}
+
+	focus = { # Joint Oil Explorations
+		id = HEJ_joint_oil_explorations
+		icon = GFX_goal_basic_oil
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			owns_state = 1031
+		}
+		prerequisite = { focus = HEJ_london_economic_assistance }
+		relative_position_id = HEJ_london_economic_assistance
+		completion_reward = {
+			add_tech_bonus = {
+				category = synth_resources
+				bonus = 1.0
+				uses = 1
+			}
+			1031 = {
+				add_resource = {
+					type = oil
+					amount = 8
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_PRODUCTION }
+	}
+
+	focus = { # Deals with English Electric
+		id = HEJ_deals_with_english_electric
+		icon = GFX_goal_generic_lightbulb
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			country_exists = ENG
+			NOT = { has_war_with = ENG }
+		}
+		prerequisite = { focus = HEJ_joint_oil_explorations }
+		relative_position_id = HEJ_joint_oil_explorations
+		completion_reward = {
+			add_tech_bonus = {
+				category = electronics
+				bonus = 1.0
+				uses = 1
+			}
+			custom_effect_tooltip = available_designer
+			show_ideas_tooltip = HEJ_english_electric
+		}
+		search_filters = { FOCUS_FILTER_RESEARCH }
+	}
+
+	focus = { # Invite British Scholars
+		id = HEJ_invite_british_scholars
+		icon = GFX_goal_tfv_strengthen_commonwealth_ties
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			country_exists = ENG
+			NOT = { has_war_with = ENG }
+		}
+		prerequisite = { focus = HEJ_joint_oil_explorations }
+		relative_position_id = HEJ_joint_oil_explorations
+		completion_reward = {
+			add_ideas = HEJ_british_scholars_idea
+			set_temp_variable = { british_control_temp = 5 }
+			HEJ_increase_british_control = yes
+		}
+		search_filters = { FOCUS_FILTER_RESEARCH }
+	}
+
+	focus = { # British Industrial Funding
+		id = HEJ_british_industrial_funding
+		icon = GFX_DAH_Topke
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			country_exists = ENG
+			NOT = { has_war_with = ENG }
+		}
+		prerequisite = { focus = HEJ_deals_with_english_electric }
+		prerequisite = { focus = HEJ_invite_british_scholars }
+		relative_position_id = HEJ_deals_with_english_electric
+		completion_reward = {
+			679 = {
+				if = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			1031 = {
+				if = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			1032 = {
+				if = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+	}
+
+	focus = { # British Crisis Response
+		id = HEJ_british_crisis_response
+		icon = GFX_focus_chi_british_cooperation
+		x = 3
+		y = 1
+		cost = 6
+		available = {
+			country_exists = ENG
+			NOT = { has_war_with = ENG }
+			custom_trigger_tooltip = {
+				tooltip = HEJ_black_wednesday_hits
+				has_idea = HEJ_black_wednesday
+			}
+		}
+		mutually_exclusive = {
+			focus = HEJ_request_german_support
+		}
+		prerequisite = {
+			focus = HEJ_london_economic_assistance
+			focus = HEJ_expand_trading_partners
+		}
+		relative_position_id = HEJ_london_economic_assistance
+		completion_reward = {
+			HEJ_decrease_depression = yes
+			set_temp_variable = { british_control_temp = 5 }
+			HEJ_increase_british_control = yes
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_PRODUCTION FOCUS_FILTER_INDUSTRY }
+	}
+
+	focus = { # Export Tariffs
+		id = HEJ_export_tariffs
+		icon = GFX_goal_generic_capitalist_system
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			is_subject = no
+			has_capitulated = no
+			country_exists = ENG
+			NOT = { has_war_with = ENG }
+			custom_trigger_tooltip = {
+				tooltip = HEJ_black_wednesday_hits
+				has_idea = HEJ_black_wednesday
+			}
+		}
+		prerequisite = { focus = HEJ_british_crisis_response }
+		relative_position_id = HEJ_british_crisis_response
+		completion_reward = {
+			if = {
+				limit = {
+					NOT = { has_idea = HEJ_black_wednesday }
+				}
+				effect_tooltip = {
+					swap_ideas = {
+						remove_idea = HEJ_black_wednesday
+						add_idea = HEJ_black_wednesday_1
+					}
+				}
+			}
+			else = {
+				HEJ_decrease_depression = yes
+			}
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_PRODUCTION FOCUS_FILTER_INDUSTRY }
+	}
+
+	focus = { # Mecca Railway Corporation
+		id = HEJ_mecca_railway_corporation
+		icon = GFX_goal_generic_railway_construction
+		x = 0
+		y = 2
+		cost = 6
+		available = {
+			has_capitulated = no
+			owns_state = 679
+		}
+		prerequisite = { focus = HEJ_british_crisis_response }
+		relative_position_id = HEJ_british_crisis_response
+		completion_reward = {
+			add_ideas = HEJ_mecca_railway_corp
+		}
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+	}
+
+	focus = { # Improve Railway Networks
+		id = HEJ_improve_railway_networks
+		icon = GFX_goal_generic_seize_railway
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+		}
+		prerequisite = {
+			focus = HEJ_london_economic_assistance
+			focus = HEJ_expand_trading_partners
+		}
+		relative_position_id = HEJ_london_economic_assistance
+		completion_reward = {
+			every_owned_state = {
+				if = {
+					limit = {
+						is_core_of = ROOT
+						NOT = { state = 678 } # That's a desert
+					}
+					add_building_construction = {
+						type = infrastructure
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+	}
+
+	focus = { # Arabian Census
+		id = HEJ_arabian_census
+		icon = GFX_goal_generic_banking_legislation
+		x = 0
+		y = 2
+		cost = 6
+		available = {
+			has_capitulated = no
+		}
+		prerequisite = { focus = HEJ_improve_railway_networks }
+		relative_position_id = HEJ_improve_railway_networks
+		completion_reward = {
+			add_manpower = 50000
+			every_owned_state = {
+				if = {
+					limit = {
+						is_core_of = ROOT
+						NOT = { state = 678 }
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+				}
+				add_extra_state_shared_building_slots = 2
+			}
+		}
+		search_filters = { FOCUS_FILTER_MANPOWER FOCUS_FILTER_INDUSTRY }
+	}
+
+	focus = { # Modernize Our Ports
+		id = HEJ_modernize_our_ports
+		icon = GFX_SIA_maritmesilkroad
+		x = 3
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			owns_state = 679
+		}
+		prerequisite = { focus = HEJ_expand_trading_partners }
+		relative_position_id = HEJ_expand_trading_partners
+		completion_reward = {
+			679 = {
+				add_building_construction = {
+					type = naval_base
+					level = 2
+					instant_build = yes
+					province = 12883
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+	}
+
+	focus = { # Weapons Imports
+		id = HEJ_weapons_imports
+		icon = GFX_goal_generic_military_equipment
+		x = -2
+		y = 2
+		cost = 6
+		available = {
+			has_capitulated = no
+		}
+		prerequisite = {
+			focus = HEJ_modernize_our_ports
+			focus = HEJ_request_german_support
+		}
+		relative_position_id = HEJ_modernize_our_ports
+		completion_reward = {
+			army_experience = 5
+			unlock_decision_category_tooltip = HEJ_foreign_weapons_imports
+		}
+		search_filters = { FOCUS_FILTER_ARMY_BONUS }
+	}
+
+	focus = { # Encourage Domestic Manufacturing
+		id = HEJ_encourage_domestic_manufacturing
+		icon = GFX_goal_factory_complex
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_full_control_of_state = 1031
+			has_full_control_of_state = 1032
+		}
+		prerequisite = { focus = HEJ_modernize_our_ports }
+		relative_position_id = HEJ_modernize_our_ports
+		completion_reward = {
+			1031 = {
+				if = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			1032 = {
+				if = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_PRODUCTION }
+	}
+
+	focus = { # Expand Food Stocks
+		id = HEJ_expand_food_stocks
+		icon = GFX_focus_AUS_agriculture
+		x = 0
+		y = 2
+		cost = 6
+		available = {
+			has_capitulated = no
+		}
+		prerequisite = { focus = HEJ_modernize_our_ports }
+		relative_position_id = HEJ_modernize_our_ports
+		completion_reward = {
+			add_ideas = HEJ_food_imports
+		}
+		search_filters = { FOCUS_FILTER_MANPOWER FOCUS_FILTER_PRODUCTION }
+	}
+
+	focus = { # Request German Support
+		id = HEJ_request_german_support
+		icon = GFX_goal_germany
+		x = 0
+		y = 1
+		cost = 6
+		available = {
+			is_subject = no
+			has_capitulated = no
+			country_exists = GER
+			NOT = { has_war_with = GER }
+			custom_trigger_tooltip = {
+				tooltip = HEJ_black_wednesday_hits
+				has_idea = HEJ_black_wednesday
+			}
+		}
+		mutually_exclusive = {
+			focus = HEJ_british_crisis_response
+		}
+		prerequisite = {
+			focus = HEJ_expand_trading_partners
+		}
+		relative_position_id = HEJ_expand_trading_partners
+		completion_reward = {
+			GER = { country_event = { id = hejaz.44 days = 1 } }
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY }
+	}
+
+	focus = { # German Industrial Expertise
+		id = HEJ_german_industrial_expertise
+		icon = GFX_goal_german_worker
+		x = 0
+		y = 1
+		cost = 6
+		available = {
+			country_exists = GER
+			NOT = { has_war_with = GER }
+		}
+		prerequisite = { focus = HEJ_request_german_support }
+		relative_position_id = HEJ_request_german_support
+		completion_reward = {
+			HEJ_decrease_depression = yes
+			add_offsite_building = {
+				level = 1
+				type = industrial_complex
+			}
+			set_temp_variable = { british_control_temp = 5 }
+			HEJ_increase_british_control = yes
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY }
+	}
+
+	focus = { # Contracts with IG Fabren
+		id = HEJ_contracts_with_ig_fabren
+		icon = GFX_DAH_Topke
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			country_exists = GER
+			NOT = { has_war_with = GER }
+		}
+		prerequisite = { focus = HEJ_german_industrial_expertise }
+		prerequisite = { focus = HEJ_import_industrial_tools }
+		relative_position_id = HEJ_german_industrial_expertise
+		completion_reward = {
+			1031 = {
+				if = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY }
+	}
+
+	focus = { # Import Industrial Tools
+		id = HEJ_import_industrial_tools
+		icon = GFX_goal_generic_design_equipment_standards
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+		}
+		prerequisite = {
+			focus = HEJ_british_crisis_response
+			focus = HEJ_request_german_support
+		}
+		relative_position_id = HEJ_british_crisis_response
+		completion_reward = {
+			add_tech_bonus = {
+				category = industry
+				bonus = 1.0
+				uses = 2
+			}
+		}
+		search_filters = { FOCUS_FILTER_RESEARCH }
+	}
+
+	focus = { # Academic Initiatives
+		id = HEJ_academic_initiatives
+		icon = GFX_goal_KTG_Bookstack
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+		}
+		prerequisite = { focus = HEJ_modernize_our_ports }
+		relative_position_id = HEJ_modernize_our_ports
+		completion_reward = {
+			add_research_slot = 1
+			set_temp_variable = { british_control_temp = 3 }
+			HEJ_decrease_british_control = yes
+		}
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_POLITICAL }
+	}
+
+	focus = { # Towards Economic Modernization
+		id = HEJ_towards_economic_modernization
+		icon = GFX_focus_generic_the_giant_wakes
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+		}
+		prerequisite = {
+			focus = HEJ_mecca_railway_corporation
+			focus = HEJ_contracts_with_ig_fabren
+		}
+		relative_position_id = HEJ_mecca_railway_corporation
+		completion_reward = {
+			HEJ_decrease_depression = yes
+			679 = {
+				if = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			1031 = {
+				if = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_POLITICAL }
+	}
+
+	focus = { # State of the Kingdom
+		id = HEJ_state_of_the_kingdom
+		icon = GFX_goal_HEJ_state_kingdom
+		x = 16
+		y = 0
+		cost = 6
+		ai_will_do = { base = 200 }
+		available = {
+			has_capitulated = no
+		}
+		completion_reward = {
+			country_event = hejaz.21
+		}
+	}
+
+	focus = { # Hashemite Hegemony
+		id = HEJ_hashemite_hegemony
+		icon = GFX_goal_HEJ_royal_house_hashemite
+		x = -2
+		y = 1
+		cost = 6
+		available = {
+			hidden_trigger = { always = no }
+		}
+		bypass = {
+			has_country_flag = HEJ_civil_war_end
+		}
+		prerequisite = { focus = HEJ_state_of_the_kingdom }
+		relative_position_id = HEJ_state_of_the_kingdom
+		completion_reward = {
+			custom_effect_tooltip = HEJ_hashemite_hegemony_tt
+		}
+	}
+
+	focus = { # Discredit the Saudis
+		id = HEJ_discredit_the_saudis
+		icon = GFX_goal_generic_attack_nejd
+		x = -2
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			NOT = { country_exists = SAU }
+		}
+		prerequisite = { focus = HEJ_hashemite_hegemony }
+		relative_position_id = HEJ_hashemite_hegemony
+		completion_reward = {
+			add_stability = 0.05
+			add_political_power = 50
+			custom_effect_tooltip = HEJ_nejd_reintegration_tt
+		}
+		search_filters = { FOCUS_FILTER_RESISTANCE FOCUS_FILTER_STABILITY }
+	}
+
+	focus = { # Hunt the Ikhwans
+		id = HEJ_hunt_the_ikhwans
+		icon = GFX_goal_purge_opposition
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_idea = HEJ_ikhwan_raids
+		}
+		bypass = {
+			NOT = { has_idea = HEJ_ikhwan_raids }
+		}
+		prerequisite = { focus = HEJ_discredit_the_saudis }
+		relative_position_id = HEJ_discredit_the_saudis
+		completion_reward = {
+			remove_ideas = HEJ_ikhwan_raids
+			hidden_effect = {
+				country_event = { id = hejaz.35 days = 60 }
+			}
+		}
+		search_filters = { FOCUS_FILTER_MANPOWER FOCUS_FILTER_STABILITY }
+	}
+
+	focus = { # Discredit the Rashidis
+		id = HEJ_discredit_the_rashidis
+		icon = GFX_goal_generic_attack_rashid
+		x = 0
+		y = 2
+		cost = 6
+		available = {
+			has_capitulated = no
+			NOT = { country_exists = RAS }
+		}
+		prerequisite = { focus = HEJ_discredit_the_saudis }
+		relative_position_id = HEJ_discredit_the_saudis
+		completion_reward = {
+			add_stability = 0.05
+			add_political_power = 50
+			custom_effect_tooltip = HEJ_jabal_shammar_reintegration_tt
+		}
+		search_filters = { FOCUS_FILTER_RESISTANCE FOCUS_FILTER_STABILITY }
+	}
+
+	focus = { # Prioritize Religious Education
+		id = HEJ_prioritize_religious_education
+		icon = GFX_goal_HEJ_islamic_education
+		x = 0
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+		}
+		prerequisite = { focus = HEJ_hashemite_hegemony }
+		relative_position_id = HEJ_hashemite_hegemony
+		completion_reward = {
+			add_research_slot = 1
+		}
+		search_filters = { FOCUS_FILTER_RESEARCH }
+	}
+
+	focus = { # Reaffirm Authority Over the Peninsula
+		id = HEJ_reaffirm_authority
+		icon = GFX_goal_Centralised_Government
+		x = 0
+		y = 2
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_political_power > 0
+		}
+		prerequisite = { focus = HEJ_hunt_the_ikhwans }
+		prerequisite = { focus = HEJ_prioritize_religious_education }
+		relative_position_id = HEJ_prioritize_religious_education
+		completion_reward = {
+			add_stability = 0.15
+			add_war_support = 0.15
+		}
+		search_filters = { FOCUS_FILTER_STABILITY }
+	}
+
+	focus = { # Center of Islamic Faith
+		id = HEJ_center_of_islamic_faith
+		icon = GFX_goal_islamic_government
+		x = 2
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_political_power > 0
+		}
+		prerequisite = { focus = HEJ_hashemite_hegemony }
+		relative_position_id = HEJ_hashemite_hegemony
+		completion_reward = {
+			add_ideas = HEJ_guardians_of_hajj
+		}
+		search_filters = { FOCUS_FILTER_PRODUCTION }
+	}
+
+	focus = { # Hajj Tax
+		id = HEJ_hajj_tax
+		icon = GFX_goal_bag_of_money
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_political_power > 0
+		}
+		prerequisite = { focus = HEJ_center_of_islamic_faith }
+		relative_position_id = HEJ_center_of_islamic_faith
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = HEJ_guardians_of_hajj
+				add_idea = HEJ_guardians_of_hajj_1
+			}
+		}
+		search_filters = { FOCUS_FILTER_PRODUCTION }
+	}
+
+	focus = { # A New Legal Code
+		id = HEJ_new_legal_code
+		icon = GFX_focus_hol_the_foundations_of_defense
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_political_power > 0
+		}
+		prerequisite = { focus = HEJ_prioritize_religious_education }
+		prerequisite = { focus = HEJ_center_of_islamic_faith }
+		relative_position_id = HEJ_center_of_islamic_faith
+		completion_reward = {
+			add_political_power = 100
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL }
+	}
+
+	focus = { # British Question
+		id = HEJ_british_question
+		icon = GFX_goal_united_kingdom
+		x = 0
+		y = 2
+		cost = 6
+		available = {
+			is_subject = no
+			is_in_faction = no
+		}
+		prerequisite = { focus = HEJ_center_of_islamic_faith }
+		relative_position_id = HEJ_center_of_islamic_faith
+		completion_reward = {
+			country_event = { id = hejaz.23 days = 2 }
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL }
+	}
+
+	focus = { # Royal Hashemite Army
+		id = HEJ_royal_army
+		icon = GFX_goal_HEJ_army
+		x = 4
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+		}
+		prerequisite = { focus = HEJ_state_of_the_kingdom }
+		relative_position_id = HEJ_state_of_the_kingdom
+		completion_reward = {
+			army_experience = 25
+		}
+		search_filters = { FOCUS_FILTER_ARMY_BONUS }
+	}
+
+	focus = { # Adopt British Tactics
+		id = HEJ_adopt_british_tactics
+		icon = GFX_goal_generic_british_officers
+		x = -2
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+		}
+		prerequisite = { focus = HEJ_royal_army }
+		relative_position_id = HEJ_royal_army
+		completion_reward = {
+			add_doctrine_cost_reduction = {
+				name = HEJ_adopt_british_tactics
+				cost_reduction = 0.5
+				uses = 2
+				category = land_doctrine
+			}
+		}
+		search_filters = { FOCUS_FILTER_ARMY_BONUS }
+	}
+
+	focus = { # Firepower Modernization
+		id = HEJ_firepower_modernization
+		icon = GFX_goal_national_artillery
+		x = 0
+		y = 2
+		cost = 6
+		available = {
+			has_capitulated = no
+		}
+		prerequisite = { focus = HEJ_adopt_british_tactics }
+		prerequisite = { focus = HEJ_equipment_modernization }
+		relative_position_id = HEJ_adopt_british_tactics
+		completion_reward = {
+			add_tech_bonus = {
+				category = artillery
+				bonus = 0.75
+				uses = 2
+			}
+		}
+		search_filters = { FOCUS_FILTER_ARMY_BONUS FOCUS_FILTER_RESEARCH }
+	}
+
+	focus = { # Camelry Integration
+		id = HEJ_camelry_integration
+		icon = GFX_goal_OTT_camels
+		x = 0
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_full_control_of_state = 679 # Hejaz
+		}
+		prerequisite = { focus = HEJ_royal_army }
+		relative_position_id = HEJ_royal_army
+		completion_reward = {
+			set_technology = {
+				camel_corps_tech = 1
+				desert_warfare = 1
+			}
+			custom_effect_tooltip = HEJ_camelry_integration_tt
+			hidden_effect = {
+				load_oob = "HEJ_camelry"
+			}
+		}
+		search_filters = { FOCUS_FILTER_ARMY_BONUS }
+	}
+
+	focus = { # Equipment Modernization
+		id = HEJ_equipment_modernization
+		icon = GFX_goal_national_arsenal
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+		}
+		prerequisite = { focus = HEJ_camelry_integration }
+		relative_position_id = HEJ_camelry_integration
+		completion_reward = {
+			add_tech_bonus = {
+				category = infantry_weapons
+				bonus = 1.0
+				uses = 1
+			}
+			add_equipment_to_stockpile = {
+				type = infantry_equipment
+				amount = 1000
+				producer = HEJ
+			}
+		}
+		search_filters = { FOCUS_FILTER_ARMY_BONUS }
+	}
+
+	focus = { # Logistical and Recon Improvements
+		id = HEJ_logistical_and_recon_improvements
+		icon = GFX_goal_radio
+		x = 0
+		y = 2
+		cost = 6
+		available = {
+			has_capitulated = no
+		}
+		prerequisite = { focus = HEJ_camelry_integration }
+		relative_position_id = HEJ_camelry_integration
+		completion_reward = {
+			add_tech_bonus = {
+				category = recon_tech
+				category = logistics_tech
+				bonus = 1.0
+				uses = 2
+			}
+		}
+		search_filters = { FOCUS_FILTER_ARMY_BONUS }
+	}
+
+	focus = { # Motorization Experiments
+		id = HEJ_motorization_experiments
+		icon = GFX_goal_generic_army_motorized
+		x = 0
+		y = 2
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_full_control_of_state = 679 # Hejaz
+		}
+		prerequisite = { focus = HEJ_equipment_modernization }
+		relative_position_id = HEJ_equipment_modernization
+		completion_reward = {
+			if = {
+				limit = {
+					NOT = { has_tech = motorised_infantry }
+				}
+				set_technology = {
+					motorised_infantry = 1
+				}
+			}
+			else = {
+				add_tech_bonus = {
+					category = motorized_equipment
+				}
+			}
+			custom_effect_tooltip = HEJ_motorization_experiments_tt
+			hidden_effect = {
+				load_oob = "HEJ_motorized"
+			}
+		}
+		search_filters = { FOCUS_FILTER_MANPOWER FOCUS_FILTER_ARMY_BONUS }
+	}
+
+	focus = { # Royal Hashemite Coast Guard
+		id = HEJ_royal_coast_guard
+		icon = GFX_goal_HEJ_navy
+		x = 6
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+		}
+		prerequisite = { focus = HEJ_state_of_the_kingdom }
+		relative_position_id = HEJ_state_of_the_kingdom
+		completion_reward = {
+			navy_experience = 25
+		}
+		search_filters = { FOCUS_FILTER_NAVY_BONUS }
+	}
+
+	focus = { # Establish an Air Corps
+		id = HEJ_establish_air_corps
+		icon = GFX_goal_HEJ_airforce
+		x = 0
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+		}
+		prerequisite = { focus = HEJ_royal_army }
+		prerequisite = { focus = HEJ_royal_coast_guard }
+		relative_position_id = HEJ_royal_coast_guard
+		completion_reward = {
+			air_experience = 25
+		}
+		search_filters = { FOCUS_FILTER_AIRFORCE_BONUS }
+	}
+
+	focus = { # Fighter Acquisition
+		id = HEJ_fighter_acquisition
+		icon = GFX_goal_generic_air_fighter
+		x = 0
+		y = 2
+		cost = 6
+		available = {
+			has_capitulated = no
+		}
+		prerequisite = { focus = HEJ_establish_air_corps }
+		relative_position_id = HEJ_establish_air_corps
+		completion_reward = {
+			if = {
+				limit = {
+					NOT = { has_tech = early_fighter }
+				}
+				set_technology = {
+					early_fighter = 1
+				}
+			}
+			add_equipment_to_stockpile = {
+				type = fighter_equipment_0
+				amount = 50
+				producer = ENG
+			}
+		}
+		search_filters = { FOCUS_FILTER_AIRFORCE_BONUS }
+	}
+
+	focus = { # Air Bases
+		id = HEJ_air_bases
+		icon = GFX_goal_generic_airports
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+		}
+		prerequisite = { focus = HEJ_establish_air_corps }
+		relative_position_id = HEJ_establish_air_corps
+		completion_reward = {
+			679 = {
+				add_building_construction = {
+					type = air_base
+					level = 2
+					instant_build = yes
+				}
+			}
+			744 = {
+				add_building_construction = {
+					type = air_base
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_AIRFORCE_BONUS }
+	}
+
+	focus = { # Anti-Air Installations
+		id = HEJ_anti_air_installations
+		icon = GFX_goal_generic_air_defense2
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+		}
+		prerequisite = {
+			focus = HEJ_camelry_integration
+			focus = HEJ_establish_air_corps
+		}
+		relative_position_id = HEJ_establish_air_corps
+		completion_reward = {
+			679 = {
+				add_building_construction = {
+					type = anti_air_building
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_AIRFORCE_BONUS }
+	}
+
+	focus = { # Dammam Dockyards
+		id = HEJ_damman_dockyards
+		icon = GFX_goal_generic_construct_naval_dockyard
+		x = 2
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_full_control_of_state = 744
+		}
+		prerequisite = { focus = HEJ_royal_coast_guard }
+		relative_position_id = HEJ_royal_coast_guard
+		completion_reward = {
+			744 = {
+				if = {
+					limit = {
+						free_building_slots = {
+							building = dockyard
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = dockyard
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+		}
+	}
+
+	focus = { # Purchase Foreign Ships
+		id = HEJ_purchase_foreign_ships
+		icon = GFX_goal_generic_buy_ships
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+		}
+		prerequisite = { focus = HEJ_damman_dockyards }
+		relative_position_id = HEJ_damman_dockyards
+		completion_reward = {
+			if = {
+				limit = { has_dlc = "Man the Guns" }
+				set_technology = {
+					early_ship_hull_light = 1
+				}
+				create_equipment_variant = {
+					name = "Al-Hashimi Class"
+					type = ship_hull_light_1
+
+					modules = {
+						fixed_ship_battery_slot = ship_light_battery_1
+						fixed_ship_anti_air_slot = ship_anti_air_1
+						fixed_ship_fire_control_system_slot = ship_fire_control_system_0
+						fixed_ship_radar_slot = empty
+						fixed_ship_engine_slot = light_ship_engine_2
+						fixed_ship_torpedo_slot = ship_torpedo_1
+						mid_1_custom_slot = empty
+						rear_1_custom_slot = ship_depth_charge_1
+					}
+				}
+				add_equipment_production = {
+					equipment = {
+						type = ship_hull_light_1
+						creator = "HEJ"
+						version_name = "Al-Hashimi Class"
+					}
+					requested_factories = 1
+					progress = 0.75
+					amount = 2
+				}
+			}
+			else = {
+				set_technology = {
+					early_destroyer = 1
+				}
+				create_equipment_variant = {
+					name = "Al-Hashimi Class"
+					type = destroyer_1
+					parent_version = 0
+					upgrades = {
+						ship_torpedo_upgrade = 1
+						destroyer_engine_upgrade = 3
+						ship_ASW_upgrade = 2
+						ship_anti_air_upgrade = 1
+					}
+				}
+				add_equipment_production = {
+					equipment = {
+						type = early_destroyer
+						creator = "HEJ"
+					}
+					requested_factories = 1
+					progress = 0.75
+					amount = 2
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_NAVY_BONUS }
+	}
+
+	focus = { # Trade Convoys
+		id = HEJ_trade_convoys
+		icon = GFX_goal_generic_navy_cruiser
+		x = 0
+		y = 2
+		cost = 6
+		available = {
+			has_capitulated = no
+		}
+		prerequisite = { focus = HEJ_damman_dockyards }
+		relative_position_id = HEJ_damman_dockyards
+		completion_reward = {
+			add_equipment_to_stockpile = {
+				type = convoy_1
+				amount = 100
+				producer = HEJ
+			}
+		}
+		search_filters = { FOCUS_FILTER_NAVY_BONUS }
+	}
+
+	###############################################
+	###############################################
+	###############################################
+
+	focus = {
+		id = HEJ_distance_from_london
+		icon = GFX_focus_eng_decolonization
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			hidden_trigger = {
+				always = no
+			}
+		}
+		mutually_exclusive = {
+			focus = HEJ_obdience_to_westminster
+		}
+		prerequisite = { focus = HEJ_reaffirm_authority }
+		prerequisite = { focus = HEJ_british_question }
+		relative_position_id = HEJ_reaffirm_authority
+		completion_reward = {
+			create_faction = mecca_pact
+			set_temp_variable = { var = british_control_temp value = 20 }
+			HEJ_decrease_british_control = yes
+		}
+	}
+
+	focus = {
+		id = HEJ_nationalize_the_british_oil_companies
+		icon = GFX_goal_HEJ_nationalize_oil
+		x = -3
+		y = 1
+		cost = 6
+		prerequisite = { focus = HEJ_distance_from_london }
+		relative_position_id = HEJ_distance_from_london
+		completion_reward = {
+			set_temp_variable = { var = british_control_temp value = 20 }
+			HEJ_decrease_british_control = yes
+			ENG = {
+				country_event = { id = hejaz.22 days = 2 }
+				add_opinion_modifier = {
+					target = HEJ
+					modifier = ITA_outraged
+				}
+			}
+			if = {
+				limit = {
+					has_completed_focus = HEJ_contracts_with_ig_fabren
+				}
+				swap_ideas = {
+					remove_idea = HEJ_the_liquid_black_gold
+					add_idea = HEJ_the_liquid_black_gold_1
+				}
+			}
+			else = {
+				remove_ideas = HEJ_the_liquid_black_gold
+			}
+		}
+	}
+
+	focus = {
+		id = HEJ_visit_cairo
+		icon = GFX_goal_EGY_Pyramids
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			country_exists = EGY
+			EGY = { is_subject = no }
+			NOT = { has_war_with = EGY }
+		}
+		bypass = {
+			EGY = {
+				OR = {
+					is_subject_of = ROOT
+					is_in_faction_with = ROOT
+				}
+			}
+		}
+		prerequisite = { focus = HEJ_distance_from_london }
+		relative_position_id = HEJ_distance_from_london
+		completion_reward = {
+			EGY = { country_event = hejaz.25 }
+		}
+	}
+
+	focus = {
+		id = HEJ_invite_yemen
+		icon = GFX_goal_HEJ_approach_yemen
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			country_exists = YEM
+			YEM = { is_subject = no }
+			NOT = { has_war_with = YEM }
+		}
+		bypass = {
+			YEM = {
+				OR = {
+					is_subject_of = ROOT
+					is_in_faction_with = ROOT
+				}
+			}
+		}
+		prerequisite = { focus = HEJ_visit_cairo }
+		relative_position_id = HEJ_visit_cairo
+		completion_reward = {
+			YEM = { country_event = hejaz.25 }
+		}
+	}
+
+	focus = {
+		id = HEJ_crush_commonwealth
+		icon = GFX_goal_generic_attack_israel
+		x = 0
+		y = 2
+		cost = 6
+		available = {
+			country_exists = ISR
+			NOT = { has_war_with = ISR }
+		}
+		bypass = {
+			OR = {
+				has_war_with = ISR
+				NOT = {
+					country_exists = ISR
+				}
+			}
+		}
+		mutually_exclusive = {
+			focus = HEJ_snatch_the_trucial_states
+		}
+		prerequisite = { focus = HEJ_visit_cairo }
+		relative_position_id = HEJ_visit_cairo
+		completion_reward = {
+			unlock_decision_tooltip = HEJ_reclaim_jerusalem
+		}
+	}
+
+	focus = {
+		id = HEJ_our_northern_brothers
+		icon = GFX_goal_HEJ_approach_mashriq
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			country_exists = IRQ
+			IRQ = { is_subject = no }
+			NOT = { has_war_with = IRQ }
+		}
+		bypass = {
+			IRQ = {
+				OR = {
+					is_subject_of = ROOT
+					is_in_faction_with = ROOT
+				}
+			}
+		}
+		prerequisite = { focus = HEJ_distance_from_london }
+		relative_position_id = HEJ_distance_from_london
+		completion_reward = {
+			IRQ = { country_event = hejaz.25 }
+		}
+	}
+
+	focus = {
+		id = HEJ_court_idris
+		icon = GFX_goal_LBA_Idris_Returns
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			country_exists = LBA
+			LBA = {
+				is_subject = no
+				has_country_leader = {
+					character = LBA_Idris_Senussi
+					ruling_only = yes
+				}
+			}
+			NOT = { has_war_with = LBA }
+		}
+		bypass = {
+			LBA = {
+				OR = {
+					is_subject_of = ROOT
+					is_in_faction_with = ROOT
+				}
+			}
+		}
+		prerequisite = {
+			focus = HEJ_visit_cairo
+			focus = HEJ_our_northern_brothers
+		}
+		relative_position_id = HEJ_visit_cairo
+		completion_reward = {
+			LBA = {
+				country_event = { id = hejaz.27 days = 2 }
+			}
+		}
+	}
+	focus = {
+		id = HEJ_invite_persia
+		icon = GFX_goal_HEJ_approach_persia
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			country_exists = PER
+			PER = { is_subject = no }
+			NOT = { has_war_with = PER }
+		}
+		bypass = {
+			PER = {
+				OR = {
+					is_subject_of = ROOT
+					is_in_faction_with = ROOT
+				}
+			}
+		}
+		prerequisite = { focus = HEJ_our_northern_brothers }
+		relative_position_id = HEJ_our_northern_brothers
+		completion_reward = {
+			PER = { country_event = hejaz.25 }
+		}
+	}
+	focus = {
+		id = HEJ_invite_kurdestan
+		icon = GFX_goal_HEJ_approach_kurdestan
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			country_exists = KUR
+			KUR = { is_subject = no }
+			NOT = { has_war_with = KUR }
+		}
+		bypass = {
+			KUR = {
+				OR = {
+					is_subject_of = ROOT
+					is_in_faction_with = ROOT
+				}
+			}
+		}
+		prerequisite = { focus = HEJ_invite_persia }
+		relative_position_id = HEJ_invite_persia
+		completion_reward = {
+			KUR = { country_event = hejaz.25 }
+		}
+	}
+	focus = {
+		id = HEJ_snatch_the_trucial_states
+		icon = GFX_goal_generic_attack_trucial_states
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			ENG = {
+				has_full_control_of_state = 658
+				has_full_control_of_state = 656
+			}
+		}
+		bypass = {
+			owns_state = 658
+			owns_state = 656
+		}
+		mutually_exclusive = {
+			focus = HEJ_crush_commonwealth
+		}
+		prerequisite = { focus = HEJ_invite_persia }
+		relative_position_id = HEJ_invite_persia
+		completion_reward = {
+			unlock_decision_tooltip = HEJ_operation_khnum
+		}
+	}
+
+	focus = {
+		id = HEJ_obdience_to_westminster
+		icon = GFX_focus_eng_the_sun_never_sets
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			hidden_trigger = {
+				always = no
+			}
+		}
+		mutually_exclusive = {
+			focus = HEJ_distance_from_london
+		}
+		prerequisite = { focus = HEJ_british_question }
+		relative_position_id = HEJ_british_question
+		completion_reward = {
+			set_temp_variable = { var = british_control_temp value = 5 }
+			HEJ_increase_british_control = yes
+			if = {
+				limit = {
+					ENG = {
+						is_faction_leader = yes
+					}
+				}
+				ENG = {
+					add_to_faction = ROOT
+				}
+			}
+			else_if = {
+				limit = {
+					FRA = {
+						is_faction_leader = yes
+						is_in_faction_with = ENG
+					}
+				}
+				FRA = {
+					add_to_faction = ROOT
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = HEJ_encourage_british_migration
+		icon = GFX_goal_conspiracy
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			is_in_faction_with = ENG
+		}
+		prerequisite = { focus = HEJ_obdience_to_westminster }
+		relative_position_id = HEJ_obdience_to_westminster
+		completion_reward = {
+			add_ideas = HEJ_british_migration
+		}
+		search_filters = { FOCUS_FILTER_MANPOWER }
+	}
+
+	focus = {
+		id = HEJ_british_military_mission
+		icon = GFX_goal_Desert_Officers_2
+		x = 3
+		y = 1
+		cost = 6
+		available = {
+			is_in_faction_with = ENG
+		}
+		prerequisite = { focus = HEJ_obdience_to_westminster }
+		relative_position_id = HEJ_obdience_to_westminster
+		completion_reward = {
+			army_experience = 15
+			swap_ideas = {
+				remove_idea = HEJ_british_army_training
+				add_idea = HEJ_british_army_training_1
+			}
+		}
+		search_filters = { FOCUS_FILTER_ARMY_BONUS }
+	}
+
+	focus = {
+		id = HEJ_invite_british_armament_industries
+		icon = GFX_goal_generic_construct_mil_factory
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			is_in_faction_with = ENG
+		}
+		prerequisite = { focus = HEJ_british_military_mission }
+		prerequisite = { focus = HEJ_encourage_british_migration }
+		relative_position_id = HEJ_british_military_mission
+		completion_reward = {
+			679 = {
+				if = {
+					limit = {
+						free_building_slots = {
+							building = arms_factory
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = arms_factory
+						level = 2
+						instant_build = yes
+					}
+				}
+			}
+			custom_effect_tooltip = available_designer
+			show_ideas_tooltip = HEJ_rolls_royce
+			custom_effect_tooltip = available_designer
+			show_ideas_tooltip = HEJ_yarrow_shipbuilders
+			custom_effect_tooltip = available_designer
+			show_ideas_tooltip = HEJ_hawker
+			custom_effect_tooltip = available_designer
+			show_ideas_tooltip = HEJ_fairey_aviation
+		}
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_PRODUCTION }
+	}
+
+	focus = {
+		id = HEJ_request_control_trucial_states
+		icon = GFX_goal_molotov_ribbentrop_pact
+		x = 0
+		y = 2
+		cost = 6
+		available = {
+			is_in_faction_with = ENG
+			ENG = { owns_state = 658 }
+		}
+		prerequisite = { focus = HEJ_british_military_mission }
+		relative_position_id = HEJ_british_military_mission
+		completion_reward = {
+			ENG = {
+				country_event = { id = hejaz.32 days = 2 }
+			}
+		}
+	}
+
+	###############################################
+	###############################################
+	###############################################
+
+	focus = {
+		id = HEJ_rise_of_free_market
+		icon = GFX_goal_ideology_market_liberal
+		x = 29
+		y = 0
+		cost = 0
+		allow_branch = {
+			has_country_flag = HEJ_british_mandate_flag
+		}
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = unlocked_later
+				has_country_flag = HEJ_british_mandate_flag
+			}
+		}
+		bypass = {
+			has_country_flag = HEJ_british_mandate_flag
+		}
+	}
+
+	focus = {
+		id = HEJ_rapid_industrialization
+		icon = GFX_goal_generic_construct_civ_factory
+		x = 0
+		y = 1
+		cost = 6
+		available = {
+			has_government = market_liberal
+		}
+		prerequisite = { focus = HEJ_rise_of_free_market }
+		relative_position_id = HEJ_rise_of_free_market
+		completion_reward = {
+			add_ideas = HEJ_rapid_industrialization_idea
+		}
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_PRODUCTION }
+	}
+
+	focus = {
+		id = HEJ_bribe_the_officers
+		icon = GFX_goal_bag_of_money
+		x = 2
+		y = 1
+		cost = 6
+		available = {
+			has_government = market_liberal
+		}
+		prerequisite = { focus = HEJ_rise_of_free_market }
+		relative_position_id = HEJ_rise_of_free_market
+		completion_reward = {
+			HEJ_Zeid_bin_Hussein_al_Hashmid = {
+				remove_unit_leader_role = yes
+			}
+			HEJ_Ghazi_bin_Faisal_al_Hashmid = {
+				remove_unit_leader_role = yes
+			}
+			HEJ_Abdul_Qadir_Pasha_el_Jundi = {
+				remove_unit_leader_role = yes
+			}
+			ENG = {
+				country_event = { id = hejaz.43 days = 2 }
+			}
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL }
+	}
+
+	focus = {
+		id = HEJ_build_up_irrigation_schemes
+		icon = GFX_goal_dam
+		x = -2
+		y = 1
+		cost = 6
+		available = {
+			has_government = market_liberal
+		}
+		prerequisite = { focus = HEJ_rise_of_free_market }
+		relative_position_id = HEJ_rise_of_free_market
+		completion_reward = {
+			add_ideas = HEJ_irrigation
+		}
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_PRODUCTION }
+	}
+
+	focus = {
+		id = HEJ_expand_oil_fields
+		icon = GFX_goal_generic_oil_refinery
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			has_government = market_liberal
+		}
+		prerequisite = { focus = HEJ_build_up_irrigation_schemes }
+		relative_position_id = HEJ_build_up_irrigation_schemes
+		completion_reward = {
+			add_resource = {
+				type = oil
+				amount = 8
+				state = 744
+			}
+			add_resource = {
+				type = oil
+				amount = 8
+				state = 292
+			}
+		}
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_PRODUCTION }
+	}
+
+	focus = {
+		id = HEJ_transarabian_pipeline
+		icon = GFX_goal_generic_pipeline
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_government = market_liberal
+		}
+		prerequisite = { focus = HEJ_build_up_irrigation_schemes }
+		prerequisite = { focus = HEJ_rapid_industrialization }
+		relative_position_id = HEJ_build_up_irrigation_schemes
+		completion_reward = {
+			custom_effect_tooltip = HEJ_transarabian_pipeline_tt
+		}
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_PRODUCTION }
+	}
+
+	focus = {
+		id = HEJ_invest_in_science
+		icon = GFX_focus_research
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_government = market_liberal
+		}
+		prerequisite = { focus = HEJ_expand_oil_fields }
+		prerequisite = { focus = HEJ_transarabian_pipeline }
+		relative_position_id = HEJ_expand_oil_fields
+		completion_reward = {
+			add_research_slot = 1
+		}
+		search_filters = { FOCUS_FILTER_RESEARCH }
+	}
+
+	focus = {
+		id = HEJ_demand_royal_support
+		icon = GFX_focus_rom_royal_dictatorship
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			has_government = market_liberal
+		}
+		prerequisite = { focus = HEJ_bribe_the_officers }
+		relative_position_id = HEJ_bribe_the_officers
+		completion_reward = {
+			HEJ_decrease_resistance = yes
+		}
+		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_RESISTANCE }
+	}
+
+	focus = {
+		id = HEJ_suppress_arabs
+		icon = GFX_goal_generic_police_state
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_government = market_liberal
+		}
+		prerequisite = { focus = HEJ_bribe_the_officers }
+		relative_position_id = HEJ_bribe_the_officers
+		completion_reward = {
+			HEJ_decrease_resistance = yes
+		}
+		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_RESISTANCE }
+	}
+
+	focus = {
+		id = HEJ_silence_the_traditionalists
+		icon = GFX_goal_generic_oppression
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			has_government = market_liberal
+		}
+		prerequisite = { focus = HEJ_demand_royal_support }
+		relative_position_id = HEJ_demand_royal_support
+		completion_reward = {
+			add_stability = 0.15
+			add_political_power = 100
+		}
+		search_filters = { FOCUS_FILTER_STABILITY }
+	}
+
+	focus = {
+		id = HEJ_eradicate_radicals
+		icon = GFX_goal_step_on_skull
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_government = market_liberal
+		}
+		prerequisite = { focus = HEJ_demand_royal_support }
+		prerequisite = { focus = HEJ_suppress_arabs }
+		relative_position_id = HEJ_demand_royal_support
+		completion_reward = {
+			HEJ_decrease_resistance = yes
+		}
+		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_RESISTANCE }
+	}
+
+	focus = {
+		id = HEJ_expansion_of_market
+		icon = GFX_goal_factory_complex
+		x = 0
+		y = 1
+		cost = 6
+		available = {
+			has_government = market_liberal
+		}
+		prerequisite = { focus = HEJ_eradicate_radicals }
+		prerequisite = { focus = HEJ_invest_in_science }
+		prerequisite = { focus = HEJ_silence_the_traditionalists }
+		relative_position_id = HEJ_silence_the_traditionalists
+		completion_reward = {
+			custom_effect_tooltip = HEJ_expansion_of_markets_tt
+		}
+	}
+}

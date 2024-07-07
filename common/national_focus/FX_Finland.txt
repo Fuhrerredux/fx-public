@@ -1,0 +1,4939 @@
+# ################################ #
+#   Finnish National Focus Tree    #
+# ################################ #
+# Reworked by thanasislanaras, "The Legendary Kebab Remover"
+# Tree is now interactive. If Any bugs are present due to this, inform me. Everything is done with flags.
+
+focus_tree = {
+	id = FX_Finland
+	country = {
+		factor = 0
+		modifier = {
+			add = 20
+			tag = FIN
+		}
+	}
+	default = no
+	continuous_focus_position = { x = 50 y = 830 }
+	focus = {
+		id = FIN_finnish_defence_forces
+		icon = GFX_goal_Finland_Defence_Forces
+		cost = 5.00
+		x = 10
+		y = 0
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_finnish_defence_forces"
+			army_experience = 10
+			navy_experience = 10
+			air_experience = 10
+			add_political_power = 25
+			add_war_support = 0.03
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ARMY_BONUS FOCUS_FILTER_NAVY_BONUS FOCUS_FILTER_AIRFORCE_BONUS
+		}
+
+	}
+	focus = {
+		id = FIN_finnish_navy
+		icon = GFX_goal_Finnish_Navy
+		cost = 5.00
+		prerequisite = {
+			focus = FIN_finnish_defence_forces
+		}
+		x = 3
+		y = 1
+
+		available = {
+			controls_state = 111
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_finnish_navy"
+			navy_experience = 10
+			111 = {
+				add_building_construction = {
+					type = naval_base
+					level = 1
+					province = 11105
+					instant_build = yes
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_NAVY_BONUS
+		}
+
+	}
+	focus = {
+		id = FIN_gunboat_modernization
+		icon = GFX_focus_generic_destroyer
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_finnish_navy
+		}
+		x = 1
+		y = 2
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_gunboat_modernization"
+			add_tech_bonus = {
+				name = dd_bonus
+				bonus = 0.75
+				uses = 1
+				category = dd_tech
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_NAVY_BONUS
+		}
+
+	}
+	focus = {
+		id = FIN_turku_naval_bases
+		icon = GFX_SIA_maritmesilkroad
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_finnish_navy
+		}
+		x = 3
+		y = 2
+
+		available = {
+			controls_state = 111
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		search_filters = {
+			FOCUS_FILTER_NAVY_BONUS
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_turku_naval_bases"
+			111 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = dockyard
+					level = 1
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = naval_base
+					level = 1
+					province = 3083
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = coastal_bunker
+					level = 1
+					province = 3083
+					instant_build = yes
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = FIN_prioritize_coastal_defence
+		icon = GFX_goal_generic_coastal_navy2
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_gunboat_modernization
+		}
+		prerequisite = {
+			focus = FIN_turku_naval_bases
+		}
+		mutually_exclusive = {
+			focus = FIN_prioritize_convoy_raiding
+		}
+		x = 2
+		y = 3
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_prioritize_coastal_defence"
+			add_ideas = FIN_prioritize_coastal_defence_idea
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.5
+				uses = 1
+				category = naval_doctrine
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_NAVY_BONUS
+		}
+
+	}
+	focus = {
+		id = FIN_defend_bay_of_finland
+		icon = GFX_goal_generic_construct_military
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_prioritize_coastal_defence
+		}
+		x = 1
+		y = 4
+
+		available = {
+			controls_state = 111
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_defend_bay_of_finland"
+			111 = {
+				add_building_construction = {
+					type = coastal_bunker
+					level = 3
+					province = 11105
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = coastal_bunker
+					level = 2
+					province = 3083
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = coastal_bunker
+					level = 1
+					province = 6066
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = coastal_bunker
+					level = 1
+					province = 11211
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = coastal_bunker
+					level = 1
+					province = 3161
+					instant_build = yes
+				}
+			}
+
+		}
+		search_filters = {
+			FOCUS_FILTER_NAVY_BONUS
+		}
+
+	}
+	focus = {
+		id = FIN_modernize_submarine_force
+		icon = GFX_goal_generic_navy_submarine
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_finnish_navy
+		}
+		x = 5
+		y = 2
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		search_filters = {
+			FOCUS_FILTER_NAVY_BONUS
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_modernize_submarine_force"
+			add_tech_bonus = {
+				name = ss_bonus
+				bonus = 0.75
+				uses = 1
+				category = ss_tech
+			}
+		}
+
+	}
+	focus = {
+		id = FIN_prioritize_convoy_raiding
+		icon = GFX_goal_generic_sea_focused_navy
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_turku_naval_bases
+		}
+		prerequisite = {
+			focus = FIN_modernize_submarine_force
+		}
+		mutually_exclusive = {
+			focus = FIN_prioritize_coastal_defence
+		}
+		x = 4
+		y = 3
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_prioritize_coastal_defence"
+			add_tech_bonus = {
+				name = trade_interdiction_bonus
+				bonus = 0.5
+				uses = 2
+				category = trade_interdiction_tree
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_NAVY_BONUS
+		}
+
+	}
+	focus = {
+		id = FIN_panssarilaiva
+		icon = GFX_focus_generic_navy_battleship2
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_prioritize_coastal_defence
+			focus = FIN_prioritize_convoy_raiding
+		}
+		x = 3
+		y = 4
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_panssarilaiva"
+			add_tech_bonus = {
+				name = cr_bonus
+				bonus = 0.5
+				uses = 2
+				category = cl_tech
+				category = ca_tech
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_NAVY_BONUS
+		}
+
+	}
+	focus = {
+		id = FIN_protect_merchant_navy
+		icon = GFX_focus_FIN_suomen_merivoimat
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_panssarilaiva
+		}
+		x = 3
+		y = 5
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_protect_merchant_navy"
+			navy_experience = 10
+			add_equipment_to_stockpile = {
+				type = convoy_1
+				amount = 200
+				producer = FIN
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_NAVY_BONUS
+		}
+
+	}
+	focus = {
+		id = FIN_modern_minelayer_ships
+		icon = GFX_goal_LEC_monkey
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_prioritize_convoy_raiding
+		}
+		x = 5
+		y = 4
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_modern_minelayer_ships"
+			if = {
+				limit = { has_dlc = "Man the Guns" }
+				add_tech_bonus = {
+					name = asw_bonus
+					bonus = 0.5
+					uses = 1
+					category = asw_tech
+				}
+			}
+			else = {
+				add_tech_bonus = {
+					name = dd_bonus
+					bonus = 0.5
+					uses = 1
+					category = dd_tech
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_NAVY_BONUS
+		}
+
+	}
+	focus = {
+		id = FIN_civil_guards_prominence
+		icon = GFX_focus_FIN_suomen_maavoimat
+		cost = 5.00
+		prerequisite = {
+			focus = FIN_finnish_defence_forces
+		}
+		mutually_exclusive = {
+			focus = FIN_separate_army_and_politics
+			focus = FIN_red_guard_takes_lead
+		}
+		x = 8
+		y = 1
+
+		available = {
+			has_country_flag = FIN_ready_take_army_focuses_flag
+			OR = {
+				has_government = social_conservative
+				has_government = authoritarian_democrat
+				has_government = paternal_autocrat
+				has_government = national_populist
+				has_government = valkist
+			}
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_civil_guards_prominence"
+			army_experience = 10
+			swap_ideas = {
+				remove_idea = FIN_finland_marches_on_idea
+				add_idea = FIN_civil_guards_prominence_idea
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ARMY_BONUS
+		}
+
+	}
+	focus = {
+		id = FIN_reform_jager_training
+		icon = GFX_focus_FIN_jaeger_movement
+		cost = 6.50
+		prerequisite = {
+			focus = FIN_civil_guards_prominence
+		}
+		x = 7
+		y = 2
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_reform_jager_training"
+			army_experience = 10
+			add_ideas = FIN_reform_jager_training_idea
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ARMY_BONUS
+		}
+
+	}
+	focus = {
+		id = FIN_separate_army_and_politics
+		icon = GFX_SIA_Urban_Warfare_NF
+		cost = 5.00
+		prerequisite = {
+			focus = FIN_finnish_defence_forces
+		}
+		mutually_exclusive = {
+			focus = FIN_civil_guards_prominence
+			focus = FIN_red_guard_takes_lead
+		}
+		x = 10
+		y = 1
+
+		available = {
+			has_country_flag = FIN_ready_take_army_focuses_flag
+			OR = {
+				has_government = libertarian_socialist
+				has_government = social_democrat
+				has_government = social_liberal
+				has_government = market_liberal
+				has_government = social_conservative
+				has_government = authoritarian_democrat
+			}
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_separate_army_and_politics"
+			army_experience = 10
+			swap_ideas = {
+				remove_idea = FIN_finland_marches_on_idea
+				add_idea = FIN_separate_army_and_politics_idea
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ARMY_BONUS
+		}
+
+	}
+	focus = {
+		id = FIN_karjala_line
+		icon = GFX_goal_generic_defence
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_civil_guards_prominence
+			focus = FIN_separate_army_and_politics
+		}
+		x = 9
+		y = 2
+
+		available = {
+			controls_state = 146
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_karjala_line"
+			146 = {
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 9100
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 9105
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 6052
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 11046
+					instant_build = yes
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ARMY_BONUS
+		}
+
+	}
+	focus = {
+		id = FIN_study_old_tactics
+		icon = GFX_goal_generic_position_armies
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_karjala_line
+		}
+		x = 8
+		y = 3
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_study_old_tactics"
+			add_doctrine_cost_reduction  = {
+				name = land_doc_bonus
+				cost_reduction = 0.5
+				uses = 2
+				category = cat_grand_battle_plan
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ARMY_BONUS
+		}
+
+	}
+	focus = {
+		id = FIN_red_guard_takes_lead
+		icon = GFX_goal_intergrate_the_militia
+		cost = 5.00
+		prerequisite = {
+			focus = FIN_finnish_defence_forces
+		}
+		mutually_exclusive = {
+			focus = FIN_separate_army_and_politics
+			focus = FIN_civil_guards_prominence
+		}
+		x = 12
+		y = 1
+
+		available = {
+			has_country_flag = FIN_ready_take_army_focuses_flag
+			OR = {
+				has_government = vanguardist
+				has_government = collectivist
+				has_government = libertarian_socialist
+			}
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_red_guard_takes_lead"
+			army_experience = 10
+			swap_ideas = {
+				remove_idea = FIN_finland_marches_on_idea
+				add_idea = FIN_red_guard_takes_lead_idea
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ARMY_BONUS
+		}
+
+	}
+	focus = {
+		id = FIN_meanmaa_line
+		icon = GFX_goal_generic_construct_military
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_separate_army_and_politics
+			focus = FIN_red_guard_takes_lead
+		}
+		x = 11
+		y = 2
+
+		available = {
+			controls_state = 148
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_meanmaa_line"
+			148 = {
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 11125
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 3193
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 11115
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 11130
+					instant_build = yes
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ARMY_BONUS
+		}
+
+	}
+	focus = {
+		id = FIN_modernize_equipments
+		icon = GFX_goal_generic_small_arms
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_karjala_line
+			focus = FIN_meanmaa_line
+		}
+		x = 10
+		y = 3
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_modernize_equipments"
+			add_tech_bonus = {
+				name = infantry_bonus
+				bonus = 0.5
+				uses = 2
+				category = infantry_weapons
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ARMY_BONUS
+		}
+
+	}
+	focus = {
+		id = FIN_modern_ski_infantry
+		icon = GFX_focus_generic_winter_warfare
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_modernize_equipments
+		}
+		x = 8
+		y = 4
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_modern_ski_infantry"
+			add_tech_bonus = {
+				name = special_forces_bonus
+				bonus = 0.5
+				uses = 2
+				category = mountaineers_tech
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ARMY_BONUS
+		}
+
+	}
+	focus = {
+		id = FIN_artillary_efforts
+		icon = GFX_goal_generic_army_artillery2
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_modernize_equipments
+		}
+		x = 10
+		y = 4
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_artillary_efforts"
+			add_tech_bonus = {
+				name = artillery_bonus
+				bonus = 0.5
+				uses = 2
+				category = artillery
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ARMY_BONUS
+		}
+
+	}
+	focus = {
+		id = FIN_motorization_efforts
+		icon = GFX_goal_generic_army_motorized
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_modernize_equipments
+		}
+		x = 12
+		y = 4
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_motorization_efforts"
+			add_tech_bonus = {
+				name = motor_bonus
+				bonus = 0.5
+				uses = 2
+				category = motorized_equipment
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ARMY_BONUS
+		}
+
+	}
+	focus = {
+		id = FIN_lotta_svard
+		icon = GFX_ITA_female_soldiers
+		cost = 6.50
+		prerequisite = {
+			focus = FIN_modern_ski_infantry
+		}
+		prerequisite = {
+			focus = FIN_artillary_efforts
+		}
+		prerequisite = {
+			focus = FIN_motorization_efforts
+		}
+		x = 9
+		y = 5
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_lotta_svard"
+			army_experience = 10
+			if = {
+				limit = {
+					has_idea = FIN_civil_guards_prominence_idea
+				}
+				swap_ideas = {
+					remove_idea = FIN_civil_guards_prominence_idea
+					add_idea = FIN_lotta_svard_white_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = FIN_sisu_white_idea
+				}
+				swap_ideas = {
+					remove_idea = FIN_sisu_white_idea
+					add_idea = FIN_white_army_finished_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = FIN_separate_army_and_politics_idea
+				}
+				swap_ideas = {
+					remove_idea = FIN_separate_army_and_politics_idea
+					add_idea = FIN_lotta_svard_neutral_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = FIN_sisu_neutral_idea
+				}
+				swap_ideas = {
+					remove_idea = FIN_sisu_neutral_idea
+					add_idea = FIN_neutral_army_finished_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = FIN_red_guard_takes_lead_idea
+				}
+				swap_ideas = {
+					remove_idea = FIN_red_guard_takes_lead_idea
+					add_idea = FIN_lotta_svard_red_idea
+				}
+			}
+			else = {
+				swap_ideas = {
+					remove_idea = FIN_sisu_red_idea
+					add_idea = FIN_red_army_finished_idea
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ARMY_BONUS
+		}
+
+	}
+	focus = {
+		id = FIN_sisu
+		icon = GFX_goal_finnish_spirit
+		cost = 6.50
+		prerequisite = {
+			focus = FIN_modern_ski_infantry
+		}
+		prerequisite = {
+			focus = FIN_artillary_efforts
+		}
+		prerequisite = {
+			focus = FIN_motorization_efforts
+		}
+		x = 11
+		y = 5
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_lotta_svard"
+			army_experience = 10
+			if = {
+				limit = {
+					has_idea = FIN_civil_guards_prominence_idea
+				}
+				swap_ideas = {
+					remove_idea = FIN_civil_guards_prominence_idea
+					add_idea = FIN_sisu_white_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = FIN_lotta_svard_white_idea
+				}
+				swap_ideas = {
+					remove_idea = FIN_lotta_svard_white_idea
+					add_idea = FIN_white_army_finished_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = FIN_separate_army_and_politics_idea
+				}
+				swap_ideas = {
+					remove_idea = FIN_separate_army_and_politics_idea
+					add_idea = FIN_sisu_neutral_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = FIN_lotta_svard_neutral_idea
+				}
+				swap_ideas = {
+					remove_idea = FIN_lotta_svard_neutral_idea
+					add_idea = FIN_neutral_army_finished_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = FIN_red_guard_takes_lead_idea
+				}
+				swap_ideas = {
+					remove_idea = FIN_separate_army_and_politics_idea
+					add_idea = FIN_sisu_red_idea
+				}
+			}
+			else = {
+				swap_ideas = {
+					remove_idea = FIN_lotta_svard_red_idea
+					add_idea = FIN_red_army_finished_idea
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ARMY_BONUS
+		}
+
+	}
+	focus = {
+		id = FIN_encourage_new_thinking
+		icon = GFX_goal_generic_army_doctrines
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_meanmaa_line
+		}
+		x = 12
+		y = 3
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_encourage_new_thinking"
+			add_doctrine_cost_reduction = {
+				name = land_doc_bonus
+				cost_reduction = 0.5
+				uses = 2
+				category = cat_superior_firepower
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ARMY_BONUS
+		}
+
+	}
+	focus = {
+		id = FIN_red_army_training
+		icon = GFX_goal_rev_militia3
+		cost = 6.50
+		prerequisite = {
+			focus = FIN_red_guard_takes_lead
+		}
+		x = 13
+		y = 2
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_red_army_training"
+			army_experience = 10
+			add_ideas = FIN_red_army_training_idea
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ARMY_BONUS
+		}
+
+	}
+	focus = {
+		id = FIN_finnish_air_force
+		icon = GFX_goal_Finnish_Air_Force
+		cost = 5.00
+		prerequisite = {
+			focus = FIN_finnish_defence_forces
+		}
+		x = 17
+		y = 1
+
+		available = {
+			controls_state = 111
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_finnish_air_force"
+			air_experience = 10
+			111 = {
+				add_building_construction = {
+					type = air_base
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_AIRFORCE_BONUS
+		}
+
+	}
+	focus = {
+		id = FIN_aircraft_purchases
+		icon = GFX_goal_generic_intelligence_exchange
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_finnish_air_force
+		}
+		x = 16
+		y = 2
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_aircraft_purchases"
+			air_experience = 10
+			if = {
+				limit = { has_dlc_bba = yes }
+				add_equipment_to_stockpile = {
+					type = small_plane_airframe_0
+					amount = 0
+					producer = ENG
+				}
+				add_equipment_to_stockpile = {
+					type = small_plane_airframe_0
+					amount = 20
+					producer = FRA
+				}
+			}
+			else = {
+				add_equipment_to_stockpile = {
+					type = fighter_equipment_0
+					amount = 20
+					producer = ENG
+				}
+				add_equipment_to_stockpile = {
+					type = fighter_equipment_0
+					amount = 20
+					producer = FRA
+				}
+			}
+		}
+
+
+		search_filters = {
+			FOCUS_FILTER_AIRFORCE_BONUS
+			FOCUS_FILTER_EQUIPMENT
+		}
+
+	}
+	focus = {
+		id = FIN_reach_out_foreign_suppliers
+		icon = GFX_focus_invite_finland
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_aircraft_purchases
+		}
+		mutually_exclusive = {
+			focus = FIN_develop_finnish_fighters
+		}
+		x = 15
+		y = 3
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_reach_out_foreign_suppliers"
+			add_tech_bonus = {
+				name = fighter_bonus
+				bonus = 0.5
+				uses = 1
+				category = light_fighter
+			}
+			if = {
+				limit = { has_dlc_bba = yes }
+				add_equipment_to_stockpile = {
+					type = small_plane_airframe_0
+					amount = 30
+					producer = SWE
+				}
+			}
+			else = {
+				add_equipment_to_stockpile = {
+					type = fighter_equipment_0
+					amount = 30
+					producer = SWE
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_AIRFORCE_BONUS
+			FOCUS_FILTER_EQUIPMENT
+		}
+
+	}
+	focus = {
+		id = FIN_foreign_air_manifactures
+		icon = GFX_focus_CZE_military_aeronautical_institute
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_reach_out_foreign_suppliers
+		}
+		x = 15
+		y = 4
+
+		available = {
+			controls_state = 111
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PER_our_own_air_industry"
+			add_offsite_building = { type = arms_factory level = 1 }
+			111 = {
+				add_building_construction = {
+					type = air_base
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_AIRFORCE_BONUS
+		}
+
+	}
+	focus = {
+		id = FIN_upgrade_air_bases
+		icon = GFX_goal_generic_air_production
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_finnish_air_force
+		}
+		x = 18
+		y = 2
+
+		available = {
+			controls_state = 111
+			controls_state = 149
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_upgrade_air_bases"
+			111 = {
+				add_building_construction = {
+					type = air_base
+					level = 1
+					instant_build = yes
+				}
+			}
+			149 = {
+				add_building_construction = {
+					type = air_base
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_AIRFORCE_BONUS
+		}
+
+	}
+	focus = {
+		id = FIN_develop_finnish_fighters
+		icon = GFX_goal_generic_air_fighter
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_aircraft_purchases
+			focus = FIN_upgrade_air_bases
+		}
+		mutually_exclusive = {
+			focus = FIN_reach_out_foreign_suppliers
+		}
+		x = 17
+		y = 3
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_reach_out_foreign_suppliers"
+			add_tech_bonus = {
+				name = fighter_bonus
+				bonus = 0.75
+				uses = 1
+				category = light_fighter
+			}
+			if = {
+				limit = { has_dlc_bba = yes }
+				if = {
+					limit = {
+						has_tech = basic_small_airframe
+					}
+					add_equipment_to_stockpile = {
+						type = small_plane_airframe_1
+						amount = 30
+						producer = FIN
+					}
+				}
+				else = {
+					add_tech_bonus = {
+						name = fighter_bonus
+						bonus = 2
+						uses = 1
+						technology = basic_small_airframe
+					}
+				}
+			}
+			else = {
+				if = {
+					limit = {
+						has_tech = early_fighter
+					}
+					add_equipment_to_stockpile = {
+						type = fighter_equipment_0
+						amount = 30
+						producer = FIN
+					}
+				}
+				else = {
+					set_technology = {
+						early_fighter = 1
+					}
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_AIRFORCE_BONUS
+		}
+
+	}
+	focus = {
+		id = FIN_domestic_aircraft_industry
+		icon = GFX_goal_new_airforce
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_develop_finnish_fighters
+		}
+		x = 17
+		y = 4
+
+		available = {
+			controls_state = 149
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_domestic_aircraft_industry"
+			149 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = air_base
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_AIRFORCE_BONUS
+		}
+
+	}
+	focus = {
+		id = FIN_study_civil_war_boat_planes
+		icon = GFX_goal_generic_air_fighter2
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_upgrade_air_bases
+		}
+		x = 19
+		y = 3
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_study_civil_war_boat_planes"
+			add_tech_bonus = {
+				name = nav_bomber_bonus
+				bonus = 0.5
+				uses = 2
+				category = naval_bomber
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_AIRFORCE_BONUS
+		}
+
+	}
+	focus = {
+		id = FIN_study_civil_war_bombers
+		icon = GFX_goal_generic_air_bomber
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_study_civil_war_boat_planes
+		}
+		x = 19
+		y = 4
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_study_civil_war_bombers"
+			add_tech_bonus = {
+				name = bomber_bonus
+				bonus = 0.5
+				uses = 2
+				category = tactical_bomber
+				category = cat_strategic_bomber
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_AIRFORCE_BONUS
+		}
+
+	}
+	focus = {
+		id = FIN_female_pilots
+		icon = GFX_focus_FIN_expand_air_force_academy
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_foreign_air_manifactures
+			focus = FIN_domestic_aircraft_industry
+		}
+		prerequisite = {
+			focus = FIN_study_civil_war_bombers
+		}
+		x = 16
+		y = 5
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_female_pilots"
+			air_experience = 10
+			add_ideas = FIN_female_pilots_idea
+			set_rule = {
+				can_generate_female_aces = yes
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_AIRFORCE_BONUS
+		}
+
+	}
+	focus = {
+		id = FIN_finnish_air_doctrines
+		icon = GFX_goal_generic_air_doctrine
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_foreign_air_manifactures
+			focus = FIN_domestic_aircraft_industry
+		}
+		prerequisite = {
+			focus = FIN_study_civil_war_bombers
+		}
+		x = 18
+		y = 5
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_finnish_air_doctrines"
+			add_doctrine_cost_reduction = {
+				name = air_doc_bonus
+				cost_reduction = 0.5
+				uses = 2
+				category = air_doctrine
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_AIRFORCE_BONUS
+		}
+
+	}
+	focus = {
+		id = FIN_end_of_silver_decade
+		icon = GFX_goal_FIN_end_of_silver_decade
+		cost = 5.00
+		x = 13
+		y = 6
+
+		available = {
+			always = no
+			custom_trigger_tooltip = { tooltip = unlocked_later  }
+		}
+
+		bypass = {
+			has_country_flag = FIN_london_crash_flag
+		}
+
+		completion_reward = {
+
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ECONOMIC_RECOVERY
+		}
+
+	}
+	focus = {
+		id = FIN_leviate_indebted_farmers
+		icon = GFX_DAH_Topke
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_end_of_silver_decade
+		}
+		x = 9
+		y = 7
+
+		search_filters = {
+			FOCUS_FILTER_ECONOMIC_RECOVERY
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_leviate_indebted_farmers"
+			add_timed_idea = {
+				idea = FIN_leviate_indebted_farmers_idea
+				days = 200
+			}
+		}
+
+	}
+	focus = {
+		id = FIN_economic_intervention
+		icon = GFX_goal_state_economy
+		cost = 5.00
+		prerequisite = {
+			focus = FIN_leviate_indebted_farmers
+		}
+		mutually_exclusive = {
+			focus = FIN_austerity
+		}
+		x = 9
+		y = 8
+
+		search_filters = {
+			FOCUS_FILTER_ECONOMIC_RECOVERY
+		}
+
+		available = {
+			OR = {
+				has_country_flag = FIN_aftermath_mantsala_uprising_flag
+				has_country_flag = FIN_stable_democratic_government_flag
+			}
+			has_completed_focus = FIN_regulate_trade
+			has_completed_focus = FIN_cut_spendings
+			NOT = {
+				has_government = market_liberal
+				has_government = social_conservative
+			}
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_economic_intervention"
+			swap_ideas = {
+				remove_idea = FIN_london_crash_idea
+				add_idea = FIN_economic_intervention_idea
+			}
+		}
+
+	}
+	focus = {
+		id = FIN_labour_administration
+		icon = GFX_goal_generic_production2
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_economic_intervention
+		}
+		x = 8
+		y = 9
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ECONOMIC_RECOVERY
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_labour_administration"
+			swap_ideas = {
+				remove_idea = FIN_economic_intervention_idea
+				add_idea = FIN_labour_administration_idea
+			}
+		}
+
+	}
+	focus = {
+		id = FIN_labour_market_relations
+		icon = GFX_goal_tblra_union_agreement
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_labour_administration
+		}
+		x = 7
+		y = 10
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ECONOMIC_RECOVERY
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_labour_market_relations"
+			add_political_power = -50
+			swap_ideas = {
+				remove_idea = FIN_labour_administration_idea
+				add_idea = FIN_labour_market_relations_idea
+			}
+		}
+
+	}
+	focus = {
+		id = FIN_nationalize_key_industries
+		icon = GFX_focus_generic_industry_2
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_labour_administration
+		}
+		x = 9
+		y = 10
+
+		available = {
+			controls_state = 111
+			controls_state = 146
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ECONOMIC_RECOVERY
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_nationalize_key_industries"
+			add_political_power = -50
+			111 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			146 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = FIN_regulate_trade
+		icon = GFX_goal_generic_trade
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_end_of_silver_decade
+		}
+		x = 12
+		y = 7
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ECONOMIC_RECOVERY
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_regulate_trade"
+			if = {
+				limit = {
+					has_idea = free_trade
+				}
+				add_ideas = export_focus
+			}
+			else_if = {
+				limit = {
+					has_idea = export_focus
+				}
+				add_ideas = limited_exports
+			}
+			else_if = {
+				limit = {
+					has_idea = limited_exports
+				}
+				add_ideas = closed_economy
+			}
+			add_timed_idea = {
+				idea = FIN_regulate_trade_idea
+				days = 100
+			}
+		}
+
+	}
+	focus = {
+		id = FIN_cut_spendings
+		icon = GFX_goal_skull_treaty2
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_end_of_silver_decade
+		}
+		x = 14
+		y = 7
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ECONOMIC_RECOVERY
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_cut_spendings"
+			add_timed_idea = {
+				idea = FIN_cut_spendings_idea
+				days = 200
+			}
+		}
+
+	}
+	focus = {
+		id = FIN_austerity
+		icon = GFX_goal_generic_consumer_goods
+		cost = 5.00
+		prerequisite = {
+			focus = FIN_regulate_trade
+		}
+		prerequisite = {
+			focus = FIN_cut_spendings
+		}
+		mutually_exclusive = {
+			focus = FIN_economic_intervention
+		}
+		x = 13
+		y = 8
+
+		search_filters = {
+			FOCUS_FILTER_ECONOMIC_RECOVERY
+		}
+
+		available = {
+			OR = {
+				has_country_flag = FIN_aftermath_mantsala_uprising_flag
+				has_country_flag = FIN_stable_democratic_government_flag
+			}
+			has_completed_focus = FIN_leviate_indebted_farmers
+			OR = {
+				has_government = social_liberal
+				has_government = market_liberal
+				has_government = social_conservative
+			}
+			NOT = {
+				has_country_flag = FIN_punainen_maapera_flag
+			}
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_austerity"
+			swap_ideas = {
+				remove_idea = FIN_london_crash_idea
+				add_idea = FIN_austerity_idea
+			}
+		}
+
+	}
+	focus = {
+		id = FIN_rural_support
+		icon = GFX_goal_agricultural_aid
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_economic_intervention
+			focus = FIN_austerity
+		}
+		mutually_exclusive = {
+			focus = FIN_allow_foreclousures
+		}
+		x = 10
+		y = 9
+
+		search_filters = {
+			FOCUS_FILTER_ECONOMIC_RECOVERY
+		}
+
+		available = {
+			has_country_flag = FIN_rural_support_flag
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_rural_support"
+			add_political_power = -50
+			add_timed_idea = {
+				idea = FIN_rural_support_idea
+				days = 250
+			}
+		}
+
+	}
+	focus = {
+		id = FIN_allow_foreclousures
+		icon = GFX_goal_generic_privatization
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_austerity
+		}
+		mutually_exclusive = {
+			focus = FIN_rural_support
+		}
+		x = 12
+		y = 9
+
+		available = {
+			has_country_flag = FIN_allow_foreclousures_flag
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ECONOMIC_RECOVERY
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_allow_foreclousures"
+			add_political_power = 25
+			add_timed_idea = {
+				idea = FIN_allow_foreclousures_idea
+				days = 250
+			}
+		}
+
+	}
+	focus = {
+		id = FIN_tariffs_corn_imports
+		icon = GFX_goal_manage_industries
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_rural_support
+			focus = FIN_allow_foreclousures
+		}
+		x = 11
+		y = 10
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ECONOMIC_RECOVERY
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_tariffs_corn_imports"
+			if = {
+				limit = {
+					has_idea = FIN_rural_support_idea
+				}
+				remove_ideas = FIN_rural_support_idea
+				add_timed_idea = {
+					idea = FIN_rural_support_idea1
+					days = 250
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = FIN_allow_foreclousures_idea
+				}
+				remove_ideas = FIN_allow_foreclousures_idea
+				add_timed_idea = {
+					idea = FIN_allow_foreclousures_idea1
+					days = 250
+				}
+			}
+			else = {
+				add_timed_idea = {
+					idea = FIN_tariffs_corn_imports_idea
+					days = 250
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = FIN_stable_recovery
+		icon = GFX_IRE_medium_industry
+		cost = 6.50
+		prerequisite = {
+			focus = FIN_labour_market_relations
+		}
+		prerequisite = {
+			focus = FIN_nationalize_key_industries
+		}
+		prerequisite = {
+			focus = FIN_tariffs_corn_imports
+		}
+		x = 9
+		y = 11
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ECONOMIC_RECOVERY
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_stable_recovery"
+			add_political_power = -25
+			add_stability = 0.05
+			remove_ideas = FIN_labour_market_relations_idea
+			add_timed_idea = {
+				idea = FIN_stable_recovery_idea
+				days = 300
+			}
+		}
+
+	}
+	focus = {
+		id = FIN_higher_taxes
+		icon = GFX_goal_bag_of_money
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_austerity
+		}
+		x = 14
+		y = 9
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ECONOMIC_RECOVERY
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_higher_taxes"
+			swap_ideas = {
+				remove_idea = FIN_austerity_idea
+				add_idea = FIN_higher_taxes_idea
+			}
+		}
+
+	}
+	focus = {
+		id = FIN_encourage_new_buisnesses
+		icon = GFX_focus_generic_industry_1
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_rural_support
+			focus = FIN_allow_foreclousures
+		}
+		prerequisite = {
+			focus = FIN_higher_taxes
+		}
+		x = 13
+		y = 10
+
+		search_filters = {
+			FOCUS_FILTER_ECONOMIC_RECOVERY
+		}
+
+		available = {
+			controls_state = 111
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_encourage_new_buisnesses"
+			add_political_power = -50
+			111 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			swap_ideas = {
+				remove_idea = FIN_higher_taxes_idea
+				add_idea = FIN_encourage_new_buisnesses_idea
+			}
+		}
+
+	}
+	focus = {
+		id = FIN_end_austerity
+		icon = GFX_focus_generic_treaty
+		cost = 6.50
+		prerequisite = {
+			focus = FIN_tariffs_corn_imports
+		}
+		prerequisite = {
+			focus = FIN_encourage_new_buisnesses
+		}
+		x = 13
+		y = 11
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ECONOMIC_RECOVERY
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_stable_recovery"
+			add_political_power = -25
+			add_stability = 0.05
+			remove_ideas = FIN_encourage_new_buisnesses_idea
+			add_timed_idea = {
+				idea = FIN_end_austerity_idea
+				days = 300
+			}
+		}
+
+	}
+	focus = {
+		id = FIN_rebuild_economy
+		icon = GFX_goal_generic_production
+		cost = 5.00
+		prerequisite = {
+			focus = FIN_end_of_silver_decade
+		}
+		x = 19
+		y = 7
+
+		available = {
+			OR = {
+				has_completed_focus = FIN_stable_recovery
+				has_completed_focus = FIN_end_austerity
+			}
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_rebuild_economy"
+			add_tech_bonus = {
+				name = industry_bonus
+				bonus = 0.5
+				uses = 2
+				category = industry
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ECONOMY FOCUS_FILTER_INDUSTRY
+		}
+
+	}
+	focus = {
+		id = FIN_conquer_finnish_interior
+		icon = GFX_goal_generic_construct_infrastructure
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_rebuild_economy
+		}
+		x = 17
+		y = 8
+
+		available = {
+			controls_state = 150
+			controls_state = 148
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_conquer_finnish_interior"
+			150 = {
+				add_extra_state_shared_building_slots = 1
+			}
+			148 = {
+				add_extra_state_shared_building_slots = 1
+			}
+			swap_ideas = {
+				remove_idea = FIN_agrarian_society_idea
+				add_idea = FIN_conquer_finnish_interior_idea
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ECONOMY FOCUS_FILTER_INDUSTRY
+		}
+
+	}
+	focus = {
+		id = FIN_northern_roads
+		icon = GFX_goal_Fix_Shitty_Rails
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_conquer_finnish_interior
+		}
+		x = 16
+		y = 9
+
+		available = {
+			controls_state = 148
+			controls_state = 147
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_northern_roads"
+			148 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+			147 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			swap_ideas = {
+				remove_idea = FIN_conquer_finnish_interior_idea
+				add_idea = FIN_northern_roads_idea
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ECONOMY FOCUS_FILTER_INDUSTRY
+		}
+
+	}
+	focus = {
+		id = FIN_finnish_mineral_industry
+		icon = GFX_focus_generic_steel
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_conquer_finnish_interior
+		}
+		x = 18
+		y = 9
+
+		available = {
+			controls_state = 150
+			controls_state = 148
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_finnish_mineral_industry"
+			148 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			add_resource = {
+				type = steel
+				amount = 10
+				state = 150
+			}
+			add_resource = {
+				type = steel
+				amount = 7
+				state = 148
+			}
+			add_resource = {
+				type = chromium
+				amount = 7
+				state = 148
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ECONOMY FOCUS_FILTER_INDUSTRY
+		}
+
+	}
+	focus = {
+		id = FIN_timber_and_paper
+		icon = GFX_goal_construction
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_northern_roads
+		}
+		prerequisite = {
+			focus = FIN_finnish_mineral_industry
+		}
+		x = 17
+		y = 10
+
+		available = {
+			controls_state = 149
+			controls_state = 150
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_timber_and_paper"
+			149 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			150 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			swap_ideas = {
+				remove_idea = FIN_northern_roads_idea
+				add_idea = FIN_timber_and_paper_idea
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ECONOMY FOCUS_FILTER_INDUSTRY
+		}
+
+	}
+	focus = {
+		id = FIN_develop_domestic_industries
+		icon = GFX_goal_generic_construct_civ_factory
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_rebuild_economy
+		}
+		x = 19
+		y = 8
+
+		available = {
+			controls_state = 111
+			controls_state = 149
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_develop_domestic_industries"
+			111 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			149 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ECONOMY FOCUS_FILTER_INDUSTRY
+		}
+
+	}
+	focus = {
+		id = FIN_expand_arms_industry
+		icon = GFX_goal_generic_construct_mil_factory
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_rebuild_economy
+		}
+		x = 21
+		y = 8
+
+		available = {
+			controls_state = 111
+			controls_state = 146
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_expand_arms_industry"
+			111 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			146 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ECONOMY FOCUS_FILTER_INDUSTRY
+		}
+
+	}
+	focus = {
+		id = FIN_rebuild_trade_relations
+		icon = GFX_goal_generic_positive_trade_relations_gold
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_develop_domestic_industries
+			focus = FIN_expand_arms_industry
+		}
+		x = 20
+		y = 9
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_rebuild_trade_relations"
+			if = {
+				limit = {
+					has_idea = closed_economy
+				}
+				add_ideas = limited_exports
+			}
+			else_if = {
+				limit = {
+					has_idea = limited_exports
+				}
+				add_ideas = export_focus
+			}
+			else_if = {
+				limit = {
+					has_idea = export_focus
+				}
+				add_ideas = free_trade
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ECONOMY FOCUS_FILTER_INDUSTRY
+		}
+
+	}
+	focus = {
+		id = FIN_finnish_exports
+		icon = GFX_SIA_maritmesilkroad
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_finnish_mineral_industry
+		}
+		prerequisite = {
+			focus = FIN_rebuild_trade_relations
+		}
+		x = 19
+		y = 10
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_finnish_exports"
+			add_ideas = FIN_finnish_exports_idea
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ECONOMY FOCUS_FILTER_INDUSTRY
+		}
+
+	}
+	focus = {
+		id = FIN_helsinki_dockyards
+		icon = GFX_goal_generic_construct_naval_dockyard
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_expand_arms_industry
+		}
+		x = 21
+		y = 10
+
+		available = {
+			controls_state = 111
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_helsinki_dockyards"
+			111 = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = dockyard
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ECONOMY FOCUS_FILTER_NAVY_BONUS FOCUS_FILTER_INDUSTRY
+		}
+
+	}
+	focus = {
+		id = FIN_towards_a_new_silver_decade
+		icon = GFX_focus_generic_the_giant_wakes
+		cost = 6.50
+		prerequisite = {
+			focus = FIN_timber_and_paper
+			focus = FIN_finnish_exports
+			focus = FIN_helsinki_dockyards
+		}
+		x = 19
+		y = 11
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_towards_a_new_silver_decade"
+			add_ideas = FIN_towards_a_new_silver_decade_idea
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ECONOMY FOCUS_FILTER_INDUSTRY
+		}
+	}
+	###########################
+	##    WINTER WAR TREE    ##
+	###########################
+
+	#original made by Detailed Bread,
+	#modified by thanasislanaras
+	focus = {
+		id = FIN_finlands_bold_opportunity
+		icon = GFX_goal_FIN_integrate_karelia
+		cost = 3
+		x = 25
+		y = 2
+		available = {
+			AND = {
+				is_puppet = no
+				# has_socialist_government = no
+				GER = {
+					has_war_with = SOV
+				}
+			}
+		}
+		offset = {
+			trigger = {
+				OR = {
+					has_country_flag = FIN_democracy_tree
+					has_country_flag = FIN_mannerheim_tree
+				}
+			}
+			y = 5
+			x = 2
+		}
+		offset = {
+			trigger = {
+				has_country_flag = FIN_socialist_tree
+			}
+			y = 0
+			x = 7
+		}
+		bypass = {
+			AND = {
+				GER = {
+					has_war_with = SOV
+				}
+				FIN = {
+					OR = {
+						is_puppet_of = GER
+						is_puppet = no
+						any_allied_country = {
+							FIN = {
+								is_puppet_of = ROOT
+							}
+						}
+					}
+				}
+			}
+
+		}
+		ai_will_do = {
+			factor = 10
+			modifier = {
+				add = 100
+				is_puppet = no
+				NOT = { is_in_faction_with = SOV }
+			}
+		}
+		completion_reward = {
+			#none ig
+		}
+
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+	}
+	focus = {
+		id = FIN_strengthening_the_mannerheim_line
+		icon = GFX_goal_generic_construct_military
+		cost = 3
+		prerequisite = {
+			focus = FIN_finlands_bold_opportunity
+		}
+		relative_position_id = FIN_finlands_bold_opportunity
+		x = -2
+		y = 1
+		available = {
+			is_puppet = no
+			# has_socialist_government = no
+			owns_state = 146
+		}
+		ai_will_do = {
+			factor = 10
+			modifier = {
+				add = 100
+				GER = {
+					has_war_with = SOV
+				}
+				FIN = {
+					AND = {
+						is_puppet = no
+						NOT = { is_in_faction_with = SOV }
+					}
+				}
+			}
+		}
+		completion_reward = {
+			146 = {
+				add_building_construction = {
+					type = bunker
+					level = 3
+					province = 3060
+				}
+				add_building_construction = {
+					type = bunker
+					level = 3
+					province = 9150
+				}
+			}
+		}
+	}
+	focus = {
+		id = FIN_expanding_the_army
+		icon = GFX_goal_FIN_army_training
+		cost = 3
+		prerequisite = {
+			focus = FIN_finlands_bold_opportunity
+		}
+		x = 0
+		y = 1
+		relative_position_id = FIN_finlands_bold_opportunity
+		available = {
+			is_puppet = no
+			# has_socialist_government = no
+		}
+		ai_will_do = {
+			factor = 10
+			modifier = {
+				add = 100
+				GER = {
+					has_war_with = SOV
+				}
+				FIN = {
+					AND = {
+						is_puppet = no
+						NOT = { is_in_faction_with = SOV }
+					}
+				}
+			}
+		}
+		completion_reward = {
+			army_experience = 50
+			# division_template = {
+				# 	name = "Winter War Template"
+				# 	regiments = {
+					# 		infantry = { x = 0 y = 0 }
+					# 		infantry = { x = 0 y = 1 }
+					# 		infantry = { x = 0 y = 2 }
+					# 		infantry = { x = 1 y = 0 }
+					# 		infantry = { x = 1 y = 1 }
+					# 		infantry = { x = 1 y = 2 }
+					# 		infantry = { x = 2 y = 0 }
+					# 		infantry = { x = 2 y = 1 }
+					# 		infantry = { x = 2 y = 2 }
+					# 	}
+				# 	is_locked = yes
+				# 	division_names_group = FIN_INF_02
+				# 	support = {
+					# 		engineer = {
+						# 			x = 0
+						# 			y = 0
+						# 		}
+					# 		artillery = {
+						# 			x = 0
+						# 			y = 1
+						# 		}
+					# 	}
+				# }
+			hidden_effect = {
+				111 = {
+					create_unit = {
+						division = "name = \"Winter War Division\" division_template = \"Winter War Division\" start_experience_factor = 0.5"
+						owner = FIN
+					}
+					create_unit = {
+						division = "name = \"Winter War Division\" division_template = \"Winter War Division\" start_experience_factor = 0.5"
+						owner = FIN
+					}
+					create_unit = {
+						division = "name = \"Winter War Division\" division_template = \"Winter War Division\" start_experience_factor = 0.5"
+						owner = FIN
+					}
+					create_unit = {
+						division = "name = \"Winter War Division\" division_template = \"Winter War Division\" start_experience_factor = 0.5"
+						owner = FIN
+					}
+					create_unit = {
+						division = "name = \"Winter War Division\" division_template = \"Winter War Division\" start_experience_factor = 0.5"
+						owner = FIN
+					}
+				}
+			}
+			custom_effect_tooltip = FIN_WINTER_WAR_DIVISIONS_tt
+		}
+	}
+	focus = {
+		id = FIN_preparing_the_economy
+		icon = GFX_focus_FIN_increase_military_budget
+		cost = 3
+		prerequisite = {
+			focus = FIN_finlands_bold_opportunity
+		}
+		x = 2
+		y = 1
+		relative_position_id = FIN_finlands_bold_opportunity
+		available = {
+			is_puppet = no
+			# has_socialist_government = no
+		}
+		ai_will_do = {
+			factor = 10
+			modifier = {
+				add = 100
+				GER = {
+					has_war_with = SOV
+				}
+				FIN = {
+					AND = {
+						is_puppet = no
+						NOT = { is_in_faction_with = SOV }
+					}
+				}
+			}
+		}
+		completion_reward = {
+			increase_mobilization = yes
+		}
+	}
+	focus = {
+		id = FIN_preparing_the_airforce
+		icon = GFX_goal_FIN_aviation_training
+		cost = 3
+		prerequisite = {
+			focus = FIN_strengthening_the_mannerheim_line
+		}
+		x = 0
+		y = 1
+		relative_position_id = FIN_strengthening_the_mannerheim_line
+		available = {
+			is_puppet = no
+			# has_socialist_government = no
+		}
+		ai_will_do = {
+			factor = 10
+			modifier = {
+				add = 50
+				GER = {
+					has_war_with = SOV
+				}
+				FIN = {
+					AND = {
+						is_puppet = no
+						NOT = { is_in_faction_with = SOV }
+					}
+				}
+			}
+		}
+		completion_reward = {
+			# if = {
+				# 	limit = {
+					# 		has_dlc = "By Blood Alone"
+					# 	}
+				# 	add_equipment_to_stockpile = {
+					# 		type = cv_fighter_equipment
+					# 		amount = 100
+					# 		producer = FIN
+					# 	}
+				# }
+			# else = {
+				# 	add_equipment_to_stockpile = {
+					# 		type = fighter_equipment
+					# 		amount = 100
+					# 		producer = FIN
+					# 	}
+				# }
+			if = {
+				limit = {
+					has_dlc_bba = yes
+				}
+				add_equipment_to_stockpile = {
+					type = medium_plane_airframe_1
+					amount = 100
+					producer = FIN
+				}
+				air_experience = 50
+			}
+			else = {
+				air_experience = 300
+			}
+		}
+	}
+	focus = {
+		id = FIN_construction_of_military_factories
+		icon = GFX_goal_FIN_construct_factories
+		cost = 3
+		prerequisite = {
+			focus = FIN_preparing_the_economy
+		}
+		x = 0
+		y = 1
+		relative_position_id = FIN_preparing_the_economy
+		available = {
+			is_puppet = no
+			# has_socialist_government = no
+		}
+		ai_will_do = {
+			factor = 10
+			modifier = {
+				add = 50
+				GER = {
+					has_war_with = SOV
+				}
+				FIN = {
+					AND = {
+						is_puppet = no
+						NOT = { is_in_faction_with = SOV }
+					}
+				}
+			}
+		}
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = {
+		id = FIN_winter_war
+		icon = GFX_focus_FIN_a_cry_for_help
+		cost = 3
+		prerequisite = { focus = FIN_expanding_the_army }
+		x = 0
+		y = 1
+		relative_position_id = FIN_expanding_the_army
+		available = {
+			is_puppet = no
+			# has_socialist_government = no
+		}
+		ai_will_do = {
+			factor = 10
+			modifier = {
+				add = 50
+				GER = {
+					has_war_with = SOV
+				}
+				FIN = {
+					AND = {
+						is_puppet = no
+						NOT = { is_in_faction_with = SOV }
+					}
+				}
+			}
+		}
+		completion_reward = {
+			FIN = {
+				add_ideas = FIN_winter_war
+			}
+
+		}
+	}
+	focus = {
+		id = FIN_declare_our_claims
+		icon = GFX_goal_FIN_attack_soviets
+		cost = 3
+		prerequisite = {
+			focus = FIN_winter_war
+		}
+		prerequisite = {
+			focus = FIN_construction_of_military_factories
+		}
+		prerequisite = {
+			focus = FIN_preparing_the_airforce
+		}
+		relative_position_id = FIN_winter_war
+		x = 0
+		y = 1
+		available = {
+			is_puppet = no
+			# has_socialist_government = no
+		}
+		ai_will_do = {
+			factor = 10
+			modifier = {
+				add = 100
+				GER = {
+					has_war_with = SOV
+				}
+				FIN = {
+					AND = {
+						is_puppet = no
+						NOT = { is_in_faction_with = SOV }
+					}
+				}
+			}
+		}
+		completion_reward = {
+			every_state = {
+				limit = {
+					OR = {
+						state = 216
+						state = 215
+						state = 213
+						state = 722
+					}
+				}
+				add_core_of = ROOT
+			}
+			add_state_claim = 195
+		}
+	}
+	focus = {
+		id = FIN_for_victory
+		icon = GFX_goal_FIN_for_victory
+		cost = 3
+		prerequisite = { focus = FIN_declare_our_claims }
+		x = 0
+		y = 1
+		relative_position_id = FIN_declare_our_claims
+		available = {
+			is_puppet = no
+			# has_socialist_government = no
+			country_exists = SOV
+			NOT = {
+				SOV = {
+					is_puppet_of = ROOT
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 10
+			modifier = {
+				add = 100
+				GER = {
+					has_war_with = SOV
+				}
+				FIN = {
+					AND = {
+						is_puppet = no
+						NOT = { is_in_faction_with = SOV }
+					}
+				}
+			}
+		}
+		completion_reward = {
+			declare_war_on = {
+				target = SOV
+				type = take_core_state
+				generator = {
+					722
+					213
+					215
+					216
+				}
+			}
+			country_event = finland.154
+			add_war_support = 0.05
+		}
+	}
+	# Democratic Tree
+	focus = {
+		id = FIN_stable_democratic_government
+		icon = GFX_focus_generic_self_management
+		cost = 5.00
+		x = 27
+		y = 0
+		allow_branch = {
+			has_country_flag = FIN_democracy_tree
+		}
+		available = {
+			always = no
+			custom_trigger_tooltip = { tooltip = unlocked_later  }
+		}
+
+		bypass = {
+			has_country_flag = FIN_stable_democratic_government_flag
+		}
+
+	}
+	focus = {
+		id = FIN_punainen_maapera
+		icon = GFX_goal_ideology_social_democrat
+		cost = 5.00
+		prerequisite = {
+			focus = FIN_stable_democratic_government
+		}
+		x = 24
+		y = 1
+
+		available = {
+			has_country_flag = FIN_punainen_maapera_flag
+			OR = {
+				has_government = social_democrat
+				has_government = social_liberal
+			}
+		}
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_punainen_maapera"
+			add_stability = 0.03
+			add_political_power = 25
+			add_popularity = { ideology = social_democrat popularity = 0.01 }
+			add_popularity = { ideology = social_liberal popularity = 0.01 }
+		}
+
+	}
+	focus = {
+		id = FIN_reject_extremism
+		icon = GFX_goal_HOL_crackdown_totalist
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_punainen_maapera
+		}
+		x = 22
+		y = 2
+
+		available = {
+			has_country_flag = FIN_punainen_maapera_flag
+		}
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_reject_extremism"
+			add_political_power = -20
+			add_stability = 0.02
+			add_popularity = { ideology = vanguardist popularity = -0.03 }
+			add_popularity = { ideology = collectivist popularity = -0.03 }
+			add_popularity = { ideology = libertarian_socialist popularity = -0.05 }
+		}
+
+	}
+	focus = {
+		id = FIN_true_sovereign_finland
+		icon = GFX_goal_liberty
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_punainen_maapera
+		}
+		x = 24
+		y = 2
+
+		available = {
+			has_country_flag = FIN_punainen_maapera_flag
+		}
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_true_sovereign_finland"
+			add_political_power = -20
+			add_stability = 0.02
+			add_war_support = 0.07
+		}
+
+	}
+	focus = {
+		id = FIN_strengthen_democracy
+		icon = GFX_goal_DOM_End_Judicial_Corruption
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_punainen_maapera
+		}
+		x = 26
+		y = 2
+
+		available = {
+			has_country_flag = FIN_punainen_maapera_flag
+		}
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_strengthen_democracy"
+			add_political_power = -20
+			add_stability = 0.02
+			add_popularity = { ideology = social_democrat popularity = 0.03 }
+			add_popularity = { ideology = social_liberal popularity = 0.03 }
+			add_popularity = { ideology = market_liberal popularity = 0.01 }
+			add_popularity = { ideology = social_conservative popularity = 0.02 }
+		}
+
+	}
+	focus = {
+		id = FIN_support_workers
+		icon = GFX_goal_workers_rights
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_reject_extremism
+		}
+		prerequisite = {
+			focus = FIN_true_sovereign_finland
+		}
+		prerequisite = {
+			focus = FIN_strengthen_democracy
+		}
+		x = 23
+		y = 3
+
+		available = {
+			has_country_flag = FIN_punainen_maapera_flag
+		}
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_support_workers"
+			if = {
+				limit = {
+					has_idea = FIN_support_farmers_idea
+				}
+				swap_ideas = {
+					remove_idea = FIN_support_farmers_idea
+					add_idea = FIN_support_workers_farmers_idea
+				}
+			}
+			else = {
+				add_ideas = FIN_support_workers_idea
+			}
+		}
+
+	}
+	focus = {
+		id = FIN_public_work
+		icon = GFX_IRE_heavy_industry
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_support_workers
+		}
+		x = 22
+		y = 4
+
+		available = {
+			has_country_flag = FIN_punainen_maapera_flag
+			has_government = social_democrat
+			controls_state = 111
+		}
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_public_work"
+			add_popularity = { ideology = social_democrat popularity = 0.02 }
+			111 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = FIN_support_farmers
+		icon = GFX_focus_AUS_agriculture
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_reject_extremism
+		}
+		prerequisite = {
+			focus = FIN_true_sovereign_finland
+		}
+		prerequisite = {
+			focus = FIN_strengthen_democracy
+		}
+		x = 25
+		y = 3
+
+		available = {
+			has_country_flag = FIN_punainen_maapera_flag
+		}
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_support_farmers"
+			if = {
+				limit = {
+					has_idea = FIN_support_workers_idea
+				}
+				swap_ideas = {
+					remove_idea = FIN_support_workers_idea
+					add_idea = FIN_support_workers_farmers_idea
+				}
+			}
+			else = {
+				add_ideas = FIN_support_farmers_idea
+			}
+		}
+
+	}
+	focus = {
+		id = FIN_finnish_welfare_state
+		icon = GFX_focus_generic_concessions
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_support_workers
+		}
+		prerequisite = {
+			focus = FIN_support_farmers
+		}
+		x = 24
+		y = 4
+
+		available = {
+			has_country_flag = FIN_punainen_maapera_flag
+		}
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_finnish_welfare_state"
+			swap_ideas = {
+				remove_idea = FIN_support_workers_farmers_idea
+				add_idea = FIN_finnish_welfare_state_idea
+			}
+		}
+
+	}
+	focus = {
+		id = FIN_rural_investments
+		icon = GFX_IRE_farms
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_support_farmers
+		}
+		x = 26
+		y = 4
+
+		available = {
+			has_country_flag = FIN_punainen_maapera_flag
+			has_government = social_liberal
+			controls_state = 148
+		}
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_rural_investments"
+			add_popularity = { ideology = social_liberal popularity = 0.02 }
+			148 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = FIN_ban_national_populist_movements
+		icon = GFX_goal_HOL_ban_VNH
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_public_work
+			focus = FIN_rural_investments
+		}
+		prerequisite = {
+			focus = FIN_finnish_welfare_state
+		}
+		x = 23
+		y = 5
+
+		available = {
+			has_country_flag = FIN_punainen_maapera_flag
+		}
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_ban_national_populist_movements"
+			add_political_power = -20
+			add_popularity = { ideology = paternal_autocrat popularity = -0.04 }
+			add_popularity = { ideology = national_populist popularity = -0.04 }
+			add_popularity = { ideology = valkist popularity = -0.03 }
+		}
+
+	}
+	focus = {
+		id = FIN_curtail_swedish_influence
+		icon = GFX_goal_Curtail_Swedish_Influence
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_public_work
+			focus = FIN_rural_investments
+		}
+		prerequisite = {
+			focus = FIN_finnish_welfare_state
+		}
+		x = 25
+		y = 5
+
+		available = {
+			has_country_flag = FIN_punainen_maapera_flag
+		}
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_curtail_swedish_influence"
+			add_political_power = -20
+			add_stability = 0.03
+			add_war_support = 0.05
+		}
+
+	}
+	focus = {
+		id = FIN_promote_finnish_unity
+		icon = GFX_goal_Finland_Flag
+		cost = 5.00
+		prerequisite = {
+			focus = FIN_ban_national_populist_movements
+		}
+		prerequisite = {
+			focus = FIN_curtail_swedish_influence
+		}
+		x = 24
+		y = 6
+
+		available = {
+			has_country_flag = FIN_punainen_maapera_flag
+		}
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_promote_finnish_unity"
+			add_stability = 0.03
+			add_war_support = 0.03
+			add_manpower = 75000
+			increase_ruling_party_popularity_by_5 = yes
+			remove_ideas = FIN_legacy_civil_war_idea
+		}
+
+	}
+	focus = {
+		id = FIN_porvaristo_ja_viljelijat
+		icon = GFX_goal_ideology_social_conservative
+		cost = 5.00
+		prerequisite = {
+			focus = FIN_stable_democratic_government
+		}
+		x = 30
+		y = 1
+
+		available = {
+			has_country_flag = FIN_porvaristo_ja_viljelijat_flag
+			OR = {
+				has_government = social_liberal
+				has_government = market_liberal
+				has_government = social_conservative
+			}
+		}
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_porvaristo_ja_viljelijat"
+			add_stability = 0.03
+			add_political_power = 25
+			add_popularity = { ideology = social_liberal popularity = 0.01 }
+			add_popularity = { ideology = market_liberal popularity = 0.01 }
+			add_popularity = { ideology = social_conservative popularity = 0.01 }
+		}
+
+	}
+	focus = {
+		id = FIN_tackle_social_democratic_influence
+		icon = GFX_goal_HOL_crackdown_radsoc
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_porvaristo_ja_viljelijat
+		}
+		x = 29
+		y = 2
+
+		available = {
+			has_country_flag = FIN_porvaristo_ja_viljelijat_flag
+		}
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_tackle_social_democratic_influence"
+			add_political_power = -20
+			add_stability = 0.02
+			add_popularity = { ideology = vanguardist popularity = -0.03 }
+			add_popularity = { ideology = collectivist popularity = -0.03 }
+			add_popularity = { ideology = libertarian_socialist popularity = -0.03 }
+			add_popularity = { ideology = social_democrat popularity = -0.03 }
+		}
+
+	}
+	focus = {
+		id = FIN_investigate_lapua_movement
+		icon = GFX_HOL_crackdown_natpop
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_porvaristo_ja_viljelijat
+		}
+		x = 31
+		y = 2
+
+		available = {
+			has_country_flag = FIN_porvaristo_ja_viljelijat_flag
+		}
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_investigate_lapua_movement"
+			add_political_power = -20
+			add_stability = 0.02
+			add_popularity = { ideology = paternal_autocrat popularity = -0.04 }
+			add_popularity = { ideology = national_populist popularity = -0.04 }
+			add_popularity = { ideology = valkist popularity = -0.03 }
+		}
+
+	}
+	focus = {
+		id = FIN_reimplement_agrarian_subsidies
+		icon = GFX_goal_agricultural_aid
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_tackle_social_democratic_influence
+		}
+		prerequisite = {
+			focus = FIN_investigate_lapua_movement
+		}
+		x = 28
+		y = 3
+
+		available = {
+			has_country_flag = FIN_porvaristo_ja_viljelijat_flag
+		}
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_reimplement_agrarian_subsidies"
+			add_popularity = { ideology = social_liberal popularity = 0.01 }
+			add_ideas = FIN_reimplement_agrarian_subsidies_idea
+		}
+
+	}
+	focus = {
+		id = FIN_conservative_welfare
+		icon = GFX_focus_generic_concessions
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_reimplement_agrarian_subsidies
+		}
+		x = 28
+		y = 5
+
+		available = {
+			has_country_flag = FIN_porvaristo_ja_viljelijat_flag
+		}
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_conservative_welfare"
+			swap_ideas = {
+				remove_idea = FIN_reimplement_agrarian_subsidies_idea
+				add_idea = FIN_conservative_welfare_idea
+			}
+		}
+
+	}
+	focus = {
+		id = FIN_promote_republican_ideals
+		icon = GFX_goal_DOM_Call_Special_Election
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_tackle_social_democratic_influence
+		}
+		prerequisite = {
+			focus = FIN_investigate_lapua_movement
+		}
+		x = 30
+		y = 3
+
+		available = {
+			has_country_flag = FIN_porvaristo_ja_viljelijat_flag
+		}
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_true_sovereign_finland"
+			add_political_power = -20
+			add_stability = 0.03
+			add_war_support = 0.07
+		}
+
+	}
+	focus = {
+		id = FIN_stenghten_parliament
+		icon = GFX_goal_Centralised_Government
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_promote_republican_ideals
+		}
+		mutually_exclusive = {
+			focus = FIN_strengthen_president
+		}
+		x = 29
+		y = 4
+
+		available = {
+			has_country_flag = FIN_porvaristo_ja_viljelijat_flag
+		}
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_stenghten_parliament"
+			add_stability = 0.03
+			add_war_support = 0.02
+			add_popularity = { ideology = social_democrat popularity = 0.01 }
+			add_popularity = { ideology = social_liberal popularity = 0.03 }
+			add_popularity = { ideology = market_liberal popularity = 0.03 }
+			add_popularity = { ideology = social_conservative popularity = 0.02 }
+		}
+
+	}
+	focus = {
+		id = FIN_strengthen_president
+		icon = GFX_goal_National_Security_Act
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_promote_republican_ideals
+		}
+		mutually_exclusive = {
+			focus = FIN_stenghten_parliament
+		}
+		x = 31
+		y = 4
+
+		available = {
+			OR = {
+				has_government = social_conservative
+				has_government = market_liberal
+			}
+			has_country_flag = FIN_president_svinhufvud_flag
+			has_country_flag = FIN_porvaristo_ja_viljelijat_flag
+		}
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_strengthen_president"
+			add_stability = 0.03
+			add_popularity = { ideology = social_conservative popularity = 0.02 }
+			add_popularity = { ideology = authoritarian_democrat popularity = 0.02 }
+			add_popularity = { ideology = social_democrat popularity = -0.02 }
+			add_popularity = { ideology = social_liberal popularity = -0.02 }
+			set_party_name = {
+				ideology = authoritarian_democrat
+				long_name = FIN_strong_president_party_long
+				name = FIN_strong_president_party
+			}
+			add_ideas = semi_presidential_republic
+		}
+
+	}
+	focus = {
+		id = FIN_democratic_values
+		icon = GFX_goal_ideology_social_liberal
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_stenghten_parliament
+			focus = FIN_strengthen_president
+		}
+		x = 30
+		y = 5
+
+		available = {
+			has_country_flag = FIN_porvaristo_ja_viljelijat_flag
+		}
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_democratic_values"
+			add_political_power = -20
+			add_stability = 0.02
+			add_popularity = { ideology = social_democrat popularity = 0.01 }
+			add_popularity = { ideology = social_liberal popularity = 0.03 }
+			add_popularity = { ideology = market_liberal popularity = 0.03 }
+			add_popularity = { ideology = social_conservative popularity = 0.03 }
+		}
+
+	}
+	focus = {
+		id = FIN_support_lutheranism
+		icon = GFX_focus_por_concordat
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_tackle_social_democratic_influence
+		}
+		prerequisite = {
+			focus = FIN_investigate_lapua_movement
+		}
+		x = 32
+		y = 3
+
+		available = {
+			has_country_flag = FIN_porvaristo_ja_viljelijat_flag
+		}
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_support_lutheranism"
+			add_popularity = { ideology = social_conservative popularity = 0.01 }
+			add_ideas = FIN_support_lutheranism_idea
+		}
+
+	}
+	focus = {
+		id = FIN_gain_church_support
+		icon = GFX_BEL_Improve_Catholic_Relations
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_support_lutheranism
+		}
+		x = 32
+		y = 5
+
+		available = {
+			has_country_flag = FIN_porvaristo_ja_viljelijat_flag
+		}
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_gain_church_support"
+			add_stability = 0.05
+			add_popularity = { ideology = social_liberal popularity = 0.03 }
+			add_popularity = { ideology = market_liberal popularity = 0.02 }
+			add_popularity = { ideology = social_conservative popularity = 0.03 }
+			add_popularity = { ideology = paternal_autocrat popularity = -0.03 }
+			add_popularity = { ideology = national_populist popularity = -0.03 }
+			add_popularity = { ideology = valkist popularity = -0.01 }
+		}
+
+	}
+	focus = {
+		id = FIN_finnish_patriotism
+		icon = GFX_goal_Finland_Flag
+		cost = 5.00
+		prerequisite = {
+			focus = FIN_conservative_welfare
+		}
+		prerequisite = {
+			focus = FIN_democratic_values
+		}
+		prerequisite = {
+			focus = FIN_gain_church_support
+		}
+		x = 30
+		y = 6
+
+		available = {
+			has_country_flag = FIN_porvaristo_ja_viljelijat_flag
+		}
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_finnish_patriotism"
+			add_stability = 0.03
+			add_war_support = 0.03
+			add_manpower = 75000
+			increase_ruling_party_popularity_by_5 = yes
+			remove_ideas = FIN_legacy_civil_war_idea
+		}
+
+	}
+	# Mannnerheim Lapua Tree
+	focus = {
+		id = FIN_aftermath_mantsala_uprising
+		icon = GFX_focus_generic_support_the_left_right
+		cost = 5.00
+		x = 27
+		y = 0
+
+		allow_branch = {
+			has_country_flag = FIN_mannerheim_tree
+		}
+
+		available = {
+			always = no
+			custom_trigger_tooltip = { tooltip = unlocked_later  }
+		}
+
+		bypass = {
+			has_country_flag = FIN_aftermath_mantsala_uprising_flag
+		}
+		completion_reward = {
+
+		}
+
+	}
+	focus = {
+		id = FIN_mannerheim_in_power
+		icon = GFX_goal_FIN_Mannerheim_power
+		cost = 5.00
+		prerequisite = {
+			focus = FIN_aftermath_mantsala_uprising
+		}
+		x = 24
+		y = 1
+
+		available = {
+			has_country_flag = FIN_mannerheim_in_power_flag
+			has_government = authoritarian_democrat
+		}
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_mannerheim_in_power"
+			add_stability = 0.03
+			add_political_power = 25
+			add_popularity = { ideology = authoritarian_democrat popularity = 0.02 }
+		}
+
+	}
+	focus = {
+		id = FIN_bringing_order_streets
+		icon = GFX_goal_HOL_amend_wapenwet
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_mannerheim_in_power
+		}
+		x = 24
+		y = 2
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_bringing_order_streets"
+			add_political_power = -25
+			add_stability = 0.05
+			add_war_support = 0.03
+			add_popularity = { ideology = vanguardist popularity = -0.02 }
+			add_popularity = { ideology = collectivist popularity = -0.02 }
+			add_popularity = { ideology = paternal_autocrat popularity = -0.02 }
+			add_popularity = { ideology = national_populist popularity = -0.02 }
+		}
+
+	}
+	focus = {
+		id = FIN_pacify_socialists
+		icon = GFX_goal_HOL_crackdown_radsoc
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_bringing_order_streets
+		}
+		x = 22
+		y = 3
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_pacify_socialists"
+			add_political_power = -20
+			add_stability = 0.02
+			add_popularity = { ideology = vanguardist popularity = -0.03 }
+			add_popularity = { ideology = collectivist popularity = -0.03 }
+			add_popularity = { ideology = libertarian_socialist popularity = -0.03 }
+		}
+
+	}
+	focus = {
+		id = FIN_appeace_workers
+		icon = GFX_goal_workers_rights
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_pacify_socialists
+		}
+		x = 22
+		y = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_appeace_workers"
+			if = {
+				limit = {
+					has_idea = FIN_appeace_farmers_idea
+				}
+				swap_ideas = {
+					remove_idea = FIN_appeace_farmers_idea
+					add_idea = FIN_appeace_workers_farmers_idea
+				}
+			}
+			else = {
+				add_ideas = FIN_appeace_workers_idea
+			}
+		}
+
+	}
+	focus = {
+		id = FIN_non_partisan_governing
+		icon = GFX_goal_COS_Ferrer_Coup
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_bringing_order_streets
+		}
+		x = 24
+		y = 3
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_non_partisan_governing"
+			add_political_power = 20
+			add_stability = 0.05
+			add_popularity = { ideology = authoritarian_democrat popularity = 0.03 }
+		}
+
+	}
+	focus = {
+		id = FIN_strengthen_finnish_red_cross
+		icon = GFX_goal_generic_medical
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_non_partisan_governing
+		}
+		x = 23
+		y = 4
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_strengthen_finnish_red_cross"
+			add_stability = 0.03
+			add_timed_idea = {
+				idea = FIN_strengthen_finnish_red_cross_idea
+				days = 400
+			}
+		}
+
+	}
+	focus = {
+		id = FIN_commit_to_defence_finland
+		icon = GFX_goal_generic_military_sphere
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_non_partisan_governing
+		}
+		x = 25
+		y = 4
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_commit_to_defence_finland"
+			add_war_support = 0.03
+			add_timed_idea = {
+				idea = FIN_commit_to_defence_finland_idea
+				days = 400
+			}
+		}
+
+	}
+	focus = {
+		id = FIN_fatherland_before_politics
+		icon = GFX_goal_liberty
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_strengthen_finnish_red_cross
+		}
+		prerequisite = {
+			focus = FIN_commit_to_defence_finland
+		}
+		x = 24
+		y = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_fatherland_before_politics"
+			add_stability = 0.03
+			add_war_support = 0.03
+			add_manpower = 50000
+			add_popularity = { ideology = authoritarian_democrat popularity = 0.05 }
+		}
+
+	}
+	focus = {
+		id = FIN_pacify_lapua_movement
+		icon = GFX_HOL_crackdown_natpop
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_bringing_order_streets
+		}
+		x = 26
+		y = 3
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_pacify_lapua_movement"
+			add_political_power = -20
+			add_stability = 0.02
+			add_popularity = { ideology = paternal_autocrat popularity = -0.03 }
+			add_popularity = { ideology = national_populist popularity = -0.03 }
+			add_popularity = { ideology = valkist popularity = -0.03 }
+		}
+
+	}
+	focus = {
+		id = FIN_appeace_farmers
+		icon = GFX_goal_agricultural_aid
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_pacify_lapua_movement
+		}
+		x = 26
+		y = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_appeace_farmers"
+			if = {
+				limit = {
+					has_idea = FIN_appeace_workers_idea
+				}
+				swap_ideas = {
+					remove_idea = FIN_appeace_workers_idea
+					add_idea = FIN_appeace_workers_farmers_idea
+				}
+			}
+			else = {
+				add_ideas = FIN_appeace_farmers_idea
+			}
+		}
+
+	}
+	focus = {
+		id = FIN_return_to_democracy
+		icon = GFX_goal_Finland_Flag
+		cost = 5.00
+		prerequisite = {
+			focus = FIN_appeace_workers
+		}
+		prerequisite = {
+			focus = FIN_fatherland_before_politics
+		}
+		prerequisite = {
+			focus = FIN_appeace_farmers
+		}
+		x = 24
+		y = 6
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_fatherland_before_politics"
+			add_stability = 0.03
+			add_war_support = 0.03
+			add_manpower = 75000
+			remove_ideas = FIN_legacy_civil_war_idea
+			country_event = {
+				id = finland.100 days = 1
+			}
+		}
+
+	}
+	focus = {
+		id = FIN_lapua_movement_in_power
+		icon = GFX_goal_FIN_Lapua
+		cost = 5.00
+		prerequisite = {
+			focus = FIN_aftermath_mantsala_uprising
+		}
+		x = 30
+		y = 1
+
+		available = {
+			has_country_flag = FIN_lapua_movement_in_power_flag
+			OR = {
+				has_government = paternal_autocrat
+				has_government = national_populist
+			}
+		}
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_lapua_movement_in_power"
+			add_stability = 0.03
+			add_political_power = 25
+			add_popularity = { ideology = paternal_autocrat popularity = 0.01 }
+			add_popularity = { ideology = national_populist popularity = 0.01 }
+		}
+
+	}
+	focus = {
+		id = FIN_new_style_governing
+		icon = GFX_goal_national_populism
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_lapua_movement_in_power
+		}
+		x = 29
+		y = 2
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_new_style_governing"
+			add_political_power = -20
+			add_stability = 0.02
+			add_popularity = { ideology = paternal_autocrat popularity = 0.02 }
+			add_popularity = { ideology = national_populist popularity = 0.02 }
+			country_event = {
+				id = finland.102 days = 1
+			}
+		}
+
+	}
+	focus = {
+		id = FIN_strengthen_sinimustat
+		icon = GFX_goal_enlist_the_police
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_new_style_governing
+		}
+		x = 29
+		y = 3
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_new_style_governing"
+			add_political_power = -20
+			add_war_support = 0.03
+			add_popularity = { ideology = national_populist popularity = 0.01 }
+			add_ideas = FIN_strengthen_sinimustat_idea
+		}
+
+	}
+	focus = {
+		id = FIN_crack_down_socialists
+		icon = GFX_goal_anti_comintern_pact
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_lapua_movement_in_power
+		}
+		x = 31
+		y = 2
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_crack_down_socialists"
+			add_political_power = -20
+			add_stability = 0.02
+			add_popularity = { ideology = vanguardist popularity = -0.03 }
+			add_popularity = { ideology = collectivist popularity = -0.03 }
+			add_popularity = { ideology = libertarian_socialist popularity = -0.03 }
+		}
+
+	}
+	focus = {
+		id = FIN_abolish_parliament
+		icon = GFX_goal_DEI_focus_disband_volksraad
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_crack_down_socialists
+		}
+		x = 31
+		y = 3
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_abolish_parliament"
+			add_political_power = -20
+			add_stability = 0.02
+			add_popularity = { ideology = social_democrat popularity = -0.03 }
+			add_popularity = { ideology = social_liberal popularity = -0.03 }
+			add_popularity = { ideology = market_liberal popularity = -0.03 }
+			add_popularity = { ideology = social_conservative popularity = -0.03 }
+		}
+
+	}
+	focus = {
+		id = FIN_enforced_pietist_morals
+		icon = GFX_focus_por_concordat
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_strengthen_sinimustat
+		}
+		prerequisite = {
+			focus = FIN_abolish_parliament
+		}
+		x = 28
+		y = 4
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_new_style_governing"
+			add_stability = 0.02
+			add_ideas = FIN_enforced_pietist_morals_idea
+		}
+
+	}
+	focus = {
+		id = FIN_traditional_finnish_values
+		icon = GFX_BEL_Federalism
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_enforced_pietist_morals
+		}
+		x = 29
+		y = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_new_style_governing"
+			add_stability = 0.02
+			swap_ideas = {
+				remove_idea = FIN_enforced_pietist_morals_idea
+				add_idea = FIN_traditional_finnish_values_idea
+			}
+		}
+
+	}
+	focus = {
+		id = FIN_activly_pursue_greater_finland
+		icon = GFX_goal_generic_demand_territory
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_strengthen_sinimustat
+		}
+		prerequisite = {
+			focus = FIN_abolish_parliament
+		}
+		x = 30
+		y = 4
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_new_style_governing"
+			add_stability = -0.05
+			add_war_support = 0.10
+			increase_ruling_party_popularity_by_5 = yes
+			swap_ideas = {
+				remove_idea = FIN_strengthen_sinimustat_idea
+				add_idea = FIN_activly_pursue_greater_finland_idea
+			}
+		}
+
+	}
+	focus = {
+		id = FIN_implement_corporatism
+		icon = GFX_HOL_staatsvakbond
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_strengthen_sinimustat
+		}
+		prerequisite = {
+			focus = FIN_abolish_parliament
+		}
+		x = 32
+		y = 4
+
+		available = {
+			controls_state = 111
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_implement_corporatism"
+			add_ideas = FIN_implement_corporatism_idea
+			111 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = FIN_militarize_finland
+		icon = GFX_goal_Focus_Military_Mobilisation
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_implement_corporatism
+		}
+		x = 31
+		y = 5
+
+		available = {
+			controls_state = 111
+		}
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_militarize_finland"
+			111 = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = FIN_finnish_nation
+		icon = GFX_goal_Finland_Flag
+		cost = 5.00
+		prerequisite = {
+			focus = FIN_traditional_finnish_values
+		}
+		prerequisite = {
+			focus = FIN_activly_pursue_greater_finland
+		}
+		prerequisite = {
+			focus = FIN_militarize_finland
+		}
+		x = 30
+		y = 6
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_finnish_nation"
+			add_stability = 0.03
+			add_war_support = 0.03
+			add_manpower = 75000
+			increase_ruling_party_popularity_by_5 = yes
+			remove_ideas = FIN_legacy_civil_war_idea
+		}
+
+	}
+	# Socialist Tree
+	focus = {
+		id = FIN_aftermath_mantsala_uprising2
+		icon = GFX_focus_generic_support_the_left_right
+		cost = 5.00
+		x = 26
+		y = 1
+		allow_branch = {
+			has_country_flag = FIN_socialist_tree
+		}
+		available = {
+			always = no
+			custom_trigger_tooltip = { tooltip = unlocked_later  }
+		}
+
+		bypass = {
+			has_country_flag = FIN_aftermath_mantsala_uprising_flag
+		}
+
+	}
+	focus = {
+		id = FIN_finnish_revolution
+		icon = GFX_goal_FIN_peoples_delegation
+		cost = 5.00
+		prerequisite = {
+			focus = FIN_aftermath_mantsala_uprising2
+		}
+		x = 26
+		y = 0
+
+		available = {
+			has_country_flag = FIN_finnish_revolution_flag
+			OR = {
+				has_government = vanguardist
+				has_government = collectivist
+				has_government = libertarian_socialist
+			}
+		}
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_finnish_revolution"
+			add_stability = 0.03
+			add_political_power = 25
+			add_popularity = { ideology = vanguardist popularity = 0.01 }
+			add_popularity = { ideology = collectivist popularity = 0.01 }
+			add_popularity = { ideology = libertarian_socialist popularity = 0.01 }
+		}
+
+	}
+	focus = {
+		id = FIN_communist_party_dominance
+		icon = GFX_focus_generic_soviet_politics
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_finnish_revolution
+		}
+		x = 26
+		y = 2
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_communist_party_dominance"
+			add_stability = 0.03
+			add_popularity = { ideology = vanguardist popularity = 0.02 }
+			set_party_name = {
+				ideology = vanguardist
+				long_name = FIN_skp_vanguard_party_long
+				name = FIN_skp_vanguard_party
+			}
+			add_popularity = { ideology = collectivist popularity = 0.02 }
+			set_party_name = {
+				ideology = collectivist
+				long_name = FIN_skp_collie_party_long
+				name = FIN_skp_collie_party
+			}
+			add_popularity = { ideology = libertarian_socialist popularity = 0.02 }
+			set_party_name = {
+				ideology = libertarian_socialist
+				long_name = FIN_skp_libsoc_party_long
+				name = FIN_skp_libsoc_party
+			}
+			add_popularity = { ideology = social_democrat popularity = -0.05 }
+		}
+
+	}
+	focus = {
+		id = FIN_crush_anti_socialists
+		icon = GFX_goal_HOL_ban_VNH
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_communist_party_dominance
+		}
+		x = 25
+		y = 3
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_crush_anti_socialists"
+			add_political_power = -20
+			add_stability = 0.02
+			add_popularity = { ideology = paternal_autocrat popularity = -0.04 }
+			add_popularity = { ideology = national_populist popularity = -0.04 }
+			add_popularity = { ideology = valkist popularity = -0.03 }
+		}
+
+	}
+	focus = {
+		id = FIN_crack_down_bourgeois_establishment
+		icon = GFX_goal_National_Security_Act
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_communist_party_dominance
+		}
+		x = 27
+		y = 3
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_crack_down_bourgeois_establishment"
+			add_political_power = -20
+			add_stability = 0.02
+			add_popularity = { ideology = social_liberal popularity = -0.04 }
+			add_popularity = { ideology = market_liberal popularity = -0.03 }
+			add_popularity = { ideology = social_conservative popularity = -0.04 }
+		}
+
+	}
+	focus = {
+		id = FIN_finnish_peoples_delegation
+		icon = GFX_goal_HOL_council_communism
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_crush_anti_socialists
+		}
+		prerequisite = {
+			focus = FIN_crack_down_bourgeois_establishment
+		}
+		x = 26
+		y = 4
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_finnish_peoples_delegation"
+			add_stability = 0.02
+			country_event = {
+				id = finland.103 days = 1
+			}
+		}
+
+	}
+	focus = {
+		id = FIN_punakaarti_control
+		icon = GFX_goal_ideology_vanguardist
+		cost = 5.00
+		prerequisite = {
+			focus = FIN_finnish_peoples_delegation
+		}
+		x = 24
+		y = 5
+
+		available = {
+			has_government = vanguardist
+		}
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_punakaarti_control"
+			add_stability = 0.02
+			add_war_support = 0.02
+			add_popularity = { ideology = vanguardist popularity = 0.05 }
+		}
+
+	}
+	focus = {
+		id = FIN_vanguard_revolution
+		icon = GFX_goal_collie_militia
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_punakaarti_control
+		}
+		x = 23
+		y = 6
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_vanguard_revolution"
+			add_political_power = -20
+			add_war_support = 0.03
+			add_popularity = { ideology = vanguardist popularity = 0.01 }
+			add_ideas = FIN_vanguard_revolution_idea
+		}
+
+	}
+	focus = {
+		id = FIN_ortodoksinen_control
+		icon = GFX_goal_ideology_collectivist
+		cost = 5.00
+		prerequisite = {
+			focus = FIN_finnish_peoples_delegation
+		}
+		x = 26
+		y = 5
+
+		available = {
+			has_government = collectivist
+		}
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_ortodoksinen_control"
+			add_stability = 0.02
+			add_war_support = 0.02
+			add_popularity = { ideology = collectivist popularity = 0.05 }
+		}
+
+	}
+	focus = {
+		id = FIN_collectivization_efforts
+		icon = GFX_goal_Workers_Paradise
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_punakaarti_control
+			focus = FIN_ortodoksinen_control
+		}
+		x = 25
+		y = 6
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_collectivization_efforts"
+			add_political_power = -15
+			random_owned_state = {
+				limit = {
+					is_controlled_by = FIN
+					is_core_of = FIN
+					OR = {
+						industrial_complex > 0
+						arms_factory > 0
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			add_ideas = FIN_collectivization_efforts_idea
+		}
+
+	}
+	focus = {
+		id = FIN_red_terror
+		icon = GFX_slaughter_the_weak
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_vanguard_revolution
+		}
+		prerequisite = {
+			focus = FIN_collectivization_efforts
+		}
+		x = 24
+		y = 7
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_red_terror"
+			add_stability = -0.03
+			add_war_support = 0.03
+			add_popularity = { ideology = social_democrat popularity = -0.05 }
+			add_popularity = { ideology = libertarian_socialist popularity = -0.05 }
+			add_popularity = { ideology = collectivist popularity = -0.05 }
+		}
+
+	}
+	focus = {
+		id = FIN_centralisation_power
+		icon = GFX_goal_generic_political_pressure
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_red_terror
+		}
+		x = 24
+		y = 8
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_centralisation_power"
+			add_war_support = 0.03
+			add_popularity = { ideology = vanguardist popularity = 0.03 }
+			swap_ideas = {
+				remove_idea = FIN_vanguard_revolution_idea
+				add_idea = FIN_centralisation_power_idea
+			}
+		}
+
+	}
+	focus = {
+		id = FIN_sosialistinen_control
+		icon = GFX_goal_ideology_radical_socialist
+		cost = 5.00
+		prerequisite = {
+			focus = FIN_finnish_peoples_delegation
+		}
+		x = 28
+		y = 5
+
+		available = {
+			has_government = libertarian_socialist
+		}
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_sosialistinen_control"
+			add_stability = 0.02
+			add_war_support = 0.02
+			add_popularity = { ideology = libertarian_socialist popularity = 0.05 }
+		}
+
+	}
+	focus = {
+		id = FIN_democracy_workplace
+		icon = GFX_goal_economic_control
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_ortodoksinen_control
+			focus = FIN_sosialistinen_control
+		}
+		x = 27
+		y = 6
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_democracy_workplace"
+			add_political_power = -15
+			add_stability = 0.03
+			add_ideas = FIN_democracy_workplace_idea
+		}
+
+	}
+	focus = {
+		id = FIN_enforce_true_socialism
+		icon = GFX_goal_HOL_military_union
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_collectivization_efforts
+		}
+		prerequisite = {
+			focus = FIN_democracy_workplace
+		}
+		x = 26
+		y = 7
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_enforce_true_socialism"
+			add_stability = -0.03
+			add_war_support = 0.03
+			add_popularity = { ideology = social_democrat popularity = -0.05 }
+			add_popularity = { ideology = libertarian_socialist popularity = -0.05 }
+			add_popularity = { ideology = vanguardist popularity = -0.05 }
+		}
+
+	}
+	focus = {
+		id = FIN_following_moscow_line
+		icon = GFX_goal_syndicalist_lenin
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_enforce_true_socialism
+		}
+		x = 26
+		y = 8
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_following_moscow_line"
+			add_stability = 0.03
+			add_popularity = { ideology = collectivist popularity = 0.05 }
+		}
+
+	}
+	focus = {
+		id = FIN_integrate_social_democrats
+		icon = GFX_goal_ideology_social_democrat
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_sosialistinen_control
+		}
+		x = 29
+		y = 6
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_integrate_social_democrats"
+			add_stability = 0.02
+			add_popularity = { ideology = libertarian_socialist popularity = 0.05 }
+			add_popularity = { ideology = social_democrat popularity = -0.07 }
+		}
+
+	}
+	focus = {
+		id = FIN_strengthen_labour_unions
+		icon = GFX_goal_syndicalist_industry
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_democracy_workplace
+		}
+		prerequisite = {
+			focus = FIN_integrate_social_democrats
+		}
+		x = 28
+		y = 7
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_strengthen_labour_unions"
+			add_war_support = 0.03
+			add_popularity = { ideology = libertarian_socialist popularity = 0.02 }
+			swap_ideas = {
+				remove_idea = FIN_democracy_workplace_idea
+				add_idea = FIN_strengthen_labour_unions_idea
+			}
+		}
+
+	}
+	focus = {
+		id = FIN_decentralisation_power
+		icon = GFX_goal_liberty
+		cost = 8.00
+		prerequisite = {
+			focus = FIN_strengthen_labour_unions
+		}
+		x = 28
+		y = 8
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_decentralisation_power"
+			add_stability = 0.03
+			add_popularity = { ideology = vanguardist popularity = -0.03 }
+		}
+
+	}
+	focus = {
+		id = FIN_legacy_finnish_red
+		icon = GFX_goal_rev_militia3
+		cost = 5.00
+		prerequisite = {
+			focus = FIN_centralisation_power
+			focus = FIN_following_moscow_line
+			focus = FIN_decentralisation_power
+		}
+		x = 26
+		y = 9
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus FIN_legacy_finnish_red"
+			add_stability = 0.03
+			add_war_support = 0.03
+			add_manpower = 75000
+			increase_ruling_party_popularity_by_5 = yes
+			remove_ideas = FIN_legacy_civil_war_idea
+		}
+
+	}
+}

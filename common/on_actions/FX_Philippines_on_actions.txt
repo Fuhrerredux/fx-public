@@ -1,0 +1,106 @@
+# Philippines on-actions
+# created by: dax0102
+
+on_actions = {
+  on_new_term_election = {
+    effect = {
+      if = {
+        limit = { tag = PHI }
+        country_event = philippines.34 # 1937 Presidential Elections
+        country_event = philippines.56 # 1941 Presidential Elections
+        country_event = philippines.57 # 1945 Presidential Elections
+        country_event = philippines.58 # 1949 Presidential Elections
+        country_event = philippines.59 # 1953 Presidential Elections
+        country_event = philippines.60 # 1957 Presidential Elections
+      }
+    }
+  }
+  on_declare_war = {
+    effect = {
+      if = {
+        limit = {
+          ROOT = { tag = PHI }
+          FROM = {
+            OR = {
+              tag = JAP
+              tag = ENG
+              tag = FRA
+              tag = USA
+              tag = ITA
+              tag = GER
+            }
+            has_country_flag = PHI_investments
+          }
+        }
+
+        # Investments are pulled
+        FROM = {
+          ROOT = {
+            country_event = { id = philippines.7 days = 2 }
+          }
+        }
+      }
+    }
+  }
+  # ROOT is new controller
+  # FROM is old controller
+  # FROM.FROM is state id
+  on_state_control_changed = {
+    effect = {
+      if = {
+        limit = {
+          FROM.FROM = { state = 819 } # Singapore
+          FROM = { tag = ENG }
+          OR = {
+            tag = PHI
+            any_other_country = { 
+              is_in_faction_with = PHI 
+            }
+          }
+        }
+
+        PHI = { country_event = philippines.76 }
+      }
+    }
+  }
+  # ROOT is the capitualated country
+  # FROM is winner
+  on_capitulation = {
+    effect = {
+      if = {
+        limit = {
+          ROOT = { tag = FIC }
+          FROM = {
+            OR = {
+              tag = PHI
+              any_other_country = { 
+                is_in_faction_with = PHI 
+              }
+            }
+            NOT = { 
+              is_in_faction_with = GER # Do not whitepeace if we are allied with Germany
+              is_in_faction_with = USA # Do not whitepeace if we are allied with USA
+            } 
+          }
+        }
+        FRA = { country_event = philippines.77 }
+      }
+
+      if = {
+        limit = {
+          ROOT = { tag = AST }
+          FROM = {
+            OR = {
+              tag = PHI
+              any_other_country = {
+                is_in_faction_with = PHI
+              }
+            }
+            NOT = { is_in_faction_with = GER }
+          }
+        }
+        ENG = { country_event = philippines.99 }
+      }
+    }
+  }
+}

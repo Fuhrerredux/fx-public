@@ -1,0 +1,362 @@
+capital = 279
+
+oob = "CHL"
+
+set_research_slots = 3
+set_stability = 0.60
+set_war_support = 0.60
+
+add_ideas = {
+	civilian_economy
+	export_focus
+	volunteer_only
+	CHL_crumbling_government
+	CHL_collapsed_economy
+	CHL_political_polarization
+	presidential_republic
+}
+
+# Starting tech
+set_technology = {
+	infantry_weapons = 1
+	gw_artillery = 1
+	tech_mountaineers = 1
+	fuel_silos = 1
+  basic_train = 1
+}
+
+if = {
+	limit = { has_dlc = "By Blood Alone" }
+	set_air_oob = "CHL_air_bba"
+	set_technology = {
+		iw_small_airframe = 1
+		aa_lmg = 1
+		engines_1 = 1
+		early_bombs = 1
+	}
+	else = {
+		set_air_oob = "CHL_air_legacy"
+		set_technology = {
+			early_fighter = 1
+			CAS1 = 1
+		}
+	}
+}
+
+if = {
+  limit = {
+    NOT = { has_dlc = "No Step Back" }
+  }
+  set_technology = {
+    gwtank = 1
+  }
+}
+if = {
+  limit = { has_dlc = "No Step Back" }
+  set_technology = {
+    gwtank_chassis = 1
+  }
+}
+
+if = {
+	limit = { has_dlc = "Man the Guns" }
+	set_naval_oob = "CHL_naval_mtg"
+	set_technology = {
+		basic_naval_mines = 1
+		early_ship_hull_light = 1
+		early_ship_hull_submarine = 1
+		basic_ship_hull_submarine = 1
+		early_ship_hull_cruiser = 1
+		early_ship_hull_heavy = 1
+		basic_battery = 1
+		basic_torpedo = 1
+		basic_depth_charges = 1
+		coastal_defense_ships = 1
+		mtg_transport = 1
+	}
+	else = {
+		set_naval_oob = "CHL_naval_legacy"
+		set_technology = {
+			early_submarine = 1
+			early_destroyer = 1
+			early_light_cruiser = 1
+			early_heavy_cruiser = 1
+			early_battleship = 1
+			transport = 1
+		}
+	}
+}
+set_convoys = 20
+
+set_politics = {
+	ruling_party = social_liberal
+	last_election = "1935.10.30"
+	election_frequency = 60
+	elections_allowed = no
+}
+
+set_popularities = {
+    vanguardist = 1
+    collectivist = 5
+    libertarian_socialist = 6
+    social_democrat = 13
+    social_liberal = 23
+    market_liberal = 2
+    social_conservative = 3
+    authoritarian_democrat = 6
+    paternal_autocrat = 16
+    national_populist = 1
+    valkist = 24
+}
+
+### Ship Variants ###
+
+if = {
+	limit = { not = { has_dlc = "Man the Guns" } }
+	### Ship Variants ###
+	create_equipment_variant = {
+		name = "Capitán O`Brien Class"
+		type = submarine_1
+		parent_version = 0
+		upgrades = {
+			ship_reliability_upgrade = 1
+			sub_engine_upgrade = 1
+			sub_stealth_upgrade = 1
+			sub_torpedo_upgrade = 1
+		}
+	}
+	create_equipment_variant = {
+		name = "Serrano Class"
+		type = destroyer_1
+		parent_version = 0
+		upgrades = {
+			ship_torpedo_upgrade = 1
+			destroyer_engine_upgrade = 1
+			ship_ASW_upgrade = 1
+			ship_anti_air_upgrade = 1
+		}
+	}
+}
+if = {
+	limit = { has_dlc = "Man the Guns" }
+	# Submarines #
+	create_equipment_variant = {
+		name = "H1 Class"
+		type = ship_hull_submarine_1
+		name_group = CHL_SS_HISTORICAL
+		parent_version = 0
+		modules = {
+			fixed_ship_torpedo_slot = ship_torpedo_sub_1
+			fixed_ship_engine_slot = sub_ship_engine_1
+			rear_1_custom_slot = empty
+		}
+		obsolete = yes
+	}
+	create_equipment_variant = {
+		name = "Capitán O'Brien Class"
+		type = ship_hull_submarine_1
+		name_group = CHL_SS_HISTORICAL
+		parent_version = 0
+		modules = {
+			fixed_ship_torpedo_slot = ship_torpedo_sub_1
+			fixed_ship_engine_slot = sub_ship_engine_1
+			rear_1_custom_slot = ship_torpedo_sub_1
+		}
+	}
+	# Destroyers #
+	create_equipment_variant = {
+		name = "Almirante Lynch Class"
+		type = ship_hull_light_1
+		name_group = CHL_DD_HISTORICAL
+		parent_version = 0
+		modules = {
+			fixed_ship_battery_slot = ship_light_battery_1
+			fixed_ship_anti_air_slot = empty
+			fixed_ship_fire_control_system_slot = ship_fire_control_system_0
+			fixed_ship_radar_slot = empty
+			fixed_ship_engine_slot = light_ship_engine_1
+			fixed_ship_torpedo_slot = ship_torpedo_1
+			mid_1_custom_slot = empty
+			rear_1_custom_slot = empty
+		}
+		obsolete = yes
+	}
+	create_equipment_variant = {
+		name = "Serrano Class"
+		type = ship_hull_light_1
+		name_group = CHL_DD_HISTORICAL
+		parent_version = 0
+		modules = {
+			fixed_ship_battery_slot = ship_light_battery_1
+			fixed_ship_anti_air_slot = empty
+			fixed_ship_fire_control_system_slot = ship_fire_control_system_0
+			fixed_ship_radar_slot = empty
+			fixed_ship_engine_slot = light_ship_engine_1
+			fixed_ship_torpedo_slot = ship_torpedo_1
+			mid_1_custom_slot = ship_mine_layer_1
+			rear_1_custom_slot = ship_depth_charge_1
+		}
+	}
+	# Cruisers #
+	create_equipment_variant = {
+		name = "O'Higgins Class"
+		type = ship_hull_cruiser_coastal_defense_ship
+		name_group = CHL_CA_HISTORICAL
+		parent_version = 0
+		modules = {
+			fixed_ship_battery_slot = ship_medium_battery_1
+			fixed_ship_anti_air_slot = ship_anti_air_1
+			fixed_ship_fire_control_system_slot = ship_fire_control_system_0
+			fixed_ship_radar_slot = empty
+			fixed_ship_engine_slot = cruiser_ship_engine_1
+			fixed_ship_armor_slot = ship_armor_cruiser_1
+			fixed_ship_secondaries_slot = ship_secondaries_1
+			mid_1_custom_slot = empty
+			mid_2_custom_slot = empty
+			rear_1_custom_slot = empty
+		}
+	}
+	create_equipment_variant = {
+		name = "Chacabuco Class"
+		type = ship_hull_cruiser_coastal_defense_ship
+		name_group = CHL_CL_HISTORICAL
+		parent_version = 0
+		modules = {
+			fixed_ship_battery_slot = ship_medium_battery_1
+			fixed_ship_anti_air_slot = empty
+			fixed_ship_fire_control_system_slot = ship_fire_control_system_0
+			fixed_ship_radar_slot = empty
+			fixed_ship_engine_slot = cruiser_ship_engine_1
+			fixed_ship_armor_slot = empty
+			fixed_ship_secondaries_slot = empty
+			mid_1_custom_slot = empty
+			mid_2_custom_slot = empty
+			rear_1_custom_slot = ship_torpedo_1
+		}
+	}
+	# Battleships #
+	create_equipment_variant = {
+		name = "Almirante Latorre Class"
+		type = ship_hull_heavy_1
+		name_group = CHL_BB_HISTORICAL
+		parent_version = 0
+		modules = {
+			fixed_ship_battery_slot = ship_heavy_battery_1
+			fixed_ship_anti_air_slot = ship_anti_air_1
+			fixed_ship_fire_control_system_slot = ship_fire_control_system_0
+			fixed_ship_radar_slot = empty
+			fixed_ship_engine_slot = heavy_ship_engine_1
+			fixed_ship_secondaries_slot = ship_secondaries_1
+			fixed_ship_armor_slot = ship_armor_bb_1
+			front_1_custom_slot = ship_heavy_battery_1
+			mid_1_custom_slot = ship_secondaries_1
+			mid_2_custom_slot = ship_airplane_launcher_1
+			rear_1_custom_slot = empty
+		}
+	}
+}
+
+recruit_character = CHL_Carlos_Diaz_Loyola
+recruit_character = CHL_Carlos_Labarca
+recruit_character = CHL_Clotario_Blest_Riffo
+recruit_character = CHL_Luis_Alberto_Corvalan_Lepe
+recruit_character = CHL_Luis_Emilio_Recabarren
+recruit_character = CHL_Oscar_Schnake
+recruit_character = CHL_Salvador_Allende
+recruit_character = CHL_Marmaduke_Grove
+recruit_character = CHL_Jeronimo_Mendez_Arancibia
+recruit_character = CHL_Juan_Antonio_Rios
+recruit_character = CHL_Juan_Esteban_Montero
+recruit_character = CHL_Arturo_Alessandri_Palma
+recruit_character = CHL_Emiliano_Figueroa_Larrain
+recruit_character = CHL_Guillermo_Izquierdo
+recruit_character = CHL_Ariosto_Herrera_Ramirez
+recruit_character = CHL_Carlos_Ibanez_del_Campo
+recruit_character = CHL_Adolfo_Matthei_Schwarzenberg
+recruit_character = CHL_Francisco_Javier_Diaz_Valderrama
+recruit_character = CHL_Jose_Santos_Salas_Morales
+recruit_character = CHL_Bernardo_Ibanez_Aguila
+recruit_character = CHL_Luis_Arteaga_Garcia
+recruit_character = CHL_Fernando_Brown_Morales
+recruit_character = CHL_Gabriela_Mandujano
+recruit_character = CHL_Enrique_Victor_Aquiles_Balmaceda_Toro
+recruit_character = CHL_J_Fernandez_y_Fernandez
+recruit_character = CHL_Luis_Alamos_Barros
+recruit_character = CHL_Manuel_Mora_Miranda
+recruit_character = CHL_JRGuiterrez_Allende
+recruit_character = CHL_Miguel_Cruchaga_Tocornal
+recruit_character = CHL_Francisco_O_Ryan_Orrego
+recruit_character = CHL_Javier_Angel_Figueroa
+recruit_character = CHL_Emilio_Bello_Codesido
+recruit_character = CHL_Luis_Altamirano_Talavera
+recruit_character = CHL_Fernando_Guarello_Fitz_Henry
+recruit_character = CHL_Victor_Contreras_Tapia
+recruit_character = CHL_Augustin_Edwards
+recruit_character = CHL_Eulogia_Roman
+recruit_character = CHL_Aurelio_Celedon_Palma
+recruit_character = CHL_Carlos_Garcia_Palacios
+recruit_character = CHL_Juan_Rios_Morales
+recruit_character = CHL_Manuel_C_Pereira
+recruit_character = CHL_Arturo_Maschke
+recruit_character = CHL_Cristobal_Saenz_Cerda
+recruit_character = CHL_Gustavo_Ross_Santa_Maria
+recruit_character = CHL_Julio_Perez_Canto
+recruit_character = CHL_Pedro_Pablo_Dartnell_Encina
+recruit_character = CHL_Ramon_Callis
+recruit_character = CHL_Evaldo_Klein_Doener
+recruit_character = CHL_Carlos_Gregorio_Davila_Espinoza
+recruit_character = CHL_Alberto_Cabero_Diaz
+recruit_character = CHL_Max_Westenhofer
+recruit_character = CHL_Eduardo_Nicanor_Frei_Montalva
+recruit_character = CHL_Manuel_Salinas
+recruit_character = CHL_Carlos_Valdovinos_Valdovinos
+recruit_character = CHL_Manuel_Rivas_Vicuna
+recruit_character = CHL_Carlos_Vergara_Montero
+recruit_character = CHL_Carlos_Keller_Rueff
+recruit_character = CHL_Gustavo_Silva
+recruit_character = CHL_Ernesto_M_Orlando
+recruit_character = CHL_CJ_de_la_Motte
+recruit_character = CHL_Carlos_Puga_Monsalve
+recruit_character = CHL_Arturo_Espinoza_Mujica
+recruit_character = CHL_Dario_Cellejas_Rojas
+recruit_character = CHL_Luis_Vidal_Vargas
+recruit_character = CHL_Raul_Array_Stiglich
+recruit_character = CHL_Arturo_Puga_Osorio
+recruit_character = CHL_E_Novoa_Fuentes
+recruit_character = CHL_Julio_Allard_Pinto
+recruit_character = CHL_Salvador_Arron_Galvez
+recruit_character = CHL_Carlos_Fuentes_Rabe
+recruit_character = CHL_Oscar_Izurieta_Molina
+recruit_character = CHL_Juan_Pablo_Bennett_Argandona
+recruit_character = CHL_Rafael_Fernandez_Reyes
+recruit_character = CHL_Luis_Otero_Mujica
+recruit_character = CHL_Juan_Rodriguez
+recruit_character = CHL_Julio_Gerken_Mahn
+recruit_character = CHL_Luis_Barros_Borgono
+recruit_character = CHL_Gaston_Kulzcewski_Garcia
+recruit_character = CHL_Carlos_Frodden_Lorenzen
+recruit_character = CHL_Francisco_Nef_Jara
+recruit_character = CHL_Vicente_Merino_Bielich
+recruit_character = CHL_Hernan_Sarratea
+recruit_character = CHL_Diego_Aracena
+recruit_character = CHL_Dario_Mujica_Gamboa
+recruit_character = CHL_Jose_Luis_Sanchez_Besa
+recruit_character = CHL_Raul_Gonzalez_Nolle
+recruit_character = CHL_Ismael_Sarazua_Teran
+recruit_character = CHL_Manuel_Tovarias
+recruit_character = CHL_Manuel_Rojas
+recruit_character = CHL_Eduardo_Cruz_Coke
+recruit_character = CHL_Bartolome_Blanche
+recruit_character = CHL_Raul_Olivares
+recruit_character = CHL_Jorge_Gonzalez_von_Marees
+recruit_character = CHL_Luis_Altamirano
+recruit_character = CHL_Arturo_Puga
+recruit_character = CHL_Oscar_Otarola_Escudero
+recruit_character = CHL_Juan_Pablo_Bennett
+recruit_character = CHL_Rayen_Quitral
+
+### Starting Ministers
+activate_advisor = CHL_Juan_Esteban_Montero_hog_sli
+activate_advisor = CHL_JRGuiterrez_Allende_for_sli
+activate_advisor = CHL_Arturo_Maschke_eco_sli
+activate_advisor = CHL_Carlos_Valdovinos_Valdovinos_sec_sli

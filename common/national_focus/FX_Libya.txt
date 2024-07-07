@@ -1,0 +1,1752 @@
+###########################
+# Libya Focus Tree
+# By Ahmedpashaalsaid
+###########################
+
+focus_tree = {
+	id = Libya_focus
+	country = {
+		factor = 0
+		modifier = {
+			add = 10
+			tag = LBA
+		}
+	}
+	default = no
+	continuous_focus_position = { x = 50 y = 800 }
+	##Local Army
+	focus = {
+		id = LBA_local_army
+		available = {
+			has_country_flag = LBA_Local_admin
+		}
+		icon = GFX_goal_LBA_Idris_Returns
+		x = 2
+		y = 0
+		cost = 8
+		ai_will_do = {
+			factor = 90
+		}
+		search_filters = { FOCUS_FILTER_MANPOWER FOCUS_FILTER_ARMY_BONUS }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus LBA_local_army"
+			add_ideas = LBA_home_of_the_Senussi
+			remove_ideas = {
+				LBA_senussi_resistance
+			}
+		}
+	}
+
+	focus = {
+		id = LBA_equipments_tactics
+		prerequisite = {
+			focus = LBA_local_army
+		}
+		icon = GFX_goal_generic_army_high_command
+		relative_position_id = LBA_local_army
+		x = -2
+		y = 1
+		cost = 8
+		ai_will_do = {
+			factor = 90
+		}
+		search_filters = { FOCUS_FILTER_ARMY_BONUS FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus LBA_equipments_tactics"
+			army_experience = 15
+			add_tech_bonus = {
+				name = LBA_equipments_tactics
+				category = land_doctrine
+				bonus = 1
+				uses = 1
+			}
+		}
+	}
+
+	focus = {
+		id = LBA_guns_butter
+		prerequisite = {
+			focus = LBA_equipments_tactics
+		}
+		icon = GFX_goal_IRQ_smuggle_guns
+		relative_position_id = LBA_local_army
+		x = -2
+		y = 2
+		cost = 8
+		ai_will_do = {
+			factor = 90
+		}
+		search_filters = { FOCUS_FILTER_PRODUCTION }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus LBA_guns_butter"
+			add_equipment_to_stockpile = {
+				type = infantry_equipment_0
+				amount = 300
+				producer = LBA
+			}
+			add_equipment_to_stockpile = {
+				type = infantry_equipment_0
+				amount = 430
+				producer = FRA
+			}
+			add_equipment_to_stockpile = {
+				type = infantry_equipment_0
+				amount = 200
+				producer = ENG
+			}
+			add_equipment_to_stockpile = {
+				type = infantry_equipment_0
+				amount = 500
+				producer = TUR
+			}
+		}
+	}
+
+	focus = {
+		id = LBA_bedouins
+		prerequisite = {
+			focus = LBA_local_army
+		}
+		icon = GFX_goal_OTT_camels
+		relative_position_id = LBA_local_army
+		x = 2
+		y = 1
+		cost = 8
+		ai_will_do = {
+			factor = 90
+		}
+		search_filters = { FOCUS_FILTER_ARMY_BONUS }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus LBA_bedouins"
+			add_ideas = LBA_horse
+		}
+	}
+
+
+	focus = {
+		id = LBA_planning
+		prerequisite = {
+			focus = LBA_seting_up_perimiters
+		}
+		icon = GFX_goal_planning_bonus
+		relative_position_id = LBA_local_army
+		x = 0
+		y = 2
+		cost = 8
+		ai_will_do = {
+			factor = 90
+		}
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus LBA_planning"
+			add_doctrine_cost_reduction = {
+				name = land_doc_bonus
+				cost_reduction = 0.5
+				uses = 1
+				category = land_doctrine
+			}
+		}
+	}
+
+
+	focus = {
+		id = LBA_seting_up_perimiters
+		prerequisite = {
+			focus = LBA_local_army
+		}
+		icon = GFX_goal_nested_fortifications
+		relative_position_id = LBA_local_army
+		x = 0
+		y = 1
+		cost = 8
+		ai_will_do = {
+			factor = 90
+		}
+		search_filters = { FOCUS_FILTER_ARMY_BONUS FOCUS_FILTER_RESISTANCE }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus LBA_seting_up_perimiters"
+			add_ideas = LBA_oasis_defence
+			hidden_effect = {
+				set_technology = { desert_warfare = 1 }
+			}
+			custom_effect_tooltip = desert_warfare_effect
+		}
+	}
+
+	focus = {
+		id = LBA_desert_warfare
+		prerequisite = {
+			focus = LBA_planning
+		}
+		icon = GFX_goal_Desert_Officers_2
+		relative_position_id = LBA_local_army
+		x = 0
+		y = 3
+		cost = 8
+		ai_will_do = {
+			factor = 90
+		}
+		search_filters = { FOCUS_FILTER_ARMY_BONUS }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus LBA_desert_warfare"
+			swap_ideas = {
+				add_idea = LBA_desert_warriors
+				remove_idea = LBA_oasis_defence
+			}
+		}
+	}
+	focus = {
+		id = LBA_Libyan_Army
+		prerequisite = {
+			focus = LBA_desert_warfare
+		}
+		prerequisite = {
+			focus = LBA_equipments_needs
+		}
+		prerequisite = {
+			focus = LBA_military_fact
+		}
+		icon = GFX_goal_generic_drafted_army
+		relative_position_id = LBA_local_army
+		x = 0
+		y = 4
+		cost = 8
+		ai_will_do = {
+			factor = 90
+		}
+		search_filters = { FOCUS_FILTER_ARMY_BONUS }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus LBA_desert_warfare"
+			add_stability = 0.1
+			remove_ideas = {
+				LBA_outdated_military
+			}
+		}
+	}
+
+	focus = {
+		id = LBA_equipments_needs
+		prerequisite = {
+			focus = LBA_guns_butter
+		}
+		icon = GFX_goal_generic_military_equipment
+		relative_position_id = LBA_local_army
+		x = -2
+		y = 3
+		cost = 8
+		ai_will_do = {
+			factor = 90
+		}
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_PRODUCTION }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus LBA_equipments_needs"
+			add_tech_bonus = {
+				name = LBA_equipments_needs
+				bonus = 0.5
+				uses = 2
+				category = infantry_weapons
+				category = artillery
+			}
+			add_equipment_to_stockpile = {
+				type = infantry_equipment_0
+				amount = 200
+				producer = MAF
+			}
+			add_equipment_to_stockpile = {
+				type = infantry_equipment_0
+				amount = 160
+				producer = EGY
+			}
+		}
+	}
+
+	focus = {
+		id = LBA_improvisation
+		prerequisite = {
+			focus = LBA_bedouins
+		}
+		icon = GFX_focus_focus_fra_maquis
+		relative_position_id = LBA_local_army
+		x = 2
+		y = 2
+		cost = 8
+		ai_will_do = {
+			factor = 90
+		}
+		search_filters = { FOCUS_FILTER_PRODUCTION }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus LBA_improvisation"
+			add_ideas = LBA_support_eq_cheap
+		}
+	}
+
+	focus = {
+		id = LBA_military_fact
+		prerequisite = {
+			focus = LBA_improvisation
+		}
+		icon = GFX_goal_Focus_Military_Mobilisation
+		relative_position_id = LBA_local_army
+		x = 2
+		y = 3
+		cost = 8
+		ai_will_do = {
+			factor = 90
+		}
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus LBA_military_fact"
+			random_owned_state = {
+				limit = {
+					state_population > 100000
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = LBA_dockyardo
+		prerequisite = {
+			focus = LBA_local_army
+			focus = LBA_Italian_army
+		}
+		available = {
+			controls_state = 450
+		}
+		icon = GFX_focus_generic_refit_civilian_ships
+		relative_position_id = LBA_local_army
+		x = 4
+		y = 1
+		cost = 8
+		ai_will_do = {
+			factor = 90
+		}
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus LBA_dockyardo"
+			450 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = dockyard
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	#Italian Army
+	focus = {
+		id = LBA_Italian_army
+		available = {
+			has_country_flag = LBA_Italian_admin
+		}
+		icon = GFX_goal_ITA_army
+		x = 10
+		y = 0
+		cost = 8
+		ai_will_do = {
+			factor = 90
+		}
+		search_filters = { FOCUS_FILTER_MANPOWER FOCUS_FILTER_ARMY_BONUS }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus LBA_local_army"
+
+		}
+	}
+	focus = {
+		id = LBA_officer_initiative
+		icon = GFX_goal_generic_cavalry
+		relative_position_id = LBA_Italian_army
+		x = 0
+		y = 1
+		cost = 5
+
+		ai_will_do = {
+			factor = 60
+			modifier = {
+				factor = 2
+				has_war = yes
+			}
+			modifier = {
+				factor = 2
+				has_tech = support_weapons
+			}
+		}
+
+		available = {
+			OR = {
+				NOT = {
+					has_tech = mobile_warfare
+					has_tech = superior_firepower
+					has_tech = mass_assault
+				}
+			}
+		}
+
+		prerequisite = {
+			focus = LBA_Italian_army
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus LBA_officer_initiative"
+			add_ideas = ITA_officer_bonus
+			add_doctrine_cost_reduction  = {
+				name = doctrine_bonus
+				cost_reduction = 0.5
+				uses = 2
+				category = cat_grand_battle_plan
+			}
+		}
+	}
+	focus = {
+		id = LBA_support_companies
+		icon = GFX_goal_generic_construction2
+		relative_position_id = LBA_Italian_army
+		x = 0
+		y = 2
+		cost = 5
+
+		ai_will_do = {
+			factor = 60
+			modifier = {
+				factor = 2
+				has_war = yes
+			}
+			modifier = {
+				factor = 2
+				has_tech = support_weapons
+			}
+		}
+
+		prerequisite = {
+			focus = LBA_officer_initiative
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus LBA_support_companies"
+			add_tech_bonus = {
+				name = company_bonus
+				bonus = 0.5
+				uses = 2
+				category = support_tech
+			}
+		}
+	}
+	focus = {
+		id = LBA_tank_research
+		icon = GFX_focus_generic_license_production
+		relative_position_id = LBA_Italian_army
+		x = -2
+		y = 1
+		cost = 5
+
+		ai_will_do = {
+			factor = 40
+			modifier = {
+				factor = 2
+				has_war = yes
+			}
+			modifier = {
+				factor = 2
+				num_of_factories > 100
+			}
+			modifier = {
+				factor = 2
+				has_tech = improved_light_tank
+			}
+		}
+
+		prerequisite = {
+			focus = LBA_Italian_army
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus LBA_tank_research"
+			add_tech_bonus = {
+				name = LBA_tank_research
+				bonus = 0.5
+				uses = 2
+				category = cat_light_armor
+			}
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.5
+				name = no_doctrine_chosen
+				uses = 2
+				category = cat_mobile_warfare
+			}
+		}
+	}
+	focus = {
+		id = LBA_tank_production
+		icon = GFX_goal_generic_army_tanks2
+		relative_position_id = LBA_Italian_army
+		x = -2
+		y = 2
+		cost = 5
+
+		ai_will_do = {
+			factor = 40
+			modifier = {
+				factor = 2
+				has_war = yes
+			}
+			modifier = {
+				factor = 2
+				num_of_factories > 100
+			}
+			modifier = {
+				factor = 2
+				has_tech = improved_light_tank
+			}
+		}
+
+		prerequisite = {
+			focus = LBA_tank_research
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus LBA_tank_production"
+			add_ideas = ITA_tank_production
+		}
+	}
+	focus = {
+		id = LBA_infantry_research
+		icon = GFX_goal_generic_military_sphere
+		relative_position_id = LBA_Italian_army
+		x = 2
+		y = 1
+		cost = 5
+
+		ai_will_do = {
+			factor = 20
+			modifier = {
+				factor = 2
+				has_war = yes
+			}
+			modifier = {
+				factor = 2
+				num_of_factories < 2
+			}
+		}
+
+		prerequisite = {
+			focus = LBA_Italian_army
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus LBA_infantry_research"
+			add_tech_bonus = {
+				bonus = 0.50
+				uses = 2
+				category = infantry_weapons
+			}
+		}
+	}
+	focus = {
+		id = LBA_army_training
+		icon = GFX_focus_generic_military_mission
+		relative_position_id = LBA_Italian_army
+		x = 2
+		y = 2
+		cost = 5
+
+		ai_will_do = {
+			factor = 20
+			modifier = {
+				factor = 2
+				has_war = yes
+			}
+			modifier = {
+				factor = 2
+				num_of_factories < 75 # Italy starts with about 75 factories
+			}
+		}
+
+		prerequisite = {
+			focus = LBA_infantry_research
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus LBA_army_training"
+			add_ideas = ITA_training_speed
+		}
+	}
+	focus = {
+		id = LBA_fort_construction
+		icon = GFX_goal_generic_construct_military
+		relative_position_id = LBA_Italian_army
+		x = 0
+		y = 3
+		cost = 5
+
+		ai_will_do = {
+			factor = 60
+			modifier = {
+				factor = 2
+				has_war = yes
+			}
+			modifier = {
+				factor = 2
+				has_tech = support_weapons
+			}
+		}
+
+		prerequisite = {
+			focus = LBA_army_training
+		}
+		prerequisite = {
+			focus = LBA_support_companies
+		}
+		prerequisite = {
+			focus = LBA_tank_production
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus LBA_fort_construction"
+			add_ideas = ITA_land_forts
+			remove_ideas = {
+				LBA_outdated_military
+				LBA_senussi_resistance
+			}
+		}
+	}
+	focus = {
+		id = LBA_Libyan_Navy
+		icon = GFX_goal_USA_navy_top
+		cost = 8
+		x = 15
+		y = 0
+		available = {
+			OR = {
+				has_completed_focus = LBA_Italian_army
+				has_completed_focus = LBA_local_army
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus LBA_Libyan_Navy"
+			navy_experience = 50
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL }
+	}
+	focus = {
+		id = LBA_Libyan_Airforce
+		icon = GFX_goal_NOR_navy_airforce
+		cost = 8
+		x = 4
+		y = 0
+		relative_position_id = LBA_Libyan_Navy
+		available = {
+			OR = {
+				has_completed_focus = LBA_Italian_army
+				has_completed_focus = LBA_local_army
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus LBA_Libyan_Airforce"
+			air_experience = 50
+		}
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_AIRFORCE_BONUS }
+	}
+
+
+	focus = {
+		id = LBA_Southern_Italy
+		icon = GFX_ITA_sea_bounty
+		cost = 8
+		prerequisite = {
+			focus = LBA_Libyan_Navy
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus LBA_Southern_Italy"
+			add_doctrine_cost_reduction = {
+				name = naval_doc_bonus
+				cost_reduction = 0.5
+				uses = 1
+				category = naval_doctrine
+			}
+		}
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		x = -1
+		y = 1
+		relative_position_id = LBA_Libyan_Navy
+	}
+	focus = {
+		id = LBA_watch_over_the_straits
+		icon = GFX_goal_boat_at_sea
+		cost = 8
+		prerequisite = {
+			focus = LBA_Southern_Italy
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus LBA_watch_over_the_straits"
+			add_ideas = LBA_watch_over_the_straits_idea
+		}
+		search_filters = { FOCUS_FILTER_NAVY_BONUS }
+		x = -1
+		y = 2
+		relative_position_id = LBA_Libyan_Navy
+	}
+	focus = {
+		id = LBA_submarine_engineering
+		icon = GFX_goal_AUS_unrestricted_submarine_warfare
+		cost = 8
+		prerequisite = {
+			focus = LBA_watch_over_the_straits
+			focus = LBA_Dockyards_of_Tripoly
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus LBA_submarine_engineering"
+			add_tech_bonus = {
+				name = LBA_submarine_engineering
+				bonus = 1
+				uses = 1
+				category = ss_tech
+			}
+			navy_experience = 20
+		}
+		search_filters = { FOCUS_FILTER_NAVY_BONUS FOCUS_FILTER_RESEARCH }
+
+		x = 0
+		y = 3
+		relative_position_id = LBA_Libyan_Navy
+	}
+	focus = {
+		id = LBA_foreign_naval_experts
+		icon = GFX_GEA_status_of_admirality
+		cost = 8
+		prerequisite = {
+			focus = LBA_Libyan_Navy
+		}
+		x = 1
+		y = 1
+		relative_position_id = LBA_Libyan_Navy
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus LBA_foreign_naval_experts"
+			add_doctrine_cost_reduction = {
+				name = naval_doc_bonus
+				cost_reduction = 0.5
+				uses = 1
+				category = naval_doctrine
+			}
+		}
+		search_filters = { FOCUS_FILTER_RESEARCH }
+	}
+	focus = {
+		id = LBA_Dockyards_of_Tripoly
+		icon = GFX_goal_USA_ports_atlantic
+		cost = 8
+		prerequisite = {
+			focus = LBA_foreign_naval_experts
+		}
+		available = {
+			controls_state = 448
+		}
+		bypass = {
+			NOT = {
+				owns_state = 448
+			}
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus LBA_Dockyards_of_Tripoly"
+			navy_experience = 50
+			448 = {
+				if = {
+					limit = {
+						is_owned_by = LBA
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = dockyard
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_INDUSTRY }
+
+		x = 1
+		y = 2
+		relative_position_id = LBA_Libyan_Navy
+	}
+	focus = {
+		id = LBA_foreign_flight_instructors
+		icon = GFX_goal_KSV_rule_from_the_air
+		relative_position_id = LBA_Libyan_Navy
+		cost = 8
+		prerequisite = {
+			focus = LBA_Libyan_Airforce
+		}
+		x = 3
+		y = 1
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus LBA_foreign_flight_instructors"
+			add_doctrine_cost_reduction = {
+				name = air_doc_bonus
+				cost_reduction = 0.5
+				uses = 1
+				category = air_doctrine
+			}
+		}
+		search_filters = { FOCUS_FILTER_RESEARCH }
+	}
+	focus = {
+		id = LBA_reverse_engineering
+		icon = GFX_goal_MON_light_fighter
+		cost = 8
+		prerequisite = {
+			focus = LBA_foreign_flight_instructors
+		}
+		x = 3
+		y = 2
+		relative_position_id = LBA_Libyan_Navy
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus LBA_reverse_engineering"
+			add_tech_bonus = {
+				name = LBA_reverse_engineering
+				bonus = 1
+				uses = 1
+				category = tactical_bomber
+				category = cat_strategic_bomber
+				category = cas_bomber
+			}
+		}
+		search_filters = { FOCUS_FILTER_RESEARCH }
+	}
+	focus = {
+		id = LBA_Naval_Aviation
+		icon = GFX_goal_CZE_air_is_sea
+		cost = 8
+		prerequisite = {
+			focus = LBA_Dockyards_of_Tripoly
+		}
+		prerequisite = {
+			focus = LBA_reverse_engineering
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus LBA_Naval_Aviation"
+			add_tech_bonus = {
+				name = LBA_Naval_Aviation
+				bonus = 1
+				uses = 1
+				category = light_fighter
+				category = naval_air
+			}
+		}
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		x = 2
+		y = 3
+		relative_position_id = LBA_Libyan_Navy
+	}
+
+	focus = {
+		id = LBA_modernize_our_aircraft_inventory
+		icon = GFX_goal_generic_air_fighter2_new
+		cost = 8
+		prerequisite = {
+			focus = LBA_Libyan_Airforce
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus LBA_modernize_our_aircraft_inventory"
+			add_tech_bonus = {
+				name = LBA_modernize_our_aircraft_inventory
+				bonus = 1
+				uses = 1
+				category = light_fighter
+			}
+		}
+		search_filters = { FOCUS_FILTER_RESEARCH }
+
+		x = 5
+		y = 1
+		relative_position_id = LBA_Libyan_Navy
+	}
+	focus = {
+		id = LBA_control_the_skies_of_africa
+		icon = GFX_goal_generic_air_naval_bomber2_new
+		cost = 8
+		prerequisite = {
+			focus = LBA_modernize_our_aircraft_inventory
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus LBA_control_the_skies_of_africa"
+			add_equipment_to_stockpile = {
+				type = small_plane_airframe
+				amount = 50
+				producer = GER
+			}
+		}
+		x = 5
+		y = 2
+		relative_position_id = LBA_Libyan_Navy
+	}
+	focus = {
+		id = LBA_airbase_expansion
+		icon = GFX_goal_generic_airports
+		cost = 8
+		prerequisite = {
+			focus = LBA_control_the_skies_of_africa
+			focus = LBA_reverse_engineering
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus LBA_airbase_expansion"
+			random_owned_controlled_state = {
+				prioritize = {
+					461
+				}
+				add_building_construction = {
+					type = air_base
+					level = 3
+					instant_build = yes
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		x = 4
+		y = 3
+		relative_position_id = LBA_Libyan_Navy
+	}
+	#Economy
+	focus = {
+		id = LBA_Industralize_Libya
+		icon = GFX_goal_generic_production
+		cost = 5
+		x = 24
+		y = 0
+
+		ai_will_do = {
+			factor = 10
+		}
+		available = {
+			has_global_flag = black_wednesday
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus LBA_Industralize_Libya"
+			add_tech_bonus = {
+				name = industry_bonus
+				bonus = 0.3
+				uses = 1
+				category = industry
+			}
+		}
+
+	}
+	focus = {
+		id = LBA_expand_Oil_production
+		icon = GFX_focus_generic_rubber
+		cost = 10
+		prerequisite = {
+			focus = LBA_Cyerncian_weapon_factories
+		}
+		prerequisite = {
+			focus = LBA_invest_resource_mining
+		}
+		prerequisite = {
+			focus = LBA_inland_Industralization
+		}
+		relative_position_id = LBA_Industralize_Libya
+		x = 0
+		y = 3
+
+		available = {
+			controls_state = 662
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus LBA_expand_Oil_production"
+			add_resource = {
+				type = oil
+				amount = 7
+				state = 662
+			}
+		}
+
+	}
+	focus = {
+		id = LBA_Cyerncian_weapon_factories
+		icon = GFX_goal_generic_construct_mil_factory
+		cost = 10
+		prerequisite = {
+			focus = LBA_invite_outside_investors
+		}
+		relative_position_id = LBA_Industralize_Libya
+		x = -2
+		y = 2
+
+		available = {
+			controls_state = 449
+			controls_state = 662
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus LBA_east_indies_weapon_factories"
+			450 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			663 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = LBA_invite_outside_investors
+		icon = GFX_focus_chi_british_cooperation
+		cost = 8
+		prerequisite = {
+			focus = LBA_Industralize_Libya
+		}
+		relative_position_id = LBA_Industralize_Libya
+		x = -2
+		y = 1
+
+		available = {
+			controls_state = 448
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus LBA_invite_outside_investors"
+			448 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = LBA_build_up_trading_connections
+		icon = GFX_goal_generic_positive_trade_relations
+		cost = 10
+		prerequisite = {
+			focus = LBA_Industralize_Libya
+		}
+		relative_position_id = LBA_Industralize_Libya
+		x = 0
+		y = 1
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus LBA_build_up_trading_connections"
+			add_offsite_building = { type = industrial_complex level = 1 }
+		}
+
+	}
+	focus = {
+		id = LBA_invest_resource_mining
+		icon = GFX_focus_generic_steel
+		cost = 10
+		relative_position_id = LBA_Industralize_Libya
+		prerequisite = {
+			focus = LBA_build_up_trading_connections
+			focus = LBA_Expand_Benghazi_Industries
+		}
+		x = 0
+		y = 2
+
+		available = {
+			controls_state = 450
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus LBA_invest_resource_mining"
+			add_resource = {
+				type = steel
+				amount = 10
+				state = 450
+			}
+		}
+
+	}
+	focus = {
+		id = LBA_Expand_Benghazi_Industries
+		icon = GFX_goal_generic_construct_civ_factory
+		cost = 10
+		prerequisite = {
+			focus = LBA_Industralize_Libya
+		}
+		relative_position_id = LBA_Industralize_Libya
+		x = 2
+		y = 1
+
+		available = {
+			controls_state = 451
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus LBA_Expand_Benghazi_Industries"
+			451 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = LBA_inland_Industralization
+		icon = GFX_focus_generic_industry_2
+		cost = 10
+		prerequisite = {
+			focus = LBA_Expand_Benghazi_Industries
+		}
+		relative_position_id = LBA_Industralize_Libya
+		x = 2
+		y = 2
+
+		available = {
+			controls_state = 663
+			controls_state = 662
+			controls_state = 661
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus LBA_inland_Industralization"
+			663 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			662 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			661 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+	}
+	#politics
+	focus = {
+		id = LBA_Idris_crowned
+		icon = GFX_goal_LBA_Idris
+
+		x = 12
+		y = 5
+		cost = 8
+		ai_will_do = {
+			factor = 90
+		}
+		available = {
+			has_country_flag = LBA_Local_admin
+		}
+		search_filters = { FOCUS_FILTER_INTERNAL_AFFAIRS }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus LBA_Idris_crowned"
+			add_popularity = {
+				ideology = social_conservative
+				popularity = 0.2
+			}
+
+		}
+
+	}
+	focus = {
+		id = LBA_Senussi_order_reborn
+		prerequisite = {
+			focus = LBA_Idris_crowned
+		}
+		icon = GFX_goal_HEJ_islamic_education
+		available = {
+		}
+		relative_position_id = LBA_Idris_crowned
+		x = 1
+		y = 1
+		cost = 8
+		ai_will_do = {
+			factor = 90
+		}
+		search_filters = { FOCUS_FILTER_INTERNAL_AFFAIRS }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus LBA_Senussi_order_reborn"
+			add_popularity = {
+				ideology = social_conservative
+				popularity = 0.10
+			}
+		}
+	}
+	focus = {
+		id = LBA_Arab_Immigrants
+		icon = GFX_goal_Pan_Arabism
+
+		cost = 8
+
+		prerequisite = {
+			focus = LBA_Idris_crowned
+		}
+
+		available = {
+
+		}
+
+		x = -1
+		y = 1
+		relative_position_id = LBA_Idris_crowned
+
+		ai_will_do = {
+			factor = 100
+		}
+
+		complete_tooltip = {}
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_INTERNAL_AFFAIRS }
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus LBA_Arab_Immigrants"
+			add_political_power = 100
+			add_manpower = 10000
+			increase_ruling_party_popularity_by_5 = yes
+		}
+	}
+	focus = {
+		id = LBA_Anti_Sectarianism_policies
+		icon = GFX_Church
+
+		cost = 8
+
+		prerequisite = {
+			focus = LBA_Arab_Immigrants
+		}
+
+
+		x = -1
+		y = 2
+		relative_position_id = LBA_Idris_crowned
+
+		ai_will_do = {
+			factor = 50
+		}
+
+		complete_tooltip = {}
+
+		search_filters = { FOCUS_FILTER_STABILITY }
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus LBA_Anti_Sectarianism_policies"
+			add_stability = 0.1
+		}
+	}
+	focus = {
+		id = LBA_Royal_Guard
+		icon = GFX_goal_USA_national_guard
+
+		cost = 8
+
+		prerequisite = {
+			focus = LBA_Senussi_order_reborn
+		}
+
+		available = {
+		}
+
+		x = 1
+		y = 2
+		relative_position_id = LBA_Idris_crowned
+
+		ai_will_do = {
+			factor = 100
+		}
+
+		complete_tooltip = {}
+
+		search_filters = { FOCUS_FILTER_MANPOWER FOCUS_FILTER_POLITICAL FOCUS_FILTER_INTERNAL_AFFAIRS }
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus LBA_Royal_Guard"
+			add_manpower = 5000
+		}
+	}
+	focus = {
+		id = LBA_Install_Soccon_Prime_Minister
+		icon = GFX_goal_ideology_social_conservative
+
+		cost = 8
+
+		prerequisite = {
+			focus = LBA_Royal_Guard
+		}
+		prerequisite = {
+			focus = LBA_Anti_Sectarianism_policies
+		}
+
+		available = {
+			NOT = {
+				has_completed_focus = LBA_Install_Natpop_Prime_Minister
+				has_completed_focus = LBA_Install_Soclib_Prime_Minister
+			}
+		}
+		x = 0
+		y = 3
+		relative_position_id = LBA_Idris_crowned
+
+		ai_will_do = {
+			factor = 100
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus LBA_Install_Soccon_Prime_Minister"
+			add_ideas = {
+				LBA_Mahmud_al_Muntasir_hog_sco
+			}
+			add_popularity = {
+				ideology = social_conservative
+				popularity = 0.2
+			}
+			set_politics = {
+				ruling_party = social_conservative
+				elections_allowed = yes
+				last_election = "1935.12.17"
+			}
+		}
+	}
+	focus = {
+		id = LBA_Install_Soclib_Prime_Minister
+		icon = GFX_goal_ideology_social_liberal
+
+		cost = 8
+
+		prerequisite = {
+			focus = LBA_Royal_Guard
+		}
+		prerequisite = {
+			focus = LBA_Anti_Sectarianism_policies
+		}
+
+		available = {
+			NOT = {
+				has_completed_focus = LBA_Install_Natpop_Prime_Minister
+				has_completed_focus = LBA_Install_Soccon_Prime_Minister
+			}
+		}
+
+		x = 2
+		y = 3
+		relative_position_id = LBA_Idris_crowned
+
+		ai_will_do = {
+			factor = 100
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus LBA_Install_Soclib_Prime_Minister"
+			add_ideas = {
+				LBA_Abdul_Majid_Kabar_hog_sli
+			}
+			add_popularity = {
+				ideology = social_liberal
+				popularity = 0.4
+			}
+			set_politics = {
+				ruling_party = social_liberal
+				elections_allowed = yes
+				last_election = "1935.12.17"
+			}
+		}
+	}
+	focus = {
+		id = LBA_Install_Natpop_Prime_Minister
+		icon = GFX_goal_ideology_national_populist
+
+		cost = 8
+
+		prerequisite = {
+			focus = LBA_Royal_Guard
+		}
+		prerequisite = {
+			focus = LBA_Anti_Sectarianism_policies
+		}
+
+		available = {
+			NOT = {
+				has_completed_focus = LBA_Install_Soclib_Prime_Minister
+				has_completed_focus = LBA_Install_Soccon_Prime_Minister
+			}
+		}
+
+		x = -2
+		y = 3
+		relative_position_id = LBA_Idris_crowned
+
+		ai_will_do = {
+			factor = 100
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus LBA_Install_Natpop_Prime_Minister"
+			add_ideas = {
+				LBA_Omar_Shegewi_hog_npo
+			}
+			set_politics = {
+				ruling_party = national_populist
+				elections_allowed = yes
+				last_election = "1935.12.17"
+			}
+			add_popularity = {
+				ideology = national_populist
+				popularity = 0.4
+			}
+		}
+	}
+	focus = {
+		id = LBA_Grazini_Rule
+		icon = GFX_Grazianis_plan
+		x = 18
+		y = 5
+		cost = 5
+
+		available = {
+			has_country_flag = LBA_Italian_admin
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus LBA_Grazini_Rule"
+			add_political_power = 100
+		}
+	}
+	focus = {
+		id = LBA_Italianize_Tripoly
+		icon = GFX_ITA_urban
+		x = 1
+		y = 1
+		cost = 5
+		relative_position_id = LBA_Grazini_Rule
+		available = {
+		}
+
+		ai_will_do = {
+			factor = 60
+		}
+
+		prerequisite = {
+			focus = LBA_Grazini_Rule
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus LBA_Italianize_Tripoly"
+			448 = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+				add_manpower = 1000
+			}
+		}
+	}
+	focus = {
+		id = LBA_Execute_Idris
+		icon = GFX_A_Local_Prince
+		x = 3
+		y = 1
+		cost = 5
+		relative_position_id = LBA_Grazini_Rule
+		available = {
+		}
+
+		ai_will_do = {
+			factor = 60
+		}
+
+		prerequisite = {
+			focus = LBA_Grazini_Rule
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus LBA_Execute_Idris"
+			retire_character = LBA_Idris_Senussi
+		}
+	}
+	focus = {
+		id = LBA_Fortify_Egypt_Border
+		icon = GFX_goal_EGY_Pyramids
+		x = -3
+		y = 1
+		cost = 5
+		relative_position_id = LBA_Grazini_Rule
+		available = {
+		}
+
+		ai_will_do = {
+			factor = 60
+		}
+
+		prerequisite = {
+			focus = LBA_Grazini_Rule
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus LBA_Fortify_Egypt_Border"
+			451 = {
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 6446
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 3576
+					instant_build = yes
+				}
+			}
+			663 = {
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 9536
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 13081
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = {
+		id = LBA_Forced_Catholic_School
+		icon = GFX_goal_BRA_catholic_education
+		x = 1
+		y = 2
+		cost = 5
+		relative_position_id = LBA_Grazini_Rule
+		available = {
+		}
+
+		ai_will_do = {
+			factor = 60
+		}
+
+		prerequisite = {
+			focus = LBA_Italianize_Tripoly
+		}
+		prerequisite = {
+			focus = LBA_Execute_Idris
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus LBA_Forced_Catholic_School"
+			add_ideas = {
+				SPM_strengthen_local_churches_idea
+			}
+		}
+	}
+	focus = {
+		id = LBA_Benghazi_Plane_race
+		icon = GFX_goal_air_superiority
+		x = -1
+		y = 2
+		cost = 5
+		relative_position_id = LBA_Grazini_Rule
+		available = {
+		}
+
+		ai_will_do = {
+			factor = 60
+		}
+
+		prerequisite = {
+			focus = LBA_More_Highways
+		}
+		prerequisite = {
+			focus = LBA_Fortify_Egypt_Border
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus LBA_Benghazi_Plane_race"
+			add_ideas = {
+				ITA_colonial_fervor2
+			}
+		}
+	}
+	focus = {
+		id = LBA_Italian_Colony
+		icon = GFX_goal_italianfed
+		x = 0
+		y = 3
+		cost = 5
+		relative_position_id = LBA_Grazini_Rule
+		available = {
+		}
+
+		ai_will_do = {
+			factor = 60
+		}
+
+		prerequisite = {
+			focus = LBA_Benghazi_Plane_race
+		}
+		prerequisite = {
+			focus = LBA_Forced_Catholic_School
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus LBA_Italian_Colony"
+			add_stability = 0.1
+		}
+	}
+	focus = {
+		id = LBA_More_Highways
+		icon = GFX_goal_generic_highway
+		x = -1
+		y = 1
+		cost = 5
+		relative_position_id = LBA_Grazini_Rule
+		available = {
+		}
+
+		ai_will_do = {
+			factor = 60
+		}
+
+		prerequisite = {
+			focus = LBA_Grazini_Rule
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus LBA_More_Highways"
+			random_state = {
+				limit = {
+					OR = {
+						is_owned_by = LBA
+						AND = {
+							is_core_of = LBA
+							is_owned_by = ITA
+						}
+					}
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 3
+					instant_build = yes
+				}
+			}
+			random_state = {
+				limit = {
+					OR = {
+						is_owned_by = LBA
+						AND = {
+							is_core_of = LBA
+							is_owned_by = ITA
+						}
+					}
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 3
+					instant_build = yes
+				}
+			}
+			random_state = {
+				limit = {
+					OR = {
+						is_owned_by = LBA
+						AND = {
+							is_core_of = LBA
+							is_owned_by = ITA
+						}
+					}
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 3
+					instant_build = yes
+				}
+			}
+			random_state = {
+				limit = {
+					OR = {
+						is_owned_by = LBA
+						AND = {
+							is_core_of = LBA
+							is_owned_by = ITA
+						}
+					}
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 3
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+}

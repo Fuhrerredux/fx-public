@@ -1,0 +1,127 @@
+###########################
+# - Indian People's Front Events
+# - By Santander
+###########################
+
+add_namespace = inc
+add_namespace = comind
+
+###########################
+
+
+country_event = {
+	id = comind.2
+	immediate = {log = "[GetDateText]: [Root.GetName]: event comind.2"}
+	title = "Political Commissars"
+	desc = comind.2.d
+
+	is_triggered_only = yes
+
+	option = {
+		name = "We cannot allow dangerous political ideas to flourish"
+		add_war_support = 0.05
+		hidden_effect = {
+			country_event = { id = comind.3 days = 14 }
+		}
+	}
+}
+
+country_event = {
+	id = comind.3
+	immediate = {log = "[GetDateText]: [Root.GetName]: event comind.3"}
+	title = "Land Redistribution"
+	desc = comind.3.d
+
+	is_triggered_only = yes
+
+	option = {
+		name = "We cannot allow so few to hold so much."
+		add_stability = 0.10
+		hidden_effect = {
+			country_event = { id = comind.4 days = 14 }
+		}
+	}
+}
+
+country_event = {
+	id = comind.4
+	immediate = {log = "[GetDateText]: [Root.GetName]: event comind.4"}
+	title = "Seizing Foreign Factories"
+	desc = comind.4.d
+
+	is_triggered_only = yes
+
+	option = {
+		name = "No more will foreigners grow fat off the backs of our people!"
+		add_stability = 0.05
+		add_war_support = 0.10
+		add_political_power = -50
+		hidden_effect = {
+			set_country_flag = gov_setup
+		}
+	}
+}
+
+country_event = {
+	id = comind.5
+	immediate = {log = "[GetDateText]: [Root.GetName]: event comind.5"}
+	title = "Border Skirmishes"
+	desc = natind.5.d
+
+	trigger = {
+		original_tag = INC
+		has_country_flag = gov_setup
+	}
+
+	mean_time_to_happen = { days = 30 }
+
+	option = {
+		name = "Punish them!"
+		ai_chance = {
+			base = 75
+		}
+		random_neighbor_country = {
+			limit = {
+				has_country_flag = ind_revolter
+				NOT = { has_war_with = ROOT }
+			}
+			country_event = { id = comind.6 hours = 8 }
+		}
+	}
+
+	option = {
+		name = "We cannot provoke them"
+		ai_chance = {
+			base = 25
+		}
+		add_war_support = -0.10
+	}
+}
+
+country_event = {
+	id = comind.6
+	immediate = {log = "[GetDateText]: [Root.GetName]: event comind.6"}
+	title = "Border Skirmishes"
+	desc = natind.6.d
+
+	is_triggered_only = yes
+
+	option = {
+		name = "Fight back!"
+		ai_chance = {
+			base = 100
+		}
+		declare_war_on = {
+			target = INC
+			type = annex_everything
+		}
+	}
+
+	option = {
+		name = "Ignore this attack"
+		ai_chance = {
+			base = 0
+		}
+		add_war_support = -0.10
+	}
+}

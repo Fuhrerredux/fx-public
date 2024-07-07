@@ -1,0 +1,3209 @@
+﻿##############################
+#       Japan Events         #
+##############################
+#     Started by Drowse      #
+##############################
+#    Written by Marauder M   #
+##############################
+
+add_namespace = jap
+
+### Introduction Event
+
+country_event = { 
+	id = jap.0
+	immediate = {log = "[GetDateText]: [Root.GetName]: event jap.10"}
+	title = jap.0.t
+	desc = jap.0.d
+	picture = GFX_report_event_JAP_rising_sun
+	is_triggered_only = yes
+
+	option = {
+		name = jap.0.a
+	}
+}
+
+country_event = {
+	id = jap.1
+	immediate = {log = "[GetDateText]: [Root.GetName]: event jap.1"}
+	title = "The Korean Problem"
+	desc = jap.1.d.0
+	picture = GFX_report_event_chinese_soldiers_02
+
+	hidden = no
+
+	fire_only_once = yes
+
+	is_triggered_only = yes
+
+	option = {
+		name = "The incorporation must be immediate and swift"
+		add_timed_idea = {
+			idea = JAP_incorporate_korea_1
+			days = 100
+		}
+		hidden_effect = { # hidden event to core Korea
+			JAP = {
+				country_event = { 
+					id = jap.3
+					days = 100
+				}
+			}
+		}
+	}
+	option = {
+		name = "This shall be done with care"
+		add_timed_idea = {
+			idea = JAP_incorporate_korea_2
+			days = 180
+		}
+		hidden_effect = { # hidden event to core Korea
+			JAP = {
+				country_event = { 
+					id = jap.3
+					days = 180
+				}
+			}
+		}
+				
+	}
+	option = {
+		name = "We have more important things on the agenda"
+		add_timed_idea = {
+			idea = JAP_incorporate_korea_3
+			days = 365
+		}
+		hidden_effect = { # hidden event to core Korea
+			JAP = {
+				country_event = { 
+					id = jap.3
+					days = 365
+				}
+			}
+		}	
+	}
+}
+
+country_event = {
+	id = jap.2
+	immediate = {log = "[GetDateText]: [Root.GetName]: event jap.2"}
+	title = "Announce Japanese support"
+	desc = jap.2.d.0
+	picture = GFX_report_event_chinese_soldiers_01
+
+	hidden = no
+
+	fire_only_once = yes
+
+	trigger = {
+		original_tag = JAP
+			ZHI = {
+    		has_war_with = FNG
+		}
+	}
+
+	mean_time_to_happen = {
+		days = 1
+	}
+
+	option = {
+		name = "Zhili has proved their military might" 
+		hidden_effect = {
+			set_country_flag = JAP_support_ZHI
+			set_country_flag = JAP_support_declared
+		}
+	}
+	option = {
+		name = "Fengtien's resources will make them valuable"
+		hidden_effect = {
+			set_country_flag = JAP_support_FNG
+			set_country_flag = JAP_support_declared
+		}
+	}
+}
+
+country_event = { 
+	id = jap.3
+	immediate = {log = "[GetDateText]: [Root.GetName]: event jap.3"}
+
+	is_triggered_only = yes
+	
+	hidden = yes
+
+	option = {
+		every_state = {
+			limit = {
+				region = 186
+			}
+			THIS = {
+				add_core_of = JAP
+			}
+		}
+	}
+}
+
+country_event = {
+	id = jap.6
+	immediate = {log = "[GetDateText]: [Root.GetName]: event jap.6"}
+	title = "Japanese-German Army Exercises"
+	desc = jap.6.d
+	picture = GFX_report_event_generic_panzer_attack
+	
+	hidden = no
+	
+	fire_only_once = yes
+
+	is_triggered_only = yes
+	
+	immediate = {
+	}
+	
+	option = {
+		name = "Let's see what the Japanese has to offer"
+#		hidden_effect = {
+#			
+#		}
+	}
+	option = {
+		name = "We cannot spare any secrets of our own"
+#		hidden_effect = {}
+	}
+}
+
+country_event = { #The LSMC Hits Japan
+	id = jap.9
+	immediate = {log = "[GetDateText]: [Root.GetName]: event jap.9"}
+	title = "The London Stock Market Crumbles"
+	desc = jap.9.d
+	picture = GFX_report_event_Blackweekover
+
+	fire_only_once = yes
+
+	is_triggered_only = yes
+
+	option = {
+		name = "Not again!" #in reference to the Panic of '29
+		add_war_support = -0.10
+		add_stability = -0.20
+		add_ideas = JAP_LSMC_complete
+
+		IF = {
+			LIMIT = {
+				has_government = market_liberal
+			}
+			add_popularity = { ideology = market_liberal popularity = -0.1 }
+		}
+
+		IF = {
+			LIMIT = { 
+				has_government = social_conservative 
+			}
+			add_popularity = { ideology = social_conservative popularity = -0.1 }
+		}
+		hidden_effect = {
+			set_country_flag = JAP_LSMC_felt
+			country_event = {
+				id = jap.11
+				days = 10
+			}
+		}
+	}
+}
+ 
+country_event = {
+	id = jap.11
+	immediate = {log = "[GetDateText]: [Root.GetName]: event jap.11"}
+	title = "Righteous Army Incident"
+	desc = jap.11.d
+	picture = Jap_coup
+
+	is_triggered_only = yes
+	
+	fire_only_once = yes
+	
+	option = {
+		name = "We must protect democracy!"
+		hidden_effect = {
+			country_event = { id = jap.12 days = 1 }
+		}
+	}
+	option = {
+		name = "Surely, we can do this diplomatically?"
+		hidden_effect = {
+			country_event = { id = jap.13 days = 1 }
+		}
+	}
+}
+
+country_event = {
+	id = jap.12
+	immediate = {log = "[GetDateText]: [Root.GetName]: event jap.12"}
+	title = "Righteous Army Destoryed!"
+	desc = jap.12.d
+	picture = Jap_coup
+
+    is_triggered_only = yes
+    
+	fire_only_once = yes
+	
+	option = {
+		name = "They never had a chance.." #Perhaps some other faction will try to coup you again?
+		remove_ideas = JAP_gunbatsu
+		complete_national_focus = jap_internal_stabilization
+		hidden_effect = {
+			set_country_flag = jap_sep_incident_done
+			set_country_flag = jap_sep_incident_smash
+			country_event = {
+				id = jappol.1
+				days = 85
+			}
+		}
+	}
+}
+
+country_event = {
+	id = jap.13
+	immediate = {log = "[GetDateText]: [Root.GetName]: event jap.13"}
+	title = "Negotiations With The Righteous Army"
+	desc = jap.13.d
+	picture = Jap_coup
+
+    is_triggered_only = yes
+
+	fire_only_once = yes
+	
+	option = {
+		name = "War is failure of diplomacy after all." #you signed your death sentence
+		swap_ideas = {
+			remove_idea = JAP_gunbatsu
+			add_idea = JAP_militarism_strengthened
+		}
+		hidden_effect = {
+			set_country_flag = jap_sep_incident_done
+			set_country_flag = jap_sep_incident_diplo
+			complete_national_focus = jap_internal_stabilization
+			country_event = {
+				id = jappol.6
+				days = 187
+			}
+		}
+	}
+}
+
+country_event = {
+	id = jap.14
+	immediate = {log = "[GetDateText]: [Root.GetName]: event jap.14"}
+	title = "Attack on Manila Bay"
+	desc = jap.14.d
+	picture = japan_zero
+  is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "Let's see how the US reacts.."
+		USA = { 
+			country_event = { id = jap.15 days = 1 } 
+		}
+	}
+}
+
+country_event = { 
+	id = jap.15
+	immediate = {log = "[GetDateText]: [Root.GetName]: event jap.15"}
+	title = "Our Embassy has been under attack!"
+	desc = jap.15.d
+	picture = diplomacy3
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = { 
+		name = "Gather the Senate, for we are at war!"
+		declare_war_on = {
+			target = JAP
+			type = annex_everything
+		}
+		add_war_support = 0.20
+		add_political_power = 20
+		set_country_flag = USA_JAP_WAR
+		hidden_effect = { news_event = fxnews.134 }			
+	}
+}
+
+country_event = {
+	id = jap.16
+	immediate = {log = "[GetDateText]: [Root.GetName]: event jap.16"}
+	title = "The Zaibatsu Problem"
+	desc = jap.16.d
+	picture = japan_voting
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "They will remain for now..."
+	}
+
+	option = {
+		name = "Have the Zaibatsus stop meddling with politics."
+	}
+}
+
+country_event = {
+	id = jap.17
+	immediate = {log = "[GetDateText]: [Root.GetName]: event jap.17"}
+	title = "The Panay incident"
+	desc = jap.17.d
+	picture = japan_mutsu
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "Accuse the US for provoking aggression!"
+	}
+}
+
+country_event = {
+	id = jap.18
+	immediate = {log = "[GetDateText]: [Root.GetName]: event jap.18"}
+	title = "The Shanghai Incident"
+	desc = jap.18.d
+	picture = japan_mutsu
+	is_triggered_only = yes
+	fire_only_once = yes
+
+
+	option = {
+		name = "We will teach them a lesson!"
+		KMT = {
+			country_event = jap.19 
+		}
+	}
+}
+
+country_event = {
+	id = jap.19
+	immediate = {log = "[GetDateText]: [Root.GetName]: event jap.19"}
+	title = "Japanese demands"
+	desc = jap.19.d
+	picture = GFX_report_event_japanese_transport_soldiers
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "We will not give in to barbaric demands!"
+		JAP = {
+			create_wargoal = {
+				type = annex_everything
+				target = KMT
+			}
+		}
+		ai_chance = {
+			factor = 99
+		}
+	}
+
+	option = {
+		name = "How about we don't go to war?"
+		add_stability = -0.10
+		JAP = {
+			puppet = KMT
+		}
+		ai_chance = {
+			factor = 1
+		}
+	}
+}
+
+country_event = {
+	id = jap.20
+	immediate = {log = "[GetDateText]: [Root.GetName]: event jap.20"}
+	title = "Japanese Ultimatum!"
+	desc = jap.20.d
+	picture = GFX_report_event_japanese_transport_soldiers
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "We will have death before dishonor!"
+		if = {
+			limit = {
+				JAP = {
+					is_ai = yes
+				}
+			}
+			JAP = {
+				declare_war_on = {
+					type = annex_everything
+					target = FNG
+				}
+			}
+		}
+		else = {	
+			JAP = {
+				create_wargoal = {
+					type = annex_everything
+					target = FNG
+				}
+			}
+		}
+		
+		JAP = {
+			country_event = jap.201
+		}		
+		ai_chance = {
+			factor = 99
+		}
+	}
+
+	option = {
+		name = "Their protection will be important."
+		add_stability = -0.20
+		JAP = {
+			puppet = FNG
+		}
+		JAP = {
+			country_event = jap.202
+		}
+		ai_chance = {
+			factor = 1
+		}
+	}
+}
+
+country_event = { # FNG refuses Ultimatum
+	id = jap.201
+	immediate = {log = "[GetDateText]: [Root.GetName]: event jap.201"}
+	title = "Fengtien refuse our ultimatum"
+	desc = jap.201.d
+	picture = GFX_report_event_japanese_transport_soldiers
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "We will crush their insolence!"
+	}
+}
+
+country_event = { # FNG accepts Ultimatum
+	id = jap.202
+	immediate = {log = "[GetDateText]: [Root.GetName]: event jap.202"}
+	title = "Fengtien has accepted our ultimatum"
+	desc = jap.202.d
+	picture = GFX_report_event_japanese_transport_soldiers
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "And with the simple stroke of the pen our influence in China grows."
+	}
+}
+
+country_event = {
+	id = jap.21
+	immediate = {log = "[GetDateText]: [Root.GetName]: event jap.21"}
+	title = "Japanese Ultimatum!"
+	desc = jap.21.d
+	picture = GFX_report_event_japanese_transport_soldiers
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "We push back. Hard."
+		if = {
+			limit = {
+				JAP = {
+					is_ai = yes
+				}
+			}
+			JAP = {
+				declare_war_on = {
+					type = annex_everything
+					target = ZHI
+				}
+			}
+		}
+		else = {	
+			JAP = {
+				create_wargoal = {
+					type = annex_everything
+					target = ZHI
+				}
+			}
+		}
+		JAP = {
+			country_event = jap.211
+		}		
+		ai_chance = {
+			factor = 99
+		}
+	}
+
+	option = {
+		name = "We have no choice..."
+		JAP = {
+			puppet = ZHI
+		}
+		JAP = {
+			country_event = jap.212
+		}		
+		add_stability = -0.20
+		ai_chance = {
+			factor = 1
+		}
+	}
+}
+
+country_event = { # ZHI refuses Ultimatum
+	id = jap.211
+	immediate = {log = "[GetDateText]: [Root.GetName]: event jap.211"}
+	title = "Fengtien refuse our ultimatum"
+	desc = jap.211.d
+	picture = GFX_report_event_japanese_transport_soldiers
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "We will crush their insolence!"
+	}
+}
+
+country_event = { # ZHI accepts Ultimatum
+	id = jap.212
+	immediate = {log = "[GetDateText]: [Root.GetName]: event jap.212"}
+	title = "Fengtien refuse our ultimatum"
+	desc = jap.212.d
+	picture = GFX_report_event_japanese_transport_soldiers
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "And with the simple stroke of the pen our influence in China grows."
+	}
+}
+
+country_event = {
+	id = jap.22
+	immediate = {log = "[GetDateText]: [Root.GetName]: event jap.22"}
+	title = "Japan sues for Peace!"
+	desc = jap.22.d
+	picture = japan_mutsu
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	trigger = {
+   	 	original_tag = FRA
+   	 	FRA = {
+   	 		has_war_with = JAP
+   	 	}
+    	FRA = {
+    		NOT = {
+      	  		any_owned_state = {
+             		is_on_continent = australia # Also includes pacific
+            	}
+      		}
+    	}
+	}
+
+	mean_time_to_happen = {
+		days = 1
+	}
+
+	option = {
+		name = "This will not be an eternal war"
+		white_peace = {
+			tag = JAP
+		}
+	}
+}
+
+country_event = {
+	id = jap.23
+	immediate = {log = "[GetDateText]: [Root.GetName]: event jap.23"}
+	title = "Japan asks for alliance"
+	desc = jap.23.d
+	picture = GFX_japan_ambassador_kisaburo
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "And we shall weather it!"
+		if = {
+			limit = {
+				JAP = {
+					is_in_faction = no
+				}
+			}
+			JAP = {
+				create_faction = "Russo-Japanese Alliance"
+			}
+		}
+					
+		every_country = {
+			limit = {
+				is_in_faction_with = JAP
+				is_faction_leader = yes
+			}
+			THIS = {
+				add_to_faction = RUS
+			}
+		}
+		
+		JAP = {
+			country_event = jap.36
+		}		
+	}
+
+	option = {
+		name = "We have better interests"
+		JAP = {
+			country_event = jap.37
+		}		
+	}
+}
+
+country_event = {
+	id = jap.24
+	immediate = {log = "[GetDateText]: [Root.GetName]: event jap.24"}
+	title = "Japanese Provocation"
+	desc = jap.24.d
+	picture = GFX_japan_battle_flag
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "We will stand strong aginst the Imperialists"
+		add_political_power = 50
+		add_stability = 0.10
+	}
+}
+
+country_event = {
+	id = jap.25
+	immediate = {log = "[GetDateText]: [Root.GetName]: event jap.25"}
+	title = "Risks in the Pacific"
+	desc = jap.25.d
+	picture = japan_mutsu
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "We will stand strong against our enemies."
+		add_political_power = 50
+		add_stability = 0.10
+	}
+}
+
+country_event = {
+	id = jap.26
+	immediate = {log = "[GetDateText]: [Root.GetName]: event jap.26"}
+	title = "Japanese-Russian provocation!"
+	desc = jap.26.d
+	picture = GFX_japan_battle_flag
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "We push back. Hard."
+		create_wargoal = {
+			type = annex_everything
+			target = RUS
+		}
+	}
+
+	option = {
+		name = "Retreat for now. We can take it back later."
+	}
+}
+
+country_event = { # Siam - Alliance with Japan
+	id = jap.27
+	immediate = {log = "[GetDateText]: [Root.GetName]: event jap.27"}
+	title = "Japan offers anti-French alliance"
+	desc = jap.27.d
+	picture = GFX_japan_battle_flag
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "Together we shall undo the suffering the French have caused our nation"
+		ai_chance = {
+			factor = 120
+			modifier = {
+				factor = 4
+				SIA = {
+					has_war_with = FRA
+				}
+			}
+		}
+		
+		959 = {
+			add_claim_by = SIA
+		}
+		960 = {
+			add_claim_by = SIA
+		}
+		670 = {
+			add_claim_by = SIA
+		}
+		963 = {
+			add_claim_by = SIA
+		}
+		962 = {
+			add_claim_by = SIA
+		}		
+		
+		if = {
+			limit = {
+				JAP = {
+					is_in_faction = no
+				}
+			}
+			JAP = {
+				create_faction = co_prosperity_sphere
+			}
+		}
+					
+		every_country = {
+			limit = {
+				is_in_faction_with = JAP
+				is_faction_leader = yes
+			}
+			THIS = {
+				add_to_faction = SIA
+			}
+		}
+		
+		JAP = {
+			country_event = jap.28
+		}
+	}
+
+	option = {
+		name = "We must remain neutral from the Japanese Sphere"
+		ai_chance = {
+			factor = 40
+			modifier = {
+				factor = 10
+				SIA = {
+					is_in_faction_with = FRA
+				}
+			}
+			modifier = {
+				factor = 2 
+				has_opinion = {
+					target = JAP
+					value < -49
+				}
+			}
+		}
+		add_political_power = 50
+
+		JAP = {
+			country_event = jap.29
+		}		
+	}
+}
+
+country_event = { # Japan - Siam Accepts Alliance
+	id = jap.28
+	immediate = {log = "[GetDateText]: [Root.GetName]: event jap.28"}
+	title = "Siam agrees to an alliance"
+	desc = jap.28.d
+	picture = GFX_report_event_japanese_transport_soldiers
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "A toast to our new Siamese allies"
+	}
+}
+
+country_event = { # Japan - Siam refuses Alliance
+	id = jap.29
+	immediate = {log = "[GetDateText]: [Root.GetName]: event jap.29"}
+	title = "Siam declines our alliance offer"
+	desc = jap.29.d
+	picture = GFX_report_event_japanese_transport_soldiers
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "There time will come soon enough"
+	}
+}
+
+country_event = { # Russia - Japan Suggests border conflict against the USSR
+	id = jap.30
+	immediate = {log = "[GetDateText]: [Root.GetName]: event jap.30"}
+	title = "Japan orders border conflict with the USSR"
+	desc = jap.30.d
+	picture = GFX_report_event_japanese_transport_soldiers
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "With Japanese backing we will put the Reds in their place."
+		ai_chance = {
+			factor = 160
+			modifier = {
+				factor = 2
+				RUS = {
+					is_in_faction_with = JAP
+				}
+			}
+		}
+		JAP = {
+			country_event = jap.31
+		}
+		start_border_war = {
+			change_state_after_war = no
+			attacker = {
+				state = 561
+				num_provinces = 5
+				on_win = jap.34
+				on_lose = jap.35
+			}
+						
+			defender = {
+				state = 574
+				num_provinces = 4
+				on_win = jap.34
+				on_lose = jap.35
+			}
+		}		
+	}
+	
+	option = {
+		name = "We will not bend to Tokyo's every whim."
+		ai_chance = {
+			factor = 40
+		}
+		JAP = {
+			country_event = jap.32
+		}		
+	}
+}
+
+country_event = { # Japan - Russia agrees to border conflict
+	id = jap.31
+	immediate = {log = "[GetDateText]: [Root.GetName]: event jap.31"}
+	title = "Russia agrees to our plan"
+	desc = jap.31.d
+	picture = GFX_report_event_japanese_transport_soldiers
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "We must test the Soviet's defenses before we commit to any further attacks"
+	}
+}
+
+country_event = { # Japan - Russia refuses to start border conflict
+	id = jap.32
+	immediate = {log = "[GetDateText]: [Root.GetName]: event jap.32"}
+	title = "The Russians reject our plan"
+	desc = jap.32.d
+	picture = GFX_report_event_japanese_transport_soldiers
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "The time for conflict with the Soviets will come soon enough"
+		ai_chance = {
+			factor = 40
+			modifier = {
+				factor = 2
+				has_opinion = {
+					target = RUS
+					value > 49
+				}
+			}
+			modifier = {
+				factor = 2
+				JAP = {
+					has_war = yes
+				}
+			}			
+		}
+	}
+	
+	option = {
+		name = "We will not let the Russians stifle our Siberian ambitions"
+		ai_chance = {
+			factor = 160
+			modifier = {
+				factor = 2
+				strength_ratio = {
+					tag = RUS
+					ratio > 2
+				}
+			}
+		}
+		if = {
+			limit = {
+				RUS = {
+					is_guaranteed_by = JAP
+				}
+			}
+			JAP = {
+				diplomatic_relation = {
+					country = RUS
+					relation = guarantee
+					active = no
+				}
+			}
+		}
+		if = {
+			limit = {
+				RUS = {
+					is_puppet_of = JAP
+				}
+			}
+			JAP = {
+				end_puppet = RUS
+			}
+		}		
+		if = {
+			limit = {
+				RUS = {
+					is_in_faction_with = JAP
+				}
+			}
+			JAP = {
+				remove_from_faction = RUS
+			}
+		}
+		if = {
+			limit = {
+				JAP = {
+					is_ai = yes
+				}
+			}
+			JAP = {
+				declare_war_on = {
+					target = RUS
+					type = annex_everything
+				}
+			}
+		}
+		else = {
+			JAP = {
+				create_wargoal = {
+					target = RUS
+					type = annex_everything
+				}
+			}
+		}
+	}	
+}
+
+country_event = { # USSR - Russia starts border war
+	id = jap.33
+	immediate = {log = "[GetDateText]: [Root.GetName]: event jap.33"}
+	title = "White forces cross border into Yakutsk"
+	desc = jap.33.d
+	picture = GFX_report_event_japanese_transport_soldiers
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "We shall repel this pathetic raid!"
+	}
+}
+
+country_event = { # USSR/Russia - border war victory
+	id = jap.34
+	immediate = {log = "[GetDateText]: [Root.GetName]: event jap.34"}
+	title = "The Yakutsk Incident"
+	desc = jap.34.d
+	picture = GFX_report_event_japanese_transport_soldiers
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "It seems the Soviet bear isn't a menacing as some think"
+		trigger = {
+			tag = RUS
+		}
+		army_experience = 10
+	}
+	
+	option = {
+		name = "Soon enough we will liberate the Russian Far East"
+		trigger = {
+			tag = SOV
+		}
+		army_experience = 10
+	}	
+}
+
+country_event = { # USSR/Russia - border war loss
+	id = jap.35
+	immediate = {log = "[GetDateText]: [Root.GetName]: event jap.35"}
+	title = "The Yakutsk Incident"
+	desc = jap.34.d
+	picture = GFX_report_event_japanese_transport_soldiers
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "We must not provoke the Reds like this gain"
+		trigger = {
+			tag = RUS
+		}
+		army_experience = 25
+		add_tech_bonus = {
+			name = doctrine_bonus
+			bonus = 0.5
+			uses = 1
+			category = land_doctrine
+		}		
+	}
+	
+	option = {
+		name = "The liberation of the Far East must be put on hold for now"
+		trigger = {
+			tag = SOV
+		}
+		army_experience = 25
+		add_tech_bonus = {
+			name = doctrine_bonus
+			bonus = 0.5
+			uses = 1
+			category = land_doctrine
+		}		
+	}	
+}
+
+country_event = {
+	id = jap.36
+	immediate = {log = "[GetDateText]: [Root.GetName]: event jap.36"}
+	title = "Russia agrees to an alliance"
+	desc = jap.36.d
+	picture = GFX_japan_battle_flag
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "Together we will topple the Soviet menace"
+	}
+}
+
+country_event = {
+	id = jap.37
+	immediate = {log = "[GetDateText]: [Root.GetName]: event jap.37"}
+	title = "Russia refuses to form an alliance with us"
+	desc = jap.37.d
+	picture = GFX_japan_battle_flag
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "After all the support we've given them they dare to insult us like this?"
+		ai_chance = {
+			factor = 40
+			modifier = {
+				factor = 2
+				JAP = {
+					has_war = yes
+				}
+			}
+			modifier = {
+				factor = 2
+				RUS = {
+					is_in_faction = yes
+				}
+			}
+			modifier = {
+				factor = 2
+				strength_ratio = {
+					tag = RUS
+					ratio < 1
+				}
+			}			
+		}
+	}
+	
+	option = {
+		name = "Perhaps a regime change is in order?"
+		ai_chance = {
+			factor = 120
+			modifier = {
+				factor = 2
+				RUS = {
+					has_war = yes
+				}
+			}
+			modifier = {
+				factor = 2
+				strength_ratio = {
+					tag = RUS
+					ratio > 1
+				}
+			}			
+		}
+		if = {
+			limit = {
+				RUS = {
+					is_guaranteed_by = JAP
+				}
+			}
+			JAP = {
+				diplomatic_relation = {
+					country = RUS
+					relation = guarantee
+					active = no
+				}
+			}
+		}
+		if = {
+			limit = {
+				JAP = {
+					is_ai = yes
+				}
+			}
+			JAP = {
+				declare_war_on = {
+					target = RUS
+					type = annex_everything
+				}
+			}
+		}
+		else = {
+			JAP = {
+				create_wargoal = {
+					target = RUS
+					type = annex_everything
+				}
+			}
+		}		
+	}	
+}
+
+country_event = {
+	id = jap.51
+	immediate = {log = "[GetDateText]: [Root.GetName]: event jap.51"}
+	title = "Securing our place in the Imperial Protection Alliance"
+	desc = jap.51.d
+	picture = GFX_report_event_hitler_handshake
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		name = "Look for more economic cooperation with them"
+		ENG = {
+			country_event = {
+				id = jap.52
+				days = 1
+			}
+		}
+	}
+
+	option = {
+		name = "Look for military cooperation with them"
+		ENG = {
+			country_event = {
+				id = jap.53
+				days = 1
+			}
+		}
+	}
+}
+
+country_event = {
+	id = jap.52
+	immediate = {log = "[GetDateText]: [Root.GetName]: event jap.52"}
+	title = "Japan looks for more economic cooperation!"
+	desc = jap.52.d
+#	picture = 
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "More mutual investments, thank you very much."
+		add_ideas = jap_mutual_investments
+		JAP = {
+			add_ideas = jap_mutual_investments
+		}
+	}
+}
+
+country_event = {
+	id = jap.53
+	immediate = {log = "[GetDateText]: [Root.GetName]: event jap.53"}
+	title = "Japan looks for more military cooperation!"
+	desc = jap.53.d
+#	picture = 
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "We can trade some military advisors."
+		add_ideas = jap_military_advisors
+		JAP = {
+			add_ideas = jap_military_advisors
+		}
+	}
+}
+
+########################
+### HIROTA EDEN PACT ###
+########################
+
+add_namespace = japhep 
+
+country_event = {
+	id = japhep.100 #British Side event chain start
+	immediate = {log = "[GetDateText]: [Root.GetName]: event japhep.100"}
+	title = "Temporal Renewal of the Anglo-Japanese Alliance?"
+	desc = japhep.100.d
+	picture = GFX_japan_ambassador_kisaburo
+
+	trigger = {
+		tag = ENG
+		date > 1937.8.5
+		JAP = {
+			has_completed_focus = jap_great_pacific_jewel
+		}
+	}
+
+ 	mean_time_to_happen = {
+		days = 1
+	}
+
+#	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "Another three years of temporary stability is in our benefit"
+		ai_chance = {
+			base = 80
+			modifier = {
+				has_government = social_democrat
+				add = -80
+			}
+			modifier = {
+				has_government = authoritarian_democrat
+				add = 20
+			}
+		}
+		JAP = {
+			country_event = {
+				id = japhep.101
+				days = 1
+			}
+		}
+	}
+
+	option = {
+		name = "We see no further use in a continued alliance"
+		ai_chance = {
+			base = 20
+			modifier = {
+				has_government = social_democrat
+				add = 80
+			}
+			modifier = {
+				has_government = authoritarian_democrat
+				add = -20
+			}
+		}
+		JAP = {
+			country_event = {
+				id = japhep.104
+				days = 1
+			}
+		}
+	}
+}
+
+country_event = {
+	id = japhep.101 #japan gets the proposal - Stage 1
+	immediate = {log = "[GetDateText]: [Root.GetName]: event japhep.101"}
+	title = "Renewing the Anglo-Japanese Alliance?"
+	desc = japhep.101.d
+#	picture = 
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "A useful ally, for now"
+		ai_chance = {
+			base = 80
+		}
+		ENG = {
+			country_event = {
+				id = japhep.102
+				days = 1
+			}
+		}
+		JAP = {
+			diplomatic_relation = {
+				country = ENG
+				relation = guarantee
+				active = yes
+			}
+		}
+	}
+
+	option = {
+		name = "It is time to rid ourselves of this burden"
+		ai_chance = {
+			base = 20
+		}
+		ENG = {
+			country_event = {
+				id = japhep.103
+				days = 1
+			}
+		}
+	}
+}
+
+country_event = {
+	id = japhep.102 #Japan accepts
+	immediate = {log = "[GetDateText]: [Root.GetName]: event japhep.102"}
+	title = "Anglo-Japanese Alliance Renewed"
+	desc = japhep.102.d
+#	picture = 
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "Another three years, after that, who knows?"
+		diplomatic_relation = {
+  			country = JAP
+ 			relation = guarantee
+  			active = yes
+		}
+		hidden_effect = {
+			set_global_flag = jap_aja_temp_renew
+			ENG = {
+				country_event = {
+					id = japhep.105
+					days = 1095 # 3 Years
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = japhep.103 #Japan refuses
+	immediate = {log = "[GetDateText]: [Root.GetName]: event japhep.103"}
+	title = "Anglo-Japanese Alliance Collapses"
+	desc = japhep.103.d
+#	picture = 
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "We must prepare ourselves for future instability in Asia."
+		
+	}
+}
+
+country_event = {
+	id = japhep.104 #Britain says no renewal
+	immediate = {log = "[GetDateText]: [Root.GetName]: event japhep.104"}
+	title = "Britain terminates the Anglo-Japanese Alliance"
+	desc = japhep.104.d
+#	picture = 
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "Not like any war is coming soon..."
+
+	}
+}
+
+country_event = {
+	id = japhep.105 #Britain looks for allies, sees Japan
+	immediate = {log = "[GetDateText]: [Root.GetName]: event japhep.105"}
+	title = "Ally in the Far East"
+	desc = japhep.105.d
+#	picture = 
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "Let us discuss this prospect with our Japanese friends"
+		JAP = { 
+			country_event = {
+				id = japhep.106
+				days = 1
+			}
+		}
+	}
+}
+
+country_event = {
+	id = japhep.106
+	immediate = {log = "[GetDateText]: [Root.GetName]: event japhep.106"}
+	title = "British asks to discuss the prospect of future alliance"
+	desc = japhep.106.d
+#	picture = 
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "Let's hold an event in Kyoto."
+		country_event = {
+			id = japhep.1
+			days = 1
+		}
+	}
+
+	option = {
+		name = "We have no interest in this."
+		ENG = {
+			country_event = {
+				id = japhep.107
+				days = 1
+			}
+		}
+	}
+}
+
+country_event = {
+	id = japhep.107
+	immediate = {log = "[GetDateText]: [Root.GetName]: event japhep.107"}
+	title = "Japan refuses our request"
+	desc = japhep.107.d
+#	picture = 
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "We must prepare for instability in Asia."
+		diplomatic_relation = {
+  			country = JAP
+ 			relation = guarantee
+  			active = no
+		}
+		JAP = {
+			diplomatic_relation = {
+				country = ENG
+				relation = guarantee
+				active = no
+			}
+		}
+	}
+}
+
+country_event = {
+	id = japhep.108 #Britain recieves termination
+	immediate = {log = "[GetDateText]: [Root.GetName]: event japhep.108"}
+	title = "Japan terminates the Anglo-Japanese Alliance."
+	desc = japhep.108.d
+#	picture = 
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "It may be time to put the Singapore Strategy into effect."
+		diplomatic_relation = {
+  			country = JAP
+ 			relation = guarantee
+  			active = no
+		}
+		JAP = {
+			diplomatic_relation = {
+				country = ENG
+				relation = guarantee
+				active = no
+			}
+		}
+	}
+}
+
+country_event = {
+	id = japhep.109 #Japan recieves termination
+	immediate = {log = "[GetDateText]: [Root.GetName]: event japhep.109"}
+	title = "Britain terminates the Anglo-Japanese Alliance."
+	desc = japhep.109.d
+#	picture = 
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "Unfortunate, but it is likely for the better."
+		diplomatic_relation = {
+  			country = ENG
+ 			relation = guarantee
+  			active = no
+		}
+		ENG = {
+			diplomatic_relation = {
+				country = JAP
+				relation = guarantee
+				active = no
+			}
+		}
+	}
+}
+
+country_event = {
+	id = japhep.1 #Japan
+	immediate = {log = "[GetDateText]: [Root.GetName]: event japhep.1"}
+	title = "Hirota-Eden Pact - Start of Negotiations"
+	desc = japhep.1.d
+	picture = GFX_japan_ambassador_kisaburo
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "We must get the best deal possible"
+		add_political_power = 10
+		ENG = {
+			country_event = {
+				id = japhep.6
+				days = 1
+			}
+		}
+	}
+}
+
+country_event = {
+	id = japhep.6 #Britain
+	immediate = {log = "[GetDateText]: [Root.GetName]: event japhep.6"}
+	title = "Hirota-Eden Pact - Start of Negotiations"
+	desc = japhep.6.d
+	picture = GFX_japan_ambassador_kisaburo
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "Let's start the discussion."
+		JAP = {
+			country_event = {
+				id = japhep.2
+				days = 1
+			}
+		}
+	}
+}
+
+
+country_event = {
+	id = japhep.2 #Japan
+	immediate = {log = "[GetDateText]: [Root.GetName]: event japhep.2"}
+	title = "Hirota-Eden Pact - Trade Agreements"
+	desc = japhep.2.d
+	picture = GFX_japan_ambassador_kisaburo
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "This will benefit both of us."
+		hidden_effect = {
+			set_country_flag = jap_HE_pact_trade
+		}
+		ENG = {
+			country_event = {
+				id = japhep.11
+				days = 1
+			}
+		}
+	}
+	option = {
+		name = "We will not just trade with one country."
+	}
+}
+
+
+country_event = {
+	id = japhep.11 #Britain
+	immediate = {log = "[GetDateText]: [Root.GetName]: event japhep.11"}
+	title = "Hirota-Eden Pact - Trade Agreements"
+	desc = japhep.11.d
+	picture = GFX_japan_ambassador_kisaburo
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "We can definitely guarantee their trade"
+		country_event = {
+			id = japhep.7
+			days = 1
+		}
+	}
+}
+
+country_event = {
+	id = japhep.7 #Britain
+	immediate = {log = "[GetDateText]: [Root.GetName]: event japhep.7"}
+	title = "Hirota-Eden Pact - Gold Standard"
+	desc = japhep.7.d
+	picture = GFX_japan_ambassador_kisaburo
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "The gold standard ties us down."
+		JAP = {
+			country_event = {
+				id = japhep.3
+				days = 1
+			}
+		}
+	}
+}
+
+country_event = {
+	id = japhep.3 #Japan
+	immediate = {log = "[GetDateText]: [Root.GetName]: event japhep.3"}
+	title = "Hirota-Eden Pact - Gold Standard"
+	desc = japhep.3.d
+	picture = GFX_japan_ambassador_kisaburo
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "Gold Standard was probably tying us down."
+		add_timed_idea = {
+			idea = JAP_british_black_wednesday_compensations #repurposed idea
+			days = 90
+		}
+		ENG = {
+			country_event = {
+				id = japhep.8
+				days = 1
+			}
+		}
+	}
+
+	option = {
+		name = "We won't do that."
+	}
+}
+
+
+country_event = {
+	id = japhep.8 #Britain
+	immediate = {log = "[GetDateText]: [Root.GetName]: event japhep.8"}
+	title = "Hirota-Eden Pact - Military Alliance"
+	desc = japhep.8.d
+	picture = GFX_japan_ambassador_kisaburo
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "They ought to change their minds after this"
+		JAP = {
+			country_event = {
+				id = japhep.4
+				days = 1
+			}
+		}
+	}
+}
+
+country_event = {
+	id = japhep.4 #Japan
+	immediate = {log = "[GetDateText]: [Root.GetName]: event japhep.4"}
+	title = "Hirota-Eden Pact - Military Alliance"
+	desc = japhep.4.d
+	picture = GFX_japan_ambassador_kisaburo
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "And weather it, we shall."
+		ENG = {
+			add_to_faction = JAP
+		}
+		add_political_power = 50
+		remove_ideas = jap_wnt
+		hidden_effect = {
+			set_country_flag = JAP_ENG_Alliance
+			country_event = {
+				id = japhep.9
+				days = 7
+			}
+		}
+	}
+
+	option = {
+		name = "We must avoid entanglements with the old Empires"
+	}
+}
+
+country_event = {
+	id = japhep.9 #Japan
+	immediate = {log = "[GetDateText]: [Root.GetName]: event japhep.9"}
+	title = "A grand success of a summit"
+	desc = japhep.9.d
+	picture = GFX_japan_ambassador_kisaburo
+
+	fire_only_once = yes
+
+	trigger = {
+		TAG = JAP
+		has_country_flag = JAP_ENG_Alliance
+	}
+
+	mean_time_to_happen = {
+		days = 1
+	}
+
+	option = {
+		name = "Diplomacy does indeed solve every problem"
+		add_political_power = 50
+		add_stability = 0.1
+		ENG = {
+			country_event = {
+				id = japhep.10
+				days = 1
+			}
+		}
+	}
+}
+
+country_event = {
+	id = japhep.10 #Britain
+	immediate = {log = "[GetDateText]: [Root.GetName]: event japhep.10"}
+	title = "Success in the Kyoto Summit!"
+	desc = japhep.10.d
+	picture = GFX_japan_ambassador_kisaburo
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "Together we shall never fall!"
+		add_political_power = 50
+		add_stability = 0.1
+	}
+}
+
+
+
+############################
+### SAN FRANCISCO SUMMIT ###
+############################
+
+add_namespace = japsanfran
+
+country_event = {
+	id = japsanfran.1
+	immediate = {log = "[GetDateText]: [Root.GetName]: event japsanfran.1"}
+	title = "The San Francisco Naval Summit"
+	desc = japsanfran.1.d
+	picture = GFX_japan_ambassador_kisaburo
+
+	is_triggered_only = yes
+	fire_only_once = yes
+	
+	option = {
+		name = "We must band together for protection."
+		hidden_effect = {
+			USA = {
+				country_event = {
+ 					id = japsanfran.2
+ 					days = 1
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = japsanfran.2
+	immediate = {log = "[GetDateText]: [Root.GetName]: event japsanfran.2"}
+	title = "The Japanese calls for a summit"
+	desc = japsanfran.2.d
+	picture = GFX_japan_ambassador_kisaburo
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "We shall not turn down such an invitation."
+		hidden_effect = {
+			JAP = {
+				country_event = {
+					id = japsanfran.3
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = japsanfran.3
+	immediate = {log = "[GetDateText]: [Root.GetName]: event japsanfran.3"}
+	title = "San Francisco Summit - Washington Naval Treaty"
+	desc = japsanfran.3.d
+	picture = GFX_japan_ambassador_kisaburo
+
+	is_triggered_only = yes
+	fire_only_once = yes
+	
+	option = {
+		name = "Let us bring this up tomorrow"
+		hidden_effect = {
+			USA = {
+				country_event = {
+					id = japsanfran.4
+					days = 1
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = japsanfran.4
+	immediate = {log = "[GetDateText]: [Root.GetName]: event japsanfran.4"}
+	title = "San Francisco Summit - Washington Naval Treaty"
+	desc = japsanfran.4.d
+	picture = GFX_japan_ambassador_kisaburo
+
+	is_triggered_only = yes
+	fire_only_once = yes
+	
+	option = {
+		name = "Let us not bound our navies anymore"
+		hidden_effect = {
+			JAP = {
+				country_event = {
+					id = japsanfran.5
+					days = 1
+				}
+			}
+			set_global_flag = JAP_WNT_good_end
+		}
+		ai_chance = {
+			factor = 40
+		}
+	}
+	
+	option = {
+		name = "This is unacceptable!"
+		ai_chance = {
+			factor = 20
+#			modifier = {
+#				factor = 2
+#				has
+#			}
+		}
+		hidden_effect = {
+			set_global_flag = JAP_WNT_bad_end
+		}
+	}
+}
+
+country_event = {
+	id = japsanfran.5
+	immediate = {log = "[GetDateText]: [Root.GetName]: event japsanfran.5"}
+	title = "San Francisco Summit - Trade Agreements"
+	desc = japsanfran.5.d
+	picture = GFX_japan_ambassador_kisaburo
+
+	is_triggered_only = yes
+	fire_only_once = yes
+	
+	option = {
+		name = "This is the time for a mutually beneficial agreement."
+
+		hidden_effect = {
+			USA = {
+				country_event = {
+					id = japsanfran.6
+					days = 1
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = japsanfran.6
+	immediate = {log = "[GetDateText]: [Root.GetName]: event japsanfran.6"}
+	title = "San Francisco Summit - Trade Agreements"
+	desc = japsanfran.6.d
+	picture = GFX_japan_ambassador_kisaburo
+
+	is_triggered_only = yes
+	fire_only_once = yes
+	
+	option = {
+		name = "Mutually dependant trade is good for both of us."
+		hidden_effect = {
+			country_event = {
+				id = japsanfran.7
+				days = 1
+			}
+		}
+		ai_chance = {
+			factor = 1000
+#			modifier = {
+#				factor = 0.001
+#				has_global_flag = JAP_WNT_bad_end
+#			}
+		}
+	}
+	option = {
+		name = "We must avoid tying our economy to theirs."
+		ai_chance = {
+			factor = 1
+			modifier = {
+
+			}
+		}
+	}
+}
+
+country_event = {
+	id = japsanfran.7
+	immediate = {log = "[GetDateText]: [Root.GetName]: event japsanfran.7"}
+	title = "San Francisco Summit - American Investment"
+	desc = japsanfran.7.d
+	picture = GFX_japan_ambassador_kisaburo
+
+	is_triggered_only = yes
+	fire_only_once = yes
+	
+	option = {
+		name = "The Japanese won't refuse a good deal."
+		hidden_effect = {
+			JAP = {
+				country_event = {
+					id = japsanfran.8
+					days = 1
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = japsanfran.8
+	immediate = {log = "[GetDateText]: [Root.GetName]: event japsanfran.8"}
+	title = "San Francisco Summit - American Investments"
+	desc = japsanfran.8.d
+	picture = GFX_japan_ambassador_kisaburo
+
+	is_triggered_only = yes
+	fire_only_once = yes
+	
+	option = {
+		name = "We can definitely influence them."
+		hidden_effect = {
+			country_event = {
+				id = japsanfran.9
+				days = 1
+			}
+		}
+	}
+}
+
+country_event = {
+	id = japsanfran.9
+	immediate = {log = "[GetDateText]: [Root.GetName]: event japsanfran.9"}
+	title = "San Francisco Summit - Basing Rights"
+	desc = japsanfran.9.d
+	picture = GFX_japan_ambassador_kisaburo
+
+	is_triggered_only = yes
+	fire_only_once = yes
+	
+	option = {
+		name = "We must guard the Pacific against aggressors."
+		hidden_effect = {
+			USA = {
+				country_event = {
+					id = japsanfran.10
+					days = 1
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = japsanfran.10
+	immediate = {log = "[GetDateText]: [Root.GetName]: event japsanfran.10"}
+	title = "San Francisco Summit - Basing Rights"
+	desc = japsanfran.10.d
+	picture = GFX_japan_ambassador_kisaburo
+
+	is_triggered_only = yes
+	fire_only_once = yes
+	
+	option = {
+		name = "The two Pacific Bulwarks shall guard against common aggression!"
+		hidden_effect = {
+			country_event = {
+				id = japsanfran.11
+				days = 1
+			}
+		}
+		ai_chance = {
+			factor = 1000
+		}
+	}
+	option = {
+		name = "It's best we keep our bases to ourselves."
+	}
+}
+
+country_event = {
+	id = japsanfran.11
+	immediate = {log = "[GetDateText]: [Root.GetName]: event japsanfran.11"}
+	title = "The Great Pacific Treaty" #of USA
+	desc = japsanfran.11.d
+	picture = GFX_japan_ambassador_kisaburo
+
+	is_triggered_only = yes
+	fire_only_once = yes
+	
+	option = {
+		name = "If they're not with us, they're against us."
+		hidden_effect = {
+			JAP = {
+				country_event = {
+					id = japsanfran.12
+					days = 1
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = japsanfran.12
+	immediate = {log = "[GetDateText]: [Root.GetName]: event japsanfran.12"}
+	title = "The Great Pacific Treaty" #of Japan
+	desc = japsanfran.12.d
+	picture = GFX_japan_ambassador_kisaburo
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "we must not risk ourselves with the crumbling old empires"
+		USA = {
+			create_faction = "Pacific Coalition"
+			add_to_faction = JAP
+		}
+		add_political_power = 50
+		hidden_effect = {
+			USA = {
+				country_event = { id = japsanfran.13 }
+			}
+			news_event = {
+				id = fxnews.135
+				days = 1
+			}
+			set_country_flag = JAP_san_fran_summit_good_end
+		}
+		ai_chance = {
+			factor = 1000
+		}
+	}
+
+	option = {
+		name = "The old alliance is more important"
+		ai_chance = {
+			factor = 1
+		}
+	}
+}
+
+country_event = {
+	id = japsanfran.13
+	immediate = {log = "[GetDateText]: [Root.GetName]: event japsanfran.13"}
+	title = "Japan accepts the Treaty!"
+	desc = japsanfran.13.d
+	picture = GFX_report_event_hitler_handshake
+
+	is_triggered_only = yes
+	fire_only_once = yes
+	
+	option = {
+		name = "A Toast to our Friends in the East!"
+		add_political_power = 50
+	}
+}
+
+country_event = {
+	id = japsanfran.14
+	immediate = {log = "[GetDateText]: [Root.GetName]: event japsanfran.14"}
+	title = "Unsatisfactory end of the San Francisco Summit"
+	desc = japsanfran.14.d
+	picture = GFX_japan_ambassador_kisaburo
+
+	trigger = {
+		tag = JAP
+		has_country_flag = JAP_WNT_bad_end
+	}
+
+	fire_only_once = yes
+	
+	option = {
+		name = "We will not stand by this!"
+		hidden_effect = {
+			set_country_flag = jap_san_fran_summit_bad_end
+		}
+	}
+}
+
+#################
+### ELECTIONS ###
+#################
+
+add_namespace = japele
+
+country_event = {
+	id = japele.1
+	immediate = {log = "[GetDateText]: [Root.GetName]: event japele.1"}
+	title = "Elections of 1936"
+	desc = japele.1.d
+	picture = japan_voting
+
+	trigger = {
+		tag = JAP
+		date > 1936.1.30
+	}
+
+	mean_time_to_happen = { days = 1 }
+	
+	hidden = no
+	
+	fire_only_once = yes
+	
+	immediate = {
+	}
+	
+	option = {
+		name = "Minseito secures their place!"
+		ai_chance = {
+			factor = 40
+		}
+		
+		add_popularity = { ideology = market_liberal popularity = 0.1 }
+		set_politics = { ruling_party = market_liberal }
+		remove_every_minister = yes
+
+		activate_advisor = JAP_Hamaguchi_Osachi_hog_mli
+		activate_advisor = JAP_Shidehara_Kijuro_for_mli
+		activate_advisor = JAP_Inoue_Junnosuke_eco_mli
+		activate_advisor = JAP_Saito_Takao_sec_mli
+		
+		hidden_effect = {
+			set_country_flag = jap_minseito_36 
+			set_country_flag = jap_ele_36_done
+			country_event = { id = japele.2 days = 7 }
+		}
+	}
+	option = {
+		name = "Seiyukai gets the majority!"
+		ai_chance = {
+			factor = 40
+		}
+		add_popularity = { ideology = social_conservative popularity = 0.1 }
+		set_politics = { ruling_party = social_conservative }
+		remove_every_minister = yes
+
+		activate_advisor = JAP_Inukai_Tsuyoshi_hog_sco
+		activate_advisor = JAP_Yoshida_Shigeru_for_sco
+		activate_advisor = JAP_Tsushima_Juichi_eco_sco
+		activate_advisor = JAP_Ohara_Naoshi_sec_sco
+		
+		hidden_effect = {
+			set_country_flag = jap_seiyukai_36 
+			set_country_flag = jap_ele_36_done
+			country_event = { id = japele.2 days = 7 }
+		}
+	}
+}
+
+country_event = {
+	id = japele.2
+	immediate = {log = "[GetDateText]: [Root.GetName]: event japele.2"}
+	title = "New Budget - Military funding"
+	desc = japele.2.d
+	picture = japan_diet
+
+	hidden = no
+
+	fire_only_once = yes
+
+	is_triggered_only = yes
+
+	option = {
+		name = "The Navy"
+		complete_national_focus = jap_modernise_the_navy
+		hidden_effect = {
+			set_country_flag = JAP_navy_first
+		}
+		ai_chance = {
+			factor = 20
+
+			modifier = {
+				factor = 10
+				has_government = social_conservative
+			}
+		}
+	}
+	option = {
+		name = "The Army"
+		complete_national_focus = jap_expand_the_army
+		hidden_effect = {
+			set_country_flag = JAP_army_first
+		}
+		ai_chance = {
+			factor = 20
+
+			modifier = {
+				factor = 10
+				has_government = market_liberal
+			}
+		}
+	}
+}
+
+country_event = {
+	id = japele.3
+	immediate = {log = "[GetDateText]: [Root.GetName]: event japele.3"}
+	title = "Elections of 1938"
+	desc = jap.8.d
+	picture = japan_voting
+
+	trigger = {
+		original_tag = JAP
+		date > 1938.3.2
+		NOT = {
+			OR = {
+				has_country_flag = JAP_admiral_plot
+				has_country_flag = JAP_army_coup
+			}
+		}
+	}
+
+	fire_only_once = yes
+
+	# mean_time_to_happen = 1 # Drowse - you need to specify a time duration
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+
+	option = {
+		name = "Minseito prevails!"
+		trigger = { has_country_flag = jap_minseito_36 }
+		add_popularity = { ideology = market_liberal popularity = 0.1 }
+		set_politics = { ruling_party = market_liberal }
+		remove_every_minister = yes
+
+		activate_advisor = JAP_Hamaguchi_Osachi_hog_mli
+		activate_advisor = JAP_Shidehara_Kijuro_for_mli
+		activate_advisor = JAP_Inoue_Junnosuke_eco_mli
+		activate_advisor = JAP_Saito_Takao_sec_mli
+		
+	}
+
+	option = {
+		name = "Minseito wins by a landslide!"
+		trigger = { has_country_flag = jap_seiyukai_36 }
+		add_popularity = { ideology = market_liberal popularity = 0.1 }
+		set_politics = { ruling_party = market_liberal }
+		remove_every_minister = yes
+
+		activate_advisor = JAP_Hamaguchi_Osachi_hog_mli
+		activate_advisor = JAP_Shidehara_Kijuro_for_mli
+		activate_advisor = JAP_Inoue_Junnosuke_eco_mli
+		activate_advisor = JAP_Saito_Takao_sec_mli
+		
+	}
+
+	option = {
+		name = "Seiyukai prevails!"
+		trigger = { has_country_flag = jap_seiyukai_36 }
+		add_popularity = { ideology = social_conservative popularity = 0.1 }
+		set_politics = { ruling_party = social_conservative }
+		remove_every_minister = yes
+
+		activate_advisor = JAP_Inukai_Tsuyoshi_hog_sco
+		activate_advisor = JAP_Yoshizawa_Kenkichi_for_sco
+		activate_advisor = JAP_Tsushima_Juichi_eco_sco
+		activate_advisor = JAP_Suzuki_Kisaburo_sec_sco
+		
+	}
+
+	option = {
+		name = "Seiyukai wins by a landslide!"
+		trigger = { has_country_flag = jap_minseito_36 }
+		add_popularity = { ideology = social_conservative popularity = 0.1 }
+		set_politics = { ruling_party = social_conservative }
+		remove_every_minister = yes
+
+		activate_advisor = JAP_Inukai_Tsuyoshi_hog_sco
+		activate_advisor = JAP_Yoshizawa_Kenkichi_for_sco
+		activate_advisor = JAP_Tsushima_Juichi_eco_sco
+		activate_advisor = JAP_Suzuki_Kisaburo_sec_sco
+			
+	}
+
+	option = {
+		name = "Taishūtō won!"
+		add_popularity = { ideology = social_democrat popularity = 0.1 }
+		set_politics = { ruling_party = social_democrat }
+		remove_every_minister = yes
+
+		activate_advisor = JAP_Katayama_Tetsu_hog_sde
+		activate_advisor = JAP_Shidehara_Kijuro_for_mli
+		activate_advisor = JAP_Mizutani_Chozaburo_eco_sde
+		activate_advisor = JAP_Matsuoka_Komakichi_sec_sde
+		
+	}
+}
+
+
+##################
+### BOLLIDICKS ###
+##################
+
+add_namespace = jappol
+
+country_event = {
+	id = jappol.1
+	immediate = {log = "[GetDateText]: [Root.GetName]: event jappol.1"}
+	title = "Information of another potential revolt"
+	desc = jappol.16.d
+	picture = GFX_report_event_japanese_soldiers_01
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		ai_chance = {
+			factor = 40
+			modifier = {
+				factor = 100
+				has_country_flag = JAP_picked_dominance
+			}
+		}	
+		name = "Surely nothing to get worked up about."
+		add_political_power = 50
+		hidden_effect = {
+			country_event = {
+				id = jappol.4
+				days = 80
+			}
+		}
+	}
+	option = {
+		ai_chance = {
+			factor = 40
+		}	
+		name = "Inform the Emperor! We'll see what he does."
+		add_political_power = -20
+		country_event = {
+			id = jappol.2
+			days = 7
+		}
+	}
+	option = {
+		ai_chance = {
+			factor = 40
+			modifier = {
+				factor = 100
+				has_country_flag = JAP_picked_jewel
+			}
+		}	
+		name = "Inform the more loyal Admirals. They ought to know something."
+		add_political_power = -50
+		country_event = {
+			id = jappol.3
+			days = 60
+		}
+	}
+}
+
+country_event = {
+	id = jappol.2
+	immediate = {log = "[GetDateText]: [Root.GetName]: event jappol.2"}
+	title = "The Emperor wishes to speak to the military"
+	desc = jappol.17.d
+	picture = GFX_japan_rising_sun
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "His Majesty must speak to them" #pick this for less debuff
+		add_political_power = -25
+		hidden_effect = {
+			country_event = {
+				id = jappol.5
+				days = 18
+				random = 5
+			}
+		}
+	}
+	option = {
+		name = "What? No! His Majesty would only be critised!" #pick for going AuthDem
+		add_political_power = 25
+		hidden_effect = {
+			country_event = {
+				id = jappol.4
+				days = 39
+				random = 10
+			}
+		}
+	}
+}
+
+country_event = {
+	id = jappol.3
+	immediate = {log = "[GetDateText]: [Root.GetName]: event jappol.3"}
+	title = "Yamamoto's Report"
+	desc = jappol.18.d
+	picture = GFX_japanese_officer_saluting
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		ai_chance = {
+			factor = 40
+			modifier = {
+				factor = 100
+				has_country_flag = JAP_picked_jewel
+			}
+		}
+		name = "Arrest the heads afiliated to this plan."
+		add_timed_idea = {
+			idea = jap_purged_naval_staff
+			days = 365
+		}
+		add_political_power = -100
+		hidden_effect = {
+			news_event = { 
+				id = fxnews.134
+				days = 1
+			}
+			set_country_flag = JAP_democracy_prevails
+		}
+	}
+
+	option = {
+		ai_chance = {
+			factor = 40
+		}	
+		name = "This will be the biggest betrayal of the century."
+		add_political_power = 25
+		hidden_effect = {
+			country_event = {
+				id = jappol.4
+				days = 39
+				random = 10
+			}
+		}
+	}
+}
+
+country_event = {
+	id = jappol.4
+	immediate = {log = "[GetDateText]: [Root.GetName]: event jappol.4"}
+	title = "The Navy's coup"
+	desc = jappol.19.d
+	picture = GFX_japan_revolt
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "Neglect led us to the fall of democracy."
+		set_politics = {
+			ruling_party = authoritarian_democrat
+			elections_allowed = no
+		}
+		add_popularity = {
+			ideology = authoritarian_democrat
+			popularity = 0.15
+		}
+		complete_national_focus = jap_the_admiral_plot
+		remove_every_minister = yes
+
+		activate_advisor = JAP_Nakajima_Chikuhei_hog_ade
+		activate_advisor = JAP_Hirota_Koki_for_ade
+		activate_advisor = JAP_Ogawa_Gotaro_eco_ade
+		activate_advisor = JAP_Nagai_Ryutaro_sec_ade
+			
+		hidden_effect = {
+			set_country_flag = JAP_militarism_prevails
+			set_country_flag = JAP_admiral_plot
+		}
+	}
+}
+
+country_event = {
+	id = jappol.5
+	immediate = {log = "[GetDateText]: [Root.GetName]: event jappol.5"}
+	title = "The Admiral's Plot"
+	desc = jappol.20.d
+	picture = GFX_japanese_officer_saluting
+	
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "We must start recovering."
+		add_timed_idea = {
+			idea = jap_weakened_naval_staff
+			days = 180
+		}
+		hidden_effect = {
+			set_country_flag = JAP_democracy_prevails
+		}
+	}
+}
+
+country_event = {
+	id = jappol.6
+	immediate = {log = "[GetDateText]: [Root.GetName]: event jappol.6"}
+	title = "The Army's coup"
+	desc = jap.38.d
+	picture = GFX_japan_revolt
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "We had a choice between war or dishonor, and we chose dishonor"
+		set_politics = {
+			ruling_party = national_populist
+		}
+		add_popularity = {
+			ideology = national_populist 
+			popularity = 0.15
+		}
+		remove_every_minister = yes
+
+		activate_advisor = JAP_Konoe_Fumimaro_hog_npo
+		activate_advisor = JAP_Okawa_Shumei_for_npo
+		activate_advisor = JAP_Suzuki_Teiichi_eco_npo
+		activate_advisor = JAP_Suetsugu_Nobumasa_sec_npo
+			
+		complete_national_focus = jap_the_army_coup
+		hidden_effect = {
+			set_country_flag = JAP_militarism_prevails
+			set_country_flag = JAP_army_coup
+		}
+	}
+}
+
+country_event = {
+	id = jappol.7 #flavor
+	immediate = {log = "[GetDateText]: [Root.GetName]: event jappol.7"}
+	title = "Minseitō criticises government!"
+	desc = jap.39.d
+#	picture = 
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "Seiyūkai has their plans!"
+		add_political_power = -15
+		add_popularity = {
+			ideology = social_conservative
+			popularity = -0.05
+		}
+	}
+}
+
+country_event = {
+	id = jappol.8 #flavor
+	immediate = {log = "[GetDateText]: [Root.GetName]: event jappol.8"}
+	title = "Seiyūkai criticises government!"
+	desc = jap.40.d
+#	picture = 
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "Minseitō has their plans!"
+		add_political_power = -15
+		add_popularity = {
+			ideology = market_liberal
+			popularity = -0.05
+		}
+	}
+}
+
+country_event = {
+	id = jappol.9 #flavor
+	immediate = {log = "[GetDateText]: [Root.GetName]: event jappol.9"}
+	title = "Prime Minister criticised in parliament!"
+	desc = jap.41.d
+#	picture = 
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "How dare they!"
+		add_political_power = -25
+	}
+}
+
+country_event = {
+	id = jappol.10 #flavor
+	immediate = {log = "[GetDateText]: [Root.GetName]: event jappol.10"}
+	title = "Emperor displeased by the government!"
+	desc = jap.42.d
+#	picture = 
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "They displeased the one man they are supposed to serve!"
+		add_political_power = -50
+	}
+}
+
+country_event = {
+	id = jappol.11
+	immediate = {log = "[GetDateText]: [Root.GetName]: event jappol.11"}
+	title = "The Loyalty of the Military"
+	desc = jappol.11.d
+#	picture = 
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "Perhaps the Emperor would support such ideas..."
+	}
+}
+
+#############################
+### TRAFALGAR EVENT CHAIN ###
+#############################
+
+add_namespace = japtraf
+
+country_event = {
+	id = japtraf.1
+	immediate = {log = "[GetDateText]: [Root.GetName]: event japtraf.1"}
+	title = "HMS Trafalgar Spotted"
+	desc = japtraf.5.d
+	picture = report_event_europe_funeral
+	
+    is_triggered_only = yes
+
+	hidden = yes
+
+	fire_only_once = yes
+
+	immediate = {
+	}
+
+	option = {
+		name = "We shall decide the policy on her"
+		country_event = {
+			id = japtraf.3
+			days = 10
+		}
+		hidden_effect = {
+			set_country_flag = JAP_trafalgar_comissioned 
+		}
+	}
+}
+
+country_event = {
+	id = japtraf.2
+	immediate = {log = "[GetDateText]: [Root.GetName]: event japtraf.2"}
+	title = "Launch of Yamato"
+	desc = jap.43.d
+#	picture = 
+	
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "No ship will rival us!"
+	}
+}
+
+country_event = {
+	id = japtraf.3
+	immediate = {log = "[GetDateText]: [Root.GetName]: event japtraf.3"}
+	title = "Policy on HMS Trafalgar"
+	desc = jap.44.d
+	picture = report_event_europe_funeral
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "Ask to enforce the Alliance and request the designs."
+		ENG = {
+			country_event = { 
+				id = japtraf.4 
+				days = 4
+			}
+		}
+		hidden_effect = {
+			set_country_flag = jap_eng_alliance_AI
+		}
+	}
+
+	option = {
+		name = "Send spies to the British Admiralty to steal them."
+		hidden_effect = {
+			news_event = {
+				id = fxnews.136
+				days = 14
+			}
+			ENG = { 
+				country_event = { 
+					id = japtraf.5 
+					days = 9
+				} 
+			}
+			set_country_flag = jap_usa_alliance_AI
+		}
+	}
+}
+
+country_event = {
+	id = japtraf.4
+	immediate = {log = "[GetDateText]: [Root.GetName]: event japtraf.4"}
+	title = "Japan asks for Trafalgar designs"
+	desc = jap.45.d
+	picture = report_event_europe_funeral
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "What's a design for a good relation?"
+		JAP = {
+			country_event = { id = japtraf.6 }
+		}
+	}
+
+	option = {
+		name = "What in the world did they expect?"
+		JAP = {
+			country_event = { id = japtraf.7 }
+		}
+	}
+}
+
+country_event = {
+	id = japtraf.5
+	immediate = {log = "[GetDateText]: [Root.GetName]: event japtraf.5"}
+	title = "Spies Arrested at Admiralty!"
+	desc = jap.46.d
+#	picture = 
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "Expose them for this!"
+		add_political_power = 50
+		hidden_effect = {
+			JAP = {
+				country_event = { id = japtraf.8 }
+			}
+		}
+	}
+}
+
+country_event = {
+	id = japtraf.6
+	immediate = {log = "[GetDateText]: [Root.GetName]: event japtraf.6"}
+	title = "Designs of Trafalgar"
+	desc = jap.47.d
+	picture = report_event_europe_funeral
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "Now we must analyse this complicated design"
+		add_tech_bonus = {
+			bonus = 0.25
+			uses = 1
+			category = bc_tech
+			category = bb_tech
+			category = shbb_tech
+		}
+	}
+}
+
+country_event = {
+	id = japtraf.7
+	immediate = {log = "[GetDateText]: [Root.GetName]: event japtraf.7"}
+	title = "Britain Refuses!"
+	desc = jap.48.d
+#	picture = 
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "Balance will be restored. One way or another."
+		
+	}
+}
+
+country_event = {
+	id = japtraf.8
+	immediate = {log = "[GetDateText]: [Root.GetName]: event japtraf.8"}
+	title = "British accusations!"
+	desc = jap.49.d
+#	picture = 
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "Deny every connection possible!"
+		add_political_power = -50
+	}
+}
+
+##############################################
+### FLAVOUR EVENTS - DEFUNCT RN, FOR 0.2.1 ###
+##############################################
+
+add_namespace = japflav
+
+country_event = {
+	id = japflav.1
+	immediate = {log = "[GetDateText]: [Root.GetName]: event japflav.1"}
+	title = "Akihito Visits Hong Kong!"
+	desc = japflav.1.d
+#	picture = 
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "Surely we hold our friends in high regards!"
+		add_political_power = 5
+	}
+}
+
+country_event = {
+	id = japflav.2
+	immediate = {log = "[GetDateText]: [Root.GetName]: event japflav.2"}
+	title = "Zensen kaiko-roku" #Frontline memoirs
+	desc = japflav.2.d
+#	picture = 
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+#	trigger = {
+#		original_tag = JAP
+#		AND = {
+#			date > 1936.6.5
+#			date < 1936.6.12
+#		}
+#	}
+
+	option = {
+		name = "A great insight into the lives of our soldiers."
+		add_political_power = 5
+	}
+}
+
+country_event = {
+	id = japflav.3
+	immediate = {log = "[GetDateText]: [Root.GetName]: event japflav.3"}
+	title = "The Takeo Archives"
+	desc = japflav.3.d
+#	picture = 
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+#	trigger = {
+#		original_tag = JAP
+#		AND = {
+#			date > 1936.8.5
+#			date < 1936.10.6
+#		}
+#	}
+
+	option = {
+		name = "A good storage of colonial documents"
+		add_political_power = 20
+	}
+}
+
+country_event = {
+	id = japflav.4
+	immediate = {log = "[GetDateText]: [Root.GetName]: event japflav.4"}
+	title = "The Pusan Volunteers"
+	desc = japflav.4.d
+#	picture = 
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+#	trigger = {
+#		original_tag = JAP
+#		AND = {
+#			date > 1936.9.5
+#			date < 1936.10.6
+#		}	
+#	}
+
+	option = {
+		name = "A degree of self-rule is needed for stability’s sake"
+		add_stability = 0.05
+	}
+}
+
+################################
+# RANDOM EVENTS DONE BY TEUTON #
+################################
+
+add_namespace = jap.hol.friends.of.our.friends.are.our
+
+country_event = {
+	id = jap.hol.friends.of.our.friends.are.our.friends
+	immediate = {log = "[GetDateText]: [Root.GetName]: event jap.hol.friends.of.our.friends.are.our.friends"}
+	title = "Japan wants to join the Stahlpakt"
+	desc = jap.hol.friends.of.our.friends.are.our.friends.d
+	picture = GFX_report_event_hitler_handshake
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		name = "A great opportunity in Asia"
+		if = {
+			limit = {
+				JAP = {
+					is_faction_leader = yes
+				}
+			}
+			every_country = {
+				limit = {
+					is_in_faction_with = JAP
+				}
+				GER = {
+					add_to_faction = PREV
+				}
+			}
+		}
+		GER = {
+			add_to_faction = JAP
+		}
+
+	}
+}
+
+country_event = {
+	id = jap.50
+	immediate = {log = "[GetDateText]: [Root.GetName]: event jap.50"}
+	title = jap.50.t
+	desc = jap.50.d
+	picture = GFX_report_event_hitler_handshake
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		name = jap.50.a
+		ai_chance = {
+			factor = 200
+			modifier = {
+				factor = 2
+				has_government = authoritarian_democrat
+			}
+			modifier = {
+				factor = 0.2
+				has_government = paternal_autocrat
+			}
+			modifier = {
+				factor = 0.2
+				has_elected_government = yes
+			}
+		}
+		FROM = {
+			country_event = { id = jap.55 days = 1 }
+		}
+	}
+
+	option = {
+		name = jap.50.b
+		ai_chance = {
+			factor = 800
+		}
+		FROM = {
+			country_event = { id = jap.56 days = 1 }
+		}
+	}
+}
+
+country_event = { # Japan Seizes Guam
+	id = jap.54
+	title = jap.54.t
+	desc = jap.54.d
+	picture = GFX_report_event_ast_navy
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			JAP = {
+				transfer_state = 638
+				transfer_state = 631
+				transfer_state = 632
+				transfer_state = 832
+				transfer_state = 642
+				transfer_state = 727
+			}
+		}
+	}
+
+	option = { # Too bad...
+		name = jap.54.a
+		add_political_power = -50
+	}
+}
+
+country_event = {
+	id = jap.55
+	title = jap.55.t
+	desc = jap.55.d
+	picture = GFX_report_event_PHI_scouts_1
+	is_triggered_only = yes
+
+	option = {
+		name = jap.55.a
+		hidden_effect = {
+			PHI = { 
+				get_current_government_type = yes
+				ROOT = { puppet = PHI }
+				restore_previous_government_type = yes
+			}
+		}
+	}
+}
+
+country_event = {
+	id = jap.56
+	title = jap.56.t
+	desc = jap.56.d
+	picture = GFX_report_event_PHI_scouts_1
+	is_triggered_only = yes
+
+	option = {
+		name = jap.56.a
+		ai_chance = {
+			factor = 200
+			modifier = {
+				factor = 2
+				USA = { has_war_with = MEX }
+			}
+			modifier = {
+				factor = 2
+				USA = { has_war_with = ENG }
+			}
+		}
+		custom_effect_tooltip = JAP_usa_intervene_tt
+		declare_war_on = {
+			target = FROM
+			type = annex_everything
+		}
+		hidden_effect = {
+			USA = {
+				country_event = { id = jap.57 days = 1 }
+			}
+		}
+	}
+
+	option = {
+		name = jap.56.b
+		ai_chance = {
+			factor = 200
+		}
+		add_stability = -0.1
+	}
+}
+
+country_event = {
+	id = jap.57
+	title = jap.57.t
+	desc = jap.57.d
+	picture = GFX_report_event_PHI_scouts_1
+	is_triggered_only = yes
+
+	option = {
+		name = jap.57.a
+		ai_chance = {
+			factor = 200
+		}
+		custom_effect_tooltip = JAP_usa_faction_tt
+		declare_war_on = {
+			target = JAP
+			type = annex_everything
+		}
+		hidden_effect = {
+			create_faction = washington_accord
+			PHI = { country_event = philippines.111 }
+		}
+	}
+
+	option = {
+		name = jap.57.b
+		ai_chance = {
+			factor = 0
+		}
+		decrease_ruling_party_popularity_by_10 = yes
+	}
+}

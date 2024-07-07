@@ -1,0 +1,158 @@
+###########################
+# Zuid Afrika Focus Tree
+###########################
+#x9, y7 is farthest over before generic focuses
+
+
+focus_tree = {
+	id = zuid_afrika_focus
+
+	country = {
+		factor = 0
+
+		modifier = {
+			add = 10
+			TAG = zaf
+		}
+	}
+
+	default = no
+
+	#### Basic Tree ####
+
+	focus = {
+		id = ZAF_Something_Terrible
+		icon = GFX_goal_tfv_saf_support_ossebrandwag
+		x = 7
+		y = 0
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZAF_Something_Terrible"
+			add_war_support = 0.1
+			add_stability = 0.1
+		}
+	}
+
+	focus = {
+		id = ZAF_Chaos_Ladder
+		icon = GFX_goal_purge_opposition
+		prerequisite = { focus = ZAF_Something_Terrible }
+		x = 7
+		y = 1
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZAF_Chaos_Ladder"
+			set_country_flag = SAF_Boer_Help
+			add_political_power = 100
+		}
+	}
+
+	focus = {
+		id = ZAF_Rile_Populace
+		icon = GFX_goal_generic_propaganda
+		prerequisite = { focus = ZAF_Chaos_Ladder }
+		x = 5
+		y = 2
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZAF_Rile_Populace"
+			add_manpower = 10000
+			add_war_support = 0.1
+		}
+	}
+
+	focus = {
+		id = ZAF_German_Separatists
+		icon = GFX_goal_valkist_star
+		prerequisite = { focus = ZAF_Chaos_Ladder }
+		x = 9
+		y = 2
+		cost = 5
+
+		available_if_capitulated = yes
+
+		ai_will_do = {
+			factor = 100
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZAF_German_Separatists"
+			add_political_power = -100
+			SAF = {
+				country_event = { id = southafrica.109 days = 1 }
+			}
+		}
+	}
+
+	focus = {
+		id = ZAF_Total_War
+		icon = GFX_goal_generic_small_arms
+		prerequisite = { focus = ZAF_Rile_Populace }
+		x = 5
+		y = 3
+		cost = 5
+
+		available_if_capitulated = yes
+
+		ai_will_do = {
+			factor = 100
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZAF_Total_War"
+			add_manpower = 25000
+		}
+	}
+
+	focus = {
+		id = ZAF_Foreign_Aid
+		icon = GFX_goal_generic_major_alliance
+		prerequisite = { focus = ZAF_German_Separatists }
+		x = 9
+		y = 3
+		cost = 5
+
+		available_if_capitulated = yes
+
+		ai_will_do = {
+			factor = 100
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZAF_Foreign_Aid"
+
+		}
+	}
+
+	focus = {
+		id = ZAF_Way_to_Independence
+		icon = GFX_goal_demand_sudetenland
+		prerequisite = {
+			focus = ZAF_Total_War
+			focus = ZAF_Foreign_Aid
+		}
+		x = 7
+		y = 4
+		cost = 5
+
+		available_if_capitulated = yes
+
+		ai_will_do = {
+			factor = 100
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZAF_Way_to_Independence"
+			remove_ideas = ZAF_Disorganized_Rebels
+		}
+	}
+}

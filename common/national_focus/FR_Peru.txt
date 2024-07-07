@@ -1,0 +1,3503 @@
+####Peru National Focus tree by matixzun (trimeon)####
+# note: procede with caution; tree is very badly coded
+
+focus_tree = {
+	id = peru_focus
+
+	country = {
+		factor = 0
+
+		modifier = {
+			add = 10
+			tag = PRU
+		}
+	}
+
+	default = no
+
+	continuous_focus_position = { x = 16 y = 2000 }
+
+	focus = {
+		id = PRU_peru_in_1936
+		icon = GFX_goal_peru
+		allow_branch = {
+			NOT = {
+				has_country_flag = PER_COMMUNIST
+			}
+		}
+		ai_will_do = { factor = 10 }
+
+		x = 24
+		y = 0
+		cost = 10
+		available = {
+			hidden_trigger = { always = no }
+		}
+		bypass = {
+			has_country_flag = PRU_intro
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_peru_in_1936"
+			custom_effect_tooltip = unlock_focuses
+		}
+	}
+	focus = {
+		id = PRU_issues_of_our_own
+		icon = GFX_goal_authority
+		prerequisite = { focus = PRU_peru_in_1936 }
+		ai_will_do = { factor = 20 }
+
+		x =5
+		y =1
+		cost = 10
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_issues_of_our_own"
+			add_political_power = 50
+		}
+	}
+	focus = {
+		id = PRU_threat_of_insurrection
+		icon = GFX_goal_collectivist_menace
+		prerequisite = { focus = PRU_issues_of_our_own }
+		ai_will_do = { factor = 15 }
+
+		x =5
+		y =2
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_threat_of_insurrection"
+			country_event = { id = pru.8 }
+		}
+	}
+	focus = {
+		id = PRU_repairing_the_constitution
+		icon = GFX_goal_constitutional_guarantees
+		prerequisite = { focus = PRU_threat_of_insurrection }
+		ai_will_do = { factor = 15 }
+
+		x =5
+		y =3
+		cost = 10
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_repairing_the_constitution"
+			country_event = { id = pru.2 }
+		}
+	}
+
+	focus = {
+		id = PRU_further_democratization
+		icon = GFX_goal_government_icon
+		mutually_exclusive = { focus = PRU_further_centralization }
+		available = {
+			hidden_trigger = { always = no }
+		}
+		prerequisite = { focus = PRU_repairing_the_constitution }
+		ai_will_do = { factor = 10 }
+		bypass = {
+			has_global_flag = PRU_DEMOPATH
+		}
+		x =4
+		y =4
+		cost = 10
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_further_democratization"
+			custom_effect_tooltip = unlock_focuses
+		}
+	}
+
+	focus = {
+		id = PRU_give_more_power_to_the_people
+		icon = GFX_goal_generic_national_unity
+		prerequisite = { focus = PRU_further_democratization }
+		ai_will_do = { factor = 10 }
+
+		x =2
+		y =5
+		cost = 10
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_give_more_power_to_the_people"
+			add_ideas = PRU_reformed_democracy
+			if = {
+				limit = { has_idea = PRU_damaged_democracy }
+				remove_ideas = PRU_damaged_democracy
+			}
+		}
+	}
+
+	focus = {
+		id = PRU_defend_democratic_rule
+		icon = GFX_goal_support_democracy
+		prerequisite = { focus = PRU_give_more_power_to_the_people }
+		ai_will_do = { factor = 10 }
+
+		x =3
+		y =6
+		cost = 10
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_defend_democratic_rule"
+			every_country = {
+				limit = {
+					NOT = {
+						is_in_faction_with = PRU
+						is_subject_of = PRU
+						has_war_with = PRU
+						has_government = market_liberal
+						has_government = social_liberal
+						has_government = social_democrat
+						has_government = social_conservative
+						has_government = authoritarian_democrat
+					}
+					OR = {
+						any_neighbor_country = { tag = PRU }
+					}
+				}
+				add_opinion_modifier = { target = PRU modifier = PRU_defending_democracy }
+			}
+		}
+	}
+
+	focus = {
+		id = PRU_what_peru_wants
+		icon = GFX_focus_generic_concessions
+		prerequisite = { focus = PRU_defend_democratic_rule }
+		ai_will_do = { factor = 10 }
+
+		x =4
+		y =7
+		cost = 10
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_what_peru_wants"
+			add_ideas = PRU_benevolent_state
+
+		}
+	}
+
+	focus = {
+		id = PRU_social_pact
+		icon = GFX_goal_generic_production2
+		prerequisite = { focus = PRU_what_peru_wants }
+		ai_will_do = { factor = 10 }
+
+		x =4
+		y =9
+		cost = 10
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_social_pact"
+			add_political_power = 50
+			hidden_effect = {
+				country_event = { id = pru.61 }
+			}
+		}
+	}
+
+	focus = {
+		id = PRU_reform_military_high_command
+		icon = GFX_goal_generic_defence
+		prerequisite = { focus = PRU_give_more_power_to_the_people }
+		ai_will_do = { factor = 10 }
+
+		x =1
+		y =6
+		cost = 10
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_reform_military_high_command"
+			add_popularity = {
+				ideology = paternal_autocrat popularity = -0.1
+			}
+			add_political_power = 50
+		}
+	}
+
+	focus = {
+		id = PRU_together_for_progress
+		icon = GFX_focus_research
+		prerequisite = { focus = PRU_reform_military_high_command focus = PRU_defend_democratic_rule }
+		ai_will_do = { factor = 10 }
+
+		x =2
+		y =8
+		cost = 10
+
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_together_for_progress"
+			add_research_slot = 1
+		}
+	}
+
+	focus = {
+		id = PRU_together_building_a_future
+		icon = GFX_goal_generic_construct_civ_factory
+		prerequisite = { focus = PRU_together_for_progress }
+		ai_will_do = { factor = 10 }
+
+		x =2
+		y =9
+		cost = 10
+
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_together_building_a_future"
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = PRU_trust_in_the_people
+		icon = GFX_focus_generic_self_management
+		prerequisite = { focus = PRU_reform_military_high_command }
+		ai_will_do = { factor = 10 }
+
+		x =0
+		y =7
+		cost = 10
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_trust_in_the_people"
+			add_ideas = PRU_trust
+		}
+	}
+
+	focus = {
+		id = PRU_respect_in_diversity
+		icon = GFX_goal_tripartite_pact
+		prerequisite = { focus = PRU_trust_in_the_people }
+		ai_will_do = { factor = 10 }
+
+		x =0
+		y =9
+		cost = 10
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_respect_in_diversity"
+			add_popularity = {
+				ideology = social_conservative popularity = 0.025
+			}
+			add_popularity = {
+				ideology = market_liberal popularity = 0.025
+			}
+			add_popularity = {
+				ideology = social_liberal popularity = 0.025
+			}
+		}
+	}
+
+	focus = {
+		id = PRU_work_with_the_unions
+		icon = GFX_goal_social_labour
+		prerequisite = { focus = PRU_respect_in_diversity }
+		prerequisite = { focus = PRU_social_pact }
+		ai_will_do = { factor = 10 }
+
+		x =1
+		y =10
+		cost = 10
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_work_with_the_unions"
+			add_popularity = {
+				ideology = libertarian_socialist popularity = -0.025
+			}
+			add_popularity = {
+				ideology = collectivist popularity = -0.025
+			}
+			add_popularity = {
+				ideology = paternal_autocrat popularity = 0.025
+			}
+		}
+	}
+
+	focus = {
+		id = PRU_across_our_lands
+		icon = GFX_goal_generic_construct_infrastructure
+		prerequisite = { focus = PRU_respect_in_diversity }
+		prerequisite = { focus = PRU_social_pact }
+		ai_will_do = { factor = 10 }
+
+		x =3
+		y =10
+		cost = 10
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_across_our_lands"
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = PRU_the_new_constitution
+		icon = GFX_goal_constitutional_guarantees
+		prerequisite = { focus = PRU_work_with_the_unions }
+		prerequisite = { focus = PRU_across_our_lands }
+		ai_will_do = { factor = 10 }
+
+		x =2
+		y =11
+		cost = 10
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_the_new_constitution"
+			add_ideas = PRU_new_constitution
+			set_country_flag = PRU_reformdem
+			if = {
+				limit = { has_idea = PRU_weak_constitution }
+				remove_ideas = PRU_weak_constitution
+			}
+		}
+	}
+
+	focus = {
+		id = PRU_further_centralization
+		icon = GFX_goal_authoritarian
+		available = {
+			hidden_trigger = { always = no }
+		}
+		mutually_exclusive = { focus = PRU_further_democratization }
+		prerequisite = { focus = PRU_repairing_the_constitution }
+		ai_will_do = { factor = 10 }
+		bypass = {
+			has_global_flag = PRU_AUTPATH
+		}
+		x =6
+		y =4
+		cost = 10
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_further_centralization"
+			custom_effect_tooltip = unlock_focuses
+		}
+	}
+
+	focus = {
+		id = PRU_give_more_power_to_the_army
+		icon = GFX_goal_generic_military_sphere
+		prerequisite = { focus = PRU_further_centralization }
+		ai_will_do = { factor = 10 }
+
+		x =8
+		y =5
+		cost = 10
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_give_more_power_to_the_army"
+			add_ideas = PRU_military_influence
+			hidden_effect = {
+				country_event = { id = pru.60 }
+			}
+		}
+	}
+
+	focus = {
+		id = PRU_establish_peruvian_security_committee
+		icon = GFX_focus_generic_military_mission
+		prerequisite = { focus = PRU_give_more_power_to_the_army }
+		ai_will_do = { factor = 10 }
+
+		x =10
+		y =6
+		cost = 10
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_establish_peruvian_security_committee"
+			add_ideas = PRU_security_committee
+		}
+	}
+
+	focus = {
+		id = PRU_national_investing
+		icon = GFX_goal_generic_construct_mil_factory
+		prerequisite = { focus = PRU_ensure_rule_of_law focus = PRU_establish_peruvian_security_committee }
+		ai_will_do = { factor = 10 }
+
+		x =8
+		y =8
+		cost = 10
+
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_national_investing"
+			if = {
+				limit = { 494 = { is_owned_and_controlled_by = PRU } }
+				494 = { add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = arms_factory
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = PRU_trust_in_our_leaders
+		icon = GFX_goal_generic_small_arms
+		prerequisite = { focus = PRU_establish_peruvian_security_committee }
+		ai_will_do = { factor = 10 }
+
+		x =9
+		y =7
+		cost = 10
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_trust_in_our_leaders"
+			add_popularity = {
+				ideology = paternal_autocrat popularity = 0.10
+			}
+			add_stability = 0.025
+		}
+	}
+
+	focus = {
+		id = PRU_ensure_rule_of_law
+		icon = GFX_goal_generic_political_pressure
+		prerequisite = { focus = PRU_give_more_power_to_the_army }
+		ai_will_do = { factor = 10 }
+
+		x =6
+		y =6
+		cost = 10
+
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_ensure_rule_of_law"
+			if = {
+				limit = { has_idea = PRU_weak_constitution }
+				remove_ideas = PRU_weak_constitution
+			}
+			set_country_flag = PRU_ruleoflaw
+		}
+	}
+
+	focus = {
+		id = PRU_what_peru_needs
+		icon = GFX_goal_generic_demand_territory
+		prerequisite = { focus = PRU_ensure_rule_of_law }
+		ai_will_do = { factor = 10 }
+
+		x =7
+		y =7
+		cost = 10
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_what_peru_needs"
+			add_ideas = PRU_strong_government
+		}
+	}
+
+	focus = {
+		id = PRU_crush_rebellions
+		icon = GFX_goal_continuous_suppression
+		prerequisite = { focus = PRU_what_peru_needs }
+		ai_will_do = { factor = 10 }
+
+		x =6
+		y =9
+		cost = 10
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_crush_rebellions"
+			hidden_effect = {
+				country_event = { id = pru.62 }
+			}
+			add_political_power = -25
+			add_popularity = {
+				ideology = collectivist popularity = -0.025
+			}
+			add_popularity = {
+				ideology = libertarian_socialist popularity = -0.025
+			}
+		}
+	}
+	focus = {
+		id = PRU_proud_protectionism
+		icon = GFX_goal_demand_sudetenland
+		prerequisite = { focus = PRU_national_investing }
+		ai_will_do = { factor = 10 }
+
+		x =8
+		y =9
+		bypass = {
+			OR = {
+				has_idea = limited_exports
+				has_idea = closed_economy
+			}
+		}
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_proud_protectionism"
+			if = {
+				limit = {
+					OR = {
+						has_idea = free_trade
+						has_idea = export_focus
+					}
+				}
+				add_ideas = limited_exports
+			}
+		}
+	}
+	focus = {
+		id = PRU_gain_the_favor_of_the_senate
+		icon = GFX_goal_skull_treaty
+		prerequisite = { focus = PRU_trust_in_our_leaders }
+		ai_will_do = { factor = 10 }
+
+		x =10
+		y =9
+		cost = 10
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_gain_the_favor_of_the_senate"
+			add_popularity = {
+				ideology = social_conservative popularity = -0.025
+			}
+			add_popularity = {
+				ideology = social_liberal popularity = -0.025
+			}
+		}
+	}
+	focus = {
+		id = PRU_academic_investments
+		icon = GFX_goal_military_research
+		prerequisite = { focus = PRU_gain_the_favor_of_the_senate }
+		prerequisite = { focus = PRU_crush_rebellions }
+		ai_will_do = { factor = 10 }
+
+		x =7
+		y =10
+		cost = 10
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_academic_investments"
+			add_research_slot = 1
+		}
+	}
+	focus = {
+		id = PRU_establish_national_security_corps
+		icon = GFX_goal_peru_militia
+		prerequisite = { focus = PRU_gain_the_favor_of_the_senate }
+		prerequisite = { focus = PRU_crush_rebellions }
+
+		ai_will_do = { factor = 10 }
+
+		x =9
+		y =10
+		cost = 10
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_establish_national_security_corps"
+			custom_effect_tooltip = PRU_secunat
+			hidden_effect = {
+				division_template = {
+					name = "Unidad de Seguridad Nacional"
+					priority = 2
+
+					regiments = {
+						infantry = { x = 0 y = 0 }
+						infantry = { x = 0 y = 1 }
+						infantry = { x = 0 y = 2 }
+
+						infantry = { x = 1 y = 0 }
+						infantry = { x = 1 y = 1 }
+						infantry = { x = 1 y = 2 }
+
+						infantry = { x = 2 y = 0 }
+						infantry = { x = 2 y = 1 }
+						infantry = { x = 2 y = 2 }
+					}
+					support = {
+						artillery = { x = 0 y = 0 }
+					}
+				}
+
+				random_owned_state = {
+					prioritize = { 303 }
+					create_unit = {
+						division = "name = \"1. Unidad de Seguridad Nacional\" division_template = \"Unidad de Seguridad Nacional\" start_experience_factor = 1.0"
+						owner = PRU
+					}
+				}
+			}
+		}
+	}
+	focus = {
+		id = PRU_suspend_democracy
+		icon = GFX_goal_ideology_paternal_autocrat
+		prerequisite = { focus = PRU_academic_investments }
+		prerequisite = { focus = PRU_establish_national_security_corps }
+		ai_will_do = { factor = 10 }
+
+		x =8
+		y =11
+		cost = 10
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_suspend_democracy"
+			if = {
+				limit = { has_idea = PRU_damaged_democracy }
+				remove_ideas = PRU_damaged_democracy
+			}
+			hidden_effect ={
+				country_event = { id = pru.5 }
+			}
+		}
+	}
+
+	focus = {
+		id = PRU_our_economic_policy
+		icon = GFX_goal_economic_control
+		prerequisite = { focus = PRU_peru_in_1936 }
+		ai_will_do = { factor = 10 }
+
+		x =28
+		y =1
+		cost = 10
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_our_economic_policy"
+			add_tech_bonus = {
+				name = industrial_bonus
+				bonus = 0.5
+				uses = 1
+				category = industry
+			}
+		}
+	}
+	focus = {
+		id = PRU_extraction_emphasis
+		icon = GFX_goal_generic_oil_refinery
+		prerequisite = { focus = PRU_our_economic_policy }
+		ai_will_do = { factor = 10 }
+
+		x =25
+		y =2
+		cost = 10
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_extraction_emphasis"
+			add_tech_bonus = {
+				name = excavation_bonus
+				bonus = 0.5
+				uses = 1
+				technology = excavation1
+				technology = excavation2
+				technology = excavation3
+				technology = excavation4
+				technology = excavation5
+			}
+		}
+	}
+
+	focus = {
+		id = PRU_building_up_infrastructure
+		icon = GFX_goal_generic_construct_infrastructure
+		prerequisite = { focus = PRU_extraction_emphasis }
+		ai_will_do = { factor = 10 }
+
+		x =27
+		y =3
+		cost = 10
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_building_up_infrastructure"
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = PRU_recovery_efforts
+		icon = GFX_goal_HOL_black_monday
+		prerequisite = { focus = PRU_our_economic_policy }
+		ai_will_do = { factor = 10 }
+
+		x =28
+		y =2
+		cost = 10
+		available = { has_country_flag = PRU_black_wednesday }
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_recovery_efforts"
+			swap_ideas = {
+				remove_idea = PRU_black_wednesday
+				add_idea = PRU_black_wednesday1
+			}
+		}
+	}
+
+	focus = {
+		id = PRU_fostering_peruvian_enterprise
+		icon = GFX_goal_generic_trade
+		prerequisite = { focus = PRU_our_economic_policy }
+		ai_will_do = { factor = 10 }
+
+		x =31
+		y =2
+		cost = 10
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_fostering_peruvian_enterprise"
+			add_ideas = PRU_peruvian_enterprising
+		}
+	}
+
+	focus = {
+		id = PRU_building_up_civilian_economy
+		icon = GFX_goal_generic_construct_civilian
+		prerequisite = { focus = PRU_fostering_peruvian_enterprise }
+		ai_will_do = { factor = 10 }
+
+		x =29
+		y =3
+		cost = 10
+
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_building_up_civilian_economy"
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = PRU_costa_investing
+		icon = GFX_goal_generic_construction
+		prerequisite = { focus = PRU_building_up_infrastructure focus = PRU_building_up_civilian_economy }
+		ai_will_do = { factor = 10 }
+
+		x =25
+		y =4
+		cost = 10
+
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_costa_investing"
+			if = {
+				limit = { 303 = { is_owned_and_controlled_by = PRU } }
+				303 = { add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+		}
+	}
+	focus = {
+		id = PRU_latest_updates
+		icon = GFX_goal_generic_radar
+		prerequisite = { focus = PRU_costa_investing }
+		ai_will_do = { factor = 10 }
+
+		x =26
+		y =5
+		cost = 10
+
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_latest_updates"
+			add_tech_bonus = {
+				name = electric_bonus
+				bonus = 0.5
+				uses = 1
+				category = electronics
+			}
+		}
+	}
+	focus = {
+		id = PRU_full_recovery
+		icon = GFX_goal_generic_consumer_goods
+		prerequisite = { focus = PRU_cierra_investing }
+		ai_will_do = { factor = 10 }
+
+		x =28
+		y =5
+		cost = 10
+
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_full_recovery"
+			if = {
+				limit = { has_idea = PRU_black_wednesday1 }
+				remove_ideas = PRU_black_wednesday1
+			}
+		}
+	}
+	focus = {
+		id = PRU_propelled_technology
+		icon = GFX_focus_rocketry
+		prerequisite = { focus = PRU_selva_investing }
+		ai_will_do = { factor = 10 }
+
+		x =30
+		y =5
+		cost = 10
+
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_propelled_technology"
+			add_tech_bonus = {
+				name = rocket_bonus
+				bonus = 0.5
+				uses = 1
+				category = rocketry
+			}
+		}
+	}
+	focus = {
+		id = PRU_cierra_investing
+		icon = GFX_goal_generic_construction
+		prerequisite = { focus = PRU_building_up_infrastructure focus = PRU_building_up_civilian_economy focus = PRU_recovery_efforts }
+		ai_will_do = { factor = 10 }
+
+		x =28
+		y =4
+		cost = 10
+
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_cierra_investing"
+			if = {
+				limit = { 492 = { is_owned_and_controlled_by = PRU } }
+				492 = { add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+		}
+	}
+	focus = {
+		id = PRU_selva_investing
+		icon = GFX_goal_generic_construction
+		prerequisite = { focus = PRU_building_up_infrastructure focus = PRU_building_up_civilian_economy }
+		ai_will_do = { factor = 10 }
+
+		x =31
+		y =4
+		cost = 10
+
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_selva_investing"
+			if = {
+				limit = { 494 = { is_owned_and_controlled_by = PRU } }
+				494 = { add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = PRU_resource_seeking
+		icon = GFX_focus_generic_steel
+		prerequisite = { focus = PRU_latest_updates }
+		ai_will_do = { factor = 10 }
+
+		x =26
+		y =6
+		cost = 10
+
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_resource_seeking"
+			add_resource = {
+				type = steel
+				amount = 20
+				state = 492
+			}
+		}
+	}
+
+	focus = {
+		id = PRU_military_build_up
+		icon = GFX_goal_generic_construct_military
+		prerequisite = { focus = PRU_propelled_technology }
+		ai_will_do = { factor = 10 }
+
+		x =30
+		y =6
+		cost = 10
+
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_military_build_up"
+			if = {
+				limit = { 494 = { is_owned_and_controlled_by = PRU } }
+				494 = { add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = arms_factory
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = PRU_research_efforts
+		icon = GFX_focus_research
+		prerequisite = { focus = PRU_cierra_investing }
+		prerequisite = { focus = PRU_resource_seeking }
+		prerequisite = { focus = PRU_military_build_up }
+		ai_will_do = { factor = 10 }
+
+		x =28
+		y =7
+		cost = 10
+
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_research_efforts"
+			add_research_slot = 1
+		}
+	}
+
+	focus = {
+		id = PRU_establishing_our_hold
+		icon = GFX_goal_generic_demand_territory
+		prerequisite = { focus = PRU_south_american_matters }
+		ai_will_do = { factor = 5 }
+
+		x =50
+		y =5
+		cost = 10
+
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_establishing_our_hold"
+			add_political_power = 50
+		}
+	}
+	focus = {
+		id = PRU_integrating_the_amazons
+		icon = GFX_goal_generic_position_armies
+		prerequisite = { focus = PRU_establishing_our_hold }
+		available = {
+			PRU = {
+				owns_state = 753
+			}
+		}
+		ai_will_do = { factor = 10 }
+
+		x =47
+		y =6
+		cost = 10
+
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_integrating_the_amazons"
+			add_state_core = 753
+		}
+	}
+	focus = {
+		id = PRU_building_the_amazons
+		icon = GFX_goal_generic_construct_infrastructure
+		prerequisite = { focus = PRU_integrating_the_amazons }
+		available = {
+			PRU = {
+				owns_state = 753
+			}
+		}
+		ai_will_do = { factor = 10 }
+
+		x =47
+		y =7
+		cost = 10
+
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_building_the_amazons"
+			if = {
+				limit = { 753 = { is_owned_and_controlled_by = PRU } }
+				753 = { add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = infrastructure
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+		}
+	}
+	focus = {
+		id = PRU_integrating_pastaza
+		icon = GFX_goal_generic_position_armies
+		prerequisite = { focus = PRU_establishing_our_hold }
+		available = {
+			PRU = {
+				owns_state = 490
+			}
+		}
+		ai_will_do = { factor = 10 }
+
+		x =50
+		y =6
+		cost = 10
+
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_integrating_pastaza"
+			add_state_core = 490
+		}
+	}
+	focus = {
+		id = PRU_building_pastaza
+		icon = GFX_goal_generic_construct_infrastructure
+		prerequisite = { focus = PRU_integrating_pastaza }
+		available = {
+			PRU = {
+				owns_state = 490
+			}
+		}
+		ai_will_do = { factor = 10 }
+
+		x =50
+		y =7
+		cost = 10
+
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_building_pastaza"
+			if = {
+				limit = { 490 = { is_owned_and_controlled_by = PRU } }
+				490 = { add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = infrastructure
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+		}
+	}
+	focus = {
+		id = PRU_integrating_arica
+		icon = GFX_goal_generic_position_armies
+		prerequisite = { focus = PRU_establishing_our_hold }
+		available = {
+			PRU = {
+				owns_state = 877
+			}
+		}
+		ai_will_do = { factor = 10 }
+
+		x =53
+		y =6
+		cost = 10
+
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_integrating_arica"
+			add_state_core = 877
+		}
+	}
+	focus = {
+		id = PRU_building_arica
+		icon = GFX_goal_generic_construct_infrastructure
+		prerequisite = { focus = PRU_integrating_arica }
+		available = {
+			PRU = {
+				owns_state = 877
+			}
+		}
+		ai_will_do = { factor = 10 }
+
+		x =53
+		y =7
+		cost = 10
+
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_building_arica"
+			if = {
+				limit = { 877 = { is_owned_and_controlled_by = PRU } }
+				877 = { add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = infrastructure
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = PRU_army_direction
+		icon = GFX_goal_PRU_army
+		prerequisite = { focus = PRU_peru_in_1936 }
+		ai_will_do = { factor = 10 }
+
+		x =18
+		y =1
+		cost = 10
+
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_army_direction"
+			army_experience = 50
+		}
+	}
+
+	focus = {
+		id = PRU_the_tried_and_tested
+		icon = GFX_goal_planning_bonus
+		prerequisite = { focus = PRU_army_direction }
+		ai_will_do = { factor = 10 }
+		mutually_exclusive = { focus = PRU_a_new_structure }
+		x =15
+		y =2
+		cost = 10
+
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_the_tried_and_tested"
+			add_doctrine_cost_reduction = {
+				name = doctrine_bonus
+				cost_reduction = 0.5
+				uses = 2
+				category = cat_grand_battle_plan
+				category = cat_mass_assault
+			}
+		}
+	}
+
+	focus = {
+		id = PRU_a_new_structure
+		icon = GFX_goal_doctrine_fire_superiority
+		prerequisite = { focus = PRU_army_direction }
+		ai_will_do = { factor = 10 }
+		mutually_exclusive = { focus = PRU_the_tried_and_tested }
+		x =21
+		y =2
+		cost = 10
+
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_a_new_structure"
+			add_doctrine_cost_reduction = {
+				name = doctrine_bonus
+				cost_reduction = 0.5
+				uses = 2
+				category = cat_superior_firepower
+				category = cat_mobile_warfare
+			}
+		}
+	}
+
+	focus = {
+		id = PRU_arms_modernization
+		icon = GFX_focus_secret_rearmament
+		prerequisite = { focus = PRU_the_tried_and_tested focus = PRU_a_new_structure }
+		ai_will_do = { factor = 10 }
+		x =16
+		y =3
+		cost = 10
+
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_arms_modernization"
+			add_tech_bonus = {
+				name = infantry_bonus
+				bonus = 0.5
+				uses = 1
+				category = infantry_weapons
+			}
+		}
+	}
+
+	focus = {
+		id = PRU_artillery_updates
+		icon = GFX_goal_generic_army_artillery
+		prerequisite = { focus = PRU_the_tried_and_tested focus = PRU_a_new_structure }
+		ai_will_do = { factor = 10 }
+		x =18
+		y =3
+		cost = 10
+
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_artillery_updates"
+			add_tech_bonus = {
+				name = infantry_bonus
+				bonus = 0.5
+				uses = 1
+				category = artillery
+			}
+		}
+	}
+	focus = {
+		id = PRU_mobile_divisions
+		icon = GFX_goal_generic_army_motorized
+		prerequisite = { focus = PRU_the_tried_and_tested focus = PRU_a_new_structure }
+		ai_will_do = { factor = 10 }
+		x =20
+		y =3
+		cost = 10
+
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_mobile_divisions"
+			add_tech_bonus = {
+				name = motorised_bonus
+				bonus = 0.5
+				uses = 1
+				technology = motorised_infantry
+			}
+		}
+	}
+
+	focus = {
+		id = PRU_mechanized_masses
+		icon = GFX_goal_generic_build_tank
+		prerequisite = { focus = PRU_arms_modernization }
+		prerequisite = { focus = PRU_artillery_updates }
+		ai_will_do = { factor = 10 }
+		mutually_exclusive = { focus = PRU_bring_in_the_tanks }
+		x =17
+		y =4
+		cost = 10
+
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_mechanized_masses"
+			add_tech_bonus = {
+				name = mech_bonus
+				bonus = 0.5
+				uses = 1
+				category = cat_mechanized_equipment
+			}
+		}
+	}
+
+	focus = {
+		id = PRU_bring_in_the_tanks
+		icon = GFX_goal_generic_army_tanks
+		prerequisite = { focus = PRU_mobile_divisions }
+		prerequisite = { focus = PRU_artillery_updates }
+		ai_will_do = { factor = 10 }
+		mutually_exclusive = { focus = PRU_mechanized_masses }
+		x =19
+		y =4
+		cost = 10
+
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_bring_in_the_tanks"
+			add_tech_bonus = {
+				name = tank_bonus
+				bonus = 0.5
+				uses = 1
+				category = armor
+			}
+		}
+	}
+
+	focus = {
+		id = PRU_reinforce_our_men
+		icon = GFX_goal_generic_support_equipment
+		prerequisite = { focus = PRU_mechanized_masses focus = PRU_bring_in_the_tanks }
+		ai_will_do = { factor = 10 }
+		x =16
+		y =5
+		cost = 10
+
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_reinforce_our_men"
+			add_tech_bonus = {
+				name = support_bonus
+				bonus = 0.5
+				uses = 2
+				category = support_tech
+			}
+		}
+	}
+
+	focus = {
+		id = PRU_what_we_will_sacrifice
+		icon = GFX_goal_generic_drafted_army
+		prerequisite = { focus = PRU_mechanized_masses focus = PRU_bring_in_the_tanks }
+		ai_will_do = { factor = 10 }
+		x =18
+		y =5
+		cost = 10
+
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_what_we_will_sacrifice"
+			add_ideas = PRU_in_times_of_need
+
+		}
+	}
+
+	focus = {
+		id = PRU_extend_our_reach
+		icon = GFX_goal_generic_special_forces
+		prerequisite = { focus = PRU_mechanized_masses focus = PRU_bring_in_the_tanks }
+		ai_will_do = { factor = 10 }
+		x =20
+		y =5
+		cost = 10
+
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_extend_our_reach"
+			add_tech_bonus = {
+				name = special_forces_bonus
+				bonus = 0.5
+				uses = 2
+				category = para_tech
+				category = marine_tech
+			}
+		}
+	}
+
+	focus = {
+		id = PRU_keeping_up_to_date
+		icon = GFX_goal_generic_position_armies
+		prerequisite = { focus = PRU_the_tried_and_tested }
+		prerequisite = { focus = PRU_extend_our_reach focus = PRU_reinforce_our_men }
+		ai_will_do = { factor = 10 }
+		x =15
+		y =6
+		cost = 10
+
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_keeping_up_to_date"
+			add_doctrine_cost_reduction = {
+				name = doctrine_bonus
+				cost_reduction = 0.5
+				uses = 1
+				category = cat_grand_battle_plan
+				category = cat_mass_assault
+			}
+		}
+	}
+
+	focus = {
+		id = PRU_further_renovations
+		icon = GFX_goal_generic_army_tanks3
+		prerequisite = { focus = PRU_a_new_structure }
+		prerequisite = { focus = PRU_extend_our_reach focus = PRU_reinforce_our_men }
+		ai_will_do = { factor = 10 }
+		x =21
+		y =6
+		cost = 10
+
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_further_renovations"
+			add_doctrine_cost_reduction = {
+				name = doctrine_bonus
+				cost_reduction = 0.5
+				uses = 1
+				category = cat_superior_firepower
+				category = cat_mobile_warfare
+			}
+		}
+	}
+	focus = {
+		id = PRU_building_up_bases
+		prerequisite = { focus = PRU_marine_strategy }
+		icon = GFX_goal_generic_naval_base
+		x = 35
+		y = 2
+		cost = 10
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_building_up_bases"
+			303 = {
+				add_building_construction = {
+					type = naval_base
+					level = 3
+					province = 12997
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = {
+		id = PRU_building_up_docks
+		prerequisite = { focus = PRU_building_up_bases }
+		icon = GFX_goal_generic_coastal_navy2
+		x = 35
+		y = 3
+		cost = 10
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_building_up_docks"
+			303 = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = dockyard
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = PRU_marine_strategy
+		icon = GFX_goal_PRU_navy
+		x = 35
+		y = 1
+		cost = 10
+		available = { }
+		prerequisite = { focus = PRU_peru_in_1936 }
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_marine_strategy"
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.5
+				uses = 1
+				category = naval_doctrine
+			}
+
+		}
+	}
+
+	focus = {
+		id = PRU_battleship_effort
+		icon = GFX_goal_generic_navy_battleship
+		x = 34
+		y = 4
+		cost = 10
+		available = { }
+		prerequisite = { focus = PRU_building_up_docks }
+		mutually_exclusive = {}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_battleship_effort"
+			add_tech_bonus = {
+				name = battleship_bonus
+				bonus = 0.5
+				uses = 1
+				category = bc_tech
+				category = bb_tech
+				category = shbb_tech
+			}
+
+		}
+	}
+
+	focus = {
+		id = PRU_carrier_capacity
+		icon = GFX_goal_generic_navy_carrier
+		x = 36
+		y = 4
+		cost = 10
+		available = { }
+		prerequisite = { focus = PRU_building_up_docks }
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_carrier_capacity"
+			add_tech_bonus = {
+				name = carrier_bonus
+				bonus = 0.5
+				uses = 1
+				category = cv_tech
+			}
+		}
+	}
+
+	focus = {
+		id = PRU_cruising_for_bruising
+		icon = GFX_goal_generic_navy_cruiser
+		x = 36
+		y = 5
+		cost = 10
+		available = { }
+		prerequisite = { focus = PRU_battleship_effort focus = PRU_carrier_capacity }
+		mutually_exclusive = { focus = PRU_destroy_our_enemies }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_cruising_for_bruising"
+			add_tech_bonus = {
+				name = cruiser_bonus
+				bonus = 0.5
+				uses = 1
+				category = ca_tech
+				category = cl_tech
+			}
+
+		}
+	}
+
+	focus = {
+		id = PRU_destroy_our_enemies
+		icon = GFX_goal_generic_wolf_pack
+		x = 34
+		y = 5
+		cost = 10
+		available = { }
+		prerequisite = { focus = PRU_battleship_effort focus = PRU_carrier_capacity }
+		mutually_exclusive = { focus = PRU_cruising_for_bruising }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_destroy_our_enemies"
+			add_tech_bonus = {
+				name = destroyer_bonus
+				bonus = 0.5
+				uses = 1
+				category = dd_tech
+			}
+
+		}
+	}
+
+	focus = {
+		id = PRU_under_the_waves
+		icon = GFX_goal_generic_navy_submarine
+		x = 35
+		y = 6
+		cost = 10
+		available = { }
+		prerequisite = { focus = PRU_cruising_for_bruising focus = PRU_destroy_our_enemies }
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_under_the_waves"
+			add_tech_bonus = {
+				name = submarine_bonus
+				bonus = 0.5
+				uses = 1
+				category = ss_tech
+			}
+
+		}
+	}
+
+	focus = {
+		id = PRU_sea_control
+		icon = GFX_focus_generic_coastal_fort
+		x = 35
+		y = 7
+		cost = 10
+		available = { }
+		prerequisite = { focus = PRU_under_the_waves }
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_sea_control"
+			navy_experience = 25
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.5
+				uses = 1
+				category = naval_doctrine
+			}
+		}
+	}
+
+	focus = {
+		id = PRU_lessons_from_our_war_with_colombia
+		icon = GFX_goal_PRU_airforce
+		x = 41
+		y = 1
+		cost = 10
+		available = { }
+		prerequisite = { focus = PRU_peru_in_1936 }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_lessons_from_our_war_with_colombia"
+			air_experience = 50
+		}
+	}
+
+	focus = {
+		id = PRU_our_airborne_strategy
+		icon = GFX_goal_generic_air_doctrine
+		x = 39
+		y = 2
+		cost = 10
+		available = { }
+		prerequisite = { focus = PRU_lessons_from_our_war_with_colombia }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_our_airborne_strategy"
+			add_doctrine_cost_reduction = {
+				name = airdoctrine_bonus
+				cost_reduction = 0.5
+				uses = 1
+				category = air_doctrine
+			}
+		}
+	}
+
+	focus = {
+		id = PRU_shoot_them_down
+		icon = GFX_focus_generic_air_defense
+		x = 43
+		y = 2
+		cost = 10
+		available = { }
+		prerequisite = { focus = PRU_lessons_from_our_war_with_colombia }
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_shoot_them_down"
+			494 = { add_building_construction = {
+					type = anti_air_building
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = PRU_preparing_our_wings
+		icon = GFX_goal_generic_air_production
+		x = 41
+		y = 3
+		cost = 10
+		available = { }
+		prerequisite = { focus = PRU_shoot_them_down }
+		prerequisite = { focus = PRU_our_airborne_strategy }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_preparing_our_wings"
+			random_owned_state = {
+				add_building_construction = {
+					type = air_base
+					level = 3
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = PRU_flying_tactics
+		icon = GFX_goal_generic_build_airforce
+		x = 41
+		y = 4
+		cost = 10
+		available = { }
+		prerequisite = { focus = PRU_preparing_our_wings }
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_flying_tactics"
+			add_tech_bonus = {
+				name = bomber_bonus
+				bonus = 0.5
+				uses = 1
+				category = tactical_bomber
+			}
+		}
+	}
+
+	focus = {
+		id = PRU_bombing_units
+		icon = GFX_goal_generic_air_bomber
+		x = 41
+		y = 5
+		cost = 10
+		available = { }
+		prerequisite = { focus = PRU_flying_tactics }
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_bombing_units"
+			add_tech_bonus = {
+				name = bomber_bonus
+				bonus = 0.5
+				uses = 1
+				category = cat_strategic_bomber
+				category = cas_bomber
+			}
+		}
+	}
+
+	focus = {
+		id = PRU_seashore_strike
+		icon = GFX_goal_generic_air_naval_bomber2_new
+		x = 43
+		y = 5
+		cost = 10
+		available = { }
+		prerequisite = { focus = PRU_preparing_our_wings }
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_seashore_strike"
+			add_tech_bonus = {
+				name = naval_bomber_bonus
+				bonus = 0.5
+				uses = 1
+				category = naval_bomber
+			}
+		}
+	}
+
+	focus = {
+		id = PRU_fighter_squadrons
+		icon = GFX_goal_generic_air_fighter2_new
+		x = 39
+		y = 5
+		cost = 10
+		available = { }
+		prerequisite = { focus = PRU_preparing_our_wings }
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_fighter_squadrons"
+			add_tech_bonus = {
+				name = fighter_bonus
+				bonus = 0.5
+				uses = 2
+				category = light_fighter
+				category = cat_heavy_fighter
+			}
+		}
+	}
+
+	focus = {
+		id = PRU_continual_improvement
+		icon = GFX_goal_generic_air_fighter
+		x = 41
+		y = 6
+		cost = 10
+		available = { }
+		prerequisite = { focus = PRU_fighter_squadrons focus = PRU_seashore_strike }
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_continual_improvement"
+			add_doctrine_cost_reduction = {
+				name = airdoctrine_bonus
+				cost_reduction = 0.5
+				uses = 1
+				category = air_doctrine
+			}
+		}
+	}
+
+	focus = {
+		id = PRU_dominating_the_winds
+		icon = GFX_goal_generic_airports
+		x = 41
+		y = 7
+		cost = 10
+		available = { }
+		prerequisite = { focus = PRU_continual_improvement }
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_dominating_the_winds"
+			air_experience = 50
+		}
+	}
+
+	focus = {
+		id = PRU_south_american_matters
+		icon = GFX_goal_awya
+		x = 50
+		y = 1
+		cost = 10
+		available = {
+			date > 1938.6.1
+			PRU = {
+				is_subject = no
+				has_war = no
+			}
+		}
+		prerequisite = { focus = PRU_peru_in_1936 }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_south_american_matters"
+
+		}
+	}
+	focus = {
+		id = PRU_colombian_tension
+		icon = GFX_goal_colombia_skull
+		x = 45
+		y = 2
+		cost = 10
+		available = {
+			COL = { has_government = national_populist }
+			PRU = {
+				is_subject = no
+			}
+		}
+		prerequisite = { focus = PRU_south_american_matters }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_colombian_tension"
+			country_event = { id = pru.19 }
+			COL = {
+				add_opinion_modifier = { target = PRU modifier = PRU_peru_colombian_tension }
+			}
+		}
+	}
+	focus = {
+		id = PRU_colombian_dissidents
+		icon = GFX_goal_colombia_fist
+		x = 45
+		y = 3
+		cost = 10
+		available = {
+			COL = { has_government = national_populist }
+			PRU = {
+				is_subject = no
+			}
+		}
+		prerequisite = { focus = PRU_colombian_tension }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_colombian_dissidents"
+			COL = {
+				country_event = { id = pru.20 }
+			}
+		}
+	}
+
+	focus = {
+		id = PRU_stop_the_extremists
+		icon = GFX_goal_generic_attack_colombia
+		x = 45
+		y = 4
+		cost = 10
+		available = {
+			COL = { has_government = national_populist }
+			PRU = {
+				is_subject = no
+				has_war = no
+			}
+		}
+		prerequisite = { focus = PRU_colombian_dissidents }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_stop_the_extremists"
+			create_wargoal = {
+				type = annex_everything target = COL
+			}
+		}
+	}
+
+	focus = {
+		id = PRU_pastaza_dispute
+		icon = GFX_goal_ecuador
+		x = 47
+		y = 2
+		cost = 10
+		available = {
+			PRU = {
+				is_subject = no
+				has_global_flag = PRU_DEMOPATH
+			}
+		}
+		mutually_exclusive = { focus = PRU_lower_the_tensions }
+		mutually_exclusive = { focus = PRU_go_for_ecuador }
+		prerequisite = { focus = PRU_south_american_matters }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_pastaza_dispute"
+			country_event = { id = pru.21 }
+		}
+	}
+
+	focus = {
+		id = PRU_push_the_claims
+		icon = GFX_goal_generic_attack_ecuador
+		x = 47
+		y = 3
+		cost = 10
+		available = {
+			has_country_flag = PRU_noaccordecuador
+			PRU = {
+				NOT = { is_in_faction_with = ECU }
+				is_subject = no
+				has_war = no
+				has_global_flag = PRU_DEMOPATH
+			}
+		}
+		prerequisite = { focus = PRU_pastaza_dispute }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_push_the_claims"
+			create_wargoal = {
+				type = annex_everything target = ECU
+			}
+		}
+	}
+
+	focus = {
+		id = PRU_lower_the_tensions
+		icon = GFX_goal_tripartite_pact
+		x = 49
+		y = 2
+		cost = 10
+		available = { }
+		mutually_exclusive = { focus = PRU_go_for_ecuador }
+		mutually_exclusive = { focus = PRU_pastaza_dispute }
+		prerequisite = { focus = PRU_south_american_matters }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_lower_the_tensions"
+			ECU = {
+				add_opinion_modifier = { target = PRU modifier = PRU_improved_relations }
+			}
+		}
+	}
+
+	focus = {
+		id = PRU_go_for_ecuador
+		icon = GFX_goal_generic_attack_ecuador
+		x = 51
+		y = 2
+		cost = 10
+		available = {
+			PRU = {
+				NOT = { is_in_faction_with = ECU }
+				is_subject = no
+				has_war = no
+				has_global_flag = PRU_AUTPATH
+			}
+		}
+		mutually_exclusive = { focus = PRU_lower_the_tensions }
+		mutually_exclusive = { focus = PRU_pastaza_dispute }
+		prerequisite = { focus = PRU_south_american_matters }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_go_for_ecuador"
+			create_wargoal = {
+				type = annex_everything target = ECU
+			}
+		}
+	}
+
+	focus = {
+		id = PRU_arican_ambitions
+		icon = GFX_goal_civil_war_lessons
+		x = 53
+		y = 2
+		cost = 10
+		available = {
+			PRU = {
+				is_subject = no
+				has_global_flag = PRU_DEMOPATH
+			}
+		}
+		mutually_exclusive = { focus = PRU_renew_friendship_treaty }
+		mutually_exclusive = { focus = PRU_strike_for_arica }
+		prerequisite = { focus = PRU_south_american_matters }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_arican_ambitions"
+			country_event = { id = pru.26 }
+		}
+	}
+
+	focus = {
+		id = PRU_push_for_arica
+		icon = GFX_goal_generic_attack_chile
+		x = 53
+		y = 3
+		cost = 10
+		available = {
+			NOT = { is_in_faction_with = CHL }
+			has_country_flag = PRU_noaccordchile
+			is_subject = no
+			has_war = no
+			has_global_flag = PRU_DEMOPATH
+		}
+		prerequisite = { focus = PRU_arican_ambitions }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_push_for_arica"
+			create_wargoal = {
+				type = annex_everything target = CHL
+			}
+		}
+	}
+
+	focus = {
+		id = PRU_renew_friendship_treaty
+		icon = GFX_goal_PRU_chile_deal
+		x = 55
+		y = 2
+		cost = 10
+		available = { }
+		mutually_exclusive = { focus = PRU_strike_for_arica }
+		mutually_exclusive = { focus = PRU_arican_ambitions }
+		prerequisite = { focus = PRU_south_american_matters }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_renew_friendship_treaty"
+			CHL = {
+				add_opinion_modifier = { target = PRU modifier = PRU_improved_relations }
+			}
+		}
+	}
+
+	focus = {
+		id = PRU_strike_for_arica
+		icon = GFX_goal_generic_attack_chile
+		x = 57
+		y = 2
+		cost = 10
+		available = {
+			PRU = {
+				NOT = { is_in_faction_with = CHL }
+				is_subject = no
+				has_war = no
+				has_global_flag = PRU_AUTPATH
+			}
+		}
+		mutually_exclusive = { focus = PRU_renew_friendship_treaty }
+		mutually_exclusive = { focus = PRU_arican_ambitions }
+		prerequisite = { focus = PRU_south_american_matters }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_strike_for_arica"
+			create_wargoal = {
+				type = annex_everything target = CHL
+			}
+		}
+	}
+	focus = {
+		id = PRU_extremism_in_bolivia
+		icon = GFX_goal_bolivia
+		x = 59
+		y = 2
+		cost = 10
+		available = {
+			is_subject = no
+			has_war = no
+			BOL = {
+				OR = {
+					has_government = vanguardist
+					has_government = collectivist
+					has_government = libertarian_socialist
+					has_government = valkist
+				}
+				is_subject = no
+			}
+		}
+		prerequisite = { focus = PRU_south_american_matters }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_extremism_in_bolivia"
+			BOL = {
+				add_opinion_modifier = { target = PRU modifier = PRU_anti_extremism }
+			}
+		}
+	}
+
+	focus = {
+		id = PRU_save_the_bolivians
+		icon = GFX_goal_generic_attack_bolivia
+		x = 59
+		y = 3
+		cost = 10
+		available = {
+			is_subject = no
+			has_war = no
+			BOL = {
+				OR = {
+					has_government = vanguardist
+					has_government = collectivist
+					has_government = libertarian_socialist
+					has_government = valkist
+				}
+				is_subject = no
+			}
+		}
+		prerequisite = { focus = PRU_extremism_in_bolivia }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_save_the_bolivians"
+			create_wargoal = {
+				type = annex_everything target = BOL
+			}
+		}
+	}
+	# Communist Tree
+
+	focus = {
+		id = PRU_peruvian_revolution
+		icon = GFX_goal_collectivist_menace
+
+		ai_will_do = { factor = 10 }
+		allow_branch = {
+			has_country_flag = PER_COMMUNIST
+		}
+		x =14
+		y =0
+		cost = 5
+		available = { always = no }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_peruvian_revolution"
+			add_ideas = PRU_rising_revolution
+		}
+	}
+	focus = {
+		id = PRU_rallying_revolutionaries
+		icon = GFX_goal_collie_militia
+
+		ai_will_do = { factor = 10 }
+
+		x =13
+		y =1
+		cost = 5
+		prerequisite = { focus = PRU_peruvian_revolution }
+		available = { always = no }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_rallying_revolutionaries"
+			custom_effect_tooltip = PRU_recruit_revs
+			hidden_effect = {
+				division_template = {
+					name = "Milicia Rev. Peruana"
+					priority = 2
+
+					regiments = {
+						infantry = { x = 0 y = 0 }
+						infantry = { x = 0 y = 1 }
+						infantry = { x = 0 y = 2 }
+
+						infantry = { x = 1 y = 0 }
+						infantry = { x = 1 y = 1 }
+						infantry = { x = 1 y = 2 }
+
+						infantry = { x = 2 y = 0 }
+						infantry = { x = 2 y = 1 }
+						infantry = { x = 2 y = 2 }
+					}
+					support = {
+						artillery = { x = 0 y = 0 }
+					}
+				}
+
+				random_owned_state = {
+					create_unit = {
+						division = "name = \"1. Milicia Rev. Peruana\" division_template = \"Milicia Rev. Peruana\" start_experience_factor = 0.8"
+						owner = PRU
+					}
+				}
+			}
+		}
+	}
+	focus = {
+		id = PRU_the_will_to_succeed
+		icon = GFX_focus_generic_support_the_left
+
+		ai_will_do = { factor = 10 }
+
+		x =15
+		y =1
+		cost = 5
+		prerequisite = { focus = PRU_peruvian_revolution }
+		available = { always = no }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_the_will_to_succeed"
+			add_war_support = 0.05
+		}
+	}
+	focus = {
+		id = PRU_the_workers_army
+		icon = GFX_goal_red_star_guard
+
+		ai_will_do = { factor = 10 }
+
+		x =2
+		y =2
+		cost = 5
+		prerequisite = { focus = PRU_the_will_to_succeed }
+		prerequisite = { focus = PRU_rallying_revolutionaries }
+		available = { always = no }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_the_workers_army"
+			army_experience = 50
+		}
+	}
+	focus = {
+		id = PRU_the_militias_might
+		icon = GFX_goal_rev_militia3
+
+		ai_will_do = { factor = 10 }
+
+		x =1
+		y =3
+		cost = 5
+		prerequisite = { focus = PRU_the_workers_army }
+		mutually_exclusive = { focus = PRU_the_peoples_guard }
+		available = { always = no }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_the_militias_might"
+			add_doctrine_cost_reduction = {
+				name = doctrine_bonus
+				cost_reduction = 0.5
+				uses = 1
+				category = cat_superior_firepower
+				category = cat_mass_assault
+			}
+		}
+	}
+	focus = {
+		id = PRU_revolutionary_grit
+		icon = GFX_goal_rev_militia
+
+		ai_will_do = { factor = 10 }
+
+		x =1
+		y =4
+		cost = 5
+		prerequisite = { focus = PRU_the_militias_might }
+		available = { always = no }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_revolutionary_grit"
+			add_ideas = PRU_gritty_revolt
+		}
+	}
+	focus = {
+		id = PRU_the_peoples_guard
+		icon = GFX_goal_red_star_soldier
+
+		ai_will_do = { factor = 10 }
+
+		x =3
+		y =3
+		cost = 5
+		prerequisite = { focus = PRU_the_workers_army }
+		mutually_exclusive = { focus = PRU_the_militias_might }
+		available = { always = no }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_the_peoples_guard"
+			add_doctrine_cost_reduction = {
+				name = doctrine_bonus
+				cost_reduction = 0.5
+				uses = 1
+				category = cat_grand_battle_plan
+				category = cat_mobile_warfare
+			}
+		}
+	}
+	focus = {
+		id = PRU_the_peoples_council
+		icon = GFX_goal_red_star_gold_wreath
+
+		ai_will_do = { factor = 10 }
+
+		x =3
+		y =4
+		cost = 5
+		prerequisite = { focus = PRU_the_peoples_guard }
+		available = { always = no }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_the_peoples_council"
+			add_ideas = PRU_intelligence_council
+		}
+	}
+	focus = {
+		id = PRU_the_brave_spirit
+		icon = GFX_goal_socialist_star
+
+		ai_will_do = { factor = 10 }
+
+		x =0
+		y =5
+		cost = 5
+		prerequisite = { focus = PRU_the_peoples_council focus = PRU_revolutionary_grit }
+		available = { always = no }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_the_brave_spirit"
+			add_manpower = 10000
+		}
+	}
+	focus = {
+		id = PRU_the_loyal_defense
+		icon = GFX_goal_generic_national_unity_red
+
+		ai_will_do = { factor = 10 }
+
+		x =2
+		y =5
+		cost = 5
+		prerequisite = { focus = PRU_the_peoples_council focus = PRU_revolutionary_grit}
+		available = { always = no }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_the_loyal_defense"
+			add_stability = 0.05
+		}
+	}
+	focus = {
+		id = PRU_the_pride_of_the_workers
+		icon = GFX_goal_red_eagle
+
+		ai_will_do = { factor = 10 }
+
+		x =4
+		y =5
+		cost = 5
+		prerequisite = { focus = PRU_the_peoples_council focus = PRU_revolutionary_grit}
+		available = { always = no }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_the_pride_of_the_workers"
+			add_ideas = PRU_defense_socialist
+		}
+	}
+	focus = {
+		id = PRU_workers_weapons
+		icon = GFX_focus_secret_rearmament_red
+		prerequisite = { focus = PRU_the_pride_of_the_workers }
+		prerequisite = { focus = PRU_the_loyal_defense }
+		prerequisite = { focus = PRU_the_brave_spirit }
+		ai_will_do = { factor = 10 }
+		x =1
+		y =6
+		cost = 10
+
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_workers_weapons"
+			add_tech_bonus = {
+				name = infantry_bonus
+				bonus = 0.5
+				uses = 1
+				category = infantry_weapons
+			}
+		}
+	}
+
+	focus = {
+		id = PRU_peoples_fire_support
+		icon = GFX_goal_generic_army_artillery
+		prerequisite = { focus = PRU_the_pride_of_the_workers }
+		prerequisite = { focus = PRU_the_loyal_defense }
+		prerequisite = { focus = PRU_the_brave_spirit }
+		ai_will_do = { factor = 10 }
+		x =3
+		y =6
+		cost = 10
+
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_peoples_fire_support"
+			add_tech_bonus = {
+				name = infantry_bonus
+				bonus = 0.5
+				uses = 1
+				category = artillery
+			}
+		}
+	}
+	focus = {
+		id = PRU_vehicles_of_the_proletariat
+		icon = GFX_goal_generic_army_motorized
+		prerequisite = { focus = PRU_peoples_fire_support }
+		prerequisite = { focus = PRU_workers_weapons }
+		ai_will_do = { factor = 10 }
+		x =2
+		y =7
+		cost = 10
+
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_vehicles_of_the_proletariat"
+			add_tech_bonus = {
+				name = motorised_bonus
+				bonus = 0.5
+				uses = 1
+				technology = motorised_infantry
+			}
+		}
+	}
+
+	focus = {
+		id = PRU_mechanized_heroes
+		icon = GFX_goal_generic_build_tank
+		prerequisite = { focus = PRU_vehicles_of_the_proletariat }
+		ai_will_do = { factor = 10 }
+		mutually_exclusive = { focus = PRU_glaciers_of_the_people }
+		x =1
+		y =8
+		cost = 10
+
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_mechanized_heroes"
+			add_tech_bonus = {
+				name = mech_bonus
+				bonus = 0.5
+				uses = 1
+				category = cat_mechanized_equipment
+			}
+		}
+	}
+
+	focus = {
+		id = PRU_glaciers_of_the_people
+		icon = GFX_goal_generic_army_tanks
+		prerequisite = { focus = PRU_vehicles_of_the_proletariat }
+		ai_will_do = { factor = 10 }
+		mutually_exclusive = { focus = PRU_mechanized_heroes }
+		x =3
+		y =8
+		cost = 10
+
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_glaciers_of_the_people"
+			add_tech_bonus = {
+				name = tank_bonus
+				bonus = 0.5
+				uses = 1
+				category = armor
+			}
+		}
+	}
+
+	focus = {
+		id = PRU_side_equipment
+		icon = GFX_focus_generic_support_the_left_right
+		prerequisite = { focus = PRU_mechanized_heroes focus = PRU_glaciers_of_the_people }
+		ai_will_do = { factor = 10 }
+		x =2
+		y =9
+		cost = 10
+
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_side_equipment"
+			add_tech_bonus = {
+				name = support_bonus
+				bonus = 0.5
+				uses = 2
+				category = support_tech
+			}
+		}
+	}
+
+	focus = {
+		id = PRU_all_terrain_revolution
+		icon = GFX_goal_generic_special_forces
+		prerequisite = { focus = PRU_side_equipment }
+		ai_will_do = { factor = 10 }
+		x =2
+		y =10
+		cost = 10
+
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_all_terrain_revolution"
+			add_tech_bonus = {
+				name = special_forces_bonus
+				bonus = 0.5
+				uses = 2
+				category = para_tech
+				category = marine_tech
+			}
+		}
+	}
+	focus = {
+		id = PRU_the_revolutionary_economy
+		icon = GFX_goal_syndicalist_industry
+
+		ai_will_do = { factor = 10 }
+
+		x =10
+		y =2
+		cost = 5
+		prerequisite = { focus = PRU_the_will_to_succeed }
+		prerequisite = { focus = PRU_rallying_revolutionaries }
+		available = { always = no }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_the_revolutionary_economy"
+			add_tech_bonus = {
+				name = industrial_bonus
+				bonus = 0.5
+				uses = 1
+				category = industry
+			}
+		}
+	}
+	focus = {
+		id = PRU_industrial_revolution
+		icon = GFX_goal_collie_industry
+		ai_will_do = { factor = 10 }
+
+		x =8
+		y =3
+		cost = 5
+		prerequisite = { focus = PRU_the_revolutionary_economy }
+		available = { always = no }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_industrial_revolution"
+			add_tech_bonus = {
+				name = industrial_bonus
+				bonus = 0.5
+				uses = 1
+				category = industry
+			}
+		}
+	}
+	focus = {
+		id = PRU_state_industry
+		icon = GFX_goal_state_economy
+
+		ai_will_do = { factor = 10 }
+
+		x =6
+		y =4
+		cost = 5
+		prerequisite = { focus = PRU_industrial_revolution }
+		available = { always = no }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_state_industry"
+			add_tech_bonus = {
+				name = industrial_bonus
+				bonus = 0.5
+				uses = 1
+				category = industry
+			}
+		}
+	}
+	focus = {
+		id = PRU_communal_agriculture
+		icon = GFX_focus_AUS_agriculture
+
+		ai_will_do = { factor = 10 }
+
+		x =8
+		y =4
+		cost = 5
+		prerequisite = { focus = PRU_industrial_revolution }
+		available = { always = no }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_communal_agriculture"
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = {
+		id = PRU_workers_resources
+		icon = GFX_goal_generic_construct_civilian
+
+		ai_will_do = { factor = 10 }
+
+		x =8
+		y =5
+		cost = 5
+		prerequisite = { focus = PRU_communal_agriculture }
+		available = { always = no }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_workers_resources"
+			add_tech_bonus = {
+				name = excavation_bonus
+				bonus = 0.5
+				uses = 1
+				technology = excavation1
+				technology = excavation2
+				technology = excavation3
+				technology = excavation4
+				technology = excavation5
+			}
+		}
+	}
+	focus = {
+		id = PRU_peoples_military_complex
+		icon = GFX_goal_generic_construct_mil_factory
+
+		ai_will_do = { factor = 10 }
+
+		x =6
+		y =5
+		cost = 5
+		prerequisite = { focus = PRU_state_industry }
+		available = { always = no }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_peoples_military_complex"
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = {
+		id = PRU_working_for_the_workers
+		icon = GFX_goal_generic_national_unity_red
+
+		ai_will_do = { factor = 10 }
+
+		x =8
+		y =6
+		cost = 5
+		prerequisite = { focus = PRU_peoples_military_complex }
+		prerequisite = { focus = PRU_workers_resources }
+		available = { always = no }
+		bypass = {
+			OR = {
+				has_idea = limited_exports
+				has_idea = closed_economy
+			}
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_working_for_the_workers"
+			if = {
+				limit = {
+					OR = {
+						has_idea = free_trade
+						has_idea = export_focus
+					}
+				}
+				add_ideas = limited_exports
+			}
+		}
+	}
+	focus = {
+		id = PRU_expand_the_workers_factories
+		icon = GFX_goal_socialist_industry
+
+		ai_will_do = { factor = 10 }
+
+		x =12
+		y =3
+		cost = 5
+		prerequisite = { focus = PRU_the_revolutionary_economy }
+		available = { always = no }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_expand_the_workers_factories"
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = {
+		id = PRU_workers_infrastructure
+		icon = GFX_goal_generic_construct_infrastructure
+
+		ai_will_do = { factor = 10 }
+
+		x =11
+		y =4
+		cost = 5
+		prerequisite = { focus = PRU_expand_the_workers_factories }
+		available = { always = no }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_workers_infrastructure"
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = {
+		id = PRU_socialist_construction_revamp
+		icon = GFX_goal_social_labour
+
+		ai_will_do = { factor = 10 }
+
+		x =13
+		y =4
+		cost = 5
+		prerequisite = { focus = PRU_expand_the_workers_factories }
+		available = { always = no }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_socialist_construction_revamp"
+			add_tech_bonus = {
+				name = construction_bonus
+				bonus = 0.5
+				uses = 1
+				technology = construction1
+				technology = construction2
+				technology = construction3
+				technology = construction4
+				technology = construction5
+			}
+		}
+	}
+	focus = {
+		id = PRU_mining_expansion
+		icon = GFX_goal_tungsten
+
+		ai_will_do = { factor = 10 }
+
+		x =12
+		y =5
+		cost = 5
+		prerequisite = { focus = PRU_socialist_construction_revamp }
+		prerequisite = { focus = PRU_workers_infrastructure }
+		available = { always = no }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_mining_expansion"
+			add_resource = {
+				type = tungsten
+				amount = 15
+				state = 492
+			}
+		}
+	}
+	focus = {
+		id = PRU_electronics_research
+		icon = GFX_goal_generic_radar
+
+		ai_will_do = { factor = 10 }
+
+		x =11
+		y =6
+		cost = 5
+		prerequisite = { focus = PRU_mining_expansion }
+		available = { always = no }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_electronics_research"
+			add_tech_bonus = {
+				name = electric_bonus
+				bonus = 0.5
+				uses = 1
+				category = electronics
+			}
+		}
+	}
+	focus = {
+		id = PRU_peruvian_cooperatives
+		icon = GFX_focus_generic_support_the_left_right
+
+		ai_will_do = { factor = 10 }
+
+		x =13
+		y =6
+		cost = 5
+		prerequisite = { focus = PRU_mining_expansion }
+		available = { always = no }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_peruvian_cooperatives"
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = {
+		id = PRU_socialist_development
+		icon = GFX_goal_generic_soviet_construction
+
+		ai_will_do = { factor = 10 }
+
+		x =10
+		y =7
+		cost = 5
+		prerequisite = { focus = PRU_electronics_research focus = PRU_peruvian_cooperatives }
+		prerequisite = { focus = PRU_working_for_the_workers }
+		available = { always = no }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_socialist_development"
+			492 = {
+				add_extra_state_shared_building_slots = 2
+			}
+		}
+	}
+	focus = {
+		id = PRU_socialist_research
+		icon = GFX_focus_generic_socialist_science
+
+		ai_will_do = { factor = 10 }
+
+		x =10
+		y =8
+		cost = 5
+		prerequisite = { focus = PRU_electronics_research }
+		prerequisite = { focus = PRU_working_for_the_workers }
+		available = { always = no }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_socialist_research"
+			add_research_slot = 1
+		}
+	}
+	focus = {
+		id = PRU_birth_of_the_socialist_republic
+		icon = GFX_goal_pru_red
+
+		ai_will_do = { factor = 10 }
+
+		x =18
+		y =2
+		cost = 5
+		prerequisite = { focus = PRU_the_will_to_succeed }
+		prerequisite = { focus = PRU_rallying_revolutionaries }
+		available = { always = no }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_birth_of_the_socialist_republic"
+			add_political_power = 50
+		}
+	}
+	focus = {
+		id = PRU_aprist_program
+		icon = GFX_goal_ideology_internationalist
+
+		ai_will_do = { factor = 10 }
+
+		x =18
+		y =3
+		cost = 5
+		prerequisite = { focus = PRU_birth_of_the_socialist_republic }
+		available = { always = no }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_aprist_program"
+			add_popularity = { ideology = vanguardist popularity = 0.05 }
+		}
+	}
+	focus = {
+		id = PRU_begin_the_agrarian_reform
+		icon = GFX_goal_agrarian_reform
+
+		ai_will_do = { factor = 10 }
+
+		x =16
+		y =4
+		cost = 5
+		prerequisite = { focus = PRU_aprist_program }
+		available = { always = no }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_begin_the_agrarian_reform"
+			#add_ideas = PRU_agrarian_reform
+		}
+	}
+	focus = {
+		id = PRU_redistribute_lands
+		icon = GFX_goal_coffee_boom
+
+		ai_will_do = { factor = 10 }
+
+		x =15
+		y =5
+		cost = 5
+		prerequisite = { focus = PRU_begin_the_agrarian_reform }
+		available = { always = no }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_redistribute_lands"
+			add_stability = 0.05
+		}
+	}
+	focus = {
+		id = PRU_the_chairmans_leadership
+		icon = GFX_goal_red_star_soldier
+
+		ai_will_do = { factor = 10 }
+
+		x =17
+		y =6
+		cost = 5
+		prerequisite = { focus = PRU_begin_the_agrarian_reform }
+		prerequisite = { focus = PRU_socialist_councils }
+		available = { always = no }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_the_chairmans_leadership"
+			add_stability = 0.025
+			add_war_support = 0.025
+		}
+	}
+	focus = {
+		id = PRU_rights_for_the_unions
+		icon = GFX_goal_socialist_star
+
+		ai_will_do = { factor = 10 }
+
+		x =18
+		y =4
+		cost = 5
+		prerequisite = { focus = PRU_aprist_program }
+		available = { always = no }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_rights_for_the_unions"
+			#swap_ideas = {
+				#	remove_idea = PRU_rising_revolution
+				#	add_idea = PRU_revolutionary_spirit
+				#}
+		}
+	}
+	focus = {
+		id = PRU_socialist_councils
+		icon = GFX_goal_commune_politics
+
+		ai_will_do = { factor = 10 }
+
+		x =18
+		y =5
+		cost = 5
+		prerequisite = { focus = PRU_rights_for_the_unions }
+		available = { always = no }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_socialist_councils"
+			add_political_power = 50
+		}
+	}
+	focus = {
+		id = PRU_tackle_the_indigenous_issue
+		icon = GFX_goal_red_star_dove
+
+		ai_will_do = { factor = 10 }
+
+		x =21
+		y =5
+		cost = 5
+		prerequisite = { focus = PRU_aprist_program }
+		available = { always = no }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_tackle_the_indigenous_issue"
+			add_popularity = { ideology = valkist popularity = -0.025 }
+			add_stability = 0.025
+		}
+	}
+	focus = {
+		id = PRU_help_the_poor
+		icon = GFX_goal_social_labour
+
+		ai_will_do = { factor = 10 }
+
+		x =19
+		y =6
+		cost = 5
+		prerequisite = { focus = PRU_tackle_the_indigenous_issue }
+		prerequisite = { focus = PRU_socialist_councils }
+		available = { always = no }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_help_the_poor"
+			#add_ideas = PRU_social_reform
+		}
+	}
+	focus = {
+		id = PRU_nationalization_program
+		icon = GFX_goal_socialist_industry
+
+		ai_will_do = { factor = 10 }
+
+		x =20
+		y =7
+		cost = 5
+		prerequisite = { focus = PRU_help_the_poor focus = PRU_the_chairmans_leadership }
+		available = { always = no }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_nationalization_program"
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = {
+		id = PRU_socialist_elite
+		icon = GFX_goal_red_star_central
+
+		ai_will_do = { factor = 10 }
+
+		x =16
+		y =7
+		cost = 5
+		prerequisite = { focus = PRU_help_the_poor focus = PRU_the_chairmans_leadership }
+		prerequisite = { focus = PRU_redistribute_lands }
+		available = { always = no }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_socialist_elite"
+			add_research_slot = 1
+		}
+	}
+	focus = {
+		id = PRU_socialism_in_indoamerica
+		icon = GFX_goal_sam_soc
+
+		ai_will_do = { factor = 10 }
+
+		x =18
+		y =8
+		cost = 5
+		prerequisite = { focus = PRU_socialist_elite }
+		prerequisite = { focus = PRU_nationalization_program }
+		available = { always = no }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_socialism_in_indoamerica"
+			add_war_support = 0.05
+		}
+	}
+	focus = {
+		id = PRU_the_new_ports
+		prerequisite = { focus = PRU_workers_fleet }
+		icon = GFX_goal_generic_construct_naval_dockyard
+		x = 25
+		y = 3
+		cost = 10
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_the_new_ports"
+			303 = {
+				add_building_construction = {
+					type = naval_base
+					level = 3
+					province = 12997
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = {
+		id = PRU_the_peoples_shipyards
+		prerequisite = { focus = PRU_the_new_ports }
+		icon = GFX_goal_generic_coastal_navy2
+		x = 25
+		y = 4
+		cost = 10
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_the_peoples_shipyards"
+			303 = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = dockyard
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = PRU_workers_fleet
+		icon = GFX_goal_generic_navy_doctrines_tactics
+		x = 25
+		y = 2
+		cost = 10
+		available = { }
+		prerequisite = { focus = PRU_the_will_to_succeed }
+		prerequisite = { focus = PRU_rallying_revolutionaries }
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_workers_fleet"
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.5
+				uses = 1
+				category = naval_doctrine
+			}
+
+		}
+	}
+
+	focus = {
+		id = PRU_battleship_attempt
+		icon = GFX_goal_generic_navy_battleship
+		x = 24
+		y = 5
+		cost = 10
+		available = { }
+		prerequisite = { focus = PRU_the_peoples_shipyards }
+		mutually_exclusive = {}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_battleship_attempt"
+			add_tech_bonus = {
+				name = battleship_bonus
+				bonus = 0.5
+				uses = 1
+				category = bc_tech
+				category = bb_tech
+				category = shbb_tech
+			}
+
+		}
+	}
+
+	focus = {
+		id = PRU_carrier_attempt
+		icon = GFX_goal_generic_navy_carrier
+		x = 26
+		y = 5
+		cost = 10
+		available = { }
+		prerequisite = { focus = PRU_the_peoples_shipyards }
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_carrier_attempt"
+			add_tech_bonus = {
+				name = carrier_bonus
+				bonus = 0.5
+				uses = 1
+				category = cv_tech
+			}
+		}
+	}
+
+	focus = {
+		id = PRU_cruising_attempt
+		icon = GFX_goal_generic_navy_cruiser
+		x = 26
+		y = 6
+		cost = 10
+		available = { }
+		prerequisite = { focus = PRU_battleship_attempt focus = PRU_carrier_attempt }
+		mutually_exclusive = { focus = PRU_destroy_attempt }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_cruising_attempt"
+			add_tech_bonus = {
+				name = cruiser_bonus
+				bonus = 0.5
+				uses = 1
+				category = ca_tech
+				category = cl_tech
+			}
+
+		}
+	}
+
+	focus = {
+		id = PRU_destroy_attempt
+		icon = GFX_goal_generic_wolf_pack
+		x = 24
+		y = 6
+		cost = 10
+		available = { }
+		prerequisite = { focus = PRU_battleship_attempt focus = PRU_carrier_attempt }
+		mutually_exclusive = { focus = PRU_cruising_attempt }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_destroy_attempt"
+			add_tech_bonus = {
+				name = destroyer_bonus
+				bonus = 0.5
+				uses = 1
+				category = dd_tech
+			}
+
+		}
+	}
+
+	focus = {
+		id = PRU_under_attempt
+		icon = GFX_goal_generic_navy_submarine
+		x = 25
+		y = 7
+		cost = 10
+		available = { }
+		prerequisite = { focus = PRU_cruising_attempt focus = PRU_destroy_attempt }
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_under_attempt"
+			add_tech_bonus = {
+				name = submarine_bonus
+				bonus = 0.5
+				uses = 1
+				category = ss_tech
+			}
+
+		}
+	}
+
+	focus = {
+		id = PRU_sea_attempt
+		icon = GFX_focus_generic_coastal_fort
+		x = 25
+		y = 8
+		cost = 10
+		available = { }
+		prerequisite = { focus = PRU_under_attempt }
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_sea_attempt"
+			navy_experience = 25
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.5
+				uses = 1
+				category = naval_doctrine
+			}
+		}
+	}
+	focus = {
+		id = PRU_peoples_airforce
+		icon = GFX_goal_air_red
+		x = 31
+		y = 2
+		cost = 10
+		available = { }
+		prerequisite = { focus = PRU_the_will_to_succeed }
+		prerequisite = { focus = PRU_rallying_revolutionaries }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_peoples_airforce"
+			air_experience = 50
+		}
+	}
+
+	focus = {
+		id = PRU_strategies_of_the_skies
+		icon = GFX_goal_generic_air_doctrine
+		x = 31
+		y = 3
+		cost = 10
+		available = { }
+		prerequisite = { focus = PRU_peoples_airforce }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_strategies_of_the_skies"
+			add_doctrine_cost_reduction = {
+				name = airdoctrine_bonus
+				cost_reduction = 0.5
+				uses = 1
+				category = air_doctrine
+			}
+		}
+	}
+
+	focus = {
+		id = PRU_protecting_the_land
+		icon = GFX_focus_generic_air_defense
+		x = 29
+		y = 4
+		cost = 10
+		available = { }
+		prerequisite = { focus = PRU_strategies_of_the_skies }
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_protecting_the_land"
+			494 = { add_building_construction = {
+					type = anti_air_building
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = PRU_housing_our_weapons
+		icon = GFX_goal_generic_air_production
+		x = 33
+		y = 4
+		cost = 10
+		available = { }
+		prerequisite = { focus = PRU_strategies_of_the_skies }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_housing_our_weapons"
+			random_owned_state = {
+				add_building_construction = {
+					type = air_base
+					level = 3
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = PRU_destruction_strategy
+		icon = GFX_goal_generic_build_airforce
+		x = 33
+		y = 5
+		cost = 10
+		available = { }
+		prerequisite = { focus = PRU_housing_our_weapons }
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_destruction_strategy"
+			add_tech_bonus = {
+				name = bomber_bonus
+				bonus = 0.5
+				uses = 1
+				category = tactical_bomber
+			}
+		}
+	}
+
+	focus = {
+		id = PRU_air_support_incoming
+		icon = GFX_goal_generic_air_bomber
+		x = 31
+		y = 6
+		cost = 10
+		available = { }
+		prerequisite = { focus = PRU_housing_our_weapons }
+		prerequisite = { focus = PRU_protecting_the_land }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_air_support_incoming"
+			add_tech_bonus = {
+				name = bomber_bonus
+				bonus = 0.5
+				uses = 1
+				category = cat_strategic_bomber
+				category = cas_bomber
+			}
+		}
+	}
+
+	focus = {
+		id = PRU_naval_synergy
+		icon = GFX_goal_generic_air_naval_bomber
+		x = 33
+		y = 7
+		cost = 10
+		available = { }
+		prerequisite = { focus = PRU_destruction_strategy }
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_naval_synergy"
+			add_tech_bonus = {
+				name = naval_bomber_bonus
+				bonus = 0.5
+				uses = 1
+				category = naval_bomber
+			}
+		}
+	}
+
+	focus = {
+		id = PRU_fighting_for_the_workers
+		icon = GFX_goal_generic_air_fighter2
+		x = 29
+		y = 6
+		cost = 10
+		available = { }
+		prerequisite = { focus = PRU_protecting_the_land }
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_fighting_for_the_workers"
+			add_tech_bonus = {
+				name = fighter_bonus
+				bonus = 0.5
+				uses = 2
+				category = light_fighter
+				category = cat_heavy_fighter
+			}
+		}
+	}
+
+	focus = {
+		id = PRU_modernized_doctrines
+		icon = GFX_goal_generic_air_fighter
+		x = 31
+		y = 7
+		cost = 10
+		available = { }
+		prerequisite = { focus = PRU_fighting_for_the_workers focus = PRU_air_support_incoming }
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_modernized_doctrines"
+			add_doctrine_cost_reduction = {
+				name = airdoctrine_bonus
+				cost_reduction = 0.5
+				uses = 1
+				category = air_doctrine
+			}
+		}
+	}
+
+	focus = {
+		id = PRU_the_proletariat_airs
+		icon = GFX_goal_continuous_air_production
+		x = 31
+		y = 8
+		cost = 10
+		available = { }
+		prerequisite = { focus = PRU_modernized_doctrines }
+		prerequisite = { focus = PRU_naval_synergy }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus PRU_the_proletariat_airs"
+			air_experience = 50
+		}
+	}
+}

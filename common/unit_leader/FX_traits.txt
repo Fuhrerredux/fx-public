@@ -1,0 +1,356 @@
+leader_traits = {
+
+	artillery_officer = {
+		type = corps_commander
+		trait_type = personality_trait
+
+		trait_xp_factor = {
+			artillery_specialist = 1	#+100%
+		}
+	}
+
+	artillery_specialist = {
+		type = corps_commander
+		gain_xp = {
+			set_temp_variable = { temp = num_units }
+			multiply_temp_variable = { temp = 0.3 }
+			check_variable = { num_artillery > temp }
+		}
+		custom_gain_xp_trigger_tooltip = artillery_ratio_over_30
+
+		cost = 1000
+		modifier = {
+			army_artillery_attack_factor = 0.1
+		}
+
+		slot = high_command
+		specialist_advisor_trait = cos_school_of_fire_support
+		expert_advisor_trait = cos_school_of_fire_support
+		genius_advisor_trait = cos_school_of_fire_support
+
+		ai_will_do = { factor = 1 }
+
+		gui_row = 4
+	}
+
+	artillery_expert = {
+		type = corps_commander
+		gain_xp = {
+			always = no # not gainable
+		}
+		cost = 500
+		modifier = {
+			army_artillery_attack_factor = 0.1
+		}
+
+		ai_will_do = { factor = 1 }
+
+		trait_type = assignable_trait
+		any_parent = { artillery_specialist }
+		gui_row = 4
+		mutually_exclusive = fortress_buster
+		mutually_exclusive = scavenger
+	}
+
+	##
+	##	OPERATIVE
+	##
+
+	operative_bold = {
+		type = operative
+		trait_type = personality_trait
+
+		new_commander_weight = {
+			factor = 1.0
+			modifier = {
+				has_trait = operative_cautious
+				factor = 0
+			}
+			modifier = {
+				has_trait = operative_reckless
+				factor = 0.5
+			}
+		}
+
+		modifier = {
+			operation_outcome = 0.10
+		}
+	}
+
+	operative_cautious = {
+		type = operative
+		trait_type = personality_trait
+
+		new_commander_weight = {
+			factor = 1.0
+			modifier = {
+				has_trait = operative_bold
+				factor = 0
+			}
+			modifier = {
+				has_trait = operative_reckless
+				factor = 0
+			}
+		}
+
+		modifier = {
+			own_operative_detection_chance_factor = -0.10
+			operation_risk = -0.10
+		}
+	}
+
+	operative_reckless = {
+		type = operative
+		trait_type = personality_trait
+
+		new_commander_weight = {
+			factor = 1.0
+			modifier = {
+				has_trait = operative_cautious
+				factor = 0
+			}
+			modifier = {
+				has_trait = operative_bold
+				factor = 0.5
+			}
+		}
+
+		modifier = {
+			operation_risk = 0.10
+			operation_outcome = 0.10
+		}
+	}
+
+	operative_military_background = {
+		type = operative
+		trait_type = personality_trait
+
+		new_commander_weight = {
+			factor = 1.0
+			modifier = {
+				has_trait = operative_streetwise
+				factor = 0
+			}
+		}
+
+		modifier = {
+			operation_infiltrate_armed_forces_army_outcome = 0.20
+			operation_infiltrate_armed_forces_navy_outcome = 0.20
+			operation_infiltrate_armed_forces_airforce_outcome = 0.20
+			operation_infiltrate_armed_forces_army_risk = -0.20
+			operation_infiltrate_armed_forces_navy_risk = -0.20
+			operation_infiltrate_armed_forces_airforce_risk = -0.20
+		}
+	}
+
+	operative_political_connections = {
+		type = operative
+		trait_type = personality_trait
+
+		new_commander_weight = {
+			factor = 0.5
+			modifier = {
+				has_trait = operative_streetwise
+				factor = 0
+			}
+		}
+
+		modifier = {
+			intel_network_gain = 0.20
+			diplomatic_pressure_mission_factor = 0.20
+			operation_infiltrate_civilian_outcome = 0.20
+			operation_infiltrate_civilian_risk = -0.20
+		}
+	}
+
+	operative_highly_educated = {
+		type = operative
+		trait_type = personality_trait
+
+		new_commander_weight = {
+			factor = 0.7
+			modifier = {
+				has_trait = operative_streetwise
+				factor = 0
+			}
+		}
+
+		modifier = {
+			operation_steal_tech_risk = -0.25
+			operation_steal_tech_outcome = 0.25
+			operation_capture_cipher_risk = -0.25
+			operation_capture_cipher_outcome = 0.25
+		}
+	}
+
+	operative_efficient = {
+		type = operative
+		trait_type = personality_trait
+
+		new_commander_weight = {
+			factor = 0.7
+		}
+
+		modifier = {
+			operation_cost = -0.20
+		}
+	}
+
+	operative_streetwise = {
+		type = operative
+		trait_type = personality_trait
+
+		new_commander_weight = {
+			factor = 1.0
+			modifier = {
+				has_trait = operative_political_connections
+				factor = 0
+			}
+			modifier = {
+				has_trait = operative_military_background
+				factor = 0
+			}
+			modifier = {
+				has_trait = operative_highly_educated
+				factor = 0
+			}
+		}
+
+		modifier = {
+			boost_resistance_factor = 0.20
+			operation_infiltrate_risk = -0.20
+			operation_make_resistance_contacts_outcome = 0.20
+			own_operative_forced_into_hiding_time_factor = -0.20
+		}
+	}
+
+	operative_master_infiltrator = {
+		type = operative
+		trait_type = basic_trait
+
+		new_commander_weight = {
+			factor = 0
+		}
+
+		modifier = {
+			operation_infiltrate_outcome = 0.50
+			operation_infiltrate_risk = -0.50
+		}
+	}
+
+	operative_survivor = {
+		type = operative
+		trait_type = personality_trait
+
+		new_commander_weight = {
+			factor = 0
+		}
+
+		modifier = {
+			operation_risk = -0.50
+		}
+	}
+
+	operative_master_commando = {
+		type = operative
+		trait_type = basic_trait
+
+		new_commander_weight = {
+			base = 0
+		}
+
+		modifier = {
+			own_operative_detection_chance_factor = -0.20
+			target_sabotage_factor = 0.50
+			target_sabotage_risk = -0.50
+			operation_capture_cipher_outcome = 0.50
+			operation_capture_cipher_risk = -0.50
+		}
+	}
+
+	operative_master_saboteur = {
+		type = operative
+		trait_type = basic_trait
+
+		new_commander_weight = {
+			base = 0
+		}
+
+		modifier = {
+			target_sabotage_factor = 0.50
+			target_sabotage_risk = -0.25
+			target_sabotage_cost = -0.50
+		}
+	}
+
+	###              ###
+	# Country Specific #
+	###              ###
+
+	# Greece 
+	GRE_venizelist_loyalist = {
+		type = all
+		trait_type = personality_trait
+		allowed = {
+			FROM = { original_tag = GRE }
+		}
+		new_commander_weight = {
+			factor = 0
+		}
+	}
+
+	# GRE_metaxist_loyalist = {
+	# 	type = all
+	# 	trait_type = personality_trait
+	# 	allowed = {
+	# 		FROM = { original_tag = GRE }
+	# 	}
+	# 	new_commander_weight = {
+	# 		factor = 0
+	# 	}
+	# }
+
+	# GRE_mercourist_loyalist = {
+	# 	type = all
+	# 	trait_type = personality_trait
+	# 	allowed = {
+	# 		FROM = { original_tag = GRE }
+	# 	}
+	# 	new_commander_weight = {
+	# 		factor = 0
+	# 	}
+	# }
+	
+	# GRE_eee_loyalist = {
+	# 	type = all
+	# 	trait_type = personality_trait
+	# 	allowed = {
+	# 		FROM = { original_tag = GRE }
+	# 	}
+	# 	new_commander_weight = {
+	# 		factor = 0
+	# 	}
+	# }
+
+	# GRE_kke_loyalist = {
+	# 	type = all
+	# 	trait_type = personality_trait
+	# 	allowed = {
+	# 		FROM = { original_tag = GRE }
+	# 	}
+	# 	new_commander_weight = {
+	# 		factor = 0
+	# 	}
+	# }
+
+	# GRE_valkist_collab_loyalist = { #Will be given when GRE RK is established, hidden for now
+	# 	type = all
+	# 	trait_type = personality_trait
+	# 	allowed = {
+	# 		FROM = { original_tag = GRE }
+	# 	}
+	# 	new_commander_weight = {
+	# 		factor = 0
+	# 	}
+	# }
+}

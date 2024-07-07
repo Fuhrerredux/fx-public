@@ -1,0 +1,2215 @@
+# New American Republic Focus Tree
+# created by: dax0102
+
+focus_tree = {
+	id = new_american_focus
+
+	country = {
+		factor = 0
+		modifier = {
+			add = 10
+			tag = NAR
+		}
+	}
+
+	continuous_focus_position = { x = 100 y = 1000 }
+
+	initial_show_position = {
+		focus = NAR_cement_our_authority
+	}
+
+	# Political Stabilization
+	focus = {
+		id = NAR_political_stabilization
+		icon = GFX_goal_generic_neutrality_focus
+		x = 4
+		y = 0
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = unlocked_later
+				OR = {
+					has_country_flag = NAR_path_natpop
+					has_country_flag = NAR_path_corporate
+					has_country_flag = NAR_path_pataut
+				}
+			}
+		}
+		cost = 6
+		completion_reward = {
+			add_political_power = 100
+		}
+	}
+
+	# The Corporate Remains
+	focus = {
+		id = NAR_the_corporate_remains
+		icon = GFX_goal_government_icon
+		x = -2
+		y = 1
+		cost = 6
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = unlocked_later
+				has_country_flag = NAR_path_corporate
+			}
+		}
+		prerequisite = { focus = NAR_political_stabilization }
+		relative_position_id = NAR_political_stabilization
+		completion_reward = {
+			increase_ruling_party_popularity_by_5 = yes
+			hidden_effect = { country_event = { id = newamerica.28 days = 180 } }
+		}
+	}
+
+	# Found New Universities
+	focus = {
+		id = NAR_found_new_universities
+		icon = GFX_goal_KTG_Bookstack
+		x = -1
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_the_corporate_remains }
+		relative_position_id = NAR_the_corporate_remains
+		completion_reward = {
+			add_research_slot = 1
+		}
+	}
+
+	# Focus on Agricultural Expansion
+	focus = {
+		id = NAR_focus_on_agricultural_expansion
+		icon = GFX_focus_AUS_agriculture
+		x = -1
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_found_new_universities }
+		relative_position_id = NAR_found_new_universities
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+			}
+		}
+	}
+
+	# Focus on Industrial Expansion
+	focus = {
+		id = NAR_focus_on_industrial_expansion
+		icon = GFX_goal_generic_production2
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_found_new_universities }
+		relative_position_id = NAR_found_new_universities
+		completion_reward = {
+			add_tech_bonus = {
+				category = industry
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Use Cheap Labour
+	focus = {
+		id = NAR_use_cheap_labour
+		icon = GFX_goal_conspiracy
+		x = 0
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_focus_on_agricultural_expansion }
+		relative_position_id = NAR_focus_on_agricultural_expansion
+		completion_reward = {
+			add_manpower = 10000
+			add_ideas = NAR_using_cheap_labour
+		}
+	}
+
+	# Lower the Corporate Tax
+	focus = {
+		id = NAR_lower_the_corporate_tax
+		icon = GFX_goal_generic_foreign_investments
+		x = 0
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_focus_on_industrial_expansion }
+		relative_position_id = NAR_focus_on_industrial_expansion
+		completion_reward = {
+			add_timed_idea = {
+				idea = NAR_lowered_corporate_tax
+				days = 480
+			}
+		}
+	}
+
+	# Financial Reform
+	focus = {
+		id = NAR_financial_reform
+		icon = GFX_goal_generic_banking_legislation
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_use_cheap_labour }
+		prerequisite = { focus = NAR_lower_the_corporate_tax }
+		relative_position_id = NAR_use_cheap_labour
+		completion_reward = {
+			add_ideas = NAR_financial_reforms_idea
+		}
+	}
+
+	# The Thriving Economy
+	focus = {
+		id = NAR_the_thriving_economy
+		icon = GFX_goal_generic_seize_investments
+		x = 0
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_financial_reform }
+		relative_position_id = NAR_financial_reform
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = NAR_financial_reforms_idea
+				add_idea = NAR_thriving_economy
+			}
+		}
+	}
+
+	# The Iron Hand
+	focus = {
+		id = NAR_the_iron_hand
+		icon = GFX_goal_ideology_paternal_autocrat
+		x = 0
+		y = 1
+		cost = 6
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = unlocked_later
+				has_country_flag = NAR_path_pataut
+			}
+		}
+		prerequisite = { focus = NAR_political_stabilization }
+		relative_position_id = NAR_political_stabilization
+		completion_reward = {
+			increase_ruling_party_popularity_by_5 = yes
+			hidden_effect = { country_event = { id = newamerica.28 days = 180 } }
+		}
+	}
+
+	# Reinforce Business Ties
+	focus = {
+		id = NAR_reinforce_business_ties
+		icon = GFX_goal_factory_complex
+		x = -1
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_the_iron_hand }
+		relative_position_id = NAR_the_iron_hand
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	# Fund New Weapons Manufacturers
+	focus = {
+		id = NAR_fund_new_weapons_manufacturers
+		icon = GFX_goal_national_arsenal
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_the_iron_hand }
+		relative_position_id = NAR_the_iron_hand
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	# Militaristic Schools
+	focus = {
+		id = NAR_militaristic_schools
+		icon = GFX_goal_offensive_army
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_reinforce_business_ties }
+		prerequisite = { focus = NAR_fund_new_weapons_manufacturers }
+		relative_position_id = NAR_reinforce_business_ties
+		completion_reward = {
+			add_research_slot = 1
+			add_ideas = NAR_militaristic_education
+		}
+	}
+
+	# Civilian Conservation Corps
+	focus = {
+		id = NAR_civilian_conservation_corps
+		icon = GFX_goal_conspiracy
+		x = 0
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_militaristic_schools }
+		relative_position_id = NAR_militaristic_schools
+		completion_reward = {
+			add_ideas = NAR_civilian_conservation_corps_idea
+		}
+	}
+
+	# Subsidized Farming
+	focus = {
+		id = NAR_subsidized_farming
+		icon = GFX_goal_generic_agricultural_aid
+		x = -1
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_civilian_conservation_corps }
+		relative_position_id = NAR_civilian_conservation_corps
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+			}
+			add_ideas = NAR_farming_subsidies
+		}
+	}
+
+	# America's Oil
+	focus = {
+		id = NAR_americas_oil
+		icon = GFX_goal_basic_oil
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_civilian_conservation_corps }
+		relative_position_id = NAR_civilian_conservation_corps
+		completion_reward = {
+			add_ideas = NAR_american_oil
+		}
+	}
+
+	# Stability Forever
+	focus = {
+		id = NAR_stability_forever
+		icon = GFX_goal_COS_Ferrer_Coup
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_subsidized_farming }
+		prerequisite = { focus = NAR_americas_oil }
+		relative_position_id = NAR_subsidized_farming
+		completion_reward = {
+			add_stability = 0.15
+		}
+	}
+
+	# A Dark Path
+	focus = {
+		id = NAR_a_dark_path
+		icon = GFX_goal_ideology_national_populist
+		x = 2
+		y = 1
+		cost = 6
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = unlocked_later
+				has_country_flag = NAR_path_natpop
+			}
+		}
+		prerequisite = { focus = NAR_political_stabilization }
+		relative_position_id = NAR_political_stabilization
+		completion_reward = {
+			increase_ruling_party_popularity_by_5 = yes
+		}
+	}
+
+	# White Welfare
+	focus = {
+		id = NAR_white_welfare
+		icon = GFX_focus_empty_coffers
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_a_dark_path }
+		relative_position_id = NAR_a_dark_path
+		completion_reward = {
+			add_ideas = NAR_white_welfare_idea
+		}
+	}
+
+	# Christian Education
+	focus = {
+		id = NAR_christian_education
+		icon = GFX_goal_great_science
+		x = -1
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_white_welfare }
+		relative_position_id = NAR_white_welfare
+		completion_reward = {
+			add_research_slot = 1
+		}
+	}
+	# Absorb the Black Legion
+	focus = {
+		id = NAR_absorb_the_black_legion
+		icon = GFX_goal_skull_treaty
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_white_welfare }
+		relative_position_id = NAR_white_welfare
+		completion_reward = {
+			add_manpower = 5000
+		}
+	}
+	# Forced Labour
+	focus = {
+		id = NAR_forced_labour
+		icon = GFX_goal_production
+		x = 0
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_absorb_the_black_legion }
+		relative_position_id = NAR_absorb_the_black_legion
+		completion_reward = {
+			decrease_ruling_party_popularity_by_5 = yes
+			add_ideas = NAR_forced_labour_idea
+		}
+	}
+
+
+	# Christian Work Ethics
+	focus = {
+		id = NAR_christian_work_ethics
+		icon = GFX_BEL_Improve_Catholic_Relations
+		x = 0
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_christian_education }
+		relative_position_id = NAR_christian_education
+		completion_reward = {
+			add_ideas = NAR_christian_work_ethics_idea
+		}
+	}
+
+	# Crackdown on Underisables
+	focus = {
+		id = NAR_crackdown_on_undesirables
+		icon = GFX_goal_purge_opposition
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_christian_work_ethics }
+		prerequisite = { focus = NAR_forced_labour }
+		relative_position_id = NAR_christian_work_ethics
+		completion_reward = {
+			add_ideas = NAR_the_great_purge
+			hidden_effect = {
+				country_event = { id = newamerica.25 days = 3 }
+			}
+		}
+	}
+
+	# Segragation Forever
+	focus = {
+		id = NAR_enforce_segregation
+		icon = GFX_goal_flames_of_rebellion
+		x = 0
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_crackdown_on_undesirables }
+		relative_position_id = NAR_crackdown_on_undesirables
+		completion_reward = {
+			NAR_remove_suppression = yes
+		}
+	}
+
+	#################################################################
+
+	# Cement our Authority
+	focus = {
+		id = NAR_cement_our_authority
+		icon = GFX_goal_NAR_cement_power
+		x = 17
+		y = 0
+		cost = 6
+		ai_will_do = { factor = 2000 }
+		completion_reward = {
+			country_event = { id = newamerica.1 hours = 2 }
+		}
+	}
+
+	# Housing Programs
+	focus = {
+		id = NAR_housing_programs
+		icon = GFX_goal_generic_build_housing
+		x = -6
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_cement_our_authority }
+		relative_position_id = NAR_cement_our_authority
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+			}
+		}
+	}
+
+	# New Education Curriculum
+	focus = {
+		id = NAR_new_education_curriculum
+		icon = GFX_goal_KTG_Bookstack
+		x = -1
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_housing_programs }
+		relative_position_id = NAR_housing_programs
+		completion_reward = {
+			add_research_slot = 1
+		}
+	}
+
+	# Get Church Support
+	focus = {
+		id = NAR_get_church_support
+		icon = GFX_BEL_Improve_Catholic_Relations
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_housing_programs }
+		relative_position_id = NAR_housing_programs
+		completion_reward = {
+			add_ideas = NAR_church_support
+		}
+	}
+
+	# Social Reforms
+	focus = {
+		id = NAR_social_reforms
+		icon = GFX_goal_DOM_End_Judicial_Corruption
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_new_education_curriculum }
+		prerequisite = { focus = NAR_get_church_support }
+		relative_position_id = NAR_new_education_curriculum
+		completion_reward = {
+			add_ideas = NAR_social_reforms_idea
+		}
+	}
+
+	# Control the Newspapers
+	focus = {
+		id = NAR_control_the_newspapers
+		icon = GFX_goal_big_news
+		x = 0
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_social_reforms }
+		relative_position_id = NAR_social_reforms
+		completion_reward = {
+			add_ideas = NAR_restricted_press_freedom
+		}
+	}
+
+	# Banking Deregulation
+	focus = {
+		id = NAR_banking_deregulation
+		icon = GFX_goal_generic_banking_legislation
+		x = -3
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_cement_our_authority }
+		relative_position_id = NAR_cement_our_authority
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = NAR_economic_downtrum
+				add_idea = NAR_economic_downtrum_1
+			}
+		}
+	}
+
+	# Bailout American Companies
+	focus = {
+		id = NAR_bailout_american_companies
+		icon = GFX_focus_empty_coffers
+		x = 0
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_banking_deregulation }
+		relative_position_id = NAR_banking_deregulation
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = NAR_economic_downtrum_1
+				add_idea = NAR_economic_downtrum_2
+			}
+		}
+	}
+
+	# Tax Reforms
+	focus = {
+		id = NAR_tax_reforms
+		icon = GFX_goal_bag_of_money
+		x = -1
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_bailout_american_companies }
+		relative_position_id = NAR_bailout_american_companies
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = NAR_economic_downtrum_2
+				add_idea = NAR_economic_downtrum_3
+			}
+		}
+	}
+
+	# Electrification Campaigns
+	focus = {
+		id = NAR_electrification_campaigns
+		icon = GFX_goal_generic_lightbulb
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_bailout_american_companies }
+		relative_position_id = NAR_bailout_american_companies
+		completion_reward = {
+			add_tech_bonus = {
+				category = electronics
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Economic Recovery
+	focus = {
+		id = NAR_economic_recovery
+		icon = GFX_focus_generic_the_giant_wakes
+		x = -1
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_electrification_campaigns }
+		prerequisite = { focus = NAR_tax_reforms }
+		relative_position_id = NAR_electrification_campaigns
+		completion_reward = {
+			remove_ideas = NAR_economic_downtrum_3
+			add_timed_idea = {
+				idea = NAR_recovering_from_recession
+				days = 360
+			}
+		}
+	}
+
+	# Suppress the Minorities
+	focus = {
+		id = NAR_suppress_the_minorities
+		icon = GFX_goal_step_on_skull
+		x = -1
+		y = 1
+		cost = 6
+		ai_will_do = {
+			factor = 400
+		}
+		mutually_exclusive = {
+			focus = NAR_limited_rights_for_minorities
+		}
+		prerequisite = { focus = NAR_cement_our_authority }
+		relative_position_id = NAR_cement_our_authority
+		completion_reward = {
+			add_political_power = 100
+			add_stability = -0.1
+			NAR_increase_suppression = yes
+		}
+	}
+
+	# Limited Rights
+	focus = {
+		id = NAR_limited_rights_for_minorities
+		icon = GFX_goal_liberty
+		x = 1
+		y = 1
+		cost = 6
+		ai_will_do = {
+			factor = 20
+		}
+		mutually_exclusive = {
+			focus = NAR_suppress_the_minorities
+		}
+		prerequisite = { focus = NAR_cement_our_authority }
+		relative_position_id = NAR_cement_our_authority
+		completion_reward = {
+			add_political_power = -100
+			add_stability = 0.1
+			NAR_decrease_suppression = yes
+		}
+	}
+
+	# Civilian Heroism
+	focus = {
+		id = NAR_civilian_heroism
+		icon = GFX_goal_national_mobilization
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = {
+			focus = NAR_suppress_the_minorities
+			focus = NAR_limited_rights_for_minorities
+		}
+		relative_position_id = NAR_suppress_the_minorities
+		completion_reward = {
+			add_ideas = NAR_civilian_heroism_idea
+		}
+	}
+
+	# Promote Technocratic Management
+	focus = {
+		id = NAR_promote_technocratic_management
+		icon = GFX_focus_generic_self_management
+		x = 0
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_civilian_heroism }
+		relative_position_id = NAR_civilian_heroism
+		completion_reward = {
+			add_tech_bonus = {
+				category = industry
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Begin Civilian Mobilization
+	focus = {
+		id = NAR_begin_civilian_mobilization
+		icon = GFX_goal_conscription
+		x = 0
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_promote_technocratic_management }
+		relative_position_id = NAR_promote_technocratic_management
+		completion_reward = {
+			add_manpower = 15000
+		}
+	}
+
+	# Propaganda Campaigns
+	focus = {
+		id = NAR_propaganda_campaigns
+		icon = GFX_goal_generic_propaganda
+		x = 3
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_cement_our_authority }
+		relative_position_id = NAR_cement_our_authority
+		completion_reward = {
+			add_timed_idea = {
+				idea = NAR_instituting_propaganda
+				days = 180
+			}
+		}
+	}
+
+	# Counter Intelligence Program
+	focus = {
+		id = NAR_counter_intelligence_program
+		icon = GFX_goal_secret_agents
+		x = 0
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_propaganda_campaigns }
+		relative_position_id = NAR_propaganda_campaigns
+		completion_reward = {
+			add_ideas = NAR_cointelpro
+		}
+	}
+
+	# Secure Labour Agreements
+	focus = {
+		id = NAR_secure_labour_agreements
+		icon = GFX_goal_workers_rights
+		x = -1
+		y = 1
+		cost = 6
+		mutually_exclusive = { focus = NAR_crush_the_unions }
+		prerequisite = { focus = NAR_counter_intelligence_program }
+		relative_position_id = NAR_counter_intelligence_program
+		completion_reward = {
+			add_ideas = NAR_labour_agreement
+		}
+	}
+
+	# Crush the Unions
+	focus = {
+		id = NAR_crush_the_unions
+		icon = GFX_goal_generic_crush_unions
+		x = 1
+		y = 1
+		cost = 6
+		mutually_exclusive = { focus = NAR_secure_labour_agreements }
+		prerequisite = { focus = NAR_counter_intelligence_program }
+		relative_position_id = NAR_counter_intelligence_program
+		completion_reward = {
+			add_ideas = NAR_union_suppression
+		}
+	}
+
+	# Republic without Democracy
+	focus = {
+		id = NAR_republic_without_democracy
+		icon = GFX_goal_DEI_focus_disband_volksraad
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = {
+			focus = NAR_crush_the_unions
+			focus = NAR_secure_labour_agreements
+		}
+		relative_position_id = NAR_secure_labour_agreements
+		completion_reward = {
+			add_political_power = 150
+		}
+	}
+
+	# Reform the Boy Scouts
+	focus = {
+		id = NAR_reform_the_boy_scouts
+		icon = GFX_focus_generic_military_mission
+		x = 6
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_cement_our_authority }
+		relative_position_id = NAR_cement_our_authority
+		completion_reward = {
+			add_ideas = NAR_american_boy_scouts
+		}
+	}
+
+	# Subsidize Research Institutions
+	focus = {
+		id = NAR_subsidize_research_institutions
+		icon = GFX_goal_double_research
+		x = -1
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_reform_the_boy_scouts }
+		relative_position_id = NAR_reform_the_boy_scouts
+		completion_reward = {
+			add_timed_idea = {
+				idea = NAR_research_boost
+				days = 480
+			}
+		}
+	}
+
+	# Fordism
+	focus = {
+		id = NAR_fordism
+		icon = GFX_DAH_Topke
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_reform_the_boy_scouts }
+		relative_position_id = NAR_reform_the_boy_scouts
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+				}
+
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	# Purge Opposition
+	focus = {
+		id = NAR_purge_opposition
+		icon = GFX_goal_backstab
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_subsidize_research_institutions }
+		prerequisite = { focus = NAR_fordism }
+		relative_position_id = NAR_subsidize_research_institutions
+		completion_reward = {
+			add_timed_idea = {
+				idea = NAR_the_great_purge
+				days = 360
+			}
+		}
+	}
+
+	# Ensure Bureaucratic Loyalty
+	focus = {
+		id = NAR_ensure_bureaucratic_loyalty
+		icon = GFX_goal_Centralised_Government
+		x = 0
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_purge_opposition }
+		relative_position_id = NAR_purge_opposition
+		completion_reward = {
+			remove_ideas = NAR_unstable_bureaucracy
+		}
+	}
+
+	# Tackle our Legitimacy
+	focus = {
+		id = NAR_tackle_our_legitimacy
+		icon = GFX_goal_checkmate
+		x = 0
+		y = 1
+		cost = 6
+		available = { is_subject = no }
+		prerequisite = { focus = NAR_begin_civilian_mobilization }
+		prerequisite = { focus = NAR_economic_recovery }
+		prerequisite = { focus = NAR_republic_without_democracy }
+		relative_position_id = NAR_begin_civilian_mobilization
+		completion_reward = {
+			unlock_decision_category_tooltip = NAR_unification_of_america
+		}
+	}
+
+	#################################################################
+
+	# The New American Army
+	focus = {
+		id = NAR_the_new_american_army
+		icon = GFX_goal_NAR_army
+		x = 30
+		y = 0
+		cost = 6
+		available = { has_country_flag = NAR_cemented_our_authority }
+		completion_reward = {
+			army_experience = 25
+		}
+	}
+
+	# New Army Doctrines
+	focus = {
+		id = NAR_new_army_doctrines
+		icon = GFX_goal_generic_army_doctrines
+		x = 3
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_the_new_american_army }
+		relative_position_id = NAR_the_new_american_army
+		completion_reward = {
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.5
+				uses = 1
+				category = land_doctrine
+			}
+		}
+	}
+
+	# Expand the National Guard
+	focus = {
+		id = NAR_expand_the_national_guard
+		icon = GFX_goal_generic_small_arms
+		x = -2
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_new_army_doctrines }
+		relative_position_id = NAR_new_army_doctrines
+		completion_reward = {
+			custom_effect_tooltip = NAR_expand_the_national_guard_tt
+			hidden_effect = {
+				load_oob = NAR_national_guard
+			}
+		}
+	}
+
+	# War Bonds
+	focus = {
+		id = NAR_war_bonds
+		icon = GFX_goal_generic_foreign_investments
+		x = -1
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_expand_the_national_guard }
+		relative_position_id = NAR_expand_the_national_guard
+		completion_reward = {
+			add_timed_idea = {
+				idea = NAR_war_bonds_idea
+				days = 960
+			}
+		}
+	}
+
+	# Army Bonus Bill
+	focus = {
+		id = NAR_army_bonus_bill
+		icon = GFX_DAH_Topke
+		x = 0
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_war_bonds }
+		relative_position_id = NAR_war_bonds
+		completion_reward = {
+			add_manpower = 15000
+		}
+	}
+
+	# Walkie-Takies
+	focus = {
+		id = NAR_walkie_takies
+		icon = GFX_goal_radio
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_expand_the_national_guard }
+		relative_position_id = NAR_expand_the_national_guard
+		completion_reward = {
+			add_tech_bonus = {
+				category = electronics
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# New Equipment
+	focus = {
+		id = NAR_new_equipment
+		icon = GFX_goal_national_arsenal
+		x = 0
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_walkie_takies }
+		relative_position_id = NAR_walkie_takies
+		completion_reward = {
+			add_tech_bonus = {
+				category = infantry_weapons
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# American Motor Industry
+	focus = {
+		id = NAR_american_motor_industry
+		icon = GFX_goal_generic_army_motorized
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_new_army_doctrines }
+		relative_position_id = NAR_new_army_doctrines
+		completion_reward = {
+			add_tech_bonus = {
+				category = motorized_equipment
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Firearm Manufacturers
+	focus = {
+		id = NAR_firearm_manufacturers
+		icon = GFX_goal_generic_army_artillery
+		x = 3
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_new_army_doctrines }
+		relative_position_id = NAR_new_army_doctrines
+		completion_reward = {
+			add_tech_bonus = {
+				category = artillery
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Armoured Research
+	focus = {
+		id = NAR_armoured_research
+		icon = GFX_goal_generic_army_tanks3
+		x = 0
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_american_motor_industry }
+		relative_position_id = NAR_american_motor_industry
+		completion_reward = {
+			add_tech_bonus = {
+				category = armor
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Mechanized Experimentations
+	focus = {
+		id = NAR_mechanized_experimentations
+		icon = GFX_goal_generic_production2
+		x = 0
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_firearm_manufacturers }
+		relative_position_id = NAR_firearm_manufacturers
+		completion_reward = {
+			custom_effect_tooltip = NAR_mechanized_experimentations_tt
+			hidden_effect = {
+				if = {
+					limit = {
+						NOT = { has_tech = mechanised_infantry }
+					}
+					set_technology = {
+						mechanised_infantry = 1
+					}
+				}
+				load_oob = NAR_mechanized
+			}
+		}
+	}
+
+	# Military Research
+	focus = {
+		id = NAR_military_research
+		icon = GFX_goal_double_research
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_armoured_research }
+		prerequisite = { focus = NAR_mechanized_experimentations }
+		relative_position_id = NAR_armoured_research
+		completion_reward = {
+			add_timed_idea = {
+				idea = NAR_military_research_prioritization
+				days = 960
+			}
+		}
+	}
+
+	# Joint Chiefs of Staff
+	focus = {
+		id = NAR_joint_chiefs_of_staff
+		icon = GFX_focus_generic_military_mission
+		x = -3
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_the_new_american_army }
+		relative_position_id = NAR_the_new_american_army
+		completion_reward = {
+			add_ideas = NAR_chiefs_of_staff
+		}
+	}
+
+	# Trained Officers
+	focus = {
+		id = NAR_trained_officers
+		icon = GFX_goal_checkmate
+		x = -1
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_joint_chiefs_of_staff }
+		relative_position_id = NAR_joint_chiefs_of_staff
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = NAR_chiefs_of_staff
+				add_idea = NAR_chiefs_of_staff_1
+			}
+		}
+	}
+
+	# Rouse the People
+	focus = {
+		id = NAR_rouse_the_people
+		icon = GFX_goal_national_mobilization
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_joint_chiefs_of_staff }
+		relative_position_id = NAR_joint_chiefs_of_staff
+		completion_reward = {
+			add_tech_bonus = {
+				category = industry
+				bonus = 0.5
+				uses = 1
+			}
+		}
+	}
+
+	# Support Brigades
+	focus = {
+		id = NAR_support_brigades
+		icon = GFX_goal_national_arsenal
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_trained_officers }
+		prerequisite = { focus = NAR_rouse_the_people }
+		relative_position_id = NAR_trained_officers
+		completion_reward = {
+			add_tech_bonus = {
+				category = support_tech
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Army Ranger Corps
+	focus = {
+		id = NAR_army_ranger_corps
+		icon = GFX_goal_offensive_army
+		x = 0
+		y = 2
+		cost = 6
+		prerequisite = { focus = NAR_trained_officers }
+		relative_position_id = NAR_trained_officers
+		completion_reward = {
+			add_tech_bonus = {
+				category = mountaineers_tech
+				category = marine_tech
+				category = para_tech
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Increased Weapons Production
+	focus = {
+		id = NAR_increased_weapons_production
+		icon = GFX_goal_industry_air
+		x = 0
+		y = 2
+		cost = 6
+		prerequisite = { focus = NAR_rouse_the_people }
+		relative_position_id = NAR_rouse_the_people
+		completion_reward = {
+			add_ideas = NAR_production_boost
+		}
+	}
+
+	# Defend the New America
+	focus = {
+		id = NAR_defend_the_new_america
+		icon = GFX_goal_generic_occupy_states_ongoing_war
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_army_bonus_bill }
+		prerequisite = { focus = NAR_new_equipment }
+		prerequisite = { focus = NAR_military_research }
+		relative_position_id = NAR_new_equipment
+		completion_reward = {
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.5
+				uses = 1
+				category = land_doctrine
+			}
+		}
+	}
+
+	#################################################################
+
+	# The New American Navy
+	focus = {
+		id = NAR_the_new_american_navy
+		icon = GFX_goal_NAR_navy
+		x = 22
+		y = 6
+		cost = 6
+		available = {
+			has_country_flag = NAR_cemented_our_authority
+			any_owned_state = { is_coastal = yes }
+		}
+		completion_reward = {
+			navy_experience = 25
+		}
+	}
+
+	# Construct More Ports
+	focus = {
+		id = NAR_construct_more_ports
+		icon = GFX_goal_generic_construction
+		x = -3
+		y = 1
+		cost = 6
+		available = {
+			any_owned_state = { is_coastal = yes }
+		}
+		prerequisite = { focus = NAR_the_new_american_navy }
+		relative_position_id = NAR_the_new_american_navy
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = dockyard
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = dockyard
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	# The WAVES
+	focus = {
+		id = NAR_the_waves
+		icon = GFX_goal_generic_production2
+		x = -1
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_the_new_american_navy }
+		relative_position_id = NAR_the_new_american_navy
+		completion_reward = {
+			add_ideas = NAR_new_waves
+		}
+	}
+
+	# Transport Equipment
+	focus = {
+		id = NAR_transport_equipment
+		icon = GFX_goal_generic_occupy_states_coastal
+		x = -1
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_construct_more_ports }
+		relative_position_id = NAR_construct_more_ports
+		completion_reward = {
+			if = {
+				limit = { has_dlc = "Man the Guns" }
+				add_tech_bonus = {
+					technology = mtg_landing_craft
+					technology = mtg_transport
+					technology = mtg_tank_landing_craft
+					bonus = 2.0
+					uses = 1
+				}
+			}
+			else = {
+				add_tech_bonus = {
+					bonus = 2.0
+					technology = landing_craft
+					technology = transport
+					technology = tank_landing_craft
+					uses = 1
+				}
+			}
+		}
+	}
+
+	# Maritime Industry
+	focus = {
+		id = NAR_maritime_industry
+		icon = GFX_goal_generic_naval_industry
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_construct_more_ports }
+		prerequisite = { focus = NAR_the_waves }
+		relative_position_id = NAR_construct_more_ports
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = dockyard
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = dockyard
+					level = 1
+					instant_build = yes
+				}
+			}
+			add_ideas = NAR_maritime_industry_idea
+		}
+	}
+
+	# Expand the Marine Corps
+	focus = {
+		id = NAR_expand_the_marine_corps
+		icon = GFX_goal_generic_amphibious_assault
+		x = -1
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_maritime_industry }
+		relative_position_id = NAR_maritime_industry
+		completion_reward = {
+			add_tech_bonus = {
+				category = marine_tech
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Coastal Bunkers
+	focus = {
+		id = NAR_coastal_bunkers
+		icon = GFX_focus_generic_coastal_fort
+		x = 0
+		y = 2
+		cost = 6
+		prerequisite = { focus = NAR_expand_the_marine_corps }
+		prerequisite = { focus = NAR_transport_equipment }
+		relative_position_id = NAR_transport_equipment
+		completion_reward = {
+			every_owned_state = {
+				limit = {
+					is_core_of = ROOT
+					is_coastal = yes
+				}
+				add_building_construction = {
+					type = coastal_bunker
+					province = {
+						all_provinces = yes
+						limit_to_naval_base = yes
+					}
+					level = 3
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	# New Tactics
+	focus = {
+		id = NAR_new_tactics
+		icon = GFX_goal_generic_navy_doctrines_tactics
+		x = 2
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_the_new_american_navy }
+		relative_position_id = NAR_the_new_american_navy
+		completion_reward = {
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.5
+				uses = 1
+				category = naval_doctrine
+			}
+		}
+	}
+
+	# The American Coast Guard
+	focus = {
+		id = NAR_the_american_coast_guard
+		icon = GFX_GEA_status_of_admirality
+		x = 4
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_the_new_american_navy }
+		relative_position_id = NAR_the_new_american_navy
+		completion_reward = {
+			add_tech_bonus = {
+				category = dd_tech
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Submarine Modernization
+	focus = {
+		id = NAR_submarine_modernization
+		icon = GFX_goal_generic_navy_submarine
+		x = -1
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_new_tactics }
+		relative_position_id = NAR_new_tactics
+		completion_reward = {
+			add_tech_bonus = {
+				category = ss_tech
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Cruiser Modernization
+	focus = {
+		id = NAR_cruiser_modernization
+		icon = GFX_goal_generic_navy_cruiser
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_new_tactics }
+		relative_position_id = NAR_new_tactics
+		completion_reward = {
+			add_tech_bonus = {
+				category = cl_tech
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Battlecruiser Development
+	focus = {
+		id = NAR_battlecruiser_development
+		icon = GFX_goal_generic_coastal_navy2
+		x = 0
+		y = 2
+		cost = 6
+		prerequisite = { focus = NAR_cruiser_modernization }
+		prerequisite = { focus = NAR_new_tactics }
+		relative_position_id = NAR_new_tactics
+		completion_reward = {
+			add_tech_bonus = {
+				category = ca_tech
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Carrier Research
+	focus = {
+		id = NAR_carrier_research
+		icon = GFX_goal_generic_navy_carrier
+		x = 0
+		y = 2
+		cost = 6
+		prerequisite = { focus = NAR_the_american_coast_guard }
+		relative_position_id = NAR_the_american_coast_guard
+		completion_reward = {
+			add_tech_bonus = {
+				category = cv_tech
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Naval Aviation
+	focus = {
+		id = NAR_naval_aviation
+		icon = GFX_goal_generic_air_fighter2
+		x = -1
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_carrier_research }
+		prerequisite = { focus = NAR_cruiser_modernization }
+		relative_position_id = NAR_carrier_research
+		completion_reward = {
+			add_tech_bonus = {
+				category = naval_air
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Battleship Development
+	focus = {
+		id = NAR_battleship_development
+		icon = GFX_goal_generic_navy_battleship3
+		x = 0
+		y = 2
+		cost = 6
+		prerequisite = { focus = NAR_submarine_modernization }
+		relative_position_id = NAR_submarine_modernization
+		completion_reward = {
+			add_tech_bonus = {
+				category = bb_tech
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# New Sailors
+	focus = {
+		id = NAR_new_sailors
+		icon = GFX_goal_conscription
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_maritime_industry }
+		relative_position_id = NAR_maritime_industry
+		completion_reward = {
+			add_manpower = 15000
+		}
+	}
+
+	# Liberty Ships
+	focus = {
+		id = NAR_liberty_ships
+		icon = GFX_goal_generic_navy_cruiser
+		x = 0
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_new_sailors }
+		relative_position_id = NAR_new_sailors
+		completion_reward = {
+			add_ideas = NAR_liberty_ships_idea
+		}
+	}
+
+	# America Rules the Waves
+	focus = {
+		id = NAR_america_rules_the_waves
+		icon = GFX_goal_generic_sea_focused_navy2
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_liberty_ships }
+		prerequisite = { focus = NAR_battleship_development }
+		prerequisite = { focus = NAR_naval_aviation }
+		prerequisite = { focus = NAR_coastal_bunkers }
+		relative_position_id = NAR_liberty_ships
+		completion_reward = {
+			add_ideas = NAR_rules_the_waves_idea
+			navy_experience = 50
+		}
+	}
+
+	#################################################################
+
+	# The New American Air Force
+	focus = {
+		id = NAR_the_new_american_air_force
+		icon = GFX_goal_NAR_airforce
+		x = 31
+		y = 6
+		cost = 6
+		available = { has_country_flag = NAR_cemented_our_authority }
+		completion_reward = {
+			air_experience = 25
+			country_event = { id = newamerica.16 hours = 4 }
+		}
+	}
+
+	# Prioritize Support
+	focus = {
+		id = NAR_prioritize_support
+		icon = GFX_goal_generic_secret_weapon
+		x = -2
+		y = 1
+		cost = 6
+		available = {
+			has_country_flag = NAR_chosen_support
+		}
+		prerequisite = { focus = NAR_the_new_american_air_force }
+		relative_position_id = NAR_the_new_american_air_force
+		completion_reward = {
+			add_doctrine_cost_reduction = {
+				category = cat_battlefield_support
+				cost_reduction = 0.5
+				uses = 1
+			}
+		}
+	}
+
+	# Construct Air Bases
+	focus = {
+		id = NAR_construct_air_bases
+		icon = GFX_goal_generic_construction
+		x = 0
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_the_new_american_air_force }
+		relative_position_id = NAR_the_new_american_air_force
+		completion_reward = {
+			random_owned_controlled_state = {
+				if = {
+					limit = {
+						free_building_slots = {
+							building = air_base
+							size > 1
+						}
+					}
+					add_building_construction = {
+						type = air_base
+						level = 2
+						instant_build = yes
+					}
+				}
+			}
+		}
+	}
+
+	# Embrace Destruction
+	focus = {
+		id = NAR_embrace_destruction
+		icon = GFX_goal_bombs_away
+		x = 2
+		y = 1
+		cost = 6
+		available = {
+			has_country_flag = NAR_chosen_destruction
+		}
+		prerequisite = { focus = NAR_the_new_american_air_force }
+		relative_position_id = NAR_the_new_american_air_force
+		completion_reward = {
+			add_doctrine_cost_reduction = {
+				category = cat_strategic_destruction
+				cost_reduction = 0.5
+				uses = 1
+			}
+		}
+	}
+
+	# Fighter Modernization
+	focus = {
+		id = NAR_fighter_modernization
+		icon = GFX_goal_generic_air_fighter
+		x = -1
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_prioritize_support }
+		relative_position_id = NAR_prioritize_support
+		completion_reward = {
+			add_tech_bonus = {
+				category = light_fighter
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# CAS Modernization
+	focus = {
+		id = NAR_cas_modernization
+		icon = GFX_goal_generic_CAS
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_prioritize_support }
+		relative_position_id = NAR_prioritize_support
+		completion_reward = {
+			add_tech_bonus = {
+				category = cas_bomber
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Heavy Fighter Research
+	focus = {
+		id = NAR_heavy_fighter_research
+		icon = GFX_goal_generic_air_fighter
+		x = -1
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_embrace_destruction }
+		relative_position_id = NAR_embrace_destruction
+		completion_reward = {
+			add_tech_bonus = {
+				category = cat_heavy_fighter
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Strategic Bomber Research
+	focus = {
+		id = NAR_strategic_bomber_research
+		icon = GFX_goal_generic_air_bomber
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_embrace_destruction }
+		relative_position_id = NAR_embrace_destruction
+		completion_reward = {
+			add_tech_bonus = {
+				category = cat_strategic_bomber
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# New Pilots
+	focus = {
+		id = NAR_new_pilots
+		icon = GFX_goal_generic_air_doctrine
+		x = -2
+		y = 2
+		cost = 6
+		prerequisite = {
+			focus = NAR_fighter_modernization
+			focus = NAR_cas_modernization
+			focus = NAR_heavy_fighter_research
+			focus = NAR_strategic_bomber_research
+		}
+		relative_position_id = NAR_construct_air_bases
+		completion_reward = {
+			add_manpower = 15000
+		}
+	}
+
+	# Air Defenses
+	focus = {
+		id = NAR_air_defenses
+		icon = GFX_focus_generic_air_defense
+		x = 0
+		y = 2
+		cost = 6
+		prerequisite = { focus = NAR_construct_air_bases }
+		relative_position_id = NAR_construct_air_bases
+		completion_reward = {
+			random_owned_controlled_state = {
+				if = {
+					limit = {
+						free_building_slots = {
+							building = anti_air_building
+							size > 1
+						}
+					}
+					add_building_construction = {
+						type = anti_air_building
+						level = 2
+						instant_build = yes
+					}
+				}
+			}
+		}
+	}
+
+	# Subsidize the Aviation Industry
+	focus = {
+		id = NAR_subsidize_the_aviation_industry
+		icon = GFX_focus_mex_privatisation
+		x = 2
+		y = 2
+		cost = 6
+		prerequisite = {
+			focus = NAR_fighter_modernization
+			focus = NAR_cas_modernization
+			focus = NAR_heavy_fighter_research
+			focus = NAR_strategic_bomber_research
+		}
+		relative_position_id = NAR_construct_air_bases
+		completion_reward = {
+			add_ideas = NAR_aviation_industry
+		}
+	}
+
+	# Improve Current Strategies
+	focus = {
+		id = NAR_improve_current_strategies
+		icon = GFX_goal_generic_air_production
+		x = 0
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_new_pilots }
+		prerequisite = { focus = NAR_air_defenses }
+		prerequisite = { focus = NAR_subsidize_the_aviation_industry }
+		relative_position_id = NAR_air_defenses
+		completion_reward = {
+			air_experience = 15
+			add_doctrine_cost_reduction = {
+				category = air_doctrine
+				cost_reduction = 0.5
+				uses = 1
+			}
+		}
+	}
+
+	#################################################################
+	#our own domain
+	focus = {
+		id = NAR_our_own_domain
+		icon = GFX_focus_generic_diplomatic_treaty
+		x = 13
+		y = 6
+		cost = 6
+		available = {
+			is_subject = no
+			NOT = { has_idea = NAR_illegitimate_government }
+		}
+		mutually_exclusive = {
+			focus = NAR_favour_the_reich
+			focus = NAR_choose_the_entente
+		}
+		#relative_position_id = NAR_join_the_entente
+		completion_reward = {
+			set_rule = {
+				can_create_factions = yes
+			}
+			create_faction = washington_accord
+		}
+	}
+
+	# Choose the Entente
+	focus = {
+		id = NAR_choose_the_entente
+		icon = GFX_goal_flag_france
+		x = -2
+		y = 0
+		cost = 6
+		available = {
+			is_subject = no
+			NOT = { has_idea = NAR_illegitimate_government }
+		}
+		mutually_exclusive = {
+			focus = NAR_our_own_domain
+			focus = NAR_favour_the_reich
+		}
+		relative_position_id = NAR_our_own_domain
+		completion_reward = {
+			if = {
+				limit = {
+					FRA = { is_faction_leader = yes }
+				}
+				FRA = { country_event = newamerica.103 }
+				else = {
+					ENG = { country_event = newamerica.103 }
+				}
+			}
+		}
+	}
+
+	# Our Own Domain
+
+
+	# Favour the Reich
+	focus = {
+		id = NAR_favour_the_reich
+		icon = GFX_goal_germany
+		x = 2
+		y = 0
+		cost = 6
+		ai_will_do = {
+			factor = 200
+		}
+		available = {
+			is_subject = no
+			NOT = { has_idea = NAR_illegitimate_government }
+		}
+		mutually_exclusive = {
+			focus = NAR_our_own_domain
+			focus = NAR_choose_the_entente
+		}
+		relative_position_id = NAR_our_own_domain
+		completion_reward = {
+			GER = {
+				country_event = newamerica.103
+			}
+		}
+	}
+
+	# Approach the Philippines
+	focus = {
+		id = NAR_approach_the_philippines
+		icon = GFX_goal_flag_phillipines
+		x = -1
+		y = 1
+		cost = 6
+		available = { PHI = { has_socialist_government = no } }
+		prerequisite = { focus = NAR_choose_the_entente }
+		relative_position_id = NAR_choose_the_entente
+		completion_reward = {
+			FRA = { country_event = newamerica.107 }
+		}
+	}
+
+	# Tackle the Japanese Threat
+	focus = {
+		id = NAR_tackle_the_japanese_threat
+		icon = GFX_focus_attack_japan
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_approach_the_philippines }
+		relative_position_id = NAR_approach_the_philippines
+		completion_reward = {
+			create_wargoal = {
+				target = JAP
+				type = annex_everything
+			}
+		}
+	}
+
+	# Choosing a Side
+	focus = {
+		id = NAR_choosing_a_side
+		icon = GFX_goal_generic_chinese_warlords
+		x = 0
+		y = 2
+		cost = 6
+		prerequisite = { focus = NAR_approach_the_philippines }
+		relative_position_id = NAR_approach_the_philippines
+		completion_reward = {
+			country_event = newamerica.105
+		}
+	}
+
+	# Crush the Southern Serpent
+	focus = {
+		id = NAR_crush_the_southern_serpent
+		icon = GFX_goal_generic_attack_mexico
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			can_declare_war_on = MEX
+		}
+		bypass = {
+			NOT = { country_exists = MEX }
+			MEX = {
+				OR = {
+					is_puppet_of = ROOT
+					is_in_faction_with = ROOT
+				}
+			}
+		}
+		prerequisite = {
+			focus = NAR_our_own_domain
+			focus = NAR_choose_the_entente
+		}
+		relative_position_id = NAR_our_own_domain
+		completion_reward = {
+			create_wargoal = {
+				target = MEX
+				type = annex_everything
+			}
+		}
+	}
+
+	# Reclaim Corporate Lands
+	focus = {
+		id = NAR_reclaim_corporate_lands
+		icon = GFX_goal_generic_attack_guatemala
+		x = 0
+		y = 2
+		cost = 6
+		prerequisite = { focus = NAR_crush_the_southern_serpent }
+		relative_position_id = NAR_crush_the_southern_serpent
+		completion_reward = {
+			custom_effect_tooltip = NAR_reclaim_corporate_lands_tt
+		}
+	}
+
+	# The Coffee Plantations
+	focus = {
+		id = NAR_the_coffee_plantations
+		icon = GFX_goal_generic_attack_colombia
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = NAR_crush_the_southern_serpent }
+		relative_position_id = NAR_crush_the_southern_serpent
+		completion_reward = {
+			custom_effect_tooltip = NAR_the_coffee_plantations_tt
+		}
+	}
+
+	# The Carribean Shipyards
+	focus = {
+		id = NAR_the_carribean_shipyards
+		icon = GFX_goal_generic_attack_cuba
+		x = 0
+		y = 1
+		cost = 6
+		prerequisite = {
+			focus = NAR_our_own_domain
+			focus = NAR_favour_the_reich
+		}
+		relative_position_id = NAR_favour_the_reich
+		completion_reward = {
+			custom_effect_tooltip = NAR_the_carribean_shipyards_tt
+		}
+	}
+
+	# Attack the Marxists
+	focus = {
+		id = NAR_attack_the_marxists
+		icon = GFX_goal_generic_attack_socialist_brazil
+		x = -1
+		y = 2
+		cost = 6
+		available = {
+			can_declare_war_on = UBR
+			NOT = { country_exists = BPS }
+		}
+		mutually_exclusive = { focus = NAR_support_the_state }
+		prerequisite = {
+			focus = NAR_the_carribean_shipyards
+			focus = NAR_the_coffee_plantations
+		}
+		relative_position_id = NAR_the_carribean_shipyards
+		completion_reward = {
+			create_wargoal = {
+				target = UBR
+				type = annex_everything
+			}
+		}
+	}
+
+	# Support the State
+	focus = {
+		id = NAR_support_the_state
+		icon = GFX_goal_flag_reactionary_brazil
+		x = 1
+		y = 2
+		cost = 6
+		available = {
+			country_exists = BPS
+		}
+		bypass = {
+			OR = {
+				has_war_with = BPS
+				is_in_faction_with = BPS
+			}
+		}
+		mutually_exclusive = { focus = NAR_attack_the_marxists }
+		prerequisite = { focus = NAR_the_carribean_shipyards }
+		relative_position_id = NAR_the_carribean_shipyards
+		completion_reward = {
+			BPS = { country_event = { id = newamerica.100 hours = 12 } }
+		}
+	}
+
+	# Continue the Cleansing
+	focus = {
+		id = NAR_continue_the_cleansing
+		icon = GFX_goal_generic_political_pressure
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = {
+			focus = NAR_attack_the_marxists
+			focus = NAR_support_the_state
+		}
+		relative_position_id = NAR_attack_the_marxists
+		completion_reward = {
+			custom_effect_tooltip = NAR_continue_the_cleansing_tt
+		}
+	}
+
+}

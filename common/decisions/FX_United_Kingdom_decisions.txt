@@ -1,0 +1,2554 @@
+##### INTERNAL POLITICS #####
+
+ENG_politics = {
+	ENG_release_funding = {
+		icon = generic_civil_support
+		cost = 100
+		days_re_enable = 180
+		days_remove = 70
+		visible = {
+			NOT = { has_stability > 90 }
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 0
+			}
+		}
+		modifier = {
+			stability_weekly = 0.0025
+			consumer_goods_factor = 0.05
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision ENG_release_funding"
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove ENG_release_funding"
+		}
+	}
+	ENG_polit_reforms = {
+		icon = ger_mefo_bills
+		days_re_enable = 120
+		days_remove = 60
+		ai_will_do = {
+			factor = 320
+		}
+		modifier = {
+			consumer_goods_factor = 0.05
+			political_power_gain = 0.2
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision ENG_polit_reforms"
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove ENG_polit_reforms"
+		}
+	}
+	ENG_naval_exercises = {
+		icon = generic_naval
+		cost = 100
+		days_re_enable = 120
+		days_remove = 60
+		visible = {
+			has_completed_focus = ENG_repeal_naval_cuts
+		}
+		ai_will_do = {
+			factor = 320
+		}
+		modifier = {
+			experience_gain_navy = 0.2
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision ENG_naval_exercises"
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove ENG_naval_exercises"
+		}
+	}
+}
+
+
+#####ECONOMIC AFFAIRS#####
+
+ENG_economy = {
+	ENG_construction_contracts = {
+		icon = generic_construction
+		cost = 150
+		days_re_enable = 180
+		days_remove = 90
+		available = {
+			NOT = { has_idea = ENG_lf_success }
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 0
+			}
+		}
+		modifier = {
+			production_speed_buildings_factor = 0.05
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision ENG_construction_contracts"
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove ENG_construction_contracts"
+		}
+	}
+	ENG_monthly_quotas = {
+		icon = generic_industry
+		cost = 100
+		days_re_enable = 180
+		days_remove = 90
+		available = {
+			NOT = { has_idea = ENG_lf_success }
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 0
+			}
+		}
+		modifier = {
+			industrial_capacity_factory = 0.05
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision ENG_monthly_quotas"
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove ENG_monthly_quotas"
+		}
+	}
+	ENG_cutting_expenditure = {
+		icon = generic_break_treaty
+		cost = 200
+		days_re_enable = 360
+		days_remove = 180
+		available = {
+			NOT = { has_idea = ENG_lf_success }
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 0
+			}
+		}
+		modifier = {
+			consumer_goods_factor = -0.05
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision ENG_cutting_expenditure"
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove ENG_cutting_expenditure"
+		}
+	}
+}
+
+ENG_the_empire = {
+	##### Imperial Coordination #####
+	ENG_secure_suez = {
+		fire_only_once = yes
+		icon = GFX_decision_generic_tank
+		days_remove = 14
+		target_trigger = {
+			FROM = {
+				tag = EGY
+			}
+		}
+		visible = {
+			NOT = {
+				has_country_flag = ENG_reclaimed_suez
+			}
+		}
+		allowed = { original_tag = ENG }
+		available = {
+			FROM = {
+				NOT = { is_subject_of = ENG }
+				NOT = { is_in_faction_with = ENG }
+			}
+			OR = {
+				has_completed_focus = ENG_national_effort
+				has_completed_focus = ENG_end_austerity
+				has_completed_focus = ENG_liberate_markets
+			}
+		}
+		ai_will_do = {
+			factor = 800
+		}
+		remove_effect = {
+			set_country_flag = ENG_reclaimed_suez
+			declare_war_on = {
+				target = EGY
+				type = annex_everything
+			}
+		}
+	}
+
+	ENG_pax_britannica = {
+		icon = generic_form_nation
+		fire_only_once = yes
+		visible = {
+			AND = {
+				OR = {
+					controls_state = 16
+					any_country = {
+						controls_state = 16
+						is_puppet_of = ENG
+					}
+				}
+				OR = {
+					controls_state = 361
+					any_country = {
+						controls_state = 361
+						is_puppet_of = ENG
+					}
+				}
+				FRA = { exists = no }
+				OR = {
+					USA = { exists = no }
+					USA = { is_puppet_of = ENG }
+				}
+			}
+		}
+		available = {
+			original_tag =	ENG
+		}
+		ai_will_do = {
+			factor = 320
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision ENG_pax_britannica"
+			add_ideas = ENG_pbritannica
+		}
+	}
+	ENG_raj_review = {
+		icon = oppression
+		fire_only_once = yes
+		visible = {
+			date > 1938.3.3
+			original_tag = ENG
+			NOT = { RAJ = { has_country_flag = ceylon_exile } }
+		}
+		available = {
+			RAJ = {
+				exists = yes
+				is_puppet_of = ENG
+			}
+		}
+		ai_will_do = {
+			factor = 320
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision ENG_raj_review"
+			RAJ = { country_event = { id = raj.3 } }
+		}
+	}
+	ENG_prop_campaigns = {
+		icon = generic_nationalism
+		cost = 100
+		days_re_enable = 90
+		days_remove = 35
+		visible = {
+			NOT = { has_war_support > 90 }
+			has_war = yes
+		}
+		available = {
+			#NOT = { has_idea = ENG_war_fatigue }
+			NOT = { has_country_flag = empire_coord }
+		}
+		ai_will_do = {
+			factor = 1
+		}
+		modifier = {
+			war_support_weekly = 0.005
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision ENG_prop_campaigns"
+			set_country_flag = empire_coord
+			set_country_flag = prop_campaign
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove ENG_prop_campaigns"
+			clr_country_flag = empire_coord
+			clr_country_flag = prop_campaign
+		}
+	}
+
+	IMP_prop_campaigns = {
+		icon = generic_nationalism
+		days_re_enable = 90
+		days_remove = 35
+		visible = {
+			NOT = { has_war_support > 90 }
+			ENG = { has_country_flag = prop_campaign }
+			NOT = { original_tag = ENG }
+			OR = {
+				AND = {
+					original_tag = CAN
+					is_puppet_of = ENG
+				}
+				AND = {
+					original_tag = RAJ
+					is_puppet_of = ENG
+				}
+				AND = {
+					original_tag = AST
+					is_puppet_of = ENG
+				}
+				AND = {
+					original_tag = NZL
+					is_puppet_of = ENG
+				}
+				AND = {
+					original_tag = SAF
+					is_puppet_of = ENG
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 320
+		}
+		modifier = {
+			war_support_weekly = 0.005
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision IMP_prop_campaigns"
+			set_country_flag = empire_coord
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove IMP_prop_campaigns"
+			clr_country_flag = empire_coord
+		}
+	}
+
+	ENG_launch_offensive = {
+		icon = generic_tank
+		cost = 100
+		days_re_enable = 150
+		days_remove = 30
+		visible = {
+			has_war = yes
+			has_completed_focus = ENG_renew_mil
+		}
+		available = {
+			NOT = { has_country_flag = empire_coord }
+		}
+		ai_will_do = {
+			factor = 1
+		}
+		modifier = {
+			army_attack_factor = 0.05
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision ENG_launch_offensive"
+			set_country_flag = empire_coord
+			set_country_flag = offensive
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove ENG_launch_offensive"
+			clr_country_flag = empire_coord
+			clr_country_flag = offensive
+		}
+	}
+	IMP_launch_offensive = {
+		icon = generic_tank
+		days_re_enable = 150
+		days_remove = 30
+		visible = {
+			ENG = { has_country_flag = offensive }
+			NOT = { original_tag = ENG }
+			OR = {
+				AND = {
+					original_tag = CAN
+					is_puppet_of = ENG
+				}
+				AND = {
+					original_tag = RAJ
+					is_puppet_of = ENG
+				}
+				AND = {
+					original_tag = AST
+					is_puppet_of = ENG
+				}
+				AND = {
+					original_tag = NZL
+					is_puppet_of = ENG
+				}
+				AND = {
+					original_tag = SAF
+					is_puppet_of = ENG
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 320
+		}
+		modifier = {
+			war_support_weekly = 0.005
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision IMP_launch_offensive"
+			set_country_flag = empire_coord
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove IMP_launch_offensive"
+			clr_country_flag = empire_coord
+		}
+	}
+	ENG_bombing_campaign = {
+		visible = {
+			has_war = yes
+			has_completed_focus = ENG_harris
+		}
+		icon = generic_ignite_civil_war
+		cost = 100
+		days_re_enable = 150
+		days_remove = 30
+		available = {
+			NOT = { has_country_flag = empire_coord }
+		}
+		ai_will_do = {
+			factor = 1
+		}
+		modifier = {
+			air_strategic_bomber_bombing_factor = 0.1
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision ENG_bombing_campaign"
+			set_country_flag = empire_coord
+			set_country_flag = bombing
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove ENG_bombing_campaign"
+			clr_country_flag = empire_coord
+			clr_country_flag = bombing
+		}
+	}
+	IMP_bombing_campaign = {
+		icon = generic_ignite_civil_war
+		days_re_enable = 150
+		days_remove = 30
+		visible = {
+			ENG = { has_country_flag = bombing }
+			NOT = { original_tag = ENG }
+			OR = {
+				AND = {
+					original_tag = CAN
+					is_puppet_of = ENG
+				}
+				AND = {
+					original_tag = RAJ
+					is_puppet_of = ENG
+				}
+				AND = {
+					original_tag = AST
+					is_puppet_of = ENG
+				}
+				AND = {
+					original_tag = NZL
+					is_puppet_of = ENG
+				}
+				AND = {
+					original_tag = SAF
+					is_puppet_of = ENG
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 320
+		}
+		modifier = {
+			air_strategic_bomber_bombing_factor = 0.1
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision IMP_bombing_campaign"
+			set_country_flag = empire_coord
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove IMP_bombing_campaign"
+			clr_country_flag = empire_coord
+		}
+	}
+	ENG_industrial_priorities = {
+		icon = ger_military_buildup
+		cost = 100
+		days_re_enable = 150
+		days_remove = 30
+		visible = {
+			has_war = yes
+		}
+		available = {
+			NOT = { has_country_flag = empire_coord }
+		}
+		ai_will_do = {
+			factor = 1
+		}
+		modifier = {
+			industrial_capacity_factory = 0.1
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision ENG_industrial_priorities"
+			set_country_flag = empire_coord
+			set_country_flag = industry
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove ENG_industrial_priorities"
+			clr_country_flag = empire_coord
+			clr_country_flag = industry
+		}
+	}
+	IMP_industrial_priorities = {
+		icon = ger_military_buildup
+		days_re_enable = 150
+		days_remove = 30
+		visible = {
+			ENG = { has_country_flag = industry }
+			NOT = { original_tag = ENG }
+			OR = {
+				AND = {
+					original_tag = CAN
+					is_puppet_of = ENG
+				}
+				AND = {
+					original_tag = RAJ
+					is_puppet_of = ENG
+				}
+				AND = {
+					original_tag = AST
+					is_puppet_of = ENG
+				}
+				AND = {
+					original_tag = NZL
+					is_puppet_of = ENG
+				}
+				AND = {
+					original_tag = SAF
+					is_puppet_of = ENG
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 320
+		}
+		modifier = {
+			industrial_capacity_factory = 0.1
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision IMP_industrial_priorities"
+			set_country_flag = empire_coord
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove IMP_industrial_priorities"
+			clr_country_flag = empire_coord
+		}
+	}
+
+	ENG_defensive_planning = {
+		icon = generic_operation
+		cost = 100
+		days_re_enable = 150
+		days_remove = 30
+		visible = {
+			has_war = yes
+		}
+		available = {
+			NOT = { has_country_flag = empire_coord }
+		}
+		ai_will_do = {
+			factor = 1
+		}
+		modifier = {
+			production_speed_bunker_factor = 0.05
+			production_speed_coastal_bunker_factor = 0.05
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision ENG_defensive_planning"
+			set_country_flag = empire_coord
+			set_country_flag = defensive
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove ENG_defensive_planning"
+			clr_country_flag = empire_coord
+			clr_country_flag = defensive
+		}
+	}
+	IMP_defensive_planning = {
+		icon = generic_operation
+		days_re_enable = 150
+		days_remove = 30
+		visible = {
+			ENG = { has_country_flag = defensive }
+			NOT = { original_tag = ENG }
+			OR = {
+				AND = {
+					original_tag = CAN
+					is_puppet_of = ENG
+				}
+				AND = {
+					original_tag = RAJ
+					is_puppet_of = ENG
+				}
+				AND = {
+					original_tag = AST
+					is_puppet_of = ENG
+				}
+				AND = {
+					original_tag = NZL
+					is_puppet_of = ENG
+				}
+				AND = {
+					original_tag = SAF
+					is_puppet_of = ENG
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 320
+		}
+		modifier = {
+			production_speed_bunker_factor = 0.05
+			production_speed_coastal_bunker_factor = 0.05
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision IMP_defensive_planning"
+			set_country_flag = empire_coord
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove IMP_defensive_planning"
+			clr_country_flag = empire_coord
+		}
+	}
+	ENG_crush_revolt = {
+		icon = generic_scorched_earth
+		fire_only_once = yes
+		days_remove = 30
+		visible = {
+			original_tag = ENG
+			has_idea = ENG_col_uprising
+		}
+		ai_will_do = {
+			factor = 4000
+		}
+		modifier = {
+			political_power_gain = -1.0
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision ENG_crush_revolt"
+			hidden_effect = {
+				if = {
+					limit = {
+						NOT = { is_in_faction_with = FRA }
+						FRA = {
+							exists = yes
+							has_war = no
+						}
+					}
+					FRA = { country_event = { id = fra.50 days = 1 } }
+				}
+			}
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove ENG_crush_revolt"
+			remove_ideas = ENG_col_uprising
+		}
+	}
+	ENG_prep_complete = {
+		icon = generic_form_nation
+		fire_only_once = yes
+		visible = {
+			original_tag = ENG
+			has_completed_focus = ENG_imp_fed
+			date > 1941.1.1
+		}
+		available = {
+			has_war = no
+		}
+		ai_will_do = {
+			factor = 4000
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision ENG_prep_complete"
+			custom_effect_tooltip = ENG_impfed_ready
+			set_country_flag = imp_prep_rdy
+		}
+	}
+	##### Status Quo Decisions #####
+	ENG_ast_prop = {
+		icon = generic_form_nation
+		fire_only_once = yes
+		targets = { AST }
+		target_trigger = { country_exists = AST }
+		visible = {
+			original_tag = ENG
+			has_country_flag = status_quo
+			date > 1939.1.1
+		}
+		available = {
+			AST = { is_puppet_of = ENG }
+			NZL = { is_puppet_of = ENG }
+			has_war = no
+		}
+		ai_will_do = {
+			factor = 320
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision ENG_ast_prop"
+			country_event = { id = emp.25 }
+		}
+	}
+	ENG_nfl_stat = {
+		icon = generic_form_nation
+		fire_only_once = yes
+		targets = { NFL }
+		target_trigger = { country_exists = NFL }
+		visible = {
+			original_tag = ENG
+			has_country_flag = status_quo
+			date > 1938.1.1
+		}
+		available = {
+			NFL = { is_puppet_of = ENG }
+			CAN = { is_puppet_of = ENG }
+			has_war = no
+		}
+		ai_will_do = {
+			factor = 320
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision ENG_nfl_stat"
+			country_event = { id = emp.26 }
+		}
+	}
+
+	ENG_global_developments = {
+		icon = generic_civil_support
+		fire_only_once = yes
+		visible = {
+			original_tag = ENG
+			has_country_flag = status_quo
+			threat > 0.333
+			date > 1939.1.1
+			NOT = { has_idea = low_economic_mobilisation }
+			NOT = { has_idea = partial_economic_mobilisation }
+			NOT = { has_idea = war_economy }
+			NOT = { has_idea = tot_economic_mobilisation }
+		}
+		ai_will_do = {
+			factor = 320
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision ENG_global_developments"
+			if = {
+				limit = {
+					has_idea = civilian_economy
+				}
+				swap_ideas = { remove_idea = civilian_economy add_idea = low_economic_mobilisation }
+			}
+			if = {
+				limit = {
+					has_idea = isolation
+				}
+				swap_ideas = { remove_idea = isolation add_idea = low_economic_mobilisation }
+			}
+			if = {
+				limit = {
+					has_idea = undisturbed_isolation
+				}
+				swap_ideas = { remove_idea = undisturbed_isolation add_idea = low_economic_mobilisation }
+			}
+		}
+	}
+	ENG_rhodesia = {
+		icon = generic_form_nation
+		fire_only_once = yes
+		visible = {
+			original_tag = ENG
+			has_country_flag = status_quo
+			date > 1940.1.1
+		}
+		available = {
+			SAF = { is_puppet_of = ENG }
+			has_war = no
+		}
+		ai_will_do = {
+			factor = 320
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision ENG_rhodesia"
+			country_event = { id = emp.27 }
+		}
+	}
+	##### Decentralise Decisions #####
+
+	ENG_london_dec = {
+		icon = generic_form_nation
+		fire_only_once = yes
+		cost = 150
+		visible = {
+			original_tag = ENG
+			has_country_flag = autonomy
+			has_completed_focus = ENG_decentralise
+		}
+		available = {
+			has_war = no
+		}
+		ai_will_do = {
+			factor = 320
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision ENG_london_dec"
+			add_ideas = IMP_lon_dec
+			set_country_flag = con_stuff
+		}
+	}
+
+	ENG_con_secretariat = {
+		icon = generic_decision
+		fire_only_once = yes
+		cost = 150
+		visible = {
+			original_tag = ENG
+			has_country_flag = con_stuff
+		}
+		available = {
+			has_war = no
+		}
+		ai_will_do = {
+			factor = 320
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision ENG_con_secretariat"
+			add_ideas = IMP_secretariat
+		}
+	}
+
+	ENG_charter = {
+
+		visible = {
+			original_tag = ENG
+			has_country_flag = con_stuff
+		}
+
+		icon = generic_decision
+
+		available = {
+			has_war = no
+		}
+
+		fire_only_once = yes
+
+		cost = 150
+
+		ai_will_do = {
+			factor = 320
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision ENG_charter"
+			add_ideas = IMP_charter
+		}
+	}
+
+	ENG_foundation = {
+
+		visible = {
+			original_tag = ENG
+			has_country_flag = con_stuff
+		}
+
+		icon = generic_independence
+
+		available = {
+			has_war = no
+		}
+
+		fire_only_once = yes
+
+		cost = 150
+
+		ai_will_do = {
+			factor = 320
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision ENG_foundation"
+			add_ideas = IMP_foundation
+		}
+	}
+
+	ENG_reform_ipa = {
+
+		visible = {
+			original_tag = ENG
+			has_country_flag = con_stuff
+			NOT = { is_in_faction_with = FRA }
+		}
+
+		icon = generic_independence
+
+		available = {
+			has_war = no
+		}
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 320
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision ENG_reform_ipa"
+			hidden_effect = {
+				every_country = {
+					limit = {
+						is_in_faction_with = ENG
+					}
+					set_country_flag = con_member
+				}
+				dismantle_faction = yes
+			}
+			create_faction = commonwealth
+			every_country = {
+				limit = {
+					has_country_flag = con_member
+				}
+				add_to_faction = PREV
+			}
+		}
+	}
+
+	ENG_impfed_annex = {
+
+		visible = {
+			original_tag = ENG
+			has_completed_focus = ENG_diss_parl
+			AND = {
+				CAN = { has_country_flag = impfed_reply }
+				AST = { has_country_flag = impfed_reply }
+				SAF = { has_country_flag = impfed_reply }
+				NZL = { has_country_flag = impfed_reply }
+				OR = {
+					NFL = { has_country_flag = impfed_reply }
+					NOT = { NFL = { is_puppet_of = ENG } }
+				}
+			}
+		}
+
+		icon = generic_form_nation
+
+		available = {
+			has_war = no
+		}
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 4000
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision ENG_impfed_annex"
+			country_event = { id = emp.100 }
+		}
+	}
+
+	ENG_begin_wargames = {
+
+		visible = {
+			original_tag = ENG
+		}
+
+		icon = infiltrate_state
+
+		available = {
+			has_war = no
+			#NOT = { has_country_flag = empire_wargames }
+		}
+
+		cancel_trigger = {
+			has_war = yes
+		}
+
+		days_re_enable = 360
+
+		days_remove = 90
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		cost = 150
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision ENG_begin_wargames"
+			set_country_flag = empire_wargames
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove ENG_begin_wargames"
+			clr_country_flag = empire_wargames
+			army_experience = 25
+			navy_experience = 25
+			air_experience = 25
+		}
+	}
+
+	ENG_participate_wargames = {
+
+		visible = {
+			ENG = { has_country_flag = empire_wargames }
+			NOT = { original_tag = ENG }
+			OR = {
+				AND = {
+					original_tag = CAN
+					is_puppet_of = ENG
+				}
+				AND = {
+					original_tag = RAJ
+					is_puppet_of = ENG
+				}
+				AND = {
+					original_tag = AST
+					is_puppet_of = ENG
+				}
+				AND = {
+					original_tag = NZL
+					is_puppet_of = ENG
+				}
+				AND = {
+					original_tag = SAF
+					is_puppet_of = ENG
+				}
+			}
+		}
+
+		icon = infiltrate_state
+
+		available = {
+			has_war = no
+			#NOT = { has_country_flag = empire_wargames }
+		}
+
+		ai_will_do = {
+			factor = 320
+		}
+
+		days_re_enable = 360
+
+		days_remove = 90
+
+		cost = 150
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision ENG_participate_wargames"
+			set_country_flag = empire_wargames
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove ENG_participate_wargames"
+			clr_country_flag = empire_wargames
+			army_experience = 25
+			navy_experience = 25
+			air_experience = 25
+		}
+	}
+
+	ENG_help_can = {
+
+		visible = {
+			original_tag = ENG
+		}
+
+		icon = generic_industry
+
+		available = {
+			CAN = { is_puppet_of = ENG }
+			has_completed_focus = ENG_assist_canada
+		}
+
+		days_re_enable = 360
+
+		days_remove = 90
+
+		cost = 50
+
+		modifier = {
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision ENG_help_can"
+			CAN = {
+				add_timed_idea = {
+					idea = IMP_dec_dev
+					days = 90
+				}
+			}
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove ENG_help_can"
+
+		}
+	}
+
+	ENG_help_ast = {
+
+		visible = {
+			original_tag = ENG
+		}
+
+		icon = generic_industry
+
+		available = {
+			AST = { is_puppet_of = ENG }
+			has_completed_focus = ENG_australasia_dev
+		}
+
+		days_re_enable = 360
+
+		days_remove = 90
+
+		cost = 50
+
+		modifier = {
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision ENG_help_ast"
+			AST = {
+				add_timed_idea = {
+					idea = IMP_dec_dev
+					days = 90
+				}
+			}
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove ENG_help_ast"
+
+		}
+	}
+
+	ENG_help_nzl = {
+
+		visible = {
+			original_tag = ENG
+		}
+
+		icon = generic_industry
+
+		available = {
+			NZL = { is_puppet_of = ENG }
+			has_completed_focus = ENG_australasia_dev
+		}
+
+		days_re_enable = 360
+
+		days_remove = 90
+
+		cost = 50
+
+		modifier = {
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision ENG_help_nzl"
+			NZL = {
+				add_timed_idea = {
+					idea = IMP_dec_dev
+					days = 90
+				}
+			}
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove ENG_help_nzl"
+
+		}
+	}
+
+	ENG_help_saf = {
+
+		visible = {
+			original_tag = ENG
+		}
+
+		icon = generic_industry
+
+		available = {
+			SAF = { is_puppet_of = ENG }
+			has_completed_focus = ENG_saf_diamonds
+		}
+
+		days_re_enable = 360
+
+		days_remove = 90
+
+		cost = 50
+
+		modifier = {
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision ENG_help_saf"
+			SAF = {
+				add_timed_idea = {
+					idea = IMP_dec_dev
+					days = 90
+				}
+			}
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove ENG_help_saf"
+
+		}
+	}
+
+	ENG_help_raj = {
+
+		visible = {
+			original_tag = ENG
+		}
+
+		icon = generic_industry
+
+		available = {
+			RAJ = {
+				is_puppet_of = ENG
+				NOT = {
+					has_war_with = IND
+				}
+			}
+			has_completed_focus = ENG_india_dev
+		}
+
+		days_re_enable = 360
+
+		days_remove = 90
+
+		cost = 50
+
+		modifier = {
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision ENG_help_raj"
+			RAJ = {
+				add_timed_idea = {
+					idea = IMP_dec_dev
+					days = 90
+				}
+			}
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove ENG_help_raj"
+
+		}
+	}
+}
+
+IRE_diplomacy = {
+
+	IRE_demand_peace = {
+		visible = {
+			has_war_with = ENG
+		}
+
+		available = {
+			controls_state = 119
+			controls_state = 113
+			controls_state = 135
+			controls_state = 134
+			controls_state = 815
+			controls_state = 816
+		}
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 320
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision IRE_demand_peace"
+			ENG = { country_event = { id = uk.68 } }
+		}
+	}
+
+	IRE_join_stahlpakt = {
+		visible = {
+			has_war_with = ENG
+			is_in_faction = no
+		}
+
+		available = {
+			GER = { has_war_with = ENG }
+		}
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 320
+			modifier = {
+				AND = {
+					FRA = { has_war_with = ENG }
+					NOT = { has_country_flag = petitioned_entente }
+				}
+				factor = 0
+			}
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision IRE_join_stahlpakt"
+			GER = { country_event = { id = uk.72 } }
+		}
+	}
+
+	IRE_join_entente = {
+		visible = {
+			has_war_with = ENG
+			is_in_faction = no
+		}
+
+		available = {
+			FRA = { has_war_with = ENG }
+		}
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 320
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision IRE_join_entente"
+			FRA = { country_event = { id = uk.72 } }
+			set_country_flag = petitioned_entente
+		}
+	}
+}
+
+
+
+ENG_foreign_intervention = {
+
+	ENG_gw2_intervention = {
+
+		visible = {
+			FRA = { has_war_with = GER }
+			OR = {
+				NOT = { has_war_with = FRA }
+				NOT = { has_war_with = GER }
+			}
+			NOT = { is_in_faction_with = FRA }
+			NOT = { is_in_faction_with = GER }
+			NOT = { has_country_flag = deciding_gw2 }
+			NOT = { has_country_flag = decided_gw2 }
+		}
+
+		icon = generic_prepare_civil_war
+
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				AND = {
+					has_country_flag = avenging1776
+					NOT = { has_completed_focus = ENG_dip_ussr }
+				}
+				factor = 0
+			}
+			modifier = {
+				AND = {
+					NOT = { has_completed_focus = ENG_cape_singapore }
+					has_country_flag = capesingapore
+				}
+				factor = 0
+			}
+			modifier = {
+				AND = {
+					NOT = { has_completed_focus = ENG_diss_parl }
+					has_country_flag = isoimpfed
+				}
+				factor = 0
+			}
+			modifier = {
+				AND = {
+					has_country_flag = reformentente
+					has_completed_focus = ENG_london_conf
+				}
+				factor = 320
+			}
+			modifier = {
+				AND = {
+					has_country_flag = challengefrance
+					NOT = { has_completed_focus = ENG_empire_unity }
+				}
+				factor = 0
+			}
+			modifier = {
+				has_war = yes
+				factor = 0
+			}
+			modifier = {
+				OR = {
+					AND = {
+						has_country_flag = avenging1776
+						has_completed_focus = ENG_dip_ussr
+					}
+					AND = {
+						has_completed_focus = ENG_cape_singapore
+						has_country_flag = capesingapore
+					}
+					AND = {
+						has_completed_focus = ENG_diss_parl
+						has_country_flag = isoimpfed
+					}
+					AND = {
+						has_country_flag = challengefrance
+						has_completed_focus = ENG_empire_unity
+					}
+				}
+				factor = 320
+			}
+		}
+
+		available = {
+			FRA = { has_war_with = GER }
+			AND = {
+				NOT = { has_war_with = GER }
+				NOT = { has_war_with = FRA }
+			}
+			OR = {
+				AND = {
+					has_country_flag = ENG_c_isol
+					OR = {
+						16 = { is_controlled_by = GER }
+						16 = { is_controlled_by = FRP }
+					}
+				}
+				AND = {
+					has_country_flag = ENG_c_isol
+					OR = {
+						64 = { is_controlled_by = FRA }
+						16 = { is_controlled_by = RHI }
+					}
+				}
+				has_country_flag = ENG_c_imperial
+			}
+		}
+
+		fire_only_once = yes
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision ENG_gw2_intervention"
+			country_event = { id = ukf.4999 }
+			hidden_effect = {
+				set_country_flag = deciding_gw2
+			}
+		}
+	}
+
+	ENG_reform_entente = {
+
+		visible = {
+			has_war_with = GER
+			FRA = { has_war_with = GER }
+			NOT = { has_war_with = FRA }
+			NOT = { is_in_faction_with = FRA }
+			NOT = { is_in_faction_with = GER }
+		}
+
+		icon = generic_decision
+
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_country_flag = reformentente
+				factor = 320
+			}
+		}
+
+		available = {
+			FRA = { has_opinion = { target = ENG value > 25 } }
+		}
+
+		fire_only_once = yes
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision ENG_reform_entente"
+			FRA = { country_event = { id = ukf.5013 } }
+			hidden_effect = {
+				every_country = {
+					limit = {
+						is_in_faction_with = FRA
+					}
+					set_country_flag = fraally
+				}
+				every_country = {
+					limit = {
+						is_in_faction_with = ENG
+					}
+					set_country_flag = engally
+				}
+			}
+		}
+	}
+
+	ENG_league_germany = {
+
+		visible = {
+			has_completed_focus = ENG_imperialism_focus
+			GER = { has_war_with = SOV }
+			NOT = { GER = { has_war_with = FRA } }
+			OR = {
+				FRP = { exists = no }
+				AND = {
+					FRP = { exists = yes }
+					FRP = { is_puppet_of = ENG }
+				}
+			}
+			NOT = { GER = { has_completed_focus = GER_anti_british } }
+		}
+
+		icon = generic_decision
+
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war_with = SOV
+				factor = 320
+			}
+			modifier = {
+				has_country_flag = avenging1776
+				factor = 4000
+			}
+		}
+
+		available = {
+			GER = { has_opinion = { target = ENG value > 25 } }
+		}
+
+		fire_only_once = yes
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision ENG_league_germany"
+			GER = { country_event = { id = ukf.6010 } }
+			hidden_effect = {
+				every_country = {
+					limit = {
+						is_in_faction_with = GER
+					}
+					set_country_flag = gerally
+				}
+				every_country = {
+					limit = {
+						is_in_faction_with = ENG
+					}
+					set_country_flag = engally
+				}
+			}
+		}
+	}
+
+	ENG_kill_yemen = {
+
+		visible = {
+			OR = {
+				has_country_flag = ENG_c_imperial
+				has_country_flag = ENG_c_inter
+			}
+			YEM = { exists = yes }
+		}
+
+		icon = infiltrate_state
+
+		available = {
+			has_completed_focus = ENG_dip_arabia
+		}
+
+		ai_will_do = {
+			factor = 320
+			modifier = {
+				has_war = yes
+				factor = 0
+			}
+		}
+
+		fire_only_once = yes
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision ENG_kill_yemen"
+			create_wargoal = {
+				target = YEM
+				type = annex_everything
+			}
+		}
+	}
+
+	ENG_transcaspia_ultimatum = {
+		visible = {
+			has_completed_focus = ENG_dip_afghanistan
+		}
+
+		icon = infiltrate_state
+
+		available = {
+			TRK = {
+				exists = yes
+				NOT = { is_puppet_of = ENG }
+			}
+			OR = {
+				AFG = { is_puppet_of = ENG }
+				AND = {
+					267 = { is_controlled_by = ENG }
+					415 = { is_controlled_by = ENG }
+				}
+			}
+		}
+
+		ai_will_do = {
+			factor = 320
+			modifier = {
+				has_war = yes
+				factor = 0
+			}
+			modifier = {
+				has_country_flag = avenging1776
+				factor = 4000
+			}
+		}
+
+		fire_only_once = yes
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision ENG_transcaspia_ultimatum"
+			country_event = { id = ukf.185 }
+		}
+	}
+
+	ENG_pcw_intervention = {
+		visible = {
+			POR = { has_war_with = PRR }
+		}
+
+		icon = infiltrate_state
+
+		available = {
+			OR = {
+				has_country_flag = ENG_c_imperial
+				has_country_flag = ENG_c_inter
+			}
+			original_tag = ENG
+		}
+
+		ai_will_do = {
+			factor = 320
+			modifier = {
+				has_war = yes
+				factor = 0
+			}
+		}
+
+		cost = 100
+
+		fire_only_once = yes
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision ENG_pcw_intervention"
+			country_event = { id = ukf.195 }
+		}
+	}
+
+	ENG_third_maw_inter = {
+		visible = {
+			MEX = { has_war_with = USA }
+		}
+
+		icon = infiltrate_state
+
+		available = {
+			has_country_flag = ENG_c_imperial
+			original_tag = ENG
+		}
+
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_country_flag = avenging1776
+				factor = 320
+			}
+			modifier = {
+				has_war = yes
+				factor = 0
+			}
+		}
+
+		cost = 100
+
+		fire_only_once = yes
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision ENG_third_maw_inter"
+			add_equipment_to_stockpile = { type = infantry_equipment_0 amount = -5000 producer = ENG }
+			add_manpower = -10000
+			country_event = { id = ukf.191 }
+		}
+	}
+
+	ENG_scw_inter = {
+		icon = infiltrate_state
+		cost = 100
+		targets = { SPM }
+		target_trigger = { country_exists = SPM }
+		visible = {
+			SPM = { exists = yes }
+			OR = {
+				SPM = { has_war_with = SPR }
+				SPM = { has_war_with = SPF }
+				SPM = { has_war_with = SPA }
+			}
+		}
+		ai_will_do = {
+			factor = 320
+			modifier = {
+				has_war = yes
+				factor = 0
+			}
+		}
+		available = {
+			original_tag = ENG
+		}
+		fire_only_once = yes
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision ENG_scw_inter"
+			add_equipment_to_stockpile = { type = infantry_equipment_0 amount = -5000 producer = ENG }
+			add_manpower = -10000
+			SPM = { country_event = { id = ukf.190 } }
+		}
+	}
+
+	ENG_reconquer_india_prep = {
+
+		visible = {
+			RAJ = {
+				exists = yes
+				has_country_flag = ceylon_exile
+			}
+			NOT = { RAJ = { has_war_with = IND } }
+			NOT = { RAJ = { controls_state = 439 } }
+		}
+
+		icon = infiltrate_state
+
+		available = {
+			RAJ = { exists = yes }
+			NOT = { RAJ = { controls_state = 439 } }
+			has_war = no
+			OR = {
+				has_completed_focus = ENG_imperialism_focus
+				has_completed_focus = ENG_standsalone
+			}
+		}
+
+		fire_only_once = yes
+
+		cost = 100
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision ENG_reconquer_india_prep"
+			RAJ = { country_event = { id = raj.2 } }
+			unlock_decision_tooltip = ENG_reconquer_travancore
+			unlock_decision_tooltip = ENG_reconquer_mysore
+			unlock_decision_tooltip = ENG_reconquer_madras
+			unlock_decision_tooltip = ENG_reconquer_bombay
+			unlock_decision_tooltip = ENG_reconquer_hyderabad
+			unlock_decision_tooltip = ENG_reconquer_orissa
+			unlock_decision_tooltip = ENG_reconquer_bengal
+			unlock_decision_tooltip = ENG_reconquer_baluchistan
+			unlock_decision_tooltip = ENG_reconquer_rajahstan
+			unlock_decision_tooltip = ENG_reconquer_delhi
+			unlock_decision_tooltip = ENG_reconquer_bihar
+			unlock_decision_tooltip = ENG_reconquer_punjab
+			unlock_decision_tooltip = ENG_reconquer_kashmir
+
+			set_country_flag = reconquering_india
+		}
+	}
+
+	ENG_reconquer_bei = {
+
+		visible = {
+			INS = { exists = yes }
+			NOT = { has_war_with = INS }
+			INS = { is_puppet = no }
+		}
+
+		icon = infiltrate_state
+
+		available = {
+			has_war = no
+			has_completed_focus = ENG_imperialism_focus
+		}
+
+		ai_will_do = {
+			factor = 0
+		}
+
+		fire_only_once = yes
+
+		cost = 100
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision ENG_reconquer_bei"
+			create_wargoal = {
+				target = INS
+				type = annex_everything
+			}
+		}
+	}
+
+	ENG_reconquer_travancore = {
+
+		visible = {
+			TRV = { exists = yes }
+			NOT = { has_war_with = TRV }
+			has_country_flag = reconquering_india
+		}
+
+		icon = infiltrate_state
+
+		available = {
+			RAJ = { exists = yes }
+			TRV = { exists = yes }
+		}
+
+		fire_only_once = yes
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision ENG_reconquer_travancore"
+			create_wargoal = {
+				target = TRV
+				type = annex_everything
+			}
+		}
+	}
+
+	ENG_reconquer_mysore = {
+
+		visible = {
+			MYS = { exists = yes }
+			NOT = { has_war_with = MYS }
+			has_country_flag = reconquering_india
+		}
+
+		icon = infiltrate_state
+
+		available = {
+			RAJ = { exists = yes }
+			MYS = { exists = yes }
+			OR = {
+				is_neighbor_of = MYS
+				RAJ = { is_neighbor_of = MYS }
+			}
+		}
+
+		fire_only_once = yes
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision ENG_reconquer_mysore"
+			create_wargoal = {
+				target = MYS
+				type = annex_everything
+			}
+		}
+	}
+
+	ENG_reconquer_madras = {
+
+		visible = {
+			MDR = { exists = yes }
+			NOT = { has_war_with = MDR }
+			has_country_flag = reconquering_india
+		}
+
+		icon = infiltrate_state
+
+		available = {
+			RAJ = { exists = yes }
+			MDR = { exists = yes }
+			OR = {
+				is_neighbor_of = MDR
+				RAJ = { is_neighbor_of = MDR }
+			}
+		}
+
+		fire_only_once = yes
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision ENG_reconquer_madras"
+			create_wargoal = {
+				target = MDR
+				type = annex_everything
+			}
+		}
+	}
+
+	ENG_reconquer_bombay = {
+
+		visible = {
+			BOM = { exists = yes }
+			NOT = { has_war_with = BOM }
+			has_country_flag = reconquering_india
+		}
+
+		icon = infiltrate_state
+
+		available = {
+			RAJ = { exists = yes }
+			BOM = { exists = yes }
+			OR = {
+				is_neighbor_of = BOM
+				RAJ = { is_neighbor_of = BOM }
+			}
+		}
+
+		fire_only_once = yes
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision ENG_reconquer_bombay"
+			create_wargoal = {
+				target = BOM
+				type = annex_everything
+			}
+		}
+	}
+
+	ENG_reconquer_hyderabad = {
+
+		visible = {
+			HYD = { exists = yes }
+			NOT = { has_war_with = HYD }
+			has_country_flag = reconquering_india
+		}
+
+		icon = infiltrate_state
+
+		available = {
+			RAJ = { exists = yes }
+			HYD = { exists = yes }
+			OR = {
+				is_neighbor_of = HYD
+				RAJ = { is_neighbor_of = HYD }
+			}
+		}
+
+		fire_only_once = yes
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision ENG_reconquer_hyderabad"
+			create_wargoal = {
+				target = HYD
+				type = annex_everything
+			}
+		}
+	}
+
+	ENG_reconquer_orissa = {
+
+		visible = {
+			ORI = { exists = yes }
+			NOT = { has_war_with = ORI }
+			has_country_flag = reconquering_india
+		}
+
+		icon = infiltrate_state
+
+		available = {
+			RAJ = { exists = yes }
+			ORI = { exists = yes }
+			OR = {
+				is_neighbor_of = ORI
+				RAJ = { is_neighbor_of = ORI }
+			}
+		}
+
+		fire_only_once = yes
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision ENG_reconquer_orissa"
+			create_wargoal = {
+				target = ORI
+				type = annex_everything
+			}
+		}
+	}
+
+	ENG_reconquer_bengal = {
+
+		visible = {
+			INC = { exists = yes }
+			NOT = { has_war_with = INC }
+			has_country_flag = reconquering_india
+		}
+
+		icon = infiltrate_state
+
+		available = {
+			RAJ = { exists = yes }
+			INC = { exists = yes }
+			OR = {
+				is_neighbor_of = INC
+				RAJ = { is_neighbor_of = INC }
+			}
+		}
+
+		fire_only_once = yes
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision ENG_reconquer_bengal"
+			create_wargoal = {
+				target = INC
+				type = annex_everything
+			}
+		}
+	}
+
+	ENG_reconquer_baluchistan = {
+
+		visible = {
+			BAL = { exists = yes }
+			NOT = { has_war_with = BAL }
+			has_country_flag = reconquering_india
+		}
+
+		icon = infiltrate_state
+
+		available = {
+			RAJ = { exists = yes }
+			BAL = { exists = yes }
+			OR = {
+				is_neighbor_of = BAL
+				RAJ = { is_neighbor_of = BAL }
+			}
+		}
+
+		fire_only_once = yes
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision ENG_reconquer_baluchistan"
+			create_wargoal = {
+				target = BAL
+				type = annex_everything
+			}
+		}
+	}
+
+	ENG_reconquer_rajahstan = {
+
+		visible = {
+			RJH = { exists = yes }
+			NOT = { has_war_with = RJH }
+			has_country_flag = reconquering_india
+		}
+
+		icon = infiltrate_state
+
+		available = {
+			RAJ = { exists = yes }
+			RJH = { exists = yes }
+			OR = {
+				is_neighbor_of = RJH
+				RAJ = { is_neighbor_of = RJH }
+			}
+		}
+
+		fire_only_once = yes
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision ENG_reconquer_rajahstan"
+			create_wargoal = {
+				target = RJH
+				type = annex_everything
+			}
+		}
+	}
+
+	ENG_reconquer_delhi = {
+
+		visible = {
+			IND = { exists = yes }
+			NOT = { has_war_with = IND }
+			has_country_flag = reconquering_india
+		}
+
+		icon = infiltrate_state
+
+		available = {
+			RAJ = { exists = yes }
+			IND = { exists = yes }
+			OR = {
+				is_neighbor_of = IND
+				RAJ = { is_neighbor_of = IND }
+			}
+		}
+
+		fire_only_once = yes
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision ENG_reconquer_delhi"
+			create_wargoal = {
+				target = IND
+				type = annex_everything
+			}
+		}
+	}
+
+	ENG_reconquer_bihar = {
+
+		visible = {
+			BIH = { exists = yes }
+			NOT = { has_war_with = BIH }
+			has_country_flag = reconquering_india
+		}
+
+		icon = infiltrate_state
+
+		available = {
+			RAJ = { exists = yes }
+			BIH = { exists = yes }
+			OR = {
+				is_neighbor_of = BIH
+				RAJ = { is_neighbor_of = BIH }
+			}
+		}
+
+		fire_only_once = yes
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision ENG_reconquer_bihar"
+			create_wargoal = {
+				target = BIH
+				type = annex_everything
+			}
+		}
+	}
+
+	ENG_reconquer_punjab = {
+
+		visible = {
+			PUN = { exists = yes }
+			NOT = { has_war_with = PUN }
+			has_country_flag = reconquering_india
+		}
+
+		icon = infiltrate_state
+
+		available = {
+			RAJ = { exists = yes }
+			PUN = { exists = yes }
+			OR = {
+				is_neighbor_of = PUN
+				RAJ = { is_neighbor_of = PUN }
+			}
+		}
+
+		fire_only_once = yes
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision ENG_reconquer_punjab"
+			create_wargoal = {
+				target = PUN
+				type = annex_everything
+			}
+		}
+	}
+
+	ENG_reconquer_kashmir = {
+
+		visible = {
+			KAS = { exists = yes }
+			NOT = { has_war_with = KAS }
+			has_country_flag = reconquering_india
+		}
+
+		icon = infiltrate_state
+
+		available = {
+			RAJ = { exists = yes }
+			KAS = { exists = yes }
+			OR = {
+				is_neighbor_of = KAS
+				RAJ = { is_neighbor_of = KAS }
+			}
+		}
+
+		fire_only_once = yes
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision ENG_reconquer_kashmir"
+			create_wargoal = {
+				target = KAS
+				type = annex_everything
+			}
+		}
+	}
+
+	ENG_return_raj_land = {
+
+		visible = {
+			AND = {
+				RAJ = { is_puppet_of = ENG }
+				ENG = {
+					OR = {	# - I really wish there was an easier way of doing this
+						controls_state = 423
+						controls_state = 425
+						controls_state = 424
+						controls_state = 427
+						controls_state = 429
+						controls_state = 809
+						controls_state = 814
+						controls_state = 426
+						controls_state = 436
+						controls_state = 812
+						controls_state = 437
+						controls_state = 435
+						controls_state = 431
+						controls_state = 430
+						controls_state = 432
+						controls_state = 434
+						controls_state = 438
+						controls_state = 884
+						controls_state = 433
+						controls_state = 428
+						controls_state = 443
+						controls_state = 444
+						controls_state = 439
+						controls_state = 440
+						controls_state = 883
+						controls_state = 441
+						controls_state = 445
+						controls_state = 442
+						controls_state = 811
+					}
+				}
+				has_war = no
+				is_ai = yes
+			}
+		}
+
+		icon = generic_decision
+
+		ai_will_do = {
+			factor = 320
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision ENG_return_raj_land"
+			every_state = {
+				limit = {
+					is_controlled_by = ROOT
+					is_core_of = RAJ
+				}
+				RAJ = { transfer_state = PREV }
+			}
+		}
+	}
+
+	ENG_seize_panama = {
+
+		visible = {
+			has_country_flag = ENG_op_pitcairn
+		}
+
+		icon = infiltrate_state
+
+		available = {
+			USA = { controls_state = 685 }
+			has_country_flag = ENG_op_pitcairn
+		}
+
+		ai_will_do = {
+			factor = 320
+			modifier = {
+				has_war = yes
+				factor = 0
+			}
+		}
+
+		fire_only_once = yes
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision ENG_seize_panama"
+			if = {
+				limit = {
+					AND = {
+						NOT = { has_country_flag = pitcairn_r }
+						NOT = { has_country_flag = pitcairn_m }
+					}
+				}
+				random_list = {
+					40 = {
+						country_event = { id = ukf.42 days = 14 }
+					}
+					60 = {
+						country_event = { id = ukf.43 days = 14 }
+					}
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						has_country_flag = pitcairn_r
+						has_country_flag = pitcairn_m
+					}
+				}
+				random_list = {
+					60 = {
+						country_event = { id = ukf.42 days = 14 }
+					}
+					40 = {
+						country_event = { id = ukf.43 days = 14 }
+					}
+				}
+			}
+			if = {
+				limit = {
+					AND = {
+						has_country_flag = pitcairn_r
+						has_country_flag = pitcairn_m
+					}
+				}
+				random_list = {
+					80 = {
+						country_event = { id = ukf.42 days = 14 }
+					}
+					20 = {
+						country_event = { id = ukf.43 days = 14 }
+					}
+				}
+			}
+		}
+	}
+}
+
+ENG_london_nt = {
+
+	ENG_invite_belgium = {
+
+		visible = {
+			has_completed_focus = ENG_london_conf
+		}
+
+		icon = generic_naval
+
+		available = {
+			BEL = { exists = yes }
+			NOT = { has_war_with = BEL }
+			BEL = { has_capitulated = no }
+			BEL = { is_puppet = no }
+			BEL = { has_opinion = { target = ENG value > 49 } }
+		}
+
+		ai_will_do = {
+			factor = 320
+		}
+
+		fire_only_once = yes
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision ENG_invite_belgium"
+			BEL = { country_event = { id = ukf.2011 } }
+		}
+	}
+
+	ENG_invite_denmark = {
+
+		visible = {
+			has_completed_focus = ENG_london_conf
+		}
+
+		icon = generic_naval
+
+		available = {
+			DEN = { exists = yes }
+			NOT = { has_war_with = DEN }
+			DEN = { has_capitulated = no }
+			DEN = { is_puppet = no }
+			DEN = { has_opinion = { target = ENG value > 49 } }
+		}
+
+		ai_will_do = {
+			factor = 320
+		}
+
+		fire_only_once = yes
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision ENG_invite_denmark"
+			DEN = { country_event = { id = ukf.2011 } }
+		}
+	}
+
+	ENG_invite_norway = {
+
+		visible = {
+			has_completed_focus = ENG_london_conf
+		}
+
+		icon = generic_naval
+
+		available = {
+			NOR = { exists = yes }
+			NOT = { has_war_with = NOR }
+			NOR = { has_capitulated = no }
+			NOR = { is_puppet = no }
+			NOR = { has_opinion = { target = ENG value > 49 } }
+		}
+
+		ai_will_do = {
+			factor = 320
+		}
+
+		fire_only_once = yes
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision ENG_invite_norway"
+			NOR = { country_event = { id = ukf.2011 } }
+		}
+	}
+
+	ENG_jutland_p = {
+
+		visible = {
+			has_completed_focus = ENG_london_conf
+		}
+
+		icon = generic_naval
+
+		available = {
+			GER = { exists = yes }
+			NOT = { has_war_with = GER }
+			GER = { is_puppet = no }
+			GER = { has_opinion = { target = ENG value > 49 } }
+			GER = { has_capitulated = no }
+		}
+
+		fire_only_once = yes
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision ENG_jutland_p"
+			GER = { country_event = { id = ukf.2101 } }
+		}
+	}
+
+	ENG_dover_p = {
+
+		visible = {
+			has_completed_focus = ENG_london_conf
+		}
+
+		icon = generic_naval
+
+		available = {
+			FRA = { exists = yes }
+			NOT = { has_war_with = FRA }
+			FRA = { is_puppet = no }
+			FRA = { has_opinion = { target = ENG value > 49 } }
+			FRA = { has_capitulated = no }
+		}
+
+		fire_only_once = yes
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision ENG_dover_p"
+			FRA = { country_event = { id = ukf.2201 } }
+		}
+	}
+}
+
+
+##### LNT STUFF FOR ALL NATIONS #####
+
+ALL_london_nt = {
+	ALL_leave_lnt = {
+		visible = {
+			ROOT = { has_idea = ALL_lnt }
+		}
+		icon = generic_naval
+		ai_will_do = {
+			factor = 320
+		}
+		available = {
+			OR = {
+				NOT = { ENG = { has_guaranteed = ROOT } }
+				ROOT = { has_opinion = { target = ENG value < 0 } }
+				has_war_with = ENG
+			}
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision ALL_leave_lnt"
+			remove_ideas = ALL_lnt
+			hidden_effect = {
+				ENG = { modify_country_flag = { flag = lnt_members value = -1 } }
+			}
+			ENG = { country_event = { id = ukf.2250 } }
+		}
+	}
+
+	GER_leave_jutpact = {
+		visible = {
+			ROOT = { has_idea = ENG_jutpact }
+		}
+		icon = generic_naval
+		ai_will_do = {
+			factor = 320
+		}
+		available = {
+			OR = {
+				NOT = { ENG = { has_guaranteed = ROOT } }
+				ROOT = { has_opinion = { target = ENG value < 0 } }
+				has_war_with = ENG
+			}
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision GER_leave_jutpact"
+			remove_ideas = ENG_jutpact
+			hidden_effect = {
+				ENG = { modify_country_flag = { flag = lnt_members value = -2 } }
+			}
+			ENG = { country_event = { id = ukf.2250 } }
+		}
+	}
+	FRA_leave_dovpact = {
+		visible = {
+			ROOT = { has_idea = ENG_dovpact }
+		}
+		icon = generic_naval
+		ai_will_do = {
+			factor = 320
+		}
+		available = {
+			OR = {
+				NOT = { ENG = { has_guaranteed = ROOT } }
+				ROOT = { has_opinion = { target = ENG value < 0 } }
+				has_war_with = ENG
+			}
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision FRA_leave_dovpact"
+			remove_ideas = ENG_dovpact
+			hidden_effect = {
+				ENG = { modify_country_flag = { flag = lnt_members value = -2 } }
+			}
+			ENG = { country_event = { id = ukf.2250 } }
+		}
+	}
+}

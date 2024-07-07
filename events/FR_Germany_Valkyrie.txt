@@ -1,0 +1,4578 @@
+﻿
+
+add_namespace = valkyrie
+
+country_event = { #January Plot
+	id = valkyrie.1
+	title = valkyrie.1.t
+	desc = valkyrie.1.d
+	picture = GFX_report_event_GER_dressler_poster
+
+	fire_only_once = yes
+
+	trigger = {
+		tag = GER
+		is_puppet = no
+		date > 1936.01.15
+		date < 1936.02.10
+		has_country_leader = {
+			character = GER_Adam_Dressler
+			ruling_only = yes
+		}
+	}
+
+	option = {
+		name = valkyrie.1.a
+		set_country_flag = GER_VALKYRIE
+		ai_chance = {
+			factor = 0
+		}
+		custom_effect_tooltip = new_focus_tree_unlocked
+		mark_focus_tree_layout_dirty = yes
+		set_global_flag = GER_WHRM
+	}
+	option = {
+		name = valkyrie.1.b
+		set_country_Flag = GER_VANILLA
+		ai_chance = {
+			factor = 4000
+		}
+		mark_focus_tree_layout_dirty = yes
+		add_political_power = -50
+	}
+}
+
+
+country_event = { #Assassination Dressler
+	id = valkyrie.2
+	title = valkyrie.2.t
+	desc = valkyrie.2.d
+	picture = GFX_report_event_GER_konrad_henlein
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		name = valkyrie.2.a
+		remove_ideas = GER_divided_govt
+		add_ideas = ger_political_collapse
+		retire_character = GER_Adam_Dressler
+		add_country_leader_role = {
+			character = GER_Valkist_Council
+			promote_leader = yes
+			country_leader = {
+				ideology = valkist_subtype
+				traits = {}
+			}
+		}
+		hidden_effect = {
+			random_other_country = {
+				news_event = { id = fxnews.21 days = 2 }
+			}
+		}
+
+		set_country_flag = GER_DRSLR_DEATH
+	}
+}
+
+
+country_event = { #Chaos in the Country
+	id = valkyrie.3
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.3"}
+	title = valkyrie.3.t
+	desc = valkyrie.3.d
+	picture = GFX_report_event_GER_konrad_henlein
+
+	is_triggered_only = yes
+
+	option = {
+		name = valkyrie.3.a
+
+		ai_chance = {
+			factor = 50
+		}
+
+		add_popularity = {
+			ideology = authoritarian_democrat
+			popularity = 0.4
+		}
+		add_popularity = {
+			ideology = paternal_autocrat
+			popularity = 0.2
+		}
+		add_popularity = {
+			ideology = national_populist
+			popularity = 0.1
+		}
+
+		set_politics = {
+			ruling_party = authoritarian_democrat
+			elections_allowed = no
+		}
+
+		hidden_effect = {
+			add_ideas = military_junta
+			if = {
+				limit = {
+					is_faction_leader = yes
+				}
+				dismantle_faction = yes
+			}
+			if = {
+				limit = {
+					is_in_faction  = yes
+				}
+				remove_from_faction = GER
+			}
+
+			if = {
+				limit = { has_idea = HOL_dutch_german_economic_cooperation }
+				remove_ideas = HOL_dutch_german_economic_cooperation
+			}
+			else_if = {
+				limit = { has_idea = HOL_dutch_german_economic_cooperation_1 }
+				remove_ideas = HOL_dutch_german_economic_cooperation_1
+			}
+			set_cosmetic_tag = GER_kaiserreich
+		}
+
+		add_country_leader_role = {
+			character = GER_Hans_von_Seeckt
+			promote_leader = yes
+			country_leader = {
+				ideology = authoritarian_democrat_subtype
+				traits = {}
+			}
+		}
+		remove_every_minister = yes
+		activate_advisor = GER_Hans_Juergen_Graf_von_Blumenthal_hog_ade
+		activate_advisor = GER_Friedrich_Werner_von_der_Schulenberg_for_ade
+		activate_advisor = GER_Hjalmar_Schacht_eco_ade
+		activate_advisor = GER_Fritz_Dietlog_Schulenburg_sec_ade
+
+		set_cosmetic_tag = GER_kaiserreich
+		set_global_flag = GER_ADECOUP
+	}
+	option = {
+		name = valkyrie.3.b
+
+		ai_chance = {
+			factor = 50
+		}
+
+		add_popularity = {
+			ideology = national_populist
+			popularity = 0.4
+		}
+		add_popularity = {
+			ideology = paternal_autocrat
+			popularity = 0.15
+		}
+		add_popularity = {
+			ideology = authoritarian_democrat
+			popularity = 0.1
+		}
+
+		set_politics = {
+			ruling_party = national_populist
+			elections_allowed = no
+		}
+		retire_character = GER_Valkist_Council
+		remove_every_minister = yes
+		activate_advisor = GER_Hermann_Goring_hog_npo
+		activate_advisor = GER_Konstantin_von_Neurath_for_npo
+		activate_advisor = GER_Alfred_Hugenberg_eco_pau
+		activate_advisor = GER_Rudolf_Hess_sec_npo
+
+		set_global_flag = GER_GOE
+	}
+}
+
+country_event = { #Popular issurection
+	id = valkyrie.4
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.3"}
+	title = valkyrie.4.t
+	desc = valkyrie.4.d
+	picture = GFX_report_event_GER_konrad_henlein
+
+	is_triggered_only = yes
+
+	option = {
+		name = valkyrie.4.a
+
+		ai_chance = {
+			factor = 50
+		}
+
+		add_popularity = {
+			ideology = libertarian_socialist
+			popularity = 0.4
+		}
+		add_popularity = {
+			ideology = collectivist
+			popularity = 0.1
+		}
+		add_popularity = {
+			ideology = vanguardist
+			popularity = 0.1
+		}
+
+		set_politics = {
+			ruling_party = libertarian_socialist
+			elections_allowed = no
+		}
+
+		hidden_effect = {
+			if = {
+				limit = {
+					is_faction_leader = yes
+				}
+				dismantle_faction = yes
+			}
+			if = {
+				limit = {
+					is_in_faction  = yes
+				}
+				remove_from_faction = GER
+			}
+
+			if = {
+				limit = { has_idea = HOL_dutch_german_economic_cooperation }
+				remove_ideas = HOL_dutch_german_economic_cooperation
+			}
+			else_if = {
+				limit = { has_idea = HOL_dutch_german_economic_cooperation_1 }
+				remove_ideas = HOL_dutch_german_economic_cooperation_1
+			}
+
+			add_ideas = revolutionary_movement
+			add_country_leader_role = {
+				character = GER_Willy_Brandt
+				promote_leader = yes
+				country_leader = {
+					ideology = libertarian_socialist_subtype
+					traits = {}
+				}
+			}
+
+			remove_every_minister = yes
+			activate_advisor = GER_Otto_Grotewohl_hog_lib
+			activate_advisor = GER_Heinirch_Mann_for_lib
+			activate_advisor = GER_Lujo_Brentano_eco_lib
+			activate_advisor = GER_Hilde_Benjamin_sec_col
+
+			set_cosmetic_tag = GER_socialism
+			set_global_flag = GER_PINS
+		}
+	}
+
+	option = {
+		name = valkyrie.4.b
+		set_global_flag = GER_ARMY
+	}
+}
+
+
+country_event = { #seeckts speech
+	id = valkyrie.5
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.5"}
+	title = valkyrie.5.t
+	desc = valkyrie.5.d
+	picture = GFX_event_seeckt_on_radio
+	is_triggered_only = yes
+	option = {
+		name = valkyrie.5.a
+		add_stability = 0.05
+		add_popularity = {
+			ideology = authoritarian_democrat
+			popularity = 0.05
+		}
+	}
+}
+
+
+country_event = { #Goering's Speech
+	id = valkyrie.6
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.6"}
+	title = valkyrie.6.t
+	desc = valkyrie.6.d
+	picture = GFX_event_goering_on_radio
+	is_triggered_only = yes
+	option = {
+		name = valkyrie.6.a
+		add_political_power = 65
+		add_popularity = {
+			ideology = national_populist
+			popularity = 0.05
+		}
+	}
+}
+
+country_event = { #Goering Blue Max Tour
+	id = valkyrie.7
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.7"}
+	title = valkyrie.7.t
+	desc = valkyrie.7.d
+	picture = GFX_event_bluemaxtour
+	is_triggered_only = yes
+	option = {
+		name = valkyrie.7.a
+		add_political_power = 65
+		add_popularity = {
+			ideology = national_populist
+			popularity = 0.1
+		}
+		swap_ideas = { remove_idea = ger_political_collapse_3_g add_idea = ger_political_collapse_4_g }
+	}
+}
+
+country_event = { #Popular insurection
+	id = valkyrie.8
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.8"}
+	title = valkyrie.8.t
+	desc = valkyrie.8.d
+	picture = GFX_event_worker_party
+	is_triggered_only = yes
+	option = {
+		name = valkyrie.8.a
+		add_popularity = {
+			ideology = libertarian_socialist
+			popularity = 0.1
+		}
+		set_party_name = { ideology = libertarian_socialist long_name = "Allgemeiner Deutscher Gewerkschaftsbund" name = "ADGB" }
+	}
+}
+
+country_event = { #reintroducing the 1871 constitution
+	id = valkyrie.9
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.9"}
+	title = valkyrie.9.t
+	desc = valkyrie.9.d
+	picture = GFX_event_german_constitution
+	is_triggered_only = yes
+	option = {
+		name = valkyrie.9.a
+		add_stability = 0.05
+		add_popularity = {
+			ideology = authoritarian_democrat
+			popularity = 0.03
+		}
+		add_popularity = {
+			ideology = social_conservative
+			popularity = 0.05
+		}
+	}
+}
+
+country_event = { #inviting the local princes
+	id = valkyrie.10
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.10"}
+	title = valkyrie.10.t
+	desc = valkyrie.10.d
+	picture = GFX_event_german_nobility
+	is_triggered_only = yes
+	option = {
+		name = valkyrie.10.a
+
+		army_experience = 40
+
+		add_popularity = {
+			ideology = authoritarian_democrat
+			popularity = 0.03
+		}
+		add_popularity = {
+			ideology = social_conservative
+			popularity = 0.02
+		}
+	}
+	option = {
+		name = valkyrie.10.b
+
+		add_offsite_building = { type = industrial_complex level = 2 }
+
+		add_political_power = -50
+
+		add_popularity = {
+			ideology = market_liberal
+			popularity = 0.03
+		}
+		add_popularity = {
+			ideology = social_conservative
+			popularity = 0.02
+		}
+	}
+}
+
+country_event = { #the marriage
+	id = valkyrie.11
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.11"}
+	title = valkyrie.11.t
+	desc = valkyrie.11.d
+	picture = GFX_marraige_of_the_deposed
+	is_triggered_only = yes
+	option = {
+		name = valkyrie.11.a
+	}
+}
+
+country_event = { #Absolutist vs Parlementarian decision
+	id = valkyrie.12
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.12"}
+	title = valkyrie.12.t
+	desc = valkyrie.12.d
+	picture = GFX_event_policemen
+	is_triggered_only = yes
+	option = {
+		name = valkyrie.12.a
+		hidden_effect = {
+			add_ideas = absolute_monarchy
+		}
+		add_popularity = {
+			ideology = paternal_autocrat
+			popularity = 0.10
+		}
+		add_popularity = {
+			ideology = authoritarian_democrat
+			popularity = 0.05
+		}
+	}
+	option = {
+		name = valkyrie.12.b
+		hidden_effect = {
+			add_ideas = constitutional_monarchy
+		}
+		add_popularity = {
+			ideology = paternal_autocrat
+			popularity = 0.05
+		}
+		add_popularity = {
+			ideology = authoritarian_democrat
+			popularity = 0.10
+		}
+	}
+	option = {
+		name = valkyrie.12.c
+		hidden_effect = {
+			add_ideas = constitutional_monarchy
+		}
+		add_popularity = {
+			ideology = market_liberal
+			popularity = 0.10
+		}
+		add_popularity = {
+			ideology = social_conservative
+			popularity = 0.10
+		}
+		add_popularity = {
+			ideology = paternal_autocrat
+			popularity = -0.10
+		}
+		add_popularity = {
+			ideology = authoritarian_democrat
+			popularity = -0.05
+		}
+	}
+}
+
+country_event = { #Accession to the throne authdem/conservativism
+	id = valkyrie.13
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.13"}
+	title = valkyrie.13.t
+	desc = valkyrie.13.d
+	picture = GFX_event_whilhem_3
+	is_triggered_only = yes
+
+	option = {
+		name = valkyrie.13.a
+		add_popularity = {
+			ideology = authoritarian_democrat
+			popularity = 0.15
+		}
+		add_popularity = {
+			ideology = paternal_autocrat
+			popularity = 0.05
+		}
+		GER_add_wilhelm_iii = yes
+	}
+
+	option = {
+		name = valkyrie.13.b
+		add_popularity = {
+			ideology = social_conservative
+			popularity = 0.4
+		}
+		add_popularity = {
+			ideology = market_liberal
+			popularity = 0.15
+		}
+		add_popularity = {
+			ideology = social_liberal
+			popularity = 0.1
+		}
+		add_popularity = {
+			ideology = social_democrat
+			popularity = 0.1
+		}
+		set_global_flag = GER_DEM
+		GER_add_wilhelm_iii = yes
+	}
+}
+
+country_event = { #First German election
+	id = valkyrie.14
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.14"}
+	title = valkyrie.14.t
+	desc = valkyrie.14.d
+	picture = GFX_event_german_election
+	is_triggered_only = yes
+
+	option = {
+		name = valkyrie.14.a
+		ai_chance = {
+			factor = 50
+		}
+
+		add_popularity = {
+			ideology = social_conservative
+			popularity = 0.1
+		}
+
+		set_politics = {
+			ruling_party = social_conservative
+			elections_allowed = yes
+		}
+
+		remove_every_minister = yes
+		activate_advisor = GER_Wilhelm_Marx_hog_sco
+		activate_advisor = GER_Heinrich_von_Brentano_for_sco
+		activate_advisor = GER_Adam_Stregerwald_eco_sco
+		activate_advisor = GER_Arthur_Nebe_sec_sco
+
+	}
+	option = {
+		name = valkyrie.14.b
+		ai_chance = {
+			factor = 50
+		}
+
+		add_popularity = {
+			ideology = market_liberal
+			popularity = 0.2
+		}
+		add_popularity = {
+			ideology = social_liberal
+			popularity = 0.05
+		}
+		add_popularity = {
+			ideology = social_democrat
+			popularity = 0.05
+		}
+
+		set_politics = {
+			ruling_party = market_liberal
+			elections_allowed = yes
+		}
+
+		remove_every_minister = yes
+		activate_advisor = GER_Wilhelm_Marx_hog_sco
+		activate_advisor = GER_Hans_Vogel_for_sde
+		activate_advisor = GER_Kurt_Schumacher_eco_sde
+		activate_advisor = GER_Wilhelm_Abegg_sec_mli
+	}
+}
+
+
+
+country_event = { #Break the army Vs reconciliation
+	id = valkyrie.15
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.15"}
+	title = valkyrie.15.t
+	desc = valkyrie.15.d
+	picture = GFX_event_german_army_poster_1
+	is_triggered_only = yes
+	option = {
+		name = valkyrie.15.a
+		add_popularity = {
+			ideology = authoritarian_democrat
+			popularity = 0.05
+		}
+		set_global_flag = GER_FRIENDWH
+	}
+	option = {
+		name = valkyrie.15.b
+		add_popularity = {
+			ideology = paternal_autocrat
+			popularity = -0.05
+		}
+		add_popularity = {
+			ideology = authoritarian_democrat
+			popularity = -0.05
+		}
+		set_global_flag = GER_BREAKWH
+	}
+}
+
+
+
+country_event = { #Birth national guard
+	id = valkyrie.16
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.16"}
+	title = valkyrie.16.t
+	desc = valkyrie.16.d
+	picture = GFX_event_german_socialist_national_guard
+	is_triggered_only = yes
+	option = {
+		name = valkyrie.16.a
+		add_ideas = GER_national_guard
+	}
+}
+
+
+country_event = { #federal army Vs better regional army
+	id = valkyrie.17
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.17"}
+	title = valkyrie.17.t
+	desc = valkyrie.17.d
+	picture = GFX_event_german_federal_army
+	is_triggered_only = yes
+	option = {
+		name = valkyrie.17.a
+
+		swap_ideas = { remove_idea = GER_national_guard add_idea = GER_Federal_Army }
+
+	}
+	option = {
+		name = valkyrie.17.b
+
+		swap_ideas = { remove_idea = GER_national_guard add_idea = GER_Improved_National_Guard }
+	}
+}
+
+
+
+
+
+# Germano-British Alliance
+
+country_event = {
+	id = valkyrie.18
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.18"}
+	title = valkyrie.18.t
+	desc = valkyrie.18.d
+	picture = GFX_report_event_ast_army
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.18.a
+		ai_chance = {
+			base = 100
+		}
+
+		GER = { country_event = { id = valkyrie.19 days = 1 } }
+	}
+}
+
+
+# Britain accepts
+
+country_event = {
+	id = valkyrie.19
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.19"}
+	title = valkyrie.19.t
+	desc = valkyrie.19.d
+	picture = GFX_report_event_ast_army
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.19.a
+
+		ENG = {
+			if = {
+				limit = {
+					is_faction_leader = yes
+				}
+				dismantle_faction = yes
+			}
+			if = {
+				limit = {
+					is_in_faction  = yes
+				}
+				remove_from_faction = ENG
+			}
+		}
+		GER = {
+			if = {
+				limit = {
+					is_faction_leader = yes
+				}
+				dismantle_faction = yes
+			}
+			if = {
+				limit = {
+					is_in_faction  = yes
+				}
+				remove_from_faction = GER
+			}
+			create_faction = "Berlin-London Alliance"
+			add_to_faction = ENG
+		}
+	}
+}
+
+
+
+
+# Germano-Soviet Alliance
+
+country_event = {
+	id = valkyrie.20
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.20"}
+	title = valkyrie.20.t
+	desc = valkyrie.20.d
+	picture = GFX_report_event_ast_army
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.20.a
+		ai_chance = {
+			base = 100
+		}
+
+		GER = { country_event = { id = valkyrie.21 days = 1 } }
+	}
+}
+
+
+
+# Soviet Union accepts
+
+country_event = {
+	id = valkyrie.21
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.21"}
+	title = valkyrie.21.t
+	desc = valkyrie.21.d
+	picture = GFX_report_event_ast_army
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.21.a
+
+		SOV = {
+			if = {
+				limit = {
+					is_faction_leader = yes
+				}
+				dismantle_faction = yes
+			}
+			if = {
+				limit = {
+					is_in_faction  = yes
+				}
+				remove_from_faction = SOV
+			}
+		}
+		GER = {
+			if = {
+				limit = {
+					is_faction_leader = yes
+				}
+				dismantle_faction = yes
+			}
+			if = {
+				limit = {
+					is_in_faction  = yes
+				}
+				remove_from_faction = GER
+			}
+			create_faction = "Comintern"
+			add_to_faction = SOV
+		}
+	}
+}
+
+
+country_event = {
+	id = valkyrie.22
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.22"}
+	title = valkyrie.22.t
+	desc = valkyrie.22.d
+	picture = GFX_report_event_ast_army
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.22.a
+
+		ENG = { give_guarantee = BEL }
+		ENG = { give_guarantee = HOL }
+		give_guarantee = BEL
+		give_guarantee = HOL
+	}
+}
+
+
+country_event = {
+	id = valkyrie.23
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.23"}
+	title = valkyrie.23.t
+	desc = valkyrie.23.d
+	picture = GFX_event_royal_visit_to_germany
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.23.a
+
+		add_opinion_modifier = { target = ENG modifier = medium_increase }
+
+	}
+}
+
+
+country_event = { # Military exercise with the British
+	id = valkyrie.24
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.24"}
+	title = "Germany invites us to a military exercise"
+	desc = valkyrie.24.d
+	picture = GFX_report_event_communists_cheer
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		name = "We should attend"
+		GER = {
+			country_event = valkyrie.25
+		}
+	}
+}
+
+country_event = {
+	id = valkyrie.25
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.25"}
+	title = "The British have accepted our proposal"
+	desc = valkyrie.25.d
+	picture = GFX_report_event_communists_cheer
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		name = "We must prepare"
+		GER = {
+			country_event = { id = valkyrie.26 days = 4 }
+			set_country_flag = GER_mil_exercise
+		}
+		ENG = {
+			country_event = { id = valkyrie.26 days = 4 }
+		}
+	}
+}
+
+country_event = {
+	id = valkyrie.26
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.26"}
+	title = "Anglo-German military exercise"
+	desc = valkyrie.26.d
+	picture = GFX_report_event_communists_cheer
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		trigger = {
+			tag = GER
+		}
+		name = "Those British haven't adapted at all since the Great War"
+		army_experience = 25
+		add_tech_bonus = {
+			category = land_doctrine
+			bonus = 0.5
+			uses = 1
+		}
+	}
+	option = {
+		trigger = {
+			tag = ENG
+		}
+		name = "Looks like the Germans are well prepared to lose the next war too"
+		army_experience = 25
+		add_tech_bonus = {
+			category = land_doctrine
+			bonus = 0.5
+			uses = 1
+		}
+	}
+}
+
+country_event = {
+	id = valkyrie.27
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.27"}
+	title = "Germany offers a us a trade deal on military goods"
+	desc = valkyrie.27.d
+	picture = GFX_report_event_communists_cheer
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		ai_chance = {
+			factor = 160
+		}
+		name = "This will help our armored vehicle industry"
+		add_ideas = ENG_german_deal
+		GER = {
+			country_event = valkyrie.28
+		}
+	}
+}
+
+country_event = {
+	id = valkyrie.28
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.28"}
+	title = "Britain agrees to our trade deal"
+	desc = valkyrie.28.d
+	picture = GFX_report_event_communists_cheer
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		name = "Anglo-German relations have never been better"
+		add_ideas = GER_english_deal
+	}
+}
+
+###########################################
+########Czech events#######################
+###########################################
+
+country_event = { #Czech problem
+	id = valkyrie.29
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.29"}
+	title = valkyrie.29.t
+	desc = valkyrie.29.d
+	picture = GFX_report_event_french_british_officers
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.29.a
+		CZE = {
+			country_event = { id = valkyrie.30 days = 4 } #Sudentenlands
+		}
+	}
+
+	option = {
+		name = valkyrie.29.b
+		CZE = {
+			country_event = { id = valkyrie.31 days = 4 } #Full Submition
+		}
+	}
+}
+
+country_event = { #Czech reaction for the Sudentenlands
+	id = valkyrie.30
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.30"}
+	title = valkyrie.30.t
+	desc = valkyrie.30.d
+	picture = GFX_report_event_french_british_officers
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.30.a
+
+		ai_chance = {
+			factor = 40
+			modifier = {
+				factor = 80
+				strength_ratio = {
+					tag = GER
+					ratio < 0.6
+				}
+			}
+			modifier = {
+				factor = 0
+				strength_ratio = {
+					tag = GER
+					ratio > 0.6
+				}
+			}
+		}
+
+		GER = {
+			transfer_state = 775
+			transfer_state = 74
+			transfer_state = 69
+			country_event = { id = valkyrie.32 days = 4 } #Says yes
+		}
+	}
+
+	option = {
+		name = valkyrie.30.b
+		ai_chance = {
+			factor = 40
+			modifier = {
+				factor = 0.5
+				strength_ratio = {
+					tag = GER
+					ratio < 0.5
+				}
+			}
+		}
+
+		GER = {
+			country_event = { id = valkyrie.33 days = 4 } #Says no
+		}
+	}
+}
+
+country_event = { #Germany get the message :Czech says yes to Sudentenlands transfer.
+	id = valkyrie.32
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.32"}
+	title = valkyrie.32.t
+	desc = valkyrie.32.d
+	picture = GFX_report_event_french_british_officers
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.32.a
+		POL = { give_guarantee = CZE }
+	}
+}
+
+country_event = { #Germany get the message : Czech says no to Sudentenlands transfer.
+	id = valkyrie.33
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.33"}
+	title = valkyrie.33.t
+	desc = valkyrie.33.d
+	picture = GFX_report_event_ast_army
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.33.a #Germany declares war / Poland rallied w Czechia
+		GER = {
+			declare_war_on = {
+				type = annex_everything
+				target = CZE
+			}
+		}
+		hidden_effect = {
+			POL = {
+				country_event = { id = valkyrie.34 days = 4 } #Czechs are under attack
+			}
+		}
+		custom_effect_tooltip = GER_unkown_repercussions
+	}
+	option = {
+		name = valkyrie.33.b #perhaps they are hiding something...
+	}
+}
+
+country_event = { #Poland allies w Czechia to defeat Germany
+	id = valkyrie.34
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.34"}
+	title = valkyrie.34.t
+	desc = valkyrie.34.d
+	picture = GFX_report_event_ast_army
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.34.a #Germany declares war / Poland rallied w Czechia
+
+		ai_chance = {
+			factor = 40
+			modifier = {
+				factor = 10
+				strength_ratio = {
+					tag = GER
+					ratio < 0.5 #Weaker than Germany
+				}
+			}
+			modifier = {
+				factor = 100
+				strength_ratio = {
+					tag = GER
+					ratio > 0.5 #Stronger than Germany
+				}
+			}
+		}
+		POL = {
+			declare_war_on = {
+				type = annex_everything
+				target = GER
+			}
+		}
+
+		create_faction = "Czecho-Polish Entente"
+		add_to_faction = CZE
+		GER = {
+			country_event = { id = valkyrie.35 days = 2 } #Germany receives the message
+		}
+	}
+	option = {
+		name = valkyrie.34.b #Let it slide
+
+		ai_chance = {
+			factor = 20
+		}
+	}
+}
+
+
+country_event = { #Germany receives the message that Poland attacked them
+	id = valkyrie.35
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.35"}
+	title = valkyrie.35.t
+	desc = valkyrie.35.d
+	picture = GFX_report_event_ast_army
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.35.a
+		GER = {
+			add_state_core = 188
+			add_state_core = 752
+			add_state_core = 86
+			add_state_core = 67
+		}
+	}
+}
+
+country_event = { #puppeted and ripped apart or no ? Czech event
+	id = valkyrie.31
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.31"}
+	title = valkyrie.31.t
+	desc = valkyrie.31.d
+	picture = GFX_report_event_ast_army
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.31.a
+		ai_chance = {
+			factor = 40
+			modifier = {
+				factor = 80
+				strength_ratio = {
+					tag = GER
+					ratio < 1.5
+				}
+			}
+			modifier = {
+				factor = 0
+				strength_ratio = {
+					tag = GER
+					ratio > 1.5
+				}
+			}
+		}
+		GER = {
+			country_event = { id = valkyrie.36 days = 2 } #Says no
+		}
+	}
+	option = {
+		name = valkyrie.31.b
+		ai_chance = {
+			factor = 1
+		}
+
+		GER = {
+			country_event = { id = valkyrie.37 days = 4 } #Czechs capitulate
+		}
+	}
+}
+
+country_event = { #Germany get the message : Czech says no to getting oblitarated.
+	id = valkyrie.36
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.36"}
+	title = valkyrie.36.t
+	desc = valkyrie.36.d
+	picture = GFX_report_event_ast_army
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.36.a #Germany declares war / Poland rallied w Czechia
+
+		GER = {
+			declare_war_on = {
+				type = annex_everything
+				target = CZE
+			}
+		}
+		hidden_effect = {
+			POL = {
+				country_event = { id = valkyrie.34 days = 4 } #Czechs are under attack
+			}
+		}
+		custom_effect_tooltip = GER_unkown_repercussions
+	}
+	option = {
+		name = valkyrie.36.b #perhaps they are hiding something...
+	}
+}
+
+country_event = { #Czechia capitulates
+	id = valkyrie.37
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.37"}
+	title = valkyrie.37.t
+	desc = valkyrie.37.d
+	picture = GFX_report_event_ast_army
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.37.a
+		GER = {
+			transfer_state = 775
+			transfer_state = 74
+			transfer_state = 69
+			puppet = CZE
+		}
+		CZE = {
+			remove_state_core = 775
+			remove_state_core = 74
+			remove_state_core = 69
+			add_state_claim = 775
+			add_state_claim = 74
+			add_state_claim = 69
+		}
+	}
+}
+
+
+###########################################
+#########Austrian events###################
+###########################################
+
+country_event = { #Germany marches on into Austria
+	id = valkyrie.38
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.38"}
+	title = valkyrie.38.t
+	desc = valkyrie.38.d
+	picture = GFX_report_event_ast_army
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.38.a
+
+		AUS = {
+			country_event = { id = valkyrie.39 days = 4 } #Italy occupies Southern Austria
+		}
+	}
+}
+
+country_event = { #Austria gets the events
+	id = valkyrie.39
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.39"}
+	title = valkyrie.39.t
+	desc = valkyrie.39.d
+	picture = GFX_report_event_ast_army
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.39.a
+		ai_chance = {
+			factor = 40
+		}
+
+		GER = {
+			country_event = { id = valkyrie.40 days = 4 } #Austria dies
+		}
+	}
+
+	option = {
+		name = valkyrie.39.b
+		ai_chance = {
+			factor = 10
+		}
+
+		ITA = {
+			country_event = { id = valkyrie.41 days = 4 } #Italy occupies Southern Austria
+		}
+	}
+}
+
+country_event = { #Germany annexes the country as a whole
+	id = valkyrie.40
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.40"}
+	title = valkyrie.40.t
+	desc = valkyrie.40.d
+	picture = GFX_report_event_ast_army
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.40.a
+
+		annex_country = { target = AUS transfer_troops = yes }
+		GER = {
+			add_state_core = 152
+			add_state_core = 803
+			add_state_core = 4
+			add_state_core = 772
+			add_state_core = 912
+			add_state_core = 913
+			add_state_core = 153
+		}
+	}
+}
+
+country_event = { #Italian intervention
+	id = valkyrie.41
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.41"}
+	title = valkyrie.41.t
+	desc = valkyrie.41.d
+	picture = GFX_report_event_ast_army
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.41.a
+		GER = {
+			add_state_core = 152
+			add_state_core = 803
+			add_state_core = 4
+			add_state_core = 772
+			add_state_core = 912
+			add_state_core = 913
+			add_state_core = 153
+			transfer_state = 152
+			transfer_state = 803
+			country_event = { id = valkyrie.42 days = 4 }
+			add_manpower = 25000
+		}
+		HUN = {
+			transfer_state = 772
+		}
+		ITA = { puppet = AUS }
+		AUS = { set_cosmetic_tag = AUS_ITA }
+	}
+}
+
+country_event = { #German response to the Austro-Italian problem
+	id = valkyrie.42
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.42"}
+	title = valkyrie.42.t
+	desc = valkyrie.42.d
+	picture = GFX_report_event_ast_army
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.42.a
+		add_political_power = -10
+	}
+
+	option = {
+		name = valkyrie.42.b
+
+		GER = {
+			declare_war_on = {
+				type = annex_everything
+				target = AUS
+			}
+		}
+	}
+}
+
+###########################################
+#########Polish events#####################
+###########################################
+
+
+country_event = { #Poznan, Mazury for guns/diplo/force
+	id = valkyrie.43
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.43"}
+	title = valkyrie.43.t
+	desc = valkyrie.43.d
+	picture = GFX_report_event_ast_army
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.43.a
+
+		POL = {
+			country_event = { id = valkyrie.44 days = 4 } #Poznan and Mazury for guns, guns, guns
+		}
+	}
+
+	option = {
+		name = valkyrie.43.b
+
+		POL = {
+			country_event = { id = valkyrie.45 days = 4 } #Poznan and Mazury for guarentee against enemy forces
+		}
+	}
+
+	option = {
+		name = valkyrie.43.c
+
+		POL = {
+			country_event = { id = valkyrie.46 days = 4 } #GIVE US THE DAMN PROVINCES OR DIE
+		}
+	}
+}
+
+
+country_event = { #German provinces for guns POL EVENT
+	id = valkyrie.44
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.44"}
+	title = valkyrie.44.t
+	desc = valkyrie.44.d
+	picture = GFX_report_event_ast_army
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.44.a
+		ai_chance = {
+			factor = 80
+		}
+		GER = {
+			country_event = { id = valkyrie.48 days = 4 } #YES
+		}
+	}
+
+	option = {
+		name = valkyrie.44.b
+		ai_chance = {
+			factor = 40
+		}
+		GER = {
+			country_event = { id = valkyrie.47 days = 4 } #NO
+		}
+	}
+}
+
+
+country_event = { #German provinces for guarentee POL EVENT
+	id = valkyrie.45
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.45"}
+	title = valkyrie.45.t
+	desc = valkyrie.45.d
+	picture = GFX_report_event_ast_army
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.45.a
+		ai_chance = {
+			factor = 80
+		}
+		GER = {
+			country_event = { id = valkyrie.49 days = 4 } #YES
+		}
+	}
+
+	option = {
+		name = valkyrie.45.b
+		ai_chance = {
+			factor = 40
+		}
+		GER = {
+			country_event = { id = valkyrie.47 days = 4 } #NO
+		}
+	}
+}
+
+
+country_event = { #German provinces or war POL EVENT
+	id = valkyrie.46
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.46"}
+	title = valkyrie.46.t
+	desc = valkyrie.46.d
+	picture = GFX_report_event_ast_army
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.46.a
+		ai_chance = {
+			factor = 40
+		}
+		GER = {
+			country_event = { id = valkyrie.50 days = 4 } #YES
+		}
+	}
+
+	option = {
+		name = valkyrie.46.b
+		ai_chance = {
+			factor = 40
+		}
+		GER = {
+			country_event = { id = valkyrie.47 days = 4 } #NO
+		}
+	}
+}
+
+
+country_event = { #Poland says no to all
+	id = valkyrie.47
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.47"}
+	title = valkyrie.47.t
+	desc = valkyrie.47.d
+	picture = GFX_report_event_ast_army
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.47.a
+		GER = {
+			declare_war_on = {
+				type = annex_everything
+				target = POL
+			}
+		}
+	}
+	option = {
+		name = valkyrie.47.b
+	}
+}
+
+
+country_event = { #yes guns
+	id = valkyrie.48
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.48"}
+	title = valkyrie.48.t
+	desc = valkyrie.48.d
+	picture = GFX_report_event_ast_army
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.48.a
+		send_equipment = {
+			target = POL
+			type = infantry_equipment
+			amount = 12000
+		}
+
+		GER = {
+			transfer_state = 86
+			transfer_state = 752
+			transfer_state = 67
+			transfer_state = 188
+		}
+	}
+}
+
+country_event = { #yes guarentee
+	id = valkyrie.49
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.49"}
+	title = valkyrie.49.t
+	desc = valkyrie.49.d
+	picture = GFX_report_event_ast_army
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.49.a
+
+		GER = {
+			give_guarantee = POL
+			transfer_state = 86
+			transfer_state = 752
+			transfer_state = 67
+			transfer_state = 188
+		}
+	}
+}
+
+country_event = { #yes strenght
+	id = valkyrie.50
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.50"}
+	title = valkyrie.50.t
+	desc = valkyrie.50.d
+	picture = GFX_report_event_ast_army
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.50.a
+		ai_chance = {
+			factor = 80
+		}
+
+		GER = {
+			transfer_state = 86
+			transfer_state = 752
+			transfer_state = 67
+			transfer_state = 188
+		}
+	}
+}
+
+
+
+###########################################
+#########Danish events#####################
+###########################################
+
+
+country_event = { #Danish problem
+	id = valkyrie.51
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.51"}
+	title = valkyrie.51.t
+	desc = valkyrie.51.d
+	picture = GFX_report_event_ast_army
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.51.a
+
+		DEN = {
+			country_event = { id = valkyrie.52 days = 4 }
+		}
+
+	}
+	option = {
+		name = valkyrie.51.b
+
+		GER = {
+			declare_war_on = {
+				type = annex_everything
+				target = SHO
+			}
+		}
+		GER = {
+			declare_war_on = {
+				type = annex_everything
+				target = DEN
+			}
+		}
+	}
+}
+
+country_event = { #Denmark either gives land or no
+	id = valkyrie.52
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.52"}
+	title = valkyrie.52.t
+	desc = valkyrie.52.d
+	picture = GFX_report_event_ast_army
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.52.a
+
+		ai_chance = {
+			factor = 80
+		}
+
+		GER = {
+			country_event = { id = valkyrie.53 days = 4 } #YES
+		}
+	}
+	option = {
+		name = valkyrie.52.b
+
+		ai_chance = {
+			factor = 20
+		}
+
+		GER = {
+			country_event = { id = valkyrie.54 days = 4 } #NO
+		}
+	}
+}
+
+country_event = { #Denmark gives the land back II
+	id = valkyrie.53
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.53"}
+	title = valkyrie.53.t
+	desc = valkyrie.53.d
+	picture = GFX_report_event_ast_army
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.53.a
+
+		GER = {
+			transfer_state = 915
+			transfer_state = 991
+			transfer_state = 58
+			transfer_state = 786
+			transfer_state = 784
+		}
+	}
+}
+
+country_event = { #Germany declares war on Denmark cause of refusal
+	id = valkyrie.54
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.54"}
+	title = valkyrie.54.t
+	desc = valkyrie.54.d
+	picture = GFX_report_event_ast_army
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.54.a
+
+		GER = {
+			declare_war_on = {
+				type = annex_everything
+				target = SHO
+			}
+			declare_war_on = {
+				type = annex_everything
+				target = DEN
+			}
+		}
+	}
+}
+
+###########################################
+#######Rheinland events####################
+###########################################
+
+
+country_event = { #Rheinland problem
+	id = valkyrie.55
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.55"}
+	title = valkyrie.55.t
+	desc = valkyrie.55.d
+	picture = GFX_report_event_ast_army
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.55.a
+		GER = {
+			country_event = { id = valkyrie.56 days = 4 } #CovOps
+		}
+	}
+	option = {
+		name = valkyrie.55.b
+		GER = {
+			country_event = { id = valkyrie.60 days = 4 } #Referundum
+		}
+	}
+	option = {
+		name = valkyrie.55.c
+		FRA = {
+			country_event = { id = valkyrie.67 days = 4 } #Ultimatum
+		}
+	}
+}
+
+
+country_event = { #Covert operations funding rebels in Inter Allied Rhineland
+	id = valkyrie.56
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.56"}
+	title = valkyrie.56.t
+	desc = valkyrie.56.d
+	picture = GFX_report_event_ast_army
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.56.a
+		add_equipment_to_stockpile = {
+			type = infantry_equipment
+			amount = -10000
+		}
+		GER = {
+			country_event = { id = valkyrie.57 days = 4 } #CovOps result I
+		}
+	}
+	option = {
+		name = valkyrie.56.b
+
+		add_equipment_to_stockpile = {
+			type = infantry_equipment
+			amount = -12000
+		}
+
+		add_equipment_to_stockpile = {
+			type = artillery_equipment
+			amount = -250
+		}
+
+		GER = {
+			country_event = { id = valkyrie.58 days = 4 } #CovOps result II
+		}
+	}
+	option = {
+		name = valkyrie.56.c
+
+		add_equipment_to_stockpile = {
+			type = infantry_equipment
+			amount = -14000
+		}
+
+		add_equipment_to_stockpile = {
+			type = artillery_equipment
+			amount = -300
+		}
+
+		add_equipment_to_stockpile = {
+			type = light_tank_equipment_1
+			amount = -50
+		}
+
+		GER = {
+			country_event = { id = valkyrie.59 days = 4 } #CovOps result III
+		}
+	}
+}
+
+
+country_event = { #Rheinland Assault result I
+	id = valkyrie.57
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.57"}
+	title = valkyrie.57.t
+	desc = valkyrie.57.d
+	picture = GFX_report_event_ast_army
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.57.a
+
+		GER = {
+			transfer_state = 51
+			add_manpower = -6000
+		}
+
+		FRA = {
+			add_manpower = -2000
+		}
+	}
+}
+
+
+country_event = { #Rheinland Assault result II
+	id = valkyrie.58
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.58"}
+	title = valkyrie.58.t
+	desc = valkyrie.58.d
+	picture = GFX_report_event_ast_army
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.58.a
+
+		GER = {
+			transfer_state = 51
+			transfer_state = 746
+			transfer_state = 868
+		}
+		add_manpower = -3000
+
+		FRA = {
+			add_manpower = -6000
+			annex_country = { target = RHI transfer_troops = yes }
+		}
+	}
+}
+
+
+country_event = { #Rheinland Assault result III
+	id = valkyrie.59
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.59"}
+	title = valkyrie.59.t
+	desc = valkyrie.59.d
+	picture = GFX_report_event_ast_army
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.59.a
+
+		GER = {
+			transfer_state = 51
+			transfer_state = 746
+			transfer_state = 868
+		}
+		add_manpower = -3000
+
+		FRA = {
+			add_manpower = -8000
+			annex_country = { target = RHI transfer_troops = yes }
+		}
+	}
+}
+
+
+country_event = { #Germany decides to send a referundum request to France
+	id = valkyrie.60
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.60"}
+	title = valkyrie.60.t
+	desc = valkyrie.60.d
+	picture = GFX_report_event_ast_army
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.60.a
+
+		FRA = {
+			country_event = { id = valkyrie.61 days = 4 } #sends demand of referundum to france
+		}
+	}
+}
+
+
+country_event = { #France gets the German demand for referundum
+	id = valkyrie.61
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.61"}
+	title = valkyrie.61.t
+	desc = valkyrie.61.d
+	picture = GFX_report_event_ast_army
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+
+		ai_chance = {
+
+			factor = 40
+
+			modifier = {
+				factor = 0.25
+				has_government = paternal_autocrat
+			}
+			modifier = {
+				factor = 4
+				has_government = social_conservative
+			}
+			modifier = {
+				factor = 4
+				has_government = authoritarian_democrat
+			}
+			modifier = {
+				factor = 0.25
+				has_government = valkist
+			}
+			modifier = {
+				factor = 0.5
+				has_government = libertarian_socialist
+			}
+			modifier = {
+				factor = 0.25
+				has_government = collectivist
+			}
+			modifier = {
+				factor = 0.25
+				has_government = vanguardist
+			}
+			modifier = {
+				factor = 4
+				has_government = social_democrat
+			}
+			modifier = {
+				factor = 4
+				has_government = social_liberal
+			}
+		}
+
+		name = valkyrie.61.a
+
+		RHI = { #France says yes
+			country_event = { id = valkyrie.62 days = 4 } #yes
+		}
+
+		GER = { #France says yes
+			country_event = { id = valkyrie.63 days = 4 } #yes
+		}
+	}
+
+	option = { #France says no
+
+		ai_chance = {
+			factor = 80
+		}
+
+		name = valkyrie.61.b
+
+		GER = {
+			country_event = { id = valkyrie.64 days = 4 } #no
+		}
+	}
+}
+
+
+country_event = { #Rhineland referundum
+	id = valkyrie.62
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.62"}
+	title = valkyrie.62.t
+	desc = valkyrie.62.d
+	picture = GFX_report_event_ast_army
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		ai_chance = {
+			factor = 80
+		}
+		name = valkyrie.62.a #pro-german wins
+
+		GER = {
+			country_event = { id = valkyrie.65 days = 4 } #germany annexes the Rheinland
+		}
+	}
+
+	option = {
+		ai_chance = {
+			factor = 40
+		}
+		name = valkyrie.62.a #secessionists win
+
+		GER = {
+			country_event = { id = valkyrie.66 days = 4 } #germany doesn't annex the Rheinland
+		}
+	}
+}
+
+country_event = { #Germany gets the message, Germany says yes
+	id = valkyrie.63
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.63"}
+	title = valkyrie.63.t
+	desc = valkyrie.63.d
+	picture = GFX_report_event_ast_army
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.63.a
+	}
+}
+
+country_event = { #France refuses the referundum
+	id = valkyrie.64
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.64"}
+	title = valkyrie.64.t
+	desc = valkyrie.64.d
+	picture = GFX_report_event_ast_army
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.64.a
+
+		create_wargoal = { type = annex_everything target = RHI }
+	}
+}
+
+country_event = { #Germany annexed the Rheinland
+	id = valkyrie.65
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.65"}
+	title = valkyrie.65.t
+	desc = valkyrie.65.d
+	picture = GFX_report_event_ast_army
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.65.a
+		GER = { annex_country = { target = RHI transfer_troops = no } }
+		add_manpower = 30000
+	}
+}
+
+country_event = { #Germany doesn't annex the rheinaland
+	id = valkyrie.66
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.66"}
+	title = valkyrie.66.t
+	desc = valkyrie.66.d
+	picture = GFX_report_event_ast_army
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.66.a
+
+		remove_state_core = 51
+		remove_state_core = 746
+		remove_state_core = 868
+		remove_state_core = 42
+		remove_state_core = 981
+		GER = {
+			add_state_claim = 51
+			add_state_claim = 746
+			add_state_claim = 868
+			add_state_claim = 42
+			add_state_claim = 981
+		}
+	}
+}
+
+
+country_event = { #France gets Ultimatum
+	id = valkyrie.67
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.67"}
+	title = valkyrie.67.t
+	desc = valkyrie.67.d
+	picture = GFX_report_event_ast_army
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.67.a
+		ai_chance = {
+			factor = 20
+		}
+		GER = {
+			country_event = { id = valkyrie.68 days = 4 } #France capitulates
+		}
+	}
+
+	option = {
+		name = valkyrie.67.b
+		ai_chance = {
+			factor = 80
+		}
+
+		GER = {
+			country_event = { id = valkyrie.69 days = 4 } #France doesn't capitulate
+		}
+	}
+}
+
+country_event = { #Germany gets the message the Rhineland is back to them
+	id = valkyrie.68
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.68"}
+	title = valkyrie.68.t
+	desc = valkyrie.68.d
+	picture = GFX_report_event_ast_army
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.68.a
+
+		GER = {
+			annex_country = { target = RHI transfer_troops = no }
+			transfer_state = 981
+		}
+		add_manpower = 30000
+	}
+}
+
+country_event = { #Germany gets the message the Rhineland isn't back to them
+	id = valkyrie.69
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.69"}
+	title = valkyrie.69.t
+	desc = valkyrie.69.d
+	picture = GFX_report_event_ast_army
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.68.a
+		create_wargoal = { type = annex_everything target = RHI }
+	}
+}
+
+
+###########################################
+#######Libertarian events##################
+###########################################
+
+
+country_event = { #Germany makes a socialist revolution on into Austria
+	id = valkyrie.70
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.70"}
+	title = valkyrie.70.t
+	desc = valkyrie.70.d
+	#picture = GFX_report_event_ast_army
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.70.a
+
+		AUS = {
+			country_event = { id = valkyrie.71 days = 4 } #Italy occupies Southern Austria
+		}
+	}
+}
+
+country_event = { #Germany makes a socialist revolution on into Austria
+	id = valkyrie.71
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.71"}
+	title = valkyrie.71.t
+	desc = valkyrie.71.d
+	#picture = GFX_report_event_ast_army
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.71.a
+
+		ai_chance = {
+			factor = 40
+		}
+
+		annex_country = { target = AUS transfer_troops = yes }
+
+		152 = {
+			add_core_of = GER
+		}
+		803 = {
+			add_core_of = GER
+		}
+		4 = {
+			add_core_of = GER
+		}
+		772 = {
+			add_core_of = GER
+		}
+		772 = {
+			add_core_of = GER
+		}
+		912 = {
+			add_core_of = GER
+		}
+		913 = {
+			add_core_of = GER
+		}
+		153 = {
+			add_core_of = GER
+		}
+	}
+	option = {
+		name = valkyrie.71.b
+
+		ai_chance = {
+			factor = 10
+		}
+
+		152 = {
+			add_core_of = GER
+		}
+		803 = {
+			add_core_of = GER
+		}
+		4 = {
+			add_core_of = GER
+		}
+		772 = {
+			add_core_of = GER
+		}
+		772 = {
+			add_core_of = GER
+		}
+		912 = {
+			add_core_of = GER
+		}
+		913 = {
+			add_core_of = GER
+		}
+		153 = {
+			add_core_of = GER
+		}
+
+		GER = {
+			transfer_state = 152
+			transfer_state = 803
+		}
+
+		HUN = {
+			transfer_state = 772
+		}
+
+		ITA={ puppet= AUS}
+		AUS = { set_cosmetic_tag = AUS_ITA }
+
+		GER = {
+			country_event = { id = valkyrie.72 days = 4 } #Italy has intervened
+		}
+
+		GER = {
+			add_manpower = 25000
+		}
+	}
+}
+
+
+country_event = { #German response to the Austro-Italian problem
+	id = valkyrie.72
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.72"}
+	title = valkyrie.72.t
+	desc = valkyrie.72.d
+	#picture = GFX_report_event_ast_army
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.72.a
+
+	}
+
+	option = {
+		name = valkyrie.72.b
+
+		GER = {
+			declare_war_on = {
+				type = annex_everything
+				target = AUS
+
+			}
+		}
+	}
+}
+
+
+country_event = { #German Socialist invasion of Danish peninsula
+	id = valkyrie.73
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.73"}
+	title = valkyrie.73.t
+	desc = valkyrie.73.d
+	#picture = GFX_report_event_ast_army
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.73.a
+
+		GER = {
+			declare_war_on = {
+				type = annex_everything
+				target = DEN
+			}
+		}
+	}
+}
+
+country_event = { #German Socialist invasion of Danish peninsula if Hamburg revolted
+	id = valkyrie.20001
+	title = valkyrie.20001.t
+	desc = valkyrie.20001.d
+	#picture = GFX_report_event_physics_lab_02
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.20001.a
+
+		GER = {
+			puppet= SHO
+		}
+
+		SHO = {
+			set_cosmetic_tag = SHO_puppet_communist
+
+			kill_country_leader = yes
+		}
+
+		GER = {
+			declare_war_on = {
+				type = annex_everything
+				target = DEN
+			}
+		}
+	}
+
+	option = {
+		name = valkyrie.20001.b
+
+	}
+}
+
+
+country_event = { #non socialist german Danish Hamburg war
+	id = valkyrie.20002
+	title = valkyrie.20002.t
+	desc = valkyrie.20002.d
+	#picture = GFX_report_event_physics_lab_02
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+
+	option = {
+		name = valkyrie.20002.a
+
+		GER = {
+			declare_war_on = {
+				type = annex_everything
+				target = SHO
+			}
+		}
+	}
+
+	option = {
+		name = valkyrie.20002.b
+
+		GER = {
+			declare_war_on = {
+				type = annex_everything
+				target = SHO
+			}
+		}
+
+		GER = {
+			declare_war_on = {
+				type = annex_everything
+				target = DEN
+			}
+		}
+
+	}
+
+	option = {
+		name = valkyrie.20002.c
+	}
+}
+
+country_event = { #wants to fund rebels
+	id = valkyrie.74
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.74"}
+	title = valkyrie.74.t
+	desc = valkyrie.74.d
+	#picture = GFX_report_event_ast_army
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.74.a
+
+		add_equipment_to_stockpile = {
+			type = infantry_equipment
+			amount = -2000
+		}
+		hidden_effect = {
+			GER = { country_event = { id = valkyrie.75 days = 15 } }
+		}
+	}
+	option = {
+		name = valkyrie.74.b
+
+	}
+}
+
+
+country_event = { #German Socialist funding rebels in Central Europe
+	id = valkyrie.75
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.75"}
+	title = valkyrie.75.t
+	desc = valkyrie.75.d
+	#picture = GFX_report_event_ast_army
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.75.a
+
+		custom_effect_tooltip = GER_rebellion_tt
+
+		hidden_effect = {
+			load_oob = GER_socialist_revolts
+		}
+	}
+}
+
+
+country_event = { #Germany brings revolution to the Danube
+	id = valkyrie.76
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.76"}
+	title = valkyrie.76.t
+	desc = valkyrie.76.d
+	#picture = GFX_report_event_ast_army
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.76.a
+
+	}
+}
+
+
+
+country_event = { #Germany brings revolution to the Rheinland
+	id = valkyrie.77
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.77"}
+	title = valkyrie.77.t
+	desc = valkyrie.77.d
+	#picture = GFX_report_event_ast_army
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.77.a
+
+		RHI = {
+			country_event = { id = valkyrie.78 days = 4 } #general strike
+		}
+	}
+	option = {
+		name = valkyrie.77.b
+
+		RHI = {
+			country_event = { id = valkyrie.81 days = 4 } #funding rebels
+		}
+	}
+	option = {
+		name = valkyrie.77.c
+
+		create_wargoal = { type = annex_everything target = RHI }
+		create_wargoal = { type = annex_everything target = FRA }
+
+	}
+}
+
+
+
+country_event = { #General strike event
+	id = valkyrie.78
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.78"}
+	title = valkyrie.78.t
+	desc = valkyrie.78.d
+	#picture = GFX_report_event_ast_army
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.78.a #government abdicates socialists elected
+		FRA = {
+			end_puppet = RHI
+			if = {
+				limit = {
+					is_in_faction  = yes
+				}
+				remove_from_faction = RHI
+			}
+		}
+		RHI = { set_cosmetic_tag = RHI_VLK }
+
+		set_politics = {
+			ruling_party = libertarian_socialist
+			elections_allowed = no
+		}
+
+		retire_country_leader = yes
+		remove_ideas = RHI_S_rhineland_coal
+		remove_ideas = RHI_S_political_powderkeg
+		remove_ideas = disarmed_nation
+		remove_ideas = RHI_S_rhenish_freikorps
+		remove_ideas = RHI_S_spectre_of_spartacists
+		remove_ideas = GEN_entente_member
+		remove_ideas = RHI_S_disarmed
+
+		delete_unit_template_and_units = { division_template = "French Garrison" }
+
+		remove_every_minister = yes
+		hidden_effect = {
+			RHI_Charles_Mangin = { set_nationality = XXB }
+			RHI_Adolphe_Guillaumat = { set_nationality = XXB }
+			RHI_Louis_Theodore_Kleinmann = { set_nationality = XXB }
+			RHI_Henri_Mordacq = { set_nationality = XXB }
+			RHI_Albert_Tanant = { set_nationality = XXB }
+		}
+		effect_tooltip = {
+			RHI_Charles_Mangin = { remove_unit_leader_role = yes }
+			RHI_Adolphe_Guillaumat = { remove_unit_leader_role = yes }
+			RHI_Louis_Theodore_Kleinmann = { remove_unit_leader_role = yes }
+			RHI_Henri_Mordacq = { remove_unit_leader_role = yes }
+			RHI_Albert_Tanant = { remove_unit_leader_role = yes }
+		}
+
+		GER = {
+			puppet = RHI
+			country_event = { id = valkyrie.79 days = 4 } #strike overthrew government
+		}
+	}
+
+	option = {
+		name = valkyrie.78.b #government call in the French
+
+
+		GER = {
+			country_event = { id = valkyrie.80 days = 4 } #strike got crushed
+		}
+	}
+}
+
+
+country_event = { #Rhineland becomes puppet of Germany or gets annexed
+	id = valkyrie.79
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.79"}
+	title = valkyrie.79.t
+	desc = valkyrie.79.d
+	#picture = GFX_report_event_ast_army
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.79.a
+
+		annex_country = { target = RHI transfer_troops = yes }
+
+		create_field_marshal = {
+			name = "Hans Adam Dorten"
+			desc = "RHI_Gen_Dorten_DESC"
+			picture = "Portrait_RHI_Hans_Adam_Dorten.png"
+			traits = {inspirational_leader defensive_doctrine politically_connected media_personality}
+			skill = 2
+			attack_skill = 1
+			defense_skill = 2
+			planning_skill = 2
+			logistics_skill = 2
+		}
+
+		create_corps_commander = {
+			name = "Otto Lichtschlag"
+			desc = "RHI_Gen_Lichtschalg_DESC"
+			picture = "Portrait_RHI_Otto_Lichtschlag.png"
+			traits = {urban_assault_specialist politically_connected war_hero}
+			skill = 4
+			attack_skill = 4
+			defense_skill = 4
+			planning_skill = 2
+			logistics_skill = 2
+		}
+
+	}
+	option = {
+		name = valkyrie.79.b
+
+		GER = { puppet= RHI }
+	}
+}
+
+country_event = { #CB for liberation of the Rheinland
+	id = valkyrie.80
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.80"}
+	title = valkyrie.80.t
+	desc = valkyrie.80.d
+	#picture = GFX_report_event_ast_army
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.80.a
+
+		create_wargoal = { type = annex_everything target = RHI }
+
+	}
+}
+
+
+country_event = { #Germany funded rebels in the Rhineland
+	id = valkyrie.81
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.81"}
+	title = valkyrie.81.t
+	desc = valkyrie.81.d
+	#picture = GFX_report_event_ast_army
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.81.a
+
+		FRA = {
+			end_puppet = RHI
+			if = {
+				limit = {
+					is_in_faction = yes
+				}
+				remove_from_faction = RHI
+			}
+		}
+
+		RHI = { set_cosmetic_tag = RHI_VLK }
+
+		set_politics = {
+			ruling_party = libertarian_socialist
+			elections_allowed = no
+		}
+		retire_country_leader = yes
+
+		RHI = { load_focus_tree = generic_focus }
+
+		remove_ideas = RHI_S_rhineland_coal
+		remove_ideas = RHI_S_political_powderkeg
+		remove_ideas = disarmed_nation
+		remove_ideas = RHI_S_rhenish_freikorps
+		remove_ideas = RHI_S_spectre_of_spartacists
+		remove_ideas = GEN_entente_member
+		remove_ideas = RHI_S_disarmed
+
+		delete_unit_template_and_units = { division_template = "French Garrison" }
+
+		remove_every_minister = yes
+		hidden_effect = {
+			RHI_Charles_Mangin = { set_nationality = XXB }
+			RHI_Adolphe_Guillaumat = { set_nationality = XXB }
+			RHI_Louis_Theodore_Kleinmann = { set_nationality = XXB }
+			RHI_Henri_Mordacq = { set_nationality = XXB }
+			RHI_Albert_Tanant = { set_nationality = XXB }
+		}
+		effect_tooltip = {
+			RHI_Charles_Mangin = { remove_unit_leader_role = yes }
+			RHI_Adolphe_Guillaumat = { remove_unit_leader_role = yes }
+			RHI_Louis_Theodore_Kleinmann = { remove_unit_leader_role = yes }
+			RHI_Henri_Mordacq = { remove_unit_leader_role = yes }
+			RHI_Albert_Tanant = { remove_unit_leader_role = yes }
+		}
+		GER = {
+			puppet = RHI
+			country_event = { id = valkyrie.82 days = 4 } #rebellion won
+		}
+	}
+
+	option = {
+		name = valkyrie.81.b
+
+		GER = {
+			country_event = { id = valkyrie.83 days = 4 } #rebellion got crushed
+		}
+	}
+}
+
+
+country_event = { #Germany rebellion won
+	id = valkyrie.82
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.82"}
+	title = valkyrie.82.t
+	desc = valkyrie.82.d
+	#picture = GFX_report_event_ast_army
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.82.a
+
+	}
+
+	option = {
+		name = valkyrie.82.b
+
+		annex_country = { target = RHI transfer_troops = yes }
+
+		create_field_marshal = {
+			name = "Hans Adam Dorten"
+			desc = "RHI_Gen_Dorten_DESC"
+			picture = "Portrait_RHI_Hans_Adam_Dorten.png"
+			traits = {inspirational_leader defensive_doctrine politically_connected media_personality}
+			skill = 2
+			attack_skill = 1
+			defense_skill = 2
+			planning_skill = 2
+			logistics_skill = 2
+		}
+
+		create_corps_commander = {
+			name = "Otto Lichtschlag"
+			desc = "RHI_Gen_Lichtschalg_DESC"
+			picture = "Portrait_RHI_Otto_Lichtschlag.png"
+			traits = {urban_assault_specialist politically_connected war_hero}
+			skill = 4
+			attack_skill = 4
+			defense_skill = 4
+			planning_skill = 2
+			logistics_skill = 2
+		}
+	}
+}
+
+
+
+country_event = { #Germany rebellion got crushed
+	id = valkyrie.83
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.83"}
+	title = valkyrie.83.t
+	desc = valkyrie.83.d
+	#picture = GFX_report_event_ast_army
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.83.a
+
+		create_wargoal = { type = annex_everything target = RHI }
+
+	}
+}
+
+country_event = { #Splitting eastern europe with the bearbro
+	id = valkyrie.84
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.84"}
+	title = valkyrie.84.t
+	desc = valkyrie.84.d
+	#picture = GFX_report_event_ast_army
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.84.a
+
+		custom_effect_tooltip = GER_splitting_eastern_europe_tt
+
+		hidden_effect = {
+
+			86 = { add_claim_by = GER }
+			752 = { add_claim_by = GER }
+			98 = { add_claim_by = GER }
+			87 = { add_claim_by = GER }
+			10 = { add_claim_by = GER }
+			90 = { add_claim_by = GER }
+			67 = { add_claim_by = GER }
+			799 = { add_claim_by = GER }
+			88 = { add_claim_by = GER }
+			89 = { add_claim_by = GER }
+			91 = { add_claim_by = GER }
+			92 = { add_claim_by = GER }
+			889 = { add_claim_by = GER }
+			188 = { add_claim_by = GER }
+			189 = { add_claim_by = GER }
+			11 = { add_claim_by = GER }
+			96 = { add_claim_by = GER }
+
+
+
+			207 = { add_claim_by = SOV }
+			206 = { add_claim_by = SOV }
+			204 = { add_claim_by = SOV }
+			194 = { add_claim_by = SOV }
+			95 = { add_claim_by = SOV }
+			97 = { add_claim_by = SOV }
+
+
+
+
+			241 = { add_claim_by = SOV }
+			225 = { add_claim_by = SOV }
+			221 = { add_claim_by = SOV }
+			798 = { add_claim_by = SOV }
+			259 = { add_claim_by = SOV }
+			202 = { add_claim_by = SOV }
+			196 = { add_claim_by = SOV }
+			203 = { add_claim_by = SOV }
+			197 = { add_claim_by = SOV }
+			192 = { add_claim_by = SOV }
+			198 = { add_claim_by = SOV }
+			201 = { add_claim_by = SOV }
+			953 = { add_claim_by = SOV }
+			94 = { add_claim_by = SOV }
+			93 = { add_claim_by = SOV }
+			199 = { add_claim_by = SOV }
+			193 = { add_claim_by = SOV }
+			200 = { add_claim_by = SOV }
+			137 = { add_claim_by = SOV }
+			72 = { add_claim_by = SOV }
+			226 = { add_claim_by = SOV }
+
+			12 = { add_claim_by = EST }
+			757 = { add_claim_by = EST }
+			758 = { add_claim_by = EST }
+			190 = { add_claim_by = EST }
+
+		}
+	}
+}
+
+country_event = { #Eastern German questions
+	id = valkyrie.85
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.85"}
+	title = valkyrie.85.t
+	desc = valkyrie.85.d
+	#picture = GFX_report_event_ast_army
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.85.a
+
+		custom_effect_tooltip = GER_sov_ger_proposal_tt
+
+		hidden_effect = {
+
+			add_ideas = { GER_german_soviet_exchange }
+			SOV = { add_ideas = { GER_german_soviet_exchange } }
+
+		}
+	}
+}
+
+
+
+country_event = { #USSR gets its claims
+	id = valkyrie.86
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.85"}
+	title = valkyrie.86.t
+	desc = valkyrie.86.d
+	#picture = GFX_report_event_ast_army
+
+	fire_only_once = yes
+
+	trigger = {
+
+		tag = GER
+
+		GER = {
+			has_government = libertarian_socialist
+		}
+
+
+		NOT = {
+			country_exists = UKR
+			country_exists = LAT
+		}
+
+	}
+
+	mean_time_to_happen = { days = 7 }
+
+	option = {
+		name = valkyrie.86.a
+
+		custom_effect_tooltip = GER_returning_soviet_claims_tt
+
+		hidden_effect = {
+
+			SOV = {
+				transfer_state = 207
+				transfer_state = 206
+				transfer_state = 204
+				transfer_state = 194
+				transfer_state = 95
+				transfer_state = 97
+				transfer_state = 241
+				transfer_state = 225
+				transfer_state = 221
+				transfer_state = 798
+				transfer_state = 259
+				transfer_state = 196
+				transfer_state = 203
+				transfer_state = 197
+				transfer_state = 192
+				transfer_state = 198
+				transfer_state = 201
+				transfer_state = 953
+				transfer_state = 94
+				transfer_state = 93
+				transfer_state = 199
+				transfer_state = 193
+				transfer_state = 72
+				transfer_state = 226
+				transfer_state = 202
+				transfer_state = 200
+				transfer_state = 137
+
+				EST = {
+					transfer_state = 12
+					transfer_state = 757
+					transfer_state = 758
+					transfer_state = 190
+				}
+			}
+		}
+	}
+}
+
+
+
+
+country_event = { #Birth of the Comecon
+	id = valkyrie.87
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.87"}
+	title = valkyrie.87.t
+	desc = valkyrie.87.d
+	#picture = GFX_report_event_ast_army
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.87.a
+
+		custom_effect_tooltip = GER_comecon_tt
+
+		hidden_effect = {
+
+			add_ideas = { GER_comecon }
+			SOV = { add_ideas = { GER_comecon } }
+
+		}
+	}
+}
+
+
+country_event = {
+	id = valkyrie.88
+	title = valkyrie.88.t
+	desc = valkyrie.88.d
+	#picture = GFX_report_event_physics_lab_02
+
+	is_triggered_only = yes
+
+	option = {
+		name = valkyrie.88.a	#bah
+
+		custom_effect_tooltip = GER_techhelp_armored_tt
+
+		hidden_effect = {
+
+			# REVISIT Balance research bonus
+			add_tech_bonus = {
+				name = GER_soviet_treaty
+				ahead_reduction = 1
+				technology = basic_medium_tank
+			}
+			add_tech_bonus = {
+				name = GER_soviet_treaty
+				bonus = 1.0
+				uses = 1
+				category = armor
+			}
+			SOV	= { add_tech_bonus = {
+					name = GER_soviet_treaty
+					ahead_reduction = 1
+					technology = basic_medium_tank
+				}
+			}
+			SOV	= { add_tech_bonus = {
+					name = GER_soviet_treaty
+					bonus = 1.0
+					uses = 1
+					category = armor
+				}
+			}
+		}
+	}
+}
+
+
+country_event = {
+	id = valkyrie.89
+	title = valkyrie.89.t
+	desc = valkyrie.89.d
+	#picture = GFX_report_event_physics_lab_02
+
+	is_triggered_only = yes
+
+	option = {
+		name = valkyrie.89.a
+
+		custom_effect_tooltip = GER_SCANDI_WAR
+
+
+		hidden_effect = {
+			set_global_flag = GER_SCANDI_WAR
+		}
+	}
+	option = {
+		name = valkyrie.89.b
+
+		custom_effect_tooltip = GER_SCANDI_PEACE
+
+		hidden_effect = {
+			set_global_flag = GER_SCANDI_PEACE
+		}
+	}
+}
+
+
+country_event = {
+	id = valkyrie.90
+	title = valkyrie.90.t
+	desc = valkyrie.90.d
+	#picture = GFX_report_event_physics_lab_02
+
+	is_triggered_only = yes
+
+	option = {
+		name = valkyrie.90.a
+
+
+		create_wargoal = {
+			type = annex_everything
+			target = SWE
+		}
+		create_wargoal = {
+			type = annex_everything
+			target = NOR
+		}
+		create_wargoal = {
+			type = annex_everything
+			target = FIN
+		}
+
+		SOV = {
+			declare_war_on = {
+				target = FIN
+				type = annex_everything
+			}
+		}
+		ENG = {
+			declare_war_on = {
+				target = NOR
+				type = annex_everything
+			}
+		}
+	}
+}
+
+
+country_event = {
+	id = valkyrie.91
+	title = valkyrie.91.t
+	desc = valkyrie.91.d
+	#picture = GFX_report_event_physics_lab_02
+
+	is_triggered_only = yes
+
+	option = {
+		name = valkyrie.91.a
+
+
+		custom_effect_tooltip = GER_RHEIN_WAR
+
+		hidden_effect = {
+			set_global_flag = GER_RHEIN_ULTI
+		}
+
+
+	}
+	option = {
+		name = valkyrie.91.b
+
+
+
+		custom_effect_tooltip = GER_RHEIN_PLOT
+
+		hidden_effect = {
+			set_global_flag = GER_RHEIN_DAGE
+		}
+
+	}
+}
+
+country_event = {
+	id = valkyrie.92
+	title = valkyrie.92.t
+	desc = valkyrie.92.d
+	#picture = GFX_report_event_physics_lab_02
+
+	is_triggered_only = yes
+
+	option = {
+		name = valkyrie.92.a
+
+		add_equipment_to_stockpile = {
+			type = infantry_equipment
+			amount = -10000
+		}
+	}
+}
+
+country_event = {
+	id = valkyrie.93
+	title = valkyrie.93.t
+	desc = valkyrie.93.d
+	#picture = GFX_report_event_physics_lab_02
+
+	is_triggered_only = yes
+
+	option = {
+		name = valkyrie.93.a
+
+		add_manpower = 20000
+
+	}
+}
+
+country_event = {
+	id = valkyrie.94
+	title = valkyrie.94.t
+	desc = valkyrie.94.d
+	picture = GFX_report_event_physics_lab_02
+
+	is_triggered_only = yes
+
+	option = {
+		name = valkyrie.94.a
+
+		GER = {
+			transfer_state = 746
+			transfer_state = 868
+		}
+
+		hidden_effect = {
+			load_oob = GER_nationalist_revolts
+		}
+
+		GER = {
+			country_event = { id = valkyrie.95 days = 1 }
+		}
+		GER = {
+			declare_war_on = {
+				target = RHI
+				type = annex_everything
+			}
+		}
+	}
+}
+
+country_event = {
+	id = valkyrie.95
+	title = valkyrie.95.t
+	desc = valkyrie.95.d
+	#picture = GFX_report_event_physics_lab_02
+
+	is_triggered_only = yes
+
+	option = {
+		name = valkyrie.95.a
+
+		FRA = {
+			country_event = { id = valkyrie.96 days = 7 }
+		}
+	}
+}
+
+country_event = {
+	id = valkyrie.96
+	title = valkyrie.96.t
+	desc = valkyrie.96.d
+	#picture = GFX_report_event_physics_lab_02
+
+	is_triggered_only = yes
+
+	option = {
+		name = valkyrie.96.a
+
+
+		FRA = {
+			declare_war_on = {
+				target = GER
+				type = annex_everything
+			}
+		}
+
+		GER = {
+			country_event = { id = valkyrie.97 days = 3 }
+		}
+	}
+}
+
+country_event = {
+	id = valkyrie.97
+	title = valkyrie.97.t
+	desc = valkyrie.97.d
+	#picture = GFX_report_event_physics_lab_02
+
+	is_triggered_only = yes
+
+	option = {
+		name = valkyrie.97.a
+	}
+}
+
+
+
+country_event = { # Poland - Germany demands submission
+	id = valkyrie.254
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.254"}
+	title = valkyrie.254.t
+	desc = valkyrie.254.d
+	picture = report_event_generic_conference
+
+	fire_only_once = yes
+
+	is_triggered_only = yes
+
+	option = { # We must
+		ai_chance = {
+			factor = 40
+			modifier = {
+				factor = 2
+				strength_ratio = {
+					tag = GER
+					ratio = 2
+				}
+			}
+			modifier = {
+				factor = 3
+				strength_ratio = {
+					tag = GER
+					ratio = 3
+				}
+			}
+		}
+		name = valkyrie.254.a
+		GER = {
+			puppet = POL
+			country_event = ger.255
+		}
+		POL = {
+			load_focus_tree = generic_focus
+			set_cosmetic_tag = POL_puppet
+		}
+	}
+
+	option = { # We mustn't
+		ai_chance = {
+			factor = 120
+			modifier = {
+				factor = 2
+				strength_ratio = {
+					tag = GER
+					ratio = 0.75
+				}
+			}
+		}
+		name = ger.254.b
+		add_political_power = 100
+		GER = {
+			country_event = valkyrie.256
+		}
+	}
+}
+
+country_event = { # Poland submits
+	id = valkyrie.255
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.255"}
+	title = valkyrie.255.t
+	desc = valkyrie.255.d
+	picture = report_event_generic_conference
+
+	is_triggered_only = yes
+
+	option = {
+		name = valkyrie.255.a
+		add_political_power = 100
+	}
+}
+
+
+country_event = { # Poland will fight back
+	id = valkyrie.256
+	immediate = {log = "[GetDateText]: [Root.GetName]: event valkyrie.256"}
+	title = valkyrie.256.t
+	desc = valkyrie.256.d
+	picture = report_event_generic_conference
+
+	is_triggered_only = yes
+
+	option = {
+		name = valkyrie.256.a
+		if = {
+			limit = {
+				GER = {
+					is_ai = yes
+				}
+			}
+			declare_war_on = {
+				target = POL
+				type = annex_everything
+			}
+		}
+
+		if = {
+			limit = {
+				GER = {
+					is_ai = no
+				}
+			}
+			create_wargoal = {
+				target = POL
+				type = annex_everything
+			}
+		}
+	}
+}
+
+
+
+country_event = { # WIP Austria coup
+	id = valkyrie.105
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ger.105"}
+	title = valkyrie.105.t
+	desc = valkyrie.105.d
+	picture = GFX_report_event_communists_cheer
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = { # coup successful
+		ai_chance = {
+			factor = 40
+		}
+		name = "Pan-German coup is successful!"
+		add_popularity = {
+			ideology = valkist
+			popularity = 0.10
+		}
+		add_popularity = {
+			ideology = authoritarian_democrat
+			popularity = 0.15
+		}
+		add_popularity = {
+			ideology = paternal_autocrat
+			popularity = 0.25
+		}
+		add_popularity = {
+			ideology = national_populist
+			popularity = 0.15
+		}
+		clr_country_flag = GER_aus_coup
+		GER = {
+			set_country_flag = GER_aus_dead
+			country_event = valkyrie.1051
+		}
+	}
+	option = { # coup failed
+		ai_chance = {
+			factor = 160
+		}
+		name = "The Bundesheer fends the valkists off!"
+		clr_country_flag = GER_aus_coup
+		GER = {
+			set_country_flag = GER_aus_lives
+			country_event = valkyrie.1052
+		}
+	}
+}
+
+country_event = { # Austria coup success
+	id = valkyrie.1051
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ger.1051"}
+	title = valkyrie.1051.t
+	desc = valkyrie.1051.d
+	picture = GFX_report_event_communists_cheer
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.1051.a
+		add_political_power = 100
+		GER = {
+			puppet = AUS
+		}
+	}
+}
+
+country_event = { # Austria coup failed
+	id = valkyrie.1052
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ger.1052"}
+	title = valkyrie.1052.t
+	desc = valkyrie.1052.d
+	picture = GFX_report_event_communists_cheer
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = { # war with austria
+		ai_chance = {
+			factor = 400
+		}
+		name = valkyrie.1052.a
+		AUS = {
+			country_event = valkyrie.1053
+		}
+	}
+
+	option = { # bide our time
+		trigger = {
+			is_ai = no
+		}
+		ai_chance = {
+			factor = 4
+			modifier = {
+				factor = 100
+				AUS = {
+					is_in_faction_with = FRA
+				}
+			}
+		}
+		name = ger.1052.b
+		clr_country_flag = GER_aus_coup
+		add_political_power = -100
+	}
+}
+
+country_event = {
+	id = valkyrie.1053
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ger.1053"}
+	title = "Germany demands we install Ernst Kaltenbrunner"
+	desc = valkyrie.1053.d
+	picture = GFX_report_event_communists_cheer
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = { #Accept
+		ai_chance = {
+			factor = 4
+			modifier = {
+				factor = 100
+				AUS = {
+					surrender_progress > 0.2
+				}
+			}
+			modifier = {
+				factor = 1000
+				AUS = {
+					surrender_progress > 0.5
+				}
+			}
+		}
+		name = "We cannot disobey Germany"
+		GER = {
+			puppet = AUS
+		}
+		load_focus_tree = generic_focus
+		add_country_leader_role = {
+			character = AUS_Ernst_Kaltenbrunner
+			promote_leader = yes
+			country_leader = {
+				ideology = national_populist_subtype
+				traits = {}
+			}
+		}
+		custom_effect_tooltip = FRA_council_sub5
+		FRA = {
+			subtract_from_variable = { # Members lose confidence
+				var = entente_faith
+				value = 5
+			}
+		}
+		FRA = {
+			modify_country_flag = { flag = FRA_german_threat value = 1 }
+		}
+	}
+
+	option = { # Call France
+		ai_chance = {
+			factor = 400
+		}
+		name = "The French will help us"
+		if = {
+			limit = {
+				FRA = {
+					AND = {
+						NOT = {
+							is_in_faction_with = GER
+						}
+						exists = yes
+					}
+				}
+			}
+			FRA = {
+				country_event = valkyrie.106
+			}
+		}
+	}
+}
+
+country_event = { # WIP Austria wants Entente help
+	id = valkyrie.106
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ger.106"}
+	title = valkyrie.106.t
+	desc = valkyrie.106.d
+	picture = GFX_report_event_communists_cheer
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = { # Accept
+		ai_chance = {
+			factor = 40
+			modifier = {
+				factor = 4
+				FRA = {
+					AND = {    has_country_flag = { flag = FRA_german_threat value > 0 }
+						has_country_flag = { flag = FRA_german_threat value < 2 }
+						NOT = {
+							has_war_with = GER
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 8
+				FRA = {
+					AND = {    has_country_flag = { flag = FRA_german_threat value > 1 }
+						has_country_flag = { flag = FRA_german_threat value < 3 }
+						NOT = {
+							has_war_with = GER
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 16
+				FRA = {
+					AND = {    has_country_flag = { flag = FRA_german_threat value > 2 }
+						has_country_flag = { flag = FRA_german_threat value < 4 }
+						NOT = {
+							has_war_with = GER
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 32
+				AND = {
+					FRA = {    has_country_flag = { flag = FRA_german_threat value > 3 }
+						NOT = {
+							has_war_with = GER
+						}
+					}
+				}
+			}
+		}
+		name = valkyrie.106.a
+		custom_effect_tooltip = FRA_council_add10
+		FRA = {
+			add_to_variable = { # Members gain confidence
+				var = entente_faith
+				value = 10
+			}
+		}
+		if = {
+			limit = {
+				AUS = {
+					is_in_faction = no
+				}
+			}
+			FRA = {
+				add_to_faction = AUS
+			}
+		}
+		give_guarantee = AUS
+		set_country_flag = FRA_helped_aus
+
+		if = {
+			limit = {
+				FRA ={
+					has_country_flag = { flag = FRA_german_threat value < 2 }
+				}
+			}
+			add_political_power = 50
+			#add_timed_idea = {
+				#	idea = FRA_uprepared_for_war
+				#	days = 120
+				#}
+		}
+
+		if = {
+			limit = {
+				FRA = {
+					AND = {
+						has_country_flag = { flag = FRA_german_threat value > 1 }
+						has_country_flag = { flag = FRA_german_threat value < 4 }}
+				}
+			}
+			add_political_power = 20
+			#add_timed_idea = {
+				#	idea = FRA_uprepared_for_war
+				#	days = 90
+				#}
+		}
+
+		if = {
+			limit = {
+				GER = {
+					is_ai = yes
+				}
+			}
+			GER = {
+				declare_war_on = {
+					type = annex_everything
+					target = AUS
+				}
+			}
+		}
+
+		if = {
+			limit = {
+				GER = {
+					is_ai = no
+				}
+			}
+			GER = {
+				create_wargoal = {
+					type = annex_everything
+					target = AUS
+				}
+			}
+		}
+
+		4 = {
+			add_core_of = GER
+		}
+		152 = {
+			add_core_of = GER
+		}
+		153 = {
+			add_core_of = GER
+		}
+		every_country = { news_event = worldnews.41 }
+	}
+
+	option = { # Refuse
+		trigger = {
+			AND = {
+				is_ai = yes
+				NOT = {
+					has_war_with = GER
+				}
+			}
+		}
+		ai_chance = {
+			factor = 160
+			modifier = {
+				factor = 1
+				FRA = {
+					AND = {    has_country_flag = { flag = FRA_german_threat value > 0 }
+						has_country_flag = { flag = FRA_german_threat value < 2 }
+						NOT = {
+							has_war_with = GER
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 1
+				FRA = {
+					AND = {    has_country_flag = { flag = FRA_german_threat value > 1 }
+						has_country_flag = { flag = FRA_german_threat value < 3 }
+						NOT = {
+							has_war_with = GER
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 1
+				FRA = {
+					AND = {    has_country_flag = { flag = FRA_german_threat value > 2 }
+						has_country_flag = { flag = FRA_german_threat value < 4 }
+						NOT = {
+							has_war_with = GER
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 1
+				AND = {
+					FRA = {    has_country_flag = { flag = FRA_german_threat value > 3 }}
+					NOT = {
+						has_war_with = GER
+					}
+				}
+			}
+		}
+		name = valkyrie.106.b
+		custom_effect_tooltip = FRA_council_sub10
+		FRA = {
+			subtract_from_variable = { # Members lose confidence
+				var = entente_faith
+				value = 10
+			}
+		}
+		AUS = {
+			country_event = valkyrie.107
+		}
+		ITA = {
+			set_country_flag = AUS_needs_stresa
+			country_event = valkyrie.1091
+		}
+		GER = {
+			set_country_flag = GER_aus_war
+			country_event = valkyrie.108
+		}
+	}
+}
+
+
+country_event = { # France refuses to help Austria
+	id = valkyrie.107
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ger.107"}
+	title = valkyrie.107.t
+	desc = valkyrie.107.d
+	picture = GFX_report_event_communists_cheer
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.107.a
+		add_opinion_modifier = { target = FRA modifier = AUS_abandoned }
+	}
+}
+
+country_event = { # valkyrie. Time to strike Austria
+	id = valkyrie.108
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ger.108"}
+	title = valkyrie.108.t
+	desc = valkyrie.108.d
+	picture = GFX_report_event_communists_cheer
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.108.a
+		declare_war_on = {
+			target = AUS
+			type = annex_everything
+		}
+		every_state = {
+			limit = {
+				is_core_of = AUS
+			}
+			add_core_of = GER
+		}
+		FRA = {
+			modify_country_flag = { flag = FRA_german_threat value = 1 }
+		}
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+country_event = { # Germany demands silesia
+	id = valkyrie.139
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ger.139"}
+	title = valkyrie.139.t
+	desc = valkyrie.139.d
+	picture = GFX_report_event_communists_cheer
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = { # accept
+		trigger = {
+			FRA = {
+				NOT = {
+					has_war_with = GER
+				}
+			}
+		}
+		ai_chance = {
+			factor = 4
+			modifier = {
+				factor = 100
+				CZE = {
+					surrender_progress > 0.2
+				}
+			}
+			modifier = {
+				factor = 1000
+				CZE = {
+					surrender_progress > 0.5
+				}
+			}
+		}
+		name = valkyrie.139.a
+		GER = {
+			transfer_state = 775
+			transfer_state = 74
+			transfer_state = 69
+		}
+		custom_effect_tooltip = FRA_council_sub5
+		FRA = {
+			subtract_from_variable = { # Members lose confidence
+				var = entente_faith
+				value = 5
+			}
+		}
+		FRA = {
+			modify_country_flag = { flag = FRA_german_threat value = 1 }
+		}
+	}
+	option = { # refuse
+		ai_chance = {
+			factor = 400
+		}
+		name = valkyrie.139.b
+		add_political_power = 25
+		if = {
+			limit = {
+				FRA = {
+					AND = {
+						NOT = {
+							is_in_faction_with = GER
+						}
+						exists = yes
+					}
+				}
+			}
+			FRA = {
+				set_country_flag = FRA_centro_help
+				country_event = valkyrie.140
+			}
+		}
+	}
+}
+
+country_event = { # WIP Centroslavia wants Entente help
+	id = valkyrie.140
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ger.140"}
+	title = valkyrie.140.t
+	desc = valkyrie.140.d
+	picture = GFX_report_event_communists_cheer
+
+	trigger = {
+		original_tag = FRA
+		has_country_flag = FRA_centro_help
+	}
+
+	fire_only_once = yes
+
+	option = { # Accept
+		ai_chance = {
+			factor = 40
+			modifier = {
+				factor = 4
+				FRA = {
+					AND = {    has_country_flag = { flag = FRA_german_threat value > 0 }
+						has_country_flag = { flag = FRA_german_threat value < 2 }
+						NOT = {
+							has_war_with = GER
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 8
+				FRA = {
+					AND = {    has_country_flag = { flag = FRA_german_threat value > 1 }
+						has_country_flag = { flag = FRA_german_threat value < 3 }
+						NOT = {
+							has_war_with = GER
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 16
+				FRA = {
+					AND = {    has_country_flag = { flag = FRA_german_threat value > 2 }
+						has_country_flag = { flag = FRA_german_threat value < 4 }
+						NOT = {
+							has_war_with = GER
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 32
+				AND = {
+					FRA = {    has_country_flag = { flag = FRA_german_threat value > 3 }
+						NOT = {
+							has_war_with = GER
+						}
+					}
+				}
+			}
+		}
+		name = valkyrie.140.a
+		custom_effect_tooltip = FRA_council_add10
+		FRA = {
+			add_to_variable = { # Members gain confidence
+				var = entente_faith
+				value = 10
+			}
+		}
+		if = {
+			limit = {
+				CZE ={
+					is_in_faction = no
+				}
+			}
+			FRA = {
+				add_to_faction = CZE
+			}
+		}
+		give_guarantee = CZE
+		set_country_flag = FRA_helped_cen
+
+		if = {
+			limit = {
+				FRA ={
+					has_country_flag = { flag = FRA_german_threat value < 2 }
+				}
+			}
+			add_political_power = 50
+			#add_timed_idea = {
+				#	idea = FRA_uprepared_for_war
+				#	days = 120
+				#}
+		}
+
+		if = {
+			limit = {
+				FRA = {
+					AND = {
+						has_country_flag = { flag = FRA_german_threat value > 1 }
+						has_country_flag = { flag = FRA_german_threat value < 4 }}
+				}
+			}
+			add_political_power = 20
+			#add_timed_idea = {
+				#	idea = FRA_uprepared_for_war
+				#	days = 90
+				#}
+		}
+
+		GER = {
+			create_wargoal = { type = annex_everything target = CZE }
+		}
+		69 = {
+			add_core_of = GER
+		}
+		794 = {
+			add_core_of = GER
+		}
+		795 = {
+			add_core_of = GER
+		}
+		random_other_country = { news_event = worldnews.44 }
+	}
+
+	option = { # Refuse
+		trigger = {
+			AND = {
+				is_ai = yes
+				NOT = {
+					has_war_with = GER
+				}
+			}
+		}
+		ai_chance = {
+			factor = 160
+			modifier = {
+				factor = 1
+				FRA = {
+					AND = {    has_country_flag = { flag = FRA_german_threat value > 0 }
+						has_country_flag = { flag = FRA_german_threat value < 2 }
+						NOT = {
+							has_war_with = GER
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 1
+				FRA = {
+					AND = {    has_country_flag = { flag = FRA_german_threat value > 1 }
+						has_country_flag = { flag = FRA_german_threat value < 3 }
+						NOT = {
+							has_war_with = GER
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 1
+				FRA = {
+					AND = {    has_country_flag = { flag = FRA_german_threat value > 2 }
+						has_country_flag = { flag = FRA_german_threat value < 4 }
+						NOT = {
+							has_war_with = GER
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 1
+				AND = {
+					FRA = {    has_country_flag = { flag = FRA_german_threat value > 3 }}
+					NOT = {
+						has_war_with = GER
+					}
+				}
+			}
+		}
+		name = valkyrie.140.b
+		add_political_power = -20
+		custom_effect_tooltip = FRA_council_sub10
+		FRA = {
+			subtract_from_variable = { # Members lose confidence
+				var = entente_faith
+				value = 10
+			}
+		}
+		CZE ={
+			country_event = valkyrie.141
+		}
+		GER = {
+			country_event = valkyrie.142
+		}
+	}
+}
+
+country_event = { # France refuses to help Centroslavia
+	id = valkyrie.141
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ger.141"}
+	title = valkyrie.141.t
+	desc = valkyrie.141.d
+	picture = GFX_report_event_communists_cheer
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.141.a
+		add_opinion_modifier = { target = FRA modifier = AUS_abandoned }
+	}
+}
+
+country_event = { # valkyrie. Time to strike Centroslavia
+	id = valkyrie.142
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ger.142"}
+	title = valkyrie.142.t
+	desc = valkyrie.142.d
+	picture = GFX_report_event_communists_cheer
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		name = valkyrie.142.a
+		if = {
+			limit = {
+				GER = {
+					is_ai = yes
+				}
+			}
+			declare_war_on = {
+				type = annex_everything
+				target = CZE
+			}
+		}
+		if = {
+			limit = {
+				GER = {
+					is_ai = no
+				}
+			}
+			create_wargoal = { type = annex_everything target = CZE }
+		}
+		POL = {
+			set_country_flag = GER_invaded_zapo
+		}
+		HUN = {
+			set_country_flag = GER_invaded_zapo
+		}
+		FRA = {
+			modify_country_flag = { flag = FRA_german_threat value = 1 }
+		}
+	}
+}
+
+
+country_event = { # Belarus - Germany offers alliance
+	id = valkyrie.243
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ger.243"}
+	title = valkyrie.243.t
+	desc = valkyrie.243.d
+	picture = report_event_generic_conference
+
+	fire_only_once = yes
+
+	is_triggered_only = yes
+
+	option = {
+		ai_chance = {
+			factor = 40
+			modifier = {
+				factor = 2
+				has_government = paternal_autocrat
+			}
+			modifier = {
+				factor = 2
+				has_government = social_conservative
+			}
+			modifier = {
+				factor = 2
+				has_government = authoritarian_democrat
+			}
+			modifier = {
+				factor = 1.5
+				has_government = valkist
+			}
+			modifier = {
+				factor = 0.25
+				has_government = libertarian_socialist
+			}
+			modifier = {
+				factor = 0.25
+				has_government = collectivist
+			}
+			modifier = {
+				factor = 0.25
+				has_government = vanguardist
+			}
+			modifier = {
+				factor = 0.25
+				has_government = social_democrat
+			}
+			modifier = {
+				factor = 0.5
+				has_government = social_liberal
+			}
+		}
+		name = valkyrie.243.a # Sure
+		GER = {
+			add_to_faction = BLR
+			country_event = valkyrie.244
+		}
+	}
+
+	option = {
+		ai_chance = {
+			factor = 40
+			modifier = {
+				factor = 0.5
+				has_government = paternal_autocrat
+			}
+			modifier = {
+				factor = 0.5
+				has_government = social_conservative
+			}
+			modifier = {
+				factor = 0.5
+				has_government = authoritarian_democrat
+			}
+			modifier = {
+				factor = 0.25
+				has_government = valkist
+			}
+			modifier = {
+				factor = 4
+				has_government = libertarian_socialist
+			}
+			modifier = {
+				factor = 4
+				has_government = collectivist
+			}
+			modifier = {
+				factor = 4
+				has_government = vanguardist
+			}
+			modifier = {
+				factor = 4
+				has_government = social_democrat
+			}
+			modifier = {
+				factor = 4
+				has_government = social_liberal
+			}
+		}
+		name = valkyrie.243.b # No
+		GER = {
+			country_event = valkyrie.245
+		}
+	}
+}
+
+country_event = { # Belarus - accepts German alliance
+	id = valkyrie.244
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ger.244"}
+	title = valkyrie.244.t
+	desc = valkyrie.244.d
+	picture = report_event_generic_conference
+
+	fire_only_once = yes
+
+	is_triggered_only = yes
+
+	option = {
+		name = valkyrie.244.a
+		add_opinion_modifier = { target = BLR modifier = GER_accepted_alliance }
+	}
+}
+
+country_event = { # Belarus - refuses German alliance
+	id = valkyrie.245
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ger.245"}
+	title = valkyrie.245.t
+	desc = valkyrie.245.d
+	picture = report_event_generic_conference
+
+	fire_only_once = yes
+
+	is_triggered_only = yes
+
+	option = {
+		name = valkyrie.245.a
+		add_opinion_modifier = { target = BLR modifier = GER_refused_alliance }
+		set_country_flag = BLR_fall_weiss
+	}
+}
+
+country_event = { # Ukriane - Germany offers alliance
+	id = valkyrie.246
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ger.246"}
+	title = valkyrie.246.t
+	desc = valkyrie.246.d
+	picture = report_event_generic_conference
+
+	fire_only_once = yes
+
+	is_triggered_only = yes
+
+	option = {
+		ai_chance = {
+			factor = 40
+			modifier = {
+				factor = 2
+				has_government = paternal_autocrat
+			}
+			modifier = {
+				factor = 2
+				has_government = social_conservative
+			}
+			modifier = {
+				factor = 2
+				has_government = authoritarian_democrat
+			}
+			modifier = {
+				factor = 1.5
+				has_government = valkist
+			}
+			modifier = {
+				factor = 0.25
+				has_government = libertarian_socialist
+			}
+			modifier = {
+				factor = 0.25
+				has_government = collectivist
+			}
+			modifier = {
+				factor = 0.25
+				has_government = vanguardist
+			}
+			modifier = {
+				factor = 0.25
+				has_government = social_democrat
+			}
+			modifier = {
+				factor = 0.5
+				has_government = social_liberal
+			}
+		}
+		name = valkyrie.246.a # Sure
+		GER = {
+			add_to_faction = UKR
+			country_event = ger.247
+		}
+	}
+
+	option = {
+		ai_chance = {
+			factor = 40
+			modifier = {
+				factor = 0.5
+				has_government = paternal_autocrat
+			}
+			modifier = {
+				factor = 0.5
+				has_government = social_conservative
+			}
+			modifier = {
+				factor = 0.5
+				has_government = authoritarian_democrat
+			}
+			modifier = {
+				factor = 0.25
+				has_government = valkist
+			}
+			modifier = {
+				factor = 4
+				has_government = libertarian_socialist
+			}
+			modifier = {
+				factor = 4
+				has_government = collectivist
+			}
+			modifier = {
+				factor = 4
+				has_government = vanguardist
+			}
+			modifier = {
+				factor = 4
+				has_government = social_democrat
+			}
+			modifier = {
+				factor = 4
+				has_government = social_liberal
+			}
+		}
+		name = valkyrie.246.b # No
+		GER = {
+			country_event = valkyrie.248
+		}
+	}
+}
+
+country_event = { # Ukraine - accepts German alliance
+	id = valkyrie.247
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ger.247"}
+	title = valkyrie.247.t
+	desc = valkyrie.247.d
+	picture = report_event_generic_conference
+
+	fire_only_once = yes
+
+	is_triggered_only = yes
+
+	option = {
+		name = valkyrie.247.a
+		add_opinion_modifier = { target = BLR modifier = GER_accepted_alliance }
+	}
+}
+
+country_event = { # Ukraine - refuses German alliance
+	id = valkyrie.248
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ger.248"}
+	title = valkyrie.248.t
+	desc = valkyrie.248.d
+	picture = report_event_generic_conference
+
+	fire_only_once = yes
+
+	is_triggered_only = yes
+
+	option = {
+		name = valkyrie.248.a
+		add_opinion_modifier = { target = UKR modifier = GER_refused_alliance }
+		set_country_flag = UKR_fall_weiss
+	}
+}
+
+country_event = { # Fate of the TST Officers
+	id = valkyrie.10016
+	title = valkyrie.10016.t
+	desc = valkyrie.10016.d
+	picture = GFX_report_event_GER_dressler_poster
+	is_triggered_only = yes
+
+	option = {
+		name = valkyrie.10016.a
+		add_political_power = 100
+		retire_character = GER_Eduard_Deisenhofer
+		retire_character = GER_Felix_Steiner
+		retire_character = GER_Gottlob_Berger
+		retire_character = GER_Sepp_Dietrich
+		retire_character = GER_Wilhelm_Bittrich
+		retire_character = GER_Willy_Rohr
+		retire_character = GER_Otto_Kumm
+		retire_character = GER_Paul_Hausser
+		retire_character = GER_Max_Otto_von_Stierlitz
+		retire_character = GER_Artur_Mahraun
+	}
+	option = {
+		name = valkyrie.10016.b
+		add_stability = 0.05
+		retire_character = GER_Eduard_Deisenhofer
+		retire_character = GER_Felix_Steiner
+		retire_character = GER_Gottlob_Berger
+		retire_character = GER_Sepp_Dietrich
+		retire_character = GER_Wilhelm_Bittrich
+		retire_character = GER_Willy_Rohr
+		retire_character = GER_Otto_Kumm
+		retire_character = GER_Paul_Hausser
+		retire_character = GER_Max_Otto_von_Stierlitz
+		retire_character = GER_Artur_Mahraun
+	}
+}

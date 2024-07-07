@@ -1,0 +1,4016 @@
+focus_tree = {
+	id = FR_Monarchist_Spain
+	country = {
+		factor = 0
+		modifier = {
+			add = 10
+			tag = SPM
+		}
+	}
+	default = no
+	continuous_focus_position = { x = 50 y = 1350 }
+
+	initial_show_position = {
+		focus = SPM_loyalty_king_alfonso
+	}
+
+	#SPANISH SHARED TREE#
+	focus = {
+		id = SPM_economic_recovery
+		icon = GFX_goal_HOL_black_monday
+		cost = 8.00
+		x = 22
+		y = 0
+
+		available = {
+			has_global_flag = SPR_london_crash_hits_spain_flag
+			has_global_flag = SPR_spanish_civil_war_ended_flag
+			has_political_power > 0
+		}
+
+		allow_branch = {
+			NOT = {
+				has_country_flag = SPM_IN_CIVIL_WAR
+			}
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_economic_recovery"
+			add_political_power = -50
+			add_stability = 0.05
+			swap_ideas = {
+				remove_idea = SPR_SPM_SPF_SPA_london_crash_idea
+				add_idea = SPR_economic_recovery_idea
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_royal_spanish_navy
+		icon = GFX_goal_SPM_Navy
+		cost = 5.00
+		x = 3
+		y = 0
+
+		allow_branch = {
+			NOT = {
+				has_country_flag = SPM_IN_CIVIL_WAR
+			}
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_royal_spanish_navy"
+			navy_experience = 20
+		}
+
+	}
+	focus = {
+		id = SPM_expand_dockyards
+		icon = GFX_goal_generic_construct_naval_dockyard
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_royal_spanish_navy
+		}
+		x = 1
+		y = 1
+
+		available = {
+			has_global_flag = SPR_spanish_civil_war_ended_flag
+			controls_state = 169
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_expand_dockyards"
+			169 = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = dockyard
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_assure_naval_merchant_ties
+		icon = GFX_goal_generic_coastal_navy2
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_royal_spanish_navy
+		}
+		x = 5
+		y = 1
+
+		available = {
+			has_global_flag = SPR_spanish_civil_war_ended_flag
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_assure_naval_merchant_ties"
+			add_timed_idea = {
+				idea = SPR_assure_naval_merchant_ties_idea
+				days = 200
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_modernize_destroyers
+		icon = GFX_focus_generic_destroyer
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_royal_spanish_navy
+		}
+		x = 3
+		y = 1
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_modernize_destroyers"
+			navy_experience = 5
+			add_tech_bonus = {
+				name = dd_bonus
+				bonus = 0.4
+				uses = 1
+				category = dd_tech
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_rule_seas
+		icon = GFX_goal_generic_navy_battleship
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_modernize_destroyers
+		}
+		mutually_exclusive = {
+			focus = SPM_hit_and_run
+		}
+		x = 2
+		y = 2
+
+		available = {
+			has_global_flag = SPR_spanish_civil_war_ended_flag
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_rule_seas"
+			add_ideas = SPR_rule_seas_idea
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.5
+				uses = 1
+				category = naval_doctrine
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_hit_and_run
+		icon = GFX_goal_generic_wolf_pack
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_modernize_destroyers
+		}
+		mutually_exclusive = {
+			focus = SPM_rule_seas
+		}
+		x = 4
+		y = 2
+
+		available = {
+			has_global_flag = SPR_spanish_civil_war_ended_flag
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_hit_and_run"
+			add_ideas = SPR_hit_and_run_idea
+			add_doctrine_cost_reduction = {
+				name = naval_doctrine_bonus
+				cost_reduction = 0.4
+				uses = 1
+				category = cat_trade_interdiction
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_new_spanish_flagships
+		icon = GFX_focus_generic_navy_battleship2
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_rule_seas
+		}
+		x = 1
+		y = 3
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_new_spanish_flagships"
+			add_tech_bonus = {
+				name = bc_bonus
+				bonus = 0.5
+				uses = 1
+				category = bc_tech
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_fund_submarine_research
+		icon = GFX_goal_generic_navy_submarine
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_rule_seas
+			focus = SPM_hit_and_run
+		}
+		x = 3
+		y = 3
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_fund_submarine_research"
+			add_tech_bonus = {
+				name = ss_bonus
+				bonus = 0.4
+				uses = 2
+				category = ss_tech
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_light_ship_models
+		icon = GFX_focus_generic_cruiser2
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_hit_and_run
+		}
+		x = 5
+		y = 3
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_light_ship_models"
+			add_tech_bonus = {
+				name = cr_bonus
+				bonus = 0.4
+				uses = 2
+				category = cl_tech
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_heavier_cruiser_models
+		icon = GFX_goal_generic_navy_cruiser
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_new_spanish_flagships
+		}
+		x = 2
+		y = 4
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_heavier_cruiser_models"
+			add_tech_bonus = {
+				name = cr_bonus
+				bonus = 0.4
+				uses = 2
+				category = ca_tech
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_invest_coast_guard
+		icon = GFX_goal_generic_defence
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_light_ship_models
+		}
+		x = 4
+		y = 4
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_invest_coast_guard"
+			add_tech_bonus = {
+				name = dd_bonus
+				bonus = 0.4
+				uses = 2
+				category = dd_tech
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_spanish_naval_doctrines
+		icon = GFX_goal_generic_navy_doctrines_tactics
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_heavier_cruiser_models
+			focus = SPM_invest_coast_guard
+		}
+		prerequisite = {
+			focus = SPM_fund_submarine_research
+		}
+		x = 3
+		y = 5
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_spanish_naval_doctrines"
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.5
+				uses = 1
+				category = naval_doctrine
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_royal_spanish_air_force
+		icon = GFX_goal_SPM_Airforce
+		cost = 5.00
+		x = 9
+		y = 0
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		allow_branch = {
+			NOT = {
+				has_country_flag = SPM_IN_CIVIL_WAR
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_royal_spanish_air_force"
+			air_experience = 20
+		}
+
+	}
+	focus = {
+		id = SPM_expand_sevilla_air_fields
+		icon = GFX_goal_generic_air_production
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_royal_spanish_air_force
+		}
+		x = 8
+		y = 1
+
+		available = {
+			controls_state = 169
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_expand_sevilla_air_fields"
+			169 = {
+				add_building_construction = {
+					type = air_base
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_interservice_cooperation
+		icon = GFX_goal_generic_major_alliance
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_royal_spanish_air_force
+		}
+		x = 10
+		y = 1
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_interservice_cooperation"
+			army_experience = 15
+			air_experience = 15
+			navy_experience = 15
+			add_political_power = 25
+		}
+
+	}
+	focus = {
+		id = SPM_invest_naval_fighters
+		icon = GFX_goal_generic_navy_carrier
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_interservice_cooperation
+		}
+		x = 7
+		y = 2
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_invest_naval_fighters"
+			add_tech_bonus = {
+				name = nav_bomber_bonus
+				bonus = 0.4
+				uses = 2
+				category = naval_bomber
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_invest_close_land_fighters
+		icon = GFX_goal_generic_air_fighter2
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_interservice_cooperation
+		}
+		x = 11
+		y = 2
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_invest_close_land_fighters"
+			add_tech_bonus = {
+				name = CAS_bonus
+				bonus = 0.4
+				uses = 2
+				category = cas_bomber
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_modernize_old_planes
+		icon = GFX_goal_continuous_air_production
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_expand_sevilla_air_fields
+			focus = SPM_interservice_cooperation
+		}
+		x = 9
+		y = 2
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_modernize_old_planes"
+			add_tech_bonus = {
+				bonus = 0.4
+				uses = 2
+				category = light_fighter
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_aggresive_air_force
+		icon = GFX_goal_generic_air_bomber
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_modernize_old_planes
+		}
+		mutually_exclusive = {
+			focus = SPM_defensive_air_force
+		}
+		x = 8
+		y = 3
+
+		available = {
+			has_global_flag = SPR_spanish_civil_war_ended_flag
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_aggresive_air_force"
+			add_tech_bonus = {
+				name = bomber_bonus
+				bonus = 0.4
+				uses = 2
+				category = tactical_bomber
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_strategic_bomber_efforts
+		icon = GFX_goal_generic_CAS
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_aggresive_air_force
+		}
+		x = 8
+		y = 4
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_strategic_bomber_efforts"
+			add_tech_bonus = {
+				name = bomber_bonus
+				bonus = 0.4
+				uses = 2
+				category = cat_strategic_bomber
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_defensive_air_force
+		icon = GFX_goal_generic_air_fighter
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_modernize_old_planes
+		}
+		mutually_exclusive = {
+			focus = SPM_aggresive_air_force
+		}
+		x = 10
+		y = 3
+
+		available = {
+			has_global_flag = SPR_spanish_civil_war_ended_flag
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_defensive_air_force"
+			add_tech_bonus = {
+				name = fighter_bonus
+				bonus = 0.4
+				uses = 2
+				category = light_fighter
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_interception_tactic_efforts
+		icon = GFX_goal_HOL_D21
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_defensive_air_force
+		}
+		x = 10
+		y = 4
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_interception_tactic_efforts"
+			add_tech_bonus = {
+				name = fighter_bonus
+				bonus = 0.4
+				uses = 2
+				category = cat_heavy_fighter
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_spanish_airial_doctrines
+		icon = GFX_goal_generic_air_doctrine
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_strategic_bomber_efforts
+			focus = SPM_interception_tactic_efforts
+		}
+		x = 9
+		y = 5
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_spanish_airial_doctrines"
+			add_doctrine_cost_reduction = {
+				name = air_doc_bonus
+				cost_reduction = 0.4
+				uses = 2
+				category = air_doctrine
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_royal_spanish_army
+		icon = GFX_goal_SPM_Army
+		cost = 5.00
+		x = 15
+		y = 0
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		allow_branch = {
+			NOT = {
+				has_country_flag = SPM_IN_CIVIL_WAR
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_royal_spanish_army"
+			army_experience = 20
+		}
+
+	}
+	focus = {
+		id = SPM_remove_outside_influences_army
+		icon = GFX_goal_purge_opposition
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_royal_spanish_army
+		}
+		x = 14
+		y = 1
+
+		available = {
+			has_political_power > 0
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_remove_outside_influences_army"
+			add_political_power = -25
+			add_ideas = SPM_remove_outside_influences_army_idea
+			country_event = { id = monspain.101 days = 1 }
+		}
+
+	}
+	focus = {
+		id = SPM_basic_equipment_research
+		icon = GFX_goal_generic_small_arms
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_royal_spanish_army
+		}
+		x = 16
+		y = 1
+
+		available = {
+			has_political_power > 0
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_basic_equipment_research"
+			add_political_power = -25
+			add_tech_bonus = {
+				name = infantry_bonus
+				bonus = 0.4
+				uses = 2
+				category = infantry_weapons
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_mobilize_spanish_army
+		icon = GFX_goal_generic_army_motorized
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_remove_outside_influences_army
+		}
+		prerequisite = {
+			focus = SPM_basic_equipment_research
+		}
+		mutually_exclusive = {
+			focus = SPM_let_fire_rain
+			focus = SPM_planning_and_numbers
+		}
+		x = 13
+		y = 2
+
+		available = {
+			has_global_flag = SPR_spanish_civil_war_ended_flag
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_mobilize_spanish_army"
+			add_doctrine_cost_reduction = {
+				name = land_doc_bonus
+				cost_reduction = 0.4
+				uses = 1
+				category = cat_mobile_warfare
+			}
+			add_tech_bonus = {
+				name = motor_bonus
+				bonus = 0.4
+				uses = 1
+				category = motorized_equipment
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_invest_armour_research
+		icon = GFX_goal_generic_army_tanks
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_mobilize_spanish_army
+		}
+		x = 13
+		y = 3
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_invest_armour_research"
+			add_tech_bonus = {
+				name = armor_bonus
+				bonus = 0.4
+				uses = 2
+				category = armor
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_let_fire_rain
+		icon = GFX_goal_generic_army_artillery2
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_remove_outside_influences_army
+		}
+		prerequisite = {
+			focus = SPM_basic_equipment_research
+		}
+		mutually_exclusive = {
+			focus = SPM_mobilize_spanish_army
+			focus = SPM_planning_and_numbers
+		}
+		x = 15
+		y = 2
+
+		available = {
+			has_global_flag = SPR_spanish_civil_war_ended_flag
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_let_fire_rain"
+			add_doctrine_cost_reduction = {
+				name = land_doc_bonus
+				cost_reduction = 0.4
+				uses = 1
+				category = cat_superior_firepower
+			}
+			add_tech_bonus = {
+				name = artillery_bonus
+				bonus = 0.4
+				uses = 1
+				category = artillery
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_counter_air
+		icon = GFX_goal_anti_air
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_let_fire_rain
+		}
+		x = 15
+		y = 3
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_counter_air"
+			add_tech_bonus = {
+				name = artillery_bonus
+				bonus = 0.4
+				uses = 2
+				technology = interwar_antiair
+				technology = antiair1
+				technology = antiair2
+				technology = antiair3
+				technology = antiair4
+				technology = antiair5
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_planning_and_numbers
+		icon = GFX_focus_generic_little_entente
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_remove_outside_influences_army
+		}
+		prerequisite = {
+			focus = SPM_basic_equipment_research
+		}
+		mutually_exclusive = {
+			focus = SPM_let_fire_rain
+			focus = SPM_mobilize_spanish_army
+		}
+		x = 17
+		y = 2
+
+		available = {
+			has_global_flag = SPR_spanish_civil_war_ended_flag
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_planning_and_numbers"
+			add_doctrine_cost_reduction  = {
+				name = land_doc_bonus
+				cost_reduction = 0.4
+				uses = 2
+				category = cat_grand_battle_plan
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_new_general_staff
+		icon = GFX_goal_officers
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_planning_and_numbers
+		}
+		x = 17
+		y = 3
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_new_general_staff"
+			army_experience = 5
+			swap_ideas = {
+				remove_idea = SPM_remove_outside_influences_army_idea
+				add_idea = SPR_new_general_staff_idea
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_special_unit_efforts
+		icon = GFX_goal_SPM_bridegroom_of_death
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_invest_armour_research
+			focus = SPM_counter_air
+			focus = SPM_new_general_staff
+		}
+		x = 14
+		y = 4
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_special_unit_efforts"
+			add_tech_bonus = {
+				name = special_forces_bonus
+				bonus = 0.4
+				uses = 2
+				category = mountaineers_tech
+				category = marine_tech
+				category = para_tech
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_support_brigades
+		icon = GFX_focus_ger_oppose_hitler
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_invest_armour_research
+			focus = SPM_counter_air
+			focus = SPM_new_general_staff
+		}
+		x = 16
+		y = 4
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_support_brigades"
+			add_tech_bonus = {
+				name = special_forces_bonus
+				bonus = 0.4
+				uses = 2
+				technology = support_weapons
+				technology = support_weapons2
+				technology = support_weapons3
+				technology = support_weapons4
+			}
+			hidden_effect = {
+				set_technology = { bicycle_infantry = 1 }
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_armada_of_tanks
+		icon = GFX_focus_generic_tank_production
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_special_unit_efforts
+			focus = SPM_support_brigades
+		}
+		prerequisite = {
+			focus = SPM_invest_armour_research
+		}
+		x = 13
+		y = 5
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_armada_of_tanks"
+			add_political_power = -15
+			add_tech_bonus = {
+				name = armor_bonus
+				bonus = 0.3
+				uses = 1
+				category = armor
+			}
+			swap_ideas = {
+				remove_idea = SPM_remove_outside_influences_army_idea
+				add_idea = SPR_armada_of_tanks_idea
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_mobile_artillary_efforts
+		icon = GFX_goal_generic_build_tank
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_special_unit_efforts
+			focus = SPM_support_brigades
+		}
+		prerequisite = {
+			focus = SPM_counter_air
+		}
+		x = 15
+		y = 5
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_mobile_artillary_efforts"
+			add_tech_bonus = {
+				name = artillery_bonus
+				bonus = 0.3
+				uses = 1
+				category = artillery
+			}
+			swap_ideas = {
+				remove_idea = SPM_remove_outside_influences_army_idea
+				add_idea = SPR_mobile_artillary_efforts_idea
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_rifle_for_soldiers
+		icon = GFX_focus_secret_rearmament
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_special_unit_efforts
+			focus = SPM_support_brigades
+		}
+		prerequisite = {
+			focus = SPM_new_general_staff
+		}
+		x = 17
+		y = 5
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_rifle_for_soldiers"
+			add_tech_bonus = {
+				name = infantry_bonus
+				bonus = 0.4
+				uses = 1
+				category = infantry_weapons
+			}
+			add_equipment_to_stockpile = {
+				type = infantry_equipment_0
+				amount = 2500
+				producer = SPR
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_spanish_army_doctrines
+		icon = GFX_goal_generic_army_doctrines
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_armada_of_tanks
+			focus = SPM_mobile_artillary_efforts
+			focus = SPM_rifle_for_soldiers
+		}
+		x = 15
+		y = 6
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_spanish_army_doctrines"
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.5
+				uses = 2
+				category = land_doctrine
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_sieze_unloyal_industries_assets
+		icon = GFX_focus_generic_industry_2
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_economic_recovery
+		}
+		x = 20
+		y = 1
+
+		available = {
+			controls_state = 41
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_sieze_unloyal_industries_assets"
+			add_political_power = 15
+			add_offsite_building = { type = industrial_complex level = 1 }
+			41 = {
+				add_extra_state_shared_building_slots = 1
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_rebuilding_road_network
+		icon = GFX_goal_generic_construct_infrastructure
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_sieze_unloyal_industries_assets
+		}
+		x = 20
+		y = 3
+
+		available = {
+			controls_state = 41
+			controls_state = 165
+			controls_state = 165
+			controls_state = 165
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_rebuilding_road_network"
+			add_political_power = -75
+			41 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			165 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			169 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			171 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_gradually_ending_austerity
+		icon = GFX_goal_tblra_union_agreement
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_economic_recovery
+		}
+		x = 22
+		y = 1
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_gradually_ending_austerity"
+			add_stability = 0.03
+			swap_ideas = {
+				remove_idea = SPR_economic_recovery_idea
+				add_idea = SPR_gradually_ending_austerity_idea
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_reopen_banks
+		icon = GFX_goal_COS_Ferrer_Coup
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_gradually_ending_austerity
+		}
+		x = 21
+		y = 2
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_reopen_banks"
+			add_political_power = -25
+			if = {
+				limit = {
+					has_idea = SPR_gradually_ending_austerity_idea
+				}
+				swap_ideas = {
+					remove_idea = SPR_gradually_ending_austerity_idea
+					add_idea = SPR_reopen_banks_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = SPR_higher_rations_idea
+				}
+				swap_ideas = {
+					remove_idea = SPR_higher_rations_idea
+					add_idea = SPR_economy_soon_good_again_idea
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_higher_rations
+		icon = GFX_focus_AUS_agriculture
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_gradually_ending_austerity
+		}
+		x = 23
+		y = 2
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_higher_rations"
+			add_political_power = -25
+			if = {
+				limit = {
+					has_idea = SPR_gradually_ending_austerity_idea
+				}
+				swap_ideas = {
+					remove_idea = SPR_gradually_ending_austerity_idea
+					add_idea = SPR_higher_rations_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = SPR_reopen_banks_idea
+				}
+				swap_ideas = {
+					remove_idea = SPR_reopen_banks_idea
+					add_idea = SPR_economy_soon_good_again_idea
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_end_austerity_messures
+		icon = GFX_goal_civil_service
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_reopen_banks
+		}
+		prerequisite = {
+			focus = SPM_higher_rations
+		}
+		x = 22
+		y = 3
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_end_austerity_messures"
+			add_stability = 0.03
+			swap_ideas = {
+				remove_idea = SPR_economy_soon_good_again_idea
+				add_idea = SPR_end_austerity_messures_idea
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_invest_mineral_industry
+		icon = GFX_focus_generic_steel
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_economic_recovery
+		}
+		x = 24
+		y = 1
+
+		available = {
+			controls_state = 168
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_invest_mineral_industry"
+			add_political_power = -15
+			add_resource = {
+				type = steel
+				amount = 10
+				state = 168
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_reopen_mineral_export
+		icon = GFX_SIA_maritmesilkroad
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_invest_mineral_industry
+		}
+		x = 24
+		y = 3
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_reopen_mineral_export"
+			add_offsite_building = { type = industrial_complex level = 1 }
+			add_timed_idea = {
+				idea = SPR_reopen_mineral_export_idea
+				days = 150
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_corporatist_reforms
+		icon = GFX_focus_HOL_deal_with_right
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_rebuilding_road_network
+		}
+		prerequisite = {
+			focus = SPM_end_austerity_messures
+		}
+		prerequisite = {
+			focus = SPM_reopen_mineral_export
+		}
+		mutually_exclusive = {
+			focus = SPM_liberalized_economy
+		}
+		x = 21
+		y = 4
+
+		available = {
+			OR = {
+				has_government = paternal_autocrat
+				has_government = authoritarian_democrat
+			}
+			has_completed_focus = SPM_pick_government
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_corporatist_reforms"
+			remove_ideas = SPR_end_austerity_messures_idea
+		}
+
+	}
+	focus = {
+		id = SPM_liberalized_economy
+		icon = GFX_goal_generic_positive_trade_relations
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_rebuilding_road_network
+		}
+		prerequisite = {
+			focus = SPM_end_austerity_messures
+		}
+		prerequisite = {
+			focus = SPM_reopen_mineral_export
+		}
+		mutually_exclusive = {
+			focus = SPM_corporatist_reforms
+		}
+		x = 23
+		y = 4
+
+		available = {
+			OR = {
+				has_government = authoritarian_democrat
+				has_government = social_conservative
+				has_government = market_liberal
+				has_government = social_liberal
+			}
+			has_completed_focus = SPM_pick_government
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_liberalized_economy"
+			remove_ideas = SPR_end_austerity_messures_idea
+		}
+
+	}
+	focus = {
+		id = SPM_implement_state_corporatism
+		icon = GFX_goal_generic_production
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_corporatist_reforms
+		}
+		x = 20
+		y = 6
+
+		available = {
+			controls_state = 41
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_implement_state_corporatism"
+			add_political_power = -20
+			41 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			add_ideas = SPM_implement_state_corporatism_idea
+		}
+
+	}
+	focus = {
+		id = SPM_national_work_programs
+		icon = GFX_goal_generic_production2
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_implement_state_corporatism
+		}
+		x = 20
+		y = 7
+
+		available = {
+			controls_state = 165
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_national_work_programs"
+			add_political_power = -40
+			165 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			swap_ideas = {
+				remove_idea = SPM_implement_state_corporatism_idea
+				add_idea = SPM_national_work_programs_idea
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_royalist_weapon_industry
+		icon = GFX_goal_generic_construct_mil_factory
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_corporatist_reforms
+			focus = SPM_liberalized_economy
+		}
+		x = 22
+		y = 5
+
+		available = {
+			controls_state = 175
+			controls_state = 176
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_royalist_weapon_industry"
+			add_political_power = -25
+			175 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			176 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_strengthen_resource_industry
+		icon = GFX_focus_generic_tungsten
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_royalist_weapon_industry
+		}
+		x = 22
+		y = 6
+
+		available = {
+			controls_state = 168
+			controls_state = 172
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_strengthen_resource_industry"
+			add_political_power = -25
+			add_resource = {
+				type = steel
+				amount = 15
+				state = 168
+			}
+			add_resource = {
+				type = steel
+				amount = 15
+				state = 172
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_connect_country
+		icon = GFX_goal_generic_construct_infrastructure
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_strengthen_resource_industry
+		}
+		x = 22
+		y = 7
+
+		available = {
+			controls_state = 166
+			controls_state = 170
+			controls_state = 175
+			controls_state = 176
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_connect_country"
+			166 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			170 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			175 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			176 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_invite_british_investors
+		icon = GFX_focus_chi_british_cooperation
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_liberalized_economy
+		}
+		x = 24
+		y = 6
+
+		available = {
+			controls_state = 41
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_invite_british_investors"
+			add_political_power = -20
+			add_offsite_building = { type = industrial_complex level = 1 }
+			41 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_encourage_private_investors
+		icon = GFX_goal_model_cities
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_invite_british_investors
+		}
+		x = 24
+		y = 7
+
+		available = {
+			controls_state = 41
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_encourage_private_investors"
+			add_political_power = -20
+			41 = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_rural_industrialization
+		icon = GFX_focus_generic_industry_2
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_national_work_programs
+			focus = SPM_encourage_private_investors
+		}
+		prerequisite = {
+			focus = SPM_connect_country
+		}
+		mutually_exclusive = {
+			focus = SPM_subsidize_agriculture
+		}
+		x = 21
+		y = 8
+
+		available = {
+			controls_state = 170
+			controls_state = 175
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPR_encourage_rural_investments"
+			add_political_power = -20
+			170 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			175 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_subsidize_agriculture
+		icon = GFX_focus_AUS_agriculture
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_national_work_programs
+			focus = SPM_encourage_private_investors
+		}
+		prerequisite = {
+			focus = SPM_connect_country
+		}
+		mutually_exclusive = {
+			focus = SPM_rural_industrialization
+		}
+		x = 23
+		y = 8
+
+		available = {
+			controls_state = 170
+			controls_state = 175
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPR_agricultural_reforms"
+			add_political_power = -20
+			170 = {
+				add_extra_state_shared_building_slots = 1
+			}
+			175 = {
+				add_extra_state_shared_building_slots = 1
+			}
+			add_ideas = SPR_agricultural_reforms_idea
+		}
+
+	}
+	focus = {
+		id = SPM_spanish_monarchist_economic_boom
+		icon = GFX_focus_rom_royal_dictatorship
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_rural_industrialization
+			focus = SPM_subsidize_agriculture
+		}
+		x = 22
+		y = 9
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_spanish_monarchist_economic_boom"
+			add_stability = 0.05
+			add_political_power = 25
+			add_timed_idea = {
+				idea = SPR_spanish_republican_economic_boom_idea
+				days = 500
+			}
+		}
+
+	}
+
+
+	focus = {
+		id = SPM_long_live_king
+		icon = GFX_goal_spain
+		cost = 3.60
+		x = 35
+		y = 0
+
+		available = {
+			has_global_flag = SPR_spanish_civil_war_ended_flag
+		}
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		allow_branch = {
+			NOT = {
+				has_country_flag = SPM_IN_CIVIL_WAR
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_long_live_king"
+			add_political_power = 25
+			add_stability = 0.05
+		}
+
+	}
+	focus = {
+		id = SPM_ban_socialist_militas
+		icon = GFX_HOL_crackdown_syndie
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_long_live_king
+		}
+		x = 33
+		y = 1
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_ban_socialist_militas"
+			add_stability = 0.02
+			add_political_power = -20
+			add_popularity = { ideology = collectivist popularity = -0.03 }
+			add_popularity = { ideology = libertarian_socialist popularity = -0.03 }
+			if = {
+				limit = {
+					has_idea = SPR_civil_war_recovery_idea
+				}
+				swap_ideas = {
+					remove_idea = SPR_civil_war_recovery_idea
+					add_idea = SPR_civil_war_recovery1_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = SPR_civil_war_recovery1_idea
+				}
+				swap_ideas = {
+					remove_idea = SPR_civil_war_recovery1_idea
+					add_idea = SPR_civil_war_recovery2_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = SPR_civil_war_recovery2_idea
+				}
+				swap_ideas = {
+					remove_idea = SPR_civil_war_recovery2_idea
+					add_idea = SPR_civil_war_recovery3_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = SPR_civil_war_recovery3_idea
+				}
+				swap_ideas = {
+					remove_idea = SPR_civil_war_recovery3_idea
+					add_idea = SPR_civil_war_recovery4_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = SPR_civil_war_recovery4_idea
+				}
+				swap_ideas = {
+					remove_idea = SPR_civil_war_recovery4_idea
+					add_idea = SPR_civil_war_recovery5_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = SPR_civil_war_recovery5_idea
+				}
+				remove_ideas = SPR_civil_war_recovery5_idea
+			}
+			else_if = {
+				limit = {
+					NOT = {
+						has_idea = SPR_civil_war_recovery4_idea
+					}
+				}
+				add_stability = 0.03
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_ban_communist_party
+		icon = GFX_goal_anti_comintern_pact
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_ban_socialist_militas
+		}
+		x = 32
+		y = 2
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_ban_communist_party"
+			add_stability = 0.02
+			add_political_power = -20
+			add_popularity = { ideology = collectivist popularity = -0.04 }
+			if = {
+				limit = {
+					has_idea = SPR_civil_war_recovery_idea
+				}
+				swap_ideas = {
+					remove_idea = SPR_civil_war_recovery_idea
+					add_idea = SPR_civil_war_recovery1_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = SPR_civil_war_recovery1_idea
+				}
+				swap_ideas = {
+					remove_idea = SPR_civil_war_recovery1_idea
+					add_idea = SPR_civil_war_recovery2_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = SPR_civil_war_recovery2_idea
+				}
+				swap_ideas = {
+					remove_idea = SPR_civil_war_recovery2_idea
+					add_idea = SPR_civil_war_recovery3_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = SPR_civil_war_recovery3_idea
+				}
+				swap_ideas = {
+					remove_idea = SPR_civil_war_recovery3_idea
+					add_idea = SPR_civil_war_recovery4_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = SPR_civil_war_recovery4_idea
+				}
+				swap_ideas = {
+					remove_idea = SPR_civil_war_recovery4_idea
+					add_idea = SPR_civil_war_recovery5_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = SPR_civil_war_recovery5_idea
+				}
+				remove_ideas = SPR_civil_war_recovery5_idea
+			}
+			else_if = {
+				limit = {
+					NOT = {
+						has_idea = SPR_civil_war_recovery4_idea
+					}
+				}
+				add_stability = 0.03
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_curtail_republicanism
+		icon = GFX_focus_generic_strike_at_democracy2
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_long_live_king
+		}
+		x = 35
+		y = 1
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_curtail_republicanism"
+			add_stability = 0.02
+			add_political_power = -20
+			add_popularity = { ideology = social_liberal popularity = -0.03 }
+			add_popularity = { ideology = market_liberal popularity = -0.03 }
+			if = {
+				limit = {
+					has_idea = SPR_civil_war_recovery_idea
+				}
+				swap_ideas = {
+					remove_idea = SPR_civil_war_recovery_idea
+					add_idea = SPR_civil_war_recovery1_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = SPR_civil_war_recovery1_idea
+				}
+				swap_ideas = {
+					remove_idea = SPR_civil_war_recovery1_idea
+					add_idea = SPR_civil_war_recovery2_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = SPR_civil_war_recovery2_idea
+				}
+				swap_ideas = {
+					remove_idea = SPR_civil_war_recovery2_idea
+					add_idea = SPR_civil_war_recovery3_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = SPR_civil_war_recovery3_idea
+				}
+				swap_ideas = {
+					remove_idea = SPR_civil_war_recovery3_idea
+					add_idea = SPR_civil_war_recovery4_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = SPR_civil_war_recovery4_idea
+				}
+				swap_ideas = {
+					remove_idea = SPR_civil_war_recovery4_idea
+					add_idea = SPR_civil_war_recovery5_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = SPR_civil_war_recovery5_idea
+				}
+				remove_ideas = SPR_civil_war_recovery5_idea
+			}
+			else_if = {
+				limit = {
+					NOT = {
+						has_idea = SPR_civil_war_recovery4_idea
+					}
+				}
+				add_stability = 0.03
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_ban_republican_parties
+		icon = GFX_goal_DOM_The_Trial
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_curtail_republicanism
+		}
+		x = 35
+		y = 2
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_ban_republican_parties"
+			add_stability = 0.02
+			add_political_power = -20
+			add_popularity = { ideology = social_democrat popularity = -0.01 }
+			add_popularity = { ideology = social_liberal popularity = -0.03 }
+			if = {
+				limit = {
+					has_idea = SPR_civil_war_recovery_idea
+				}
+				swap_ideas = {
+					remove_idea = SPR_civil_war_recovery_idea
+					add_idea = SPR_civil_war_recovery1_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = SPR_civil_war_recovery1_idea
+				}
+				swap_ideas = {
+					remove_idea = SPR_civil_war_recovery1_idea
+					add_idea = SPR_civil_war_recovery2_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = SPR_civil_war_recovery2_idea
+				}
+				swap_ideas = {
+					remove_idea = SPR_civil_war_recovery2_idea
+					add_idea = SPR_civil_war_recovery3_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = SPR_civil_war_recovery3_idea
+				}
+				swap_ideas = {
+					remove_idea = SPR_civil_war_recovery3_idea
+					add_idea = SPR_civil_war_recovery4_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = SPR_civil_war_recovery4_idea
+				}
+				swap_ideas = {
+					remove_idea = SPR_civil_war_recovery4_idea
+					add_idea = SPR_civil_war_recovery5_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = SPR_civil_war_recovery5_idea
+				}
+				remove_ideas = SPR_civil_war_recovery5_idea
+			}
+			else_if = {
+				limit = {
+					NOT = {
+						has_idea = SPR_civil_war_recovery4_idea
+					}
+				}
+				add_stability = 0.03
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_ban_monarchist_militas
+		icon = GFX_goal_HOL_ban_paramilitary
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_long_live_king
+		}
+		x = 37
+		y = 1
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_ban_monarchist_militas"
+			add_stability = 0.02
+			add_political_power = -20
+			add_popularity = { ideology = national_populist popularity = -0.03 }
+			add_popularity = { ideology = valkist popularity = -0.03 }
+			if = {
+				limit = {
+					has_idea = SPR_civil_war_recovery_idea
+				}
+				swap_ideas = {
+					remove_idea = SPR_civil_war_recovery_idea
+					add_idea = SPR_civil_war_recovery1_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = SPR_civil_war_recovery1_idea
+				}
+				swap_ideas = {
+					remove_idea = SPR_civil_war_recovery1_idea
+					add_idea = SPR_civil_war_recovery2_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = SPR_civil_war_recovery2_idea
+				}
+				swap_ideas = {
+					remove_idea = SPR_civil_war_recovery2_idea
+					add_idea = SPR_civil_war_recovery3_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = SPR_civil_war_recovery3_idea
+				}
+				swap_ideas = {
+					remove_idea = SPR_civil_war_recovery3_idea
+					add_idea = SPR_civil_war_recovery4_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = SPR_civil_war_recovery4_idea
+				}
+				swap_ideas = {
+					remove_idea = SPR_civil_war_recovery4_idea
+					add_idea = SPR_civil_war_recovery5_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = SPR_civil_war_recovery5_idea
+				}
+				remove_ideas = SPR_civil_war_recovery5_idea
+			}
+			else_if = {
+				limit = {
+					NOT = {
+						has_idea = SPR_civil_war_recovery4_idea
+					}
+				}
+				add_stability = 0.03
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_ban_carlists
+		icon = GFX_HOL_crackdown_natpop
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_ban_monarchist_militas
+		}
+		x = 38
+		y = 2
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_ban_carlists"
+			add_stability = 0.02
+			add_political_power = -20
+			add_popularity = { ideology = paternal_autocrat popularity = -0.02 }
+			add_popularity = { ideology = national_populist popularity = -0.02 }
+			add_popularity = { ideology = valkist popularity = -0.02 }
+			if = {
+				limit = {
+					has_idea = SPR_civil_war_recovery_idea
+				}
+				swap_ideas = {
+					remove_idea = SPR_civil_war_recovery_idea
+					add_idea = SPR_civil_war_recovery1_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = SPR_civil_war_recovery1_idea
+				}
+				swap_ideas = {
+					remove_idea = SPR_civil_war_recovery1_idea
+					add_idea = SPR_civil_war_recovery2_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = SPR_civil_war_recovery2_idea
+				}
+				swap_ideas = {
+					remove_idea = SPR_civil_war_recovery2_idea
+					add_idea = SPR_civil_war_recovery3_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = SPR_civil_war_recovery3_idea
+				}
+				swap_ideas = {
+					remove_idea = SPR_civil_war_recovery3_idea
+					add_idea = SPR_civil_war_recovery4_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = SPR_civil_war_recovery4_idea
+				}
+				swap_ideas = {
+					remove_idea = SPR_civil_war_recovery4_idea
+					add_idea = SPR_civil_war_recovery5_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = SPR_civil_war_recovery5_idea
+				}
+				remove_ideas = SPR_civil_war_recovery5_idea
+			}
+			else_if = {
+				limit = {
+					NOT = {
+						has_idea = SPR_civil_war_recovery4_idea
+					}
+				}
+				add_stability = 0.03
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_pick_government
+		icon = GFX_goal_collaborate_local_elites
+		cost = 3.60
+		prerequisite = {
+			focus = SPM_ban_communist_party
+		}
+		prerequisite = {
+			focus = SPM_ban_republican_parties
+		}
+		prerequisite = {
+			focus = SPM_ban_carlists
+		}
+		x = 35
+		y = 3
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_pick_government"
+			country_event = { id = monspain.102 days = 1 }
+		}
+
+	}
+	focus = {
+		id = SPM_re_government
+		icon = GFX_goal_ideology_paternal_autocrat
+		cost = 5.00
+		prerequisite = {
+			focus = SPM_pick_government
+		}
+		x = 29
+		y = 4
+
+		available = {
+			has_government = paternal_autocrat
+			has_country_flag = SPM_government_picked_flag
+		}
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_re_government"
+			add_political_power = 25
+			add_popularity = { ideology = paternal_autocrat popularity = 0.03 }
+		}
+
+	}
+	focus = {
+		id = SPM_deal_with_carlists
+		icon = GFX_focus_generic_diplomatic_treaty
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_re_government
+		}
+		x = 28
+		y = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_deal_with_carlists"
+			add_stability = 0.02
+			add_political_power = -20
+			add_popularity = { ideology = paternal_autocrat popularity = 0.02 }
+			country_event = { id = monspain.103 days = 1 }
+			add_timed_idea = {
+				idea = SPM_deal_with_carlists_idea
+				days = 300
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_attract_nationalist_voters
+		icon = GFX_focus_HOL_deal_with_right
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_deal_with_carlists
+		}
+		x = 27
+		y = 6
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_attract_nationalist_voters"
+			add_political_power = -25
+			add_popularity = { ideology = paternal_autocrat popularity = 0.05 }
+			add_popularity = { ideology = national_populist popularity = -0.03 }
+			add_popularity = { ideology = valkist popularity = -0.03 }
+		}
+
+	}
+	focus = {
+		id = SPM_weaken_autonomist_power
+		icon = GFX_focus_eng_move_to_secure_the_dominions
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_attract_nationalist_voters
+		}
+		x = 27
+		y = 7
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_weaken_autonomist_power"
+			add_political_power = 20
+			add_popularity = { ideology = social_conservative popularity = -0.03 }
+			add_ideas = SPM_weaken_autonomist_power_idea
+		}
+
+	}
+	focus = {
+		id = SPM_empower_king
+		icon = GFX_goal_tfv_strengthen_commonwealth_ties
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_re_government
+		}
+		x = 30
+		y = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_empower_king"
+			add_stability = 0.02
+			add_political_power = -25
+			add_popularity = { ideology = paternal_autocrat popularity = 0.03 }
+			add_ideas = SPM_empower_king_idea
+		}
+
+	}
+	focus = {
+		id = SPM_alfonsist_youth
+		icon = GFX_focus_generic_military_mission
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_deal_with_carlists
+		}
+		prerequisite = {
+			focus = SPM_empower_king
+		}
+		x = 29
+		y = 6
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_alfonsist_youth"
+			add_war_support = 0.03
+			swap_ideas = {
+				remove_idea = SPM_empower_king_idea
+				add_idea = SPM_alfonsist_youth_idea
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_end_laicism
+		icon = GFX_goal_HOL_amend_wapenwet
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_alfonsist_youth
+		}
+		x = 29
+		y = 7
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_end_laicism"
+			add_stability = 0.05
+			add_political_power = -35
+			country_event = { id = monspain.104 days = 1 }
+		}
+
+	}
+	focus = {
+		id = SPM_give_back_royal_properties
+		icon = GFX_goal_plantation_grants
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_empower_king
+		}
+		x = 31
+		y = 6
+
+		available = {
+			controls_state = 41
+		}
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_give_back_royal_properties"
+			add_political_power = -25
+			add_popularity = { ideology = paternal_autocrat popularity = 0.01 }
+			41 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_eradicate_republican_threat
+		icon = GFX_focus_generic_strike_at_democracy2
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_give_back_royal_properties
+		}
+		x = 31
+		y = 7
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_eradicate_republican_threat"
+			add_stability = 0.02
+			add_political_power = -35
+			add_popularity = { ideology = collectivist popularity = -0.02 }
+			add_popularity = { ideology = libertarian_socialist popularity = -0.02 }
+			add_popularity = { ideology = social_democrat popularity = -0.02 }
+			add_popularity = { ideology = social_liberal popularity = -0.02 }
+		}
+
+	}
+	focus = {
+		id = SPM_catholic_royal_education
+		icon = GFX_BEL_Improve_Catholic_Relations
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_weaken_autonomist_power
+		}
+		prerequisite = {
+			focus = SPM_end_laicism
+		}
+		prerequisite = {
+			focus = SPM_eradicate_republican_threat
+		}
+		x = 29
+		y = 8
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_catholic_royal_education"
+			add_political_power = -25
+			add_research_slot = 1
+			swap_ideas = {
+				remove_idea = SPM_alfonsist_youth_idea
+				add_idea = SPM_catholic_royal_education_idea
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_para_rey_y_pais
+		icon = GFX_goal_ideology_paternal_autocrat
+		cost = 5.00
+		prerequisite = {
+			focus = SPM_catholic_royal_education
+		}
+		x = 29
+		y = 9
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_para_rey_y_pais"
+			add_stability = 0.03
+			add_war_support = 0.03
+			increase_ruling_party_popularity_by_5 = yes
+			hidden_effect = {
+				remove_ideas = SPM_internal_strifes_monarchist_movement_idea
+				remove_ideas = SPM_organize_monarchist_forces_idea
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_ceda_government
+		icon = GFX_goal_ideology_authoritarian_democrat
+		cost = 5.00
+		prerequisite = {
+			focus = SPM_pick_government
+		}
+		x = 35
+		y = 4
+
+		available = {
+			has_government = authoritarian_democrat
+			has_country_flag = SPM_government_picked_flag
+			NOT = {
+				has_completed_focus = SPM_democratic_kingdom
+			}
+		}
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_ceda_government"
+			add_political_power = 25
+			add_popularity = { ideology = authoritarian_democrat popularity = 0.03 }
+		}
+
+	}
+	focus = {
+		id = SPM_unite_right
+		icon = GFX_goal_COS_Ferrer_Coup
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_ceda_government
+		}
+		x = 34
+		y = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_unite_right"
+			add_political_power = -25
+			add_popularity = { ideology = authoritarian_democrat popularity = 0.03 }
+			add_popularity = { ideology = social_conservative popularity = -0.02 }
+			add_popularity = { ideology = paternal_autocrat popularity = -0.02 }
+		}
+
+	}
+	focus = {
+		id = SPM_relegalize_nationalists
+		icon = GFX_focus_HOL_deal_with_right
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_unite_right
+		}
+		x = 34
+		y = 6
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_relegalize_nationalists"
+			add_stability = -0.02
+			add_political_power = 35
+			add_popularity = { ideology = authoritarian_democrat popularity = 0.02 }
+			add_popularity = { ideology = national_populist popularity = 0.02 }
+		}
+
+	}
+	focus = {
+		id = SPM_jap_youth
+		icon = GFX_focus_generic_little_entente
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_relegalize_nationalists
+		}
+		x = 33
+		y = 7
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_relegalize_nationalists"
+			add_political_power = -15
+			add_ideas = SPM_jap_youth_idea
+		}
+
+	}
+	focus = {
+		id = SPM_illegalize_laicism
+		icon = GFX_goal_skull_treaty
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_ceda_government
+		}
+		x = 36
+		y = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_illegalize_laicism"
+			add_stability = 0.05
+			add_political_power = -35
+			country_event = { id = monspain.104 days = 1 }
+		}
+
+	}
+	focus = {
+		id = SPM_reintroduce_catholic_education
+		icon = GFX_goal_faith_and_state
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_illegalize_laicism
+		}
+		x = 36
+		y = 6
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_reintroduce_catholic_education"
+			add_political_power = -25
+			add_research_slot = 1
+			add_ideas = SPM_reintroduce_catholic_education_idea
+		}
+
+	}
+	focus = {
+		id = SPM_establish_personality_cult
+		icon = GFX_goal_generic_territory_or_war
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_relegalize_nationalists
+		}
+		prerequisite = {
+			focus = SPM_reintroduce_catholic_education
+		}
+		x = 35
+		y = 7
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_establish_personality_cult"
+			add_political_power = -50
+			add_stability = 0.03
+			add_war_support = 0.05
+			add_popularity = { ideology = authoritarian_democrat popularity = 0.03 }
+		}
+
+	}
+	focus = {
+		id = SPM_ceda_propaganda
+		icon = GFX_goal_generic_propaganda
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_jap_youth
+		}
+		prerequisite = {
+			focus = SPM_establish_personality_cult
+		}
+		x = 34
+		y = 8
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_ceda_propaganda"
+			add_political_power = -25
+			add_war_support = 0.02
+			add_popularity = { ideology = authoritarian_democrat popularity = 0.03 }
+		}
+
+	}
+	focus = {
+		id = SPM_strengthen_local_churches
+		icon = GFX_focus_generic_strike_at_democracy1
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_reintroduce_catholic_education
+		}
+		x = 37
+		y = 7
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_strengthen_local_churches"
+			add_stability = 0.03
+			swap_ideas = {
+				remove_idea = SPM_reintroduce_catholic_education_idea
+				add_idea = SPM_strengthen_local_churches_idea
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_guided_democracy
+		icon = GFX_focus_generic_self_management
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_establish_personality_cult
+		}
+		prerequisite = {
+			focus = SPM_strengthen_local_churches
+		}
+		x = 36
+		y = 8
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_guided_democracy"
+			add_political_power = -25
+			add_stability = 0.02
+			add_popularity = { ideology = authoritarian_democrat popularity = 0.03 }
+		}
+
+	}
+	focus = {
+		id = SPM_por_espana_y_la_civilizacion_cristiana
+		icon = GFX_goal_ideology_authoritarian_democrat
+		cost = 5.00
+		prerequisite = {
+			focus = SPM_ceda_propaganda
+		}
+		prerequisite = {
+			focus = SPM_guided_democracy
+		}
+		x = 35
+		y = 9
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_por_espana_y_la_civilizacion_cristiana"
+			add_stability = 0.03
+			add_war_support = 0.03
+			increase_ruling_party_popularity_by_5 = yes
+			hidden_effect = {
+				remove_ideas = SPM_internal_strifes_monarchist_movement_idea
+				remove_ideas = SPM_organize_monarchist_forces_idea
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_catalan_league_government
+		icon = GFX_goal_ideology_social_conservative
+		cost = 5.00
+		prerequisite = {
+			focus = SPM_pick_government
+		}
+		x = 41
+		y = 4
+
+		available = {
+			has_government = social_conservative
+			has_country_flag = SPM_government_picked_flag
+		}
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_catalan_league_government"
+			add_political_power = 25
+			add_popularity = { ideology = social_conservative popularity = 0.03 }
+		}
+
+	}
+	focus = {
+		id = SPM_league_for_all_spain
+		icon = GFX_goal_volunteer_alliance
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_catalan_league_government
+		}
+		x = 40
+		y = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_catalan_league_government"
+			add_stability = 0.03
+			add_political_power = -20
+			set_party_name = {
+				ideology = social_conservative
+				long_name = SPM_league_for_all_spain_party_long
+				name = SPM_league_for_all_spain_party
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_christian_democratic_values
+		icon = GFX_BEL_Improve_Catholic_Relations
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_league_for_all_spain
+		}
+		x = 39
+		y = 6
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_christian_democratic_values"
+			add_stability = 0.05
+			add_political_power = -20
+			country_event = { id = monspain.104 days = 1 }
+		}
+
+	}
+	focus = {
+		id = SPM_christian_education_reform
+		icon = GFX_goal_BRA_catholic_education
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_christian_democratic_values
+		}
+		x = 39
+		y = 7
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_christian_education_reform"
+			add_political_power = -25
+			add_research_slot = 1
+			add_ideas = SPM_christian_education_reform_idea
+		}
+
+	}
+	focus = {
+		id = SPM_reassure_regional_autonomies
+		icon = GFX_goal_Centralised_Government
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_catalan_league_government
+		}
+		x = 42
+		y = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_reassure_regional_autonomies"
+			add_stability = 0.02
+			add_ideas = SPM_reassure_regional_autonomies_idea
+		}
+
+	}
+	focus = {
+		id = SPM_repair_kings_image
+		icon = GFX_focus_rom_handle_king
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_league_for_all_spain
+		}
+		prerequisite = {
+			focus = SPM_reassure_regional_autonomies
+		}
+		x = 41
+		y = 6
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_repair_kings_image"
+			add_political_power = -40
+			add_stability = 0.04
+			country_event = { id = monspain.105 days = 1 }
+		}
+
+	}
+	focus = {
+		id = SPM_constitutional_monarchy
+		icon = GFX_GRE_empower_monarchy
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_repair_kings_image
+		}
+		x = 41
+		y = 7
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_constitutional_monarchy"
+			add_stability = 0.02
+			add_war_support = 0.02
+			add_popularity = { ideology = authoritarian_democrat popularity = -0.04 }
+			add_popularity = { ideology = paternal_autocrat popularity = -0.04 }
+			add_ideas = SPM_constitutional_monarchy_idea
+		}
+
+	}
+	focus = {
+		id = SPM_establish_regional_parliaments
+		icon = GFX_focus_generic_self_management
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_reassure_regional_autonomies
+		}
+		x = 43
+		y = 6
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_establish_regional_parliaments"
+			add_stability = 0.02
+			swap_ideas = {
+				remove_idea = SPM_reassure_regional_autonomies_idea
+				add_idea = SPM_establish_regional_parliaments_idea
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_liberal_freedoms
+		icon = GFX_goal_DOM_End_Judicial_Corruption
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_establish_regional_parliaments
+		}
+		x = 43
+		y = 7
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_liberal_freedoms"
+			add_political_power = -30
+			add_stability = 0.02
+			add_popularity = { ideology = social_conservative popularity = 0.04 }
+			add_popularity = { ideology = market_liberal popularity = 0.05 }
+			add_popularity = { ideology = social_liberal popularity = 0.05 }
+		}
+
+	}
+	focus = {
+		id = SPM_democratic_kingdom
+		icon = GFX_focus_generic_the_giant_wakes
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_christian_education_reform
+		}
+		prerequisite = {
+			focus = SPM_constitutional_monarchy
+		}
+		prerequisite = {
+			focus = SPM_liberal_freedoms
+		}
+		x = 41
+		y = 8
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_democratic_kingdom"
+			add_stability = 0.03
+			add_popularity = { ideology = paternal_autocrat popularity = -0.05 }
+			country_event = { id = monspain.106 days = 1 }
+		}
+
+	}
+	focus = {
+		id = SPM_democracia_y_monarquia
+		icon = GFX_goal_ideology_social_conservative
+		cost = 5.00
+		prerequisite = {
+			focus = SPM_democratic_kingdom
+		}
+		x = 41
+		y = 9
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_democracia_y_monarquia"
+			add_stability = 0.03
+			add_war_support = 0.03
+			increase_ruling_party_popularity_by_5 = yes
+			hidden_effect = {
+				remove_ideas = SPM_internal_strifes_monarchist_movement_idea
+				remove_ideas = SPM_organize_monarchist_forces_idea
+			}
+		}
+
+	}
+
+	focus = {
+		id = SPM_loyalty_king_alfonso
+		icon = GFX_focus_generic_monarchy_1
+		cost = 5.00
+		x = 6
+		y = 0
+
+		available = {
+			has_political_power > 0
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+
+		allow_branch = {
+			has_country_flag = SPM_IN_CIVIL_WAR
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_loyalty_king_alfonso"
+			add_political_power = -25
+			add_stability = 0.01
+			add_war_support = 0.01
+			add_popularity = { ideology = social_conservative popularity = 0.01 }
+			add_popularity = { ideology = authoritarian_democrat popularity = 0.01 }
+			add_popularity = { ideology = paternal_autocrat popularity = 0.01 }
+		}
+
+	}
+	focus = {
+		id = SPM_organize_monarchist_forces
+		icon = GFX_focus_generic_monarchy_2
+		cost = 5.00
+		x = 8
+		y = 0
+
+		allow_branch = {
+			has_country_flag = SPM_IN_CIVIL_WAR
+		}
+
+		available = {
+			has_political_power > 0
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_organize_monarchist_forces"
+			add_political_power = -25
+			add_war_support = 0.03
+			swap_ideas = {
+				remove_idea = SPM_internal_strifes_monarchist_movement_idea
+				add_idea = SPM_organize_monarchist_forces_idea
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_fortify_seville
+		icon = GFX_goal_generic_barricades
+		cost = 5.00
+		x = 10
+		y = 0
+
+		allow_branch = {
+			has_country_flag = SPM_IN_CIVIL_WAR
+		}
+
+		available = {
+			has_political_power > 0
+			controls_state = 169
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_fortify_seville"
+			add_political_power = -25
+			add_stability = 0.01
+			add_war_support = 0.01
+			169 = {
+				add_building_construction = {
+					type = bunker
+					level = 3
+					instant_build = yes
+					province = 7183
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_all_kings_men
+		icon = GFX_focus_spa_unify_the_nationalist_front
+		cost = 5.00
+		prerequisite = {
+			focus = SPM_loyalty_king_alfonso
+		}
+		prerequisite = {
+			focus = SPM_organize_monarchist_forces
+		}
+		x = 3
+		y = 1
+
+		available = {
+			has_political_power > 0
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_all_kings_men"
+			add_political_power = -25
+			add_war_support = 0.02
+			swap_ideas = {
+				remove_idea = SPR_weaken_leadership_idea
+				add_idea = SPR_pass_civil_war_emergency_idea
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_government_generals
+		icon = GFX_goal_officers
+		cost = 5.00
+		prerequisite = {
+			focus = SPM_all_kings_men
+		}
+		mutually_exclusive = {
+			focus = SPM_favour_conservative_allies
+		}
+		x = 2
+		y = 2
+
+		available = {
+			has_political_power > 0
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_government_generals"
+			add_political_power = -20
+			add_war_support = 0.03
+			add_popularity = { ideology = paternal_autocrat popularity = 0.02 }
+			swap_ideas = {
+				remove_idea = SPR_pass_civil_war_emergency_idea
+				add_idea = SPR_pass_civil_war_emergency1_idea
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_favour_conservative_allies
+		icon = GFX_focus_POL_complete_april_constitution
+		cost = 5.00
+		prerequisite = {
+			focus = SPM_all_kings_men
+		}
+		mutually_exclusive = {
+			focus = SPM_government_generals
+		}
+		x = 4
+		y = 2
+
+		available = {
+			has_political_power > 0
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_favour_conservative_allies"
+			add_political_power = -20
+			add_stability = 0.03
+			add_popularity = { ideology = social_conservative popularity = 0.01 }
+			add_popularity = { ideology = authoritarian_democrat popularity = 0.01 }
+			swap_ideas = {
+				remove_idea = SPR_pass_civil_war_emergency_idea
+				add_idea = SPR_pass_civil_war_emergency1_idea
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_seek_papal_recognition
+		icon = GFX_focus_generic_pope
+		cost = 5.00
+		prerequisite = {
+			focus = SPM_government_generals
+			focus = SPM_favour_conservative_allies
+		}
+		x = 3
+		y = 3
+
+		available = {
+			has_political_power > 0
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_seek_papal_recognition"
+			add_political_power = -30
+			add_stability = 0.03
+			add_war_support = 0.03
+			remove_ideas = SPR_pass_civil_war_emergency1_idea
+		}
+
+	}
+	focus = {
+		id = SPM_friends_in_london
+		icon = GFX_goal_GBR_big_ben
+		cost = 5.00
+		prerequisite = {
+			focus = SPM_seek_papal_recognition
+		}
+		x = 2
+		y = 4
+
+		available = {
+			has_political_power > 0
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_friends_in_london"
+			add_political_power = -35
+			if = {
+				limit = {
+					ENG = {
+						is_faction_leader = yes
+					}
+				}
+				ENG = {
+					add_opinion_modifier = { target = SPR modifier = small_increase }
+				}
+				add_manpower = 700
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = 1000
+					producer = ENG
+				}
+			}
+			if = {
+				limit = {
+					CAN = {
+						is_in_faction_with = FRA
+					}
+				}
+				CAN = {
+					add_opinion_modifier = { target = SPR modifier = small_increase }
+				}
+				add_manpower = 300
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = 500
+					producer = CAN
+				}
+			}
+			if = {
+				limit = {
+					RAJ = {
+						is_in_faction_with = FRA
+					}
+				}
+				RAJ = {
+					add_opinion_modifier = { target = SPR modifier = small_increase }
+				}
+				add_manpower = 300
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = 500
+					producer = RAJ
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_appeal_to_democracies
+		icon = GFX_focus_ARG_defense_and_democracy
+		cost = 5.00
+		prerequisite = {
+			focus = SPM_seek_papal_recognition
+		}
+		prerequisite = {
+			focus = SPM_favour_conservative_allies
+		}
+		x = 4
+		y = 4
+
+		available = {
+			has_political_power > 0
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_appeal_to_democracies"
+			add_political_power = -35
+			if = {
+				limit = {
+					ENG = {
+						NOT = {
+							has_government = vanguardist
+							has_government = collectivist
+							has_government = libertarian_socialist
+							has_government = authoritarian_democrat
+							has_government = paternal_autocrat
+							has_government = national_populist
+							has_government = valkist
+						}
+					}
+				}
+				add_manpower = 500
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = 700
+					producer = ENG
+				}
+			}
+			if = {
+				limit = {
+					USA = {
+						NOT = {
+							has_government = vanguardist
+							has_government = collectivist
+							has_government = libertarian_socialist
+							has_government = authoritarian_democrat
+							has_government = paternal_autocrat
+							has_government = national_populist
+							has_government = valkist
+						}
+					}
+				}
+				USA = {
+					add_opinion_modifier = { target = SPR modifier = medium_increase }
+				}
+				add_manpower = 400
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = 600
+					producer = USA
+				}
+			}
+			if = {
+				limit = {
+					POL = {
+						NOT = {
+							has_government = vanguardist
+							has_government = collectivist
+							has_government = libertarian_socialist
+							has_government = authoritarian_democrat
+							has_government = paternal_autocrat
+							has_government = national_populist
+							has_government = valkist
+						}
+					}
+				}
+				add_manpower = 500
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = 700
+					producer = POL
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_defence_of_andalusia
+		icon = GFX_goal_generic_construct_military
+		cost = 5.00
+		prerequisite = {
+			focus = SPM_loyalty_king_alfonso
+		}
+		prerequisite = {
+			focus = SPM_organize_monarchist_forces
+		}
+		prerequisite = {
+			focus = SPM_fortify_seville
+		}
+		x = 7
+		y = 1
+
+		available = {
+			has_political_power > 0
+		}
+
+		bypass = {
+			has_global_flag = SPR_spanish_civil_war_ended_flag
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_defence_of_andalusia"
+			add_political_power = -35
+			swap_ideas = {
+				remove_idea = SPR_SPM_SPF_SPA_spanish_civil_war_idea
+				add_idea = SPR_surrounded_at_all_sides_idea
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_recruitment_campaign
+		icon = GFX_goal_generic_propaganda
+		cost = 5.00
+		prerequisite = {
+			focus = SPM_loyalty_king_alfonso
+		}
+		prerequisite = {
+			focus = SPM_organize_monarchist_forces
+		}
+		prerequisite = {
+			focus = SPM_fortify_seville
+		}
+		x = 9
+		y = 1
+
+		available = {
+			has_political_power > 0
+		}
+
+		bypass = {
+			has_global_flag = SPR_spanish_civil_war_ended_flag
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_recruitment_campaign"
+			add_political_power = -35
+			add_war_support = 0.03
+			add_manpower = 10000
+			country_event = { id = monspain.100 days = 1 }
+		}
+
+	}
+	focus = {
+		id = SPM_civil_war_offensive_planning
+		icon = GFX_goal_enlist_the_police
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_defence_of_andalusia
+		}
+		prerequisite = {
+			focus = SPM_recruitment_campaign
+		}
+		x = 6
+		y = 2
+
+		available = {
+			has_political_power > 0
+			has_equipment = {
+				infantry_equipment_0 > 499
+			}
+			NOT = {
+				has_global_flag = SPR_spanish_civil_war_ended_flag
+			}
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_civil_war_offensive_planning"
+			add_political_power = -40
+			add_equipment_to_stockpile = {
+				type = infantry_equipment_0
+				amount = -500
+				producer = SPM
+			}
+			if = {
+				limit = {
+					has_idea = SPR_provide_proper_army_transport_idea
+				}
+				swap_ideas = {
+					remove_idea = SPR_provide_proper_army_transport_idea
+					add_idea = SPR_spanish_civil_war_finish_idea
+				}
+			}
+			else = {
+				swap_ideas = {
+					remove_idea = SPR_surrounded_at_all_sides_idea
+					add_idea = SPR_civil_war_offensive_planning_idea
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_provide_proper_army_transport
+		icon = GFX_focus_generic_truck
+		cost = 8.00
+		prerequisite = {
+			focus = SPM_defence_of_andalusia
+		}
+		prerequisite = {
+			focus = SPM_recruitment_campaign
+		}
+		x = 10
+		y = 2
+
+		available = {
+			has_political_power > 0
+			has_equipment = {
+				motorized_equipment_1 > 299
+			}
+			has_equipment = {
+				infantry_equipment_0 > 299
+			}
+			NOT = {
+				has_global_flag = SPR_spanish_civil_war_ended_flag
+			}
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_provide_proper_army_transport"
+			add_political_power = -40
+			add_equipment_to_stockpile = {
+				type = motorized_equipment_1
+				amount = -300
+				producer = SPM
+			}
+			add_equipment_to_stockpile = {
+				type = infantry_equipment_0
+				amount = -300
+				producer = SPM
+			}
+			if = {
+				limit = {
+					has_idea = SPR_civil_war_offensive_planning_idea
+				}
+				swap_ideas = {
+					remove_idea = SPR_civil_war_offensive_planning_idea
+					add_idea = SPR_spanish_civil_war_finish_idea
+				}
+			}
+			else = {
+				swap_ideas = {
+					remove_idea = SPR_surrounded_at_all_sides_idea
+					add_idea = SPR_provide_proper_army_transport_idea
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_military_armament
+		icon = GFX_goal_generic_military_equipment
+		cost = 5.00
+		prerequisite = {
+			focus = SPM_defence_of_andalusia
+		}
+		prerequisite = {
+			focus = SPM_recruitment_campaign
+		}
+		x = 8
+		y = 3
+
+		available = {
+			has_political_power > 0
+			controls_state = 169
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_military_armament"
+			add_political_power = -50
+			169 = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_fortify_eastern_andalucia
+		icon = GFX_goal_USA_national_guard
+		cost = 5.00
+		prerequisite = {
+			focus = SPM_organize_monarchist_forces
+		}
+		prerequisite = {
+			focus = SPM_fortify_seville
+		}
+		x = 13
+		y = 1
+
+		available = {
+			has_political_power > 0
+			controls_state = 169
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_fortify_eastern_andalucia"
+			add_political_power = -25
+			169 = {
+				add_building_construction = {
+					type = bunker
+					level = 2
+					instant_build = yes
+					province = 4182
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					instant_build = yes
+					province = 10094
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					instant_build = yes
+					province = 1178
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_bring_order_madrid
+		icon = GFX_focus_spa_save_the_alcazar
+		cost = 5.00
+		prerequisite = {
+			focus = SPM_fortify_eastern_andalucia
+		}
+		x = 12
+		y = 2
+
+		available = {
+			has_political_power > 0
+			controls_state = 41
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_bring_order_madrid"
+			add_political_power = -20
+			add_manpower = -200
+			add_stability = 0.03
+			add_war_support = 0.03
+			add_popularity = { ideology = social_liberal popularity = -0.02 }
+			add_popularity = { ideology = market_liberal popularity = -0.01 }
+			41 = {
+				add_resistance = -10
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_collaborate_with_conservative_catalans
+		icon = GFX_goal_collaborate_local_elites
+		cost = 5.00
+		prerequisite = {
+			focus = SPM_fortify_eastern_andalucia
+		}
+		x = 14
+		y = 2
+
+		available = {
+			has_political_power > 0
+			controls_state = 165
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_collaborate_with_conservative_catalans"
+			add_political_power = -20
+			add_manpower = -200
+			add_stability = 0.03
+			add_war_support = 0.03
+			add_popularity = { ideology = social_conservative popularity = 0.03 }
+			add_popularity = { ideology = collectivist popularity = -0.02 }
+			add_popularity = { ideology = libertarian_socialist popularity = -0.02 }
+			165 = {
+				add_resistance = -10
+			}
+		}
+
+	}
+	focus = {
+		id = SPM_peace_upon_north
+		icon = GFX_HOL_crackdown_natpop
+		cost = 5.00
+		prerequisite = {
+			focus = SPM_bring_order_madrid
+			focus = SPM_collaborate_with_conservative_catalans
+		}
+		x = 12
+		y = 3
+
+		available = {
+			has_political_power > 0
+			controls_state = 171
+			controls_state = 174
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPM_peace_upon_north"
+			add_political_power = -20
+			add_manpower = -200
+			add_stability = 0.03
+			add_war_support = 0.03
+			add_popularity = { ideology = national_populist popularity = -0.02 }
+			171 = {
+				add_resistance = -10
+			}
+			174 = {
+				add_resistance = -10
+			}
+		}
+
+	}
+	focus = {
+		id = SPR_spain_kingdom_again
+		icon = GFX_focus_spr_maintain_the_republic
+		cost = 1.50
+		prerequisite = {
+			focus = SPM_military_armament
+		}
+		prerequisite = {
+			focus = SPM_peace_upon_north
+		}
+		x = 10
+		y = 4
+
+		available = {
+			has_political_power > 0
+			NOT = { country_exists = SPR }
+			NOT = { country_exists = SPF }
+			NOT = { country_exists = SPA }
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SPR_spain_kingdom_again"
+			country_event = { id = monspain.9 days = 1 }
+		}
+
+	}
+}

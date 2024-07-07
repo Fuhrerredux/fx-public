@@ -1,0 +1,9649 @@
+# Japan focus tree
+# made by Su1phur and Teuty!
+
+focus_tree = {
+	id = japanese_focus
+	country = {
+		factor = 0
+		modifier = {
+			add = 20
+			tag = JAP
+		}
+	}
+
+	continuous_focus_position = { x = 50 y = -10 }
+
+
+	# NAVY BRANCH #
+
+	focus = {
+		id = jap_modernise_the_navy
+		icon = GFX_goal_JAP_Imperial_Navy
+
+		x = 26
+		y = 0
+
+		cost = 0
+
+
+		allow_branch = {
+			NOT = {
+				has_country_flag = JAP_unlock_shog_ft
+			}
+		}
+
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		available = {
+			has_country_flag = JAP_navy_first
+		}
+
+
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_modernise_the_navy"
+			navy_experience = 30
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.5
+				uses = 1
+				category = naval_doctrine
+			}
+
+			JAP_interservice_rivalry_towards_navy = yes
+		}
+	}
+
+	#generic navy stuff
+
+	focus = {
+		id = jap_modernisation_of_cruiser
+		icon = GFX_goal_generic_naval_fleet_in_being
+
+		x = -5
+		y = 1
+		relative_position_id = jap_modernise_the_navy
+		cost = 7
+
+		prerequisite = {
+			focus = jap_modernise_the_navy
+		}
+
+		ai_will_do = {
+			factor = 20
+			modifier = {
+				factor = 2
+				OR = {
+					has_war_with = USA
+					has_war_with = ENG
+				}
+			}
+		}
+
+
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_modernisation_of_cruiser"
+			add_tech_bonus = {
+				bonus = 0.5
+				uses = 2
+				category = ca_tech #heavy cruiser
+				category = cl_tech #light cruiser
+			}
+			JAP_interservice_rivalry_towards_navy = yes
+		}
+	}
+
+	focus = {
+		id = jap_destroyer_modernisation
+		icon = GFX_goal_generic_navy_cruiser
+
+		x = 0
+		y = 1
+		relative_position_id = jap_modernisation_of_cruiser
+		cost = 5
+
+		prerequisite = {
+			focus = jap_modernisation_of_cruiser
+		}
+
+		ai_will_do = {
+			factor = 20
+			modifier = {
+				factor = 2
+				has_navy_size = {
+					size > 99
+					type = screen_ship
+				}
+			}
+			modifier = {
+				factor = 2
+				NOT = {
+					OR = {
+						has_tech = basic_ship_hull_light
+						has_tech = basic_destroyer
+					}
+				}
+			}
+			modifier = {
+				factor = 2
+				OR = {
+					has_war_with = USA
+					has_war_with = ENG
+				}
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_destroyer_modernisation"
+			add_tech_bonus = {
+				bonus = 0.5
+				uses = 1
+				category = dd_tech #destroyer
+			}
+			JAP_interservice_rivalry_towards_navy = yes
+		}
+	}
+
+	focus = {
+		id = jap_expand_the_snlf
+		icon = GFX_goal_generic_amphibious_assault
+
+		x = 0
+		y = 1
+		relative_position_id = jap_destroyer_modernisation
+		cost = 7
+
+		prerequisite = {
+			focus = jap_destroyer_modernisation
+		}
+
+		ai_will_do = {
+			factor = 20
+			modifier = {
+				factor = 2
+				has_template_containing_unit = marine
+			}
+			modifier = {
+				factor = 2
+				OR = {
+					has_war_with = USA
+					has_war_with = ENG
+				}
+			}
+		}
+
+
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_expand_the_snlf"
+			add_ideas = jap_expanded_the_snlf
+			JAP_interservice_rivalry_towards_navy = yes
+		}
+	}
+
+	focus = {
+		id = jap_long_lance_torpedoes
+		icon = GFX_goal_generic_occupy_start_war
+
+		x = 0
+		y = 1
+		relative_position_id = jap_expand_the_snlf
+		cost = 7
+
+		prerequisite = {
+			focus = jap_expand_the_snlf
+		}
+
+		ai_will_do = {
+			factor = 20
+			modifier = {
+				factor = 2
+				has_navy_size = {
+					size > 99
+					type = screen_ship
+				}
+			}
+			modifier = {
+				factor = 2
+				has_navy_size = {
+					size > 74
+					type = submarine
+				}
+			}
+			modifier = {
+				factor = 2
+				OR = {
+					has_war_with = USA
+					has_war_with = ENG
+				}
+			}
+		}
+
+
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_long_lance_torpedoes"
+			add_ideas = jap_the_long_lance
+			JAP_interservice_rivalry_towards_navy = yes
+		}
+	}
+
+	focus = {
+		id = jap_torpedo_cruisers
+		icon = GFX_goal_generic_navy_cruiser
+
+		x = 0
+		y = 1
+		relative_position_id = jap_long_lance_torpedoes
+		cost = 7
+
+		prerequisite = {
+			focus = jap_long_lance_torpedoes
+		}
+
+		ai_will_do = {
+			factor = 20
+			modifier = {
+				factor = 2
+				OR = {
+					has_war_with = USA
+					has_war_with = ENG
+				}
+			}
+		}
+
+
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_torpedo_cruisers"
+			if = {
+				limit = {
+					has_dlc = "Man the Guns"
+				}
+				set_technology = { torpedo_cruiser_mtg = 1 }
+			}
+			else = {
+				set_technology = { torpedo_cruiser = 1 }
+			}
+
+			JAP_interservice_rivalry_towards_navy = yes
+		}
+	}
+
+	# BATTLESHIP DOCTRINE
+
+	focus = {
+		id = jap_superior_battlefleet
+		icon = GFX_goal_generic_navy_battleship3
+
+		x = -1
+		y = 1
+		relative_position_id = jap_modernise_the_navy
+		cost = 7
+
+		prerequisite = {
+			focus = jap_modernise_the_navy
+		}
+
+		mutually_exclusive = {
+			focus = jap_dominance_of_cv
+		}
+
+		ai_will_do = {
+			factor = 20
+
+			modifier = {
+				factor = 1.5
+				has_government = authoritarian_democrat
+			}
+			modifier = {
+				factor = 0.5
+				has_government = social_conservative
+			}
+		}
+
+
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_superior_battlefleet"
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.5
+				uses = 2
+				category = cat_fleet_in_being #battleship doctrine
+			}
+		}
+	}
+
+	focus = {
+		id = jap_improve_naval_artillery
+		icon = GFX_focus_generic_destroyer
+
+		x = -2
+		y = 1
+		relative_position_id = jap_superior_battlefleet
+		cost = 7
+
+		prerequisite = {
+			focus = jap_superior_battlefleet
+		}
+
+		ai_will_do = {
+			factor = 20
+			modifier = {
+				factor = 2
+				has_navy_size = {
+					size > 19
+					type = capital_ship
+				}
+			}
+			modifier = {
+				factor = 2
+				OR = {
+					has_war_with = USA
+					has_war_with = ENG
+				}
+			}
+		}
+
+
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_improve_naval_artillery"
+			add_ideas = jap_improved_naval_artilery
+			JAP_interservice_rivalry_towards_navy = yes
+		}
+	}
+
+	focus = {
+		id = jap_expand_the_kure_dockyards
+		icon = GFX_goal_generic_shipyard
+
+		x = 0
+		y = 1
+		relative_position_id = jap_superior_battlefleet
+		cost = 7
+
+		prerequisite = {
+			focus = jap_superior_battlefleet
+		}
+
+		ai_will_do = {
+			factor = 20
+			modifier = {
+				factor = 2
+				dockyard < 20
+			}
+			modifier = {
+				factor = 2
+				OR = {
+					has_war_with = USA
+					has_war_with = ENG
+				}
+			}
+		}
+
+		available = {
+			controls_state = 529
+		}
+
+
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_expand_the_kure_dockyards"
+			529 = { #Chigoku
+				add_building_construction = {
+					type = dockyard
+					level = 3
+					instant_build = yes
+				}
+			}
+			JAP_interservice_rivalry_towards_navy = yes
+		}
+	}
+
+	focus = {
+		id = JAP_the_yamato
+		icon = GFX_goal_generic_navy_battleship3alt
+
+		x = -2
+		y = 2
+		relative_position_id = jap_superior_battlefleet
+		cost = 7
+
+		prerequisite = {
+			focus = jap_expand_the_kure_dockyards
+			focus =	jap_improve_naval_artillery
+		}
+
+		ai_will_do = {
+			factor = 20
+
+			modifier = {
+				factor = 5
+				has_government = authoritarian_democrat
+			}
+			modifier = {
+				factor = 2
+				NOT = {
+					OR = {
+						has_tech = heavy_battleship
+						has_tech = ship_hull_super_heavy
+					}
+				}
+			}
+			modifier = {
+				factor = 2
+				OR = {
+					has_war_with = USA
+					has_war_with = JAP
+				}
+			}
+		}
+
+
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_the_yamato"
+			#unlock_decision = { The yamato	}
+			if = {
+				limit = {
+					has_dlc = "Man the Guns"
+				}
+				set_technology = { ship_hull_super_heavy = 1 }
+			}
+			else = {
+				set_technology = { heavy_battleship = 1 } #Super heavy battleship
+			}
+			JAP_interservice_rivalry_towards_navy = yes
+		}
+	}
+
+
+	focus = {
+		id = jap_expand_the_sasebo_arsenal
+		icon = GFX_goal_generic_construct_naval_dockyard
+
+		x = 0
+		y = 1
+		relative_position_id = jap_expand_the_kure_dockyards
+		cost = 7
+
+		prerequisite = {
+			focus = jap_expand_the_kure_dockyards
+		}
+
+		ai_will_do = {
+			factor = 20
+			modifier = {
+				factor = 2
+				dockyard < 20
+			}
+			modifier = {
+				factor = 2
+				OR = {
+					has_war_with = USA
+					has_war_with = ENG
+				}
+			}
+		}
+
+		available = {
+			controls_state = 528
+		}
+
+
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_expand_the_sasebo_arsenal"
+			528 = { #chugoku
+				add_building_construction = {
+					type = dockyard
+					level = 2
+					instant_build = yes
+				}
+			}
+			JAP_interservice_rivalry_towards_navy = yes
+			set_country_flag = JAP_army_first
+		}
+	}
+
+	focus = {
+		id = jap_lessons_of_the_great_war
+		icon = GFX_goal_BEL_lessons_great_war
+
+		x = 0
+		y = 1
+		relative_position_id = jap_expand_the_sasebo_arsenal
+		cost = 7
+		prerequisite = {
+			focus = jap_expand_the_sasebo_arsenal
+			focus =	JAP_the_yamato
+		}
+
+		ai_will_do = {
+			factor = 20
+			modifier = {
+				factor = 2
+				OR = {
+					has_war_with = USA
+					has_war_with = ENG
+				}
+			}
+		}
+
+
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_lessons_of_the_great_war"
+			add_ideas = jap_lessons_of_the_great_war
+			JAP_interservice_rivalry_towards_navy = yes
+		}
+	}
+
+	focus = {
+		id = jap_imperial_bb_academy
+		icon = GFX_goal_generic_navy_battleship
+
+		x = 0
+		y = 1
+		relative_position_id = jap_lessons_of_the_great_war
+		cost = 15
+
+		prerequisite = {
+			focus = jap_lessons_of_the_great_war
+		}
+
+		ai_will_do = {
+			factor = 20
+			modifier = {
+				factor = 2
+				OR = {
+					has_war_with = USA
+					has_war_with = ENG
+				}
+			}
+			modifier = {
+				factor = 2
+				has_navy_size = {
+					size > 19
+					type = capital_ship
+				}
+			}
+		}
+
+
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_imperial_bb_academy"
+			JAP_interservice_rivalry_towards_navy = yes
+			remove_ideas = jap_lessons_of_the_great_war
+			# add_idea = jap_imperial_battleship_academy
+		}
+	}
+
+	# CARRIER DOCTRINE
+
+	focus = {
+		id = jap_dominance_of_cv
+		icon = GFX_goal_generic_sea_focused_navy2
+
+		x = 1
+		y = 1
+		relative_position_id = jap_modernise_the_navy
+		cost = 7
+
+		prerequisite = {
+			focus = jap_modernise_the_navy
+		}
+
+		mutually_exclusive = {
+			focus = jap_superior_battlefleet
+		}
+
+		ai_will_do = {
+			factor = 20
+
+			modifier = {
+				factor = 0.5
+				has_government = authoritarian_democrat
+			}
+			modifier = {
+				factor = 1.5
+				has_government = social_conservative
+			}
+		}
+
+
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_dominance_of_cv"
+			add_tech_bonus = {
+				bonus = 0.5
+				uses = 1
+				category = cv_tech
+			}
+		}
+	}
+
+	focus = {
+		id = jap_first_air_fleet
+		icon = GFX_goal_generic_navy_carrier
+
+		x = 0
+		y = 1
+		relative_position_id = jap_dominance_of_cv
+		cost = 7
+
+		prerequisite = {
+			focus = jap_dominance_of_cv
+		}
+
+		ai_will_do = {
+			factor = 20
+			modifier = {
+				factor = 2
+				OR = {
+					has_war_with = USA
+					has_war_with = ENG
+				}
+			}
+			modifier = {
+				factor = 2
+				has_navy_size = {
+					size > 3
+					type = carrier
+				}
+			}
+		}
+
+
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_first_air_fleet"
+			add_ideas = jap_first_air_fleet
+			JAP_interservice_rivalry_towards_navy = yes
+		}
+	}
+
+	focus = {
+		id = jap_third_gen_cv
+		icon = GFX_goal_generic_sea_focused_navy2
+
+		x = 0
+		y = 1
+		relative_position_id = jap_first_air_fleet
+		cost = 7
+
+		prerequisite = {
+			focus = jap_first_air_fleet
+		}
+
+		ai_will_do = {
+			factor = 20
+			modifier = {
+				factor = 2
+				OR = {
+					has_war_with = USA
+					has_war_with = ENG
+				}
+			}
+			modifier = {
+				factor = 2
+				NOT = {
+					OR = {
+						has_tech = improved_carrier
+						has_tech = improved_ship_hull_carrier
+					}
+				}
+			}
+		}
+
+
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_third_gen_cv"
+			add_tech_bonus = {
+				bonus = 0.5
+				uses = 1
+				category = cv_tech #_lvl3
+			}
+			set_country_flag = JAP_army_first
+			JAP_interservice_rivalry_towards_navy = yes
+		}
+	}
+
+	focus = {
+		id = jap_fifth_fleet_expansion
+		icon = GFX_goal_generic_coastal_navy2
+
+		x = 0
+		y = 1
+		relative_position_id = jap_third_gen_cv
+		cost = 7
+
+		prerequisite = {
+			focus = jap_third_gen_cv
+			focus =	jap_the_zero
+		}
+
+		ai_will_do = {
+			factor = 20
+			modifier = {
+				factor = 2
+				OR = {
+					has_war_with = USA
+					has_war_with = ENG
+				}
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_fifth_fleet_expansion"
+			#unlock_decision = { fifth_fleet }
+			set_country_flag = jap_fifth_fleet_expansion_flag
+			JAP_interservice_rivalry_towards_navy = yes
+		}
+	}
+
+	focus = {
+		id = jap_inaa
+		icon = GFX_goal_generic_air_naval_bomber
+
+		x = 0
+		y = 1
+		relative_position_id = jap_fifth_fleet_expansion
+		cost = 7
+
+		prerequisite = {
+			focus = jap_fifth_fleet_expansion
+		}
+
+		ai_will_do = {
+			factor = 20
+			modifier = {
+				factor = 2
+				OR = {
+					has_war_with = USA
+					has_war_with = ENG
+				}
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_inaa"
+			add_ideas = jap_inaa_idea
+			JAP_interservice_rivalry_towards_navy = yes
+		}
+	}
+
+	# JAP PLANE INNOVATION
+
+	focus = {
+		id = jap_plane_modernisation
+		icon = GFX_goal_generic_air_fighter2
+
+		x = 5
+		y = 1
+		relative_position_id = jap_modernise_the_navy
+		cost = 7
+
+		prerequisite = {
+			focus = jap_modernise_the_navy
+			focus = jap_expand_the_army
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_plane_modernisation"
+			air_experience = 30
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.5
+				uses = 1
+				category = air_doctrine
+			}
+		}
+	}
+
+	focus = {
+		id = jap_mitsubishi_designs
+		icon = GFX_goal_generic_air_production
+
+		x = -1
+		y = 1
+		relative_position_id = jap_plane_modernisation
+		cost = 7
+
+		prerequisite = {
+			focus = jap_plane_modernisation
+		}
+
+		ai_will_do = {
+			factor = 20
+
+			modifier = {
+				factor = 1.5
+				has_government = social_conservative
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_mitsubishi_designs"
+			if = {
+				limit = { has_dlc_aat = yes }
+				custom_effect_tooltip = available_mio_tt
+				show_mio_tooltip = JAP_mitsubishi
+			}
+			else = {
+				custom_effect_tooltip = available_designer
+				show_ideas_tooltip = mitsubishi
+			}
+		}
+	}
+
+	focus = {
+		id = jap_the_zero
+		icon = GFX_focus_jap_zero
+
+		x = -1
+		y = 1
+		relative_position_id = jap_mitsubishi_designs
+		cost = 7
+
+		prerequisite = {
+			focus = jap_mitsubishi_designs
+		}
+
+		prerequisite = {
+			focus =	jap_first_air_fleet
+		}
+
+		ai_will_do = {
+			factor = 20
+
+			modifier = {
+				factor = 1.5
+				has_government = social_conservative
+			}
+		}
+
+		bypass = {
+			has_tech = cv_fighter2
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_the_zero"
+			set_technology = { cv_fighter2 = 1 }
+			custom_effect_tooltip = JAP_the_zero_tt
+		}
+	}
+
+	focus = {
+		id = jap_combine_bomber_effort
+		icon = GFX_goal_JAP_combine_bomber_effort
+
+		x = 1
+		y = 1
+		relative_position_id = jap_mitsubishi_designs
+		cost = 7
+
+		prerequisite = {
+			focus = jap_mitsubishi_designs
+		}
+
+		prerequisite = {
+			focus = jap_aichi_design
+		}
+
+		ai_will_do = {
+			factor = 20
+			modifier = {
+				factor = 1.5
+				has_war = yes
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_combine_bomber_effort"
+			add_tech_bonus = {
+				bonus = 0.5
+				uses = 1
+				category = cat_strategic_bomber
+				category = tactical_bomber
+			}
+			remove_ideas = { JAP_duplicate_research_efforts }
+		}
+	}
+
+	focus = {
+		id = jap_jet_effort
+		icon = GFX_goal_generic_CAS
+
+		x = 0
+		y = 1
+		relative_position_id = jap_combine_bomber_effort
+		cost = 7
+
+		prerequisite = {
+			focus = jap_combine_bomber_effort
+		}
+
+		ai_will_do = {
+			factor = 20
+			modifier = {
+				factor = 1.5
+				has_war = yes
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_jet_effort"
+			add_tech_bonus = {
+				bonus = 0.5
+				uses = 1
+				category = jet_technology
+			}
+		}
+	}
+
+	focus = {
+		id = jap_the_oka
+		icon = GFX_goal_JAP_the_oka
+
+		x = 0
+		y = 1
+		relative_position_id = jap_jet_effort
+		cost = 7
+
+		prerequisite = {
+			focus = jap_jet_effort
+		}
+
+		available = {
+			has_tech = rocket_engines
+		}
+
+		ai_will_do = {
+			factor = 20
+			modifier = {
+				factor = 1.5
+				has_war = yes
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_the_oka"
+			set_technology = { suicide_craft = 1 }
+		}
+	}
+
+	focus = {
+		id = jap_aichi_design
+		icon = GFX_goal_generic_air_production
+
+		x = 1
+		y = 1
+		relative_position_id = jap_plane_modernisation
+		cost = 7
+
+		prerequisite = {
+			focus = jap_plane_modernisation
+		}
+
+		ai_will_do = {
+			factor = 20
+
+			modifier = {
+				factor = 1.5
+				has_government = market_liberal
+			}
+			modifier = {
+				factor = 1.5
+				has_war = yes
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_aichi_design"
+			if = {
+				limit = { has_dlc_aat = yes }
+				custom_effect_tooltip = available_mio_tt
+				show_mio_tooltip = JAP_aichi
+			}
+			else = {
+				custom_effect_tooltip = available_designer
+				show_ideas_tooltip = aichi
+			}
+		}
+	}
+
+	#ARMY BRANCH
+
+	focus = {
+		id = jap_expand_the_army
+		icon = GFX_goal_JAP_Imperial_Army
+
+		x = 15
+		y = 0
+		relative_position_id = jap_modernise_the_navy
+		cost = 0
+
+
+		allow_branch = {
+			NOT = {
+				has_country_flag = JAP_unlock_shog_ft
+			}
+		}
+
+
+		available = {
+			has_country_flag = JAP_army_first
+		}
+
+		ai_will_do = {
+			factor = 20
+			modifier = {
+				factor = 1.5
+				OR = {
+					has_war_with = RUS
+					has_war_with = SOV
+					has_war_with = ZHI
+					has_war_with = KMT
+					has_war_with = FNG
+				}
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_expand_the_army"
+			army_experience = 30
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.5
+				uses = 2
+				category = land_doctrine
+			}
+			JAP_interservice_rivalry_towards_army = yes
+		}
+	}
+
+	focus = {
+		id = jap_air_land_coop
+		icon = GFX_goal_generic_air_doctrine
+
+		x = -6
+		y = 1
+		relative_position_id = jap_expand_the_army
+		cost = 7
+
+		prerequisite = {
+			focus = jap_expand_the_army
+		}
+
+		mutually_exclusive = {
+			focus = jap_strat_bomb_doctrine
+		}
+
+		ai_will_do = {
+			factor = 20
+
+			modifier = {
+				factor = 0.5
+				has_government = market_liberal
+			}
+
+			modifier = {
+				factor = 1.5
+				has_government = national_populist
+			}
+
+			modifier = {
+				factor = 1.5
+				has_war = yes
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_air_land_coop"
+			add_tech_bonus = {
+				bonus = 0.5
+				uses = 2
+				category = battlefield_support_tree
+			}
+		}
+	}
+
+	focus = {
+		id = jap_improve_pilot_training
+		icon = GFX_focus_SOV_flying_clubs
+
+		x = -1
+		y = 1
+		relative_position_id = jap_air_land_coop
+		cost = 7
+
+		prerequisite = {
+			focus = jap_air_land_coop
+		}
+
+		ai_will_do = {
+			factor = 20
+			modifier = {
+				factor = 1.5
+				has_war = yes
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_improve_pilot_training"
+			add_ideas = jap_improved_pilot_training
+		}
+	}
+
+	focus = {
+		id = jap_specialised_cas
+		icon = GFX_goal_soldiers
+
+		x = 1
+		y = 1
+		relative_position_id = jap_air_land_coop
+		cost = 7
+
+		prerequisite = {
+			focus = jap_air_land_coop
+		}
+
+		ai_will_do = {
+			factor = 20
+			modifier = {
+				factor = 1.5
+				has_war = yes
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_specialised_cas"
+			add_ideas = jap_specialised_dive_bomber_pilot
+		}
+	}
+
+	focus = {
+		id = jap_further_doctrinal_development
+		icon = GFX_goal_generic_air_doctrine
+
+		x = 3
+		y = 1
+		relative_position_id = jap_improve_pilot_training
+		cost = 7
+
+		prerequisite = {
+			focus = jap_improve_pilot_training
+			focus = jap_specialised_cas
+			focus = jap_improve_bomber_training
+			focus = jap_fighter_escort
+		}
+
+		ai_will_do = {
+			factor = 20
+			modifier = {
+				factor = 1.5
+				has_war = yes
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_further_doctrinal_development"
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.5
+				uses = 2
+				category = air_doctrine
+			}
+		}
+	}
+
+	focus = {
+		id = jap_imaaa
+		icon = GFX_goal_generic_build_airforce
+
+		x = 0
+		y = 1
+		relative_position_id = jap_further_doctrinal_development
+		cost = 7
+
+		prerequisite = {
+			focus = jap_further_doctrinal_development
+		}
+
+		ai_will_do = {
+			factor = 20
+			modifier = {
+				factor = 1.5
+				has_war = yes
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_imaaa"
+			add_ideas = jap_imaaa
+		}
+	}
+
+
+	focus = {
+		id = jap_strat_bomb_doctrine
+		icon = GFX_goal_generic_air_bomber
+
+		x = -2
+		y = 1
+		relative_position_id = jap_expand_the_army
+		cost = 7
+
+		prerequisite = {
+			focus = jap_expand_the_army
+		}
+
+		mutually_exclusive = {
+			focus = jap_air_land_coop
+		}
+
+		ai_will_do = {
+			factor = 40
+
+			modifier = {
+				factor = 1.5
+				has_government = market_liberal
+			}
+
+			modifier = {
+				factor = 0.5
+				has_government = national_populist
+			}
+			modifier = {
+				factor = 1.5
+				has_war = yes
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_strat_bomb_doctrine"
+			add_tech_bonus = {
+				bonus = 0.5
+				uses = 2
+				category = strategic_destruction_tree
+			}
+		}
+	}
+
+	focus = {
+		id = jap_improve_bomber_training
+		icon = GFX_goal_generic_air_bomber
+
+		x = -1
+		y = 1
+		relative_position_id = jap_strat_bomb_doctrine
+		cost = 7
+
+		prerequisite = {
+			focus = jap_strat_bomb_doctrine
+		}
+
+		ai_will_do = {
+			factor = 20
+			modifier = {
+				factor = 1.5
+				has_war = yes
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_improve_bomber_training"
+			add_ideas = jap_improved_bomber_pilot_training
+		}
+	}
+
+	focus = {
+		id = jap_fighter_escort
+		icon = GFX_goal_generic_air_fighter
+
+		x = 1
+		y = 1
+		relative_position_id = jap_strat_bomb_doctrine
+		cost = 7
+
+		prerequisite = {
+			focus = jap_strat_bomb_doctrine
+		}
+
+		ai_will_do = {
+			factor = 20
+			modifier = {
+				factor = 1.5
+				has_war = yes
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_fighter_escort"
+			add_tech_bonus = {
+				bonus = 0.5
+				uses = 1
+				category = cat_heavy_fighter
+			}
+		}
+	}
+
+	focus = {
+		id = jap_strat_bomber_modernisation
+		icon = GFX_goal_generic_air_bomber
+
+		x = 0
+		y = 1
+		relative_position_id = jap_fighter_escort
+		cost = 7
+
+		prerequisite = {
+			focus = jap_fighter_escort
+		}
+
+		ai_will_do = {
+			factor = 20
+			modifier = {
+				factor = 1.5
+				has_war = yes
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_strat_bomber_modernisation"
+			add_tech_bonus = {
+				bonus = 0.75
+				uses = 1
+				category = cat_strategic_bomber
+			}
+		}
+	}
+
+	focus = {
+		id = jap_speed_emphasis
+		icon = GFX_goal_generic_army_mobile_warfare
+		x = 2
+		y = 1
+		relative_position_id = jap_expand_the_army
+		cost = 7
+		prerequisite = {
+			focus = jap_expand_the_army
+		}
+		mutually_exclusive = {
+			focus = jap_planning_emphasis
+		}
+		ai_will_do = {
+			factor = 20
+			modifier = {
+				factor = 2
+				has_government = market_liberal
+			}
+			modifier = {
+				factor = 0.5
+				has_government = national_populist
+			}
+			modifier = {
+				factor = 2
+				OR = {
+					has_war_with = RUS
+					has_war_with = SOV
+					has_war_with = ZHI
+					has_war_with = KMT
+					has_war_with = FNG
+				}
+			}
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_speed_emphasis"
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.5
+				uses = 2
+				category = cat_mobile_warfare
+			}
+			JAP_interservice_rivalry_towards_army = yes
+		}
+	}
+
+	focus = {
+		id = jap_armored_warfare
+		icon = GFX_focus_generic_tank_production
+		x = -1
+		y = 1
+		relative_position_id = jap_speed_emphasis
+		cost = 7
+		prerequisite = {
+			focus = jap_speed_emphasis
+		}
+		ai_will_do = {
+			factor = 20
+			modifier = {
+				factor = 2
+				OR = {
+					has_war_with = RUS
+					has_war_with = SOV
+					has_war_with = ZHI
+					has_war_with = KMT
+					has_war_with = FNG
+				}
+			}
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_armored_warfare"
+			add_tech_bonus = {
+				bonus = 0.5
+				uses = 2
+				category = armor
+			}
+			JAP_interservice_rivalry_towards_army = yes
+		}
+	}
+
+	focus = {
+		id = jap_armor_training_program
+		icon = GFX_goal_generic_army_tanks2
+
+		x = 0
+		y = 1
+		relative_position_id = jap_armored_warfare
+		cost = 7
+
+		prerequisite = {
+			focus = jap_armored_warfare
+		}
+
+		ai_will_do = {
+			factor = 20
+			modifier = {
+				factor = 2
+				OR = {
+					has_war_with = RUS
+					has_war_with = SOV
+					has_war_with = ZHI
+					has_war_with = KMT
+					has_war_with = FNG
+				}
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_armor_training_program"
+			#add_ideas = jap_armor_training_program
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.5
+				uses = 2
+				category = cat_mobile_warfare
+			}
+			JAP_interservice_rivalry_towards_army = yes
+		}
+	}
+
+	focus = {
+		id = jap_motorized_support
+		icon = GFX_goal_generic_army_motorized
+
+		x = 1
+		y = 1
+		relative_position_id = jap_speed_emphasis
+		cost = 7
+
+		prerequisite = {
+			focus = jap_speed_emphasis
+		}
+
+		ai_will_do = {
+			factor = 20
+			modifier = {
+				factor = 2
+				OR = {
+					has_war_with = RUS
+					has_war_with = SOV
+					has_war_with = ZHI
+					has_war_with = KMT
+					has_war_with = FNG
+				}
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_motorized_support"
+			add_tech_bonus = {
+				bonus = 0.5
+				uses = 2
+				category = support_tech
+			}
+			JAP_interservice_rivalry_towards_army = yes
+		}
+	}
+
+	focus = {
+		id = jap_mechanized_infantry
+		icon = GFX_goal_generic_armored_cars
+
+		x = 0
+		y = 1
+		relative_position_id = jap_motorized_support
+		cost = 7
+
+		prerequisite = {
+			focus = jap_motorized_support
+		}
+
+		ai_will_do = {
+			factor = 20
+			modifier = {
+				factor = 2
+				OR = {
+					has_war_with = RUS
+					has_war_with = SOV
+					has_war_with = ZHI
+					has_war_with = KMT
+					has_war_with = FNG
+				}
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_mechanized_infantry"
+			add_tech_bonus = {
+				bonus = 0.5
+				uses = 1
+				category = cat_mechanized_equipment
+			}
+			JAP_interservice_rivalry_towards_army = yes
+		}
+	}
+
+	focus = {
+		id = jap_training_war_game
+		icon = GFX_goal_generic_major_war
+
+		x = -1
+		y = 2
+		relative_position_id = jap_mechanized_infantry
+		cost = 7
+
+		prerequisite = {
+			focus = jap_armor_training_program
+			focus = jap_mechanized_infantry
+		}
+
+		ai_will_do = {
+			factor = 20
+			modifier = {
+				factor = 2
+				OR = {
+					has_war_with = RUS
+					has_war_with = SOV
+					has_war_with = ZHI
+					has_war_with = KMT
+					has_war_with = FNG
+				}
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_training_war_game"
+			swap_ideas = {
+				remove_idea = jap_armor_training_program
+				add_idea = jap_training_war_games
+			}
+			JAP_interservice_rivalry_towards_army = yes
+		}
+	}
+
+	focus = {
+		id = jap_planning_emphasis
+		icon = GFX_goal_generic_army_grand_battleplan
+		x = 6
+		y = 1
+		relative_position_id = jap_expand_the_army
+		cost = 7
+		prerequisite = {
+			focus = jap_expand_the_army
+		}
+		mutually_exclusive = {
+			focus = jap_speed_emphasis
+		}
+		ai_will_do = {
+			factor = 20
+			modifier = {
+				factor = 0.5
+				has_government = market_liberal
+			}
+			modifier = {
+				factor = 2
+				has_government = national_populist
+			}
+			modifier = {
+				factor = 2
+				OR = {
+					has_war_with = RUS
+					has_war_with = SOV
+					has_war_with = ZHI
+					has_war_with = KMT
+					has_war_with = FNG
+				}
+			}
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_planning_emphasis"
+			add_doctrine_cost_reduction  = {
+				cost_reduction = 0.5
+				uses = 2
+				category = cat_grand_battle_plan
+			}
+			JAP_interservice_rivalry_towards_army = yes
+		}
+	}
+
+	focus = {
+		id = jap_arms_modernisation
+		icon = GFX_goal_generic_small_arms
+
+		x = -1
+		y = 1
+		relative_position_id = jap_planning_emphasis
+		cost = 7
+
+		prerequisite = {
+			focus = jap_planning_emphasis
+		}
+
+		ai_will_do = {
+			factor = 20
+			modifier = {
+				factor = 2
+				OR = {
+					has_war_with = RUS
+					has_war_with = SOV
+					has_war_with = ZHI
+					has_war_with = KMT
+					has_war_with = FNG
+				}
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_arms_modernisation"
+			add_tech_bonus = {
+				bonus = 0.5
+				uses = 2
+				category = infantry_weapons
+			}
+			JAP_interservice_rivalry_towards_army = yes
+		}
+	}
+
+	focus = {
+		id = jap_teishin_shudan
+		icon = GFX_goal_teishin_shudan
+
+		x = 0
+		y = 1
+		relative_position_id = jap_arms_modernisation
+		cost = 7
+
+		prerequisite = {
+			focus = jap_arms_modernisation
+		}
+
+		ai_will_do = {
+			factor = 20
+			modifier = {
+				factor = 2
+				OR = {
+					has_war_with = RUS
+					has_war_with = SOV
+					has_war_with = ZHI
+					has_war_with = KMT
+					has_war_with = FNG
+				}
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_teishin_shudan"
+			set_technology = { paratroopers = 1 }
+			JAP_interservice_rivalry_towards_army = yes
+		}
+	}
+
+	focus = {
+		id = jap_improve_military_training
+		icon = GFX_goal_military_academy
+
+		x = 1
+		y = 1
+		relative_position_id = jap_planning_emphasis
+		cost = 7
+
+		prerequisite = {
+			focus = jap_planning_emphasis
+		}
+
+		ai_will_do = {
+			factor = 20
+			modifier = {
+				factor = 2
+				OR = {
+					has_war_with = RUS
+					has_war_with = SOV
+					has_war_with = ZHI
+					has_war_with = KMT
+					has_war_with = FNG
+				}
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_improve_military_training"
+			add_ideas = jap_improved_military_training_base
+			JAP_interservice_rivalry_towards_army = yes
+		}
+	}
+
+	focus = {
+		id = jap_improve_officer_training
+		icon = GFX_goal_generic_army_doctrines
+
+		x = 0
+		y = 1
+		relative_position_id = jap_improve_military_training
+		cost = 7
+
+		prerequisite = {
+			focus = jap_improve_military_training
+		}
+
+		ai_will_do = {
+			factor = 20
+			modifier = {
+				factor = 2
+				OR = {
+					has_war_with = RUS
+					has_war_with = SOV
+					has_war_with = ZHI
+					has_war_with = KMT
+					has_war_with = FNG
+				}
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_improve_officer_training"
+			add_ideas = jap_improved_officer_training
+			JAP_interservice_rivalry_towards_army = yes
+		}
+	}
+
+
+
+	focus = {
+		id = jap_cohesion_between_companies
+		icon = GFX_goal_generic_national_unity
+
+		x = -1
+		y = 2
+		relative_position_id = jap_improve_officer_training
+		cost = 7
+
+		prerequisite = {
+			focus = jap_teishin_shudan
+			focus = jap_improve_officer_training
+		}
+
+		ai_will_do = {
+			factor = 20
+			modifier = {
+				factor = 2
+				OR = {
+					has_war_with = RUS
+					has_war_with = SOV
+					has_war_with = ZHI
+					has_war_with = KMT
+					has_war_with = FNG
+				}
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_cohesion_between_companies"
+			add_ideas = jap_cohesion_between_companies
+			JAP_interservice_rivalry_towards_army = yes
+		}
+	}
+
+	focus = {
+		id = jap_further_doctrinal_experiments
+		icon = GFX_goal_generic_position_armies
+
+		x = -2
+		y = 3
+		relative_position_id = jap_planning_emphasis
+		cost = 7
+
+		prerequisite = {
+			focus = jap_planning_emphasis
+			focus = jap_speed_emphasis
+		}
+
+		ai_will_do = {
+			factor = 20
+			modifier = {
+				factor = 2
+				OR = {
+					has_war_with = RUS
+					has_war_with = SOV
+					has_war_with = ZHI
+					has_war_with = KMT
+					has_war_with = FNG
+				}
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_further_doctrinal_experiments"
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.5
+				uses = 2
+				category = land_doctrine
+			}
+			JAP_interservice_rivalry_towards_army = yes
+			set_country_flag = JAP_navy_first
+		}
+	}
+
+	focus = {
+		id = jap_warrior_spirit
+		icon = GFX_focus_generic_japanese_imperial_glory
+
+		x = 2
+		y = 1
+		relative_position_id = jap_training_war_game
+		cost = 7
+
+		prerequisite = {
+			focus = jap_cohesion_between_companies
+			focus = jap_training_war_game
+		}
+
+		ai_will_do = {
+			factor = 20
+			modifier = {
+				factor = 2
+				OR = {
+					has_war_with = RUS
+					has_war_with = SOV
+					has_war_with = ZHI
+					has_war_with = KMT
+					has_war_with = FNG
+				}
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_warrior_spirit"
+			add_ideas = jap_warrior_spirit
+			JAP_interservice_rivalry_towards_army = yes
+		}
+	}
+	#GER DIPLOMACY
+	focus = {
+		id = jap_friends_with_ger
+		icon = GFX_goal_germany
+		cost = 3
+		x = 18
+		y = 5
+		prerequisite = {
+			focus = jap_ally_the_military
+		}
+
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 100
+				GER = {
+					has_completed_focus = GER_pangerman
+				}
+			}
+			modifier = { # Japan already joined a different Faction
+				factor = 0
+				JAP = {
+					is_in_faction = yes
+					is_faction_leader = no
+				}
+			}
+		}
+		available = {
+			has_authoritarian_government = yes
+			is_in_faction = no
+			country_exists = GER
+			NOT = { has_war_with = GER }
+		}
+		bypass = {
+			OR = {
+				has_war_with = GER
+				is_in_faction_with = GER
+			}
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_friends_with_ger"
+			GER = {
+				add_opinion_modifier = { target = JAP modifier = JAP_german_friendship }
+			}
+			add_opinion_modifier = { target = GER modifier = JAP_german_friendship }
+		}
+	}
+
+	focus = {
+		id = jap-ger_army_drills
+		icon = GFX_goal_generic_army_cooperation
+		cost = 5
+		x = 1
+		y = 1
+		relative_position_id = jap_friends_with_ger
+		prerequisite = {
+			focus = jap_friends_with_ger
+		}
+		ai_will_do = {
+			factor = 40
+			modifier = { # Japan already joined a different Faction
+				factor = 0
+				JAP = {
+					is_in_faction = yes
+					is_faction_leader = no
+				}
+			}
+		}
+		available = {
+			has_authoritarian_government = yes
+			country_exists = GER
+			NOT = { has_war_with = GER }
+		}
+		bypass = {
+			has_war_with = GER
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap-ger_army_drills"
+			army_experience = 50
+		}
+	}
+
+	focus = {
+		id = jap_daimler-benz
+		icon = GFX_goal_generic_army_motorized #GFX_goals_daimler-benz
+		cost = 5
+		x = 0
+		y = 1
+		relative_position_id = jap-ger_army_drills
+		prerequisite = {
+			focus = jap-ger_army_drills
+		}
+		ai_will_do = {
+			factor = 40
+			modifier = { # Japan already joined a different Faction
+				factor = 0
+				JAP = {
+					is_in_faction = yes
+					is_faction_leader = no
+				}
+			}
+		}
+		available = {
+			has_authoritarian_government = yes
+			country_exists = GER
+			NOT = { has_war_with = GER }
+		}
+		bypass = {
+			has_war_with = GER
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_daimler-benz"
+			random_owned_controlled_state = {
+				limit = { is_core_of = JAP }
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = jap_ger_tanks
+		icon = GFX_goal_generic_army_tanks2
+		cost = 5
+		x = 0
+		y = 1
+		relative_position_id = jap_daimler-benz
+		prerequisite = {
+			focus = jap_daimler-benz
+		}
+		ai_will_do = {
+			factor = 40
+			modifier = { # Japan already joined a different Faction
+				factor = 0
+				JAP = {
+					is_in_faction = yes
+					is_faction_leader = no
+				}
+			}
+		}
+		available = {
+			has_authoritarian_government = yes
+			country_exists = GER
+			NOT = { has_war_with = GER }
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_ger_tanks"
+			add_tech_bonus = {
+				bonus = 0.5
+				uses = 1
+				category = armor
+			}
+		}
+	}
+
+	focus = {
+		id = jap_friends_with_hol
+		icon = GFX_goal_HOL_dutch_state
+		cost = 5
+		x = -1
+		y = 1
+		relative_position_id = jap_friends_with_ger
+		prerequisite = {
+			focus = jap_friends_with_ger
+		}
+		ai_will_do = {
+			factor = 40
+			modifier = { # Japan already joined a different Faction
+				factor = 0
+				JAP = {
+					is_in_faction = yes
+					is_faction_leader = no
+				}
+			}
+			modifier = {
+				factor = 2
+				HOL = {
+					is_in_faction_with = GER
+				}
+			}
+		}
+		available = {
+			has_authoritarian_government = yes
+			country_exists = HOL
+			HOL = { is_in_faction_with = GER }
+		}
+		bypass = {
+			NOT = {
+				country_exists = HOL
+				GER = { is_in_faction_with = HOL }
+			}
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_friends_with_hol"
+			HOL = {
+				add_opinion_modifier = { target = JAP modifier = JAP_holland_friendship }
+			}
+			add_opinion_modifier = { target = HOL modifier = JAP_holland_friendship }
+		}
+	}
+
+	focus = {
+		id = jap_suggest_tripartite
+		icon = GFX_goal_JAP_tripartite_pact
+		cost = 5
+		x = 0
+		y = 1
+		relative_position_id = jap_friends_with_hol
+		prerequisite = {
+			focus = jap_friends_with_hol
+		}
+		ai_will_do = {
+			factor = 40
+			modifier = {
+				factor = 10
+				GER = {
+					surrender_progress < 0.1
+					has_war = yes
+				}
+				FRA = {
+					OR = {
+						has_capitulated = yes
+						exists = no
+						NOT = {
+							owns_state = 16
+						}
+					}
+				}
+			}
+			modifier = { # Japan already joined a different Faction
+				factor = 0
+				JAP = {
+					is_in_faction = yes
+					is_faction_leader = no
+				}
+			}
+			modifier = { # Wait for Germany to do stuff before joining
+				factor = 0
+				OR = {
+					AND = {
+						JAP = {
+							NOT = {
+								has_completed_focus = jap_nanshinron
+							}
+						}
+						GER = {
+							NOT = {
+								OR = {
+									has_war_with = FRA
+									has_war_with = ENG
+								}
+							}
+						}
+					}
+					AND = {
+						JAP = {
+							NOT = {
+								has_completed_focus = jap_hokushinron
+							}
+						}
+						GER = {
+							NOT = {
+								has_war_with = SOV
+							}
+						}
+					}
+				}
+			}
+		}
+		available = {
+			has_authoritarian_government = yes
+			country_exists = GER
+			GER = { is_faction_leader = yes }
+		}
+		bypass = {
+			OR = {
+				has_war_with = GER
+				is_in_faction_with = GER
+			}
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_suggest_tripartite"
+			random_other_country = {
+				limit = {
+					is_in_faction_with = GER
+					is_faction_leader = yes
+				}
+				country_event = {
+					id = jap.hol.friends.of.our.friends.are.our.friends
+					days = 1
+					random_hours = 1
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = jap_joint_tripartite_research
+		icon = GFX_goal_tfv_generic_tech_sharing
+		cost = 5
+		x = 0
+		y = 1
+		relative_position_id = jap_suggest_tripartite
+		available = {
+			has_capitulated = no
+			is_in_faction_with = GER
+		}
+		prerequisite = {
+			focus = jap_suggest_tripartite
+		}
+		ai_will_do = {
+			factor = 40
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_joint_tripartite_research"
+			add_research_slot = 1
+		}
+	}
+
+	focus = {
+		id = jap_operations
+		icon = GFX_goal_generic_war_in_the_plate
+		cost = 5
+		x = 1
+		y = 1
+		relative_position_id = jap_joint_tripartite_research
+		ai_will_do = {
+			factor = 80
+			modifier = {
+				factor = 0
+				surrender_progress > 0.1
+			}
+			modifier = {
+				factor = 2
+				num_divisions > 99
+			}
+			modifier = {
+				factor = 2
+				num_of_factories > 124
+			}
+		}
+		prerequisite = {
+			focus = jap_joint_tripartite_research
+		}
+		prerequisite = {
+			focus = jap_ger_tanks
+		}
+		available = {
+			has_authoritarian_government = yes
+			country_exists = GER
+			NOT = { has_war_with = GER }
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_operations"
+			add_war_support = 0.1
+		}
+	}
+
+	#US DIPLOMACY
+	focus = {
+		id = jap_end_of_sanfran_summit
+		icon = GFX_goal_jap_summit_la
+		cost = 5
+		x = 3
+		y = 5
+		prerequisite = {
+			focus = jap_new_constitution
+		}
+		bypass = {
+			has_country_flag = JAP_san_fran_summit_good_end
+		}
+		available = {
+			hidden_trigger = { always = no }
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_end_of_sanfran_summit"
+			custom_effect_tooltip = unlock_focuses
+		}
+	}
+
+	focus = {
+		id = jap_588_sulawesi_bombers
+		icon = GFX_goal_generic_air_bomber
+		cost = 5
+		x = 0
+		y = 1
+		relative_position_id = jap_end_of_sanfran_summit
+		prerequisite = {
+			focus = jap_end_of_sanfran_summit
+		}
+		ai_will_do = {
+			factor = 40
+		}
+		available = {
+			is_in_faction_with = USA
+			owns_state = 673
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_588_sulawesi_bombers"
+			custom_effect_tooltip = jap_spawn_588_bombers
+			hidden_effect = {
+				load_oob = jap_588_bombers
+			}
+		}
+	}
+
+	focus = {
+		id = jap_combined_COSC
+		icon = GFX_goal_generic_army_doctrines
+		cost = 5
+		x = -2
+		y = 1
+		relative_position_id = jap_end_of_sanfran_summit
+		prerequisite = {
+			focus = jap_end_of_sanfran_summit
+		}
+		available = {
+			is_in_faction_with = USA
+		}
+		ai_will_do = {
+			factor = 40
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_combined_COSC"
+			army_experience = 30
+			navy_experience = 30
+			air_experience = 30
+		}
+	}
+
+	focus = {
+		id = jap_SEA_bulwark
+		icon = GFX_focus_jap_pacific_guardian
+		cost = 5
+		x = 1
+		y = 1
+		relative_position_id = jap_combined_COSC
+		prerequisite = {
+			focus = jap_combined_COSC
+		}
+		available = {
+			is_in_faction_with = USA
+		}
+		ai_will_do = {
+			factor = 40
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_SEA_bulwark"
+			add_ideas = jap_SEA_bulwark
+		}
+	}
+
+	focus = {
+		id = jap_us_railway_invest
+		icon = GFX_goal_generic_construct_infrastructure
+		cost = 5
+		x = 2
+		y = 1
+		relative_position_id = jap_end_of_sanfran_summit
+		prerequisite = {
+			focus = jap_end_of_sanfran_summit
+		}
+		available = {
+			has_country_flag = us_jap_eco_agreement
+		}
+		ai_will_do = {
+			factor = 40
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_us_railway_invest"
+			USA = {
+				random_owned_state = {
+					add_building_construction = {
+						type = infrastructure
+						level = 2
+						instant_build = yes
+					}
+				}
+				random_owned_state = {
+					add_building_construction = {
+						type = infrastructure
+						level = 2
+						instant_build = yes
+					}
+				}
+			}
+			add_offsite_building = { type = industrial_complex level = 1 }
+		}
+	}
+
+	focus = {
+		id = jap_us_investors
+		icon = GFX_goal_generic_capitalist_system
+		cost = 5
+		available = {
+			country_exists = USA
+			NOT = { has_war_with = USA }
+		}
+		x = 1
+		y = 1
+		relative_position_id = jap_us_railway_invest
+		prerequisite = {
+			focus = jap_us_railway_invest
+		}
+		ai_will_do = {
+			factor = 40
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_us_investors"
+			random_owned_state = {
+				add_building_construction = {
+					type = infrastructure
+					level = 3
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = jap_us_oil
+		icon = GFX_goal_generic_pipeline
+		cost = 5
+		available = {
+			country_exists = USA
+			NOT = { has_war_with = USA }
+			owns_state = 282
+		}
+		x = -1
+		y = 1
+		relative_position_id = jap_us_railway_invest
+		prerequisite = {
+			focus = jap_us_railway_invest
+		}
+		ai_will_do = {
+			factor = 40
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_us_oil"
+			add_tech_bonus = {
+				bonus = 0.75
+				uses = 1
+				category = synth_resources
+			}
+			282 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = synthetic_refinery
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	#	focus = {
+		#		id = jap_pacific_guardian
+		#		icon = GFX_focus_jap_pacific_guardian
+		#		cost = 7
+		#
+		#		x = 7 #PLEASE MAKE SURE TO ADD RELATIVE POSITION!
+		#		y = 13
+		#
+		#		prerequisite = {
+			#			focus = jap_us_oil
+			#			focus = jap_us_joint_exercise
+			#		}
+		#
+		#		completion_reward = {
+			#			custom_tooltip_effect = jap_pacguard_decisions
+			#		}
+		#	}
+
+	#ENG DIPLOMACY
+	focus = {
+		id = jap_alliance_eng
+		icon = GFX_focus_chi_british_cooperation
+		cost = 0
+		x = -4
+		y = 0
+		relative_position_id = jap_end_of_sanfran_summit
+		prerequisite = {
+			focus = jap_new_constitution
+		}
+		bypass = {
+			is_in_faction_with = ENG
+		}
+		available = {
+			hidden_trigger = { always = no }
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_alliance_eng"
+			custom_effect_tooltip = unlock_focuses
+		}
+	}
+
+	focus = {
+		id = jap_JCOSC
+		icon = GFX_focus_generic_military_mission
+		cost = 5
+
+		x = 0
+		y = 1
+		relative_position_id = jap_alliance_eng
+		prerequisite = {
+			focus = jap_alliance_eng
+		}
+
+		available = {
+			is_in_faction_with = ENG
+		}
+
+		ai_will_do = {
+			factor = 40
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_JCOSC"
+			army_experience = 30
+			navy_experience = 30
+			air_experience = 30
+		}
+	}
+
+	focus = {
+		id = jap_panay_incident
+		icon = GFX_goal_generic_navy_doctrines_tactics
+		cost = 5
+		x = -2
+		y = 1
+		relative_position_id = jap_alliance_eng
+		prerequisite = {
+			focus = jap_alliance_eng
+		}
+		available = {
+			is_in_faction_with = ENG
+		}
+		ai_will_do = {
+			factor = 40
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_panay_incident"
+			country_event = jap.17
+		}
+	}
+
+	focus = {
+		id = jap_british_naval_tactics
+		icon = GFX_goal_GBR_royal_navy
+		cost = 5
+		x = -1
+		y = 1
+		relative_position_id = jap_JCOSC
+		prerequisite = {
+			focus = jap_JCOSC
+		}
+		available = {
+			is_in_faction_with = ENG
+		}
+		ai_will_do = {
+			factor = 40
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_british_naval_tactics"
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.5
+				uses = 1
+				category = naval_doctrine
+			}
+		}
+	}
+
+	focus = {
+		id = jap_trade_agreement_empire
+		icon = GFX_goal_generic_intelligence_exchange
+		cost = 5
+		x = -5
+		y = 1
+		relative_position_id = jap_alliance_eng
+		prerequisite = {
+			focus = jap_alliance_eng
+		}
+		available = {
+			has_capitulated = no
+			has_country_flag = jap_HE_pact_trade
+		}
+		ai_will_do = {
+			factor = 40
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_trade_agreement_empire"
+			ENG = { add_opinion_modifier = { target = JAP modifier = JAP_trade_agreement } }
+		}
+	}
+
+	focus = {
+		id = jap_trade_from_BEA
+		icon = GFX_goal_generic_investments
+		cost = 5
+
+		x = -2
+		y = 1
+		relative_position_id = jap_trade_agreement_empire
+		prerequisite = {
+			focus = jap_trade_agreement_empire
+		}
+
+		available = {
+			has_country_flag = jap_HE_pact_trade
+		}
+
+		ai_will_do = {
+			factor = 40
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_trade_from_BEA"
+			add_resource = {
+				type = oil
+				amount = 50
+				state = 288
+			}
+		}
+	}
+
+	focus = {
+		id = jap_raj_metal_imports
+		icon = GFX_focus_generic_steel
+		cost = 5
+
+		x = 0
+		y = 1
+		relative_position_id = jap_trade_from_BEA
+		prerequisite = {
+			focus = jap_trade_from_BEA
+		}
+
+		ai_will_do = {
+			factor = 40
+		}
+
+		available = {
+			has_country_flag = jap_HE_pact_trade
+		}
+
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_raj_metal_imports"
+			create_import = {
+				resource = steel
+				amount = 10
+				exporter = RAJ
+			}
+		}
+	}
+
+	focus = {
+		id = jap_burmese_rubber_import
+		icon = GFX_goal_KTG_Rubber_Farming
+		cost = 5
+
+		x = 0
+		y = 1
+		relative_position_id = jap_raj_metal_imports
+		prerequisite = {
+			focus = jap_raj_metal_imports
+		}
+
+		ai_will_do = {
+			factor = 40
+		}
+
+		available = {
+			has_country_flag = jap_HE_pact_trade
+		}
+
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_burmese_rubber_import"
+			create_import = {
+				resource = rubber
+				amount = 10
+				exporter = ENG
+			}
+		}
+	}
+
+	focus = {
+		id = jap_indian_railroad
+		icon = GFX_goal_generic_railway_construction
+		cost = 5
+
+		x = 0
+		y = 1
+		relative_position_id = jap_burmese_rubber_import
+		prerequisite = {
+			focus = jap_burmese_rubber_import
+		}
+
+		available = {
+			has_country_flag = jap_HE_pact_trade
+		}
+
+		ai_will_do = {
+			factor = 40
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_indian_railroad"
+			RAJ = {
+				random_owned_state = {
+					add_building_construction = {
+						type = infrastructure
+						level = 2
+						instant_build = yes
+					}
+				}
+			}
+			add_offsite_building = { type = industrial_complex level = 1 }
+		}
+	}
+
+	focus = {
+		id = jap_trade_from_isles
+		icon = GFX_focus_chi_british_cooperation
+		cost = 5
+
+		x = 0
+		y = 1
+		relative_position_id = jap_trade_agreement_empire
+		prerequisite = {
+			focus = jap_trade_agreement_empire
+		}
+
+		available = {
+			has_country_flag = jap_HE_pact_trade
+		}
+
+		ai_will_do = {
+			factor = 40
+		}
+
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_trade_from_isles"
+			add_resource = {
+				type = steel
+				amount = 30
+				state = 126
+			}
+		}
+	}
+
+	focus = {
+		id = jap_eng_radar
+		icon = GFX_goal_generic_radar_instillation
+		cost = 5
+
+		x = 0
+		y = 1
+		relative_position_id = jap_trade_from_isles
+		prerequisite = {
+			focus = jap_trade_from_isles
+		}
+
+		available = {
+			has_country_flag = jap_HE_pact_trade
+		}
+
+		ai_will_do = {
+			factor = 40
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_eng_radar"
+			add_tech_bonus = {
+				bonus = 0.5
+				uses = 1
+				category = radar_tech
+			}
+		}
+	}
+
+	focus = {
+		id = jap_british_investment
+		icon = GFX_goal_generic_deals
+		cost = 5
+
+		x = 0
+		y = 1
+		relative_position_id = jap_eng_radar
+		prerequisite = {
+			focus = jap_eng_radar
+		}
+
+		available = {
+			has_country_flag = jap_HE_pact_trade
+		}
+
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_british_investment"
+			add_offsite_building = { type = industrial_complex level = 1 }
+		}
+	}
+
+	focus = {
+		id = jap_eng_company
+		icon = GFX_goal_generic_intelligence_exchange
+		cost = 5
+
+		x = 0
+		y = 1
+		relative_position_id = jap_british_investment
+		prerequisite = {
+			focus = jap_british_investment
+		}
+
+		available = {
+			has_country_flag = jap_HE_pact_trade
+		}
+
+		ai_will_do = {
+			factor = 40
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_eng_company"
+			if = {
+				limit = {
+					has_full_control_of_state = 282
+				}
+				282 = {
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = jap_trade_from_australasia
+		icon = GFX_goal_AST_new_markets
+		cost = 5
+
+		x = 2
+		y = 1
+		relative_position_id = jap_trade_agreement_empire
+		prerequisite = {
+			focus = jap_trade_agreement_empire
+		}
+
+		available = {
+			has_country_flag = jap_HE_pact_trade
+		}
+
+		ai_will_do = {
+			factor = 40
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_trade_from_australasia"
+			AST = { add_opinion_modifier = { target = JAP modifier = JAP_trade_agreement } }
+			NZL = { add_opinion_modifier = { target = JAP modifier = JAP_trade_agreement } }
+			add_resource = {
+				type = steel
+				amount = 15
+				state = 808
+			}
+			add_resource = {
+				type = steel
+				amount = 15
+				state = 284
+			}
+		}
+	}
+
+	focus = {
+		id = jap_australian_railway
+		icon = GFX_goal_OTT_Railroad
+		cost = 5
+
+		x = 0
+		y = 1
+		relative_position_id = jap_trade_from_australasia
+		prerequisite = {
+			focus = jap_trade_from_australasia
+		}
+
+		available = {
+			has_country_flag = jap_HE_pact_trade
+		}
+
+		ai_will_do = {
+			factor = 40
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_australian_railway"
+			AST = {
+				random_owned_state = {
+					add_building_construction = {
+						type = infrastructure
+						level = 2
+						instant_build = yes
+					}
+				}
+			}
+			add_offsite_building = { type = industrial_complex level = 1 }
+		}
+	}
+
+	focus = {
+		id = jap_nzl_oil
+		icon = GFX_goal_oil
+		cost = 5
+
+		x = 0
+		y = 1
+		relative_position_id = jap_australian_railway
+		prerequisite = {
+			focus = jap_australian_railway
+		}
+
+		available = {
+			has_country_flag = jap_HE_pact_trade
+		}
+
+		ai_will_do = {
+			factor = 40
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_nzl_oil"
+			create_import = {
+				resource = oil
+				amount = 10
+				exporter = NZL
+			}
+		}
+	}
+
+	focus = {
+		id = jap_australian_ore
+		icon = GFX_goal_chromium
+		cost = 5
+
+		x = 0
+		y = 1
+		relative_position_id = jap_nzl_oil
+		prerequisite = {
+			focus = jap_nzl_oil
+		}
+
+		available = {
+			has_country_flag = jap_HE_pact_trade
+		}
+
+		ai_will_do = {
+			factor = 40
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_australian_ore"
+			create_import = {
+				resource = chromium
+				amount = 10
+				exporter = AST
+			}
+		}
+	}
+
+	#INTERNAL DIPLOMACY
+	focus = {
+		id = jap_internal_stabilization
+		icon = GFX_goal_JAP_feburary_incident
+		cost = 5
+
+		allow_branch = {
+			NOT = {
+				has_country_flag = JAP_unlock_shog_ft
+			}
+		}
+
+		x = 11
+		y = 0
+
+		prerequisite = {
+		}
+
+		available = {
+			has_country_flag = jap_sep_incident_done
+		}
+
+		ai_will_do = {
+			factor = 40
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_internal_stabilization"
+			add_stability = 0.1
+			add_political_power = 50
+		}
+	}
+
+	focus = {
+		id = jap_the_admiral_plot
+		icon = GFX_goal_generic_navy_doctrines_tactics
+		cost = 5
+		x = 2
+		y = 1
+		relative_position_id = jap_internal_stabilization
+		prerequisite = {
+			focus = jap_internal_stabilization
+		}
+		available = {
+			hidden_trigger = {
+				always = no
+			}
+		}
+		bypass = {
+			has_country_flag = JAP_admiral_plot
+		}
+		ai_will_do = {
+			factor = 40
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_the_admiral_plot"
+			custom_effect_tooltip = unlock_focuses
+		}
+	}
+
+	focus = {
+		id = jap_the_army_coup
+		icon = GFX_goal_JAP_toseiha
+		cost = 5
+		x = 4
+		y = 1
+		relative_position_id = jap_internal_stabilization
+		prerequisite = {
+			focus = jap_internal_stabilization
+		}
+		available = {
+			hidden_trigger = {
+				always = no
+			}
+		}
+		bypass = {
+			has_country_flag = JAP_army_coup
+		}
+		ai_will_do = {
+			factor = 40
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_the_army_coup"
+			custom_effect_tooltip = unlock_focuses
+		}
+	}
+
+	focus = {
+		id = jap_assert_asian_dominance
+		icon = GFX_goal_jap_right
+		cost = 5
+		x = 1
+		y = 1
+		relative_position_id = jap_the_admiral_plot
+		prerequisite = {
+			focus = jap_the_army_coup
+			focus = jap_the_admiral_plot
+		}
+		available = {
+			has_country_flag = JAP_militarism_prevails
+		}
+		ai_will_do = {
+			factor = 80
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_assert_asian_dominance"
+			add_stability = 0.05
+		}
+	}
+
+	focus = {
+		id = jap_iraa
+		icon = GFX_goal_japanese_imperialism
+		cost = 5
+		x = 1
+		y = 1
+		relative_position_id = jap_assert_asian_dominance
+		prerequisite = {
+			focus = jap_assert_asian_dominance
+		}
+		ai_will_do = {
+			factor = 80
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_iraa"
+			add_ideas = jap_iraa
+		}
+	}
+
+	focus = {
+		id = jap_ally_the_military
+		icon = GFX_goal_JAP_expand_army
+		cost = 5
+		x = -1
+		y = 1
+		relative_position_id = jap_iraa
+		prerequisite = {
+			focus = jap_iraa
+		}
+		prerequisite = {
+			focus = jap_united_under_the_emperor
+		}
+		ai_will_do = {
+			factor = 80
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_ally_the_military"
+			set_cosmetic_tag = JAP_military
+			add_popularity = {
+				ideology = authoritarian_democrat
+				popularity = 0.05
+			}
+			add_popularity = {
+				ideology = national_populist
+				popularity = 0.05
+			}
+		}
+	}
+
+	focus = {
+		id = jap_united_under_the_emperor
+		icon = GFX_focus_jap_showa_restoration
+		cost = 5
+		x = -1
+		y = 1
+		relative_position_id = jap_assert_asian_dominance
+		prerequisite = {
+			focus = jap_assert_asian_dominance
+		}
+		ai_will_do = {
+			factor = 80
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_united_under_the_emperor"
+			add_ideas = jap_united_under_the_emperor
+		}
+	}
+
+	focus = {
+		id = jap_all_hail_hirohito
+		icon = GFX_focus_generic_military_mission
+		cost = 5
+		x = 0
+		y = 1
+		relative_position_id = jap_ally_the_military
+		prerequisite = { focus = jap_ally_the_military }
+		ai_will_do = {
+			factor = 80
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_all_hail_hirohito"
+			add_stability = 0.2
+			add_manpower = 10000
+		}
+	}
+
+	focus = {
+		id = jap_jap_militarism
+		icon = GFX_goal_japanese_instructors
+		cost = 5
+		x = -1
+		y = 1
+		relative_position_id = jap_all_hail_hirohito
+		prerequisite = {
+			focus = jap_all_hail_hirohito
+		}
+		ai_will_do = {
+			factor = 80
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_jap_militarism"
+			add_ideas = JAP_militarism_stronghold
+		}
+	}
+
+	focus = {
+		id = jap_revitalization_by_force
+		icon = GFX_goal_revitalization_by_force
+		cost = 7
+		x = 1
+		y = 1
+		relative_position_id = jap_all_hail_hirohito
+		prerequisite = {
+			focus = jap_all_hail_hirohito
+		}
+		ai_will_do = {
+			factor = 120
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_revitalization_by_force"
+			IF = {
+				LIMIT = {
+					has_idea = JAP_LSMC_complete
+				}
+				remove_ideas = JAP_LSMC_complete
+			}
+			ELSE_IF = {
+				LIMIT = {
+					has_idea = JAP_LSMC_stage1_rec
+				}
+				remove_ideas = JAP_LSMC_stage1_rec
+			}
+			ELSE_IF = {
+				LIMIT = {
+					has_idea = JAP_LSMC_stage2_rec
+				}
+				remove_ideas = JAP_LSMC_stage2_rec
+			}
+			ELSE_IF = {
+				LIMIT = {
+					has_idea = JAP_LSMC_stage3_rec
+				}
+				remove_ideas = JAP_LSMC_stage3_rec
+			}
+			ELSE_IF = {
+				LIMIT = {
+					has_idea = JAP_LSMC_stage4_rec
+				}
+				remove_ideas = JAP_LSMC_stage4_rec
+			}
+			ELSE_IF = {
+				LIMIT = {
+					has_idea = JAP_LSMC_stage5_rec
+				}
+				remove_ideas = JAP_LSMC_stage5_rec
+			}
+		}
+	}
+
+	focus = {
+		id = jap_the_second_meiji
+		icon = GFX_focus_jap_showa_restoration
+		cost = 5
+		x = 0
+		y = 1
+		relative_position_id =  jap_jap_militarism
+		prerequisite = { focus = jap_jap_militarism }
+		prerequisite = { focus = jap_revitalization_by_force }
+		ai_will_do = {
+			factor = 80
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_the_second_meiji"
+			add_ideas = jap_LSMC_conquered
+		}
+	}
+
+	focus = {
+		id = jap_allow_marshall_law
+		icon = GFX_goal_japanese_officer
+		cost = 3
+		available = {
+			has_capitulated = no
+		}
+		x = 0
+		y = 3
+		relative_position_id =  jap_internal_stabilization
+		prerequisite = {
+			focus = jap_internal_stabilization
+		}
+		ai_will_do = {
+			factor = 20
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_allow_marshall_law"
+			add_ideas =	jap_martial_law
+		}
+	}
+
+	focus = {
+		id = jap_suppress_worker_rebellion
+		icon = GFX_goal_generic_crush_unions
+		cost = 3
+		available = {
+			has_capitulated = no
+		}
+		x = 0
+		y = 1
+		relative_position_id =  jap_allow_marshall_law
+		prerequisite = {
+			focus = jap_allow_marshall_law
+		}
+		ai_will_do = {
+			factor = 20
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_suppress_worker_rebellion"
+			add_stability = 0.10
+			add_war_support = -0.1
+		}
+	}
+
+	focus = {
+		id = jap_combat_the_red_threat
+		icon = GFX_goal_generic_war_with_comintern
+		cost = 2
+		x = 0
+		y = 1
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id =  jap_suppress_worker_rebellion
+		prerequisite = {
+			focus = jap_suppress_worker_rebellion
+		}
+		ai_will_do = {
+			factor = 20
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_combat_the_red_threat"
+			swap_ideas = {
+				remove_idea = jap_martial_law
+				add_idea = jap_union_suppressed
+			}
+		}
+	}
+
+	focus = {
+		id = jap_korean_problem
+		icon = GFX_goal_korean_problem
+		cost = 5
+		available = {
+			is_subject = no
+			has_capitulated = no
+		}
+		x = 0
+		y = 1
+		relative_position_id =  jap_combat_the_red_threat
+		prerequisite = {
+			focus = jap_combat_the_red_threat
+		}
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = JAP_korean_tip
+				any_owned_state = {
+					region = 186
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 20
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_korean_problem"
+			add_political_power = 25
+			country_event = jap.1
+		}
+	}
+
+	focus = {
+		id = jap_constitutional_crisis
+		icon = GFX_goal_liberty
+		cost = 5
+		x = -3
+		y = 1
+		relative_position_id =  jap_internal_stabilization
+		prerequisite = {
+			focus = jap_internal_stabilization
+		}
+		available = {
+			has_country_flag = jap_sep_incident_smash
+		}
+		ai_will_do = {
+			factor = 40
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_constitutional_crisis"
+			country_event = jappol.11
+		}
+	}
+
+	focus = {
+		id = jap_great_pacific_jewel
+		icon = GFX_goal_jap_left
+		cost = 7
+		x = 0
+		y = 1
+		relative_position_id =  jap_constitutional_crisis
+		prerequisite = {
+			focus = jap_constitutional_crisis
+		}
+		available = {
+			hidden_trigger = { always = no }
+		}
+		bypass = {
+			has_country_flag = JAP_democracy_prevails
+		}
+		ai_will_do = {
+			factor = 40
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_great_pacific_jewel"
+			custom_effect_tooltip = unlock_focuses
+		}
+	}
+
+	focus = {
+		id = jap_seek_loyal_ministers
+		icon = GFX_focus_generic_diplomatic_treaty
+		cost = 5
+		available = {
+			has_capitulated = no
+			has_elected_government = yes
+		}
+		x = -1
+		y = 1
+		relative_position_id =  jap_great_pacific_jewel
+		prerequisite = {
+			focus = jap_great_pacific_jewel
+		}
+		ai_will_do = {
+			factor = 40
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_seek_loyal_ministers"
+			add_popularity = {
+				ideology = social_conservative
+				popularity = 0.05
+			}
+			add_popularity = {
+				ideology = market_liberal
+				popularity = 0.05
+			}
+			add_stability = 0.1
+		}
+	}
+
+	focus = {
+		id = jap_arrest_the_traitor
+		icon = GFX_goal_generic_police_state
+		cost = 5
+		x = 1
+		y = 1
+		available = {
+			has_capitulated = no
+			has_elected_government = yes
+		}
+		relative_position_id =  jap_great_pacific_jewel
+		prerequisite = {
+			focus = jap_great_pacific_jewel
+		}
+		ai_will_do = {
+			factor = 40
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_arrest_the_traitor"
+			add_popularity = {
+				ideology = authoritarian_democrat
+				popularity = -0.05
+			}
+			add_popularity = {
+				ideology = paternal_autocrat
+				popularity = -0.05
+			}
+			add_political_power = 50
+		}
+	}
+
+	focus = {
+		id = jap_new_constitution
+		icon = GFX_goal_generic_martial_law
+		cost = 5
+		available = {
+			has_capitulated = no
+			has_elected_government = yes
+		}
+		x = 1
+		y = 1
+		relative_position_id =  jap_seek_loyal_ministers
+		prerequisite = {
+			focus = jap_seek_loyal_ministers
+		}
+		ai_will_do = {
+			factor = 40
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_new_constitution"
+			add_ideas = jap_new_constitution
+		}
+	}
+
+	focus = {
+		id = jap_army_under_the_parliament
+		icon = GFX_goal_HOL_ban_paramilitary
+		cost = 5
+		available = {
+			has_capitulated = no
+			has_elected_government = yes
+		}
+		x = -1
+		y = 1
+		relative_position_id =  jap_new_constitution
+		prerequisite = {
+			focus = jap_new_constitution
+		}
+		ai_will_do = {
+			factor = 40
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_army_under_the_parliament"
+			add_popularity = {
+				ideology = authoritarian_democrat
+				popularity = -0.05
+			}
+			add_popularity = {
+				ideology = paternal_autocrat
+				popularity = -0.05
+			}
+			add_popularity = {
+				ideology = social_conservative
+				popularity = 0.05
+			}
+			add_popularity = {
+				ideology = market_liberal
+				popularity = 0.05
+			}
+			add_political_power = 50
+		}
+	}
+
+	focus = {
+		id = jap_economic_devaluation_act
+		icon = GFX_goal_generic_banking_legislation
+		cost = 5
+		available = {
+			has_capitulated = no
+			has_elected_government = yes
+		}
+		x = 1
+		y = 1
+		relative_position_id =  jap_new_constitution
+		prerequisite = {
+			focus = jap_new_constitution
+		}
+		ai_will_do = {
+			factor = 40
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_economic_devaluation_act"
+			add_ideas = jap_devaluation_act
+		}
+	}
+
+	focus = {
+		id = jap_military_contracts
+		icon = GFX_goal_generic_construct_mil_factory
+		cost = 5
+		available = {
+			has_capitulated = no
+			has_elected_government = yes
+		}
+		x = 1
+		y = 1
+		relative_position_id =  jap_army_under_the_parliament
+		prerequisite = { focus = jap_economic_devaluation_act }
+		prerequisite = { focus = jap_army_under_the_parliament }
+		ai_will_do = {
+			factor = 40
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_military_contracts"
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = JAP
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = jap_the_great_recovery
+		icon = GFX_goal_JAP_industry
+		cost = 7
+		available = {
+			has_capitulated = no
+			has_elected_government = yes
+		}
+		x = 0
+		y = 1
+		relative_position_id =  jap_military_contracts
+		prerequisite = {
+			focus = jap_military_contracts
+		}
+		ai_will_do = {
+			factor = 40
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_the_great_recovery"
+			swap_ideas = {
+				remove_idea = JAP_LSMC_complete
+				add_idea = jap_LSMC_conquered
+			}
+		}
+	}
+
+	focus = {
+		id = jap_begin_subjugation
+		icon = GFX_goal_JAP_co_prosperity_sphere
+		cost = 5
+		x = 3
+		y = 3
+
+
+		allow_branch = {
+			NOT = {
+				has_country_flag = JAP_unlock_shog_ft
+			}
+		}
+
+
+		relative_position_id =  jap_the_great_recovery
+		available = {
+			is_subject = no
+			OR = {
+				has_completed_focus = jap_the_great_recovery
+				has_completed_focus = jap_the_second_meiji
+			}
+		}
+		ai_will_do = {
+			factor = 60
+			modifier = {
+				factor = 0
+				surrender_progress > 0.1
+			}
+			modifier = {
+				factor = 2
+				num_divisions > 74
+			}
+			modifier = {
+				factor = 2
+				num_of_factories > 99
+			}
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_begin_subjugation"
+			add_war_support = 0.15
+			if = {
+				limit = { is_in_faction = no }
+				create_faction = co_prosperity_sphere
+			}
+		}
+	}
+
+	focus = {
+		id = jap_balanced_doctrine
+		icon = GFX_goal_generic_army_high_command
+		cost = 5
+
+		x = 0
+		y = 1
+		relative_position_id =  jap_begin_subjugation
+		prerequisite = {
+			focus = jap_begin_subjugation
+		}
+		mutually_exclusive = {
+			focus = jap_nanshinron
+			focus = jap_hokushinron
+		}
+
+		ai_will_do = {
+			factor = 40
+			modifier = {
+				factor = 0
+				surrender_progress > 0.1
+			}
+			modifier = {
+				factor = 2
+				NOT = {
+					OR = {
+						has_completed_focus = jap_modernise_the_navy
+						has_completed_focus = jap_expand_the_army
+					}
+				}
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_balanced_doctrine"
+			add_ideas = jap_balanced_doctrine
+		}
+	}
+
+	focus = {
+		id = jap_nanshinron
+		icon = GFX_goal_nanshinron
+		cost = 5
+
+		x = -4
+		y = 1
+		relative_position_id =  jap_begin_subjugation
+		prerequisite = {
+			focus = jap_begin_subjugation
+		}
+		mutually_exclusive = {
+			focus = jap_balanced_doctrine
+			focus = jap_hokushinron
+		}
+
+		ai_will_do = {
+			factor = 40
+			modifier = {
+				factor = 0
+				surrender_progress > 0.1
+			}
+			modifier = {
+				factor = 3
+				has_completed_focus = jap_modernise_the_navy
+			}
+			modifier = {
+				factor = 2
+				OR = {
+					has_war_with = ENG
+					has_war_with = FRA
+					has_war_with = USA
+				}
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_nanshinron"
+			every_country = {
+				limit = {
+					NOT = {
+						OR = {
+							tag = SIA
+							is_in_faction_with = JAP
+							is_puppet_of = JAP
+						}
+					}
+					any_owned_state = {
+						OR = {
+							region = 142
+							region = 188
+							region = 187
+							region = 158
+							region = 159
+							region = 160
+							region = 93
+						}
+					}
+				}
+			}
+			THIS = {
+				add_opinion_modifier = { target = JAP modifier = JAP_aggression }
+			}
+
+			#add_state_claim = 327
+			#add_state_claim = 335
+			#add_state_claim = 671
+		}
+	}
+
+	focus = {
+		id = jap_hokushinron
+		icon = GFX_goal_hokushinron
+		cost = 5
+
+		x = 4
+		y = 1
+		relative_position_id =  jap_begin_subjugation
+		prerequisite = {
+			focus = jap_begin_subjugation
+		}
+		mutually_exclusive = {
+			focus = jap_balanced_doctrine
+			focus = jap_nanshinron
+		}
+
+		ai_will_do = {
+			factor = 40
+			modifier = {
+				factor = 0
+				surrender_progress > 0.1
+			}
+			modifier = {
+				factor = 3
+				has_completed_focus = jap_modernise_the_navy
+			}
+			modifier = {
+				factor = 2
+				OR = {
+					has_war_with = RUS
+					has_war_with = SOV
+				}
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_hokushinron"
+			every_country = {
+				limit = {
+					NOT = {
+						OR = {
+							is_in_faction_with = JAP
+							is_puppet_of = JAP
+						}
+					}
+					any_owned_state = {
+						is_core_of = PREV # Makes sure that minor Euro possessions in China don't trigger negative relations
+						OR = {
+							region = 186
+							region = 155
+							region = 143
+							region = 164
+							region = 165
+							region = 144
+							region = 200
+						}
+					}
+				}
+			}
+			THIS = {
+				add_opinion_modifier = { target = JAP modifier = JAP_aggression }
+			}
+
+			# add_state_claim = 328
+			# add_state_claim = 606
+			# add_state_claim = 615
+		}
+	}
+	focus = {
+		id = jap_demand_beiyang_submit
+		icon = GFX_goal_generic_attack_fengtian
+		will_lead_to_war_with = FNG
+		cost = 5
+		available = {
+			is_subject = no
+			country_exists = FNG
+			can_declare_war_on = FNG
+		}
+		x = 6
+		y = 1
+		relative_position_id =  jap_nanshinron
+		prerequisite = {
+			focus = jap_hokushinron
+			focus = jap_balanced_doctrine
+		}
+		ai_will_do = {
+			factor = 40
+			modifier = {
+				factor = 0
+				surrender_progress > 0.1
+			}
+			modifier = {
+				factor = 0.5
+				FNG = {
+					is_in_faction = yes
+				}
+			}
+			modifier = {
+				factor = 2
+				FNG = {
+					has_war = yes
+				}
+			}
+			modifier = {
+				factor = 2
+				JAP = {
+					has_war = no
+				}
+			}
+			modifier = {
+				factor = 0.1
+				ZHI = {
+					has_war_with = JAP
+					has_capitulated = no
+				}
+			}
+			modifier = {
+				factor = 0.1
+				KOR = {
+					exists = yes
+					NOT = {
+						OR = {
+							is_puppet_of = JAP
+							is_in_faction_with = JAP
+						}
+					}
+				}
+			}
+		}
+
+		bypass = {
+			FNG = {
+				OR = {
+					exists = no
+					is_in_faction_with = JAP
+					is_puppet_of = JAP
+				}
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_demand_beiyang_submit"
+			FNG = {
+				country_event = jap.20
+			}
+		}
+	}
+
+	focus = {
+		id = jap_demand_zhili_submit
+		icon = GFX_goal_generic_attack_zhili
+		will_lead_to_war_with = ZHI
+		cost = 5
+		available = {
+			is_subject = no
+			country_exists = ZHI
+			can_declare_war_on = ZHI
+		}
+		x = -6
+		y = 1
+		relative_position_id =  jap_hokushinron
+		prerequisite = {
+			focus = jap_nanshinron
+			focus = jap_balanced_doctrine
+		}
+		ai_will_do = {
+			factor = 40
+			modifier = {
+				factor = 0
+				surrender_progress > 0.1
+			}
+			modifier = {
+				factor = 0.5
+				ZHI = {
+					is_in_faction = yes
+				}
+			}
+			modifier = {
+				factor = 2
+				ZHI = {
+					has_war = yes
+				}
+			}
+			modifier = {
+				factor = 0.1
+				FNG = {
+					has_war_with = JAP
+					has_capitulated = no
+				}
+			}
+			modifier = {
+				factor = 2
+				JAP = {
+					has_war = no
+				}
+			}
+			modifier = {
+				factor = 0.1
+				KOR = {
+					exists = yes
+					NOT = {
+						OR = {
+							is_puppet_of = JAP
+							is_in_faction_with = JAP
+						}
+					}
+				}
+			}
+		}
+
+		bypass = {
+			ZHI = {
+				OR = {
+					exists = no
+					is_in_faction_with = JAP
+					is_puppet_of = JAP
+				}
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_demand_zhili_submit"
+			ZHI = {
+				country_event = jap.21
+			}
+		}
+	}
+
+	focus = {
+		id = jap_operation_rivalry
+		icon = GFX_goal_operation_rivalry
+		cost = 5
+		x = 0
+		y = 3
+		available = {
+			is_subject = no
+			NOT = { is_in_faction_with = FRA }
+		}
+		relative_position_id =  jap_nanshinron
+		prerequisite = {
+			focus = jap_nanshinron
+		}
+		prerequisite = {
+			focus = jap_expand_kwantung
+		}
+		ai_will_do = {
+			factor = 40
+			modifier = {
+				factor = 0
+				surrender_progress > 0.1
+			}
+			modifier = {
+				factor = 2
+				958 = {
+					controller = {
+						has_war = yes
+					}
+				}
+			}
+			modifier = {
+				factor = 2
+				JAP = {
+					has_war = no
+				}
+			}
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_operation_rivalry"
+			add_war_support = 0.1
+		}
+	}
+
+	focus = {
+		id = jap_ally_the_whites
+		icon = GFX_goal_white_flag
+		cost = 5
+
+		x = 0
+		y = 3
+		relative_position_id =  jap_hokushinron
+		prerequisite = {
+			focus = jap_hokushinron
+
+		}
+		prerequisite = {
+			focus = jap_expand_kwantung
+		}
+		available = {
+			is_subject = no
+		}
+
+		ai_will_do = {
+			factor = 40
+			modifier = {
+				factor = 0
+				surrender_progress > 0.1
+			}
+			modifier = {
+				factor = 2
+				JAP = {
+					has_war = no
+				}
+			}
+			modifier = {
+				factor = 0.1
+				KOR = {
+					exists = yes
+					NOT = {
+						OR = {
+							is_puppet_of = JAP
+							is_in_faction_with = JAP
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 3
+				RUS = {
+					has_war_with = SOV
+				}
+			}
+			modifier = {
+				factor = 0 # Let Germany take initiative against the USSR
+				JAP = {
+					is_in_faction_with = GER
+				}
+			}
+		}
+
+		bypass = {
+			RUS = {
+				OR = {
+					exists = no
+					has_war_with = JAP
+					is_in_faction_with = JAP
+					is_puppet_of = JAP
+				}
+			}
+		}
+
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_ally_the_whites"
+			RUS = {
+				country_event = jap.23
+			}
+		}
+	}
+	focus = {
+		id = jap_expand_kwantung
+		icon = GFX_goal_army_guy_2
+		cost = 5
+		available = {
+			has_capitulated = no
+		}
+		x = -2
+		y = 1
+		relative_position_id =  jap_demand_beiyang_submit
+		prerequisite = {
+			focus = jap_demand_beiyang_submit
+			focus = jap_demand_zhili_submit
+		}
+		ai_will_do = {
+			factor = 40
+			modifier = {
+				factor = 2
+				any_owned_state = {
+					OR = {
+						region = 164
+						region = 165
+					}
+				}
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_expand_kwantung"
+			add_ideas = jap_expand_kwantung
+		}
+	}
+
+	focus = {
+		id = jap_shanghai_incident
+		icon = GFX_focus_prc_infiltration
+		cost = 5
+		will_lead_to_war_with = KMT
+		available = {
+			is_subject = no
+			country_exists = KMT
+			can_declare_war_on = KMT
+		}
+		x = 0
+		y = 1
+		relative_position_id =  jap_expand_kwantung
+		prerequisite = {
+			focus = jap_expand_kwantung
+		}
+		ai_will_do = {
+			factor = 40
+			modifier = {
+				factor = 0
+				surrender_progress > 0.1
+			}
+			modifier = {
+				factor = 0
+				OR = {
+					AND = {
+						has_war_with = ZHI
+						ZHI = {
+							has_capitulated = no
+						}
+					}
+					AND = {
+						has_war_with = FNG
+						FNG = {
+							has_capitulated = no
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 2
+				JAP = {
+					has_war = no
+				}
+			}
+			modifier = {
+				factor = 0.1
+				KOR = {
+					exists = yes
+					NOT = {
+						OR = {
+							is_puppet_of = JAP
+							is_in_faction_with = JAP
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 2
+				KMT = {
+					has_war = yes
+				}
+			}
+			modifier = {
+				factor = 0
+				JAP = {
+					has_war_with = FIC
+				}
+				FIC = {
+					has_capitulated = no
+				}
+			}
+		}
+
+		bypass = {
+			KMT = {
+				OR = {
+					exists = no
+					is_puppet_of = JAP
+					is_in_faction_with = JAP
+					has_war_with = JAP
+				}
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_shanghai_incident"
+			KMT = {
+				country_event = {
+					id = jap.18
+					days = 1
+				}
+			}
+		}
+	}
+	focus = {
+		id = jap_pressure_siam
+		icon = GFX_SIA_constitution
+		cost = 5
+		available = {
+			is_subject = no
+			country_exists = SIA
+		}
+		x = 1
+		y = 1
+		relative_position_id =  jap_operation_rivalry
+		prerequisite = {
+			focus = jap_operation_rivalry
+		}
+		ai_will_do = {
+			factor = 40
+			modifier = {
+				factor = 0
+				surrender_progress > 0.1
+			}
+			modifier = {
+				factor = 2
+				958 = {
+					controller = {
+						has_war = yes
+					}
+				}
+			}
+			modifier = {
+				factor = 2
+				JAP = {
+					has_war = no
+				}
+			}
+		}
+
+		bypass = {
+			SIA = {
+				OR = {
+					exists = no
+					is_puppet_of = JAP
+					is_in_faction_with = JAP
+					has_war_with = JAP
+				}
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_pressure_siam"
+			SIA = {
+				country_event = jap.27
+			}
+		}
+	}
+	focus = {
+		id = jap_strike_indochina
+		icon = GFX_goal_generic_attack_indochina
+		will_lead_to_war_with = FIC
+		will_lead_to_war_with = FRA
+		cost = 5
+		x = -1
+		y = 1
+		relative_position_id = jap_operation_rivalry
+		prerequisite = {
+			focus = jap_operation_rivalry
+		}
+		available = {
+			is_subject = no
+			country_exists = FIC
+		}
+		bypass = {
+			958 = {
+				owner = {
+					has_war_with = JAP
+				}
+			}
+			960 = {
+				owner = {
+					has_war_with = JAP
+				}
+			}
+			741 = {
+				owner = {
+					has_war_with = JAP
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 40
+			modifier = {
+				factor = 0
+				surrender_progress > 0.1
+			}
+			modifier = {
+				factor = 2
+				958 = {
+					controller = {
+						has_war = yes
+					}
+				}
+			}
+			modifier = {
+				factor = 2
+				JAP = {
+					has_war = no
+				}
+			}
+			modifier = {
+				factor = 2
+				FRA = {
+					has_war_with = GER
+				}
+			}
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_strike_indochina"
+			if = {
+				limit = {
+					FIC = {
+						NOT = {
+							OR = {
+								is_puppet_of = JAP
+								is_in_faction_with = JAP
+							}
+						}
+					}
+				}
+				if = {
+					limit = {
+						JAP = {
+							is_ai = yes
+						}
+					}
+					JAP = {
+						declare_war_on = {
+							type = annex_everything
+							target = FIC
+						}
+					}
+				}
+				else = {
+					JAP = {
+						create_wargoal = {
+							type = annex_everything
+							target = FIC
+						}
+					}
+				}
+			}
+			if = {
+				limit = {
+					FRA = {
+						any_owned_state = {
+							region = 142
+						}
+					}
+				}
+				JAP = {
+					every_state = {
+						limit = {
+							is_owned_by = FRA
+							region = 142
+						}
+						THIS = {
+							add_claim_by = JAP
+						}
+					}
+				}
+				if = {
+					limit = {
+						JAP = {
+							is_ai = yes
+						}
+					}
+					JAP = {
+						declare_war_on = {
+							type = annex_everything
+							target = FRA
+						}
+					}
+				}
+				else = {
+					JAP = {
+						create_wargoal = {
+							type = annex_everything
+							target = FRA
+						}
+					}
+				}
+			}
+
+			if = {
+				limit = {
+					VIN = {
+						exists = yes
+						NOT = {
+							OR = {
+								is_puppet_of = JAP
+								is_in_faction_with = JAP
+							}
+						}
+					}
+				}
+				if = {
+					limit = {
+						JAP = {
+							is_ai = yes
+						}
+					}
+					JAP = {
+						declare_war_on = {
+							type = annex_everything
+							target = VIN
+						}
+					}
+				}
+				else = {
+					JAP = {
+						create_wargoal = {
+							type = annex_everything
+							target = VIN
+						}
+					}
+				}
+			}
+
+			if = {
+				limit = {
+					LAO = {
+						exists = yes
+						NOT = {
+							OR = {
+								is_puppet_of = JAP
+								is_in_faction_with = JAP
+							}
+						}
+					}
+				}
+				if = {
+					limit = {
+						JAP = {
+							is_ai = yes
+						}
+					}
+					JAP = {
+						declare_war_on = {
+							type = annex_everything
+							target = LAO
+						}
+					}
+				}
+				else = {
+					JAP = {
+						create_wargoal = {
+							type = annex_everything
+							target = LAO
+						}
+					}
+				}
+			}
+
+			if = {
+				limit = {
+					CAM = {
+						exists = yes
+						NOT = {
+							OR = {
+								is_puppet_of = JAP
+								is_in_faction_with = JAP
+							}
+						}
+					}
+				}
+				if = {
+					limit = {
+						JAP = {
+							is_ai = yes
+						}
+					}
+					JAP = {
+						declare_war_on = {
+							type = annex_everything
+							target = CAM
+						}
+					}
+				}
+				else = {
+					JAP = {
+						create_wargoal = {
+							type = annex_everything
+							target = CAM
+						}
+					}
+				}
+			}
+		}
+	}
+	focus = {
+		id = jap_three_musketeers_i_mean_indochinese_bros
+		icon = GFX_goal_Agarian_Soldiers
+		cost = 5
+
+		x = 0
+		y = 1
+		relative_position_id =  jap_strike_indochina
+
+		prerequisite = {
+			focus = jap_strike_indochina
+		}
+		mutually_exclusive = {
+		}
+
+		ai_will_do = {
+			factor = 40
+		}
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = JAP_brothers_tip
+				any_owned_state = {
+					region = 142
+					NOT = {
+						is_core_of = SIA
+					}
+				}
+			}
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_three_musketeers_i_mean_indochinese_bros"
+			if = {
+				limit = {
+					JAP = {
+						OR = {
+							owns_state = 960
+							owns_state = 959
+							owns_state = 670
+							owns_state = 963
+						}
+					}
+				}
+				960 = {
+					add_core_of = LAO
+				}
+				959 = {
+					add_core_of = LAO
+				}
+				670 = {
+					add_core_of = LAO
+				}
+				963 = {
+					add_core_of = LAO
+				}
+				JAP = {
+					release = LAO
+					puppet = LAO
+				}
+			}
+
+			if = {
+				limit = {
+					JAP = {
+						OR = {
+							owns_state = 958
+							owns_state = 671
+							owns_state = 286
+							owns_state = 961
+						}
+					}
+				}
+				958 = {
+					add_core_of = VIN
+				}
+				671 = {
+					add_core_of = VIN
+				}
+				286 = {
+					add_core_of = VIN
+				}
+				961 = {
+					add_core_of = VIN
+				}
+				JAP = {
+					release = VIN
+					puppet = VIN
+				}
+			}
+
+			if = {
+				limit = {
+					JAP = {
+						OR = {
+							owns_state = 962
+							owns_state = 741
+						}
+					}
+				}
+				286 = {
+					add_core_of = CAM
+				}
+				961 = {
+					add_core_of = CAM
+				}
+				JAP = {
+					release = CAM
+					puppet = CAM
+				}
+			}
+
+
+		}
+	}
+	focus = {
+		id = jap_defeat_cliques
+		icon = GFX_goal_broken_jewel_of_china
+		will_lead_to_war_with = SCH
+		will_lead_to_war_with = SHX
+		will_lead_to_war_with = YUN
+		will_lead_to_war_with = XSM
+		cost = 5
+		available = {
+			is_subject = no
+			OR = {
+				country_exists = SCH
+				country_exists = SHX
+				country_exists = YUN
+				country_exists = XSM
+			}
+		}
+		x = 0
+		y = 1
+		relative_position_id =  jap_shanghai_incident
+		prerequisite = {
+			focus = jap_shanghai_incident
+		}
+		ai_will_do = {
+			factor = 40
+			modifier = {
+				factor = 0
+				surrender_progress > 0.1
+			}
+			modifier = {
+				factor = 0
+				has_war_with = KMT
+				KMT = {
+					has_capitulated = no
+				}
+			}
+			modifier = {
+				factor = 0
+				JAP = {
+					has_completed_focus = jap_shanghai_incident
+				}
+				KMT = {
+					OR = {
+						NOT = {
+							is_puppet_of = JAP
+						}
+						NOT = {
+							is_in_faction_with = JAP
+						}
+						exists = yes
+					}
+				}
+			}
+			modifier = {
+				factor = 2
+				JAP = {
+					has_war = no
+				}
+			}
+			modifier = {
+				factor = 0.1
+				KOR = {
+					exists = yes
+					NOT = {
+						OR = {
+							is_puppet_of = JAP
+							is_in_faction_with = JAP
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 2
+				KMT = {
+					exists = no
+				}
+			}
+		}
+
+		bypass = {
+			AND = {
+				SCH = {
+					OR = {
+						exists = no
+						is_puppet_of = JAP
+						is_in_faction_with = JAP
+					}
+				}
+				SHX = {
+					OR = {
+						exists = no
+						is_puppet_of = JAP
+						is_in_faction_with = JAP
+					}
+				}
+				YUN = {
+					OR = {
+						exists = no
+						is_puppet_of = JAP
+						is_in_faction_with = JAP
+					}
+				}
+				XSM = {
+					OR = {
+						exists = no
+						is_puppet_of = JAP
+						is_in_faction_with = JAP
+					}
+				}
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_defeat_cliques"
+			if = {
+				limit = {
+					SHX = {
+						exists = yes
+						NOT = {
+							OR = {
+								is_puppet_of = JAP
+								is_in_faction_with = JAP
+							}
+						}
+					}
+				}
+				if = {
+					limit = {
+						JAP = {
+							is_ai = yes
+						}
+					}
+					declare_war_on = {
+						type = annex_everything
+						target = SHX
+					}
+				}
+				else = {
+					create_wargoal = {
+						type = annex_everything
+						target = SHX
+					}
+				}
+			}
+
+			if = {
+				limit = {
+					SCH = {
+						exists = yes
+						NOT = {
+							OR = {
+								is_puppet_of = JAP
+								is_in_faction_with = JAP
+							}
+						}
+					}
+				}
+				if = {
+					limit = {
+						JAP = {
+							is_ai = yes
+						}
+					}
+					declare_war_on = {
+						type = annex_everything
+						target = SCH
+					}
+				}
+				else = {
+					create_wargoal = {
+						type = annex_everything
+						target = SCH
+					}
+				}
+			}
+
+			if = {
+				limit = {
+					YUN = {
+						exists = yes
+						NOT = {
+							OR = {
+								is_puppet_of = JAP
+								is_in_faction_with = JAP
+							}
+						}
+					}
+				}
+				if = {
+					limit = {
+						JAP = {
+							is_ai = yes
+						}
+					}
+					declare_war_on = {
+						type = annex_everything
+						target = YUN
+					}
+				}
+				else = {
+					create_wargoal = {
+						type = annex_everything
+						target = YUN
+					}
+				}
+			}
+
+			if = {
+				limit = {
+					XSM = {
+						exists = yes
+						NOT = {
+							OR = {
+								is_puppet_of = JAP
+								is_in_faction_with = JAP
+							}
+						}
+					}
+				}
+				if = {
+					limit = {
+						JAP = {
+							is_ai = yes
+						}
+					}
+					declare_war_on = {
+						type = annex_everything
+						target = XSM
+					}
+				}
+				else = {
+					create_wargoal = {
+						type = annex_everything
+						target = XSM
+					}
+				}
+			}
+		}
+	}
+	focus = {
+		id = jap_yakutsk_incident
+		icon = GFX_focus_prc_infiltration
+		cost = 5
+
+		x = 2
+		y = 1
+		relative_position_id =  jap_ally_the_whites
+		prerequisite = {
+			focus = jap_ally_the_whites
+		}
+		mutually_exclusive = {
+		}
+
+		ai_will_do = {
+			factor = 40
+			modifier = {
+				factor = 0
+				surrender_progress > 0.1
+			}
+			modifier = {
+				factor = 2
+				JAP = {
+					has_war = no
+				}
+			}
+			modifier = {
+				factor = 2
+				SOV = {
+					OR = {
+						has_war_with = ENG
+						has_war_with = GER
+						has_war_with = FRA
+					}
+				}
+			}
+			modifier = {
+				factor = 2
+				SOV = {
+					surrender_progress > 0.2
+				}
+			}
+			modifier = {
+				factor = 2
+				strength_ratio = {
+					tag = SOV
+					ratio > 1
+				}
+			}
+			modifier = {
+				factor = 0 # Let Germany take initiative against the USSR
+				JAP = {
+					is_in_faction_with = GER
+				}
+			}
+		}
+
+		available = {
+			RUS = {
+				OR = {
+					is_in_faction_with = JAP
+					is_puppet_of = JAP
+				}
+			}
+		}
+
+		bypass = {
+			OR = {
+				RUS = {
+					OR = {
+						exists = no
+						has_war_with = JAP
+					}
+				}
+				SOV = {
+					OR = {
+						exists = no
+						has_war_with = JAP
+					}
+				}
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_yakutsk_incident"
+			RUS = {
+				country_event = jap.30
+			}
+		}
+	}
+	focus = {
+		id = jap_assist_white
+		icon = GFX_goal_JAP_supply_russia
+		cost = 5
+		x = 0
+		y = 1
+		relative_position_id =  jap_ally_the_whites
+		prerequisite = {
+			focus = jap_ally_the_whites
+		}
+		mutually_exclusive = {
+		}
+
+		ai_will_do = {
+			factor = 80
+		}
+
+		available = {
+			RUS = {
+				OR = {
+					is_in_faction_with = JAP
+					is_puppet_of = JAP
+				}
+				exists = yes
+				NOT = {
+					has_war_with = JAP
+				}
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_assist_white"
+			RUS = {
+				random_owned_state = {
+					limit = {
+						is_controlled_by = RUS
+						is_core_of = RUS
+						OR = {
+							industrial_complex > 0
+							arms_factory > 0
+						}
+					}
+					add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = arms_factory
+						level = 2
+						instant_build = yes
+					}
+				}
+				add_popularity = {
+					ideology = authoritarian_democrat popularity = 0.1
+				}
+			}
+		}
+	}
+	focus = {
+		id = jap_topple_commies
+		icon = GFX_focus_attack_soviet
+		cost = 5
+		will_lead_to_war_with = SOV
+
+		x = 0
+		y = 1
+		relative_position_id = jap_yakutsk_incident
+		prerequisite = {
+			focus = jap_yakutsk_incident
+		}
+		mutually_exclusive = {
+		}
+
+		available = {
+			has_capitulated = no
+			is_subject = no
+		}
+
+		ai_will_do = {
+			factor = 40
+			modifier = {
+				factor = 0
+				surrender_progress > 0.1
+			}
+			modifier = {
+				factor = 2
+				JAP = {
+					has_war = no
+				}
+			}
+			modifier = {
+				factor = 2
+				SOV = {
+					OR = {
+						has_war_with = ENG
+						has_war_with = GER
+						has_war_with = FRA
+					}
+				}
+			}
+			modifier = {
+				factor = 2
+				SOV = {
+					surrender_progress > 0.2
+				}
+			}
+			modifier = {
+				factor = 2
+				strength_ratio = {
+					tag = SOV
+					ratio > 1
+				}
+			}
+			modifier = {
+				factor = 0
+				has_war_with = RUS
+				RUS = {
+					has_capitulated = no
+				}
+			}
+			modifier = {
+				factor = 0 # Let Germany take initiative against the USSR
+				JAP = {
+					is_in_faction_with = GER
+				}
+			}
+		}
+
+		bypass = {
+			OR = {
+				SOV = {
+					exists = no
+					is_in_faction_with = JAP
+					is_puppet_of = JAP
+				}
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_topple_commies"
+			if = {
+				limit = {
+					JAP = {
+						is_ai = yes
+					}
+				}
+				declare_war_on = {
+					type = annex_everything
+					target = SOV
+				}
+			}
+			else = {
+				create_wargoal = {
+					type = annex_everything
+					target = SOV
+				}
+			}
+		}
+	}
+	focus = {
+		id = jap_unite_against_red
+		icon = GFX_focus_SOV_the_glory_of_the_red_army_alternative
+		cost = 5
+		ai_will_do = {
+			factor = 80
+		}
+		x = -1
+		y = 1
+		relative_position_id = jap_topple_commies
+		prerequisite = {
+			focus = jap_topple_commies
+		}
+		mutually_exclusive = {
+			focus = jap_dominant_white
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_unite_against_red"
+			add_ideas = jap_united_against_red
+		}
+	}
+
+	focus = {
+		id = jap_dominant_white
+		icon = GFX_goal_backstab
+		will_lead_to_war_with = GER
+		cost = 5
+		x = 1
+		y = 1
+		relative_position_id = jap_topple_commies
+		prerequisite = {
+			focus = jap_topple_commies
+		}
+		mutually_exclusive = {
+			focus = jap_unite_against_red
+		}
+		ai_will_do = {
+			factor = 40
+			modifier = {
+				factor = 0
+				surrender_progress > 0.1
+			}
+			modifier = {
+				factor = 2
+				JAP = {
+					has_war = no
+				}
+			}
+			modifier = {
+				factor = 2
+				GER = {
+					OR = {
+						has_war_with = ENG
+						has_war_with = USA
+						has_war_with = FRA
+					}
+				}
+			}
+			modifier = {
+				factor = 2
+				GER = {
+					surrender_progress > 0.2
+				}
+			}
+			modifier = {
+				factor = 2
+				strength_ratio = {
+					tag = GER
+					ratio > 1
+				}
+			}
+			modifier = {
+				factor = 0.1
+				NOT = {
+					OR = {
+						RUS = {
+							is_neighbor_of = GER
+						}
+						JAP = {
+							is_neighbor_of = GER
+						}
+					}
+				}
+			}
+		}
+		available = {
+			RUS = {
+				OR = {
+					is_in_faction_with = JAP
+					is_puppet_of = JAP
+				}
+			}
+			GER = {
+				exists = yes
+				NOT = {
+					OR = {
+						is_in_faction_with = JAP
+						is_puppet_of = JAP
+					}
+				}
+			}
+			SOV = {
+				OR = {
+					exists = no
+					is_in_faction_with = JAP
+					is_puppet_of = JAP
+				}
+			}
+		}
+		bypass = {
+			GER = {
+				has_war_with = JAP
+			}
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_dominant_white"
+			if = {
+				limit = {
+					JAP = {
+						is_ai = yes
+					}
+				}
+				declare_war_on = {
+					target = GER
+					type = annex_everything
+				}
+			}
+			else = {
+				create_wargoal = {
+					target = GER
+					type = annex_everything
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = jap_russo_japan_ally
+		icon = GFX_goal_JAP_Russian_Alliance
+		cost = 5
+		x = -1
+		y = 1
+		relative_position_id = jap_unite_against_red
+		ai_will_do = {
+			factor = 40
+		}
+		available = {
+			RUS = {
+				exists = yes
+				OR = {
+					is_in_faction_with = JAP
+					is_puppet_of = JAP
+				}
+			}
+		}
+		bypass = {
+			RUS = {
+				has_war_with = JAP
+			}
+		}
+		prerequisite = {
+			focus = jap_unite_against_red
+		}
+		prerequisite = {
+			focus = jap_assist_white
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_russo_japan_ally"
+			add_ideas = jap_rus_cooprosperity
+			RUS = {
+				add_ideas = jap_rus_cooprosperity
+			}
+		}
+	}
+
+	focus = {
+		id = jap_korean_project
+		icon = GFX_goal_Korea_Colony
+		cost = 5
+
+		x = -2
+		y = 1
+		relative_position_id = jap_defeat_cliques
+
+		ai_will_do = {
+			factor = 40
+		}
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = JAP_korean_tip
+				any_owned_state = {
+					region = 186
+				}
+			}
+		}
+
+		prerequisite = {
+			focus = jap_defeat_cliques
+		}
+		mutually_exclusive = {
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_korean_project"
+			add_ideas = jap_kor_project
+		}
+	}
+
+	focus = {
+		id = jap_chinese_project
+		icon = GFX_goal_JAP_continental_warfare
+		cost = 5
+		x = 2
+		y = 1
+		relative_position_id = jap_defeat_cliques
+		available = {
+			OR = {
+				KMT = {
+					is_puppet_of = JAP
+				}
+				AND = {
+					JAP = {
+						any_owned_state = {
+							is_core_of = KMT
+						}
+					}
+					KMT = {
+						exists = no
+					}
+				}
+			}
+		}
+		prerequisite = {
+			focus = jap_defeat_cliques
+			# KMT = {	is_puppet_of = JAP } # Drowse - prerequisite should only include focuses, use available instead
+		}
+		mutually_exclusive = {
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_chinese_project"
+			if = {
+				limit = {
+					KMT = {
+						exists = no
+					}
+				}
+				JAP = {
+					release = KMT
+					puppet = KMT
+				}
+			}
+			KMT = { add_ideas = jap_chi_project }
+			hidden_effect = {
+				if = {
+					limit = {
+						KMT = {
+							is_puppet_of = JAP
+							owns_state = 524
+						}
+					}
+					JAP = {
+						transfer_state = 524
+					}
+				}
+			}
+		}
+	}
+	focus = {
+		id = jap_promote_koreans
+		icon = GFX_goal_conscription
+		cost = 5
+
+		x = 0
+		y = 1
+		relative_position_id = jap_korean_project
+
+		ai_will_do = {
+			factor = 40
+		}
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = JAP_korean_tip
+				any_owned_state = {
+					region = 186
+				}
+			}
+		}
+
+		prerequisite = {
+			focus = jap_korean_project
+		}
+		mutually_exclusive = {
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_promote_koreans"
+			custom_effect_tooltip = jap_spawn_korean_units_2
+			hidden_effect = {
+				load_oob = jap_korean_servicemen
+			}
+		}
+	}
+	focus = {
+		id = jap_korean_army
+		icon = GFX_goal_army_guy
+		cost = 5
+
+		x = 0
+		y = 1
+		relative_position_id = jap_promote_koreans
+
+		ai_will_do = {
+			factor = 40
+		}
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = JAP_korean_tip
+				any_owned_state = {
+					region = 186
+				}
+			}
+		}
+
+		prerequisite = {
+			focus = jap_promote_koreans
+		}
+		mutually_exclusive = {
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_korean_army"
+			custom_effect_tooltip = jap_spawn_korean_units_3
+			hidden_effect = {
+				load_oob = jap_korean_army
+			}
+		}
+	}
+	focus = {
+		id = jap_chinese_air
+		icon = GFX_goal_FNG_airforce
+		cost = 5
+
+		x = 0
+		y = 1
+		relative_position_id = jap_chinese_project
+
+		ai_will_do = {
+			factor = 40
+		}
+
+		available = {
+			OR = {
+				KMT = {
+					is_puppet_of = JAP
+				}
+				AND = {
+					JAP = {
+						any_owned_state = {
+							is_core_of = KMT
+						}
+					}
+					KMT = {
+						exists = no
+					}
+				}
+			}
+		}
+
+		prerequisite = {
+			focus = jap_chinese_project
+		}
+		mutually_exclusive = {
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_chinese_air"
+			# KMT = { # Drowse - This should be inside the limit statement
+			# LIMIT = { is_puppet_of = JAP } # Drowse - limit = { statements need to be preceded by and if = { statement
+				# add_ideas = jap_air_companies
+				# 892 = {
+							# add_building_construction = {
+								# type = airfield
+								# level = 3
+								# instant_build = yes
+								# }
+							# }
+						# }
+			if = { # Drowse - Correct syntax for this code
+				limit = {
+					KMT = {
+						is_puppet_of = JAP
+					}
+				}
+				KMT = {
+					add_ideas = jap_air_companies
+					892 = {
+						add_building_construction = {
+							type = airfield
+							level = 3
+							instant_build = yes
+						}
+					}
+				}
+			}
+		}
+	}
+	focus = {
+		id = jap_three_race_coprosperity
+		icon = GFX_goal_COS_Peace
+		cost = 5
+
+		x = -2
+		y = 1
+		relative_position_id = jap_chinese_project
+
+		ai_will_do = {
+			factor = 40
+		}
+
+		prerequisite = {
+			focus = jap_chinese_project
+		}
+		prerequisite = {
+			focus = jap_korean_project
+		}
+		mutually_exclusive = {
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_three_race_coprosperity"
+			add_ideas = jap_three_race_prosperity
+		}
+	}
+	focus = {
+		id = jap_chinese_army
+		icon = GFX_goal_FNG_army
+		cost = 5
+
+		x = 0
+		y = 1
+		relative_position_id = jap_chinese_air
+
+		ai_will_do = {
+			factor = 40
+		}
+
+		available = {
+			OR = {
+				KMT = {
+					is_puppet_of = JAP
+				}
+				AND = {
+					JAP = {
+						any_owned_state = {
+							is_core_of = KMT
+						}
+					}
+					KMT = {
+						exists = no
+					}
+				}
+			}
+		}
+
+		prerequisite = {
+			focus = jap_chinese_air
+		}
+		mutually_exclusive = {
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_chinese_army"
+			#			custom_effect_tooltip =
+			load_oob = jap_chi_volunteers
+		}
+	}
+	focus = {
+		id = jap_standardize_army
+		icon = GFX_goal_japan_helmet
+		cost = 5
+
+		x = -2
+		y = 1
+		relative_position_id = jap_chinese_army
+
+		ai_will_do = {
+			factor = 40
+		}
+
+		prerequisite = {
+			focus = jap_chinese_army
+		}
+		prerequisite = {
+			focus = jap_korean_army
+		}
+		mutually_exclusive = {
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_standardize_army"
+			add_ideas = jap_armies_standardized
+		}
+	}
+
+	focus = {
+		id = jap_war_for_prosperity
+		icon = GFX_goal_Japanese_Glory
+		cost = 5
+		ai_will_do = {
+			factor = 40
+		}
+		x = 0
+		y = 1
+		relative_position_id = jap_standardize_army
+		prerequisite = {
+			focus = jap_standardize_army
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_war_for_prosperity"
+			add_ideas = jap_war_for_prosperity
+		}
+	}
+
+	focus = {
+		id = jap_join_the_ISC
+		icon = GFX_goal_tfv_generic_tech_sharing
+		cost = 5
+		x = 1
+		y = 1
+		relative_position_id = jap_JCOSC
+		prerequisite = {
+			focus = jap_JCOSC
+		}
+		ai_will_do = {
+			factor = 40
+			modifier = {
+				factor = 2
+				amount_research_slots < 5
+			}
+		}
+
+		available = {
+			ENG = {
+				has_completed_focus = ENG_imp_council
+			}
+		}
+		mutually_exclusive = {
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_join_the_ISC"
+			add_research_slot = 1
+			JAP = {
+				add_to_tech_sharing_group = imperial_research
+			}
+		}
+	}
+
+
+	focus = {
+		id = jap_menace_across_the_sea
+		icon = GFX_goal_menace_across_the_sea
+		x = -1
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 40
+			modifier = {
+				factor = 2
+				has_opinion = {
+					target = USA
+					value < 0
+				}
+			}
+		}
+		relative_position_id = jap_join_the_ISC
+		prerequisite = { focus = jap_join_the_ISC }
+		prerequisite = { focus = jap_british_naval_tactics }
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_menace_across_the_sea"
+			add_ideas = jap_us_naval_competition
+			USA = {
+				country_event = jap.24
+			}
+		}
+	}
+
+	focus = {
+		id = jap_secure_our_place
+		icon = GFX_goal_JAP_secure_our_place
+		x = -2
+		y = 1
+		relative_position_id = jap_alliance_eng
+		cost = 5
+		ai_will_do = {
+			factor = 40
+		}
+		available = {
+			is_subject = no
+		}
+		prerequisite = {
+			focus = jap_alliance_eng
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_secure_our_place"
+			country_event = jap.51
+		}
+	}
+	focus = {
+		id = jap_for_the_empire
+		icon = GFX_goal_blinding_sun
+		cost = 5
+		x = 0
+		y = 1
+		ai_will_do = {
+			factor = 40
+			modifier = {
+				factor = 3
+				date > 1940.1.1
+			}
+		}
+		available = {
+			is_subject = no
+		}
+		relative_position_id = jap_menace_across_the_sea
+		prerequisite = { focus = jap_menace_across_the_sea }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_for_the_empire"
+			add_ideas = jap_empirical_hopes
+		}
+	}
+
+	focus = {
+		id = jap_operation_eagle_hunter
+		icon = GFX_goal_operation_eagle_hunter
+		cost = 5
+		x = -5
+		y = 2
+		ai_will_do = {
+			factor = 40
+			modifier = {
+				factor = 2
+				date > 1940.1.1
+			}
+			modifier = {
+				factor = 2
+				USA = {
+					has_war = yes
+				}
+			}
+		}
+		available = {
+			is_subject = no
+			NOT = { is_in_faction_with = USA }
+			OR = {
+				has_completed_focus = jap_for_the_empire
+				has_completed_focus = jap_operations
+			}
+		}
+		bypass = {
+			USA = {
+				OR = {
+					exists = no
+					is_in_faction_with = JAP
+					is_puppet_of = JAP
+					has_war_with = JAP
+				}
+			}
+		}
+		relative_position_id = jap_nanshinron
+		prerequisite = {
+			focus = jap_nanshinron
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_operation_eagle_hunter"
+			add_war_support = 0.1
+			USA = {
+				add_opinion_modifier = { target = JAP modifier = JAP_aggression }
+			}
+		}
+	}
+
+	focus = {
+		id = jap_manila_bay
+		icon = GFX_focus_jap_zero
+		will_lead_to_war_with = USA
+		will_lead_to_war_with = PHI
+		cost = 5
+		x = -1
+		y = 1
+		ai_will_do = {
+			factor = 40
+			modifier = {
+				factor = 2
+				date > 1940.1.1
+			}
+			modifier = {
+				factor = 2
+				USA = {
+					has_war = yes
+				}
+			}
+			modifier = {
+				factor = 2
+				strength_ratio = {
+					tag = USA
+					ratio > 0.8
+				}
+			}
+			modifier = {
+				factor = 2
+				naval_strength_ratio = {
+					tag = USA
+					ratio > 1
+				}
+			}
+		}
+		available = {
+			country_exists = PHI
+			PHI = {
+				is_in_faction_with = USA
+			}
+			is_subject = no
+		}
+		bypass = {
+			PHI = {
+				OR = {
+					exists = no
+					is_in_faction_with = JAP
+					is_puppet_of = JAP
+					has_war_with = JAP
+				}
+			}
+		}
+		relative_position_id = jap_operation_eagle_hunter
+		prerequisite = {
+			focus = jap_operation_eagle_hunter
+		}
+		mutually_exclusive = {
+			focus = jap_phi_funding
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_manila_bay"
+			country_event = jap.14
+		}
+	}
+
+	focus = {
+		id = jap_phi_funding
+		icon = GFX_goal_generic_attack_philippines
+		cost = 5
+		x = 2
+		y = 0
+		relative_position_id = jap_manila_bay
+		ai_will_do = {
+			factor = 40
+			modifier = {
+				factor = 2
+				date > 1940.1.1
+			}
+			modifier = {
+				factor = 2
+				USA = {
+					has_war = yes
+				}
+			}
+			modifier = {
+				factor = 2
+				strength_ratio = {
+					tag = USA
+					ratio < 0.8
+				}
+			}
+			modifier = {
+				factor = 2
+				naval_strength_ratio = {
+					tag = USA
+					ratio < 1
+				}
+			}
+		}
+		bypass = {
+			OR = {
+				327 = { is_owned_by_ROOT_or_ally = yes }
+				PHI = {
+					is_in_faction_with = ROOT
+					is_subject_of = ROOT
+				}
+				has_war_with = PHI
+			}
+		}
+		available = {
+			country_exists = PHI
+			NOT = { is_in_faction_with = USA }
+		}
+		prerequisite = {
+			focus = jap_operation_eagle_hunter
+		}
+		mutually_exclusive = {
+			focus = jap_manila_bay
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_phi_funding"
+			PHI = {
+				country_event = jap.50
+			}
+		}
+	}
+
+	focus = {
+		id = jap_south_asia
+		icon = GFX_focus_jap_strike_south
+		cost = 5
+		x = 2
+		y = 2
+		relative_position_id = jap_manila_bay
+		ai_will_do = {
+			factor = 40
+		}
+		available = {
+			INS = {
+				OR = {
+					exists = no
+					is_in_faction_with = JAP
+					is_puppet_of = JAP
+				}
+			}
+		}
+		bypass = {
+			JAP = {
+				has_war_with = INS
+			}
+		}
+		prerequisite = {
+			focus = jap_manila_bay
+			focus = jap_phi_funding
+			focus = jap_cut_off_british_supply_lines
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_south_asia"
+			every_state = {
+				limit = {
+					OR = {
+						region = 187
+						region = 158
+						region = 159
+						region = 93
+						region = 91
+					}
+				}
+				THIS = {
+					add_core_of = INS
+				}
+			}
+			JAP = {
+				release = INS
+				puppet = INS
+			}
+		}
+	}
+
+	focus = {
+		id = jap_exploit_the_colonial_resources
+		icon = GFX_goal_generic_construction2
+		cost = 5
+
+		x = 2
+		y = 1
+		relative_position_id = jap_south_asia
+
+		ai_will_do = {
+			factor = 40
+		}
+
+		prerequisite = {
+			focus = jap_south_asia
+		}
+		prerequisite = {
+			focus = jap_three_musketeers_i_mean_indochinese_bros
+		}
+		mutually_exclusive = {
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_exploit_the_colonial_resources"
+			if = {
+				limit = {
+					OR = {
+						JAP = {
+							controls_state = 333
+						}
+						333 = {
+							controller = {
+								OR = {
+									is_in_faction_with = JAP
+									is_puppet_of = JAP
+								}
+							}
+						}
+					}
+				}
+				add_resource = {
+					type = oil
+					amount = 50
+					state = 333
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						JAP = {
+							controls_state = 623
+						}
+						623 = {
+							controller = {
+								OR = {
+									is_in_faction_with = JAP
+									is_puppet_of = JAP
+								}
+							}
+						}
+					}
+				}
+				add_resource = {
+					type = rubber
+					amount = 50
+					state = 623
+				}
+			}
+		}
+	}
+	focus = {
+		id = jap_free_from_the_imperialists
+		icon = GFX_goal_JAP_south_seas_mandate
+		cost = 5
+		x = 0
+		y = 1
+		available = {
+			country_exists = INS
+			INS = { is_subject_of = ROOT }
+		}
+		relative_position_id = jap_exploit_the_colonial_resources
+		prerequisite = {
+			focus = jap_exploit_the_colonial_resources
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_free_from_the_imperialists"
+			INS = { add_ideas = jap_liberation }
+		}
+	}
+
+	focus = {
+		id = jap_great_pacific_treaty
+		icon = GFX_goal_usa
+		cost = 5
+		x = 0
+		y = 1
+		relative_position_id = jap_SEA_bulwark
+		ai_will_do = {
+			factor = 40
+		}
+		prerequisite = {
+			focus = jap_SEA_bulwark
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_great_pacific_treaty"
+			add_ideas = jap_uk_shipbuilding_contest
+			ENG = {
+				country_event = jap.25
+			}
+		}
+	}
+
+	focus = {
+		id = jap_finalise_treaty
+		icon = GFX_goal_new_treaty
+		cost = 5
+
+		x = -1
+		y = 1
+		relative_position_id = jap_great_pacific_treaty
+
+		ai_will_do = {
+			factor = 40
+		}
+
+		prerequisite = {
+			focus = jap_great_pacific_treaty
+		}
+		mutually_exclusive = {
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_finalise_treaty"
+			add_ideas = jap_finalisation_of_treaty
+		}
+	}
+	focus = {
+		id = jap_fuel_anti_british_sentiment
+		icon = GFX_goal_fuel_anti_british_sentiment
+		cost = 5
+
+		x = 1
+		y = 1
+		relative_position_id = jap_great_pacific_treaty
+
+		ai_will_do = {
+			factor = 40
+			modifier = {
+				factor = 3
+				date > 1940.1.1
+			}
+		}
+
+		prerequisite = {
+			focus = jap_great_pacific_treaty
+		}
+		mutually_exclusive = {
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_fuel_anti_british_sentiment"
+			ENG = { add_opinion_modifier = { target = JAP modifier = JAP_fuel_anti_british_sentiment_modifier } }
+			JAP = { add_opinion_modifier = { target = ENG modifier = JAP_fuel_anti_british_sentiment_modifier } }
+		}
+	}
+	focus = {
+		id = jap_coop_americans
+		icon = GFX_focus_chi_mission_to_the_us
+		cost = 5
+
+		x = 1
+		y = 1
+		relative_position_id = jap_finalise_treaty
+
+		ai_will_do = {
+			factor = 40
+		}
+
+		prerequisite = {
+			focus = jap_finalise_treaty
+			focus = jap_fuel_anti_british_sentiment
+		}
+
+		mutually_exclusive = {
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_coop_americans"
+			add_ideas = jap_coop_americans
+		}
+	}
+
+	focus = {
+		id = jap_operation_kingslayer
+		icon = GFX_goal_operation_kingslayer
+		cost = 5
+		x = -2
+		y = 1
+		relative_position_id = jap_nanshinron
+		ai_will_do = {
+			factor = 40
+			modifier = {
+				factor = 2
+				date > 1940.1.1
+			}
+			modifier = {
+				factor = 2
+				ENG = {
+					has_war = yes
+				}
+			}
+		}
+		available = {
+			is_subject = no
+			NOT = { is_in_faction_with = ENG }
+			OR = {
+				has_completed_focus = jap_coop_americans
+				has_completed_focus = jap_operations
+			}
+		}
+		prerequisite = {
+			focus = jap_nanshinron
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_operation_kingslayer"
+			add_war_support = 0.1
+			ENG = {
+				add_opinion_modifier = { target = JAP modifier = JAP_aggression }
+			}
+		}
+	}
+
+	focus = {
+		id = jap_strike_BEI
+		icon = GFX_focus_AST_war_japan
+		cost = 5
+		will_lead_to_war_with = BEA
+		will_lead_to_war_with = ENG
+		available = {
+			is_subject = no
+			country_exists = BEA
+			BEA = { is_subject_of = ENG }
+		}
+		x = -1
+		y = 1
+		relative_position_id = jap_operation_kingslayer
+		prerequisite = {
+			focus = jap_operation_kingslayer
+		}
+		mutually_exclusive = {
+			focus = jap_fund_terrorism_in_singapore
+		}
+		ai_will_do = {
+			factor = 40
+			modifier = {
+				factor = 2
+				date > 1940.1.1
+			}
+			modifier = {
+				factor = 2
+				ENG = {
+					has_war = yes
+				}
+			}
+			modifier = {
+				factor = 2
+				strength_ratio = {
+					tag = ENG
+					ratio > 0.8
+				}
+			}
+			modifier = {
+				factor = 2
+				naval_strength_ratio = {
+					tag = ENG
+					ratio > 1
+				}
+			}
+		}
+		bypass = {
+			ENG = {
+				OR = {
+					exists = no
+					is_puppet_of = JAP
+					is_in_faction_with = JAP
+				}
+			}
+			BEA = {
+				OR = {
+					exists = no
+					is_puppet_of = JAP
+					is_in_faction_with = JAP
+				}
+			}
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_strike_BEI"
+			if = {
+				limit = {
+					BEA = {
+						exists = yes
+					}
+				}
+				if = {
+					limit = {
+						JAP = {
+							is_ai = yes
+						}
+					}
+					declare_war_on = {
+						type = annex_everything
+						target = BEA
+					}
+				}
+				else = {
+					create_wargoal = {
+						type = annex_everything
+						target = BEA
+					}
+				}
+			}
+
+			if = {
+				limit = {
+					any_state = {
+						is_owned_by = ENG
+						OR = { # East Indies
+							region = 188
+							region = 159
+							region = 187
+							region = 158
+						}
+					}
+				}
+				if = {
+					limit = {
+						JAP = {
+							is_ai = yes
+						}
+					}
+					declare_war_on = {
+						type = annex_everything
+						target = ENG
+					}
+				}
+				else = {
+					create_wargoal = {
+						type = annex_everything
+						target = ENG
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = jap_fund_terrorism_in_singapore
+		icon = GFX_goal_bag_of_money
+		cost = 5
+		x = 1
+		y = 1
+		relative_position_id = jap_operation_kingslayer
+		ai_will_do = {
+			factor = 40
+			modifier = {
+				factor = 2
+				date > 1940.1.1
+			}
+			modifier = {
+				factor = 2
+				ENG = {
+					has_war = yes
+				}
+			}
+			modifier = {
+				factor = 2
+				strength_ratio = {
+					tag = ENG
+					ratio < 0.8
+				}
+			}
+			modifier = {
+				factor = 2
+				naval_strength_ratio = {
+					tag = ENG
+					ratio < 1
+				}
+			}
+		}
+		prerequisite = {
+			focus = jap_operation_kingslayer
+		}
+		available = {
+			is_subject = no
+			NOT = { owns_state = 819 }
+		}
+		bypass = {
+			BEA = {
+				OR = {
+					exists = no
+					is_in_faction_with = JAP
+					is_puppet_of = JAP
+					has_war_with = JAP
+				}
+			}
+		}
+		mutually_exclusive = {
+			focus = jap_strike_BEI
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_fund_terrorism_in_singapore"
+			BEA = {
+				country_event = jap.50
+			}
+		}
+	}
+
+	focus = {
+		id = jap_cut_off_british_supply_lines
+		icon = GFX_goal_JAP_cut_off_british_supplies
+		cost = 5
+		x = -1
+		y = 1
+		ai_will_do = {
+			factor = 40
+			modifier = {
+				factor = 2
+				date > 1940.1.1
+			}
+			modifier = {
+				factor = 2
+				JAP = {
+					has_war_with = ENG
+				}
+			}
+		}
+		relative_position_id = jap_fund_terrorism_in_singapore
+		prerequisite = {
+			focus = jap_fund_terrorism_in_singapore
+			focus = jap_strike_BEI
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus jap_cut_off_british_supply_lines"
+			add_ideas = jap_cut_off_british_supply_lines
+		}
+	}
+	# Shogunate  JAP_unlock_shog_ft
+	######### Pre Iesato Death #########
+	#Radical Shogunate
+	#Ultra-Nichirenism
+	#Pan-Asianist Eternal Union
+
+	focus = {
+		id = JAP_alliance_triumphant
+		icon = GFX_goal_JAP_victory_of_alliance
+		x = 13
+		y = 0
+		cost = 2
+		allow_branch = {
+			has_country_flag = JAP_shogunate_focus_unlock
+		}
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = "The Northern Alliance has consolidated the ruling authority over the island"
+				OR = {
+					has_country_flag = JAP_counter_coup_win
+					has_country_flag = JAP_alliance_win_over_civilwar
+				}
+			}
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_alliance_triumphant"
+			add_political_power = 100
+			remove_ideas = {
+				JAP_militarism_strengthened
+				jap_union_suppressed
+				jap_iraa
+			}
+		}
+	}
+	focus = {
+		id = JAP_great_council_of_state
+		icon = GFX_goal_JAP_combined_government
+		relative_position_id = JAP_alliance_triumphant
+		x = 0
+		y = 1
+		prerequisite = {
+			focus = JAP_alliance_triumphant
+		}
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_great_council_of_state"
+			custom_effect_tooltip = "The Cabinet will be replaced by Great Council of State"
+			hidden_effect = {
+				add_ideas = JAP_great_council_of_state_idea
+			}
+		}
+	}
+	focus = {
+		id = JAP_restore_ritsuryo
+		icon = GFX_goal_JAP_ritsuryo_code
+		relative_position_id = JAP_great_council_of_state
+		x = -3
+		y = 1
+		prerequisite = {
+			focus = JAP_great_council_of_state
+		}
+		cost = 6
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_restore_ritsuryo"
+			add_stability = 0.05
+			add_popularity = {
+				ideology = authoritarian_democrat
+				popularity = 0.05
+			}
+		}
+	}
+	focus = {
+		id = JAP_empower_shogunal_authority
+		icon = GFX_goal_JAP_the_two_tokugawas
+		relative_position_id = JAP_great_council_of_state
+		x = -1
+		y = 1
+		prerequisite = {
+			focus = JAP_great_council_of_state
+		}
+		cost = 6
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_empower_shogunal_authority"
+			add_ideas = JAP_first_amongs_equal
+			add_war_support = 0.05
+			add_popularity = {
+				ideology = authoritarian_democrat
+				popularity = 0.05
+			}
+		}
+	}
+	focus = {
+		id = JAP_kyujidai_doctrine
+		icon = GFX_goal_JAP_kyujidai
+		relative_position_id = JAP_great_council_of_state
+		x = 1
+		y = 1
+		prerequisite = {
+			focus = JAP_great_council_of_state
+		}
+		available = {
+			NOT = {
+				has_completed_focus = JAP_shinjidai_doctrine
+			}
+		}
+		cost = 3
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_kyujidai_doctrine"
+			add_ideas = JAP_kyujidai_idea_0
+		}
+	}
+	focus = {
+		id = JAP_shinjidai_doctrine
+		icon = GFX_goal_JAP_shinjidai
+		relative_position_id = JAP_great_council_of_state
+		x = 3
+		y = 1
+		prerequisite = {
+			focus = JAP_great_council_of_state
+		}
+		available = {
+			NOT = {
+				has_completed_focus = JAP_kyujidai_doctrine
+			}
+		}
+		cost = 3
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_shinjidai_doctrine"
+			add_ideas = JAP_shinjidai_idea_0
+		}
+	}
+	focus = {
+		id = JAP_supreme_tribunal_of_nagasaki
+		icon = GFX_goal_JAP_special_tribunal_nagasaki
+		relative_position_id = JAP_great_council_of_state
+		x = -2
+		y = 2
+		prerequisite = {
+			focus = JAP_empower_shogunal_authority
+		}
+		prerequisite = {
+			focus = JAP_restore_ritsuryo
+		}
+		cost = 11
+		select_effect = {
+			country_event = {
+				id = jap_shogundom.1
+				days = 2
+			}
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_supreme_tribunal_of_nagasaki"
+			custom_effect_tooltip = "Shogun has opened the provisional Supreme Court of Nagasaki to decide the fate of nation"
+		}
+	}
+	focus = {
+		id = JAP_the_ultranationalists
+		icon = GFX_goal_JAP_ultranat_question
+		relative_position_id = JAP_supreme_tribunal_of_nagasaki
+		x = -1
+		y = 1
+		prerequisite = {
+			focus = JAP_supreme_tribunal_of_nagasaki
+		}
+		cost = 2.9
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_supreme_tribunal_of_nagasaki"
+			custom_effect_tooltip = jap_nagasaki_court_tt
+			if = {
+				limit = {
+					has_country_flag = JAP_ultranat_1
+				}
+				custom_effect_tooltip = jap_ultranat_effect_1_tt
+			}
+			if = {
+				limit = {
+					has_country_flag = JAP_ultranat_2
+				}
+				custom_effect_tooltip = jap_ultranat_effect_2_tt
+			}
+		}
+	}
+	focus = {
+		id = JAP_admiralty_question
+		icon = GFX_goal_JAP_admiralty_question
+		relative_position_id = JAP_supreme_tribunal_of_nagasaki
+		x = 0
+		y = 2
+		prerequisite = {
+			focus = JAP_supreme_tribunal_of_nagasaki
+		}
+		cost = 2.9
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_admiralty_question"
+			custom_effect_tooltip = jap_nagasaki_court_tt
+			if = {
+				limit = {
+					has_country_flag = JAP_admiralty_1
+				}
+				custom_effect_tooltip = jap_admiralty_effect_1_tt
+			}
+			if = {
+				limit = {
+					has_country_flag = JAP_admiralty_2
+				}
+				custom_effect_tooltip = jap_admiralty_effect_2_tt
+			}
+		}
+	}
+	focus = {
+		id = JAP_the_ultraroyalists
+		icon = GFX_goal_JAP_ultraroyal_question
+		relative_position_id = JAP_supreme_tribunal_of_nagasaki
+		x = 1
+		y = 1
+		prerequisite = {
+			focus = JAP_supreme_tribunal_of_nagasaki
+		}
+		cost = 2.9
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_the_ultraroyalists"
+			custom_effect_tooltip = jap_nagasaki_court_tt
+			if = {
+				limit = {
+					has_country_flag = JAP_ultraroy_1
+				}
+				custom_effect_tooltip = jap_ultraroy_effect_1_tt
+			}
+			if = {
+				limit = {
+					has_country_flag = JAP_ultraroy_2
+				}
+				custom_effect_tooltip = jap_ultraroy_effect_2_tt
+			}
+		}
+	}
+	focus = {
+		id = JAP_tribunal_final_phase
+		icon = GFX_goal_JAP_last_answer
+		relative_position_id = JAP_supreme_tribunal_of_nagasaki
+		x = 2
+		y = 3
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = "The questions in court have been answered"
+				has_completed_focus = JAP_admiralty_question
+				has_completed_focus = JAP_the_ultranationalists
+				has_completed_focus = JAP_the_ultraroyalists
+			}
+		}
+		prerequisite = {
+			focus = JAP_guilty_of_former_shogun
+			focus = JAP_new_legacy_of_iesato
+		}
+		prerequisite = { focus = JAP_admiralty_question }
+		cost = 3
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_tribunal_final_phase"
+			country_event = jap_shogundom.5
+		}
+	}
+	focus = {
+		id = JAP_restore_han_system
+		icon = GFX_goal_JAP_feudal_domain_return
+		relative_position_id = JAP_kyujidai_doctrine
+		x = 0
+		y = 1
+		prerequisite = { focus = JAP_kyujidai_doctrine }
+		cost = 3
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_restore_han_system"
+			JAP_kyujidai_shinjidai_swap = yes
+		}
+	}
+	focus = {
+		id = JAP_restore_military_authority
+		icon = GFX_goal_JAP_feudalism_returns
+		relative_position_id = JAP_kyujidai_doctrine
+		x = 0
+		y = 2
+		prerequisite = { focus = JAP_restore_han_system }
+		cost = 3
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_restore_military_authority"
+			JAP_kyujidai_shinjidai_swap = yes
+		}
+	}
+	focus = {
+		id = JAP_guilty_of_former_shogun
+		icon = GFX_goal_JAP_sin_of_lastshogun
+		relative_position_id = JAP_kyujidai_doctrine
+		x = 0
+		y = 3
+		prerequisite = { focus = JAP_restore_military_authority }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_guilty_of_former_shogun"
+			JAP_kyujidai_shinjidai_swap = yes
+		}
+	}
+	focus = {
+		id = JAP_reform_kazoku_law
+		icon = GFX_goal_JAP_kazoku_election
+		relative_position_id = JAP_shinjidai_doctrine
+		x = 0
+		y = 1
+		prerequisite = { focus = JAP_shinjidai_doctrine }
+		cost = 3
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_reform_kazoku_law"
+			JAP_kyujidai_shinjidai_swap = yes
+		}
+	}
+	focus = {
+		id = JAP_next_bastion_of_democracy
+		icon = GFX_goal_JAP_shogunal_democracy
+		relative_position_id = JAP_shinjidai_doctrine
+		x = 0
+		y = 2
+		prerequisite = { focus = JAP_reform_kazoku_law }
+		cost = 3
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_next_bastion_of_democracy"
+			JAP_kyujidai_shinjidai_swap = yes
+		}
+	}
+	focus = {
+		id = JAP_new_legacy_of_iesato
+		icon = GFX_goal_JAP_new_legacy_of_tokugawa
+		relative_position_id = JAP_shinjidai_doctrine
+		x = 0
+		y = 3
+		prerequisite = { focus = JAP_next_bastion_of_democracy }
+		cost = 3
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_new_legacy_of_iesato"
+			JAP_kyujidai_shinjidai_swap = yes
+		}
+	}
+	focus = {
+		id = JAP_report_to_the_emperor
+		icon = GFX_goal_JAP_report_to_emperor
+		relative_position_id = JAP_tribunal_final_phase
+		x = 0
+		y = 1
+		prerequisite = { focus = JAP_tribunal_final_phase }
+		cost = 3
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_report_to_the_emperor"
+			country_event = jap_shogundom.6
+		}
+	}
+	focus = {
+		id = JAP_long_live_the_shogunate
+		icon = GFX_goal_JAP_long_live_shogun
+		relative_position_id = JAP_tribunal_final_phase
+		x = 0
+		y = 2
+		prerequisite = { focus = JAP_report_to_the_emperor }
+		cost = 1
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_report_to_the_emperor"
+			country_event = {
+				id = jap_shogundom.7
+				days = 1
+			}
+			country_event = {
+				id = jap_shogundom.8
+				days = 3
+			}
+			remove_ideas = JAP_LSMC_complete
+			add_timed_idea = {
+				idea = JAP_Tokyo_Market_slowly_restore
+				days = 365
+			}
+			mark_focus_tree_layout_dirty = yes
+		}
+	}
+#######Pre Iesato Death Tree
+	focus = {
+		id = JAP_iesato_government
+		icon = GFX_goal_JAP_iesato_government
+		relative_position_id = JAP_alliance_triumphant
+		x = 14
+		y = 0
+		allow_branch = {
+			custom_trigger_tooltip = {
+				tooltip = "The Shogunate has decided the fate of nation"
+				has_completed_focus = JAP_long_live_the_shogunate
+			}
+		}
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = "The Shogunate has decided the fate of nation"
+				has_completed_focus = JAP_long_live_the_shogunate
+			}
+		}
+		bypass = {
+			custom_trigger_tooltip = {
+				tooltip = "The Shogunate has decided the fate of nation"
+				has_completed_focus = JAP_long_live_the_shogunate
+			}
+		}
+		cost = 0
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_iesato_government"
+		}
+	}
+	focus = {
+		id = JAP_mikawahan_faction
+		icon = GFX_goal_JAP_mikawahan
+		relative_position_id = JAP_iesato_government
+		x = 4
+		y = 1
+		available = {
+			has_idea = JAP_shinjidai_idea_3
+		}
+		prerequisite = {
+			focus = JAP_iesato_government
+		}
+		cost = 2
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_mikawahan_faction"
+			set_politics = {
+				ruling_party = authoritarian_democrat
+				elections_allowed = no
+			}
+			remove_every_hog_trait = yes
+			activate_advisor = JAP_Tokugawa_Iemasa_hog_ade
+		}
+	}
+	focus = {
+		id = JAP_left_learning_doctrine
+		icon = GFX_goal_JAP_left_learning_doctrine
+		relative_position_id = JAP_mikawahan_faction
+		x = 1
+		y = 1
+		prerequisite = {
+			focus = JAP_mikawahan_faction
+		}
+		cost = 4
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_left_learning_doctrine"
+			set_temp_variable = { coalition_partner_var = token:social_democrat }
+			add_to_coalition = yes
+			add_stability = 0.05
+			add_political_power = 75
+		}
+	}
+	focus = {
+		id = JAP_rural_urbanization
+		icon = GFX_goal_JAP_rural_urbanization
+		relative_position_id = JAP_left_learning_doctrine
+		x = 1
+		y = 1
+		prerequisite = {
+			focus = JAP_left_learning_doctrine
+		}
+		cost = 4
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_rural_urbanization"
+			unlock_decision_category_tooltip = JAP_urbanization_program
+			unlock_decision_tooltip = JAP_Tokai_Hokkaido_road_1
+			unlock_decision_tooltip = JAP_Tokai_Hokkaido_road_2
+			unlock_decision_tooltip = JAP_Tokai_Hokkaido_road_3
+			unlock_decision_tooltip = JAP_Hokuriku_road
+			unlock_decision_tooltip = JAP_okinawa_infrastructure
+			unlock_decision_tooltip = JAP_iwo_jima_infrastructure
+		}
+	}
+	focus = {
+		id = JAP_municipality_promotion_act
+		icon = GFX_goal_JAP_municipality_promote_act
+		relative_position_id = JAP_left_learning_doctrine
+		x = 1
+		y = 2
+		prerequisite = {
+			focus = JAP_rural_urbanization
+		}
+		cost = 6
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_municipality_promotion_act"
+			add_stability = 0.1
+		}
+	}
+	focus = {
+		id = JAP_local_election_act
+		icon = GFX_goal_JAP_local_election
+		relative_position_id = JAP_left_learning_doctrine
+		x = 1
+		y = 3
+		prerequisite = {
+			focus = JAP_municipality_promotion_act
+		}
+		prerequisite = {
+			focus = JAP_universal_suffrage_act
+		}
+		cost = 4
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_local_election_act"
+			add_stability = 0.1
+			add_political_power = 100
+			add_popularity = {
+				ideology = var:current_party_ideology_group
+				popularity = 0.05
+			}
+		}
+	}
+	focus = {
+		id = JAP_prusso_americanism_abolishment
+		icon = GFX_goal_JAP_prusso_american_abolish
+		relative_position_id = JAP_mikawahan_faction
+		x = -1
+		y = 1
+		prerequisite = {
+			focus = JAP_mikawahan_faction
+		}
+		cost = 4
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_prusso_americanism_abolishment"
+			add_popularity = {
+				ideology = var:current_party_ideology_group
+				popularity = 0.05
+			}
+			add_stability = 0.05
+			add_ideas = JAP_strong_asian_democracy
+		}
+	}
+	focus = {
+		id = JAP_peoples_power_strengthen
+		icon = GFX_goal_JAP_peoples_power
+		relative_position_id = JAP_prusso_americanism_abolishment
+		x = -1
+		y = 1
+		prerequisite = {
+			focus = JAP_prusso_americanism_abolishment
+		}
+		cost = 4
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_peoples_power_strengthen"
+			add_stability = 0.1
+			add_political_power = 150
+			add_popularity = {
+				ideology = var:current_party_ideology_group
+				popularity = 0.05
+			}
+		}
+	}
+	focus = {
+		id = JAP_deconfuciusization
+		icon = GFX_goal_JAP_deconfuciusization
+		relative_position_id = JAP_prusso_americanism_abolishment
+		x = -1
+		y = 2
+		prerequisite = {
+			focus = JAP_peoples_power_strengthen
+		}
+		cost = 4
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_deconfuciusization"
+			add_political_power = -100
+			add_popularity = {
+				ideology = paternal_autocrat
+				popularity = 0.1
+			}
+			add_timed_idea = {
+				idea = JAP_deconfuciused_education_reform_idea
+				days = 730
+			}
+			add_research_slot = 1
+		}
+	}
+	focus = {
+		id = JAP_seigaku_education_reform
+		icon = GFX_goal_JAP_seigaku
+		relative_position_id = JAP_prusso_americanism_abolishment
+		x = -1
+		y = 3
+		prerequisite = {
+			focus = JAP_deconfuciusization
+		}
+		cost = 4
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_seigaku_education_reform"
+			add_ideas = JAP_seigaku_reform_idea
+			add_research_slot = 1
+		}
+	}
+	focus = {
+		id = JAP_electoral_reform
+		icon = GFX_goal_JAP_electoral_reform
+		relative_position_id = JAP_mikawahan_faction
+		x = 0
+		y = 2
+		prerequisite = {
+			focus = JAP_left_learning_doctrine
+		}
+		prerequisite = {
+			focus = JAP_prusso_americanism_abolishment
+		}
+		prerequisite = {
+			focus = JAP_mikawahan_faction
+		}
+		cost = 4
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_electoral_reform"
+			add_stability = 0.05
+		}
+	}
+	focus = {
+		id = JAP_universal_suffrage_act
+		icon = GFX_goal_JAP_universal_suffrage
+		relative_position_id = JAP_electoral_reform
+		x = 0
+		y = 1
+		prerequisite = {
+			focus = JAP_electoral_reform
+		}
+		prerequisite = {
+			focus = JAP_peoples_power_strengthen
+		}
+		cost = 4
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_universal_suffrage_act"
+			add_timed_idea = {
+				idea = JAP_universal_right_idea
+				days = 720
+			}
+		}
+	}
+	focus = {
+		id = JAP_to_the_new_golden_age
+		icon = GFX_goal_JAP_to_golden_age
+		relative_position_id = JAP_electoral_reform
+		x = 0
+		y = 3
+		prerequisite = {
+			focus = JAP_universal_suffrage_act
+		}
+		prerequisite = {
+			focus = JAP_seigaku_education_reform
+		}
+		prerequisite = {
+			focus = JAP_local_election_act
+		}
+		cost = 4
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_to_the_new_golden_age"
+			add_timed_idea = {
+				idea = JAP_to_the_new_golden_age_idea
+				days = 720
+			}
+		}
+	}
+	focus = {
+		id = JAP_oniwahan_faction
+		icon = GFX_goal_JAP_oniwahan
+		relative_position_id = JAP_iesato_government
+		x = -4
+		y = 1
+		available = {
+			has_idea = JAP_kyujidai_idea_3
+		}
+		prerequisite = {
+			focus = JAP_iesato_government
+		}
+		cost = 2
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: JAP_oniwahan_faction"
+			set_politics = {
+				ruling_party = paternal_autocrat
+				elections_allowed = no
+			}
+			set_temp_variable = { coalition_partner_var = token:paternal_autocrat }
+			remove_from_coalition = yes
+			remove_every_for_trait = yes
+			activate_advisor = JAP_Matsudaira_Tsuneo_for_ade
+			hidden_effect = {
+				add_country_leader_role = {
+					character = JAP_Hirohito
+					promote_leader = yes
+					country_leader = {
+						ideology = pat_duumvirism_subtype
+						expire = "1965.1.1.1"
+					}
+				}
+			}
+		}
+	}
+	focus = {
+		id = JAP_believe_the_kingsmaker
+		icon = GFX_goal_JAP_the_kingmaker
+		relative_position_id = JAP_oniwahan_faction
+		x = -1
+		y = 1
+		prerequisite = {
+			focus = JAP_oniwahan_faction
+		}
+		cost = 4
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: JAP_believe_the_kingsmaker"
+			add_political_power = 150
+		}
+	}
+	focus = {
+		id = JAP_reinstall_dismissals
+		icon = GFX_goal_JAP_reinstall_daimyo
+		relative_position_id = JAP_believe_the_kingsmaker
+		x = -1
+		y = 1
+		prerequisite = {
+			focus = JAP_believe_the_kingsmaker
+		}
+		cost = 4
+		select_effect = {
+			every_unit_leader = {
+				limit = {
+					OR = {
+						is_character = JAP_Shimazu_Tadashige
+						is_character = JAP_Toshinari_Maeda
+						is_character = JAP_Kacho_Hironobu
+					}
+				}
+				set_character_flag = JAP_leader
+			}
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: JAP_reinstall_dismissals"
+			add_corps_commander_role = {
+				Character = JAP_Shimazu_Tadashige
+				skill = 2
+				attack_skill = 2
+				defense_skill = 1
+				planning_skill = 1
+				logistics_skill = 1
+			}
+			add_corps_commander_role = {
+				Character = JAP_Toshinari_Maeda
+				skill = 3
+				attack_skill = 3
+				defense_skill = 2
+				planning_skill = 2
+				logistics_skill = 3
+			}
+			add_corps_commander_role = {
+				Character = JAP_Kacho_Hironobu
+				skill = 1
+				attack_skill = 1
+				defense_skill = 1
+				planning_skill = 1
+				logistics_skill = 1
+			}
+		}
+	}
+	focus = {
+		id = JAP_military_disintegration
+		icon = GFX_goal_JAP_military_disintegrate
+		relative_position_id = JAP_believe_the_kingsmaker
+		x = -1
+		y = 2
+		prerequisite = {
+			focus = JAP_reinstall_dismissals
+		}
+		cost = 4
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: JAP_military_disintegration"
+			add_stability = -0.03
+			add_ideas = JAP_separation_command_1
+			every_unit_leader = {
+				limit = {
+					has_character_flag = JAP_leader
+				}
+				add_skill_level = 1
+			}
+		}
+	}
+	focus = {
+		id = JAP_uphold_prefecturare_imperium
+		icon = GFX_goal_JAP_regional_imperium
+		relative_position_id = JAP_believe_the_kingsmaker
+		x = -1
+		y = 3
+		prerequisite = {
+			focus = JAP_military_disintegration
+		}
+		cost = 4
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: JAP_uphold_prefecturare_imperium"
+			add_stability = -0.05
+			swap_ideas = {
+				remove_idea = JAP_separation_command_1
+				add_idea = JAP_separation_command_2
+			}
+			add_field_marshal_role = {
+				character = JAP_Tokugawa_Kuniyuki
+				skill = 2
+				attack_skill = 2
+				defense_skill = 1
+				planning_skill = 1
+				logistics_skill = 1
+			}
+		}
+	}
+	focus = {
+		id = JAP_and_constitution
+		icon = GFX_goal_JAP_constitution
+		relative_position_id = JAP_oniwahan_faction
+		x = 1
+		y = 1
+		prerequisite = {
+			focus = JAP_oniwahan_faction
+		}
+		cost = 4
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: JAP_and_constitution"
+			add_popularity = {
+				ideology = var:current_party_ideology_group
+				popularity = 0.05
+			}
+		}
+	}
+	focus = {
+		id = JAP_kuniyuki_blueprint
+		icon = GFX_goal_JAP_kuniyuki_blueprint
+		relative_position_id = JAP_and_constitution
+		x = 1
+		y = 1
+		prerequisite = {
+			focus = JAP_and_constitution
+		}
+		cost = 4
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: JAP_kuniyuki_blueprint"
+			add_ideas = JAP_intelligence_service_shogun
+			add_ideas = JAP_plant_the_shogunate_loyalty
+			add_research_slot = 1
+		}
+	}
+	focus = {
+		id = JAP_bureaucrat_reform
+		icon = GFX_goal_JAP_bureaucrat_reform
+		relative_position_id = JAP_and_constitution
+		x = 1
+		y = 2
+		prerequisite = {
+			focus = JAP_kuniyuki_blueprint
+		}
+		cost = 4
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: JAP_bureaucrat_reform"
+			add_stability = 0.05
+		}
+	}
+	focus = {
+		id = JAP_fudai_toza_restoration
+		icon = GFX_goal_JAP_toza_fudai
+		relative_position_id = JAP_and_constitution
+		x = 1
+		y = 3
+		prerequisite = {
+			focus = JAP_bureaucrat_reform
+		}
+		cost = 4
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: JAP_fudai_toza_restoration"
+			add_war_support = 0.15
+		}
+	}
+	focus = {
+		id = JAP_progressive_advancement_backsliding
+		icon = GFX_goal_JAP_progressive_backsliding
+		relative_position_id = JAP_oniwahan_faction
+		x = 0
+		y = 2
+		prerequisite = {
+			focus = JAP_oniwahan_faction
+		}
+		prerequisite = {
+			focus = JAP_believe_the_kingsmaker
+		}
+		prerequisite = {
+			focus = JAP_and_constitution
+		}
+		cost = 4
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: JAP_progressive_advancement_backsliding"
+			add_stability = -0.2
+			add_political_power = -100
+		}
+	}
+	focus = {
+		id = JAP_suffrage_of_chosen_one
+		icon = GFX_goal_JAP_suffrage_chosen_one
+		relative_position_id = JAP_progressive_advancement_backsliding
+		x = 0
+		y = 1
+		prerequisite = {
+			focus = JAP_progressive_advancement_backsliding
+		}
+		cost = 4
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: JAP_suffrage_of_chosen_one"
+			add_stability = 0.05
+			add_popularity = {
+				ideology = var:current_party_ideology_group
+				popularity = 0.07
+			}
+		}
+	}
+	focus = {
+		id = JAP_to_our_nostalgic_period
+		icon = GFX_goal_JAP_rising_of_sun
+		relative_position_id = JAP_suffrage_of_chosen_one
+		x = 0
+		y = 2
+		prerequisite = {
+			focus = JAP_suffrage_of_chosen_one
+		}
+		prerequisite = {
+			focus = JAP_fudai_toza_restoration
+		}
+		prerequisite = {
+			focus = JAP_uphold_prefecturare_imperium
+		}
+		cost = 4
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: JAP_to_our_nostalgic_period"
+			add_timed_idea = {
+				idea = JAP_to_our_nostalgic_period_idea
+				days = 720
+			}
+		}
+	}
+	focus = {
+		id = JAP_imperial_power_question
+		icon = GFX_goal_JAP_imperial_power_question
+		relative_position_id = JAP_iesato_government
+		x = 0
+		y = 3
+		prerequisite = {
+			focus = JAP_prusso_americanism_abolishment
+			focus = JAP_and_constitution
+		}
+		prerequisite = {
+			focus = JAP_iesato_government
+		}
+		cost = 4
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: JAP_imperial_power_question"
+			country_event = {
+				id = jap_shogundom.9
+				days = 1
+			}
+		}
+	}
+	focus = {
+		id = JAP_learning_from_taisho_era
+		icon = GFX_goal_JAP_taisho_lesson
+		relative_position_id = JAP_imperial_power_question
+		x = 0
+		y = 1
+		prerequisite = {
+			focus = JAP_imperial_power_question
+		}
+		cost = 4
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: JAP_learning_from_taisho_era"
+			country_event = {
+				id = jap_shogundom.10
+				days = 1
+			}
+		}
+	}
+	focus = {
+		id = JAP_kokutai_minshu_unity
+		icon = GFX_goal_JAP_kokutai_minshu
+		relative_position_id = JAP_imperial_power_question
+		x = 0
+		y = 3
+		prerequisite = {
+			focus = JAP_learning_from_taisho_era
+		}
+		cost = 4
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: JAP_kokutai_minshu_unity"
+			country_event = {
+				id = jap_shogundom.11
+				days = 1
+			}
+		}
+	}
+####### Post Iesato Death Tree #######
+	focus = {
+		id = JAP_grand_triumvirate
+		icon = GFX_goal_JAP_grand_triumvirate
+		x = 17
+		y = 8
+		allow_branch = {
+			has_country_flag = JAP_Iesato_Death
+		}
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_grand_triumvirate"
+			country_event = {
+				id = jap_shogun.11
+				days = 3
+			}
+		}
+	}
+	focus = {
+		id = JAP_meeting_of_three_officials
+		icon = GFX_goal_JAP_meeting_of_officials
+		relative_position_id = JAP_grand_triumvirate
+		x = 0
+		y = 1
+		prerequisite = { focus = JAP_grand_triumvirate }
+		cost = 6
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_meeting_of_three_officials"
+			country_event = {
+				id = jap_shogun.14
+				days = 5
+			}
+		}
+	}
+	focus = {
+		id = JAP_the_kingmaker_assumed_shogunate
+		icon = GFX_goal_JAP_the_kingmaker
+		relative_position_id = JAP_meeting_of_three_officials
+		x = 0
+		y = 1
+		allow_branch = {
+			custom_trigger_tooltip = {
+				tooltip = "The Kingmaker has assumed the power of Daijo-Daijin"
+				has_country_flag = JAP_kuniyuki_reign
+			}
+		}
+		prerequisite = { focus = JAP_meeting_of_three_officials }
+		cost = 2
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_the_kingmaker_assumed_shogunate"
+			add_country_leader_trait = chancellor_of_state
+			add_country_leader_trait = the_just_shogun
+			add_popularity = {
+				ideology = var:current_party_ideology_group
+				popularity = 0.2
+			}
+			add_ideas = JAP_tokugawa_authority_0
+		}
+	}
+	focus = {
+		id = JAP_integrate_ancient_laws
+		icon = GFX_goal_JAP_bugyo_guide
+		relative_position_id = JAP_the_kingmaker_assumed_shogunate
+		x = -2
+		y = 1
+		prerequisite = { focus = JAP_the_kingmaker_assumed_shogunate }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_integrate_ancient_laws"
+			modify_tokugawa_authority = yes
+		}
+	}
+	focus = {
+		id = JAP_extend_navy_budget
+		icon = GFX_goal_JAP_increase_navy_budget
+		relative_position_id = JAP_the_kingmaker_assumed_shogunate
+		x = 0
+		y = 1
+		prerequisite = { focus = JAP_the_kingmaker_assumed_shogunate }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_extend_navy_budget"
+			add_political_power = -50
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.2
+				uses = 1
+				category = naval_doctrine
+			}
+		}
+	}
+	focus = {
+		id = JAP_rebuild_the_commissions
+		icon = GFX_goal_JAP_public_address
+		relative_position_id = JAP_the_kingmaker_assumed_shogunate
+		x = 2
+		y = 1
+		prerequisite = { focus = JAP_the_kingmaker_assumed_shogunate }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_rebuild_the_commissions"
+			modify_tokugawa_authority = yes
+
+			activate_advisor = JAP_Mushanokoji_Kintomo_for_pau
+			activate_advisor = JAP_Yoshikawa_Takeo_sec_pau
+			activate_advisor = JAP_Nagayuki_Asano_eco_pau
+		}
+	}
+	focus = {
+		id = JAP_embrace_neo_confucianism
+		icon = GFX_goal_confucius
+		relative_position_id = JAP_extend_navy_budget
+		x = -1
+		y = 1
+		prerequisite = { focus = JAP_integrate_ancient_laws }
+		prerequisite = { focus = JAP_extend_navy_budget }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_embrace_neo_confucianism"
+			add_stability = 0.02
+		}
+	}
+	focus = {
+		id = JAP_shin_fukoku_kyohei
+		icon = GFX_goal_JAP_fukoku_kyohei
+		relative_position_id = JAP_extend_navy_budget
+		x = 1
+		y = 1
+		prerequisite = { focus = JAP_rebuild_the_commissions }
+		prerequisite = { focus = JAP_extend_navy_budget }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_shin_fukoku_kyohei"
+			add_political_power = 100
+			add_timed_idea = {
+				idea = JAP_quickening_military_production
+				days = 720
+			}
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.7
+				uses = 3
+				category = land_doctrine
+			}
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.7
+				uses = 3
+				category = naval_doctrine
+			}
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.7
+				uses = 3
+				category = air_doctrine
+			}
+			army_experience = 50
+			navy_experience = 50
+			air_experience = 50
+		}
+	}
+	focus = {
+		id = JAP_subordinate_democracy
+		icon = GFX_goal_subordinate_parliament
+		relative_position_id = JAP_integrate_ancient_laws
+		x = 0
+		y = 2
+		prerequisite = { focus = JAP_embrace_neo_confucianism }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_subordinate_democracy"
+			add_stability = -0.1
+			modify_tokugawa_authority = yes
+		}
+	}
+	focus = {
+		id = JAP_make_parliament_our_rubberstamp
+		icon = GFX_goal_JAP_rubberstamp_parliament
+		relative_position_id = JAP_subordinate_democracy
+		x = -2
+		y = 1
+		prerequisite = { focus = JAP_subordinate_democracy }
+		mutually_exclusive = {
+			focus = JAP_send_parliament_to_hell
+		}
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_make_parliament_our_rubberstamp"
+			add_political_power = 25
+			add_popularity = {
+				ideology = authoritarian_democrat
+				popularity = -0.05
+			}
+		}
+	}
+	focus = {
+		id = JAP_samurai_code_of_law
+		icon = GFX_goal_JAP_samurai_law
+		relative_position_id = JAP_make_parliament_our_rubberstamp
+		x = -1
+		y = 1
+		prerequisite = { focus = JAP_make_parliament_our_rubberstamp }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_samurai_code_of_law"
+			add_political_power = 50
+		}
+	}
+	focus = {
+		id = JAP_send_parliament_to_hell
+		icon = GFX_goal_absolute_destroy_parliament
+		relative_position_id = JAP_subordinate_democracy
+		x = 0
+		y = 1
+		prerequisite = { focus = JAP_subordinate_democracy }
+		mutually_exclusive = {
+			focus = JAP_make_parliament_our_rubberstamp
+		}
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_send_parliament_to_hell"
+			add_popularity = {
+				ideology = paternal_autocrat
+				popularity = 0.1
+			}
+		}
+	}
+	focus = {
+		id = JAP_purge_the_old_politicians
+		icon = GFX_goal_purge_of_death_angel
+		relative_position_id = JAP_send_parliament_to_hell
+		x = -1
+		y = 1
+		prerequisite = { focus = JAP_send_parliament_to_hell }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_purge_the_old_politicians"
+			add_manpower = -1100
+		}
+	}
+	focus = {
+		id = JAP_taiheiyo_circuit_development
+		icon = GFX_goal_JAP_tokaido_dev
+		relative_position_id = JAP_rebuild_the_commissions
+		x = 0
+		y = 2
+		prerequisite = { focus = JAP_shin_fukoku_kyohei }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_taiheiyo_circuit_development"
+			custom_effect_tooltip = "Unlock the Taiheiyo Development Project"
+		}
+	}
+	focus = {
+		id = JAP_under_supervision_of_government
+		icon = GFX_goal_JAP_government_supervised_complex
+		relative_position_id = JAP_taiheiyo_circuit_development
+		x = 0
+		y = 1
+		prerequisite = { focus = JAP_taiheiyo_circuit_development }
+		mutually_exclusive = {
+			focus = JAP_nationalize_the_public_company
+		}
+		cost = 2.5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_under_supervision_of_government"
+			custom_effect_tooltip = "The development right will be single-handed controlled by government"
+		}
+	}
+	focus = {
+		id = JAP_shogunate_industry
+		icon = GFX_goal_JAP_shogunate_industry
+		relative_position_id = JAP_under_supervision_of_government
+		x = 1
+		y = 1
+		prerequisite = { focus = JAP_under_supervision_of_government }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_shogunate_industry"
+			add_ideas = JAP_tanegashima_league
+		}
+	}
+	focus = {
+		id = JAP_nationalize_the_public_company
+		icon = GFX_goal_privatization
+		relative_position_id = JAP_taiheiyo_circuit_development
+		x = 2
+		y = 1
+		prerequisite = { focus = JAP_taiheiyo_circuit_development }
+		mutually_exclusive = {
+			focus = JAP_under_supervision_of_government
+		}
+		cost = 2.5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_nationalize_the_public_company"
+			custom_effect_tooltip = "The development right will be cooperated by Zaibatsu and Government-seized Companies"
+		}
+	}
+	focus = {
+		id = JAP_samurai_zaibatsu_megacollab
+		icon = GFX_goal_JAP_megacollab
+		relative_position_id = JAP_nationalize_the_public_company
+		x = 1
+		y = 1
+		prerequisite = { focus = JAP_nationalize_the_public_company }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_samurai_zaibatsu_megacollab"
+			add_ideas = JAP_izumo_industrial_league
+		}
+	}
+	focus = {
+		id = JAP_increase_navy_size
+		icon = GFX_goal_JAP_increase_navy_size
+		relative_position_id = JAP_extend_navy_budget
+		x = 0
+		y = 2
+		prerequisite = { focus = JAP_extend_navy_budget }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_increase_navy_size"
+			add_ideas = JAP_naval_force_expand
+		}
+	}
+	focus = {
+		id = JAP_absolute_naval_power_state
+		icon = GFX_goal_JAP_maritime_superpower
+		relative_position_id = JAP_extend_navy_budget
+		x = 0
+		y = 4
+		prerequisite = { focus = JAP_increase_navy_size }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_absolute_naval_power_state"
+			add_ideas = JAP_thalassocratic_shogunate
+		}
+	}
+	focus = {
+		id = JAP_extend_military_technology_budget
+		icon = GFX_goal_military_tech_research
+		relative_position_id = JAP_absolute_naval_power_state
+		x = -2
+		y = 1
+		prerequisite = {
+			focus = JAP_samurai_code_of_law
+			focus = JAP_purge_the_old_politicians
+		}
+		prerequisite = {
+			focus = JAP_absolute_naval_power_state
+		}
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_extend_military_technology_budget"
+			add_ideas = JAP_mil_tech_boost
+		}
+	}
+	focus = {
+		id = JAP_even_military_can_run_business
+		icon = GFX_goal_military_mobillisation
+		relative_position_id = JAP_absolute_naval_power_state
+		x = 2
+		y = 1
+		prerequisite = {
+			focus = JAP_shogunate_industry
+			focus = JAP_samurai_zaibatsu_megacollab
+		}
+		prerequisite = {
+			focus = JAP_absolute_naval_power_state
+		}
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_even_military_can_run_business"
+			add_political_power = 100
+		}
+	}
+	focus = {
+		id = JAP_long_live_true_justice
+		icon = GFX_goal_JAP_tokugawa_eternal_reign
+		relative_position_id = JAP_absolute_naval_power_state
+		x = 0
+		y = 2
+		prerequisite = { focus = JAP_even_military_can_run_business }
+		prerequisite = { focus = JAP_extend_military_technology_budget }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_long_live_true_justice"
+			add_stability = 0.1
+			add_political_power = 50
+			modify_tokugawa_authority = yes
+		}
+	}
+####Shikkenate
+	focus = {
+		id = JAP_the_manager_assumed_shogunate
+		icon = GFX_goal_JAP_the_manager
+		relative_position_id = JAP_meeting_of_three_officials
+		x = -10
+		y = 1
+		offset = {
+			x = 10
+			y = 0
+			trigger = {
+				ROOT = {
+					has_country_flag = JAP_nakano_reign
+					NOT = {
+						OR = {
+							has_country_flag = JAP_kuniyuki_reign
+							has_country_flag = JAP_inoue_reign
+						}
+					}
+				}
+			}
+		}
+		allow_branch = {
+			custom_trigger_tooltip = {
+				tooltip = "The Manager has assumed the power of Daijo-Daijin"
+				has_country_flag = JAP_nakano_reign
+			}
+		}
+		prerequisite = { focus = JAP_meeting_of_three_officials }
+		cost = 2
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_the_manager_assumed_shogunate"
+			add_country_leader_trait = chancellor_of_state
+			add_popularity = {
+				ideology = var:current_party_ideology_group
+				popularity = 0.15
+			}
+		}
+	}
+	focus = {
+		id = JAP_restoration_of_shikkenate
+		icon = GFX_goal_JAP_restore_shikkenate
+		relative_position_id = JAP_the_manager_assumed_shogunate
+		x = 0
+		y = 1
+		prerequisite = { focus = JAP_the_manager_assumed_shogunate }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_restoration_of_shikkenate"
+			add_ideas = one_party_dictatorship
+		}
+	}
+	focus = {
+		id = JAP_land_reform_program
+		icon = GFX_goal_land_reform
+		relative_position_id = JAP_restoration_of_shikkenate
+		x = -6
+		y = 1
+		prerequisite = { focus = JAP_restoration_of_shikkenate }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_land_reform_program"
+			add_stability = 0.05
+			JAP_land_reform_progress_effect = yes
+		}
+	}
+	focus = {
+		id = JAP_deal_with_landowners
+		icon = GFX_goal_deal_with_landowner
+		relative_position_id = JAP_land_reform_program
+		x = 1
+		y = 1
+		prerequisite = { focus = JAP_land_reform_program }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_land_reform_program"
+			add_political_power = 50
+		}
+	}
+	focus = {
+		id = JAP_fund_local_factory
+		icon = GFX_
+		relative_position_id = JAP_deal_with_landowners
+		x = 1
+		y = 1
+		prerequisite = { focus = JAP_deal_with_landowners }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_fund_local_factory"
+			add_political_power = -50
+			random_state = {
+				limit = {
+					is_core_of = JAP
+					is_controlled_by = JAP
+				}
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+				add_extra_state_shared_building_slots = 1
+				random_state = {
+					limit = {
+						NOT = {
+							state = PREV
+						}
+						is_controlled_by = JAP
+						is_core_of = JAP
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+		}
+	}
+	focus = {
+		id = JAP_agricultural_reserve_area
+		icon = GFX_
+		relative_position_id = JAP_land_reform_program
+		x = -2
+		y = 1
+		prerequisite = { focus = JAP_land_reform_program }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_agricultural_reserve_area"
+			random_state = {
+				limit = {
+					is_core_of = JAP
+					is_controlled_by = JAP
+				}
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = arms_factory
+					level = -1
+					instant_build = yes
+				}
+				random_state = {
+					limit = {
+						NOT = {
+							state = PREV
+						}
+						is_controlled_by = JAP
+						is_core_of = JAP
+					}
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+					add_building_construction = {
+						type = arms_factory
+						level = -1
+						instant_build = yes
+					}
+				}
+			}
+		}
+	}
+	focus = {
+		id = JAP_decrease_agricultural_area_tax
+		icon = GFX_
+		relative_position_id = JAP_agricultural_reserve_area
+		x = 0
+		y = 1
+		prerequisite = { focus = JAP_agricultural_reserve_area }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_decrease_agricultural_area_tax"
+			add_political_power = -50
+			random_state = {
+				limit = {
+					is_core_of = JAP
+					is_controlled_by = JAP
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = {
+		id = JAP_local_cooperative_center
+		icon = GFX_
+		relative_position_id = JAP_land_reform_program
+		x = 0
+		y = 2
+		prerequisite = { focus = JAP_deal_with_landowners }
+		prerequisite = { focus = JAP_agricultural_reserve_area }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_decrease_agricultural_area_tax"
+			add_ideas = JAP_local_cooperative_center_ideas
+		}
+	}
+	focus = {
+		id = JAP_appoint_lcc_reg_overseer
+		icon = GFX_
+		relative_position_id = JAP_local_cooperative_center
+		x = 1
+		y = 1
+		prerequisite = { focus = JAP_local_cooperative_center }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_decrease_agricultural_area_tax"
+			country_event = jap_shogundom.12
+		}
+	}
+	focus = {
+		id = JAP_farmer_bureaucracy
+		icon = GFX_
+		relative_position_id = JAP_local_cooperative_center
+		x = -1
+		y = 1
+		prerequisite = { focus = JAP_decrease_agricultural_area_tax }
+		prerequisite = { focus = JAP_local_cooperative_center }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_farmer_bureaucracy"
+			JAP_land_reform_progress_effect = yes
+		}
+	}
+	focus = {
+		id = JAP_yamato_land_for_yamato_man
+		icon = GFX_
+		relative_position_id = JAP_local_cooperative_center
+		x = 0
+		y = 2
+		prerequisite = { focus = JAP_farmer_bureaucracy }
+		prerequisite = { focus = JAP_appoint_lcc_reg_overseer }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_yamato_land_for_yamato_man"
+			add_popularity = {
+				ideology = var:current_party_ideology_group
+				popularity = 0.2
+			}
+			JAP_land_reform_progress_effect = yes
+		}
+	}
+	focus = {
+		id = JAP_open_new_arsenal
+		icon = GFX_
+		relative_position_id = JAP_restoration_of_shikkenate
+		x = 0
+		y = 1
+		prerequisite = { focus = JAP_restoration_of_shikkenate }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_open_new_arsenal"
+			random_owned_state = {
+				limit = {
+					is_controlled_by = JAP
+					is_core_of = JAP
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = {
+		id = JAP_draft_new_labour_act
+		icon = GFX_
+		relative_position_id = JAP_open_new_arsenal
+		x = -1
+		y = 1
+		prerequisite = { focus = JAP_open_new_arsenal }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_draft_new_labour_act"
+			add_ideas = JAP_shikkenate_labour_act
+		}
+	}
+	focus = {
+		id = JAP_increase_max_work_hour
+		icon = GFX_
+		relative_position_id = JAP_draft_new_labour_act
+		x = -1
+		y = 1
+		prerequisite = { focus = JAP_draft_new_labour_act }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_increase_max_work_hour"
+			swap_ideas = {
+				remove_idea = JAP_shikkenate_labour_act
+				add_idea = JAP_shikkenate_labour_act_1
+			}
+		}
+	}
+	focus = {
+		id = JAP_legalize_bonded_labour
+		icon = GFX_
+		relative_position_id = JAP_increase_max_work_hour
+		x = -1
+		y = 1
+		prerequisite = { focus = JAP_increase_max_work_hour }
+		prerequisite = { focus = JAP_fund_local_factory }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_legalize_bonded_labour"
+			swap_ideas = {
+				remove_idea = JAP_shikkenate_labour_act_1
+				add_idea = JAP_shikkenate_labour_act_2
+			}
+		}
+	}
+	focus = {
+		id = JAP_maximize_industrial_expansion
+		icon = GFX_
+		relative_position_id = JAP_draft_new_labour_act
+		x = 0
+		y = 2
+		prerequisite = { focus = JAP_draft_new_labour_act }
+		prerequisite = { focus = JAP_increase_max_work_hour }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_legalize_bonded_labour"
+			add_ideas = JAP_maximum_industrial_capacity_activated
+		}
+	}
+	focus = {
+		id = JAP_deal_with_conglomerate
+		icon = GFX_
+		relative_position_id = JAP_open_new_arsenal
+		x = 2
+		y = 1
+		prerequisite = { focus = JAP_open_new_arsenal }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_deal_with_conglomerate"
+			add_stability = -0.05
+			add_political_power = -50
+		}
+	}
+	focus = {
+		id = JAP_regulated_market_policy
+		icon = GFX_
+		relative_position_id = JAP_deal_with_conglomerate
+		x = -1
+		y = 1
+		prerequisite = { focus = JAP_deal_with_conglomerate }
+		mutually_exclusive = { focus = JAP_infiltrate_zaibatsu }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_regulated_market_policy"
+			add_ideas = JAP_regulated_market_policy_idea_0
+		}
+	}
+	focus = {
+		id = JAP_rice_for_we_eat
+		icon = GFX_
+		relative_position_id = JAP_regulated_market_policy
+		x = 0
+		y = 1
+		prerequisite = { focus = JAP_regulated_market_policy }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_rice_for_we_eat"
+			swap_ideas = {
+				remove_idea = JAP_regulated_market_policy_idea_0
+				add_idea = JAP_regulated_market_policy_idea_1
+			}
+		}
+	}
+	focus = {
+		id = JAP_infiltrate_zaibatsu
+		icon = GFX_
+		relative_position_id = JAP_deal_with_conglomerate
+		x = 1
+		y = 1
+		prerequisite = { focus = JAP_deal_with_conglomerate }
+		mutually_exclusive = { focus = JAP_regulated_market_policy }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_infiltrate_zaibatsu"
+			add_ideas = JAP_teardown_the_zaibatsu_0
+		}
+	}
+	focus = {
+		id = JAP_squeeze_their_neck
+		icon = GFX_
+		relative_position_id = JAP_infiltrate_zaibatsu
+		x = 0
+		y = 1
+		prerequisite = { focus = JAP_infiltrate_zaibatsu }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_squeeze_their_neck"
+			swap_ideas = {
+				remove_idea = JAP_teardown_the_zaibatsu_0
+				add_idea = JAP_teardown_the_zaibatsu_1
+			}
+		}
+	}
+	focus = {
+		id = JAP_full_economic_manipulation
+		icon = GFX_
+		relative_position_id = JAP_deal_with_conglomerate
+		x = 0
+		y = 3
+		prerequisite = {
+			focus = JAP_rice_for_we_eat
+			focus = JAP_squeeze_their_neck
+		}
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_full_economic_manipulation"
+			add_ideas = JAP_manipulator_of_trade
+		}
+	}
+	focus = {
+		id = JAP_no_place_for_lazybones
+		icon = GFX_
+		relative_position_id = JAP_maximize_industrial_expansion
+		x = 1
+		y = 1
+		prerequisite = { focus = JAP_maximize_industrial_expansion }
+		available = {
+			has_completed_focus = JAP_full_economic_manipulation
+		}
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_no_place_for_lazybones"
+			add_ideas = JAP_jakuniku_kyoushoku
+		}
+	}
+	focus = {
+		id = JAP_reform_hierarchical_command
+		icon = GFX_
+		relative_position_id = JAP_restoration_of_shikkenate
+		x = 7
+		y = 1
+		prerequisite = { focus = JAP_restoration_of_shikkenate }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_no_place_for_lazybones"
+			add_political_power = 100
+		}
+	}
+	focus = {
+		id = JAP_control_nation_from_shadow
+		icon = GFX_
+		relative_position_id = JAP_reform_hierarchical_command
+		x = -2
+		y = 1
+		prerequisite = { focus = JAP_reform_hierarchical_command }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_no_place_for_lazybones"
+			add_country_leader_trait = JAP_demon_lord_in_disguise
+		}
+	}
+	focus = {
+		id = JAP_even_shogun_is_our_pet
+		icon = GFX_
+		relative_position_id = JAP_reform_hierarchical_command
+		x = -2
+		y = 2
+		prerequisite = { focus = JAP_control_nation_from_shadow }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_even_shogun_is_our_pet"
+			add_country_leader_trait = JAP_yamato_ogosho
+		}
+	}
+	focus = {
+		id = JAP_education_reform
+		icon = GFX_
+		relative_position_id = JAP_reform_hierarchical_command
+		x = 2
+		y = 1
+		prerequisite = { focus = JAP_reform_hierarchical_command }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_education_reform"
+			add_research_slot = 1
+		}
+	}
+	focus = {
+		id = JAP_teach_with_patriotism
+		icon = GFX_
+		relative_position_id = JAP_education_reform
+		x = -1
+		y = 1
+		prerequisite = { focus = JAP_education_reform }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_teach_with_patriotism"
+			add_ideas = JAP_patriotic_education
+		}
+	}
+	focus = {
+		id = JAP_install_new_daijo_kan
+		icon = GFX_
+		relative_position_id = JAP_even_shogun_is_our_pet
+		x = 1
+		y = 1
+		prerequisite = { focus = JAP_teach_with_patriotism }
+		prerequisite = { focus = JAP_even_shogun_is_our_pet }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_install_new_daijo_kan"
+			activate_advisor = JAP_Etsusaburo_Shiina_eco_npo
+			activate_advisor = JAP_Takashi_Hishikari_sec_npo
+			activate_advisor = JAP_Shiratori_Toshio_for_npo
+		}
+	}
+	focus = {
+		id = JAP_establish_shikkenate_supremacy
+		icon = GFX_
+		relative_position_id = JAP_install_new_daijo_kan
+		x = 1
+		y = 1
+		prerequisite = { focus = JAP_install_new_daijo_kan }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_establish_shikkenate_supremacy"
+			add_political_power = 100
+			add_stability = 0.2
+			add_popularity = {
+				ideology = var:current_party_ideology_group
+				popularity = 0.2
+			}
+		}
+	}
+	focus = {
+		id = JAP_academic_monetary_fund_act
+		icon = GFX_
+		relative_position_id = JAP_education_reform
+		x = 1
+		y = 1
+		prerequisite = { focus = JAP_education_reform }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_academic_monetary_fund_act"
+			add_ideas = JAP_amfa_0
+		}
+	}
+	focus = {
+		id = JAP_universal_research_institute
+		icon = GFX_
+		relative_position_id = JAP_academic_monetary_fund_act
+		x = 0
+		y = 1
+		prerequisite = { focus = JAP_academic_monetary_fund_act }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_universal_research_institute"
+			swap_ideas = {
+				remove_idea = JAP_amfa_0
+				add_idea = JAP_amfa_1
+			}
+		}
+	}
+	focus = {
+		id = JAP_philosophy_of_new_panasianism
+		icon = GFX_
+		relative_position_id = JAP_universal_research_institute
+		x = -1
+		y = 1
+		prerequisite = { focus = JAP_universal_research_institute }
+		prerequisite = { focus = JAP_teach_with_patriotism }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_philosophy_of_new_panasianism"
+			add_war_support = 0.2
+		}
+	}
+	focus = {
+		id = JAP_ncop
+		icon = GFX_
+		relative_position_id = JAP_universal_research_institute
+		x = 1
+		y = 1
+		prerequisite = { focus = JAP_universal_research_institute }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_ncop"
+			add_stability = 0.1
+		}
+	}
+	focus = {
+		id = JAP_now_we_are_big_guy
+		icon = GFX_
+		relative_position_id = JAP_philosophy_of_new_panasianism
+		x = 0
+		y = 1
+		prerequisite = { focus = JAP_philosophy_of_new_panasianism }
+		prerequisite = { focus = JAP_ncop }
+		prerequisite = { focus = JAP_establish_shikkenate_supremacy }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_now_we_are_big_guy"
+			add_stability = 0.2
+			add_ideas = JAP_raise_the_rising_sun_flag
+			set_cosmetic_tag = JAP_tohokai_pan_asianism
+		}
+	}
+########### Pan-Asian Nichirenist ###########
+	focus = {
+		id = JAP_the_protector_assumed_shogunate
+		icon = GFX_goal_JAP_the_protector
+		relative_position_id = JAP_meeting_of_three_officials
+		x = 10
+		y = 1
+		offset = {
+			x = -10
+			y = 0
+			trigger = {
+				ROOT = {
+					has_country_flag = JAP_inoue_reign
+					NOT = {
+						OR = {
+							has_country_flag = JAP_kuniyuki_reign
+							has_country_flag = JAP_nakano_reign
+						}
+					}
+				}
+			}
+		}
+		allow_branch = {
+			custom_trigger_tooltip = {
+				tooltip = "The Protector has assumed the power of Daijo-Daijin"
+				has_country_flag = JAP_inoue_reign
+			}
+		}
+		prerequisite = { focus = JAP_meeting_of_three_officials }
+		cost = 2
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_the_protector_assumed_shogunate"
+			add_popularity = {
+				ideology = var:current_party_ideology_group
+				popularity = 0.1
+			}
+			add_political_power = 100
+		}
+	}
+	focus = {
+		id = JAP_chase_the_dream_of_world_unity
+		icon = GFX_goal_world_unity
+		relative_position_id = JAP_the_protector_assumed_shogunate
+		x = 0
+		y = 1
+		prerequisite = { focus = JAP_the_protector_assumed_shogunate }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_chase_the_dream_of_world_unity"
+			add_stability = 0.05
+		}
+	}
+	focus = {
+		id = JAP_severe_the_london_relationship
+		icon = GFX_
+		relative_position_id = JAP_chase_the_dream_of_world_unity
+		x = -3
+		y = 1
+		prerequisite = { focus = JAP_chase_the_dream_of_world_unity }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_severe_the_london_relationship"
+			add_opinion_modifier = {
+				target = ENG
+				modifier = cut_diplomatic_ties
+			}
+			reverse_add_opinion_modifier = {
+				target = ENG
+				modifier = cut_diplomatic_ties
+			}
+		}
+	}
+	focus = {
+		id = JAP_meet_the_zaibatsu
+		icon = GFX_
+		relative_position_id = JAP_severe_the_london_relationship
+		x = -2
+		y = 1
+		prerequisite = { focus = JAP_severe_the_london_relationship }
+		mutually_exclusive = {
+			focus = JAP_only_state_can_help
+		}
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_meet_the_zaibatsu"
+			country_event = {
+				id = jap_shogundom.13
+				days = 2
+			}
+		}
+	}
+	focus = {
+		id = JAP_tokaido_oil_refinement
+		icon = GFX_
+		relative_position_id = JAP_meet_the_zaibatsu
+		x = -1
+		y = 1
+		prerequisite = { focus = JAP_meet_the_zaibatsu }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_tokaido_oil_refinement"
+			add_tech_bonus = {
+				bonus = 0.5
+				uses = 2
+				category = synth_resources
+			}
+		}
+	}
+	focus = {
+		id = JAP_shinkansen_project
+		icon = GFX_
+		relative_position_id = JAP_meet_the_zaibatsu
+		x = -1
+		y = 2
+		prerequisite = { focus = JAP_tokaido_oil_refinement }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_shinkansen_project"
+			add_ideas = JAP_shinkansen_project
+		#supply hub, railway, infra bonus idea
+		}
+	}
+	focus = {
+		id = JAP_harbin_conference
+		icon = GFX_
+		relative_position_id = JAP_severe_the_london_relationship
+		x = 0
+		y = 2
+		prerequisite = { focus = JAP_severe_the_london_relationship }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_harbin_conference"
+			country_event = jap_foreign.9
+		}
+	}
+	focus = {
+		id = JAP_manchurian_economic_corridor
+		icon = GFX_
+		relative_position_id = JAP_harbin_conference
+		x = -1
+		y = 1
+		prerequisite = { focus = JAP_harbin_conference }
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = "The Harbin Conference has concluded"
+				has_global_flag = JAP_harbin_conference_ended
+			}
+		}
+		bypass = {
+			custom_trigger_tooltip = {
+				tooltip = "The Harbin Conference has concluded"
+				has_global_flag = JAP_harbin_conference_failed
+			}
+		}
+		cost = 2
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_manchurian_economic_corridor"
+			every_country = {
+				limit = {
+					is_in_array = { global.harbin_conference_joined = THIS.id }
+				}
+				add_ideas = MEC_member
+			}
+			clear_array = global.harbin_conference_joined
+		#bonus idea from co-signatory nation
+		}
+	}
+	focus = {
+		id = JAP_reform_mantetsu
+		icon = GFX_
+		relative_position_id = JAP_shinkansen_project
+		x = 1
+		y = 1
+		prerequisite = { focus = JAP_manchurian_economic_corridor }
+		prerequisite = { focus = JAP_shinkansen_project }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_manchurian_economic_corridor"
+			add_ideas = JAP_reformed_mantetsu
+		}
+	}
+	focus = {
+		id = JAP_only_state_can_help
+		icon = GFX_
+		relative_position_id = JAP_severe_the_london_relationship
+		x = 2
+		y = 1
+		prerequisite = { focus = JAP_severe_the_london_relationship }
+		mutually_exclusive = {
+			focus = JAP_meet_the_zaibatsu
+		}
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_only_state_can_help"
+			country_event = jap_shogundom.14
+		}
+	}
+	focus = {
+		id = JAP_great_seven_project
+		icon = GFX_
+		relative_position_id = JAP_only_state_can_help
+		x = 0
+		y = 1
+		prerequisite = { focus = JAP_only_state_can_help }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_great_seven_project"
+			add_ideas = JAP_nana_dai_keikaku
+		}
+	}
+	focus = {
+		id = JAP_holy_workers_policy
+		icon = GFX_
+		relative_position_id = JAP_only_state_can_help
+		x = 0
+		y = 2
+		prerequisite = { focus = JAP_great_seven_project }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_holy_workers_policy"
+		#event + idea of local factory gain
+			country_event = jap_shogundom.15
+		}
+	}
+	focus = {
+		id = JAP_guidance_of_buddha_for_worker_prolet
+		icon = GFX_
+		relative_position_id = JAP_only_state_can_help
+		x = 0
+		y = 3
+		prerequisite = { focus = JAP_holy_workers_policy }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_guidance_of_buddha_for_worker_prolet"
+		#event about book and gain popularity
+			country_event = jap_shogundom.16
+		}
+	}
+	focus = {
+		id = JAP_holy_voice_to_yamato
+		icon = GFX_goal_holy_sound
+		relative_position_id = JAP_chase_the_dream_of_world_unity
+		x = 3
+		y = 1
+		prerequisite = { focus = JAP_chase_the_dream_of_world_unity }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_holy_voice_to_yamato"
+			add_ideas = JAP_holy_voice_radio
+
+			activate_advisor = JAP_Kimura_Takeo_eco_val
+			activate_advisor = JAP_Hayashi_Fusao_for_val
+			activate_advisor = JAP_Kanji_Ishiwara_sec_val
+		}
+	}
+	focus = {
+		id = JAP_nationalize_soka_gakkai
+		icon = GFX_goal_JAP_nationalize_sgk
+		relative_position_id = JAP_holy_voice_to_yamato
+		x = -2
+		y = 1
+		prerequisite = { focus = JAP_holy_voice_to_yamato }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_nationalize_soka_gakkai"
+			country_event = jap_shogundom.17
+		#event about sgk nationalization
+		}
+	}
+	focus = {
+		id = JAP_ministry_of_true_faith
+		icon = GFX_goal_JAP_ministry_true_faith
+		relative_position_id = JAP_nationalize_soka_gakkai
+		x = 0
+		y = 1
+		prerequisite = { focus = JAP_nationalize_soka_gakkai }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_ministry_of_true_faith"
+			country_event = jap_shogundom.18
+		#event about establish ministry of true faith + idea
+		}
+	}
+	focus = {
+		id = JAP_bureau_of_faith_inquest_and_purify
+		icon = GFX_goal_JAP_committee_inquest
+		relative_position_id = JAP_nationalize_soka_gakkai
+		x = 0
+		y = 3
+		prerequisite = { focus = JAP_ministry_of_true_faith }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_bureau_of_faith_inquest_and_purify"
+			country_event = jap_shogundom.19
+		#event about establish bureau of faith inquest + idea
+		}
+	}
+	focus = {
+		id = JAP_bless_of_great_heaven
+		icon = GFX_goal_heaven_blessing
+		relative_position_id = JAP_holy_voice_to_yamato
+		x = 1
+		y = 1
+		prerequisite = { focus = JAP_holy_voice_to_yamato }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_bless_of_great_heaven"
+			add_ideas = JAP_tuned_to_the_blessing_sounds
+		#idea about military morale boost
+		}
+	}
+	focus = {
+		id = JAP_absorb_the_heretics
+		icon = GFX_goal_JAP_amaterasu_blessing
+		relative_position_id = JAP_bless_of_great_heaven
+		x = 0
+		y = 1
+		prerequisite = { focus = JAP_bless_of_great_heaven }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_absorb_the_heretics"
+			add_popularity = {
+				ideology = valkist
+				popularity = 0.1
+			}
+			add_stability = -0.1
+		}
+	}
+	focus = {
+		id = JAP_spirit_of_bodhisatva
+		icon = GFX_goal_spirit_bodhisatva
+		relative_position_id = JAP_absorb_the_heretics
+		x = -2
+		y = 1
+		prerequisite = { focus = JAP_absorb_the_heretics }
+		prerequisite = { focus = JAP_ministry_of_true_faith }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_spirit_of_bodhisatva"
+			add_ideas = JAP_spirit_of_bodhisatva_idea
+		#idea about gain stablity, mobilization, local people gain
+		}
+	}
+	focus = {
+		id = JAP_meet_zen_monks
+		icon = GFX_goal_JAP_meet_jap_monk
+		relative_position_id = JAP_bless_of_great_heaven
+		x = 2
+		y = 1
+		prerequisite = { focus = JAP_bless_of_great_heaven }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_meet_zen_monks"
+			country_event = jap_shogundom.20
+		#event about address to the monk
+		}
+	}
+	focus = {
+		id = JAP_materialize_pure_land_theory
+		icon = GFX_goal_pure_land
+		relative_position_id = JAP_meet_zen_monks
+		x = -1
+		y = 1
+		prerequisite = { focus = JAP_meet_zen_monks }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_materialize_pure_land_theory"
+			country_event = jap_shogundom.21
+		#event about pure land in buddhism + idea
+		}
+	}
+	focus = {
+		id = JAP_one_true_buddhist_state
+		icon = GFX_goal_JAP_buddhist_state
+		relative_position_id = JAP_bless_of_great_heaven
+		x = 0
+		y = 3
+		prerequisite = { focus = JAP_materialize_pure_land_theory }
+		prerequisite = { focus = JAP_spirit_of_bodhisatva }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_one_true_buddhist_state"
+			set_cosmetic_tag = JAP_Shinshu
+		}
+	}
+	focus = {
+		id = JAP_nirvana_of_far_east
+		icon = GFX_goal_JAP_dream_comes_true
+		relative_position_id = JAP_one_true_buddhist_state
+		x = 0
+		y = 1
+		prerequisite = { focus = JAP_one_true_buddhist_state }
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus JAP_nirvana_of_far_east"
+			every_state = {
+				limit = {
+					NOT = { is_claimed_by = JAP }
+					or = {
+						is_core_of = IND
+						is_core_of = CEY
+						is_core_of = BRM
+						state = 733
+						is_core_of = SIA
+						is_core_of = INS
+						is_core_of = LAO
+						is_core_of = CAM
+						is_core_of = VIN
+						is_core_of = AFG
+						is_core_of = NEP
+						is_core_of = BHU
+						is_core_of = MAL
+						OR = {
+							is_claimed_by = KMT
+							is_claimed_by = FNG
+						}
+						is_core_of = MON
+						is_core_of = TIB
+						is_core_of = KOR
+					}
+				}
+				add_claim_by = JAP
+			}
+		}
+	}
+
+	# Shared foreign
+	############ Foreign Tree #############
+	focus = {
+		id = JAP_sgrp_foreign_tree
+		icon = GFX_
+		allow_branch = {
+			has_country_flag = JAP_sgrp_foreign_unlock
+		}
+		x = 37
+		y = 8
+		cost = 4
+		completion_reward = {
+			add_popularity = {
+				ideology = var:current_party_ideology_group
+				popularity = 0.05
+			}
+			add_political_power = 50
+		}
+	}
+	focus = {
+		id = JAP_expansionism
+		icon = GFX_
+		relative_position_id = JAP_sgrp_foreign_tree
+		x = -2
+		y = 1
+		prerequisite = {
+			focus = JAP_sgrp_foreign_tree
+		}
+		available = {
+			hidden_trigger = {
+				OR = {
+					has_country_leader = {
+						name = "Hashimoto Kingoro"
+						ruling_only = yes
+					}
+					has_authoritarian_government = yes
+				}
+			}
+		}
+		cost = 4
+		completion_reward = {
+			custom_effect_tooltip = "Unlock the series of decisions to expand our influence"
+		}
+	}
+	focus = {
+		id = JAP_socialist_weltpolitik
+		icon = GFX_
+		relative_position_id = JAP_sgrp_foreign_tree
+		x = 2
+		y = 1
+		prerequisite = {
+			focus = JAP_sgrp_foreign_tree
+		}
+		available = {
+			hidden_trigger = {
+				has_socialist_government = yes
+				NOT = {
+					has_country_leader = {
+						name = "Hashimoto Kingoro"
+						ruling_only = yes
+					}
+				}
+			}
+		}
+		cost = 4
+		completion_reward = {
+			custom_effect_tooltip = "Unlock the series of decisions to begin the Asian Liberation"
+		}
+	}
+	focus = {
+		id = JAP_approach_germany
+		icon = GFX_
+		relative_position_id = JAP_sgrp_foreign_tree
+		x = -4
+		y = 2
+		prerequisite = {
+			focus = JAP_expansionism
+		}
+		available = {
+			hidden_trigger = {
+				or = {
+					has_country_leader = {
+						name = "Nakano Seigo"
+						ruling_only = yes
+					}
+					has_country_leader = {
+						name = "Hashimoto Kingoro"
+						ruling_only = yes
+					}
+				}
+			}
+		}
+		bypass = {
+			GER = {
+				OR = {
+					exists = no
+					is_puppet = yes
+					is_faction_leader = no
+				}
+			}
+		}
+		cost = 4
+		completion_reward = {
+			GER = {
+				country_event = jap_foreign.1
+			}
+		}
+	}
+	focus = {
+		id = JAP_join_our_own_ally
+		icon = GFX_
+		relative_position_id = JAP_sgrp_foreign_tree
+		x = -2
+		y = 2
+		prerequisite = {
+			focus = JAP_expansionism
+		}
+		mutually_exclusive = {
+			focus = JAP_our_own_way
+		}
+		available = {
+			hidden_trigger = {
+				has_government = paternal_autocrat
+				has_country_leader = {
+					name = "Tokugawa Kuniyuki"
+					ruling_only = yes
+				}
+			}
+		}
+		bypass = {
+			ENG = {
+				OR = {
+					exists = no
+					is_puppet = yes
+					is_faction_leader = no
+				}
+			}
+		}
+		cost = 4
+		completion_reward = {
+			ENG = {
+				country_event = jap_foreign.2
+			}
+		}
+	}
+	focus = {
+		id = JAP_our_own_way
+		icon = GFX_
+		relative_position_id = JAP_sgrp_foreign_tree
+		x = 0
+		y = 2
+		prerequisite = {
+			focus = JAP_expansionism
+			focus = JAP_socialist_weltpolitik
+		}
+		mutually_exclusive = {
+			focus = JAP_join_our_own_ally
+		}
+		available = {
+			hidden_trigger = {
+				or = {
+					has_country_leader = {
+						name = "Yamakawa Kikue"
+						ruling_only = yes
+					}
+					has_country_leader = {
+						name = "Arahata Kanson"
+						ruling_only = yes
+					}
+					has_country_leader = {
+						name = "Inoue Nissho"
+						ruling_only = yes
+					}
+					has_country_leader = {
+						name = "Tokugawa Kuniyuki"
+						ruling_only = yes
+					}
+				}
+			}
+		}
+		cost = 4
+		completion_reward = {
+			if = {
+				limit = {
+					has_government = libertarian_socialist
+				}
+				JAP = {
+					create_faction = "Fifth International"
+				}
+			}
+			if = {
+				limit = {
+					has_government = valkist
+				}
+				JAP = {
+					create_faction = "Juusou Shinshuu Domei"
+				}
+			}
+			if = {
+				limit = {
+					has_government = paternal_autocrat
+				}
+				JAP = {
+					create_faction = "Mikawa Accord"
+				}
+			}
+		}
+	}
+	focus = {
+		id = JAP_asian_entente
+		icon = GFX_
+		relative_position_id = JAP_sgrp_foreign_tree
+		x = 2
+		y = 2
+		prerequisite = {
+			focus = JAP_socialist_weltpolitik
+		}
+		available = {
+			hidden_trigger = {
+				or = {
+					has_country_leader = {
+						name = "Jiichiro Matsumoto"
+						ruling_only = yes
+					}
+					has_country_leader = {
+						name = "Aso Hisashi"
+						ruling_only = yes
+					}
+				}
+			}
+		}
+		cost = 4
+		completion_reward = {
+			if = {
+				limit = {
+					has_country_leader = {
+						name = "Jiichiro Matsumoto"
+						ruling_only = yes
+					}
+				}
+				create_faction = "Asian Entente"
+			}
+			if = {
+				limit = {
+					has_country_leader = {
+						name = "Aso Hisashi"
+						ruling_only = yes
+					}
+				}
+				create_faction = "Asian Liberation Front"
+			}
+		}
+	}
+	focus = {
+		id = JAP_approach_russia
+		icon = GFX_
+		relative_position_id = JAP_sgrp_foreign_tree
+		x = 4
+		y = 2
+		prerequisite = {
+			focus = JAP_socialist_weltpolitik
+		}
+		available = {
+			hidden_trigger = {
+				or = {
+					has_country_leader = {
+						name = "Sanzo Nosaka"
+						ruling_only = yes
+					}
+					has_country_leader = {
+						name = "Arahata Kanson"
+						ruling_only = yes
+					}
+				}
+			}
+		}
+		bypass = {
+			SOV = {
+				OR = {
+					exists = no
+					is_puppet = yes
+					is_faction_leader = no
+				}
+			}
+		}
+		cost = 4
+		completion_reward = {
+			SOV = {
+				country_event = jap_foreign.3
+			}
+		}
+	}
+	focus = {
+		id = JAP_east_west_liaison_office
+		icon = GFX_goal_generic_british_officers
+		relative_position_id = JAP_sgrp_foreign_tree
+		x = -3
+		y = 3
+		prerequisite = {
+			focus = JAP_approach_germany
+			focus = JAP_join_our_own_ally
+		}
+		cost = 4
+		completion_reward = {
+			random_country = {
+				limit = {
+					AND = {
+						is_in_faction_with = JAP
+						is_faction_leader = yes
+						NOT = {
+							has_socialist_government = yes
+						}
+					}
+				}
+				add_ideas = JAP_foreign_liaison_office
+			}
+			JAP = {
+				add_ideas = JAP_foreign_liaison_office
+			}
+		}
+	}
+	focus = {
+		id = JAP_overseas_affairs_office
+		icon = GFX_
+		relative_position_id = JAP_sgrp_foreign_tree
+		x = 1
+		y = 3
+		prerequisite = {
+			focus = JAP_our_own_way
+			focus = JAP_asian_entente
+		}
+		cost = 4
+		completion_reward = {
+			add_ideas = JAP_overseas_affairs_office_idea
+		}
+	}
+	focus = {
+		id = JAP_comintern_cooperative_office
+		icon = GFX_
+		relative_position_id = JAP_sgrp_foreign_tree
+		x = 3
+		y = 3
+		prerequisite = {
+			focus = JAP_approach_russia
+		}
+		cost = 4
+		completion_reward = {
+			random_country = {
+				limit = {
+					AND = {
+						has_socialist_government = yes
+						is_in_faction_with = JAP
+						is_faction_leader = yes
+					}
+				}
+				add_ideas = JAP_comintern_far_east_office
+			}
+			JAP = { add_ideas = JAP_comintern_far_east_office }
+		}
+	}
+	focus = {
+		id = JAP_mobilize_kantogun
+		icon = GFX_
+		relative_position_id = JAP_sgrp_foreign_tree
+		x = -3
+		y = 4
+		prerequisite = {
+			focus = JAP_overseas_affairs_office
+			focus = JAP_east_west_liaison_office
+		}
+		cost = 4
+		completion_reward = {
+			add_ideas = JAP_beating_the_war_drum
+		}
+	}
+	focus = {
+		id = JAP_dismantle_chinese_warlord
+		icon = GFX_
+		relative_position_id = JAP_mobilize_kantogun
+		x = 0
+		y = 1
+		prerequisite = {
+			focus = JAP_mobilize_kantogun
+		}
+		cost = 4
+		completion_reward = {
+			custom_effect_tooltip = "Unlock decisions to invade Chinese cliques"
+		}
+	}
+	focus = {
+		id = JAP_toward_pacific
+		icon = GFX_
+		relative_position_id = JAP_mobilize_kantogun
+		x = 1
+		y = 2
+		prerequisite = {
+			focus = JAP_dismantle_chinese_warlord
+		}
+		cost = 4
+		completion_reward = {
+			every_state = {
+				limit = {
+					OR = {
+						region = 105
+						region = 97
+						region = 180
+					}
+				}
+				add_claim_by = JAP
+			}
+		}
+	}
+	focus = {
+		id = JAP_toward_north_america
+		icon = GFX_goal_generic_attack_usa
+		relative_position_id = JAP_mobilize_kantogun
+		x = 2
+		y = 3
+		prerequisite = {
+			focus = JAP_toward_pacific
+			focus = JAP_toward_indochina
+		}
+		bypass = {
+			USA = {
+				or = {
+					exists = no
+					is_puppet_of = JAP
+					is_in_faction_with = JAP
+				}
+			}
+		}
+		cost = 4
+		completion_reward = {
+			every_state = {
+				limit = {
+					OR = {
+						state = 926
+						state = 378
+					}
+				}
+				add_claim_by = JAP
+			}
+			create_wargoal = {
+				type = annex_everything
+				target = USA
+			}
+		}
+	}
+	focus = {
+		id = JAP_reclaim_our_colony
+		icon = GFX_goal_Korea_Colony
+		relative_position_id = JAP_sgrp_foreign_tree
+		x = -1
+		y = 4
+		prerequisite = {
+			focus = JAP_overseas_affairs_office
+			focus = JAP_east_west_liaison_office
+		}
+		cost = 4
+		completion_reward = {
+			every_state = {
+				limit = {
+					is_core_of = KOR
+				}
+				add_claim_by = JAP
+			}
+			create_wargoal = {
+				type = annex_everything
+				target = KOR
+			}
+		}
+	}
+	focus = {
+		id = JAP_pressure_bangkok_authority
+		icon = GFX_
+		relative_position_id = JAP_reclaim_our_colony
+		x = 0
+		y = 1
+		prerequisite = {
+			focus = JAP_reclaim_our_colony
+		}
+		cost = 4
+		completion_reward = {
+			SIA = {
+				country_event = {
+					id = jap_foreign.4
+					days = 7
+				}
+			}
+		}
+	}
+	focus = {
+		id = JAP_toward_indochina
+		icon = GFX_
+		relative_position_id = JAP_reclaim_our_colony
+		x = 1
+		y = 2
+		prerequisite = {
+			focus = JAP_pressure_bangkok_authority
+		}
+		cost = 4
+		completion_reward = {
+			every_state = {
+				limit = {
+					is_core_of = FIC
+				}
+				add_claim_by = JAP
+			}
+			if = {
+				limit = {
+					country_exists = FIC
+				}
+				create_wargoal = {
+					type = annex_everything
+					target = FIC
+				}
+			}
+			if = {
+				limit = {
+					country_exists = ICR
+				}
+				create_wargoal = {
+					type = annex_everything
+					target = ICR
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						country_exists = CAM
+						country_exists = LAO
+						country_exists = VIN
+					}
+				}
+				every_country = {
+					limit = {
+						OR = {
+							AND = {
+								exists = yes
+								tag = VIN
+							}
+							AND = {
+								exists = yes
+								tag = LAO
+							}
+							AND = {
+								exists = yes
+								tag = CAM
+							}
+						}
+					}
+					JAP = {
+						create_wargoal = {
+							type = annex_everything
+							target = PREV
+						}
+					}
+				}
+			}
+		}
+	}
+	focus = {
+		id = JAP_toward_indian_subcontinent
+		icon = GFX_
+		relative_position_id = JAP_reclaim_our_colony
+		x = 2
+		y = 3
+		prerequisite = {
+			focus = JAP_toward_indochina
+		}
+		cost = 4
+		completion_reward = {
+			if = {
+				limit = {
+					country_exists = BRM
+				}
+				create_wargoal = {
+					type = annex_everything
+					target = BRM
+				}
+			}
+			if = {
+				limit = {
+					country_exists = RAJ
+				}
+				create_wargoal = {
+					type = annex_everything
+					target = RAJ
+				}
+			}
+			if = {
+				limit = {
+					country_exists = IND
+				}
+				create_wargoal = {
+					type = annex_everything
+					target = IND
+				}
+			}
+			if = {
+				limit = {
+					has_government = valkist
+				}
+				create_wargoal = {
+					type = annex_everything
+					target = BHU
+				}
+				create_wargoal = {
+					type = annex_everything
+					target = NEP
+				}
+			}
+			if = {
+				limit = {
+					any_country = {
+						has_country_flag = ind_revolter
+						exists = yes
+					}
+				}
+				every_country = {
+					limit = {
+						has_country_flag = ind_revolter
+					}
+					JAP = {
+						create_wargoal = {
+							type = annex_everything
+							target = PREV
+						}
+					}
+				}
+			}
+		}
+	}
+	focus = {
+		id = JAP_take_over_primorye_commission
+		icon = GFX_
+		relative_position_id = JAP_reclaim_our_colony
+		x = 3
+		y = 0
+		prerequisite = {
+			focus = JAP_overseas_affairs_office
+		}
+		mutually_exclusive = {
+			focus = JAP_strike_vladivostok
+		}
+		cost = 4
+		completion_reward = {
+			RUS = {
+				country_event = {
+					id = jap_foreign.7
+					days = 7
+				}
+			}
+		}
+	}
+	focus = {
+		id = JAP_strike_vladivostok
+		icon = GFX_
+		relative_position_id = JAP_reclaim_our_colony
+		x = 5
+		y = 0
+		prerequisite = {
+			focus = JAP_overseas_affairs_office
+			focus = JAP_comintern_cooperative_office
+		}
+		mutually_exclusive = {
+			focus = JAP_take_over_primorye_commission
+		}
+		bypass = {
+			RUS = {
+				or = {
+					exists = no
+					is_puppet_of = ROOT
+				}
+			}
+		}
+		cost = 4
+		completion_reward = {
+			create_wargoal = {
+				type = annex_everything
+				target = RUS
+			}
+		}
+	}
+	focus = {
+		id = JAP_toward_mongolia
+		icon = GFX_
+		relative_position_id = JAP_strike_vladivostok
+		x = -1
+		y = 1
+		prerequisite = {
+			focus = JAP_strike_vladivostok
+			focus = JAP_take_over_primorye_commission
+		}
+		bypass = {
+			MON = {
+				or = {
+					exists = no
+					is_puppet_of = ROOT
+					is_in_faction_with = ROOT
+				}
+			}
+		}
+		cost = 4
+		completion_reward = {
+			create_wargoal = {
+				type = annex_everything
+				target = MON
+			}
+		}
+	}
+	focus = {
+		id = JAP_end_red_scare
+		icon = GFX_
+		relative_position_id = JAP_strike_vladivostok
+		x = -3
+		y = 1
+		prerequisite = {
+			focus = JAP_reclaim_our_colony
+		}
+		prerequisite = {
+			focus = JAP_take_over_primorye_commission
+		}
+		bypass = {
+			SOV = {
+				or = {
+					exists = no
+					is_puppet_of = JAP
+					is_in_faction_with = JAP
+				}
+			}
+		}
+		cost = 4
+		completion_reward = {
+			create_wargoal = {
+				type = annex_everything
+				target = SOV
+			}
+		}
+	}
+	focus = {
+		id = JAP_claim_xinjiang_tibet_hegemony
+		icon = GFX_
+		relative_position_id = JAP_end_red_scare
+		x = 1
+		y = 1
+		prerequisite = {
+			focus = JAP_end_red_scare
+			focus = JAP_toward_mongolia
+		}
+		bypass = {
+			AND = {
+				SIK = {
+					or = {
+						exists = no
+						is_puppet_of = JAP
+						is_in_faction_with = JAP
+					}
+				}
+				TIB = {
+					or = {
+						exists = no
+						is_puppet_of = JAP
+						is_in_faction_with = JAP
+					}
+				}
+			}
+		}
+		cost = 4
+		completion_reward = {
+			create_wargoal = {
+				type = annex_everything
+				target = SIK
+			}
+			create_wargoal = {
+				type = annex_everything
+				target = TIB
+			}
+		}
+	}
+
+
+}

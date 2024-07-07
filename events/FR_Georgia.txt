@@ -1,0 +1,2350 @@
+﻿add_namespace = ge
+
+#### EVENT NUMBERING SCHEME AND TABLE OF CONTENTS ####
+### ge.1xxx - Individual people events			   ###
+### ge.100x - Stalin							   ###
+### ge.110x - Coups (currently only Stalin)		   ###
+### ge.150x - Beria events						   ###
+### ge.x/xx - Generic political events			   ###
+### ge.1xx - Generic diplomacy events			   ###
+### ge.2xx - Generic military events			   ###
+### ge.21x-25x - Misc. military events			   ###
+### ge.26x - Capitulation events				   ###
+### ge.9xx - Generic faction and volunteer events  ###
+### ge.90x - Volunteer events					   ###
+### ge.95x - Faction events						   ###
+### ge.1000x - Flavor events					   ###
+#### ############################################ ####
+
+country_event = { #Intro
+	id = ge.100000
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.100000"}
+	title = ge.100000.t
+	desc = ge.100000.d
+	picture = Ausgleich_dip_agree2
+
+	trigger = {
+		tag = GEO
+	}
+
+	mean_time_to_happen = { days = 1 }
+
+	fire_only_once = yes
+
+	option = {
+		name = ge.100000.a
+	}
+}
+
+country_event = { #STALIN RESURFACING
+	id = ge.1000
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.1000"}
+	title = ge.1000.t
+	desc = ge.1000.d
+	picture = GFX_stalins_mug_shot
+
+	fire_only_once = yes
+
+	trigger = {
+		date > 1936.7.1
+		tag = GEO
+	}
+	mean_time_to_happen = {
+		days = 180
+	}
+	option = {
+		name = ge.1000.a #Leave him alone
+		add_popularity = { ideology = vanguardist popularity = 0.05 }
+		set_country_flag = GEO_stalin_left_alone
+		ai_chance = {
+			factor = 20
+		}
+	}
+	option = {
+		name = ge.1000.b #Imprison him
+		add_political_power = -100
+		ai_chance = {
+			factor = 320
+		}
+	}
+	option = {
+		name = ge.1000.c #Bring someone to convince him that he's wrong
+		ai_chance = {
+			factor = 40
+		}
+		if = {
+			limit = {
+				date < 1937.6.4
+			}
+			random_list = { #Keke Geladze tries to convince Stalin to drop vanguardism
+				50 = { country_event = {id = ge.1001 } }
+				50 = { country_event = {id = ge.1002 } }
+			}
+			else = {
+				random_list = { #Noe Zhordania tries to convince Stalin to become a menshie
+					30 = { country_event = {id = ge.1003 } }
+					70 = { country_event = {id = ge.1004 } }
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = ge.1001
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.1001"}
+	title = ge.1001.t
+	desc = ge.1001.d
+	picture = GFX_keke_geladze
+	fire_only_once = yes
+	is_triggered_only = yes
+	option = {
+		name = ge.1001.a # Good man.
+	}
+}
+
+country_event = {
+	id = ge.1002
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.1002"}
+	title = ge.1002.t
+	desc = ge.1002.d
+	picture = GFX_keke_geladze
+	fire_only_once = yes
+	is_triggered_only = yes
+	option = {
+		name = ge.1002.a #Stalin is still a nut ("Maybe we should have gotten him therapy as well")
+		add_popularity = { ideology = vanguardist popularity = 0.1 }
+		set_country_flag = GEO_stalin_left_alone
+	}
+}
+
+country_event = {
+	id = ge.1003
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.1003"}
+	title = ge.1003.t
+	desc = ge.1003.d
+	picture = GFX_noe_zhordania
+	fire_only_once = yes
+	is_triggered_only = yes
+	option = {
+		name = ge.1003.a # Good man.
+		add_political_power = 50
+	}
+}
+
+country_event = {
+	id = ge.1004
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.1004"}
+	title = ge.1004.t
+	desc = ge.1004.d
+	picture = GFX_noe_zhordania
+	fire_only_once = yes
+	is_triggered_only = yes
+	option = {
+		name = ge.1004.a #Stalin is still a nut ("Maybe we should have gotten him therapy as well")
+		add_popularity = { ideology = vanguardist popularity = 0.1 }
+		set_country_flag = GEO_stalin_left_alone
+	}
+}
+
+country_event = { #STALIN'S COUP
+	id = ge.1100
+	immediate = {
+		log = "[GetDateText]: [Root.GetName]: event ge.1100"
+		mark_focus_tree_layout_dirty = yes
+	}
+	title = ge.1100.t
+	desc = ge.1100.d
+	picture = report_event_generic_conference
+	fire_only_once = yes
+
+	trigger = {
+		date > 1937.6.1
+		tag = GEO
+		has_stability < 0.2
+		has_country_flag = GEO_stalin_left_alone
+		has_idea = GEO_separatism
+	}
+
+	mean_time_to_happen = {
+		days = 90
+		modifier = {
+			factor = 0.1
+			has_stability < 0.1
+		}
+	}
+
+	option = {
+		name = ge.1100.a #"This is a dark time for our country."
+
+		hidden_effect = {
+			set_party_name = { ideology = vanguardist long_name = GEO_stalin_party_long name = GEO_stalin_party }
+			set_cosmetic_tag = GEO_STA
+			add_country_leader_role = {
+				character = GEO_Ioseb_Jugashvili
+				promote_leader = yes
+				country_leader = {
+					ideology = vanguardist_subtype
+					traits = {}
+				}
+			}
+			add_popularity = { ideology = vanguardist popularity = 0.2 }
+			add_ideas = one_party_dictatorship
+			set_politics = {
+				ruling_party = vanguardist
+				elections_allowed = no
+			}
+			set_country_flag = stalin
+			if = {
+				limit = {
+					NOT = {
+						has_country_flag = GEO_removed_generals
+					}
+				}
+				effect_tooltip = {
+					GEO_Giorgi_Mazniashvili = { remove_unit_leader_role = yes }
+					GEO_Giorgi_Khimshiashvili = { remove_unit_leader_role = yes }
+					GEO_Valiko_Jugheli = { remove_unit_leader_role = yes }
+					GEO_Kakutsa_Cholokashvili = { remove_unit_leader_role = yes }
+				}
+				hidden_effect = {
+					GEO_Giorgi_Mazniashvili = { set_nationality = XXB }
+					GEO_Giorgi_Khimshiashvili = { set_nationality = XXB }
+					GEO_Valiko_Jugheli = { set_nationality = XXB }
+					GEO_Kakutsa_Cholokashvili = { set_nationality = XXB }
+				}
+			}
+			if = {
+				limit = {
+					has_country_flag = GEO_menshie_officers
+				}
+				effect_tooltip = {
+					GEO_Dimitri_Zedginidze_Amilakhvari = { remove_unit_leader_role = yes }
+					GEO_Valerian_Tevzadze = { remove_unit_leader_role = yes }
+					GEO_Giorgi_Mamaladze = { remove_unit_leader_role = yes }
+				}
+				hidden_effect = {
+					GEO_Dimitri_Zedginidze_Amilakhvari = { set_nationality = XXB }
+					GEO_Valerian_Tevzadze = { set_nationality = XXB }
+					GEO_Giorgi_Mamaladze = { set_nationality = XXB }
+				}
+				clr_country_flag = GEO_menshie_officers
+			}
+			if = {
+				limit = {
+					has_country_flag = GEO_brought_back_kvinitadze
+				}
+				effect_tooltip = {
+					GEO_Giorgi_Kvinitadze = { remove_unit_leader_role = yes }
+				}
+				hidden_effect = {
+					GEO_Giorgi_Kvinitadze = { set_nationality = XXB }
+				}
+				clr_country_flag = GEO_brought_back_kvinitadze
+			}
+			set_country_flag = GEO_removed_generals
+			if = {
+				limit = {
+					GEO = { is_puppet = yes }
+				}
+				OVERLORD = {
+					end_puppet = GEO
+					create_wargoal = { type = annex_everything target = GEO }
+				}
+			}
+			leave_faction = yes
+		}
+		activate_advisor = GEO_Ioseb_Jugashvili_hog_van
+		activate_advisor = GEO_Levan_Gogoberidze_for_van
+		activate_advisor = GEO_Alexander_Svanidze_eco_van
+		activate_advisor = GEO_Georgi_Atarbekov_sec_van
+	}
+}
+
+country_event = {
+	id = ge.1101
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.1101"}
+	title = ge.1101.t
+	desc = ge.1101.d
+	picture = GFX_report_event_generic_rally_3
+	fire_only_once = yes
+	trigger = {
+		tag = GEO
+		has_country_flag = stalin
+	}
+	mean_time_to_happen = {
+		days = 365
+	}
+	option = {
+		name = ge.1101.a
+		set_province_name = { id = 1599 name = "Kobaisi"}
+	}
+}
+
+country_event = { #BERIA DIDDLING ARMY WOMEN
+	id = ge.1500
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.1500"}
+	title = ge.1500.t
+	desc = ge.1500.d
+	picture = GFX_report_event_IRE_women_officers
+
+	fire_only_once = yes
+
+	trigger = {
+		has_idea = GEO_conscripted_women
+		tag = GEO
+		NOT = {
+			any_army_leader ={
+				has_id = 995000
+				skill > 1
+			}
+		}
+	}
+	mean_time_to_happen = {
+		days = 180
+	}
+	option = {
+		name = ge.1500.a #Let it slide
+		add_political_power = -100
+	}
+	option = {
+		name = ge.1500.b #Put him on trial
+		retire_character = GEO_Lavrentiy_Beria
+	}
+	option = {
+		name = ge.1500.c #Send to therapy
+		GEO_Lavrentiy_Beria = { remove_unit_leader_role = yes }
+		random_list = {
+			40 = { country_event = { id = ge.1501 days = 30 } }
+			60 = { country_event = { id = ge.1503 days = 15 } }
+		}
+	}
+}
+
+country_event = {
+	id = ge.1501
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.1501"}
+	title = ge.1501.t
+	desc = ge.1501.d
+	picture = GFX_1918_tbilisi_university
+	fire_only_once = yes
+	is_triggered_only = yes
+	option = {
+		name = ge.1501.a #We should make mental healthcare free to prevent such cases from happening in the first place
+		set_country_flag = reformed_beria
+		country_event = { id = ge.1502 days = 124}
+	}
+}
+
+country_event = {
+	id = ge.1502
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.1502"}
+	title = ge.1502.t
+	desc = ge.1502.d
+	picture = GFX_1918_tbilisi_university
+	fire_only_once = yes
+	is_triggered_only = yes
+	option = {
+		name = ge.1502.a #Make him a field marshal again
+		add_field_marshal_role = {
+			character = GEO_Lavrentiy_Beria
+			traits = { media_personality expert_delegator }
+			skill = 3
+			attack_skill = 2
+			defense_skill = 1
+			planning_skill = 3
+			logistics_skill = 4
+		}
+	}
+	option = {
+		name = ge.1502.b #Make him a head of intel
+		set_country_flag = int_minster_beria
+		add_stability = 0.05
+	}
+}
+
+country_event = {
+	id = ge.1503
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.1503"}
+	title = ge.1503.t
+	desc = ge.1503.d
+	picture = GFX_1918_tbilisi_university
+	fire_only_once = yes
+	is_triggered_only = yes
+	option = {
+		name = ge.1503.a
+	}
+}
+
+country_event = { #Georgia switches to Soviet Puppet tree, test event
+	id = ge.2000
+	immediate = {
+		log = "[GetDateText]: [Root.GetName]: event ge.2000"
+		mark_focus_tree_layout_dirty = yes
+	}
+	title = ge.2000.t
+	desc = ge.2000.d
+	picture = Ausgleich_dip_agree2
+	is_triggered_only = yes
+	hidden = yes
+	fire_only_once = yes
+
+	option = {
+		name = ge.2000.a
+		set_cosmetic_tag = GEO_SSR
+
+		add_ideas = workers_republic
+		set_politics = {
+			ruling_party = collectivist
+			elections_allowed = no
+		}
+		hidden_effect = {
+			if = {
+				limit = {
+					NOT = {
+						has_country_flag = GEO_isSSR
+					}
+				}
+				add_country_leader_role = {
+					character = GEO_Sergo_Ordzhonikidze
+					promote_leader = yes
+					country_leader = {
+						ideology = vanguardist_subtype
+						traits = {}
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				has_country_flag = stalin
+			}
+			clr_country_flag = stalin
+		}
+		if = {
+			limit = {
+				NOT = {
+					has_country_flag = GEO_removed_generals
+				}
+			}
+			effect_tooltip = {
+				GEO_Giorgi_Mazniashvili = { remove_unit_leader_role = yes }
+				GEO_Giorgi_Khimshiashvili = { remove_unit_leader_role = yes }
+				GEO_Valiko_Jugheli = { remove_unit_leader_role = yes }
+				GEO_Kakutsa_Cholokashvili = { remove_unit_leader_role = yes }
+			}
+			hidden_effect = {
+				GEO_Giorgi_Mazniashvili = { set_nationality = XXB }
+				GEO_Giorgi_Khimshiashvili = { set_nationality = XXB }
+				GEO_Valiko_Jugheli = { set_nationality = XXB }
+				GEO_Kakutsa_Cholokashvili = { set_nationality = XXB }
+			}
+		}
+		if = {
+			limit = {
+				has_country_flag = GEO_menshie_officers
+			}
+			effect_tooltip = {
+				GEO_Dimitri_Zedginidze_Amilakhvari = { remove_unit_leader_role = yes }
+				GEO_Valerian_Tevzadze = { remove_unit_leader_role = yes }
+				GEO_Giorgi_Mamaladze = { remove_unit_leader_role = yes }
+			}
+			hidden_effect = {
+				GEO_Dimitri_Zedginidze_Amilakhvari = { set_nationality = XXB }
+				GEO_Valerian_Tevzadze = { set_nationality = XXB }
+				GEO_Giorgi_Mamaladze = { set_nationality = XXB }
+			}
+			clr_country_flag = GEO_menshie_officers
+		}
+		if = {
+			limit = {
+				has_country_flag = GEO_brought_back_kvinitadze
+			}
+			effect_tooltip = {
+				GEO_Giorgi_Kvinitadze = { remove_unit_leader_role = yes }
+			}
+			hidden_effect = {
+				GEO_Giorgi_Kvinitadze = { set_nationality = XXB }
+			}
+			clr_country_flag = GEO_brought_back_kvinitadze
+		}
+		activate_advisor = GEO_Mamia_Orakhelashvili_hog_col
+		activate_advisor = GEO_Mikheil_Kakhiani_for_van
+		activate_advisor = GEO_Beso_Lominadze_eco_col
+		activate_advisor = GEO_Mikhail_Givishiani_sec_van
+
+		set_country_flag = GEO_isSSR
+	}
+}
+
+country_event = { #LONDON STOCK MARKET CRASH
+	id = ge.1
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.1"}
+	title = ge.1.t
+	desc = ge.1.d
+	picture = strike
+	fire_only_once = yes
+	trigger = {
+		tag = GEO
+		date > 1936.9.15
+	}
+	option = {
+		name = ge.1.a
+		country_event = { id = ge.2 days = 16 }
+
+	}
+	option = {
+		name = ge.1.b
+		country_event = { id = ge.2 days = 16 }
+
+	}
+}
+
+country_event = { #ELECTIONS
+	id = ge.2
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.2"}
+	title = ge.2.t
+	desc = ge.2.d
+	picture = GFX_report_event_election_vote
+	fire_only_once = yes
+	is_triggered_only = yes
+	option = {
+		name = ge.2.a
+		ai_chance = {
+			factor = 40
+		}
+		set_country_flag = GEO_moderate_won
+		set_country_flag = elections
+		add_ideas = parliamentary_republic
+		set_politics = { ruling_party = social_democrat elections_allowed = no }
+		add_popularity = { ideology = social_democrat popularity = 0.1 }
+		add_popularity = { ideology = social_liberal popularity = 0.05 }
+		add_popularity = { ideology = social_conservative popularity = 0.05 }
+		add_popularity = { ideology = libertarian_socialist popularity = -0.05 }
+		complete_national_focus = GEO_1936_elections
+		activate_advisor = GEO_Akaki_Chkhenkeli_hog_sde
+		activate_advisor = GEO_Zurab_Avalishvili_for_sde
+		activate_advisor = GEO_Victor_Tevzaia_eco_sde
+		activate_advisor = GEO_Aslan_Beg_Abashidze_sec_sde
+
+	}
+	option = {
+		name = ge.2.b
+		ai_chance = {
+			factor = 40
+		}
+		set_country_flag = GEO_radical_won
+		set_country_flag = elections
+		add_ideas = parliamentary_republic
+		set_politics = { ruling_party = libertarian_socialist elections_allowed = no }
+		add_popularity = { ideology = libertarian_socialist popularity = 0.1 }
+		add_popularity = { ideology = collectivist popularity = 0.05 }
+		add_popularity = { ideology = vanguardist popularity = 0.05 }
+		add_popularity = { ideology = social_democrat popularity = -0.05 }
+		complete_national_focus = GEO_1936_elections
+		activate_advisor = GEO_Irakli_Tsereteli_hog_lib
+		activate_advisor = GEO_Grigol_Uratadze_for_col
+		activate_advisor = GEO_Giorgi_Tsintsadze_eco_lib
+		activate_advisor = GEO_Vlasa_Mgeladze_sec_lib
+
+	}
+}
+
+country_event = { #SNAP ELECTIONS
+	id = ge.3
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.3"}
+	title = ge.3.t
+	desc = ge.3.d
+	picture = GFX_report_event_election_vote
+	fire_only_once = yes
+	is_triggered_only = yes
+	option = {
+		name = ge.3.a
+		ai_chance = {
+			factor = 40
+		}
+		add_ideas = parliamentary_republic
+		set_politics = { ruling_party = social_liberal elections_allowed = no }
+		add_popularity = { ideology = social_liberal popularity = 0.15 }
+		set_country_flag = SF_won
+		activate_advisor = GEO_Ioseb_Baratashvili_hog_sli
+		activate_advisor = GEO_Simon_Mdivani_for_sli
+		activate_advisor = GEO_Grigol_Natadze_eco_sli
+		activate_advisor = GEO_Ioseb_Gedevanishvili_sec_sli
+
+	}
+	option = {
+		name = ge.3.b
+		ai_chance = {
+			factor = 40
+		}
+		add_ideas = parliamentary_republic
+		set_politics = { ruling_party = social_conservative elections_allowed = no }
+		add_popularity = { ideology = social_conservative popularity = 0.15 }
+		set_country_flag = EDP_won
+		activate_advisor = GEO_Raphiel_Ingilo_Ivanitski_sco
+		activate_advisor = GEO_Konstantine_Gamsakhurdia_for_sco
+		activate_advisor = GEO_Aleqsandre_Asatiani_eco_mli
+		activate_advisor = GEO_Leo_Kereselidze_sec_sco
+	}
+}
+
+country_event = {
+	id = ge.10
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.10"}
+	title = ge.10.t
+	desc = ge.10.d
+	picture = GFX_report_event_election_vote
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = ge.10.a
+		add_stability = -0.1
+		add_popularity = { ideology = social_conservative popularity = 0.1 }
+		add_country_leader_role = {
+			character = GEO_Giorgi_Bagration_Mukhraneli
+			promote_leader = yes
+			country_leader = {
+				ideology = social_conservative_subtype
+				traits = {}
+			}
+		}
+		add_country_leader_role = {
+			character = GEO_Giorgi_Bagration_Mukhraneli
+			promote_leader = yes
+			country_leader = {
+				ideology = social_liberal_subtype
+				traits = {}
+			}
+		}
+		add_country_leader_role = {
+			character = GEO_Giorgi_Bagration_Mukhraneli
+			promote_leader = yes
+			country_leader = {
+				ideology = social_democrat_subtype
+				traits = {}
+			}
+		}
+		set_country_flag = GEO_monarchy
+		if = {
+			limit = {
+				NOT = {
+					has_country_flag = GEO_transcaucasia_formed
+					has_country_flag = GEO_caucasia_formed
+				}
+			}
+			set_cosmetic_tag = GEO_MON
+			else = {
+				if = {
+					limit = {
+						has_country_flag = GEO_caucasia_formed
+					}
+					set_cosmetic_tag = GEO_CAU_MON
+					else = {
+						if = {
+							limit = {
+								has_country_flag = GEO_transcaucasia_formed
+							}
+							set_cosmetic_tag = GEO_TCF_MON
+						}
+					}
+				}
+			}
+		}
+	}
+
+	option = {
+		name = ge.10.b
+		add_stability = 0.05
+		add_popularity = { ideology = social_democrat popularity = 0.05 }
+		add_popularity = { ideology = social_liberal popularity = 0.05 }
+	}
+}
+
+country_event = { #TRANSCAUCASIAN RAILWAY
+	id = ge.100
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.100"}
+	title = ge.100.t
+	desc = ge.100.d
+	picture = railway_construction_1
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		ai_chance = {
+			factor = 160
+		}
+		name = ge.100.a
+		every_state = {
+			limit = {
+				is_core_of = ROOT
+			}
+			add_extra_state_shared_building_slots = 1
+			add_building_construction = {
+				type = infrastructure
+				level = 2
+				instant_build = yes
+			}
+		}
+		add_political_power = -50
+	}
+	option = {
+		ai_chance = {
+			factor = 40
+		}
+		name = ge.100.b
+		add_political_power = 50
+	}
+}
+
+country_event = {
+	id = ge.110
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.110"}
+	title = ge.110.t
+	desc = ge.110.d
+	picture = GFX_report_event_generic_sign_treaty1
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = ge.110.a
+		GEO = { add_ideas = GEO_forced_autonomy }
+	}
+
+	option = {
+		name = ge.110.b
+		GEO = { add_political_power = 200 }
+	}
+}
+
+country_event = { #Georgia offers rapprochement
+	id = ge.115
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.115"}
+	title = ge.115.t
+	desc = ge.115.d
+	picture = GFX_report_event_generic_sign_treaty1
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = ge.115.a
+		add_opinion_modifier = {
+			target = GEO
+			modifier = GEO_SOV_rapprochement
+		}
+		reverse_add_opinion_modifier = {
+			target = GEO
+			modifier = GEO_SOV_rapprochement
+		}
+		set_country_flag = SOV_GEO_accepted_rapprochement
+		ai_chance = {
+			factor = 40
+			modifier = {
+				factor = 0.25
+				has_government = libertarian_socialist
+			}
+		}
+		GEO = {
+			set_country_flag = GEO_SOV_accepted_rapprochement
+			country_event = { id = ge.116 }
+		}
+	}
+
+	option = {
+		name = ge.115.b
+		ai_chance = {
+			factor = 10
+		}
+		GEO = {
+			country_event = { id = ge.117 }
+		}
+	}
+}
+
+country_event = { #Soviet agrees to rapprochement
+	id = ge.116
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.116"}
+	title = ge.116.t
+	desc = ge.116.d
+	picture = diplomacy3
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = ge.116.a
+		add_political_power = 20
+	}
+}
+
+country_event = { #Soviet rejects rapprochement
+	id = ge.117
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.117"}
+	title = ge.117.t
+	desc = ge.117.d
+	picture = diplomacy3
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = ge.117.a
+		add_political_power = -50
+		add_war_support = 0.1
+	}
+}
+
+country_event = { #Soviet demands a referendum for sochi
+	id = ge.120
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.120"}
+	title = ge.120.t
+	desc = ge.120.d
+	picture = diplomacy3
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = ge.120.a
+		hidden_effect = { SOV = { country_event = { id = ge.121 } } }
+	}
+}
+
+country_event = { #Sochi intervention by Soviet
+	id = ge.121
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.121"}
+	title = ge.121.t
+	desc = ge.121.d
+	picture = GFX_report_event_SOV_Georgia
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = ge.121.a
+		ai_chance = {
+			factor = 40
+			modifier = {
+				factor = 0.25
+				NOT = {
+					OR = {
+						has_government = vanguardist
+						has_government = collectivist
+					}
+				}
+			}
+		}
+		GEO = { country_event = { id = ge.123 days = 14 } }
+	}
+
+	option = {
+		name = ge.121.b
+		ai_chance = {
+			factor = 40
+			modifier = {
+				factor = 2
+				OR = {
+					has_government = vanguardist
+					has_government = collectivist
+				}
+			}
+		}
+		GEO = { country_event = { id = ge.122 days = 14 } }
+	}
+}
+
+country_event = { #Soviet doesn't intervene, Sochi stays Georgian
+	id = ge.122
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.122"}
+	title = ge.122.t
+	desc = ge.122.d
+	picture = GFX_report_event_election_vote
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = ge.122.a
+	}
+}
+
+country_event = { #Soviet fakes the referendum
+	id = ge.123
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.123"}
+	title = ge.123.t
+	desc = ge.123.d
+	picture = GFX_report_event_election_vote
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = ge.123.a
+		SOV = { transfer_state = 905 }
+		SOV = { add_state_core = 905 }
+	}
+}
+
+country_event = { #Georgia asks Soviets to join the Internationale
+	id = ge.130
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.130"}
+	title = ge.130.t
+	desc = ge.130.d
+	picture = diplomacy3
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = ge.130.a
+		add_to_faction = GEO
+		ai_chance = {
+			factor = 40
+			modifier = {
+				factor = 2
+				GEO = { has_government = libertarian_socialist }
+			}
+		}
+		GEO = { country_event = { id = ge.131 } }
+	}
+
+	option = {
+		name = ge.130.b
+		ai_chance = { factor = 10 }
+		give_guarantee = GEO
+		GEO = { country_event = { id = ge.133 } }
+	}
+
+	option = {
+		name = ge.130.c
+		ai_chance = { factor = 1 }
+		GEO = { country_event = { id = ge.132 } }
+	}
+
+}
+
+country_event = { #Soviet acceot alliance
+	id = ge.131
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.131"}
+	title = ge.131.t
+	desc = ge.131.d
+	picture = diplomacy3
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = ge.131.a
+		add_political_power = 20
+	}
+}
+
+country_event = { #Soviet reject alliance
+	id = ge.132
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.132"}
+	title = ge.132.t
+	desc = ge.132.d
+	picture = diplomacy3
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = ge.132.a
+		add_political_power = -50
+	}
+}
+
+country_event = { #Soviet give guarantee
+	id = ge.133
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.133"}
+	title = ge.133.t
+	desc = ge.133.d
+	picture = diplomacy3
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = ge.133.a
+		add_political_power = 10
+	}
+}
+
+country_event = { #Generic Georgia approaches for Transcaucasia talks
+	id = ge.140
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.140"}
+	title = ge.140.t
+	desc = ge.140.d
+	picture = GFX_report_event_election_vote
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = ge.140.a
+		ai_chance = { factor = 100 }
+		if = {
+			limit = {
+				tag = ARM
+			}
+			GEO = { country_event = { id = ge.150 } }
+		}
+		else_if = {
+			limit = {
+				tag = AZR
+			}
+			GEO = { country_event = { id = ge.151 } }
+		}
+	}
+
+	option = {
+		name = ge.140.b
+		ai_chance = { factor = 0 }
+		GEO = {
+			country_event = { id = ge.141 }
+		}
+		GEO = {
+			set_country_flag = GEO_transcountry_refused
+		}
+	}
+}
+
+country_event = { #Trans country refused
+	id = ge.141
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.141"}
+	title = ge.141.t
+	desc = ge.141.d
+	picture = GFX_report_event_election_vote
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = ge.141.a
+	}
+}
+
+country_event = {
+	id = ge.150
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.150"}
+	title = ge.150.t
+	desc = ge.150.d
+	picture = GFX_report_event_generic_conference
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = ge.150.a
+		ARM = { transfer_state = 902 }
+		set_country_flag = GEO_gave_tao
+		ai_chance = { factor = 20 }
+		decrease_ruling_party_popularity_by_5 = yes
+	}
+	option = {
+		name = ge.150.b
+		ARM = { transfer_state = 903 }
+		set_country_flag = GEO_gave_lori
+		ai_chance = { factor = 30 }
+		decrease_ruling_party_popularity_by_10 = yes
+	}
+	option = {
+		name = ge.150.c
+		ai_chance = { factor = 50 }
+	}
+}
+
+country_event = {
+	id = ge.151
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.151"}
+	title = ge.151.t
+	desc = ge.151.d
+	picture = GFX_report_event_generic_conference
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = ge.151.a
+		AZR = { transfer_state = 904 }
+		set_country_flag = GEO_gave_zaqatala
+		ai_chance = { factor = 30 }
+		decrease_ruling_party_popularity_by_5 = yes
+	}
+	option = {
+		name = ge.151.b
+		ai_chance = { factor = 70 }
+	}
+}
+
+country_event = {
+	id = ge.152
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.152"}
+	title = ge.152.t
+	desc = ge.152.d
+	picture = GFX_report_event_election_vote
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = ge.152.a
+		hidden_effect = {
+			if = {
+				limit = {
+					has_country_flag = GEO_gave_tao
+				}
+				random_list = { 80 = { set_country_flag = GEO_ARM_accepted_trans } 20 = {} }
+				else = {
+					if = {
+						limit = {
+							has_country_flag = GEO_gave_lori
+						}
+						set_country_flag = GEO_ARM_accepted_trans
+						else = {
+							random_list = { 60 = { set_country_flag = GEO_ARM_accepted_trans } 40 = {} }
+						}
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_country_flag = GEO_gave_zaqatala
+				}
+				set_country_flag = GEO_AZR_accepted_trans
+				else = {
+					random_list = { 80 = { set_country_flag = GEO_AZR_accepted_trans } 20 = {} }
+				}
+			}
+			if = {
+				limit = {
+					has_country_flag = GEO_ARM_accepted_trans
+					has_country_flag = GEO_AZR_accepted_trans
+				}
+				ARM = { country_event = { id = ge.154 } }
+				AZR = { country_event = { id = ge.154 } }
+				country_event = { id = ge.155 hours = 2 }
+				else = {
+					country_event = { id = ge.156 hours = 2 }
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = ge.153
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.153"}
+	title = ge.153.t
+	desc = ge.153.d
+	picture = GFX_report_event_election_vote
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = ge.153.a
+	}
+}
+
+country_event = {
+	id = ge.154
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.154"}
+	title = ge.154.t
+	desc = ge.154.d
+	picture = GFX_report_event_election_vote
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = ge.154.a
+		trigger = {
+			GEO = {
+				has_country_flag = GEO_ARM_accepted_trans
+				has_country_flag = GEO_AZR_accepted_trans
+			}
+		}
+	}
+
+	option = {
+		name = ge.154.b
+		trigger = {
+			GEO = {
+				NOT = {
+					has_country_flag = GEO_ARM_accepted_trans
+					has_country_flag = GEO_AZR_accepted_trans
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = ge.155
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.155"}
+	title = ge.155.t
+	desc = ge.155.d
+	picture = GFX_report_event_election_vote
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = ge.155.a
+		set_country_flag = ARM_OCCUPIED
+		set_country_flag = AZR_OCCUPIED
+		annex_country = { target = ARM transfer_troops = yes }
+		annex_country = { target = AZR transfer_troops = yes }
+		set_country_flag = GEO_transcaucasia_formed
+	}
+}
+
+country_event = {
+	id = ge.156
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.156"}
+	title = ge.156.t
+	desc = ge.156.d
+	picture = diplomacy3
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = ge.156.a
+		set_autonomy = {
+			target = ARM
+			autonomous_state = autonomy_dominion
+			freedom_level = 0.6
+		}
+		set_autonomy = {
+			target = AZR
+			autonomous_state = autonomy_dominion
+			freedom_level = 0.5
+		}
+	}
+}
+
+country_event = {
+	id = ge.159
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.159"}
+	title = ge.159.t
+	desc = ge.159.d
+	picture = diplomacy3
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = ge.159.a
+		GEO = { random_list = { 60 = { country_event = { id = ge.160 } } 40 = { country_event = { id = ge.161 } } } }
+	}
+	option = {
+		name = ge.159.b
+		GEO = { country_event = { id = ge.162 } }
+	}
+}
+
+country_event = {
+	id = ge.160
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.160"}
+	title = ge.160.t
+	desc = ge.160.d
+	picture = GFX_report_event_election_vote
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = ge.160.a
+		GEO = { transfer_state = 354 }
+		ARM = { country_event = { id = ge.163 } }
+	}
+}
+
+country_event = {
+	id = ge.161
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.161"}
+	title = ge.161.t
+	desc = ge.161.d
+	picture = GFX_report_event_election_vote
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = ge.161.a
+		354 = { add_claim_by = GEO }
+		declare_war_on = { type = take_state_focus target = ARM generator = { 354 } }
+		add_war_support = -0.1
+		ARM = { country_event = { id = ge.164 } }
+	}
+}
+
+country_event = {
+	id = ge.162
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.159"}
+	title = ge.162.t
+	desc = ge.162.d
+	picture = diplomacy3
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = ge.162.a
+		every_state = {
+			limit = {
+				is_core_of = ARM
+			}
+			add_claim_by = GEO
+		}
+		declare_war_on = { target = ARM type = annex_everything }
+		add_war_support = 0.1
+	}
+}
+
+country_event = {
+	id = ge.163
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.163"}
+	title = ge.163.t
+	desc = ge.163.d
+	picture = GFX_report_event_election_vote
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = ge.163.a
+	}
+}
+
+country_event = {
+	id = ge.164
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.164"}
+	title = ge.164.t
+	desc = ge.164.d
+	picture = GFX_report_event_election_vote
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = ge.164.a
+	}
+}
+
+country_event = {
+	id = ge.170
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.170"}
+	title = ge.170.t
+	desc = ge.170.d
+	picture = diplomacy3
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = ge.170.a
+		ai_chance = { factor = 80 }
+		add_to_faction = GEO
+	}
+
+	option = {
+		name = ge.170.b
+		ai_chance = {
+			factor = 20
+			modifier = { has_war_with = SOV factor = 0 }
+			modifier = { is_justifying_wargoal_against = SOV factor = 0 }
+			modifier = { has_wargoal_against = SOV factor = 0 }
+		}
+		GEO = { country_event = { id = ge.171 } }
+	}
+}
+
+country_event = {
+	id = ge.171
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.171"}
+	title = ge.171.t
+	desc = ge.171.d
+	picture = diplomacy3
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = ge.171.a
+	}
+}
+
+country_event = {
+	id = ge.180
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.180"}
+	title = ge.180.t
+	desc = ge.180.d
+	picture = GFX_report_event_generic_sign_treaty1
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		ai_chance = { factor = 160 }
+		name = ge.180.a
+		GEO = { annex_country = { target = GOR } }
+	}
+
+	option = {
+		ai_chance = { factor = 40 }
+		name = ge.180.b
+		GEO = { declare_war_on = { type = annex_everything target = GOR } }
+	}
+}
+
+country_event = {
+	id = ge.185
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.185"}
+	title = ge.185.t
+	desc = ge.185.d
+	picture = diplomacy3
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = ge.185.a
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 100
+				strength_ratio = {
+					tag = GEO
+					ratio = 0.3
+				}
+			}
+		}
+		if = {
+			limit = {
+				country_exists = AZR
+				AZR = { is_puppet_of = GEO }
+			}
+			AZR = {
+				transfer_state = 419
+				add_state_core = 419
+			}
+			else = {
+				GEO = {
+					transfer_state = 419
+				}
+			}
+		}
+		GEO = { country_event = { id = ge.187 } }
+	}
+
+	option = {
+		name = ge.185.b
+		ai_chance = { factor = 50 }
+		GEO = { country_event = { id = ge.186 } }
+	}
+}
+
+country_event = {
+	id = ge.186
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.186"}
+	title = ge.186.t
+	desc = ge.186.d
+	picture = diplomacy3
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = ge.186.a
+		declare_war_on = {
+			target = PER
+			type = annex_everything
+		}
+	}
+}
+
+country_event = {
+	id = ge.187
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.187"}
+	title = ge.187.t
+	desc = ge.187.d
+	picture = diplomacy3
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = ge.187.a
+	}
+}
+
+country_event = {
+	id = ge.190
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.190"}
+	title = ge.190.t
+	desc = ge.190.d
+	picture = GFX_report_event_generic_sign_treaty1
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		ai_chance = {
+			factor = 40
+			modifier = {
+				factor = 2
+				has_completed_focus = ENG_dip_persia
+			}
+		}
+		name = ge.190.a
+		give_guarantee = GEO
+	}
+
+	option = {
+		ai_chance = {
+			factor = 360
+			modifier = {
+				factor = 0.25
+				has_completed_focus = ENG_dip_persia
+			}
+		}
+		name = ge.190.b
+		GEO = { country_event = { id = ge.191 } }
+	}
+}
+
+country_event = {
+	id = ge.191
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.191"}
+	title = ge.191.t
+	desc = ge.191.d
+	picture = GFX_report_event_generic_sign_treaty3
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		ai_chance = { factor = 80 }
+		name = ge.191.a
+
+	}
+
+	option = {
+		ai_chance = { factor = 320 }
+		name = ge.191.b
+		FRA = { country_event = { id = ge.192 } }
+	}
+}
+
+country_event = {
+	id = ge.192
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.192"}
+	title = ge.192.t
+	desc = ge.192.d
+	picture = GFX_report_event_generic_sign_treaty1
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		ai_chance = { factor = 40 }
+		name = ge.192.a
+		give_guarantee = GEO
+
+	}
+
+	option = {
+		ai_chance = { factor = 160 }
+		name = ge.192.b
+	}
+}
+
+country_event = {
+	id = ge.195
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.195"}
+	title = ge.195.t
+	desc = ge.195.d
+	picture = GFX_report_event_generic_sign_treaty3
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		ai_chance = { factor = 400 }
+		name = ge.195.a
+		every_state = {
+			limit = {
+				is_core_of = GOR
+			}
+			add_core_of = GEO
+		}
+		GEO = { annex_country = { target = GOR transfer_troops = yes } }
+		GEO = {
+			set_country_flag = GEO_caucasia_formed
+			activate_advisor = GEO_Haidar_Bammat_for_sco
+		}
+		if = {
+			limit = {
+				GEO = { has_country_flag = GEO_monarchy }
+			}
+			GEO = { set_cosmetic_tag = GEO_CAU_MON }
+			else = {
+				GEO = { set_cosmetic_tag = GEO_CAU }
+			}
+		}
+		if = {
+			limit = {
+				has_country_flag = GEO_united_menshevik_party
+			}
+			set_party_name = { ideology = libertarian_socialist long_name = GEO_CAU_menshevik_party_long name = GEO_CAU_menshevik_party}
+			set_party_name = { ideology = social_democrat long_name = GEO_CAU_menshevik_party_long name = GEO_CAU_menshevik_party}
+			else = {
+				set_party_name = { ideology = libertarian_socialist long_name = GEO_CAU_libertarian_socialist_party_long name = GEO_CAU_libertarian_socialist_party}
+				set_party_name = { ideology = social_democrat long_name = GEO_CAU_social_democrat_party_long name = GEO_CAU_social_democrat_party}
+			}
+		}
+		add_popularity = { ideology = social_conservative popularity = 0.1 }
+	}
+
+	option = {
+		ai_chance = { factor = 0 }
+		name = ge.195.b
+	}
+}
+
+country_event = {
+	id = ge.199
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.199"}
+	title = ge.199.t
+	desc = ge.199.desc
+	picture = GFX_report_event_election_vote
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = ge.199.a
+		add_political_power = -100
+	}
+
+	option = {
+		name = ge.199.b
+		if = {
+			limit = { NOT = { has_country_flag = GEO_monarchy } }
+			if = {
+				limit = {
+					has_government = social_democrat
+				}
+				add_ideas = parliamentary_republic
+				add_country_leader_role = {
+					character = GEO_Hamo_Ohanjanyan
+					promote_leader = yes
+					country_leader = {
+						ideology = social_democrat_subtype
+						traits = {}
+					}
+				}
+				else = {
+					add_ideas = parliamentary_republic
+					add_country_leader_role = {
+						character = GEO_Hamo_Ohanjanyan
+						promote_leader = yes
+						country_leader = {
+							ideology = social_liberal_subtype
+							traits = {}
+						}
+					}
+					set_politics = {
+						ruling_party = social_liberal
+					}
+				}
+			}
+		}
+	}
+	option = {
+		name = ge.199.c
+		if = {
+			limit = { NOT = { has_country_flag = GEO_monarchy } }
+			if = {
+				limit = {
+					has_government = social_democrat
+				}
+				add_ideas = parliamentary_republic
+				AZR = {
+					set_nationality = {
+						character = AZR_Javad_Malik_Yeganov
+						target_country = ROOT
+					}
+				}
+				add_country_leader_role = {
+					character = AZR_Javad_Malik_Yeganov
+					promote_leader = yes
+					country_leader = {
+						ideology = social_democrat_subtype
+						traits = {}
+					}
+				}
+				else = {
+					add_ideas = parliamentary_republic
+					add_country_leader_role = {
+						character = AZR_Javad_Malik_Yeganov
+						promote_leader = yes
+						country_leader = {
+							ideology = social_liberal_subtype
+							traits = {}
+						}
+					}
+					set_politics = {
+						ruling_party = social_liberal
+					}
+				}
+			}
+		}
+	}
+	option = {
+		name = ge.199.d
+		trigger = { has_idea = GEO_conscripted_women }
+		if = {
+			limit = { NOT = { has_country_flag = GEO_monarchy } }
+			if = {
+				limit = {
+					has_government = social_democrat
+				}
+				add_ideas = parliamentary_republic
+				add_country_leader_role = {
+					character = GEO_Peri_Khan_Sofieva
+					promote_leader = yes
+					country_leader = {
+						ideology = social_democrat_subtype
+						traits = {}
+					}
+				}
+				else = {
+					add_ideas = parliamentary_republic
+					add_country_leader_role = {
+						character = GEO_Peri_Khan_Sofieva
+						promote_leader = yes
+						country_leader = {
+							ideology = social_liberal_subtype
+							traits = {}
+						}
+					}
+					set_politics = {
+						ruling_party = social_liberal
+					}
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = ge.200
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.200"}
+	title = ge.200.t
+	desc = ge.200.d
+	picture = diplomacy3
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		ai_chance = {
+			factor = 100
+			modifier = {
+				add = 2
+				ROOT = {
+					OR = {
+						has_guaranteed = GEO
+						is_in_faction_with = GEO
+					}
+				}
+			}
+		}
+		name = ge.200.a
+		GEO = {
+			add_equipment_to_stockpile = { type = infantry_equipment amount = 2000 }
+			add_opinion_modifier = { target = ROOT modifier = GEO_gave_weapons }
+		}
+		send_equipment = { target = GEO type = infantry_equipment amount = 2000 }
+	}
+	option = {
+		ai_chance = {
+			factor = 40
+			modifier = {
+				add = 0.5
+				ROOT = {
+					OR = {
+						has_guaranteed = GEO
+						is_in_faction_with = GEO
+					}
+				}
+			}
+		}
+		name = ge.200.b
+		GEO = { country_event = { id = ge.201 } }
+	}
+}
+
+country_event = {
+	id = ge.201
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.201"}
+	title = ge.201.t
+	desc = ge.201.d
+	picture = diplomacy2
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = ge.201.a
+		add_political_power = -50
+	}
+}
+
+country_event = {
+	id = ge.250
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.250"}
+	title = ge.250.t
+	desc = ge.250.d
+	picture = GFX_report_event_ast_navy
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = ge.250.a
+		if = {
+			limit = {
+				has_dlc = "Man the Guns"
+			}
+			load_oob = GEO_battleship
+			else = {
+				load_oob = GEO_battleship_legacy
+			}
+		}
+	}
+}
+
+country_event = {
+	id = ge.260
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.260"}
+	title = ge.260.t
+	desc = ge.260.d
+	picture = diplomacy1
+	trigger = {
+		tag = GEO
+		OR = {
+			has_war_with = TUR
+			has_war_with = TRK
+		}
+		has_country_flag = TR_GEO_WAR
+		GEO = {
+			controls_state = 778
+			controls_state = 355
+			controls_state = 356
+			controls_state = 777
+			NOT = {
+				surrender_progress > 0.20
+			}
+		}
+	}
+	fire_only_once = yes
+
+	option = {
+		name = ge.260.a
+		ai_chance = {
+			factor = 99
+		}
+		if = {
+			limit = {
+				has_war_with = TUR
+			}
+			TUR = { country_event = { id = ge.263 } }
+		}
+		if = {
+			limit = {
+				has_war_with = TRK
+			}
+			TRK = { country_event = { id = ge.263 } }
+		}
+	}
+	option = {
+		name = ge.260.b
+		ai_chance = {
+			factor = 1
+		}
+		add_war_support = -0.05
+	}
+}
+
+country_event = {
+	id = ge.261
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.261"}
+	title = ge.261.t
+	desc = ge.261.d
+	picture = diplomacy1
+	trigger = {
+		tag = GEO
+		has_war_with = SOV
+		has_country_flag = SOV_GEO_WAR
+		NOT = { has_country_flag = demand_krasnodar }
+		GEO = {
+			controls_state = 859
+			controls_state = 233
+			controls_state = 857
+			controls_state = 860
+			controls_state = 232
+			NOT = {
+				surrender_progress > 0.20
+			}
+		}
+	}
+	fire_only_once = yes
+	option = {
+		name = ge.261.a
+		ai_chance = {
+			factor = 10
+		}
+		SOV = { country_event = { id = ge.263 } }
+	}
+	option = {
+		name = ge.261.b
+		ai_chance = {
+			factor = 20
+			modifier = {
+				factor = 100
+				OR = {
+					GEO = { controls_state = 234 }
+				}
+			}
+		}
+		SOV = {
+			every_owned_state = {
+				limit = {
+					has_state_flag = GEO_rightful_land
+				}
+				add_claim_by = GEO
+			}
+		}
+		add_war_support = -0.025
+	}
+}
+
+country_event = {
+	id = ge.262
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.262"}
+	title = ge.262.t
+	desc = ge.262.d
+	picture = diplomacy1
+	trigger = {
+		tag = GEO
+		has_war_with = SOV
+		has_country_flag = demand_krasnodar
+		GEO = {
+			controls_state = 859
+			controls_state = 233
+			controls_state = 857
+			controls_state = 860
+			controls_state = 232
+			controls_state = 234
+			NOT = {
+				surrender_progress > 0.20
+			}
+		}
+	}
+	fire_only_once = yes
+	option = {
+		name = ge.262.a
+		ai_chance = {
+			factor = 40
+		}
+		SOV = { country_event = { id = ge.263 } }
+	}
+	option = {
+		name = ge.262.b
+		ai_chance = {
+			factor = 1
+		}
+		add_war_support = -0.05
+	}
+}
+country_event = {
+	id = ge.263
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.263"}
+	title = ge.263.t
+	desc = ge.263.d
+	picture = diplomacy1
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = ge.263.a
+		ai_chance = {
+			factor = 90
+		}
+		GEO = { white_peace_with_ROOT = yes }
+		every_owned_state = {
+			limit = {
+				is_claimed_by = GEO
+			}
+			GEO = {
+				transfer_state = PREV
+			}
+		}
+		if = {
+			limit = {
+				tag = SOV
+				GOR = { is_puppet_of = SOV }
+			}
+			GOR = {
+				every_owned_state = {
+					limit = {
+						is_claimed_by = GEO
+					}
+					GEO = {
+						transfer_state = PREV
+					}
+				}
+			}
+		}
+	}
+	option = {
+		name = ge.263.b
+		ai_chance = {
+			factor = 10
+		}
+		trigger = {
+			OR = {
+				tag = TUR
+				tag = TRK
+			}
+		}
+		add_war_support = -0.05
+		GEO = { country_event = { id = ge.264 } }
+	}
+	option = {
+		name = ge.263.c
+		ai_chance = {
+			factor = 10
+		}
+		trigger = {
+			tag = SOV
+		}
+		add_war_support = -0.05
+		GEO = { country_event = { id = ge.264 } }
+	}
+}
+
+country_event = {
+	id = ge.264
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.264"}
+	title = ge.264.t
+	desc = ge.264.d
+	picture = GFX_report_event_soviet_soldiers
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = ge.264.a
+		add_war_support = 0.1
+	}
+}
+
+country_event = {
+	id = ge.900
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.900"}
+	title = ge.900.t
+	desc = ge.900.d
+	picture = GFX_report_event_spain_civil_war_volunteers_02
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = ge.900.a
+		load_oob = GEO_volunteers
+	}
+}
+
+country_event = {
+	id = ge.910
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.910"}
+	title = ge.910.t
+	desc = ge.910.d
+	picture = diplomacy3
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = ge.910.a
+		FRA = { add_to_faction = GEO }
+	}
+	option = {
+		name = ge.910.b
+		GEO = { country_event = { id = ge.911 } }
+	}
+}
+
+country_event = {
+	id = ge.911
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.911"}
+	title = ge.911.t
+	desc = ge.911.d
+	picture = diplomacy3
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = ge.911.a
+	}
+}
+
+country_event = {
+	id = ge.920
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.920"}
+	title = ge.920.t
+	desc = ge.920.d
+	picture = diplomacy3
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = ge.920.a
+		ENG = { add_to_faction = GEO }
+	}
+	option = {
+		name = ge.920.b
+		GEO = { country_event = { id = ge.921 } }
+	}
+}
+
+country_event = {
+	id = ge.921
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.921"}
+	title = ge.921.t
+	desc = ge.921.d
+	picture = diplomacy3
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = ge.921.a
+	}
+}
+
+country_event = {
+	id = ge.950
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.950"}
+	title = ge.950.t
+	desc = ge.950.d
+	picture = diplomacy3
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = ge.950.a
+		GEO = { add_to_faction = ROOT }
+		ai_chance = {
+			factor = 40
+			modifier = {
+				factor = 0
+				AND = {
+					OR = {
+						tag = TRK
+						# tag = TRT
+					}
+					NOT = {
+						has_government = vanguardist
+						has_government = collectivist
+						has_government = libertarian_socialist
+						has_government = social_democrat
+						has_government = social_liberal
+						has_government = market_liberal
+						has_government = authoritarian_democrat
+					}
+				}
+			}
+		}
+	}
+	option = {
+		name = ge.950.b
+		GEO = { country_event = { id = ge.951 } }
+		ai_chance = {
+			factor = 100
+		}
+	}
+}
+
+country_event = {
+	id = ge.951
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.951"}
+	title = ge.951.t
+	desc = ge.951.d
+	picture = diplomacy3
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = ge.951.a
+		GEO = {
+			add_opinion_modifier = {
+				modifier = GEO_rejected_alliance
+				target = FROM
+			}
+		}
+	}
+}
+
+country_event = { #Ekvtime opens up a museaum exhibition
+	id = ge.10000
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.10000"}
+	title = ge.10000.t
+	desc = ge.10000.d
+	picture = GFX_georgian_celebration
+	trigger = {
+		date > 1936.1.1
+		tag = GEO
+		NOT = {
+			OR = {
+				has_government = collectivist
+				has_government = vanguardist
+			}
+		}
+	}
+	fire_only_once = yes
+	mean_time_to_happen = {
+		days = 180
+	}
+	option = {
+		name = ge.10000.a
+		add_political_power = 50
+	}
+}
+
+country_event = { #Tbilisi Central Stadium is renovated
+	id = ge.10001
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.10001"}
+	title = ge.10001.t
+	desc = ge.10001.d
+	picture = GFX_dinamo_stadium_tbilisi
+	trigger = {
+		date > 1937.1.1
+		tag = GEO
+		NOT = {
+			OR = {
+				has_government = collectivist
+				has_government = vanguardist
+			}
+		}
+	}
+	fire_only_once = yes
+	mean_time_to_happen = {
+		days = 180
+	}
+	option = {
+		name = ge.10001.a
+		add_political_power = 25
+	}
+}
+
+country_event = { #Chiaureli releases Arsen
+	id = ge.10002
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.10002"}
+	title = ge.10002.t
+	desc = ge.10002.d
+	picture = GFX_arsen_GEO
+	trigger = {
+		date > 1937.1.1
+		tag = GEO
+		NOT = {
+			OR = {
+				has_government = collectivist
+				has_government = vanguardist
+			}
+		}
+	}
+	fire_only_once = yes
+	mean_time_to_happen = {
+		days = 180
+	}
+	option = {
+		name = ge.10002.a
+		trigger = {
+			has_country_flag = GEO_moderate_won
+		}
+		add_stability = 0.02
+	}
+	option = {
+		name = ge.10002.b
+		trigger = {
+			has_country_flag = GEO_radical_won
+		}
+		add_stability = -0.02
+	}
+}
+
+country_event = { #Chiaureli releases The Great Dawn
+	id = ge.10003
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.10003"}
+	title = ge.10003.t
+	desc = ge.10003.d
+	picture = GFX_the_great_dawn_GEO
+	trigger = {
+		date > 1939.1.1
+		tag = GEO
+		has_global_flag = All_News_Events
+		NOT = {
+			OR = {
+				has_government = collectivist
+				has_government = vanguardist
+			}
+		}
+	}
+	fire_only_once = yes
+	mean_time_to_happen = {
+		days = 180
+	}
+	option = {
+		name = ge.10003.a
+		trigger = {
+			has_country_flag = GEO_moderate_won
+		}
+		add_stability = 0.03
+	}
+	option = {
+		name = ge.10003.b
+		trigger = {
+			has_country_flag = GEO_radical_won
+		}
+		add_stability = -0.02
+	}
+}
+
+news_event = { # Georgia joins the Soviet Union
+	id = ge.10004
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.10004"}
+	title = ge.10004.t
+	desc = ge.10004.d
+	picture = GFX_news_event_generic_sign_treaty1
+	major = yes
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = ge.10004.a
+		trigger = {
+			NOT = {
+				tag = GEO
+				tag = SOV
+				is_puppet_of = SOV
+			}
+		}
+	}
+	option = {
+		name = ge.10004.b
+		trigger = {
+			tag = GEO
+		}
+	}
+	option = {
+		name = ge.10004.c
+		trigger = {
+			OR = {
+				tag = SOV
+				is_puppet_of = SOV
+			}
+		}
+	}
+}
+
+country_event = { #Gerzel Baazov writes a nice book
+	id = ge.10005
+	immediate = {log = "[GetDateText]: [Root.GetName]: event ge.10005"}
+	title = ge.10005.t
+	desc = ge.10005.d
+	picture = GFX_baazov
+	trigger = {
+		date > 1936.3.1
+		tag = GEO
+		NOT = {
+			OR = {
+				has_government = collectivist
+				has_government = vanguardist
+			}
+		}
+	}
+	fire_only_once = yes
+	mean_time_to_happen = {
+		days = 180
+	}
+	option = {
+		name = ge.10005.a
+		add_political_power = 10
+	}
+}

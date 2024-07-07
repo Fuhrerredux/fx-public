@@ -1,0 +1,2640 @@
+####Chile National Focus tree by matixzun (trimeon)####
+
+focus_tree = {
+	id = chile_focus
+
+	country = {
+		factor = 0
+
+		modifier = {
+			add = 10
+			tag = CHL
+		}
+	}
+
+	default = no
+
+	continuous_focus_position = { x = 10 y = 100 }
+
+	focus = {
+		id = CHL_path_of_nation
+		icon = GFX_goal_chile #GFX_goal_Chile_COA
+		x =9
+		y =0
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_path_of_nation"
+			hidden_effect = {
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_readjust_economic_plan
+		icon = GFX_goal_economic_control
+		x =8
+		y =1
+		cost = 5
+		prerequisite = { focus = CHL_path_of_nation }
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_readjust_economic_plan"
+			add_ideas = CHL_readjusted_plan
+			hidden_effect = {
+				country_event = { id = chl.1003 }
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_connect_with_the_people
+		icon = GFX_goal_generic_national_unity
+		x =8
+		y =2
+		cost = 5
+		prerequisite = { focus = CHL_readjust_economic_plan }
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_connect_with_the_people"
+			add_stability = 0.025
+			hidden_effect = {
+				country_event = { id = chl.1005 }
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_solidary_labour_law
+		icon = GFX_goal_generic_enforce_labor_regulation
+		x =10
+		y =1
+		cost = 5
+		prerequisite = { focus = CHL_path_of_nation }
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_solidary_labour_law"
+			add_ideas = CHL_solidary_labour
+			hidden_effect = {
+				country_event = { id = chl.1004 }
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_try_to_stabilize
+		icon = GFX_goal_generic_neutrality_focus
+		x =10
+		y =2
+		cost = 5
+		prerequisite = { focus = CHL_solidary_labour_law }
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_try_to_stabilize"
+			add_political_power = 75
+			hidden_effect = {
+				country_event = { id = chl.1006 }
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_the_critical_point
+		icon = GFX_focus_CHL_development_inwards
+		x =9
+		y =3
+		cost = 5
+		prerequisite = { focus = CHL_try_to_stabilize }
+		prerequisite = { focus = CHL_connect_with_the_people }
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_the_critical_point"
+			hidden_effect = {
+				country_event = { id = chl.2 days = 1}
+				if = {
+					limit = { has_idea = CHL_readjusted_plan }
+					remove_ideas = CHL_readjusted_plan
+				}
+				if = {
+					limit = { has_idea = CHL_solidary_labour }
+					remove_ideas = CHL_solidary_labour
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_democracy_survives
+		icon = GFX_goal_support_democracy
+		available = {
+			has_global_flag = DEMOCRACY_SURVIVES
+		}
+		prerequisite = { focus = CHL_the_critical_point }
+		mutually_exclusive = { focus = CHL_military_guard }
+		mutually_exclusive = { focus = CHL_chilean_valkism }
+		x = 2
+		y = 4
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_democracy_survives"
+			add_political_power = 50
+		}
+	}
+
+	focus = {
+		id = CHL_centralize_peoples_will
+		icon = GFX_focus_CHL_endorse_the_constitution
+		prerequisite = { focus = CHL_democracy_survives }
+		x = 0
+		y = 5
+		cost = 7
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_centralize_peoples_will"
+			add_political_power = -50
+			add_ideas = CHL_reforming_government
+			if = {
+				limit = { has_idea = CHL_crumbling_government }
+				remove_ideas = CHL_crumbling_government
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_deal_with_oligarchs
+		icon = GFX_goal_tripartite_pact
+		prerequisite = { focus = CHL_centralize_peoples_will }
+		x = 0
+		y = 6
+		cost = 7
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_deal_with_oligarchs"
+			add_popularity = {
+				ideology = social_liberal popularity = 0.10
+			}
+			add_ideas = CHL_political_instability
+			if = {
+				limit = { has_idea = CHL_political_polarization }
+				remove_ideas = CHL_political_polarization
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_invest_in_our_industry
+		icon = GFX_goal_generic_construct_civ_factory
+		prerequisite = { focus = CHL_democracy_survives }
+		x = 4
+		y = 5
+		cost = 7
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_invest_in_our_industry"
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_closing_the_gap
+		icon = GFX_goal_generic_production
+		prerequisite = { focus = CHL_invest_in_our_industry }
+		x = 4
+		y = 6
+		cost = 7
+		ai_will_do = { factor = 15 }
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_closing_the_gap"
+			add_tech_bonus = {
+				name = industrial_bonus
+				bonus = 0.5
+				uses = 2
+				category = industry
+			}
+			swap_ideas = {
+				remove_idea = CHL_collapsed_economy
+				add_idea = CHL_economic_reestructuring
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_reformed_trade_laws
+		icon = GFX_goal_generic_consumer_goods
+		prerequisite = { focus = CHL_closing_the_gap }
+		x = 4
+		y = 7
+		cost = 7
+		ai_will_do = { factor = 15 }
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_reformed_trade_laws"
+			add_political_power = 50
+			swap_ideas = {
+				remove_idea = CHL_economic_reestructuring
+				add_idea = CHL_economic_reforming
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_paving_new_roads
+		icon = GFX_goal_generic_construct_infrastructure
+		prerequisite = { focus = CHL_reformed_trade_laws }
+		x = 4
+		y = 8
+		cost = 7
+		ai_will_do = { factor = 15 }
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_paving_new_roads"
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_gaining_militarys_support
+		icon = GFX_goal_generic_defence
+		prerequisite = { focus = CHL_deal_with_oligarchs }
+		x = 0
+		y = 7
+		cost = 7
+		ai_will_do = { factor = 15 }
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_gaining_militarys_support"
+			add_political_power = -50
+			add_popularity = {
+				ideology = paternal_autocrat popularity = -0.10
+
+			}
+		}
+	}
+
+
+	focus = {
+		id = CHL_ban_the_extremists
+		icon = GFX_focus_generic_anti_fascist_diplomacy
+		prerequisite = { focus = CHL_deal_with_oligarchs }
+		x = 2
+		y = 7
+		cost = 7
+		ai_will_do = { factor = 15 }
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_ban_the_extremists"
+			add_political_power = -50
+			add_popularity = {
+				ideology = valkist popularity = -0.10
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_the_new_republic
+		icon = GFX_goal_molotov_ribbentrop_pact
+		prerequisite = { focus = CHL_gaining_militarys_support }
+		prerequisite = { focus = CHL_ban_the_extremists }
+		prerequisite = { focus = CHL_paving_new_roads }
+		x = 2
+		y = 9
+		cost = 7
+		ai_will_do = { factor = 15 }
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_the_new_republic"
+			add_political_power = 100
+			add_ideas = CHL_new_republic
+			if = {
+				limit = { has_idea = CHL_economic_reforming }
+				remove_ideas = CHL_economic_reforming
+			}
+			if = {
+				limit = { has_idea = CHL_political_instability }
+				remove_ideas = CHL_political_instability
+			}
+			if = {
+				limit = { has_idea = CHL_reforming_government }
+				remove_ideas = CHL_reforming_government
+
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_military_guard
+		icon = GFX_goal_ideology_paternal_autocrat
+		available = {
+			has_global_flag = CARLOS_COUP
+		}
+		prerequisite = { focus = CHL_the_critical_point }
+		mutually_exclusive = { focus = CHL_democracy_survives }
+		mutually_exclusive = { focus = CHL_chilean_valkism }
+		x = 9
+		y = 4
+		cost = 5
+		ai_will_do = { factor = 15 }
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_military_guard"
+			add_political_power = 50
+			add_ideas = CHL_paternal_state
+			if = {
+				limit = { has_idea = CHL_crumbling_government }
+				remove_ideas = CHL_crumbling_government
+			}
+		}
+	}
+
+
+	focus = {
+		id = CHL_a_firm_hand
+		icon = GFX_goal_generic_political_pressure
+		prerequisite = { focus = CHL_military_guard }
+		x = 7
+		y = 5
+		cost = 7
+		ai_will_do = { factor = 15 }
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_a_firm_hand"
+			CHL = {
+				if = {
+					limit = {
+						NOT = {
+							is_in_faction_with = BOL
+							is_subject_of = BOL
+							has_war_with = BOL
+							has_government = social_liberal
+							has_government = market_liberal
+							has_government = authoritarian_democrat
+							has_government = social_democrat
+							has_government = social_conservative
+							has_government = valkist
+							has_government = national_populist
+							has_government = collectivist
+							has_government = vanguardist
+							has_government = libertarian_socialist
+							has_country_flag = CHL_blanchedem
+							has_country_flag = CHL_blanchepater
+
+						}
+						OR = {
+							any_neighbor_country = { tag = BOL }
+						}
+					}
+				}
+				hidden_effect = {
+					country_event = { id = chl.10 }
+				}
+			}
+			add_popularity = {
+				ideology = social_democrat popularity = -0.05
+			}
+			add_popularity = {
+				ideology = social_liberal popularity = -0.05
+			}
+			add_popularity = {
+				ideology = valkist popularity = -0.10
+			}
+			add_ideas = CHL_guided_men
+		}
+	}
+
+	focus = {
+		id = CHL_a_gentle_manner
+		icon = GFX_focus_generic_self_management
+		prerequisite = { focus = CHL_a_firm_hand }
+		x = 7
+		y = 6
+		cost = 7
+		ai_will_do = { factor = 15 }
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_a_gentle_manner"
+			add_popularity = {
+				ideology = authoritarian_democrat popularity = 0.05
+			}
+			add_popularity = {
+				ideology = social_conservative popularity = 0.05
+			}
+			add_political_power = 50
+		}
+	}
+
+	focus = {
+		id = CHL_general_of_hope
+		icon = GFX_focus_generic_military_mission
+		prerequisite = { focus = CHL_a_gentle_manner }
+		x = 7
+		y = 7
+		cost = 7
+		ai_will_do = { factor = 15 }
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_general_of_hope"
+			if = {
+				limit = { has_idea = CHL_political_polarization }
+				remove_ideas = CHL_political_polarization
+			}
+			swap_ideas = {
+				remove_idea = CHL_paternal_state
+				add_idea = CHL_paternal_regime
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_economy_for_the_people
+		icon = GFX_goal_generic_production2
+		prerequisite = { focus = CHL_military_guard }
+		x = 11
+		y = 5
+		cost = 7
+		ai_will_do = { factor = 15 }
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_economy_for_the_people"
+			if = {
+				limit = { has_idea = CHL_collapsed_economy }
+				remove_ideas = CHL_collapsed_economy
+				add_ideas = CHL_peoples_economy
+			}
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_content_old_oligarchs
+		icon = GFX_focus_RAJ_lions_of_the_great_war
+		prerequisite = { focus = CHL_economy_for_the_people }
+		x = 9
+		y = 6
+		cost = 7
+		ai_will_do = { factor = 15 }
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_content_old_oligarchs"
+			add_political_power = -50
+			add_ideas = CHL_content_elite
+		}
+	}
+
+	focus = {
+		id = CHL_moderate_land_reform
+		icon = GFX_focus_generic_concessions
+		prerequisite = { focus = CHL_economy_for_the_people }
+		x = 11
+		y = 6
+		cost = 7
+
+		available_if_capitulated = yes
+		ai_will_do = { factor = 15 }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_moderate_land_reform"
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_patriotic_protectionism
+		icon = GFX_goal_demand_sudetenland
+		prerequisite = { focus = CHL_moderate_land_reform }
+		prerequisite = { focus = CHL_content_old_oligarchs }
+		x = 10
+		y = 7
+		cost = 7
+		ai_will_do = { factor = 15 }
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_patriotic_protectionism"
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
+			}
+			swap_ideas = {
+				remove_idea = CHL_peoples_economy
+				add_idea = CHL_popular_economy
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_presidente_ibanez
+		icon = GFX_goal_CHL_Provisional_Junta
+		prerequisite = { focus = CHL_general_of_hope }
+		prerequisite = { focus = CHL_patriotic_protectionism }
+		x = 9
+		y = 9
+		cost = 7
+		ai_will_do = { factor = 15 }
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_presidente_ibanez"
+			add_political_power = 100
+			add_ideas = CHL_president_ibanez
+			if = {
+				limit = { has_idea = CHL_paternal_regime }
+				remove_ideas = CHL_paternal_regime
+				if = {
+					limit = { has_idea = CHL_guided_men }
+					remove_ideas = CHL_guided_men
+				}
+			}
+		}
+	}
+	focus = {
+		id = CHL_chilean_valkism
+		icon = GFX_goal_ideology_valkist
+		available = {
+			has_global_flag = CHILEAN_VALKISM
+		}
+		prerequisite = { focus = CHL_the_critical_point }
+		mutually_exclusive = { focus = CHL_democracy_survives }
+		mutually_exclusive = { focus = CHL_military_guard }
+		x = 16
+		y = 4
+		cost = 5
+		ai_will_do = { factor = 15 }
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_chilean_valkism"
+			add_ideas = CHL_chilean_valkism_idea
+			if = {
+				limit = { has_idea = CHL_crumbling_government }
+				remove_ideas = CHL_crumbling_government
+				add_political_power = 50
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_unite_the_classes
+		icon = GFX_goal_generic_demand_territory
+		prerequisite = { focus = CHL_chilean_valkism }
+		x = 14
+		y = 5
+		cost = 7
+		ai_will_do = { factor = 15 }
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_unite_the_classes"
+			add_ideas = CHL_classes_united
+			if = {
+				limit = { has_idea = CHL_political_polarization }
+				remove_ideas = CHL_political_polarization
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_work_for_the_chilean
+		icon = GFX_goal_generic_production
+		prerequisite = { focus = CHL_chilean_valkism }
+		x = 18
+		y = 5
+		cost = 7
+		ai_will_do = { factor = 15 }
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_work_for_the_chilean"
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			add_tech_bonus = {
+				name = industrial_bonus
+				bonus = 0.5
+				uses = 1
+				category = industry
+			}
+			if = {
+				limit = { has_idea = CHL_collapsed_economy }
+				remove_ideas = CHL_collapsed_economy
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_embrace_the_chilean_race
+		icon = GFX_focus_generic_diplomatic_treaty
+		prerequisite = { focus = CHL_unite_the_classes }
+		x = 14
+		y = 6
+		cost = 7
+		ai_will_do = { factor = 15 }
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_embrace_the_chilean_race"
+			add_ideas = CHL_chilean_race
+		}
+	}
+	focus = {
+		id = CHL_new_national_industry
+		icon = GFX_goal_generic_construct_mil_factory
+		prerequisite = { focus = CHL_work_for_the_chilean }
+		x = 16
+		y = 6
+		cost = 7
+		ai_will_do = { factor = 15 }
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_new_national_industry"
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
+			}
+			add_tech_bonus = {
+				name = infantry_bonus
+				bonus = 0.5
+				uses = 1
+				category = infantry_weapons
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_our_warrior_legacy
+		icon = GFX_focus_generic_little_entente
+		prerequisite = { focus = CHL_work_for_the_chilean }
+		x = 18
+		y = 7
+		cost = 7
+		ai_will_do = { factor = 15 }
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_our_warrior_legacy"
+			add_ideas = CHL_warrior_legacy
+			add_political_power = 50
+		}
+	}
+
+	focus = {
+		id = CHL_glory_to_the_rotos
+		icon = GFX_goal_national_populism
+		prerequisite = { focus = CHL_embrace_the_chilean_race }
+		x = 14
+		y = 7
+		cost = 7
+
+		available_if_capitulated = yes
+		ai_will_do = { factor = 15 }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_glory_to_the_rotos"
+			add_ideas = CHL_roto_valkism
+			if = {
+				limit = { has_idea = CHL_chilean_valkism_idea }
+				remove_ideas = CHL_chilean_valkism_idea
+				add_political_power = 50
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_militarized_nation
+		icon = GFX_goal_anschluss
+		prerequisite = { focus = CHL_new_national_industry }
+		x = 16
+		y = 7
+		cost = 7
+		ai_will_do = { factor = 15 }
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_militarized_nation"
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_revitalized_nation
+		icon = GFX_goal_valkist_star
+		prerequisite = { focus = CHL_glory_to_the_rotos }
+		prerequisite = { focus = CHL_militarized_nation }
+		prerequisite = { focus = CHL_our_warrior_legacy }
+		x = 16
+		y = 9
+		cost = 7
+		ai_will_do = { factor = 15 }
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_revitalized_nation"
+			add_political_power = 100
+			add_ideas = CHL_chilean_nation
+			if = {
+				limit = { has_idea = CHL_chilean_race }
+				remove_ideas = CHL_chilean_race
+			}
+			if = {
+				limit = { has_idea = CHL_warrior_legacy }
+				remove_ideas = CHL_warrior_legacy
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_our_natural_richness
+		icon = GFX_goal_steel
+		x = 23
+		y = 0
+		cost = 7
+		available = { has_completed_focus = CHL_the_critical_point }
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_our_natural_richness"
+			add_tech_bonus = {
+				name = excavation_bonus
+				bonus = 0.5
+				uses = 1
+				technology = excavation1
+				technology = excavation2
+				technology = excavation3
+				technology = excavation4
+				technology = excavation5
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_funding_the_army
+		icon = GFX_focus_CHL_ejercito_de_chile
+		prerequisite = { focus = CHL_our_natural_richness }
+		prerequisite = { focus = CHL_road_to_conflict }
+		x = 27
+		y = 1
+		cost = 7
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_funding_the_army"
+			army_experience = 50
+		}
+	}
+
+	focus = {
+		id = CHL_compliment_our_economy
+		prerequisite = { focus = CHL_our_natural_richness }
+		icon = GFX_goal_generic_oil_refinery
+		x = 23
+		y = 1
+		cost = 7
+		available = {
+			NOT ={
+				has_idea = CHL_collapsed_economy
+			}
+		}
+		available_if_capitulated = yes
+		ai_will_do = { factor = 15 }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_compliment_our_economy"
+			add_tech_bonus = {
+				name = synth_bonus
+				bonus = 0.5
+				uses = 1
+				category = synth_resources
+			}
+			random_owned_state = {
+				add_building_construction = {
+					type = synthetic_refinery
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_from_arica_to_the_end_of_the_world
+		prerequisite = { focus = CHL_compliment_our_economy }
+		icon = GFX_goal_Fix_Shitty_Rails
+		x = 23
+		y = 2
+		cost = 7
+		ai_will_do = { factor = 15 }
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_from_arica_to_the_end_of_the_world"
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_chilean_industrial_expansion
+		prerequisite = { focus = CHL_from_arica_to_the_end_of_the_world }
+		icon = GFX_goal_generic_construct_civ_factory
+		x = 23
+		y = 3
+		cost = 7
+		ai_will_do = { factor = 15 }
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_chilean_industrial_expansion"
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_develop_the_south
+		icon = GFX_goal_generic_food_processing
+		cost = 7.00
+		prerequisite = { focus = CHL_chilean_industrial_expansion }
+		prerequisite = { focus = CHL_funding_for_our_future }
+		prerequisite = { focus = CHL_chilean_mobilization }
+		x = 22
+		y = 4
+		available = {
+			controls_state = 507
+		}
+		ai_will_do = { factor = 15 }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_develop_the_south"
+			if = {
+				limit = {
+					507 = { is_owned_and_controlled_by = CHL }
+				}
+				507 = {
+					add_extra_state_shared_building_slots = 2
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_develop_the_north
+		icon = GFX_goal_generic_privatization
+		cost = 7.00
+		prerequisite = { focus = CHL_chilean_industrial_expansion }
+		prerequisite = { focus = CHL_funding_for_our_future }
+		prerequisite = { focus = CHL_chilean_mobilization }
+		x = 24
+		y = 4
+		ai_will_do = { factor = 15 }
+		available_if_capitulated = yes
+		available = {
+			controls_state = 506
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_develop_the_north"
+			if = {
+				limit = {
+					506 = {
+						is_owned_and_controlled_by = CHL
+					}
+				}
+				506 = {
+					add_extra_state_shared_building_slots = 2
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_central_development_plan
+		icon = GFX_goal_generic_improve_industry
+		cost = 7.00
+		prerequisite = { focus = CHL_develop_the_north }
+		prerequisite = { focus = CHL_develop_the_south }
+		x = 23
+		y = 5
+		ai_will_do = { factor = 15 }
+		available_if_capitulated = yes
+		available = {
+			controls_state = 279
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_central_development_plan"
+			if = {
+				limit = {
+					279 = {
+						is_owned_and_controlled_by = CHL
+					}
+				}
+				279 = {
+					add_extra_state_shared_building_slots = 2
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_the_new_technologies
+		prerequisite = { focus = CHL_compliment_our_economy }
+		icon = GFX_goal_generic_radar
+		x = 21
+		y = 2
+		cost = 7
+		ai_will_do = { factor = 15 }
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_the_new_technologies"
+			add_tech_bonus = {
+				name = electric_bonus
+				bonus = 0.5
+				uses = 1
+				category = electronics
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_funding_for_our_future
+		prerequisite = { focus = CHL_the_new_technologies }
+		icon = GFX_focus_research
+		x = 21
+		y = 3
+		cost = 7
+		ai_will_do = { factor = 15 }
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_funding_for_our_future"
+			add_research_slot = 1
+		}
+	}
+
+	focus = {
+		id = CHL_academics_for_progress
+		prerequisite = { focus = CHL_the_new_republic focus = CHL_presidente_ibanez focus = CHL_revitalized_nation }
+		icon = GFX_goal_KTG_Bookstack
+		x = 9
+		y = 10
+		cost = 7
+		ai_will_do = { factor = 15 }
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_academics_for_progress"
+			add_research_slot = 1
+
+		}
+	}
+
+	focus = {
+		id = CHL_preparing_for_the_worst
+		prerequisite = { focus = CHL_compliment_our_economy }
+		prerequisite = { focus = CHL_funding_the_army }
+		icon = GFX_goal_generic_construct_mil_factory
+		x = 25
+		y = 2
+		cost = 7
+		ai_will_do = { factor = 15 }
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_preparing_for_the_worst"
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_chilean_mobilization
+		prerequisite = { focus = CHL_preparing_for_the_worst }
+		icon = GFX_focus_generic_license_production
+		x = 25
+		y = 3
+		cost = 7
+		bypass = {
+			has_idea = partial_economic_mobilisation
+		}
+		available_if_capitulated = yes
+		ai_will_do = { factor = 15 }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_chilean_mobilization"
+			add_ideas = partial_economic_mobilisation
+		}
+	}
+
+	focus = {
+		id = CHL_road_to_conflict
+		icon = GFX_goal_CHL_army
+		x = 30
+		y = 0
+		cost = 7
+		available = { has_completed_focus = CHL_the_critical_point }
+		available_if_capitulated = yes
+		ai_will_do = { factor = 15 }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_road_to_conflict"
+			add_doctrine_cost_reduction = {
+				name = CHL_road_to_conflict
+				cost_reduction = 0.5
+				uses = 1
+				category = land_doctrine
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_revamping_our_weapons
+		prerequisite = { focus = CHL_road_to_conflict }
+		prerequisite = { focus = CHL_funding_the_army }
+		icon = GFX_goal_generic_design_equipment_standards
+		x = 30
+		y = 2
+		cost = 7
+		ai_will_do = { factor = 15 }
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_revamping_our_weapons"
+			add_tech_bonus = {
+				name = infantry_bonus
+				bonus = 0.5
+				uses = 1
+				category = infantry_weapons
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_artillery_effort
+		prerequisite = { focus = CHL_revamping_our_weapons }
+		icon = GFX_goal_generic_army_artillery
+		x = 28
+		y = 3
+		cost = 7
+		ai_will_do = { factor = 15 }
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_artillery_effort"
+			add_tech_bonus = {
+				name = infantry_bonus
+				bonus = 0.5
+				uses = 1
+				category = infantry_weapons
+				category = artillery
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_motorized_push
+		prerequisite = { focus = CHL_revamping_our_weapons }
+		icon = GFX_goal_generic_army_motorized
+		x = 30
+		y = 3
+		cost = 7
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_motorized_push"
+			add_tech_bonus = {
+				name = motorised_bonus
+				bonus = 0.5
+				uses = 1
+				technology = motorised_infantry
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_mastering_our_mountains
+		prerequisite = { focus = CHL_artillery_effort }
+		icon = GFX_goal_generic_position_armies
+		x = 28
+		y = 4
+		cost = 7
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_mastering_our_mountains"
+			add_tech_bonus = {
+				bonus = 0.5
+				uses = 2
+				technology = tech_mountaineers
+				technology = tech_mountaineers2
+				technology = tech_mountaineers3
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_fortress_the_andes
+		prerequisite = { focus = CHL_mastering_our_mountains }
+		#mutually_exclusive = { focus = CHL_may_god_forgive_us }
+		icon = GFX_goal_generic_fortify_city
+		x = 28
+		y = 5
+		cost = 7
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_fortress_the_andes"
+			279 = {
+				add_building_construction = {
+					type = bunker
+					level = 3
+					province = 650
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 5191
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 8251
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 8229
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 1
+					province = 8194
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_armored_endeavour
+		prerequisite = { focus = CHL_motorized_push }
+		icon = GFX_goal_generic_army_tanks
+		x = 30
+		y = 4
+		cost = 7
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_armored_endeavour"
+			add_tech_bonus = {
+				name = tank_bonus
+				bonus = 0.5
+				uses = 1
+				category = armor
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_mechanized_advance
+		prerequisite = { focus = CHL_armored_endeavour }
+		icon = GFX_goal_generic_army_artillery
+		x = 30
+		y = 5
+		cost = 7
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_mechanized_advance"
+			add_tech_bonus = {
+				name = mech_bonus
+				bonus = 0.5
+				uses = 1
+				category = cat_mechanized_equipment
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_specialized_brigades
+		prerequisite = { focus = CHL_revamping_our_weapons }
+		icon = GFX_goal_generic_special_forces
+		x = 32
+		y = 3
+		cost = 7
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_specialized_brigades"
+			add_tech_bonus = {
+				name = special_forces_bonus
+				bonus = 0.5
+				uses = 2
+				category = para_tech
+				category = marine_tech
+			}
+		}
+	}
+
+
+	focus = {
+		id = CHL_experimental_rocketry
+		prerequisite = { focus = CHL_specialized_brigades }
+		icon = GFX_focus_rocketry
+		x = 32
+		y = 4
+		cost = 7
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_experimental_rocketry"
+			add_tech_bonus = {
+				name = rocket_bonus
+				bonus = 0.5
+				uses = 2
+				category = rocketry
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_may_god_forgive_us
+		prerequisite = { focus = CHL_experimental_rocketry }
+		#mutually_exclusive = { focus = CHL_fortress_the_andes }
+		icon = GFX_focus_wonderweapons
+		x = 32
+		y = 5
+		cost = 7
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_may_god_forgive_us"
+			add_tech_bonus = {
+				name = nuclear_bonus
+				bonus = 0.5
+				uses = 2
+				category = nuclear
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_extending_our_coasts
+		icon = GFX_goal_CHL_navy
+		x = 27
+		y = 7
+		cost = 7
+		available = {
+			date > 1937.1.1
+		}
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_extending_our_coasts"
+			279 = { add_building_construction = {
+					type = coastal_bunker
+					level = 3
+					province = 8222
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = coastal_bunker
+					level = 3
+					province = 5121
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = naval_base
+					level = 2
+					province = 5121
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_expanding_the_shipyards
+		prerequisite = { focus = CHL_extending_our_coasts }
+		icon = GFX_goal_generic_construct_naval_dockyard
+		x = 27
+		y = 8
+		cost = 7
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_expanding_the_shipyards"
+			279 = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = dockyard
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_pacific_strategy
+		icon = GFX_goal_generic_navy_doctrines_tactics
+		x = 27
+		y = 9
+		cost = 7
+		available = { }
+		prerequisite = { focus = CHL_expanding_the_shipyards }
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_pacific_strategy"
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.5
+				uses = 1
+				category = naval_doctrine
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_the_battleships
+		icon = GFX_goal_generic_navy_battleship
+		x = 26
+		y = 10
+		cost = 7
+		available = { }
+		prerequisite = { focus = CHL_pacific_strategy }
+		mutually_exclusive = { focus = CHL_the_carriers }
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_the_battleships"
+			add_tech_bonus = {
+				name = battleship_bonus
+				bonus = 0.5
+				uses = 1
+				category = bc_tech
+				category = bb_tech
+				category = shbb_tech
+			}
+
+		}
+	}
+
+	focus = {
+		id = CHL_the_carriers
+		icon = GFX_goal_generic_navy_carrier
+		x = 28
+		y = 10
+		cost = 7
+		available = { }
+		prerequisite = { focus = CHL_pacific_strategy }
+		mutually_exclusive = { focus = CHL_the_battleships }
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_the_carriers"
+			add_tech_bonus = {
+				name = carrier_bonus
+				bonus = 0.5
+				uses = 1
+				category = cv_tech
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_the_cruisers
+		icon = GFX_goal_generic_navy_cruiser
+		x = 27
+		y = 11
+		cost = 7
+		available = { }
+		prerequisite = { focus = CHL_the_battleships focus = CHL_the_carriers }
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_the_cruisers"
+			add_tech_bonus = {
+				name = cruiser_bonus
+				bonus = 0.5
+				uses = 1
+				category = ca_tech
+				category = cl_tech
+			}
+
+		}
+	}
+
+	focus = {
+		id = CHL_the_destroyers
+		icon = GFX_goal_generic_wolf_pack
+		x = 26
+		y = 12
+		cost = 7
+		available = { }
+		prerequisite = { focus = CHL_the_cruisers }
+		mutually_exclusive = { focus = CHL_the_submarines }
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_the_destroyers"
+			add_tech_bonus = {
+				name = destroyer_bonus
+				bonus = 0.5
+				uses = 1
+				category = dd_tech
+			}
+
+		}
+	}
+
+	focus = {
+		id = CHL_the_submarines
+		icon = GFX_goal_generic_navy_submarine
+		x = 28
+		y = 12
+		cost = 7
+		available = { }
+		prerequisite = { focus = CHL_the_cruisers }
+		mutually_exclusive = { focus = CHL_the_destroyers }
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_the_submarines"
+			add_tech_bonus = {
+				name = submarine_bonus
+				bonus = 0.5
+				uses = 1
+				category = ss_tech
+			}
+
+		}
+	}
+
+	focus = {
+		id = CHL_pacific_domination
+		icon = GFX_focus_CHL_armada_de_chile
+		x = 27
+		y = 13
+		cost = 7
+		available = { }
+		prerequisite = { focus = CHL_the_destroyers focus = CHL_the_submarines }
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_pacific_domination"
+			navy_experience = 50
+
+		}
+	}
+
+	focus = {
+		id = CHL_high_above_the_andes
+		icon = GFX_goal_CHL_airforce
+		x = 33
+		y = 7
+		cost = 7
+		available = {
+			has_completed_focus = CHL_path_of_nation
+			date > 1937.1.1
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_high_above_the_andes"
+			add_doctrine_cost_reduction = {
+				name = airdoctrine_bonus
+				cost_reduction = 0.5
+				uses = 1
+				category = air_doctrine
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_soaring_over_all
+		icon = GFX_goal_generic_build_airforce
+		x = 33
+		y = 8
+		cost = 7
+		available = { }
+		prerequisite = { focus = CHL_high_above_the_andes }
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_soaring_over_all"
+			random_owned_state = {
+				add_building_construction = {
+					type = air_base
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_protecting_our_skies
+		icon = GFX_focus_generic_air_defense
+		x = 33
+		y = 9
+		cost = 7
+		available = { }
+		prerequisite = { focus = CHL_soaring_over_all }
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_protecting_our_skies"
+			506 = { add_building_construction = {
+					type = anti_air_building
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_strategic_winds
+		icon = GFX_goal_generic_air_bomber
+		x = 33
+		y = 10
+		cost = 7
+		available = { }
+		prerequisite = { focus = CHL_protecting_our_skies }
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_strategic_winds"
+			add_tech_bonus = {
+				name = bomber_bonus
+				bonus = 0.5
+				uses = 1
+				category = tactical_bomber
+				category = cat_strategic_bomber
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_support_push
+		icon = GFX_goal_generic_air_fighter
+		x = 31
+		y = 11
+		cost = 7
+		available = { }
+		prerequisite = { focus = CHL_protecting_our_skies }
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_support_push"
+			add_tech_bonus = {
+				name = bomber_bonus
+				bonus = 0.5
+				uses = 1
+				category = cas_bomber
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_bombing_the_bandits
+		icon = GFX_goal_generic_air_naval_bomber
+		x = 35
+		y = 11
+		cost = 7
+		available = { }
+		prerequisite = { focus = CHL_protecting_our_skies }
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_bombing_the_bandits"
+			add_tech_bonus = {
+				name = naval_bomber_bonus
+				bonus = 0.5
+				uses = 1
+				category = naval_bomber
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_fighters_for_the_fatherland
+		icon = GFX_goal_generic_air_fighter2
+		x = 33
+		y = 11
+		cost = 7
+		available = { }
+		prerequisite = { focus = CHL_strategic_winds }
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_fighters_for_the_fatherland"
+			add_tech_bonus = {
+				name = fighter_bonus
+				bonus = 0.5
+				uses = 2
+				category = light_fighter
+				category = cat_heavy_fighter
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_masters_of_the_airs
+		icon = GFX_focus_CHL_fuerza_aerea_de_chile
+		x = 33
+		y = 12
+		cost = 7
+		available = { }
+		prerequisite = { focus = CHL_fighters_for_the_fatherland }
+		prerequisite = { focus = CHL_support_push focus = CHL_bombing_the_bandits }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_masters_of_the_airs"
+			air_experience = 50
+		}
+	}
+
+	focus = {
+		id = CHL_kriegs_unt_cazuelas
+		icon = GFX_focus_CHL_the_spirit_of_the_war_of_the_pacific
+		x = 30
+		y = 6
+		cost = 7
+		available = { }
+		prerequisite = { focus = CHL_mechanized_advance }
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_kriegs_unt_cazuelas"
+			army_experience = 50
+		}
+	}
+
+	focus = {
+		id = CHL_diplomatic_path
+		icon = GFX_goal_generic_major_alliance
+		available = {
+			date > 1937.6.1
+			OR = {
+				has_global_flag = CARLOS_COUP
+				has_global_flag = DEMOCRACY_SURVIVES
+			}
+		}
+		x = 38
+		y = 0
+		cost = 5
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_diplomatic_path"
+			add_political_power = 50
+		}
+	}
+
+	focus = {
+		id = CHL_friends_with_democracy
+		icon = GFX_goal_generic_national_unity
+		available = {
+			OR = {
+				has_global_flag = DEMOCRACY_SURVIVES
+				has_country_flag = BLANCHEDEM
+			}
+		}
+		x = 37
+		y = 1
+		cost = 5
+		prerequisite = { focus = CHL_diplomatic_path }
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_friends_with_democracy"
+			every_country = {
+				limit = {
+					NOT = {
+						is_in_faction_with = CHL
+						is_subject_of = CHL
+						has_war_with = CHL
+						has_government = vanguardist
+						has_government = libertarian_socialist
+						has_government = collectivist
+						has_government = paternal_autocrat
+						has_government = authoritarian_democrat
+						has_government = valkist
+						has_government = national_populist
+					}
+				}
+				add_opinion_modifier = { target = CHL modifier = CHL_friendly_democracy }
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_standing_up_for_democracy
+		icon = GFX_goal_volunteer_alliance
+		available = {
+			CHL = {
+				is_subject = no
+				is_in_faction = no
+			}
+		}
+		x = 36
+		y = 2
+		cost = 5
+		prerequisite = { focus = CHL_friends_with_democracy }
+		mutually_exclusive = { focus = CHL_standing_up_alone }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_standing_up_for_democracy"
+			create_faction = pacific_alliance
+		}
+	}
+
+	focus = {
+		id = CHL_standing_up_alone
+		icon = GFX_goal_generic_demand_territory
+		available = {
+			CHL = {
+				is_subject = no
+				is_in_faction = no
+			}
+		}
+		x = 38
+		y = 2
+		cost = 5
+		prerequisite = { focus = CHL_friends_with_democracy focus = CHL_friends_with_authority }
+		mutually_exclusive = { focus = CHL_standing_up_for_democracy }
+		mutually_exclusive = { focus = CHL_standing_up_strong }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_standing_up_alone"
+			add_stability = 0.05
+		}
+	}
+
+	focus = {
+		id = CHL_unlikely_friends
+		icon = GFX_goal_peru
+		available = {
+			has_global_flag = PRU_DEMPATH
+			PRU = {
+				is_subject = no
+				is_in_faction = no
+				OR = {
+					has_government = social_liberal
+					has_government = market_liberal
+					has_government = social_conservative
+					has_government = social_democrat
+				}
+				NOT = { has_war_with = CHL }
+			}
+		}
+		x = 37
+		y = 3
+		cost = 5
+		prerequisite = { focus = CHL_standing_up_for_democracy }
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_unlikely_friends"
+			PRU = { country_event = { id = chl.21 } }
+		}
+	}
+
+	focus = {
+		id = CHL_highlands_allies
+		icon = GFX_goal_ecuador
+		available = {
+			ECU = {
+				is_subject = no
+				is_in_faction = no
+				OR = {
+					has_government = social_liberal
+					has_government = market_liberal
+					has_government = social_conservative
+					has_government = social_democrat
+				}
+			}
+			NOT = { has_war_with = CHL }
+		}
+		x = 35
+		y = 3
+		cost = 5
+		prerequisite = { focus = CHL_standing_up_for_democracy }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_highlands_allies"
+			ECU = { country_event = { id = chl.23 } }
+		}
+	}
+
+	focus = {
+		id = CHL_friends_with_authority
+		icon = GFX_goal_generic_military_deal
+		available = {
+			OR = {
+				has_global_flag = CARLOS_COUP
+				has_country_flag = BLANCHEPATER
+			}
+		}
+		x = 39
+		y = 1
+		cost = 5
+		prerequisite = { focus = CHL_diplomatic_path }
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_friends_with_authority"
+			every_country = {
+				limit = {
+					NOT = {
+						is_in_faction_with = CHL
+						is_subject_of = CHL
+						has_war_with = CHL
+						has_government = vanguardist
+						has_government = libertarian_socialist
+						has_government = collectivist
+						has_government = social_liberal
+						has_government = market_liberal
+						has_government = social_democrat
+						has_government = social_conservative
+						has_government = valkist
+						has_government = national_populist
+					}
+				}
+				add_opinion_modifier = { target = CHL modifier = CHL_friendly_authority }
+			}
+		}
+	}
+
+
+	focus = {
+		id = CHL_standing_up_strong
+		icon = GFX_focus_generic_diplomatic_treaty
+		available = {
+			CHL = {
+				is_subject = no
+				is_in_faction = no
+			}
+		}
+		x = 40
+		y = 2
+		cost = 5
+		prerequisite = { focus = CHL_friends_with_authority }
+		mutually_exclusive = { focus = CHL_standing_up_alone }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_standing_up_strong"
+			create_faction = pacific_pact
+		}
+	}
+
+	focus = {
+		id = CHL_viceroyalty_ties
+		icon = GFX_goal_peru
+		available = {
+			CHL = {
+				is_subject = no
+			}
+			has_global_flag = PRU_AUTPATH
+			PRU = {
+				is_subject = no
+				is_in_faction = no
+				OR = {
+					has_government = paternal_autocrat
+					has_government = authoritarian_democrat
+				}
+				NOT = { has_war_with = CHL }
+			}
+		}
+		x = 39
+		y = 3
+		cost = 5
+		prerequisite = { focus = CHL_standing_up_strong }
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_viceroyalty_ties"
+			PRU = { country_event = { id = chl.17 } }
+		}
+	}
+
+	focus = {
+		id = CHL_friends_beyond_the_andes
+		icon = GFX_goal_venezuela
+		available = {
+			CHL = {
+				is_subject = no
+			}
+			VEN = {
+				is_subject = no
+				is_in_faction = no
+				OR = {
+					has_government = paternal_autocrat
+					has_government = authoritarian_democrat
+				}
+				NOT = { has_war_with = CHL }
+			}
+		}
+		x = 41
+		y = 3
+		cost = 5
+		prerequisite = { focus = CHL_standing_up_strong }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_friends_beyond_the_andes"
+			VEN = { country_event = { id = chl.19 } }
+		}
+	}
+
+	focus = {
+		id = CHL_irredentist_path
+		icon = GFX_goal_generic_secret_weapon
+		available = {
+			CHL = {
+				is_subject = no
+			}
+			OR = {
+				has_global_flag = CARLOS_COUP
+				has_global_flag = CHILEAN_VALKISM
+			}
+			date > 1937.1.1
+		}
+		x = 45
+		y = 0
+		cost = 5
+		available = { }
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_irredentist_path"
+			add_political_power = 50
+		}
+	}
+
+	focus = {
+		id = CHL_reclaim_tacna
+		icon = GFX_goal_generic_more_territorial_claims
+		prerequisite = { focus = CHL_irredentist_path }
+		x = 43
+		y = 1
+		cost = 5
+		available = {
+			CHL = {
+				is_subject = no
+			}
+			PRU = {
+				NOT = {
+					is_in_faction_with = CHL
+					is_subject_of = CHL
+				}
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_reclaim_tacna"
+			876 = {
+				add_claim_by = CHL
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_retake_tacna
+		icon = GFX_goal_generic_attack_peru
+		prerequisite = { focus = CHL_reclaim_tacna }
+		x = 43
+		y = 2
+		cost = 5
+		will_lead_to_war_with = PRU
+
+		available = {
+			CHL = {
+				is_subject = no
+				has_war = no
+			}
+			date > 1939.1.1
+			PRU = {
+				owns_state = 876
+				NOT = {
+					is_in_faction_with = CHL
+					is_subject_of = CHL
+				}
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_retake_tacna"
+			if = {
+				limit = {
+					PRU = {
+						owns_state = 876
+					}
+				}
+				if = {
+					limit = {
+						CHL = {
+							is_ai = yes
+						}
+					}
+					declare_war_on = {
+						type = annex_everything
+						target = PRU
+					}
+				}
+				else = {
+					create_wargoal = {
+						type = annex_everything
+						target = PRU
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_reclaim_the_patagonia
+		icon = GFX_goal_generic_more_territorial_claims
+		prerequisite = { focus = CHL_irredentist_path }
+		x = 45
+		y = 1
+		cost = 5
+		available = {
+			CHL = {
+				is_subject = no
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_reclaim_the_patagonia"
+			512 = {
+				add_claim_by = CHL
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_retake_the_patagonia
+		icon = GFX_goal_generic_attack_argentina
+		prerequisite = { focus = CHL_reclaim_the_patagonia }
+		x = 45
+		y = 2
+		cost = 5
+		will_lead_to_war_with = ARG
+
+		available = {
+			CHL = {
+				is_subject = no
+				has_war = no
+			}
+			ARG = {
+				owns_state = 512
+			}
+			date > 1939.1.1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_retake_the_patagonia"
+			if = {
+				limit = {
+					ARG = {
+						owns_state = 512
+					}
+				}
+				if = {
+					limit = {
+						CHL = {
+							is_ai = yes
+						}
+					}
+					declare_war_on = {
+						type = annex_everything
+						target = ARG
+					}
+				}
+				else = {
+					create_wargoal = {
+						type = annex_everything
+						target = ARG
+					}
+				}
+			}
+
+		}
+	}
+
+	focus = {
+		id = CHL_claim_the_empire
+		icon = GFX_goal_tfv_sever_ties_with_uk
+		prerequisite = { focus = CHL_irredentist_path }
+		x = 47
+		y = 1
+		cost = 5
+
+		available = {
+			CHL = {
+				is_subject = no
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_claim_the_empire"
+			270 = {
+				add_claim_by = CHL
+			}
+			636 = {
+				add_claim_by = CHL
+			}
+			643 = {
+				add_claim_by = CHL
+			}
+			639 = {
+				add_claim_by = CHL
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_strike_the_empire
+		icon = GFX_goal_tfv_sever_ties_with_uk
+		prerequisite = { focus = CHL_claim_the_empire }
+		x = 47
+		y = 2
+		cost = 5
+		will_lead_to_war_with = ENG
+
+		available = {
+			CHL = {
+				is_subject = no
+				has_war = no
+			}
+			date > 1939.1.1
+		}
+
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				ENG = {
+					NOT = {
+						has_war_with = GER
+					}
+				}
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_strike_the_empire"
+			if = {
+				limit = {
+					CHL = {
+						is_ai = yes
+					}
+				}
+				declare_war_on = {
+					type = annex_everything
+					target = ENG
+				}
+			}
+			else = {
+				create_wargoal = {
+					type = annex_everything
+					target = ENG
+				}
+			}
+			hidden_effect = {
+				country_event = { id = chl.2000 }
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_elections_forty
+		icon = GFX_goal_generic_elections
+		available = { always = no }
+		bypass = {
+			OR = {
+				has_global_flag = JARWON
+				has_global_flag = GRWON
+				has_global_flag = MGWON
+				has_global_flag = ECCWON
+			}
+		}
+		x = 3
+		y = 11
+		cost = 7
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_elections_forty"
+			add_political_power = 50
+		}
+	}
+
+	focus = {
+		id = CHL_president_rios
+		icon = GFX_goal_ideology_social_liberal
+		available = {
+			has_global_flag = JARWON
+		}
+		x = 0
+		y = 12
+		cost = 7
+		available_if_capitulated = yes
+		prerequisite = { focus = CHL_elections_forty }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_president_rios"
+			add_ideas = CHL_the_new_model
+		}
+	}
+
+	focus = {
+		id = CHL_radical_industry
+		icon = GFX_goal_generic_production2
+		x = 0
+		y = 13
+		cost = 7
+		prerequisite = { focus = CHL_president_rios }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_radical_industry"
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_sharing_is_caring
+		icon = GFX_goal_generic_national_unity
+		x = 0
+		y = 14
+		cost = 7
+		available_if_capitulated = yes
+		prerequisite = { focus = CHL_radical_industry }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_sharing_is_caring"
+			add_ideas = CHL_radical_welfare
+		}
+	}
+
+	focus = {
+		id = CHL_president_cruz-coke
+		icon = GFX_goal_ideology_social_conservative
+		available = {
+			has_global_flag = ECCWON
+		}
+		x = 2
+		y = 12
+		cost = 7
+		available_if_capitulated = yes
+		prerequisite = { focus = CHL_elections_forty }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_president_cruz-coke"
+			add_ideas = CHL_moderate_reforms
+		}
+	}
+
+	focus = {
+		id = CHL_responsible_investments
+		icon = GFX_goal_generic_consumer_goods
+		x = 2
+		y = 13
+		cost = 7
+		prerequisite = { focus = CHL_president_cruz-coke }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_responsible_investments"
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_balanced_budget
+		icon = GFX_goal_generic_intelligence_exchange
+		x = 2
+		y = 14
+		cost = 7
+		available_if_capitulated = yes
+		prerequisite = { focus = CHL_responsible_investments }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_balanced_budget"
+			add_ideas = CHL_balanced_budget
+		}
+	}
+
+	focus = {
+		id = CHL_president_ross
+		icon = GFX_goal_ideology_market_liberal
+		available = {
+			has_global_flag = GRWON
+		}
+		x = 4
+		y = 12
+		cost = 7
+		available_if_capitulated = yes
+		prerequisite = { focus = CHL_elections_forty }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_president_ross"
+			add_ideas = CHL_liberalized_economy
+		}
+	}
+
+	focus = {
+		id = CHL_seek_foreign_capital
+		icon = GFX_goal_generic_trade
+		x = 4
+		y = 13
+		cost = 7
+		prerequisite = { focus = CHL_president_ross }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_seek_foreign_capital"
+			add_ideas = CHL_foreign_investors
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = synthetic_refinery
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_develop_our_resources
+		icon = GFX_goal_steel
+		x = 4
+		y = 14
+		cost = 7
+		available_if_capitulated = yes
+		prerequisite = { focus = CHL_seek_foreign_capital }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_develop_our_resources"
+			add_resource = {
+				type = steel
+				amount = 20
+				state = 506
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_president_grove
+		icon = GFX_goal_ideology_social_democrat
+		available = {
+			has_global_flag = MGWON
+		}
+		x = 6
+		y = 12
+		cost = 7
+		available_if_capitulated = yes
+		prerequisite = { focus = CHL_elections_forty }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_president_grove"
+			add_ideas = CHL_socialized_society
+		}
+	}
+
+	focus = {
+		id = CHL_improve_social_situation
+		icon = GFX_goal_generic_construction2
+		x = 6
+		y = 13
+		cost = 7
+		prerequisite = { focus = CHL_president_grove }
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_improve_social_situation"
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_new_agrarian_reform
+		icon = GFX_goal_agrarian_reform
+		x = 6
+		y = 14
+		cost = 7
+		available_if_capitulated = yes
+		prerequisite = { focus = CHL_improve_social_situation }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_new_agrarian_reform"
+			add_ideas = CHL_agrarian_reform
+		}
+	}
+
+
+	focus = {
+		id = CHL_denounce_socialism
+		icon = GFX_goal_broken_red_star
+		available = {
+			date > 1939.1.1
+		}
+		x = 42
+		y = 5
+		cost = 5
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_denounce_socialism"
+			every_country = {
+				limit = {
+					NOT = {
+						is_in_faction_with = CHL
+						is_subject_of = CHL
+						has_war_with = CHL
+						has_government = social_liberal
+						has_government = market_liberal
+						has_government = authoritarian_democrat
+						has_government = social_democrat
+						has_government = social_conservative
+						has_government = valkist
+						has_government = national_populist
+						has_government = paternal_autocrat
+					}
+				}
+				add_opinion_modifier = { target = CHL modifier = CHL_denounced_socialism }
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_intervene_in_bolivia
+		icon = GFX_goal_generic_attack_bolivia
+		prerequisite = { focus = CHL_denounce_socialism }
+		will_lead_to_war_with = BOL
+
+		available = {
+			CHL = {
+				is_subject = no
+			}
+			has_global_flag = BOL_left
+		}
+		x = 41
+		y = 6
+		cost = 5
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_intervene_in_bolivia"
+			if = {
+				limit = {
+					CHL = {
+						is_ai = yes
+					}
+				}
+				declare_war_on = {
+					type = annex_everything
+					target = BOL
+				}
+			}
+			else = {
+				create_wargoal = {
+					type = annex_everything
+					target = BOL
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = CHL_intervene_in_argentina
+		icon = GFX_goal_generic_attack_argentina
+		prerequisite = { focus = CHL_denounce_socialism }
+		will_lead_to_war_with = ARG
+
+		available = {
+			CHL = {
+				is_subject = no
+			}
+			has_global_flag = ARG_left_republic
+		}
+		x = 43
+		y = 6
+		cost = 5
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CHL_intervene_in_argentina"
+			if = {
+				limit = {
+					CHL = {
+						is_ai = yes
+					}
+				}
+				declare_war_on = {
+					type = annex_everything
+					target = ARG
+				}
+			}
+			else = {
+				create_wargoal = {
+					type = annex_everything
+					target = ARG
+				}
+			}
+		}
+	}
+}

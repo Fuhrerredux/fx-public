@@ -1,0 +1,4610 @@
+# Australia Focus Tree
+
+focus_tree = {
+	id = australia_focus
+	country = {
+		factor = 0
+		modifier = {
+			add = 10
+			tag = AST
+		}
+	}
+
+	continuous_focus_position = { x = 16 y = 1400 }
+
+	######################################################
+	#                                                    #
+	#                       ECONOMY                      #
+	#                                                    #
+	######################################################
+
+	focus = {
+		id = AST_economy_in_crisis
+		icon = GFX_goal_HOL_black_monday
+		cost = 5
+		x = 5
+		y = 0
+		available = {
+			has_country_flag = AST_economy_in_crisis_flag
+		}
+		ai_will_do = {
+			factor = 30
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_economy_in_crisis"
+			add_stability = 0.05
+			add_political_power = 50
+		}
+		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_ECONOMIC_RECOVERY }
+	}
+
+	focus = {
+		id = AST_allieviate_farmers
+		icon = GFX_goal_generic_agricultural_aid
+		cost = 5
+		prerequisite = {
+			focus = AST_economy_in_crisis
+		}
+		x = 4
+		y = 1
+		ai_will_do = {
+			factor = 30
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_allieviate_farmers"
+			add_timed_idea = {
+				idea = AST_allieviate_farmers_idea
+				days = 200
+			}
+		}
+		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_ECONOMIC_RECOVERY }
+	}
+
+	focus = {
+		id = AST_higher_taxes
+		icon = GFX_DAH_Topke
+		cost = 5
+		prerequisite = {
+			focus = AST_economy_in_crisis
+		}
+		x = 6
+		y = 1
+		ai_will_do = {
+			factor = 30
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_higher_taxes"
+			add_timed_idea = {
+				idea = AST_higher_taxes_idea
+				days = 200
+			}
+		}
+		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_ECONOMIC_RECOVERY }
+	}
+
+	focus = {
+		id = AST_federal_lang_plan
+		icon = GFX_goal_HOL_list_left
+		cost = 5
+		prerequisite = {
+			focus = AST_allieviate_farmers
+		}
+		prerequisite = {
+			focus = AST_higher_taxes
+		}
+		x = 2
+		y = 2
+		mutually_exclusive = {
+			focus = AST_balanced_approach
+			focus = AST_austerity_measures
+		}
+		available = {
+			has_country_flag = AST_federal_lang_plan_flag
+		}
+		ai_will_do = {
+			factor = 30
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_federal_lang_plan"
+			swap_ideas = {
+				remove_idea = AST_effect_london_crash_idea
+				add_idea = AST_federal_lang_plan_idea
+			}
+		}
+		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_ECONOMIC_RECOVERY }
+	}
+
+	focus = {
+		id = AST_cease_interest_repayments
+		icon = GFX_goal_collaborate_local_elites2
+		cost = 6
+		prerequisite = {
+			focus = AST_federal_lang_plan
+		}
+		x = 1
+		y = 3
+		available = {
+			has_country_flag = AST_federal_lang_plan_flag
+		}
+		ai_will_do = {
+			factor = 30
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_cease_interest_repayments"
+			add_political_power = 20
+			USA = {
+				add_opinion_modifier = {
+					target = AST
+					modifier = medium_decrease
+				}
+			}
+			ENG = {
+				add_opinion_modifier = {
+					target = AST
+					modifier = medium_decrease
+				}
+			}
+			FRA = {
+				add_opinion_modifier = {
+					target = AST
+					modifier = medium_decrease
+				}
+			}
+			JAP = {
+				add_opinion_modifier = {
+					target = AST
+					modifier = medium_decrease
+				}
+			}
+			swap_ideas = {
+				remove_idea = AST_federal_lang_plan_idea
+				add_idea = AST_cease_interest_repayments_idea
+			}
+		}
+		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_ECONOMIC_RECOVERY }
+	}
+
+	focus = {
+		id = AST_balanced_approach
+		icon = GFX_goal_generic_neutrality_focus
+		cost = 5
+		prerequisite = {
+			focus = AST_allieviate_farmers
+		}
+		prerequisite = {
+			focus = AST_higher_taxes
+		}
+		mutually_exclusive = {
+			focus = AST_federal_lang_plan
+			focus = AST_austerity_measures
+		}
+		x = 5
+		y = 2
+		available = {
+			has_country_flag = AST_balanced_approach_flag
+		}
+		ai_will_do = {
+			factor = 30
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_balanced_approach"
+			swap_ideas = {
+				remove_idea = AST_effect_london_crash_idea
+				add_idea = AST_balanced_approach_idea
+			}
+		}
+		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_ECONOMIC_RECOVERY }
+	}
+
+	focus = {
+		id = AST_free_up_cash
+		icon = GFX_focus_mex_privatisation
+		cost = 6
+		prerequisite = {
+			focus = AST_federal_lang_plan
+			focus = AST_balanced_approach
+		}
+		x = 3
+		y = 3
+		available = {
+			OR = {
+				has_country_flag = AST_federal_lang_plan_flag
+				has_country_flag = AST_balanced_approach_flag
+			}
+		}
+		ai_will_do = {
+			factor = 30
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_free_up_cash"
+			add_political_power = 75
+			add_timed_idea = {
+				idea = AST_free_up_cash_idea
+				days = 100
+			}
+		}
+		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_ECONOMIC_RECOVERY }
+	}
+
+	focus = {
+		id = AST_sea_to_sea_federal_work
+		icon = GFX_goal_generic_bridge
+		cost = 6
+		prerequisite = {
+			focus = AST_cease_interest_repayments
+		}
+		prerequisite = {
+			focus = AST_free_up_cash
+		}
+		x = 2
+		y = 4
+		available = {
+			has_country_flag = AST_federal_lang_plan_flag
+			controls_state = 285
+			controls_state = 519
+			controls_state = 522
+		}
+		ai_will_do = {
+			factor = 30
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_sea_to_sea_federal_work"
+			add_political_power = -75
+			285 = {
+				if = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+				}
+			}
+			519 = {
+				if = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+				}
+			}
+			522 = {
+				if = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+				}
+			}
+			swap_ideas = {
+				remove_idea = AST_cease_interest_repayments_idea
+				add_idea = AST_sea_to_sea_federal_work_idea
+			}
+		}
+		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_ECONOMIC_RECOVERY }
+	}
+
+	focus = {
+		id = AST_bail_out_industries
+		icon = GFX_goal_capitalist_system
+		cost = 6
+		prerequisite = {
+			focus = AST_sea_to_sea_federal_work
+		}
+		x = 1
+		y = 5
+		available = {
+			has_country_flag = AST_federal_lang_plan_flag
+		}
+		ai_will_do = {
+			factor = 30
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_bail_out_industries"
+			add_political_power = -75
+			swap_ideas = {
+				remove_idea = AST_sea_to_sea_federal_work_idea
+				add_idea = AST_bail_out_industries_idea
+			}
+		}
+		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_ECONOMIC_RECOVERY }
+	}
+
+	focus = {
+		id = AST_goods_standard
+		icon = GFX_goal_generic_consumer_goods
+		cost = 6
+		prerequisite = {
+			focus = AST_free_up_cash
+		}
+		x = 3
+		y = 5
+		available = {
+			OR = {
+				has_country_flag = AST_federal_lang_plan_flag
+				has_country_flag = AST_balanced_approach_flag
+			}
+		}
+		ai_will_do = {
+			factor = 30
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_goods_standard"
+			add_political_power = -25
+			add_stability = 0.02
+			add_ideas = AST_goods_standard_idea
+		}
+		search_filters = { FOCUS_FILTER_MANPOWER }
+	}
+
+	focus = {
+		id = AST_stimulated_economy
+		icon = GFX_goal_generic_cash_stimulus_plan
+		cost = 6
+		prerequisite = {
+			focus = AST_bail_out_industries
+		}
+		prerequisite = {
+			focus = AST_goods_standard
+		}
+		x = 2
+		y = 6
+		available = {
+			has_country_flag = AST_federal_lang_plan_flag
+		}
+		ai_will_do = {
+			factor = 30
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_stimulated_economy"
+			add_political_power = -50
+			add_stability = 0.05
+			increase_ruling_party_popularity_by_5 = yes
+			remove_ideas = AST_bail_out_industries_idea
+			add_timed_idea = {
+				idea = AST_recovering_economy_idea
+				days = 150
+			}
+		}
+		search_filters = { FOCUS_FILTER_STABILITY }
+	}
+
+	focus = {
+		id = AST_deflate_prices
+		icon = GFX_DAH_Topke
+		cost = 6
+		prerequisite = {
+			focus = AST_free_up_cash
+		}
+		x = 4
+		y = 4
+		available = {
+			OR = {
+				has_country_flag = AST_federal_lang_plan_flag
+				has_country_flag = AST_balanced_approach_flag
+			}
+		}
+		ai_will_do = {
+			factor = 30
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_deflate_prices"
+			add_political_power = -75
+			add_stability = 0.02
+			add_timed_idea = {
+				idea = AST_deflate_prices_idea
+				days = 100
+			}
+		}
+		search_filters = { FOCUS_FILTER_STABILITY }
+	}
+
+	focus = {
+		id = AST_cut_bureaucracy
+		icon = GFX_goal_DEI_focus_disband_volksraad
+		cost = 6
+		prerequisite = {
+			focus = AST_balanced_approach
+		}
+		x = 5
+		y = 3
+		available = {
+			has_country_flag = AST_balanced_approach_flag
+		}
+		ai_will_do = {
+			factor = 30
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_cut_bureaucracy"
+			swap_ideas = {
+				remove_idea = AST_balanced_approach_idea
+				add_idea = AST_cut_bureaucracy_idea
+			}
+		}
+		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_ECONOMIC_RECOVERY }
+	}
+
+	focus = {
+		id = AST_austerity_measures
+		icon = GFX_goal_generic_austerity_measures
+		cost = 5
+		prerequisite = {
+			focus = AST_allieviate_farmers
+		}
+		prerequisite = {
+			focus = AST_higher_taxes
+		}
+		mutually_exclusive = {
+			focus = AST_federal_lang_plan
+			focus = AST_balanced_approach
+		}
+		x = 8
+		y = 2
+		available = {
+			has_country_flag = AST_austerity_measures_flag
+		}
+		ai_will_do = {
+			factor = 30
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_austerity_measures"
+			swap_ideas = {
+				remove_idea = AST_effect_london_crash_idea
+				add_idea = AST_austerity_measures_idea
+			}
+		}
+		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_ECONOMIC_RECOVERY }
+	}
+
+	focus = {
+		id = AST_spending_cuts_deal
+		icon = GFX_goal_generic_capitalist_system
+		cost = 6
+		prerequisite = {
+			focus = AST_balanced_approach
+			focus = AST_austerity_measures
+		}
+		x = 7
+		y = 3
+		available = {
+			OR = {
+				has_country_flag = AST_balanced_approach_flag
+				has_country_flag = AST_austerity_measures_flag
+			}
+		}
+		ai_will_do = {
+			factor = 30
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_spending_cuts_deal"
+			add_political_power = 75
+			add_stability = -0.02
+			add_timed_idea = {
+				idea = AST_spending_cuts_deal_idea
+				days = 100
+			}
+		}
+		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_ECONOMIC_RECOVERY }
+	}
+
+	focus = {
+		id = AST_reduction_on_interest
+		icon = GFX_goal_collaborate_local_elites
+		cost = 6
+		prerequisite = {
+			focus = AST_spending_cuts_deal
+		}
+		x = 6
+		y = 4
+		available = {
+			OR = {
+				has_country_flag = AST_balanced_approach_flag
+				has_country_flag = AST_austerity_measures_flag
+			}
+		}
+		ai_will_do = {
+			factor = 30
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_spending_cuts_deal"
+			add_political_power = -75
+			add_stability = 0.01
+			USA = {
+				add_opinion_modifier = {
+					target = AST
+					modifier = medium_increase
+				}
+			}
+			ENG = {
+				add_opinion_modifier = {
+					target = AST
+					modifier = medium_increase
+				}
+			}
+			FRA = {
+				add_opinion_modifier = {
+					target = AST
+					modifier = medium_increase
+				}
+			}
+			JAP = {
+				add_opinion_modifier = {
+					target = AST
+					modifier = medium_increase
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_STABILITY }
+	}
+
+	focus = {
+		id = AST_balance_budget
+		icon = GFX_goal_generic_financial_markets
+		cost = 6
+		prerequisite = {
+			focus = AST_deflate_prices
+		}
+		prerequisite = {
+			focus = AST_cut_bureaucracy
+		}
+		prerequisite = {
+			focus = AST_reduction_on_interest
+		}
+		x = 5
+		y = 5
+		available = {
+			has_country_flag = AST_balanced_approach_flag
+			controls_state = 285
+		}
+		ai_will_do = {
+			factor = 30
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_balance_budget"
+			add_political_power = -25
+			285 = {
+				if = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+				}
+			}
+			swap_ideas = {
+				remove_idea = AST_balanced_approach_idea
+				add_idea = AST_balance_budget_idea
+			}
+		}
+		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_ECONOMIC_RECOVERY }
+	}
+
+	focus = {
+		id = AST_work_with_opposition
+		icon = GFX_goal_generic_parliament2
+		cost = 6
+		prerequisite = {
+			focus = AST_spending_cuts_deal
+		}
+		x = 7
+		y = 5
+		available = {
+			OR = {
+				has_country_flag = AST_balanced_approach_flag
+				has_country_flag = AST_austerity_measures_flag
+			}
+		}
+		ai_will_do = {
+			factor = 30
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_work_with_opposition"
+			add_political_power = -25
+			add_stability = 0.02
+			add_timed_idea = {
+				idea = AST_work_with_opposition_idea
+				days = 100
+			}
+		}
+		search_filters = { FOCUS_FILTER_STABILITY }
+	}
+
+	focus = {
+		id = AST_australias_middle_road
+		icon = GFX_goal_economic_control
+		cost = 6
+		prerequisite = {
+			focus = AST_goods_standard
+			focus = AST_work_with_opposition
+		}
+		prerequisite = {
+			focus = AST_balance_budget
+		}
+		x = 5
+		y = 6
+		available = {
+			has_country_flag = AST_balanced_approach_flag
+		}
+		ai_will_do = {
+			factor = 30
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_australias_middle_road"
+			add_political_power = -25
+			add_stability = 0.03
+			increase_ruling_party_popularity_by_5 = yes
+			remove_ideas = AST_balance_budget_idea
+			add_timed_idea = {
+				idea = AST_recovering_economy_idea
+				days = 150
+			}
+		}
+		search_filters = { FOCUS_FILTER_STABILITY }
+	}
+
+	focus = {
+		id = AST_close_unprofitable_businesses
+		icon = GFX_goal_generic_privatization
+		cost = 6
+		prerequisite = {
+			focus = AST_austerity_measures
+		}
+		x = 9
+		y = 3
+		available = {
+			has_country_flag = AST_austerity_measures_flag
+			controls_state = 285
+		}
+		ai_will_do = {
+			factor = 30
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_close_unprofitable_businesses"
+			add_political_power = 30
+			285 = {
+				remove_building = {
+					type = arms_factory
+					level = 1
+				}
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+			swap_ideas = {
+				remove_idea = AST_austerity_measures_idea
+				add_idea = AST_close_unprofitable_businesses_idea
+			}
+		}
+		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_ECONOMIC_RECOVERY }
+	}
+
+	focus = {
+		id = AST_wage_cuts
+		icon = GFX_goal_generic_loans
+		cost = 6
+		prerequisite = {
+			focus = AST_spending_cuts_deal
+		}
+		prerequisite = {
+			focus = AST_close_unprofitable_businesses
+		}
+		x = 8
+		y = 4
+		available = {
+			has_country_flag = AST_austerity_measures_flag
+		}
+		ai_will_do = {
+			factor = 30
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_wage_cuts"
+			add_political_power = 20
+			add_stability = -0.02
+			add_timed_idea = {
+				idea = AST_wage_cuts_idea
+				days = 100
+			}
+			swap_ideas = {
+				remove_idea = AST_close_unprofitable_businesses_idea
+				add_idea = AST_wage_cuts_economy_idea
+			}
+			hidden_effect = {
+				country_event = { id = australia.19 days = 7 }
+			}
+		}
+		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_ECONOMIC_RECOVERY }
+	}
+
+	focus = {
+		id = AST_back_to_normalcy
+		icon = GFX_goal_production
+		cost = 6
+		prerequisite = {
+			focus = AST_wage_cuts
+		}
+		x = 9
+		y = 5
+		available = {
+			has_country_flag = AST_austerity_measures_flag
+			controls_state = 285
+		}
+		ai_will_do = {
+			factor = 30
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_back_to_normalcy"
+			add_political_power = -50
+			285 = {
+				if = {
+					limit = {
+						free_building_slots = {
+							building = arms_factory
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = arms_factory
+						level = 1
+						instant_build = yes
+					}
+				}
+				if = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			swap_ideas = {
+				remove_idea = AST_wage_cuts_economy_idea
+				add_idea = AST_back_to_normalcy_idea
+			}
+		}
+		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_ECONOMIC_RECOVERY }
+	}
+
+	focus = {
+		id = AST_end_austerity
+		icon = GFX_goal_generic_consumer_goods
+		cost = 6
+		prerequisite = {
+			focus = AST_work_with_opposition
+		}
+		prerequisite = {
+			focus = AST_back_to_normalcy
+		}
+		x = 8
+		y = 6
+		available = {
+			has_country_flag = AST_austerity_measures_flag
+		}
+		ai_will_do = {
+			factor = 30
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_end_austerity"
+			add_political_power = -25
+			add_stability = 0.03
+			increase_ruling_party_popularity_by_5 = yes
+			remove_ideas = AST_back_to_normalcy_idea
+			add_timed_idea = {
+				idea = AST_recovering_economy_idea
+				days = 150
+			}
+		}
+		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_ECONOMIC_RECOVERY }
+	}
+
+	focus = {
+		id = AST_complete_transcontinental_railway
+		icon = GFX_goal_generic_railway_construction
+		cost = 6
+		prerequisite = {
+			focus = AST_stimulated_economy
+			focus = AST_australias_middle_road
+			focus = AST_end_austerity
+		}
+		x = 3
+		y = 7
+		available = {
+			controls_state = 285
+			controls_state = 519
+			controls_state = 521
+			controls_state = 522
+		}
+		ai_will_do = {
+			factor = 30
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_complete_transcontinental_railway"
+			add_political_power = -50
+			285 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			519 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			521 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			522 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_ECONOMIC_RECOVERY }
+	}
+
+	focus = {
+		id = AST_expand_mines
+		icon = GFX_focus_generic_steel
+		cost = 6
+		prerequisite = {
+			focus = AST_complete_transcontinental_railway
+		}
+		x = 2
+		y = 8
+		available = {
+			controls_state = 285
+			controls_state = 519
+			controls_state = 520
+			controls_state = 522
+		}
+		ai_will_do = {
+			factor = 30
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_expand_mines"
+			285 = {
+				add_resource = {
+					type = steel
+					amount = 7
+				}
+			}
+			519 = {
+				add_resource = {
+					type = steel
+					amount = 5
+				}
+			}
+			522 = {
+				add_resource = {
+					type = aluminium
+					amount = 7
+				}
+				add_resource = {
+					type = steel
+					amount = 2
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_ECONOMIC_RECOVERY }
+	}
+
+	focus = {
+		id = AST_australian_oil
+		icon = GFX_goal_generic_oil_refinery
+		cost = 6
+		prerequisite = {
+			focus = AST_expand_mines
+		}
+		x = 1
+		y = 9
+		available = {
+			controls_state = 521
+			controls_state = 522
+		}
+		ai_will_do = {
+			factor = 30
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_australian_oil"
+			521 = {
+				add_resource = {
+					type = oil
+					amount = 3
+				}
+			}
+			522 = {
+				add_resource = {
+					type = oil
+					amount = 7
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_ECONOMIC_RECOVERY }
+	}
+
+	focus = {
+		id = AST_conquer_northern_territories
+		icon = GFX_goal_generic_construct_infrastructure
+		cost = 6
+		prerequisite = {
+			focus = AST_complete_transcontinental_railway
+		}
+		x = 3
+		y = 9
+		available = {
+			controls_state = 520
+		}
+		ai_will_do = {
+			factor = 30
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_expand_mines"
+			520 = {
+				add_resource = {
+					type = chromium
+					amount = 3
+				}
+				add_resource = {
+					type = aluminium
+					amount = 3
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_ECONOMIC_RECOVERY }
+	}
+
+	focus = {
+		id = AST_agricultural_modernization
+		icon = GFX_focus_AUS_agriculture
+		cost = 6
+		prerequisite = {
+			focus = AST_stimulated_economy
+			focus = AST_australias_middle_road
+			focus = AST_end_austerity
+		}
+		x = 5
+		y = 7
+		available = {
+			controls_state = 517
+			controls_state = 519
+		}
+		ai_will_do = {
+			factor = 30
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_agricultural_modernization"
+			add_political_power = -25
+			517 = {
+				if = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+				}
+			}
+			519 = {
+				if = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+				}
+			}
+			add_ideas = AST_agricultural_modernization_idea
+		}
+		search_filters = { FOCUS_FILTER_PRODUCTION }
+	}
+
+	focus = {
+		id = AST_fund_local_universities
+		icon = GFX_goal_AST_national_university
+		cost = 6
+		prerequisite = {
+			focus = AST_agricultural_modernization
+		}
+		x = 5
+		y = 8
+		ai_will_do = {
+			factor = 30
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_agricultural_modernization"
+			add_political_power = -25
+			add_research_slot = 1
+		}
+		search_filters = { FOCUS_FILTER_RESEARCH }
+	}
+
+	focus = {
+		id = AST_invest_in_industry
+		icon = GFX_goal_generic_construct_civ_factory
+		cost = 6
+		prerequisite = {
+			focus = AST_stimulated_economy
+			focus = AST_australias_middle_road
+			focus = AST_end_austerity
+		}
+		x = 7
+		y = 7
+		available = {
+			controls_state = 517
+			controls_state = 519
+			controls_state = 520
+		}
+		ai_will_do = {
+			factor = 30
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_invest_in_industry"
+			add_political_power = -30
+			517 = {
+				if = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			519 = {
+				if = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			520 = {
+				if = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+	}
+
+	focus = {
+		id = AST_newcastle_industrial_center
+		icon = GFX_focus_generic_industry_2
+		cost = 6
+		prerequisite = {
+			focus = AST_invest_in_industry
+		}
+		x = 7
+		y = 9
+		available = {
+			controls_state = 285
+		}
+		ai_will_do = {
+			factor = 30
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_newcastle_industrial_center"
+			add_political_power = -30
+			285 = {
+				if = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 3
+					add_building_construction = {
+						type = industrial_complex
+						level = 2
+						instant_build = yes
+					}
+					add_building_construction = {
+						type = arms_factory
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_PRODUCTION }
+	}
+
+	focus = {
+		id = AST_australian_arms_industry
+		icon = GFX_goal_generic_military_equipment
+		cost = 6
+		prerequisite = {
+			focus = AST_invest_in_industry
+		}
+		x = 8
+		y = 8
+		available = {
+			controls_state = 517
+			controls_state = 519
+			controls_state = 520
+		}
+		ai_will_do = {
+			factor = 30
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_australian_arms_industry"
+			add_political_power = -30
+			517 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			519 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			520 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_PRODUCTION }
+	}
+
+	######################################################
+	#                                                    #
+	#                        ARMY                        #
+	#                                                    #
+	######################################################
+
+	focus = {
+		id = AST_australian_army
+		icon = GFX_goal_AST_state_of_army
+		cost = 5
+		x = 15
+		y = 0
+		available = {
+			has_capitulated = no
+		}
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_australian_army"
+			army_experience = 25
+		}
+		search_filters = { FOCUS_FILTER_ARMY_BONUS }
+	}
+
+	focus = {
+		id = AST_end_military_austerity
+		icon = GFX_goal_GBR_british_money
+		cost = 6
+		prerequisite = {
+			focus = AST_australian_army
+		}
+		x = 15
+		y = 1
+		available = {
+			has_capitulated = no
+		}
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_end_military_austerity"
+			army_experience = 15
+			if = {
+				limit = { has_idea = civilian_economy }
+				add_ideas = low_economic_mobilisation
+			}
+			else = {
+				add_political_power = 100
+			}
+			add_war_support = 0.03
+		}
+		search_filters = { FOCUS_FILTER_ARMY_BONUS }
+	}
+
+	focus = {
+		id = AST_citizen_forces_reforms
+		icon = GFX_goal_army_guy
+		cost = 6
+		prerequisite = {
+			focus = AST_end_military_austerity
+		}
+		x = 13
+		y = 2
+		available = {
+			has_capitulated = no
+		}
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_citizen_forces_reforms"
+			add_ideas = AST_citizen_forces_reforms_idea
+		}
+		search_filters = { FOCUS_FILTER_ARMY_BONUS FOCUS_FILTER_MANPOWER }
+	}
+
+	focus = {
+		id = AST_purely_voluntary_force
+		icon = GFX_goal_generic_drafted_army
+		cost = 6
+		prerequisite = {
+			focus = AST_citizen_forces_reforms
+		}
+		mutually_exclusive = {
+			focus = AST_citizen_compulsory_service
+		}
+		x = 12
+		y = 3
+		available = {
+			has_capitulated = no
+		}
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_purely_voluntary_force"
+			add_political_power = 25
+			army_experience = 5
+			add_manpower = 20000
+		}
+		search_filters = { FOCUS_FILTER_MANPOWER FOCUS_FILTER_ARMY_BONUS }
+	}
+
+	focus = {
+		id = AST_citizen_compulsory_service
+		icon = GFX_goal_HOL_ban_paramilitary
+		cost = 6
+		prerequisite = {
+			focus = AST_citizen_forces_reforms
+		}
+		mutually_exclusive = {
+			focus = AST_purely_voluntary_force
+		}
+		x = 14
+		y = 3
+		available = {
+			has_capitulated = no
+		}
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_citizen_compulsory_service"
+			add_political_power = -25
+			army_experience = 5
+			if = {
+				limit = { has_idea = volunteer_only }
+				add_ideas = limited_conscription
+			}
+			else = {
+				add_political_power = 100
+				add_manpower = 1500
+			}
+		}
+		search_filters = { FOCUS_FILTER_MANPOWER FOCUS_FILTER_ARMY_BONUS }
+	}
+
+	focus = {
+		id = AST_training_reforms
+		icon = GFX_goal_generic_army_training
+		cost = 6
+		prerequisite = {
+			focus = AST_purely_voluntary_force
+			focus = AST_citizen_compulsory_service
+		}
+		x = 13
+		y = 4
+		available = {
+			has_capitulated = no
+		}
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_training_reforms"
+			army_experience = 5
+			add_tech_bonus = {
+				name = land_doc_bonus
+				bonus = 0.5
+				uses = 1
+				category = land_doctrine
+			}
+			swap_ideas = {
+				remove_idea = AST_citizen_forces_reforms_idea
+				add_idea = AST_training_reforms_idea
+			}
+		}
+		search_filters = { FOCUS_FILTER_ARMY_BONUS }
+	}
+
+	focus = {
+		id = AST_establish_second_aif
+		icon = GFX_goal_AST_monarch_officers
+		cost = 6
+		prerequisite = {
+			focus = AST_training_reforms
+		}
+		x = 13
+		y = 5
+		available = {
+			is_in_faction_with = ENG
+			has_capitulated = no
+		}
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_establish_second_aif"
+			army_experience = 5
+			swap_ideas = {
+				remove_idea = AST_training_reforms_idea
+				add_idea = AST_establish_second_aif_idea
+			}
+		}
+		search_filters = { FOCUS_FILTER_ARMY_BONUS }
+	}
+
+	focus = {
+		id = AST_modernize_equipment
+		icon = GFX_goal_generic_design_equipment_standards
+		cost = 6
+		prerequisite = {
+			focus = AST_end_military_austerity
+		}
+		x = 16
+		y = 2
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_modernize_equipment"
+			add_tech_bonus = {
+				name = infantry_weapons_bonus
+				bonus = 0.5
+				uses = 2
+				category = infantry_weapons
+			}
+		}
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_ARMY_BONUS }
+	}
+
+	focus = {
+		id = AST_modernize_tactics
+		icon = GFX_goal_officers
+		cost = 6
+		prerequisite = {
+			focus = AST_modernize_equipment
+		}
+		mutually_exclusive = {
+			focus = AST_focus_on_mobile_warfare
+		}
+		x = 16
+		y = 3
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_modernize_tactics"
+			add_doctrine_cost_reduction = {
+				name = land_doc_bonus
+				cost_reduction = 0.5
+				uses = 2
+				category = cat_superior_firepower
+				category = cat_grand_battle_plan
+			}
+		}
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_ARMY_BONUS }
+	}
+
+	focus = {
+		id = AST_artillary_war
+		icon = GFX_goal_generic_army_artillery2
+		cost = 6
+		prerequisite = {
+			focus = AST_modernize_tactics
+		}
+		x = 16
+		y = 5
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_artillary_war"
+			add_tech_bonus = {
+				name = infantry_artillery_bonus
+				bonus = 0.5
+				uses = 2
+				category = artillery
+			}
+		}
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_ARMY_BONUS }
+	}
+
+	focus = {
+		id = AST_modernize_cavalry_division
+		icon = GFX_goal_generic_armored_cars
+		cost = 6
+		prerequisite = {
+			focus = AST_end_military_austerity
+		}
+		x = 18
+		y = 2
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_artillary_war"
+			add_tech_bonus = {
+				name = motorized_bonus
+				bonus = 0.5
+				uses = 2
+				category = motorized_equipment
+			}
+		}
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_ARMY_BONUS }
+	}
+
+	focus = {
+		id = AST_focus_on_mobile_warfare
+		icon = GFX_goal_generic_army_tanks2
+		cost = 6
+		prerequisite = {
+			focus = AST_modernize_cavalry_division
+		}
+		mutually_exclusive = {
+			focus = AST_modernize_tactics
+		}
+		x = 18
+		y = 3
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_focus_on_mobile_warfare"
+			add_doctrine_cost_reduction = {
+				name = land_doc_bonus
+				cost_reduction = 0.5
+				uses = 2
+				category = cat_mobile_warfare
+			}
+		}
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_ARMY_BONUS }
+	}
+
+	focus = {
+		id = AST_marine_training
+		icon = GFX_goal_generic_amphibious_assault
+		cost = 6
+		prerequisite = {
+			focus = AST_modernize_tactics
+			focus = AST_focus_on_mobile_warfare
+		}
+		x = 17
+		y = 4
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_marine_training"
+			add_tech_bonus = {
+				name = special_forces_bonus
+				bonus = 0.5
+				uses = 2
+				category = marine_tech
+			}
+		}
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_ARMY_BONUS }
+	}
+
+	focus = {
+		id = AST_australian_tank_research
+		icon = GFX_goal_generic_army_tanks
+		cost = 6
+		prerequisite = {
+			focus = AST_focus_on_mobile_warfare
+		}
+		x = 18
+		y = 5
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_australian_tank_research"
+			add_tech_bonus = {
+				name = armor_bonus
+				bonus = 0.5
+				uses = 2
+				category = armor
+			}
+		}
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_ARMY_BONUS }
+	}
+
+	######################################################
+	#                                                    #
+	#                        NAVY                        #
+	#                                                    #
+	######################################################
+
+	focus = {
+		id = AST_australian_royal_navy
+		icon = GFX_goal_AST_state_of_RAN
+		cost = 5
+		x = 23
+		y = 0
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_australian_army"
+			navy_experience = 25
+		}
+	}
+
+	focus = {
+		id = AST_modernize_naval_fortification
+		icon = GFX_goal_generic_naval_base
+		cost = 6
+		prerequisite = {
+			focus = AST_australian_royal_navy
+		}
+		x = 21
+		y = 1
+		available = {
+			has_capitulated = no
+			controls_state = 520
+			controls_state = 888
+		}
+		completion_reward = {
+			520 = {
+				add_building_construction = {
+					type = coastal_bunker
+					level = 3
+					province = 7669
+					instant_build = yes
+				}
+			}
+			888 = {
+				add_building_construction = {
+					type = coastal_bunker
+					level = 3
+					province = 7566
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = AST_protect_new_guinea
+		icon = GFX_goal_generic_naval_fleet_in_being
+		cost = 6
+		prerequisite = {
+			focus = AST_modernize_naval_fortification
+		}
+		x = 21
+		y = 2
+		available = {
+			has_capitulated = no
+			controls_state = 523
+			controls_state = 856
+		}
+		completion_reward = {
+			523 = {
+				add_building_construction = {
+					type = naval_base
+					level = 3
+					province = 4329
+					instant_build = yes
+				}
+			}
+			856 = {
+				add_building_construction = {
+					type = naval_base
+					level = 3
+					province = 12237
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = AST_safe_australian_seas
+		icon = GFX_goal_generic_sea_focused_navy2
+		cost = 6
+		prerequisite = {
+			focus = AST_protect_new_guinea
+		}
+		x = 21
+		y = 4
+		completion_reward = {
+			add_tech_bonus = {
+				category = bb_tech
+				bonus = 1.0
+				uses = 1
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_NAVY_BONUS
+			FOCUS_FILTER_RESEARCH
+		}
+	}
+
+	focus = {
+		id = AST_modernize_destroyer_fleet
+		icon = GFX_focus_generic_destroyer
+		cost = 6
+		prerequisite = {
+			focus = AST_australian_royal_navy
+		}
+		x = 23
+		y = 1
+		completion_reward = {
+			add_tech_bonus = {
+				name = AST_modernize_destroyer_fleet
+				category = dd_tech
+				bonus = 1.0
+				uses = 1
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_NAVY_BONUS
+		}
+	}
+
+	focus = {
+		id = AST_australian_submarines
+		icon = GFX_goal_generic_navy_submarine
+		cost = 6
+		prerequisite = {
+			focus = AST_modernize_destroyer_fleet
+		}
+		x = 23
+		y = 2
+		completion_reward = {
+			add_tech_bonus = {
+				name = AST_australian_submarines
+				category = ss_tech
+				bonus = 1.0
+				uses = 1
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_NAVY_BONUS
+		}
+	}
+
+	focus = {
+		id = AST_cruiser_expansion
+		icon = GFX_goal_generic_naval_cruiser2
+		cost = 6
+		prerequisite = {
+			focus = AST_australian_submarines
+		}
+		mutually_exclusive = {
+			focus = AST_carrier_attempts
+		}
+		x = 22
+		y = 3
+		completion_reward = {
+			add_tech_bonus = {
+				category = cl_tech
+				category = ca_tech
+				bonus = 1.0
+				uses = 1
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_RESEARCH
+			FOCUS_FILTER_NAVY_BONUS
+		}
+	}
+
+	focus = {
+		id = AST_carrier_attempts
+		icon = GFX_goal_generic_carrier_aircraft
+		cost = 6
+		prerequisite = {
+			focus = AST_australian_submarines
+		}
+		mutually_exclusive = {
+			focus = AST_cruiser_expansion
+		}
+		x = 24
+		y = 3
+		completion_reward = {
+			add_tech_bonus = {
+				category = cv_tech
+				bonus = 1.0
+				uses = 1
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_NAVY_BONUS
+			FOCUS_FILTER_RESEARCH
+		}
+	}
+
+	focus = {
+		id = AST_naval_command
+		icon = GFX_goal_generic_naval_command
+		cost = 6
+		prerequisite = {
+			focus = AST_cruiser_expansion
+			focus = AST_carrier_attempts
+		}
+		x = 23
+		y = 4
+		available = {
+			has_capitulated = no
+		}
+		completion_reward = {
+			add_doctrine_cost_reduction = {
+				name = AST_naval_command
+				category = naval_doctrine
+				cost_reduction = 0.5
+				uses = 2
+			}
+			navy_experience = 15
+		}
+		search_filters = { FOCUS_FILTER_NAVY_BONUS }
+	}
+
+	focus = {
+		id = AST_expand_australian_dockyards
+		icon = GFX_focus_generic_refit_civilian_ships
+		cost = 6
+		prerequisite = {
+			focus = AST_australian_royal_navy
+		}
+		x = 25
+		y = 1
+		available = {
+			has_capitulated = no
+		}
+		completion_reward = {
+			random_owned_controlled_state = {
+				prioritize = { 517 }
+				if = {
+					limit = {
+						free_building_slots = {
+							building = dockyard
+							size > 0
+							include_locked = yes
+						}
+					}
+
+					add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = dockyard
+						level = 2
+						instant_build = yes
+					}
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_PRODUCTION FOCUS_FILTER_NAVY_BONUS }
+	}
+
+	focus = {
+		id = AST_fuel_naval_industry
+		icon = GFX_goal_generic_naval_industry
+		cost = 6
+		prerequisite = {
+			focus = AST_expand_australian_dockyards
+		}
+		available = {
+			has_capitulated = no
+		}
+		x = 25
+		y = 2
+		completion_reward = {
+			random_owned_controlled_state = {
+				prioritize = { 521 }
+				if = {
+					limit = {
+						free_building_slots = {
+							building = dockyard
+							size > 0
+							include_locked = yes
+						}
+					}
+
+					add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = dockyard
+						level = 2
+						instant_build = yes
+					}
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_PRODUCTION FOCUS_FILTER_NAVY_BONUS }
+	}
+
+	focus = {
+		id = AST_increase_naval_productions
+		icon = GFX_goal_AST_upgrade_reserves
+		cost = 6
+		prerequisite = {
+			focus = AST_fuel_naval_industry
+		}
+		available = {
+			has_capitulated = no
+		}
+		x = 25
+		y = 4
+		completion_reward = {
+			add_ideas = AST_naval_production
+		}
+		search_filters = { FOCUS_FILTER_PRODUCTION }
+	}
+
+	focus = {
+		id = AST_masters_on_southern_seas
+		icon = GFX_goal_generic_navy_battleship3
+		cost = 6
+		prerequisite = {
+			focus = AST_safe_australian_seas
+		}
+		prerequisite = {
+			focus = AST_naval_command
+		}
+		prerequisite = {
+			focus = AST_increase_naval_productions
+		}
+		x = 23
+		y = 5
+		completion_reward = {
+			add_ideas = AST_master_of_southern_seas
+		}
+		search_filters = { FOCUS_FILTER_NAVY_BONUS }
+	}
+
+	######################################################
+	#                                                    #
+	#                     AIR FORCE                      #
+	#                                                    #
+	######################################################
+
+	focus = {
+		id = AST_australian_royal_air_force
+		icon = GFX_goal_AST_state_of_RAAF
+		cost = 5
+		x = 29
+		y = 0
+		ai_will_do = {
+			factor = 2
+			modifier = {
+				factor = 1.5
+				has_war = yes
+			}
+			modifier = {
+				factor = 1.5
+				date > 1937.1.1
+			}
+			modifier = {
+				factor = 3
+				date > 1938.1.1
+			}
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_australian_army"
+			air_experience = 25
+		}
+	}
+
+	focus = {
+		id = AST_subsidize_de_havilland
+		icon = GFX_goal_air_armada
+		cost = 6
+		prerequisite = {
+			focus = AST_australian_royal_air_force
+		}
+		x = 28
+		y = 1
+		available = {
+			has_capitulated = no
+		}
+		completion_reward = {
+			random_owned_controlled_state = {
+				prioritize = { 285 }
+				if = {
+					limit = {
+						free_building_slots = {
+							building = arms_factory
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = arms_factory
+						level = 2
+						instant_build = yes
+					}
+				}
+			}
+			custom_effect_tooltip = available_designer
+			show_ideas_tooltip = de_havilland_australia
+		}
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+			FOCUS_FILTER_AIRFORCE_BONUS
+		}
+	}
+
+	focus = {
+		id = AST_flying_training_school
+		icon = GFX_focus_SOV_flying_clubs
+		cost = 6
+		prerequisite = {
+			focus = AST_australian_royal_air_force
+		}
+		x = 30
+		y = 1
+		available = {
+			has_capitulated = no
+		}
+		completion_reward = {
+			add_doctrine_cost_reduction = {
+				name = AST_flying_training_school
+				category = air_doctrine
+				cost_reduction = 0.5
+				uses = 1
+			}
+			add_ideas = AST_pilot_training_school
+		}
+		search_filters = { FOCUS_FILTER_AIRFORCE_BONUS }
+	}
+
+	focus = {
+		id = AST_purchase_foreign_planes
+		icon = GFX_goal_generic_air_fighter2_new
+		cost = 6
+		prerequisite = {
+			focus = AST_subsidize_de_havilland
+		}
+		prerequisite = {
+			focus = AST_flying_training_school
+		}
+		available = {
+			has_capitulated = no
+		}
+		x = 29
+		y = 2
+		completion_reward = {
+			air_experience = 10
+			add_equipment_to_stockpile = {
+				type = small_plane_airframe
+				amount = 100
+				producer = USA
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_AIRFORCE_BONUS
+		}
+	}
+
+	focus = {
+		id = AST_close_air_support_effort
+		icon = GFX_goal_generic_air_fighter2
+		cost = 6
+		prerequisite = {
+			focus = AST_purchase_foreign_planes
+		}
+		x = 27
+		y = 3
+		completion_reward = {
+			add_tech_bonus = {
+				category = cas_bomber
+				bonus = 1.0
+				uses = 1
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_AIRFORCE_BONUS
+			FOCUS_FILTER_RESEARCH
+		}
+	}
+
+	focus = {
+		id = AST_fighter_focus
+		icon = GFX_goal_generic_air_fighter
+		cost = 6
+		prerequisite = {
+			focus = AST_purchase_foreign_planes
+		}
+		x = 29
+		y = 3
+		completion_reward = {
+			add_tech_bonus = {
+				category = light_fighter
+				bonus = 1.0
+				uses = 1
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_AIRFORCE_BONUS
+			FOCUS_FILTER_RESEARCH
+		}
+	}
+
+	focus = {
+		id = AST_defensive_air_tactics
+		icon = GFX_goal_generic_air_defense2
+		cost = 6
+		prerequisite = {
+			focus = AST_fighter_focus
+		}
+		available = {
+			has_capitulated = no
+		}
+		mutually_exclusive = {
+			focus = AST_offensive_air_tactics
+		}
+		x = 28
+		y = 4
+		completion_reward = {
+			add_doctrine_cost_reduction = {
+				name = AST_defensive_air_tactics
+				category = air_doctrine
+				cost_reduction = 0.5
+				uses = 1
+			}
+			add_ideas = AST_defensive_air_force
+		}
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+			FOCUS_FILTER_AIRFORCE_BONUS
+		}
+	}
+
+	focus = {
+		id = AST_offensive_air_tactics
+		icon = GFX_goal_generic_jet
+		cost = 6
+		prerequisite = {
+			focus = AST_fighter_focus
+		}
+		available = {
+			has_capitulated = no
+		}
+		mutually_exclusive = {
+			focus = AST_defensive_air_tactics
+		}
+		x = 30
+		y = 4
+		completion_reward = {
+			add_doctrine_cost_reduction = {
+				name = AST_offensive_air_tactics
+				category = air_doctrine
+				cost_reduction = 0.5
+				uses = 1
+			}
+			add_ideas = AST_offensive_air_force
+		}
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+			FOCUS_FILTER_AIRFORCE_BONUS
+		}
+	}
+
+	focus = {
+		id = AST_control_skies
+		icon = GFX_goal_generic_air_doctrine
+		cost = 6
+		prerequisite = {
+			focus = AST_defensive_air_tactics
+			focus = AST_offensive_air_tactics
+		}
+		available = {
+			has_capitulated = no
+		}
+		x = 29
+		y = 5
+		completion_reward = {
+			add_doctrine_cost_reduction = {
+				name = AST_control_skies
+				category = air_doctrine
+				cost_reduction = 0.5
+				uses = 1
+			}
+			if = {
+				limit = { has_idea = AST_offensive_air_force }
+				swap_ideas = {
+					remove_idea = AST_offensive_air_force
+					add_idea = AST_offensive_air_force_1
+				}
+			}
+			else_if = {
+				limit = { has_idea = AST_defensive_air_force }
+				swap_ideas = {
+					remove_idea = AST_defensive_air_force
+					add_idea = AST_defensive_air_force_1
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = AST_naval_air_squadrons
+		icon = GFX_goal_generic_air_naval_bomber2_new
+		cost = 6
+		prerequisite = {
+			focus = AST_purchase_foreign_planes
+		}
+		x = 31
+		y = 3
+		completion_reward = {
+			add_tech_bonus = {
+				category = naval_bomber
+				bonus = 1.0
+				uses = 1
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_RESEARCH
+			FOCUS_FILTER_AIRFORCE_BONUS
+		}
+	}
+
+	focus = {
+		id = AST_upgrade_air_defences
+		icon = GFX_goal_generic_airports
+		cost = 6
+		prerequisite = {
+			focus = AST_defensive_air_tactics
+			focus = AST_offensive_air_tactics
+		}
+		x = 27
+		y = 5
+		available = {
+			has_capitulated = no
+			controls_state = 520
+		}
+		completion_reward = {
+			520 = {
+				add_building_construction = {
+					type = anti_air_building
+					level = 2
+					instant_build = yes
+				}
+				if = {
+					limit = {
+						free_building_slots = {
+							building = air_base
+							size > 1
+						}
+					}
+					add_building_construction = {
+						type = air_base
+						level = 2
+						instant_build = yes
+					}
+				}
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+			FOCUS_FILTER_AIRFORCE_BONUS
+		}
+	}
+
+	focus = {
+		id = AST_jet_developments
+		icon = GFX_focus_rocketry
+		cost = 6
+		prerequisite = {
+			focus = AST_defensive_air_tactics
+			focus = AST_offensive_air_tactics
+		}
+		x = 31
+		y = 5
+		completion_reward = {
+			add_tech_bonus = {
+				name = AST_jet_developments
+				category = air_equipment
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	######################################################
+	#                                                    #
+	#                     DEMOCRACY                      #
+	#                                                    #
+	######################################################
+
+	focus = {
+		id = AST_labor_survives
+		icon = GFX_goal_ideology_social_democrat
+		cost = 5
+		x = 13
+		y = 7
+		allow_branch = {
+			has_democratic_government = yes
+		}
+		available = {
+			hidden_trigger = { always = no }
+		}
+		bypass = {
+			has_country_flag = AST_labor_survives_flag
+		}
+		completion_reward = {
+			custom_effect_tooltip = AST_labor_survives_tt
+		}
+	}
+
+	focus = {
+		id = AST_united_australia
+		icon = GFX_goal_ideology_social_conservative
+		cost = 5
+		x = 4
+		y = 0
+		allow_branch = {
+			has_democratic_government = yes
+		}
+		relative_position_id = AST_labor_survives
+		available = {
+			hidden_trigger = { always = no }
+		}
+		bypass = {
+			has_country_flag = AST_united_australia_flag
+		}
+		completion_reward = {
+			custom_effect_tooltip = AST_united_australia_tt
+		}
+	}
+
+	focus = {
+		id = AST_dominions_foreign_affairs
+		icon = GFX_focus_AST_rats_tobruk
+		cost = 5
+		x = 8
+		y = 0
+		allow_branch = {
+			has_democratic_government = yes
+		}
+		available = {
+			has_capitulated = no
+			has_democratic_government = yes
+			has_country_flag = AST_has_1937_elections
+		}
+
+		relative_position_id = AST_united_australia
+		completion_reward = {
+			add_war_support = 0.1
+		}
+	}
+
+	focus = {
+		id = AST_national_welfare_schemes
+		icon = GFX_focus_generic_concessions
+		cost = 6
+		relative_position_id = AST_labor_survives
+		available = {
+			has_capitulated = no
+			has_government = social_democrat
+		}
+		prerequisite = {
+			focus = AST_labor_survives
+		}
+		x = -2
+		y = 1
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_welfare_programs"
+			add_ideas = AST_welfare_programs
+		}
+		search_filters = { FOCUS_FILTER_MANPOWER FOCUS_FILTER_POLITICAL }
+	}
+
+
+	focus = {
+		id = AST_australian_socialization_scheme
+		icon = GFX_goal_ideology_radical_socialist
+		cost = 6
+		relative_position_id = AST_national_welfare_schemes
+		available = {
+			has_capitulated = no
+			has_government = social_democrat
+		}
+		prerequisite = {
+			focus = AST_national_welfare_schemes
+		}
+		mutually_exclusive = {
+			focus = AST_support_small_business
+		}
+		x = -1
+		y = 1
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_australian_socialization_scheme"
+			add_popularity = { ideology = collectivist popularity = 0.03 }
+			add_popularity = { ideology = libertarian_socialist popularity = 0.05 }
+			custom_effect_tooltip = tooltip_white_line
+			add_ideas = AST_socialist_policies
+		}
+		search_filters = { FOCUS_FILTER_PRODUCTION }
+	}
+
+	focus = {
+		id = AST_solidify_union_support
+		icon = GFX_goal_generic_workers_rights
+		cost = 6
+		relative_position_id = AST_australian_socialization_scheme
+		available = {
+			has_capitulated = no
+			has_government = social_democrat
+		}
+		prerequisite = {
+			focus = AST_australian_socialization_scheme
+		}
+		x = 0
+		y = 2
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_solidify_union_support"
+			add_popularity = { ideology = collectivist popularity = 0.03 }
+			add_popularity = { ideology = libertarian_socialist popularity = 0.05 }
+			custom_effect_tooltip = tooltip_white_line
+			swap_ideas = {
+				remove_idea = AST_socialist_policies
+				add_idea = AST_socialist_policies_1
+			}
+		}
+		search_filters = { FOCUS_FILTER_PRODUCTION }
+	}
+
+	focus = {
+		id = AST_support_small_business
+		icon = GFX_goal_generic_food_processing
+		cost = 6
+		relative_position_id = AST_national_welfare_schemes
+		available = {
+			has_capitulated = no
+			has_government = social_democrat
+		}
+		prerequisite = {
+			focus = AST_national_welfare_schemes
+		}
+		mutually_exclusive = {
+			focus = AST_australian_socialization_scheme
+		}
+		x = 1
+		y = 1
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_australian_socialization_scheme"
+			random_owned_controlled_state = {
+				prioritize = { 517 }
+				if = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			random_owned_controlled_state = {
+				prioritize = { 285 }
+				if = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_PRODUCTION }
+	}
+
+	focus = {
+		id = AST_protect_australian_working_class
+		icon = GFX_goal_generic_enforce_labor_regulation
+		cost = 6
+		relative_position_id = AST_australian_socialization_scheme
+		available = {
+			has_capitulated = no
+			has_government = social_democrat
+		}
+		prerequisite = {
+			focus = AST_australian_socialization_scheme
+			focus = AST_support_small_business
+		}
+		x = 1
+		y = 1
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_protect_australian_working_class"
+			increase_ruling_party_popularity_by_5 = yes
+			swap_ideas = {
+				remove_idea = AST_welfare_programs
+				add_idea = AST_welfare_programs_1
+			}
+		}
+		search_filters = { FOCUS_FILTER_PRODUCTION FOCUS_FILTER_MANPOWER }
+	}
+
+	focus = {
+		id = AST_work_with_anti_socialist_labor
+		icon = GFX_goal_HOL_list_left
+		cost = 6
+		relative_position_id = AST_support_small_business
+		available = {
+			has_capitulated = no
+			has_government = social_democrat
+		}
+		prerequisite = {
+			focus = AST_support_small_business
+		}
+		x = 0
+		y = 2
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_work_with_anti_socialist_labor"
+			add_popularity = { ideology = social_democrat popularity = 0.05 }
+			add_popularity = { ideology = social_liberal popularity = 0.05 }
+			hidden_effect = { add_coalition_social_liberal = yes }
+			custom_effect_tooltip = AST_work_with_anti_socialist_labor_tt
+			activate_advisor = AST_Jack_Lang_for_sli
+			custom_effect_tooltip = separator_tt
+			activate_advisor = AST_Edward_J_Ward_sec_sli
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL }
+	}
+
+	focus = {
+		id = AST_work_and_welfare
+		icon = GFX_goal_generic_workers_democracy
+		cost = 6
+		relative_position_id = AST_solidify_union_support
+		available = {
+			has_capitulated = no
+			has_government = social_democrat
+		}
+		prerequisite = {
+			focus = AST_solidify_union_support
+			focus = AST_work_with_anti_socialist_labor
+		}
+		prerequisite = {
+			focus = AST_protect_australian_working_class
+		}
+		x = 1
+		y = 1
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_work_and_welfare"
+			add_political_power = 200
+		}
+	}
+
+	focus = {
+		id = AST_assure_free_press
+		icon = GFX_goal_AST_freedom_of_the_press
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_democratic_government = yes
+		}
+		prerequisite = {
+			focus = AST_labor_survives
+			focus = AST_united_australia
+		}
+		x = 0
+		y = 1
+		relative_position_id = AST_labor_survives
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_assure_free_press"
+			add_political_power = 100
+			increase_ruling_party_popularity_by_5 = yes
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL }
+	}
+
+	focus = {
+		id = AST_secure_australian_rights
+		icon = GFX_goal_POR_royal_edicts
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_democratic_government = yes
+		}
+		prerequisite = {
+			focus = AST_labor_survives
+			focus = AST_united_australia
+		}
+		x = 2
+		y = 1
+		relative_position_id = AST_labor_survives
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_secure_australian_rights"
+			add_stability = 0.1
+			increase_ruling_party_popularity_by_5 = yes
+		}
+		search_filters = { FOCUS_FILTER_STABILITY }
+	}
+
+	focus = {
+		id = AST_discourage_radical_politics
+		icon = GFX_HOL_crackdown_syndie
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_democratic_government = yes
+		}
+		prerequisite = {
+			focus = AST_assure_free_press
+		}
+		prerequisite = {
+			focus = AST_secure_australian_rights
+		}
+		x = 1
+		y = 1
+		relative_position_id = AST_assure_free_press
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_discourage_radical_politics"
+			add_popularity = { ideology = vanguardist popularity = -0.03 }
+			add_popularity = { ideology = collectivist popularity = -0.05 }
+			add_popularity = { ideology = libertarian_socialist popularity = -0.1 }
+
+			custom_effect_tooltip = tooltip_white_line
+			if = {
+				limit = { has_idea = AST_auralia_movement_idea }
+				remove_ideas = AST_auralia_movement_idea
+			}
+			else_if = {
+				limit = { has_idea = AST_strong_auralia_movement_idea }
+				remove_ideas = AST_strong_auralia_movement_idea
+			}
+		}
+	}
+
+	focus = {
+		id = AST_mend_regional_divides
+		icon = GFX_goal_generic_culture2
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_democratic_government = yes
+		}
+		prerequisite = {
+			focus = AST_labor_survives
+			focus = AST_united_australia
+		}
+		x = 3
+		y = 2
+		relative_position_id = AST_labor_survives
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_mend_regional_divides"
+			add_political_power = 100
+			increase_ruling_party_popularity_by_5 = yes
+			custom_effect_tooltip = tooltip_white_line
+			if = {
+				limit = { has_idea = AST_internal_divisions_idea }
+				remove_ideas = AST_internal_divisions_idea
+			}
+			else_if = {
+				limit = { has_idea = AST_more_internal_divisions_idea }
+				remove_ideas = AST_more_internal_divisions_idea
+			}
+		}
+	}
+
+	focus = {
+		id = AST_australian_unity
+		icon = GFX_goal_COS_Ferrer_Coup
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_democratic_government = yes
+		}
+		prerequisite = {
+			focus = AST_discourage_radical_politics
+		}
+		prerequisite = {
+			focus = AST_mend_regional_divides
+		}
+		x = 1
+		y = 1
+		relative_position_id = AST_discourage_radical_politics
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_australian_unity"
+			swap_ideas = {
+				remove_idea = AST_memories_of_galipoli_idea
+				add_idea = AST_memories_of_galipoli_idea_1
+			}
+		}
+		search_filters = { FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_MANPOWER }
+	}
+
+	focus = {
+		id = AST_united_country
+		icon = GFX_goal_generic_parliament
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = social_conservative
+		}
+		prerequisite = {
+			focus = AST_united_australia
+		}
+		x = 2
+		y = 1
+		relative_position_id = AST_united_australia
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_united_country"
+			add_popularity = { ideology = market_liberal popularity = 0.05 }
+			add_popularity = { ideology = social_conservative popularity = 0.05 }
+
+			custom_effect_tooltip = AST_united_country_tt
+			hidden_effect = { add_coalition_market_liberal = yes }
+
+			activate_advisor = AST_Robert_Menzies_eco_mli
+			activate_advisor = AST_George_F_Pearce_sec_mli
+		}
+	}
+
+	focus = {
+		id = AST_support_rural_workers
+		icon = GFX_goal_generic_agriculture
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = social_conservative
+		}
+		prerequisite = {
+			focus = AST_united_country
+		}
+		x = -1
+		y = 1
+		relative_position_id = AST_united_country
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_support_rural_workers"
+			add_ideas = AST_labour_code_reforms
+		}
+		search_filters = { FOCUS_FILTER_PRODUCTION }
+	}
+
+	focus = {
+		id = AST_sound_budget
+		icon = GFX_goal_generic_investments
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = social_conservative
+		}
+		prerequisite = {
+			focus = AST_united_country
+		}
+		x = 1
+		y = 1
+		relative_position_id = AST_united_country
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_sound_budget"
+			add_ideas = AST_fiscal_responsibility
+		}
+		search_filters = { FOCUS_FILTER_PRODUCTION }
+	}
+
+	focus = {
+		id = AST_protect_australian_businesses
+		icon = GFX_goal_KTG_Certificate_Focus
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = social_conservative
+		}
+		prerequisite = {
+			focus = AST_support_rural_workers
+		}
+		prerequisite = {
+			focus = AST_sound_budget
+		}
+		x = 1
+		y = 1
+		relative_position_id = AST_support_rural_workers
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_protect_australian_businesses"
+			random_owned_controlled_state = {
+				prioritize = { 517 }
+				if = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			random_owned_controlled_state = {
+				prioritize = { 285 }
+				if = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			random_owned_controlled_state = {
+				prioritize = { 520 }
+				if = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			random_owned_controlled_state = {
+				prioritize = { 522 }
+				if = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_PRODUCTION }
+	}
+
+	focus = {
+		id = AST_anti_socialism
+		icon = GFX_focus_ger_bulwark_against_bolshevism
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = social_conservative
+		}
+		prerequisite = {
+			focus = AST_protect_australian_businesses
+		}
+		x = -1
+		y = 1
+		relative_position_id = AST_protect_australian_businesses
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_anti_socialism"
+			add_popularity = { ideology = collectivist popularity = -0.05 }
+			add_popularity = { ideology = libertarian_socialist popularity = -0.05 }
+			add_popularity = { ideology = social_democrat popularity = -0.05 }
+			add_stability = 0.15
+			
+			hidden_effect = {
+				country_event = { id = australia.44 days = 20 }
+			}
+
+			custom_effect_tooltip = tooltip_white_line
+			if = {
+				limit = { has_intelligence_agency = no }
+				create_intelligence_agency = yes
+			}
+
+			if = {
+				limit = {
+					NOT = { has_done_agency_upgrade = upgrade_passive_defense }
+				}
+				upgrade_intelligence_agency = upgrade_passive_defense
+			}
+			if = {
+				limit = {
+					NOT = { has_done_agency_upgrade = upgrade_anti_partisan }
+				}
+				upgrade_intelligence_agency = upgrade_anti_partisan
+			}
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL }
+	}
+
+	focus = {
+		id = AST_solidify_coalition
+		icon = GFX_goal_collaborate_local_elites
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = social_conservative
+		}
+		prerequisite = {
+			focus = AST_protect_australian_businesses
+		}
+		x = 0
+		y = 2
+		relative_position_id = AST_protect_australian_businesses
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_solidify_coalition"
+			add_political_power = 200
+		}
+	}
+
+	focus = {
+		id = AST_our_imperial_ties
+		icon = GFX_goal_GBR_britannia
+		cost = 6
+		available = {
+			has_capitulated = no
+			is_in_faction_with = ENG
+		}
+		prerequisite = {
+			focus = AST_dominions_foreign_affairs
+		}
+		x = -1
+		y = 1
+		relative_position_id = AST_dominions_foreign_affairs
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_canzuk_free_trade_zone"
+			every_other_country = {
+				limit = { is_in_faction_with = ROOT }
+				add_opinion_modifier = {
+					modifier = BHC_approves_government
+					target = ROOT
+				}
+				ROOT = {
+					add_opinion_modifier = {
+						modifier = BHC_approves_government
+						target = PREV
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = AST_canzuk_free_trade_zone
+		icon = GFX_goal_AST_trade_commonwealth
+		cost = 6
+		available = {
+			has_capitulated = no
+			is_in_faction_with = ENG
+		}
+		prerequisite = {
+			focus = AST_our_imperial_ties
+		}
+		x = -1
+		y = 1
+		relative_position_id = AST_our_imperial_ties
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_canzuk_free_trade_zone"
+			ENG = { country_event = { id = australia.47 days = 1 } }
+		}
+	}
+
+	focus = {
+		id = AST_empire_at_war
+		icon = GFX_goal_economic_control
+		cost = 5
+		available = {
+			has_capitulated = no
+			is_in_faction_with = ENG
+		}
+		prerequisite = {
+			focus = AST_our_imperial_ties
+		}
+		x = 0
+		y = 2
+		relative_position_id = AST_our_imperial_ties
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_empire_at_war"
+			increase_mobilization = yes
+		}
+	}
+
+	focus = {
+		id = AST_our_regional_ties
+		icon = GFX_goal_PHI_co_prosperity_sphere
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_democratic_government = yes
+		}
+		prerequisite = {
+			focus = AST_dominions_foreign_affairs
+		}
+		x = 1
+		y = 1
+		relative_position_id = AST_dominions_foreign_affairs
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_our_regional_ties"
+			every_other_country = {
+				limit = {
+					exists = yes
+					OR = {
+						tag = PHI
+						tag = SIA
+						tag = INS
+					}
+				}
+				add_opinion_modifier = {
+					modifier = AST_regional_cooperation
+					target = ROOT
+				}
+				ROOT = {
+					add_opinion_modifier = {
+						modifier = AST_regional_cooperation
+						target = PREV
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = AST_american_business
+		icon = GFX_goal_USA_american_industry
+		cost = 6
+		available = {
+			has_capitulated = no
+			country_exists = USA
+			NOT = { has_war_with = USA }
+		}
+		bypass = {
+			OR = {
+				NOT = { country_exists = USA }
+				has_war_with = USA
+			}
+		}
+		prerequisite = {
+			focus = AST_our_regional_ties
+		}
+		x = -1
+		y = 1
+		relative_position_id = AST_our_regional_ties
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_american_business"
+			custom_effect_tooltip = available_designer
+			show_ideas_tooltip = ford_australia
+		}
+	}
+
+	focus = {
+		id = AST_japanese_diplomacy
+		icon = GFX_focus_chi_collaboration_with_the_japanese
+		cost = 6
+		available = {
+			has_capitulated = no
+			country_exists = JAP
+			NOT = { has_war_with = JAP }
+			JAP = {
+				has_democratic_government = yes
+			}
+		}
+		bypass = {
+			OR = {
+				NOT = { country_exists = JAP }
+				has_war_with = JAP
+			}
+		}
+		prerequisite = {
+			focus = AST_our_regional_ties
+		}
+
+		x = 1
+		y = 1
+		relative_position_id = AST_our_regional_ties
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_japanese_diplomacy"
+			add_opinion_modifier = {
+				target = JAP
+				modifier = BHC_approves_government
+			}
+			JAP = {
+				add_opinion_modifier = {
+					target = ROOT
+					modifier = BHC_approves_government
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = AST_filipino_interests
+		icon = GFX_goal_PHI_renounce_colonialism
+		cost = 6
+		available = {
+			has_capitulated = no
+			country_exists = PHI
+			NOT = { has_war_with = PHI }
+			PHI = {
+				NOT = { has_completed_focus = PHI_anti_colonialist_crusade }
+			}
+		}
+		bypass = {
+			OR = {
+				NOT = { country_exists = PHI }
+				has_war_with = PHI
+			}
+		}
+		prerequisite = {
+			focus = AST_american_business
+			focus = AST_japanese_diplomacy
+		}
+
+		x = 1
+		y = 1
+		relative_position_id = AST_american_business
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_filipino_interests"
+			PHI = {
+				country_event = { id = australia.54 days = 1 }
+			}
+		}
+	}
+
+	######################################################
+	#                                                    #
+	#                      RADICALS                      #
+	#                                                    #
+	######################################################
+
+	focus = {
+		id = AST_workers_australia_unite
+		icon = GFX_goal_AST_syndicalist
+		cost = 5
+		x = 14
+		y = 7
+		allow_branch = {
+			has_democratic_government = no
+		}
+		available = {
+			hidden_trigger = { always = no }
+		}
+		bypass = {
+			has_country_flag = AST_workers_australia_unite_flag
+		}
+		completion_reward = {
+			custom_effect_tooltip = AST_workers_australia_unite_tt
+		}
+	}
+
+	focus = {
+		id = AST_flying_eureka
+		icon = GFX_goal_AST_AFM_victory
+		cost = 5
+		x = 4
+		y = 0
+		allow_branch = {
+			has_democratic_government = no
+		}
+		relative_position_id = AST_workers_australia_unite
+		available = {
+			hidden_trigger = { always = no }
+		}
+		bypass = {
+			has_country_flag = AST_flying_eureka_flag
+		}
+		completion_reward = {
+			custom_effect_tooltip = AST_flying_eureka_tt
+		}
+	}
+
+	focus = {
+		id = AST_guard_the_empire
+		icon = GFX_goal_AST_new_guard
+		cost = 5
+		x = 4
+		y = 0
+		allow_branch = {
+			has_democratic_government = no
+		}
+		relative_position_id = AST_flying_eureka
+		available = {
+			hidden_trigger = { always = no }
+		}
+		bypass = {
+			has_country_flag = AST_guard_the_empire_flag
+		}
+		completion_reward = {
+			custom_effect_tooltip = AST_guard_the_empire_tt
+		}
+	}
+
+	focus = {
+		id = AST_burn_union_jack
+		icon = GFX_focus_eng_decolonization
+		cost = 5
+		allow_branch = {
+			has_democratic_government = no
+		}
+		available = {
+			has_capitulated = no
+			NOT = {
+				is_in_faction_with = ENG
+				has_government = paternal_autocrat
+			}
+		}
+		mutually_exclusive = {
+			focus = AST_rule_britannia
+		}
+		x = 5
+		y = 0
+		relative_position_id = AST_guard_the_empire
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_burn_union_jack"
+			increase_ruling_party_popularity_by_15 = yes
+			if = {
+				limit = {
+					OR = {
+						has_idea = AST_memories_of_galipoli_idea
+						has_idea = AST_memories_of_galipoli_idea_1
+					}
+				}
+				effect_tooltip = {
+					remove_ideas = AST_memories_of_galipoli_idea
+				}
+				hidden_effect = {
+					if = {
+						limit = { has_idea = AST_memories_of_galipoli_idea }
+						remove_ideas = AST_memories_of_galipoli_idea
+					}
+					else_if = {
+						limit = { has_idea = AST_memories_of_galipoli_idea_1 }
+						remove_ideas = AST_memories_of_galipoli_idea_1
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = AST_rule_britannia
+		icon = GFX_focus_eng_the_sun_never_sets
+		cost = 5
+		allow_branch = {
+			has_democratic_government = no
+		}
+		available = {
+			has_capitulated = no
+			is_in_faction_with = ENG
+			has_government = paternal_autocrat
+		}
+		mutually_exclusive = {
+			focus = AST_burn_union_jack
+		}
+		x = 4
+		y = 0
+		relative_position_id = AST_burn_union_jack
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_rule_britannia"
+			add_war_support = 0.15
+			if = {
+				limit = {
+					OR = {
+						has_idea = AST_memories_of_galipoli_idea
+						has_idea = AST_memories_of_galipoli_idea_1
+					}
+				}
+				effect_tooltip = {
+					remove_ideas = AST_memories_of_galipoli_idea
+				}
+				hidden_effect = {
+					if = {
+						limit = { has_idea = AST_memories_of_galipoli_idea }
+						remove_ideas = AST_memories_of_galipoli_idea
+					}
+					else_if = {
+						limit = { has_idea = AST_memories_of_galipoli_idea_1 }
+						remove_ideas = AST_memories_of_galipoli_idea_1
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = AST_strike_against_capitalist
+		icon = GFX_focus_LAT_suspend_constitution_of_latvia
+		cost = 6
+		available = {
+			has_socialist_government = yes
+		}
+		ai_will_do = {
+			factor = 400
+		}
+		prerequisite = {
+			focus = AST_workers_australia_unite
+		}
+		x = -1
+		y = 1
+		relative_position_id = AST_workers_australia_unite
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_strike_against_capitalist"
+			add_popularity = { ideology = vanguardist popularity = 0.05 }
+			add_popularity = { ideology = collectivist popularity = 0.07 }
+			add_popularity = { ideology = libertarian_socialist popularity = 0.1 }
+			add_popularity = { ideology = social_democrat popularity = 0.02 }
+			
+			custom_effect_tooltip = tooltip_white_line
+			add_stability = -0.05
+			add_political_power = 100
+
+			custom_effect_tooltip = tooltip_white_line
+			if = {
+				limit = {
+					NOT = { has_idea = workers_republic }
+				}
+				add_ideas = workers_republic
+			}
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL }
+	}
+
+	focus = {
+		id = AST_soviet_system
+		icon = GFX_focus_SOV_the_path_of_marxism_leninism
+		cost = 6
+		available = {
+			has_socialist_government = yes
+		}
+		relative_position_id = AST_strike_against_capitalist
+		prerequisite = {
+			focus = AST_strike_against_capitalist
+		}
+		x = -1
+		y = 1
+		ai_will_do = {
+			factor = 400
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_strike_against_capitalist"
+			country_event = { id = australia.49 days = 1 }
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL }
+	}
+
+	focus = {
+		id = AST_empower_workers_and_farmers
+		icon = GFX_focus_SOV_the_supreme_soviet
+		cost = 6
+		available = {
+			has_socialist_government = yes
+		}
+		relative_position_id = AST_strike_against_capitalist
+		prerequisite = {
+			focus = AST_strike_against_capitalist
+		}
+		x = 1
+		y = 1
+		ai_will_do = {
+			factor = 400
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_empower_workers_and_farmers"
+			random_owned_controlled_state = {
+				if = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			random_owned_controlled_state = {
+				if = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+	}
+
+	focus = {
+		id = AST_labors_socialists
+		icon = GFX_goal_ideology_radical_socialist
+		cost = 5
+		available = {
+			hidden_trigger = { always = no }
+		}
+		bypass = { has_country_flag = AST_left_labour_congress_flag }
+		prerequisite = {
+			focus = AST_soviet_system
+		}
+		prerequisite = {
+			focus = AST_empower_workers_and_farmers
+		}
+		x = -1
+		y = 1
+		relative_position_id = AST_soviet_system
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_labors_socialists"
+			custom_effect_tooltip = AST_labors_socialists_tt
+		}
+	}
+
+	focus = {
+		id = AST_socialize_australia
+		icon = GFX_goal_USA_sabotabby
+		cost = 6
+		available = {
+			has_socialist_government = yes
+		}
+		prerequisite = {
+			focus = AST_labors_socialists
+		}
+		x = 0
+		y = 1
+		relative_position_id = AST_labors_socialists
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_socialize_australia"
+			add_ideas = AST_socialist_reforms
+		}
+		search_filters = { FOCUS_FILTER_PRODUCTION }
+	}
+
+	focus = {
+		id = AST_integrate_laborites
+		icon = GFX_goal_ideology_social_democrat
+		cost = 6
+		available = {
+			has_socialist_government = yes
+		}
+		prerequisite = {
+			focus = AST_socialize_australia
+		}
+		x = -1
+		y = 1
+		relative_position_id = AST_socialize_australia
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_empower_workers_and_farmers"
+			hidden_effect = { add_coalition_social_democrat = yes }
+			increase_ruling_party_popularity_by_10 = yes
+			custom_effect_tooltip = AST_integrate_laborites_tt
+
+			activate_advisor = AST_Edward_G_Theodore_eco_sde
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL }
+	}
+
+	focus = {
+		id = AST_communist_unity
+		icon = GFX_goal_ideology_collectivist
+		cost = 5
+		available = {
+			hidden_trigger = { always = no }
+		}
+		bypass = { has_country_flag = AST_communist_congress_flag }
+		prerequisite = {
+			focus = AST_soviet_system
+		}
+		prerequisite = {
+			focus = AST_empower_workers_and_farmers
+		}
+		x = 1
+		y = 1
+		relative_position_id = AST_soviet_system
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_communist_unity"
+			custom_effect_tooltip = AST_communist_unity_tt
+		}
+	}
+
+	focus = {
+		id = AST_international_unity
+		icon = GFX_focus_SOV_proclaim_soviet_hegemony
+		cost = 6
+		available = {
+			has_socialist_government = yes
+		}
+		prerequisite = {
+			focus = AST_communist_unity
+		}
+		x = 0
+		y = 1
+		relative_position_id = AST_communist_unity
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_international_unity"
+
+			add_political_power = 100
+			add_war_support = 0.15
+			add_opinion_modifier = {
+				modifier = BHC_approves_government
+				target = SOV
+			}
+			SOV = {
+				add_opinion_modifier = {
+					modifier = BHC_approves_government
+					target = ROOT
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT }
+	}
+
+	focus = {
+		id = AST_empower_unions
+		icon = GFX_goal_tblra_union_agreement
+		cost = 6
+		available = {
+			has_socialist_government = yes
+		}
+		prerequisite = {
+			focus = AST_socialize_australia
+			focus = AST_international_unity
+		}
+		x = -1
+		y = 1
+		relative_position_id = AST_international_unity
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_empower_unions"
+			add_ideas = AST_empowered_unions_idea
+		}
+		search_filters = { FOCUS_FILTER_PRODUCTION }
+	}
+
+	focus = {
+		id = AST_strengthen_socialist_democracy
+		icon = GFX_goal_generic_workers_democracy
+		cost = 6
+		available = {
+			has_socialist_government = yes
+		}
+		prerequisite = {
+			focus = AST_integrate_laborites
+		}
+		prerequisite = {
+			focus = AST_empower_unions
+		}
+		x = 1
+		y = 1
+		relative_position_id = AST_integrate_laborites
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_strengthen_socialist_democracy"
+			swap_ideas = {
+				remove_idea = AST_socialist_reforms
+				add_idea = AST_socialist_reforms_1
+			}
+		}
+		search_filters = { FOCUS_FILTER_PRODUCTION }
+	}
+
+	focus = {
+		id = AST_social_national_dominance
+		icon = GFX_goal_ideology_vanguardist
+		cost = 5
+		available = {
+			hidden_trigger = { always = no }
+		}
+		bypass = { has_country_flag = AST_social_national_congress_flag }
+		prerequisite = {
+			focus = AST_soviet_system
+		}
+		prerequisite = {
+			focus = AST_empower_workers_and_farmers
+		}
+		x = 1
+		y = 1
+		relative_position_id = AST_empower_workers_and_farmers
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_social_national_dominance"
+			custom_effect_tooltip = AST_social_national_dominance_tt
+		}
+	}
+
+	focus = {
+		id = AST_vanguard_of_revolution
+		icon = GFX_goal_RAJ_Establish_The_Peoples_Police
+		cost = 6
+		available = {
+			has_socialist_government = yes
+		}
+		prerequisite = {
+			focus = AST_social_national_dominance
+		}
+		x = 0
+		y = 1
+		relative_position_id = AST_social_national_dominance
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_social_national_dominance"
+			add_ideas = AST_vanguard_of_the_revolution
+		}
+		search_filters = { FOCUS_FILTER_ARMY_BONUS }
+	}
+
+	focus = {
+		id = AST_collectivization_efforts
+		icon = GFX_goal_RAJ_Decentralized_Land_Reform
+		cost = 6
+		available = {
+			has_socialist_government = yes
+		}
+		prerequisite = {
+			focus = AST_international_unity
+			focus = AST_vanguard_of_revolution
+		}
+		x = 1
+		y = 1
+		relative_position_id = AST_international_unity
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_collectivization_efforts"
+			285 = {
+				if = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+				}
+			}
+			519 = {
+				if = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+				}
+			}
+			522 = {
+				if = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+	}
+
+	focus = {
+		id = AST_export_revolution
+		icon = GFX_goal_AST_export_revolution
+		cost = 6
+		available = {
+			has_socialist_government = yes
+		}
+		prerequisite = {
+			focus = AST_empower_unions
+		}
+		prerequisite = {
+			focus = AST_collectivization_efforts
+		}
+		x = 1
+		y = 1
+		relative_position_id = AST_empower_unions
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_export_revolution"
+			add_ideas = AST_exporting_the_revolution
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL }
+	}
+
+	focus = {
+		id = AST_great_australian_purge
+		icon = GFX_goal_purge_opposition
+		cost = 6
+		prerequisite = {
+			focus = AST_vanguard_of_revolution
+		}
+		prerequisite = {
+			focus = AST_nationalize_the_economy
+		}
+		x = 1
+		y = 1
+		relative_position_id = AST_vanguard_of_revolution
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_great_australian_purge"
+			add_timed_idea = {
+				idea = AST_great_purge
+				days = 480
+			}
+			custom_effect_tooltip = tooltip_white_line
+			if = {
+				limit = { has_idea = AST_auralia_movement_idea }
+				remove_ideas = AST_auralia_movement_idea
+			}
+			else_if = {
+				limit = { has_idea = AST_strong_auralia_movement_idea }
+				remove_ideas = AST_strong_auralia_movement_idea
+			}
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL }
+	}
+
+	focus = {
+		id = AST_power_to_chairman
+		icon = GFX_goal_national_populism
+		cost = 6
+		prerequisite = {
+			focus = AST_great_australian_purge
+		}
+		x = 0
+		y = 1
+		relative_position_id = AST_great_australian_purge
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_power_to_chairman"
+			add_political_power = 200
+			if = {
+				limit = { has_idea = AST_internal_divisions_idea }
+				remove_ideas = AST_internal_divisions_idea
+			}
+			else_if = {
+				limit = { has_idea = AST_more_internal_divisions_idea }
+				remove_ideas = AST_more_internal_divisions_idea
+			}
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL }
+	}
+
+	focus = {
+		id = AST_down_with_king
+		icon = GFX_goal_crush_monarchy
+		cost = 6
+		ai_will_do = {
+			factor = 800
+		}
+		prerequisite = {
+			focus = AST_workers_australia_unite
+			focus = AST_flying_eureka
+		}
+		x = 2
+		y = 1
+		available = {
+			has_capitulated = no
+			is_subject_of = ENG
+			OR = {
+				has_socialist_government = yes
+				has_government = national_populist
+			}
+		}
+		bypass = {
+			has_country_flag = AST_is_republic
+		}
+		relative_position_id = AST_workers_australia_unite
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_down_with_king"
+			custom_effect_tooltip = AST_down_with_king_tt
+			custom_effect_tooltip = tooltip_white_line
+			if = {
+				limit = { is_subject_of = ENG }
+				ENG = { end_puppet = ROOT }
+			}
+			if = {
+				limit = { is_in_faction_with = ENG }
+				leave_faction = ROOT
+			}
+
+			custom_effect_tooltip = tooltip_white_line
+			drop_cosmetic_tag = yes
+			AST_become_republic = yes
+			if = {
+				limit = { has_socialist_government = yes }
+				add_ideas = workers_republic
+			}
+			else = {
+				add_ideas = parliamentary_republic
+			}
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL }
+	}
+
+	focus = {
+		id = AST_purge_monarchist_parties
+		icon = GFX_goal_generic_oppression
+		cost = 6
+		ai_will_do = {
+			factor = 800
+		}
+		prerequisite = {
+			focus = AST_down_with_king
+		}
+		available = {
+			OR = {
+				has_socialist_government = yes
+				has_government = national_populist
+			}
+		}
+		x = 0
+		y = 1
+		relative_position_id = AST_down_with_king
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_purge_monarchist_parties"
+			add_popularity = { ideology = social_democrat popularity = -0.03 }
+			add_popularity = { ideology = social_liberal popularity = -0.03 }
+			add_popularity = { ideology = market_liberal popularity = -0.05 }
+			add_popularity = { ideology = social_conservative popularity = -0.07 }
+			add_popularity = { ideology = paternal_autocrat popularity = -0.1 }
+
+			custom_effect_tooltip = tooltip_white_line
+			if = {
+				limit = { has_character = AST_Thomas_Blamey }
+				retire_character = AST_Thomas_Blamey
+			}
+			if = {
+				limit = { has_character = AST_Leslie_Morshead }
+				retire_character = AST_Leslie_Morshead
+			}
+
+			custom_effect_tooltip = tooltip_white_line
+			if = {
+				limit = { has_idea = AST_internal_divisions_idea }
+				remove_ideas = AST_internal_divisions_idea
+			}
+			else_if = {
+				limit = { has_idea = AST_more_internal_divisions_idea }
+				remove_ideas = AST_more_internal_divisions_idea
+			}
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL }
+	}
+
+	focus = {
+		id = AST_intellectual_movement
+		icon = GFX_goal_brain
+		cost = 6
+		available = {
+			has_government = national_populist
+		}
+		prerequisite = {
+			focus = AST_flying_eureka
+		}
+		x = 0
+		y = 1
+		relative_position_id = AST_flying_eureka
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_intellectual_movement"
+			add_research_slot = 1
+		}
+		search_filters = { FOCUS_FILTER_RESEARCH }
+	}
+
+	focus = {
+		id = AST_putting_australia_first
+		icon = GFX_goal_AST_republic_flag
+		cost = 6
+		available = {
+			has_government = national_populist
+		}
+		prerequisite = {
+			focus = AST_intellectual_movement
+		}
+		x = 0
+		y = 1
+		relative_position_id = AST_intellectual_movement
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_putting_australia_first"
+			if = {
+				limit = { has_intelligence_agency = no }
+				create_intelligence_agency = yes
+			}
+			custom_effect_tooltip = tooltip_white_line
+			add_ideas = AST_secret_police
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL }
+	}
+
+	focus = {
+		id = AST_state_for_people
+		icon = GFX_goal_SOV_family
+		cost = 6
+		available = {
+			has_government = national_populist
+		}
+		prerequisite = {
+			focus = AST_putting_australia_first
+		}
+		x = -1
+		y = 1
+		relative_position_id = AST_putting_australia_first
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_state_for_people"
+			add_political_power = 100
+			custom_effect_tooltip = tooltip_white_line
+			if = {
+				limit = { has_idea = AST_auralia_movement_idea }
+				remove_ideas = AST_auralia_movement_idea
+			}
+			else_if = {
+				limit = { has_idea = AST_strong_auralia_movement_idea }
+				remove_ideas = AST_strong_auralia_movement_idea
+			}
+			custom_effect_tooltip = tooltip_white_line
+			increase_ruling_party_popularity_by_15 = yes
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL }
+	}
+
+	focus = {
+		id = AST_nationalize_the_economy
+		icon = GFX_goal_state_economy
+		cost = 6
+		available = {
+			OR = {
+				has_government = national_populist
+				has_socialist_government = yes
+			}
+		}
+		prerequisite = {
+			focus = AST_social_national_dominance
+			focus = AST_state_for_people
+		}
+		x = 0
+		y = 1
+		relative_position_id = AST_state_for_people
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_nationalize_the_economy"
+			add_ideas = AST_state_controlled_economy
+		}
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+	}
+
+	focus = {
+		id = AST_league_young_australians
+		icon = GFX_goal_generic_paramilitary
+		cost = 6
+		available = {
+			has_government = national_populist
+		}
+		prerequisite = {
+			focus = AST_putting_australia_first
+		}
+		x = 1
+		y = 1
+		relative_position_id = AST_putting_australia_first
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_league_young_australians"
+			add_ideas = AST_afm_youth
+		}
+		search_filters = { FOCUS_FILTER_MANPOWER }
+	}
+
+	focus = {
+		id = AST_guard_our_peace
+		icon = GFX_goal_AST_cockatoo_island
+		cost = 6
+		available = {
+			has_government = national_populist
+		}
+		prerequisite = {
+			focus = AST_league_young_australians
+		}
+		x = 0
+		y = 1
+		relative_position_id = AST_league_young_australians
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_guard_our_peace"
+			swap_ideas = {
+				remove_idea = AST_afm_youth
+				add_idea = AST_defense_of_the_nation
+			}
+		}
+		search_filters = { FOCUS_FILTER_ARMY_BONUS }
+	}
+
+	focus = {
+		id = AST_hail_president
+		icon = GFX_goal_generic_council
+		cost = 6
+		available = {
+			has_government = national_populist
+		}
+		prerequisite = {
+			focus = AST_nationalize_the_economy
+		}
+		prerequisite = {
+			focus = AST_guard_our_peace
+		}
+		x = 1
+		y = 1
+		relative_position_id = AST_nationalize_the_economy
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_hail_president"
+			add_political_power = 200
+			if = {
+				limit = { has_idea = AST_internal_divisions_idea }
+				remove_ideas = AST_internal_divisions_idea
+			}
+			else_if = {
+				limit = { has_idea = AST_more_internal_divisions_idea }
+				remove_ideas = AST_more_internal_divisions_idea
+			}
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL }
+	}
+
+	focus = {
+		id = AST_and_australian_race
+		icon = GFX_goal_AST_white_australasia
+		cost = 6
+		available = {
+			has_government = national_populist
+		}
+		prerequisite = {
+			focus = AST_guard_our_peace
+		}
+		x = 1
+		y = 1
+		relative_position_id = AST_hail_president
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_hail_president"
+			add_manpower = 10000
+			add_war_support = 0.15
+		}
+		search_filters = { FOCUS_FILTER_MANPOWER FOCUS_FILTER_WAR_SUPPORT }
+	}
+
+	focus = {
+		id = AST_australian_corporatism
+		icon = GFX_goal_generic_authoritarian_government
+		cost = 6
+		available = {
+			OR = {
+				has_government = paternal_autocrat
+				has_government = national_populist
+			}
+		}
+		prerequisite = {
+			focus = AST_flying_eureka
+			focus = AST_guard_the_empire
+		}
+		x = -2
+		y = 1
+		relative_position_id = AST_guard_the_empire
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_australian_corporatism"
+			add_ideas = AST_corporatism
+		}
+	}
+
+	focus = {
+		id = AST_purge_traitors
+		icon = GFX_goal_generic_grim_reaper
+		cost = 6
+		available = {
+			has_government = paternal_autocrat
+		}
+		prerequisite = {
+			focus = AST_guard_the_empire
+		}
+		x = 0
+		y = 1
+		relative_position_id = AST_guard_the_empire
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_purge_traitors"
+			if = {
+				limit = { has_idea = AST_internal_divisions_idea }
+				remove_ideas = AST_internal_divisions_idea
+			}
+			else_if = {
+				limit = { has_idea = AST_more_internal_divisions_idea }
+				remove_ideas = AST_more_internal_divisions_idea
+			}
+			add_stability = 0.05
+			add_manpower = -1420
+			add_popularity = { ideology = vanguardist popularity = -0.1 }
+			add_popularity = { ideology = collectivist popularity = -0.1 }
+			add_popularity = { ideology = libertarian_socialist popularity = -0.1 }
+			add_popularity = { ideology = national_populist popularity = -0.1 }
+			hidden_effect = {
+				country_event = { id = australia.41 days = 30 }
+			}
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL }
+	}
+
+	focus = {
+		id = AST_facilitate_pan_imperial_ties
+		icon = GFX_focus_chi_british_cooperation
+		cost = 6
+		available = {
+			has_government = paternal_autocrat
+		}
+		prerequisite = {
+			focus = AST_australian_corporatism
+		}
+		prerequisite = {
+			focus = AST_purge_traitors
+		}
+		x = -1
+		y = 1
+		relative_position_id = AST_purge_traitors
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_facilitate_pan_imperial_ties"
+			add_political_power = 100
+			add_popularity = { ideology = paternal_autocrat popularity = 0.15 }
+			add_opinion_modifier = {
+				target = ENG
+				modifier = BHC_approves_government
+			}
+			ENG = {
+				add_opinion_modifier = {
+					target = ENG
+					modifier = BHC_approves_government
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL }
+	}
+
+	focus = {
+		id = AST_intelligence_sharing
+		icon = GFX_goal_GBR_five_eyes
+		cost = 6
+		available = {
+			has_government = paternal_autocrat
+		}
+		prerequisite = {
+			focus = AST_purge_traitors
+		}
+		x = 1
+		y = 1
+		relative_position_id = AST_purge_traitors
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_intelligence_sharing"
+			if = {
+				limit = { has_intelligence_agency = no }
+				create_intelligence_agency = yes
+			}
+
+			if = {
+				limit = {
+					NOT = { has_done_agency_upgrade = upgrade_passive_defense }
+				}
+				upgrade_intelligence_agency = upgrade_passive_defense
+			}
+			if = {
+				limit = {
+					NOT = { has_done_agency_upgrade = upgrade_anti_partisan }
+				}
+				upgrade_intelligence_agency = upgrade_anti_partisan
+			}
+			if = {
+				limit = {
+					NOT = { has_done_agency_upgrade = upgrade_interrogation_techniques }
+				}
+				upgrade_intelligence_agency = upgrade_interrogation_techniques
+			}
+			if = {
+				limit = {
+					NOT = { has_done_agency_upgrade = upgrade_psycho_warfare }
+				}
+				upgrade_intelligence_agency = upgrade_psycho_warfare
+			}
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL }
+	}
+
+	focus = {
+		id = AST_young_guardists
+		icon = GFX_goal_army_guy_2
+		cost = 6
+		available = {
+			has_government = paternal_autocrat
+		}
+		prerequisite = {
+			focus = AST_facilitate_pan_imperial_ties
+		}
+		prerequisite = {
+			focus = AST_intelligence_sharing
+		}
+		x = 1
+		y = 1
+		relative_position_id = AST_facilitate_pan_imperial_ties
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_intelligence_sharing"
+			add_ideas = AST_new_guard_youth
+		}
+		search_filters = { FOCUS_FILTER_MANPOWER }
+	}
+
+	focus = {
+		id = AST_fight_socialists
+		icon = GFX_goal_HOL_crackdown_radsoc
+		cost = 6
+		available = {
+			has_government = paternal_autocrat
+		}
+		prerequisite = {
+			focus = AST_young_guardists
+		}
+		x = -1
+		y = 1
+		relative_position_id = AST_young_guardists
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_young_guardists"
+			add_ideas = AST_actu_banned
+		}
+		search_filters = { FOCUS_FILTER_PRODUCTION }
+	}
+
+	focus = {
+		id = AST_integrate_nationalist_party
+		icon = GFX_goal_collaborate_local_elites
+		cost = 6
+		available = {
+			has_government = paternal_autocrat
+		}
+		prerequisite = {
+			focus = AST_young_guardists
+		}
+		x = 1
+		y = 1
+		relative_position_id = AST_young_guardists
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_integrate_nationalist_party"
+			add_political_power = 100
+			add_popularity = { ideology = paternal_autocrat popularity = 0.15 }
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL }
+	}
+
+	focus = {
+		id = AST_australian_nationalism
+		icon = GFX_goal_Centralised_Government
+		cost = 6
+		available = {
+			has_government = paternal_autocrat
+		}
+		prerequisite = {
+			focus = AST_fight_socialists
+		}
+		prerequisite = {
+			focus = AST_integrate_nationalist_party
+		}
+		x = 1
+		y = 1
+		relative_position_id = AST_fight_socialists
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_australian_nationalism"
+			add_ideas = AST_australian_nationalism_idea
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL }
+	}
+
+	focus = {
+		id = AST_and_british_loyalism
+		icon = GFX_focus_eng_imperial_federation
+		cost = 6
+		available = {
+			has_government = paternal_autocrat
+		}
+		prerequisite = {
+			focus = AST_australian_nationalism
+		}
+		x = 0
+		y = 1
+		relative_position_id = AST_australian_nationalism
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_australian_nationalism"
+			add_political_power = 200
+			if = {
+				limit = { has_idea = AST_auralia_movement_idea }
+				remove_ideas = AST_auralia_movement_idea
+			}
+			else_if = {
+				limit = { has_idea = AST_strong_auralia_movement_idea }
+				remove_ideas = AST_strong_auralia_movement_idea
+			}
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL }
+	}
+
+	focus = {
+		id = AST_support_insulindians
+		icon = GFX_goal_AST_support_insulindia
+		cost = 6
+		available = {
+			has_capitulated = no
+			country_exists = INS
+			NOT = { has_war_with = INS }
+		}
+		bypass = {
+			OR = {
+				NOT = { country_exists = INS }
+				has_war_with = INS
+			}
+		}
+		prerequisite = {
+			focus = AST_burn_union_jack
+		}
+		x = -1
+		y = 1
+		relative_position_id = AST_burn_union_jack
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_support_insulindians"
+			army_experience = 15
+			send_equipment = {
+				target = INS
+				type = infantry_equipment
+				amount = 1000
+			}
+			INS = { country_event = { id = australia.50 days = 2 } }
+		}
+	}
+
+	focus = {
+		id = AST_our_own_masters
+		icon = GFX_goal_AST_own_masters
+		cost = 6
+		available = {
+			has_capitulated = no
+			is_subject = no
+		}
+		prerequisite = {
+			focus = AST_burn_union_jack
+		}
+		x = 0
+		y = 2
+		relative_position_id = AST_burn_union_jack
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_our_own_masters"
+			add_political_power = 100
+		}
+	}
+
+	focus = {
+		id = AST_our_soviet_comrades
+		icon = GFX_goal_generic_communist_world_revolution
+		cost = 6
+		available = {
+			has_capitulated = no
+			is_subject = no
+			is_in_faction = no
+			country_exists = SOV
+			NOT = { has_war_with = SOV }
+			SOV = { is_faction_leader = yes }
+			has_socialist_government = yes
+		}
+		bypass = {
+			OR = {
+				NOT = { country_exists = SOV }
+				has_war_with = SOV
+			}
+		}
+		prerequisite = {
+			focus = AST_our_own_masters
+		}
+		x = -2
+		y = 1
+		relative_position_id = AST_our_own_masters
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_our_soviet_comrades"
+			custom_effect_tooltip = AST_our_soviet_comrades_tt
+		}
+	}
+
+	focus = {
+		id = AST_deepen_japanese_cooperation
+		icon = GFX_goal_AST_japanese_cooperation
+		cost = 6
+		available = {
+			has_socialist_government = no
+			has_capitulated = no
+			is_in_faction = no
+			is_subject = no
+			country_exists = JAP
+			NOT = { has_war_with = JAP }
+			JAP = { is_faction_leader = yes }
+		}
+		bypass = {
+			OR = {
+				NOT = { country_exists = JAP }
+				has_war_with = JAP
+			}
+		}
+		prerequisite = {
+			focus = AST_our_own_masters
+		}
+		x = 0
+		y = 1
+		relative_position_id = AST_our_own_masters
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_deepen_japanese_cooperation"
+			custom_effect_tooltip = AST_deepen_japanese_cooperation_tt
+		}
+	}
+
+	focus = {
+		id = AST_approach_americans
+		icon = GFX_goal_USA_leaps_forward
+		cost = 6
+		available = {
+			has_socialist_government = no
+			has_capitulated = no
+			is_in_faction = no
+			is_subject = no
+			country_exists = USA
+			NOT = { has_war_with = USA }
+			USA = { is_faction_leader = yes }
+		}
+		bypass = {
+			OR = {
+				NOT = { country_exists = USA }
+				has_war_with = USA
+			}
+		}
+		prerequisite = {
+			focus = AST_our_own_masters
+		}
+		x = 2
+		y = 1
+		relative_position_id = AST_our_own_masters
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_approach_americans"
+			custom_effect_tooltip = AST_approach_americans_tt
+		}
+	}
+
+	focus = {
+		id = AST_support_free_india
+		icon = GFX_goal_AST_india_support
+		cost = 6
+		available = {
+			has_capitulated = no
+			country_exists = IND
+			NOT = { has_war_with = IND }
+		}
+		bypass = {
+			OR = {
+				NOT = { country_exists = IND }
+				has_war_with = IND
+			}
+		}
+		prerequisite = {
+			focus = AST_burn_union_jack
+		}
+		x = 1
+		y = 1
+		relative_position_id = AST_burn_union_jack
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_support_free_india"
+			army_experience = 15
+			send_equipment = {
+				target = IND
+				type = infantry_equipment
+				amount = 1000
+			}
+			IND = { country_event = { id = australia.50 days = 2 } }
+		}
+	}
+
+	focus = {
+		id = AST_promote_canzuk
+		icon = GFX_goal_AST_trade_commonwealth
+		cost = 6
+		available = {
+			has_capitulated = no
+			is_in_faction_with = ENG
+		}
+		prerequisite = {
+			focus = AST_rule_britannia
+		}
+		x = -1
+		y = 1
+		relative_position_id = AST_rule_britannia
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_promote_canzuk"
+			ENG = { country_event = { id = australia.47 days = 1 } }
+		}
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+	}
+
+	focus = {
+		id = AST_anglo_immigration
+		icon = GFX_goal_MAF_Support_Anglos
+		cost = 6
+		available = {
+			has_capitulated = no
+			is_in_faction_with = ENG
+		}
+		prerequisite = {
+			focus = AST_rule_britannia
+		}
+		x = 1
+		y = 1
+		relative_position_id = AST_rule_britannia
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_anglo_immigration"
+			add_ideas = AST_british_migration
+		}
+		search_filters = { FOCUS_FILTER_MANPOWER }
+	}
+
+	focus = {
+		id = AST_empires_pacific_front
+		icon = GFX_goal_GBR_royal_navy
+		cost = 6
+		available = {
+			has_capitulated = no
+			is_in_faction_with = ENG
+		}
+		prerequisite = {
+			focus = AST_promote_canzuk
+		}
+		prerequisite = {
+			focus = AST_anglo_immigration
+		}
+		x = 1
+		y = 1
+		relative_position_id = AST_promote_canzuk
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_empires_pacific_front"
+			add_ideas = AST_australia_rules_the_waves
+		}
+		search_filters = { FOCUS_FILTER_NAVY_BONUS FOCUS_FILTER_PRODUCTION }
+	}
+
+	focus = {
+		id = AST_guard_the_seas
+		icon = GFX_goal_generic_sea_focused_navy2
+		cost = 6
+		available = {
+			has_capitulated = no
+			is_in_faction_with = ENG
+		}
+		prerequisite = {
+			focus = AST_empires_pacific_front
+		}
+		x = 0
+		y = 1
+		relative_position_id = AST_empires_pacific_front
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus AST_guard_the_seas"
+			add_doctrine_cost_reduction = {
+				name = AST_guard_the_seas
+				category = naval_doctrine
+				cost_reduction = 0.5
+				uses = 2
+			}
+		}
+		search_filters = { FOCUS_FILTER_NAVY_BONUS }
+	}
+}

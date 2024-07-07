@@ -1,0 +1,1552 @@
+add_namespace = belarus
+
+country_event = { # Intro Event
+	id = belarus.0
+	title = belarus.0.t
+	desc = belarus.0.d
+	picture = GFX_report_event_BLR_poster
+	is_triggered_only = yes
+
+	option = { # Advance, Belarus!
+		name = belarus.0.a
+	}
+}
+
+country_event = { # Otaman Assassinated!
+	id = belarus.1
+	title = belarus.1.t
+	desc = belarus.1.d
+	picture = GFX_report_event_BLR_funeral
+	is_triggered_only = yes
+
+	option = {
+		name = belarus.1.a
+		retire_character = BLR_Stanislaw_Bulak_Balachowicz
+		remove_ideas = BLR_diarchy_stable
+		set_country_flag = BLR_otaman_assassinated
+		set_country_flag = BLR_start_power_struggle
+		set_temp_variable = { coalition_partner_var = token:paternal_autocrat }
+		remove_from_coalition = yes
+		set_power_balance = {
+			id = BLR_power_balance
+			left_side = BLR_home_guard_side # will keep the last set side if not specified
+			right_side = BLR_bnsp_side # will keep the last set side if not specified
+			set_default = yes # whether or not to reset the power balance to the initial value, default = no
+		}
+
+		BLR_Belarusian_National_Rada = {
+			add_country_leader_role = {
+				promote_leader = yes
+				country_leader = {
+					ideology = valkist_subtype
+				}
+			}
+			add_country_leader_role = {
+				promote_leader = yes
+				country_leader = {
+					ideology = paternal_autocrat_subtype
+				}
+			}
+		}
+
+		hidden_effect = {
+			country_event = { id = belarus.2 days = 4 }
+			random_other_country = {
+				news_event = { id = fxnews.68 days = 1 }
+			}
+		}
+	}
+}
+
+country_event = { # Internal Conflicts
+	id = belarus.2
+	title = belarus.2.t
+	desc = belarus.2.d
+	picture = GFX_report_event_BLR_sojm_meeting
+	is_triggered_only = yes
+
+	option = { # Blame Government
+		name = belarus.2.a
+		custom_effect_tooltip = BLR_select_home_guard_tt
+		set_country_flag = BLR_select_home_guard
+		hidden_effect = {
+			country_event = { id = belarus.11 days = 75 }
+		}
+	}
+	option = { # Blame Home Guard
+		name = belarus.2.b
+		custom_effect_tooltip = BLR_select_nat_soc_tt
+		set_country_flag = BLR_select_nat_soc
+		hidden_effect = {
+			country_event = { id = belarus.8 days = 90 }
+		}
+	}
+}
+
+country_event = { # UKR - Capture Belarusian Lands
+	id = belarus.3
+	title = belarus.3.t
+	desc = belarus.3.d
+	picture = GFX_report_event_BLR_partisans
+	is_triggered_only = yes
+
+	trigger = {
+		UKR = {
+			NOT = {
+				owns_state = 194
+				owns_state = 953
+			}
+		}
+		BLR = {
+			OR = {
+				owns_state = 194
+				owns_state = 953
+			}
+		}
+	}
+
+	option = { # Reclaim the lands...
+		name = belarus.3.a
+		if = {
+			limit = {
+				BLR = { owns_state = 194 }
+			}
+			transfer_state = 194
+		}
+		if = {
+			limit = {
+				BLR = { owns_state = 953 }
+			}
+			transfer_state = 953
+		}
+		hidden_effect = {
+			BLR = {
+				country_event = { id = belaurs.4 days = 2 }
+			}
+			POL = {
+				country_event = { id = belarus.5 days = 2 }
+			}
+		}
+	}
+}
+
+country_event = { # Ukraine Seizes Mozir and South Pinsk
+	id = belarus.4
+	title = belarus.4.t
+	desc = belarus.4.d
+	picture = GFX_report_event_BLR_partisans
+	is_triggered_only = yes
+
+	option = { # There is nothing we can do
+		name = belaurs.4.a
+	}
+}
+
+country_event = { # POL - Capture Belarusian Lands
+	id = belarus.5
+	title = belarus.5.t
+	desc = belarus.5.d
+	picture = GFX_report_event_BLR_partisans
+	is_triggered_only = yes
+
+	trigger = {
+		POL = {
+			NOT = {
+				owns_state = 95
+				owns_state = 97
+			}
+		}
+		BLR = {
+			OR = {
+				owns_state = 97
+				owns_state = 95
+			}
+		}
+	}
+
+	option = { # Reclaim the lands...
+		name = belarus.5.a
+		if = {
+			limit = {
+				BLR = { owns_state = 97 }
+			}
+			transfer_state = 97
+		}
+		if = {
+			limit = {
+				BLR = { owns_state = 95 }
+			}
+			transfer_state = 95
+		}
+		hidden_effect = {
+			BLR = {
+				country_event = { id = belaurs.4 days = 2 }
+			}
+			SOV = {
+				country_event = { id = belarus.7 days = 2 }
+			}
+		}
+	}
+}
+
+country_event = { # Poland Seizes Nowogrodek and Vilnius
+	id = belarus.6
+	title = belarus.6.t
+	desc = belarus.6.d
+	picture = GFX_report_event_BLR_poster
+	is_triggered_only = yes
+
+	option = { # There is nothing we can do
+		name = belaurs.6.a
+	}
+}
+
+country_event = { # SOV - Capture Belarusian Lands
+	id = belarus.7
+	title = belarus.7.t
+	desc = belarus.7.d
+	picture = GFX_report_event_BLR_partisans
+	is_triggered_only = yes
+
+	trigger = {
+		SOV = {
+			NOT = {
+				owns_state = 204 # Bobruysk
+				owns_state = 206 # Minsk
+				owns_state = 207 # Vitebsk
+			}
+		}
+		BLR = {
+			OR = {
+				owns_state = 204
+				owns_state = 206
+				owns_state = 207
+			}
+		}
+	}
+
+	option = { # At long last!
+		name = belarus.7.a
+		if = {
+			limit = {
+				BLR = { owns_state = 204 }
+			}
+			transfer_state = 204
+		}
+		if = {
+			limit = {
+				BLR = { owns_state = 206 }
+			}
+			transfer_state = 206
+		}
+		if = {
+			limit = {
+				BLR = { owns_state = 207 }
+			}
+			transfer_state = 207
+		}
+	}
+}
+
+# BNSP Official Arrested by the Home Guard
+country_event = {
+	id = belarus.8
+	title = belarus.8.t
+	desc = belarus.8.d
+	picture = GFX_report_event_BLR_officers_house
+	is_triggered_only = yes
+
+	trigger = {
+		has_country_flag = BLR_start_power_struggle
+	}
+
+	option = { # What? Bail him out!
+		name = belarus.8.a
+		BLR_increase_home_guard = yes
+	}
+}
+
+# Government Accussed of Weak Policies
+country_event = {
+	id = belarus.9
+	title = belarus.9.t
+	desc = belarus.9.d
+	picture = GFX_report_event_BLR_sojm
+	is_triggered_only = yes
+
+	trigger = {
+		has_country_flag = BLR_start_power_struggle
+	}
+
+	option = { # Bastards!
+		name = belarus.9.a
+		BLR_increase_home_guard = yes
+	}
+}
+
+# Home Guard Accused of Torture
+country_event = {
+	id = belarus.10
+	title = belarus.10.t
+	desc = belarus.10.d
+	picture = GFX_report_event_BLR_sojm
+	is_triggered_only = yes
+
+	trigger = {
+		has_country_flag = BLR_start_power_struggle
+	}
+
+	option = { # Dissapointing...
+		name = belarus.10.a
+		BLR_increase_nat_soc = yes
+	}
+}
+
+# Home Guard Scandal in Grodno
+country_event = {
+	id = belarus.11
+	title = belarus.11.t
+	desc = belarus.11.d
+	picture = GFX_report_event_soldiers_review
+	is_triggered_only = yes
+
+	trigger = {
+		has_country_flag = BLR_start_power_struggle
+	}
+
+	option = { # Dismiss the troops involved!
+		name = belarus.11.a
+		BLR_increase_nat_soc = yes
+	}
+}
+
+country_event = { # The Coup
+	id = belarus.12
+	title = belarus.12.t
+	desc = belarus.12.d
+	picture = GFX_report_event_BLR_officers
+	is_triggered_only = yes
+
+	option = { # That was close...
+		name = belarus.12.a
+		add_country_leader_role = {
+			character = BLR_Home_Guard_Command
+			promote_leader = yes
+			country_leader = {
+				ideology = paternal_autocrat_subtype
+			}
+		}
+		set_politics = {
+			ruling_party = paternal_autocrat
+			elections_allowed = no
+		}
+		remove_every_minister = yes
+		activate_advisor = BLR_Panteleimon_Rozhnovsky_hog_pau
+		activate_advisor = BLR_Ivan_Jermachenka_for_pau
+		activate_advisor = BLR_Anton_Adamovic_eco_pau
+		activate_advisor = BLR_Francisak_Kusal_sec_pau
+		hidden_effect = {
+			set_country_flag = BLR_home_guard_win
+			clr_country_flag = BLR_start_power_struggle
+			increase_ruling_party_popularity_by_15 = yes
+			remove_power_balance = {
+				id = BLR_power_balance
+			}
+		}
+	}
+}
+
+country_event = { # BNSP Secures Control
+	id = belarus.13
+	title = belarus.13.t
+	desc = belarus.13.d
+	picture = GFX_report_event_BLR_astrouski_coup
+	is_triggered_only = yes
+
+	option = { # That was close...
+		name = belarus.13.a
+		set_politics = {
+			ruling_party = valkist
+			elections_allowed = no
+		}
+		add_country_leader_role = {
+			character = BLR_Radasłaŭ_Astroŭski
+			promote_leader = yes
+			country_leader = {
+				ideology = valkist_subtype
+				traits = { }
+			}
+		}
+		remove_every_minister = yes
+		activate_advisor = BLR_Fabijan_Ivanovich_Akintschyz_hog_val
+		activate_advisor = BLR_Vladislav_Wenceslaus_Kozlowski_for_val
+		activate_advisor = BLR_Leon_Ivanovich_Dubeykovsky_eco_val
+		activate_advisor = BLR_Juryj_Sabalieuski_sec_npo
+
+		hidden_effect = {
+			set_country_flag = BLR_nat_soc_win
+			clr_country_flag = BLR_start_power_struggle
+			increase_ruling_party_popularity_by_10 = yes
+			remove_power_balance = {
+				id = BLR_power_balance
+			}
+		}
+	}
+}
+
+country_event = { # London Stock Market Crash
+	id = belarus.14
+	title = belarus.14.t
+	desc = belarus.14.d
+	picture = GFX_report_event_gathering_protest
+	fire_only_once = yes
+
+	trigger = {
+		tag = BLR
+		ENG = { has_country_flag = ENG_stock_crash }
+	}
+	mean_time_to_happen = { days = 2 }
+
+	option = { # God help us...
+		name = belarus.14.a
+		add_ideas = BLR_black_wednesday_idea
+		set_country_flag = BLR_black_wednesday
+	}
+}
+## ERROR FIXES
+country_event = { # Status of the Home Guard
+	id = belarus.15
+	title = belarus.15.t
+	desc = belarus.15.d
+	picture = GFX_report_event_BLR_officers
+	is_triggered_only = yes
+
+	option = { # Reform the Home Guard
+		name = belarus.15.a
+		army_experience = 10
+		add_political_power = 50
+	}
+	option = { # Disband them
+		name = belarus.15.b
+		add_stability = 0.05
+		increase_ruling_party_popularity_by_10 = yes
+	}
+}
+country_event = { # The Belarusian Home Guard
+	id = belarus.44
+	title = belarus.44.t
+	desc = {
+		text = belarus.44.d
+		trigger = {
+			NOT = { has_government = valkist }
+		}
+	}
+	desc = {
+		text = belarus.44.d.1
+		trigger = {
+			has_government = valkist
+		}
+	}
+	picture = GFX_report_event_BLR_officers
+	is_triggered_only = yes
+
+	option = { # Formalize them as the army
+		name = belarus.44.a
+		army_experience = 15
+	}
+	option = { # Maintain them as a reservist force
+		name = belarus.44.b
+		add_manpower = 15000
+	}
+	option = { # Disband them!
+		name = belarus.44.c
+		trigger = {
+			has_government = valkist
+		}
+
+		increase_ruling_party_popularity_by_10 = yes
+		add_political_power = 100
+		add_stability = 0.15
+	}
+}
+
+country_event = { # Join Germany
+	id = belarus.16
+	title = belarus.16.t
+	desc = belarus.16.d
+	picture = GFX_report_event_GER_wehrmacht_poster
+	is_triggered_only = yes
+
+	option = { # Accept
+		name = belarus.16.a
+		ai_chance = {
+			base = 100
+			modifier = {
+				add = -80
+				has_war_with = FRA
+				FROM = { has_war_with = SOV }
+			}
+		}
+		add_to_faction = FROM
+		country_event = belarus.17
+	}
+	option = { # Refuse
+		name = belarus.16.b
+		ai_chance = {
+			base = 20
+		}
+		country_event = belarus.18
+	}
+}
+
+country_event = { # Accepted
+	id = belarus.17
+	title = belarus.17.t
+	desc = belarus.17.d
+	picture = GFX_report_event_GER_tst_poster
+	is_triggered_only = yes
+
+	option = { # Sieg Heil!
+		name = belarus.17.a
+		add_political_power = 20
+	}
+}
+
+country_event = { # Refused
+	id = belarus.18
+	title = belarus.18.t
+	desc = belarus.18.d
+	picture = GFX_report_event_GER_wounded_soldier
+	is_triggered_only = yes
+
+	option = { # We don't need them
+		name = belarus.18.a
+		add_political_power = 10
+	}
+}
+
+country_event = { # Konigsberg Conference
+	id = belarus.19
+	title = belarus.19.t
+	desc = belarus.19.d
+	picture = GFX_report_event_BLR_soldiers_review
+	is_triggered_only = yes
+
+	option = { # Agree to their territorial claims
+		name = belarus.19.a
+		ai_chance = {
+			base = 80
+			modifier = {
+				add = 1000
+				ROOT = { is_ai = no }
+			}
+			modifier = {
+				factor = 0.6
+				UKR = {
+					is_in_faction_with = GER
+					NOT = { has_government = social_democrat }
+				}
+			}
+			modifier = {
+				factor = 2
+				FRA = {
+					NOT = { controls_state = 16 }
+				}
+			}
+			modifier = {
+				factor = 4
+				has_country_flag = GER_ukraine_no_food
+			}
+		}
+
+		add_to_faction = FROM
+		FROM = {
+			set_country_flag = BLR_konigsberg_gut
+			country_event = { id = belarus.20 days = 2 }
+		}
+	}
+
+	option = { # Reject their claims
+		name = belarus.19.b
+		ai_chance = {
+			base = 20
+		}
+
+		FROM = {
+			set_country_flag = BLR_konigsberg_nicht_gut
+			country_event = { id = belarus.21 days = 2 }
+		}
+	}
+}
+
+country_event = { # Accepted territorial claims
+	id = belarus.20
+	title = belarus.20.t
+	desc = belarus.20.d
+	picture = GFX_report_event_BLR_soldiers_review
+	is_triggered_only = yes
+
+	option = {
+		name = belarus.20.a
+
+		remove_ideas = BLR_question_of_legitimacy
+		hidden_effect = {
+			random_other_country = {
+				news_event = { id = fxnews.45 days = 2 }
+			}
+		}
+	}
+}
+
+country_event = { # Rejected territorial claims
+	id = belarus.21
+	title = belarus.21.t
+	desc = belarus.21.d
+	picture = GFX_report_event_BLR_soldiers_review
+	is_triggered_only = yes
+
+	option = {
+		name = belarus.21.a
+		remove_ideas = BLR_question_of_legitimacy
+		add_political_power = -10
+	}
+}
+
+country_event = { # Demand Ukrainian Lands
+	id = belarus.22
+	title = belarus.22.t
+	desc = belarus.22.d
+	picture = GFX_report_event_BLR_officers
+	is_triggered_only = yes
+
+	option = {
+		name = belarus.22.a
+		ai_chance = {
+			base = 40
+			modifier = {
+				add = 20
+				FROM = {
+					is_in_faction_with = GER
+				}
+			}
+			modifier = {
+				threat > 30
+				add = 10
+			}
+		}
+
+		set_capital = { state = 139 }
+		effect_tooltip = {
+			every_owned_state = {
+				limit = {
+					OR = {
+						state = 94
+						state = 93
+						state = 199
+						state = 201
+						state = 241
+						state = 202
+						state = 203
+						state = 198
+						state = 193
+						state = 225
+						state = 259
+						state = 953
+					}
+				}
+
+				FROM = {
+					transfer_state = PREV
+					add_state_claim = PREV
+				}
+			}
+		}
+		FROM = {
+			country_event = { id = belarus.23 days = 1 }
+		}
+	}
+
+	option = {
+		name = belarus.22.b
+		ai_chance = {
+			base = 60
+		}
+
+		if = {
+			limit = {
+				is_in_faction_with = FROM
+			}
+			custom_effect_tooltip = BLR_will_leave_faction_tt
+			hidden_effect = {
+				GER = {
+					remove_from_faction = UKR
+				}
+			}
+		}
+		FROM = {
+			country_event = { id = belarus.24 days = 1 }
+		}
+	}
+}
+
+country_event = { # Ukraine Agrees
+	id = belarus.23
+	title = belarus.23.t
+	desc = belarus.23.d
+	picture = GFX_report_event_BLR_officers_house
+	is_triggered_only = yes
+
+	option = {
+		name = belarus.23.a
+		add_political_power = 100
+		UKR = {
+			every_owned_state = {
+				limit = {
+					OR = {
+						state = 94
+						state = 93
+						state = 199
+						state = 201
+						state = 241
+						state = 202
+						state = 203
+						state = 198
+						state = 193
+						state = 225
+						state = 259
+						state = 953
+					}
+				}
+
+				ROOT = {
+					transfer_state = PREV
+					add_state_claim = PREV
+				}
+			}
+		}
+	}
+}
+
+country_event = { # Ukraine Refuses
+	id = belarus.24
+	title = belarus.24.t
+	desc = belarus.24.d
+	picture = GFX_report_event_BLR_officers_house
+	is_triggered_only = yes
+
+	option = { # War!
+		name = belarus.24.a
+		UKR = {
+			every_owned_state = {
+				limit = {
+					OR = {
+						state = 94
+						state = 93
+						state = 199
+						state = 201
+						state = 241
+						state = 202
+						state = 203
+						state = 198
+						state = 193
+						state = 225
+						state = 259
+						state = 953
+					}
+				}
+				ROOT = {
+					add_state_claim = PREV
+				}
+			}
+		}
+		create_wargoal = {
+			target = FROM
+			type = annex_everything
+		}
+	}
+}
+
+country_event = { # Demand Lithuania
+	id = belarus.25
+	title = belarus.25.t
+	desc = belarus.25.d
+	picture = GFX_report_event_BLR_officers_house
+	is_triggered_only = yes
+
+	option = { #
+		name = belarus.25.a
+		ai_chance = {
+			base = 40
+			modifier = {
+				add = 20
+				FROM = {
+					is_in_faction_with = GER
+				}
+			}
+		}
+
+		effect_tooltip = {
+			BLR = {
+				annex_country = {
+					target = LIT
+					transfer_troops = no
+				}
+			}
+		}
+		FROM = {
+			country_event = { id = belarus.26 days = 1 }
+		}
+	}
+
+	option = { #
+		name = belarus.25.b
+		ai_chance = {
+			base = 40
+		}
+		FROM = {
+			country_event = { id = belarus.27 days = 1 }
+		}
+	}
+}
+
+country_event = { # Lithunia is ded
+	id = belarus.26
+	title = belarus.26.t
+	desc = belarus.26.d
+	picture = GFX_report_event_BLR_officers_house
+	is_triggered_only = yes
+
+	option = {
+		name = belarus.26.a
+		LIT = {
+			every_owned_state = {
+				limit = {
+					is_core_of = LIT
+				}
+
+				ROOT = {
+					add_state_claim = PREV
+				}
+			}
+		}
+		annex_country = {
+			target = LIT
+			transfer_troops = no
+		}
+	}
+}
+
+country_event = { # Lithunia is ded
+	id = belarus.27
+	title = belarus.27.t
+	desc = belarus.27.d
+	picture = GFX_report_event_BLR_officers_house
+	is_triggered_only = yes
+
+	option = {
+		name = belarus.27.a
+		LIT = {
+			every_owned_state = {
+				limit = {
+					is_core_of = LIT
+				}
+
+				ROOT = {
+					add_state_claim = PREV
+				}
+			}
+		}
+		create_wargoal = {
+			target = LIT
+			type = annex_everything
+		}
+	}
+}
+
+country_event = { # Demand Soviet Lands
+	id = belarus.28
+	title = belarus.28.t
+	desc = belarus.28.d
+	picture = GFX_report_event_BLR_officers
+	is_triggered_only = yes
+
+	option = {
+		name = belarus.28.a
+		ai_chance = {
+			base = 10
+			modifier = {
+				add = 40
+				has_country_flag = SOV_lacking_industrialization_flag
+			}
+			modifier = {
+				add = 10
+				has_war_with = RUS
+			}
+			modifier = {
+				add = 10
+				has_war_with = JAP
+			}
+			modifier = {
+				add = 20
+				has_war_with = GER
+			}
+			modifier = {
+				add = 5
+				has_war_with = ENG
+			}
+			modifier = {
+				add = 5
+				has_war_with = FRA
+			}
+		}
+
+		effect_tooltip = {
+			every_owned_state = {
+				limit = {
+					OR = {
+						state = 220
+						state = 242
+						state = 243
+						state = 948
+						state = 224
+						state = 205
+						state = 223
+						state = 222
+						state = 791
+						state = 1062
+					}
+				}
+
+				FROM = {
+					transfer_state = PREV
+					add_state_claim = PREV
+				}
+			}
+		}
+		FROM = {
+			country_event = { id = belarus.29 days = 1 }
+		}
+	}
+
+	option = {
+		name = belarus.27.b
+		ai_chance = {
+			base = 60
+		}
+
+		FROM = {
+			country_event = { id = belarus.30 days = 1 }
+		}
+	}
+}
+
+country_event = { # Soviets Agree
+	id = belarus.29
+	title = belarus.29.t
+	desc = belarus.29.d
+	picture = GFX_report_event_BLR_officers_house
+	is_triggered_only = yes
+
+	option = {
+		name = belarus.29.a
+		add_political_power = 100
+		SOV = {
+			every_owned_state = {
+				limit = {
+					OR = {
+						state = 220
+						state = 242
+						state = 243
+						state = 948
+						state = 224
+						state = 205
+						state = 223
+						state = 222
+						state = 791
+						state = 1062
+					}
+				}
+
+				ROOT = {
+					transfer_state = PREV
+					add_state_claim = PREV
+				}
+			}
+		}
+	}
+}
+
+country_event = { # Soviets Refuses
+	id = belarus.30
+	title = belarus.30.t
+	desc = belarus.30.d
+	picture = GFX_report_event_BLR_officers_house
+	is_triggered_only = yes
+
+	option = { # War!
+		name = belarus.30.a
+		create_wargoal = {
+			target = FROM
+			type = annex_everything
+		}
+		SOV = {
+			every_owned_state = {
+				limit = {
+					OR = {
+						state = 220
+						state = 242
+						state = 948
+						state = 224
+						state = 205
+						state = 223
+						state = 222
+						state = 791
+						state = 1062
+					}
+				}
+
+				ROOT = {
+					add_state_claim = PREV
+				}
+			}
+		}
+	}
+}
+
+country_event = { # Honoring Belarusian Territorial Claims - SOV
+	id = belarus.31
+	title = belarus.31.t
+	desc = belarus.31.d
+	picture = GFX_report_event_BLR_astrouski_coup
+	is_triggered_only = yes
+
+	option = {
+		name = belarus.31.a
+		every_owned_state = {
+			limit = {
+				OR = {
+					state = 220
+					state = 242
+					state = 243
+					state = 948
+					state = 224
+					state = 205
+					state = 223
+					state = 222
+					state = 791
+					state = 1062
+				}
+			}
+
+			BLR = {
+				transfer_state = PREV
+				add_state_claim = PREV
+			}
+		}
+	}
+}
+
+country_event = { # Honoring Belarusian Territorial Claims - UKR
+	id = belarus.32
+	title = belarus.32.t
+	desc = belarus.32.d
+	picture = GFX_report_event_BLR_astrouski_coup
+	is_triggered_only = yes
+
+	option = {
+		name = belarus.32.a
+		every_owned_state = {
+			limit = {
+				OR = {
+					state = 94
+					state = 93
+					state = 199
+					state = 201
+					state = 241
+					state = 202
+					state = 203
+					state = 198
+					state = 193
+					state = 225
+					state = 259
+					state = 953
+				}
+			}
+
+			BLR = {
+				transfer_state = PREV
+				add_state_claim = PREV
+			}
+		}
+		hidden_effect = {
+			country_event = { id = annex.149 days = 2 }
+		}
+	}
+}
+
+country_event = { # Honoring Belarusian Territorial Claims - LIT
+	id = belarus.33
+	title = belarus.33.t
+	desc = belarus.33.d
+	picture = GFX_report_event_BLR_astrouski_coup
+	is_triggered_only = yes
+
+	option = {
+		name = belarus.33.a
+		every_owned_state = {
+			limit = {
+				is_core_of = LIT
+				NOT = { state = 188 }
+			}
+
+			BLR = {
+				transfer_state = PREV
+				add_state_claim = PREV
+			}
+		}
+	}
+}
+
+country_event = { # Demand Soviet Territories - Greater Belarus
+	id = belarus.34
+	title = belarus.34.t
+	desc = belarus.34.d
+	picture = GFX_report_event_BLR_astrouski_coup
+	is_triggered_only = yes
+
+	option = { # Accept
+		name = belarus.34.a
+		ai_chance = {
+			base = 10
+			modifier = {
+				add = 40
+				has_country_flag = SOV_lacking_industrialization_flag
+			}
+			modifier = {
+				add = 10
+				has_war_with = RUS
+			}
+			modifier = {
+				add = 10
+				has_war_with = JAP
+			}
+			modifier = {
+				add = 20
+				has_war_with = GER
+			}
+			modifier = {
+				add = 5
+				has_war_with = ENG
+			}
+			modifier = {
+				add = 5
+				has_war_with = FRA
+			}
+		}
+
+		effect_tooltip = {
+			every_owned_state = {
+				limit = {
+					OR = {
+						state = 914
+						state = 791
+						state = 948
+						state = 243
+						state = 242
+					}
+				}
+
+				BLR = {
+					transfer_state = PREV
+					add_state_claim = PREV
+				}
+			}
+		}
+
+		FROM = {
+			country_event = { id = belarus.35 days = 1 }
+		}
+	}
+
+	option = { # Refuse
+		name = belarus.34.b
+		ai_chance = {
+			base = 60
+		}
+		FROM = {
+			country_event = { id = belarus.36 days = 1 }
+		}
+	}
+}
+
+country_event = { # Soviets Accept
+	id = belarus.35
+	title = belarus.35.t
+	desc = belarus.35.d
+	picture = GFX_report_event_BLR_astrouski_coup
+	is_triggered_only = yes
+
+	option = {
+		name = belarus.35.a
+		SOV = {
+			every_owned_state = {
+				limit = {
+					OR = {
+						state = 914
+						state = 791
+						state = 948
+						state = 243
+						state = 242
+					}
+				}
+
+				BLR = {
+					transfer_state = PREV
+					add_state_claim = PREV
+				}
+			}
+		}
+	}
+}
+
+country_event = { # Soviets Refuse
+	id = belarus.36
+	title = belarus.36.t
+	desc = belarus.36.d
+	picture = GFX_report_event_BLR_astrouski_coup
+	is_triggered_only = yes
+
+	option = {
+		name = belarus.36.a
+		SOV = {
+			every_owned_state = {
+				limit = {
+					OR = {
+						state = 914
+						state = 791
+						state = 948
+						state = 243
+						state = 242
+					}
+				}
+
+				BLR = {
+					add_state_claim = PREV
+				}
+			}
+		}
+		declare_war_on = {
+			target = FROM
+			type = annex_everything
+		}
+	}
+}
+
+country_event = { # Offer to Poland
+	id = belarus.37
+	title = belarus.37.t
+	desc = belarus.37.d
+	picture = GFX_report_event_BLR_astrouski_coup
+	is_triggered_only = yes
+
+	option = { # Accept
+		name = belarus.37.a
+
+		effect_tooltip = {
+			LIT = {
+				if = {
+					limit = {
+						owns_state = 96
+					}
+
+					BLR = {
+						add_state_claim = 96
+						transfer_state = 96
+					}
+				}
+				set_capital = { state = 189 }
+			}
+
+			if = {
+				limit = {
+					owns_state = 889
+				}
+
+				BLR = {
+					add_state_claim = 889
+					transfer_state = 889
+				}
+			}
+		}
+
+		add_offsite_building = {
+			level = 2
+			type = industrial_complex
+		}
+		FROM = {
+			country_event = { id = belarus.38 days = 1 }
+		}
+	}
+
+	option = { # Refuse
+		name = belarus.37.b
+
+		FROM = {
+			country_event = { id = belarus.39 days = 1 }
+		}
+	}
+}
+
+country_event = { # Accepted
+	id = belarus.38
+	title = belarus.38.t
+	desc = belarus.38.d
+	picture = GFX_report_event_BLR_poster
+	is_triggered_only = yes
+
+	option = {
+		name = belarus.38.a
+		LIT = {
+			if = {
+				limit = {
+					owns_state = 96
+				}
+
+				BLR = {
+					add_state_claim = 96
+					transfer_state = 96
+				}
+			}
+			set_capital = { state = 189 }
+		}
+
+		POL = {
+			if = {
+				limit = {
+					owns_state = 889
+				}
+
+				BLR = {
+					add_state_claim = 889
+					transfer_state = 889
+				}
+			}
+		}
+	}
+}
+
+country_event = { # Refused
+	id = belarus.39
+	title = belarus.39.t
+	desc = belarus.39.d
+	picture = GFX_report_event_BLR_poster
+	is_triggered_only = yes
+
+	option = {
+		name = belarus.39.a
+		create_wargoal = {
+			target = FROM
+			type = annex_everything
+		}
+	}
+}
+
+country_event = { # Coronation of Vytautas II
+	id = belarus.40
+	title = belarus.40.t
+	desc = belarus.40.d
+	picture = GFX_report_event_BLR_king
+	is_triggered_only = yes
+
+	option = {
+		name = belarus.40.a
+		hidden_effect = {
+			if = {
+				limit = {
+					NOT = { has_character = LIT_Vytautas_II }
+				}
+				LIT = {
+					set_nationality = {
+						character = LIT_Vytautas_II
+						target_country = BLR
+					}
+				}
+			}
+		}
+		BLR_create_monarchy = yes
+	}
+}
+
+country_event = { # Elections
+	id = belarus.41
+	title = belarus.41.t
+	desc = belarus.41.d
+	picture = GFX_report_event_election_vote
+	is_triggered_only = yes
+
+	option = { # Hramada
+		name = belarus.41.a
+		set_temp_variable = { new_ruling_party = token:social_democrat }
+		meta_effect = {
+			text = {
+				set_politics = {
+					ruling_party = var:new_ruling_party
+					last_election = "[CURRENT_DATE]"
+					election_frequency = 48
+					elections_allowed = yes
+				}
+			}
+			CURRENT_DATE = "[?global.date.GetDateStringNoHour]"
+		}
+		increase_ruling_party_popularity_by_20 = yes
+		remove_every_minister = yes
+		activate_advisor = BLR_Anton_Boryk_hog_sde
+		activate_advisor = BLR_Anton_Lutskevic_for_sde
+		activate_advisor = BLR_Jan_Sierada_eco_sli
+		activate_advisor = BLR_Jazep_Lesik_sec_sde
+		set_country_flag = BLR_hramada_victory_flag
+	}
+
+	option = { # Christian Democrats
+		name = belarus.41.b
+		set_temp_variable = { new_ruling_party = token:social_conservative }
+		meta_effect = {
+			text = {
+				set_politics = {
+					ruling_party = var:new_ruling_party
+					last_election = "[CURRENT_DATE]"
+					election_frequency = 48
+					elections_allowed = yes
+				}
+			}
+			CURRENT_DATE = "[?global.date.GetDateStringNoHour]"
+		}
+		increase_ruling_party_popularity_by_20 = yes
+		remove_every_minister = yes
+		activate_advisor = BLR_Jazep_Hermanovic_hog_sco
+		activate_advisor = BLR_Adam_Stankievic_for_sco
+		activate_advisor = BLR_Adolf_Klimovic_eco_sco
+		activate_advisor = BLR_Jan_Pazniak_sec_sco
+		set_country_flag = BLR_christian_democrats_victory_flag
+	}
+}
+
+country_event = { # Second Elections
+	id = belarus.42
+	title = belarus.42.t
+	desc = belarus.42.d
+	picture = GFX_report_event_election_vote
+	is_triggered_only = yes
+
+	trigger = {
+		tag = BLR
+		has_country_flag = BLR_has_second_elections
+	}
+
+	option = { # Hramada
+		name = belarus.42.a
+		set_politics = {
+			ruling_party = social_democrat
+			elections_allowed = yes
+		}
+		increase_ruling_party_popularity_by_20 = yes
+		remove_every_minister = yes
+		activate_advisor = BLR_Anton_Boryk_hog_sde
+		activate_advisor = BLR_Anton_Lutskevic_for_sde
+		activate_advisor = BLR_Jan_Sierada_eco_sli
+		activate_advisor = BLR_Jazep_Lesik_sec_sde
+		set_country_flag = BLR_has_second_elections
+	}
+
+	option = { # Christian Democrats
+		name = belarus.42.b
+		set_politics = {
+			ruling_party = social_conservative
+			elections_allowed = yes
+		}
+		increase_ruling_party_popularity_by_20 = yes
+		remove_every_minister = yes
+		activate_advisor = BLR_Jazep_Hermanovic_hog_sco
+		activate_advisor = BLR_Adam_Stankievic_for_sco
+		activate_advisor = BLR_Adolf_Klimovic_eco_sco
+		activate_advisor = BLR_Jan_Pazniak_sec_sco
+		set_country_flag = BLR_has_second_elections
+	}
+
+	option = {  # People's Party
+		name = belarus.42.c
+		set_politics = {
+			ruling_party = social_liberal
+			elections_allowed = yes
+		}
+		increase_ruling_party_popularity_by_20 = yes
+		remove_every_minister = yes
+		activate_advisor = BLR_Jazep_Varonka_hog_sli_hired
+		activate_advisor = BLR_Mitrofan_Dovnar_Zapolsky_for_mli
+		activate_advisor = BLR_Jan_Sierada_eco_sli
+		activate_advisor = BLR_Alyaksandr_Tsvikyevich_sec_sli
+
+		set_country_flag = BLR_has_second_elections
+	}
+}
+
+country_event = { # Third Elections
+	id = belarus.43
+	title = belarus.43.t
+	desc = belarus.43.d
+	picture = GFX_report_event_election_vote
+	is_triggered_only = yes
+
+	trigger = {
+		tag = BLR
+		has_country_flag = BLR_has_third_elections
+	}
+
+	option = { # Hramada
+		name = belarus.43.a
+		set_politics = {
+			ruling_party = social_democrat
+			elections_allowed = yes
+		}
+		increase_ruling_party_popularity_by_20 = yes
+		remove_every_minister = yes
+		activate_advisor = BLR_Anton_Boryk_hog_sde
+		activate_advisor = BLR_Anton_Lutskevic_for_sde
+		activate_advisor = BLR_Jan_Sierada_eco_sli
+		activate_advisor = BLR_Jazep_Lesik_sec_sde
+
+		set_country_flag = BLR_has_third_elections
+	}
+
+	option = { # Christian Democrats
+		name = belarus.43.b
+		set_politics = {
+			ruling_party = social_conservative
+			elections_allowed = yes
+		}
+		increase_ruling_party_popularity_by_20 = yes
+		remove_every_minister = yes
+		activate_advisor = BLR_Jazep_Hermanovic_hog_sco
+		activate_advisor = BLR_Adam_Stankievic_for_sco
+		activate_advisor = BLR_Adolf_Klimovic_eco_sco
+		activate_advisor = BLR_Jan_Pazniak_sec_sco
+
+		set_country_flag = BLR_has_third_elections
+	}
+
+	option = {  # People's Party
+		name = belarus.43.c
+		set_politics = {
+			ruling_party = social_liberal
+			elections_allowed = yes
+		}
+		increase_ruling_party_popularity_by_20 = yes
+		remove_every_minister = yes
+		activate_advisor = BLR_Jazep_Varonka_hog_sli_hired
+		activate_advisor = BLR_Mitrofan_Dovnar_Zapolsky_for_mli
+		activate_advisor = BLR_Jan_Sierada_eco_sli
+		activate_advisor = BLR_Alyaksandr_Tsvikyevich_sec_sli
+
+		set_country_flag = BLR_has_third_elections
+	}
+}

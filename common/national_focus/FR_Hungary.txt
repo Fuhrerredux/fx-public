@@ -1,0 +1,1746 @@
+focus_tree = {
+	id = hungary_focus
+
+	country = {
+		factor = 0
+
+		modifier = {
+			add = 100
+			tag = HUN
+		}
+	}
+
+	default = no
+
+	continuous_focus_position = { x = 50 y = 1600 }
+
+	focus = { #Military rearmament start
+		id = hun_mil_start
+		icon = GFX_goal_HUN_rearm
+		cost = 5
+		x = 6
+		y = 0
+		available = {
+			has_idea = hun_trianon
+		}
+		ai_will_do = {
+			factor = 4000
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus hun_mil_start"
+			add_ideas = hun_secret_rearm
+		}
+	}
+
+	focus = { #Internal Politics Start
+		id = hun_poli_stab
+		icon = GFX_goal_HUN_political_stabilization
+		cost = 5
+		x = 14
+		y = 0
+		ai_will_do = {
+			factor = 400
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus hun_poli_stab"
+			increase_ruling_party_popularity_by_10 = yes
+			add_stability = 0.1
+		}
+	}
+
+	focus = { #Foreign Diplomacy Start
+		id = hun_foreign_dip
+		icon = GFX_goal_generic_improve_relations
+		cost = 5
+		x = 20
+		y = 0
+		ai_will_do = {
+			factor = 40
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus hun_foreign_dip"
+			add_political_power = 50
+		}
+	}
+
+	focus = {
+		id = hun_german_invest
+		icon = GFX_goal_generic_intelligence_exchange
+		cost = 5
+		x = 20
+		y = 1
+		prerequisite = {
+			focus = hun_foreign_dip
+		}
+		available = {
+			is_puppet = no
+			GER = {
+				exists = yes
+				is_puppet = no
+				has_dictatorship_government = yes
+			}
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus hun_german_invest"
+			GER = {
+				country_event = {
+					id = hun.40
+					days = 2
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = hun_ger_army
+		icon = GFX_goal_conscription
+		cost = 10
+		x = 20
+		y = 2
+		prerequisite = {
+			focus = hun_german_invest
+		}
+		available = {
+			is_puppet = no
+			country_exists = GER
+			NOT = { has_war_with = GER }
+			GER = {
+				has_dictatorship_government = yes
+			}
+			controls_state = 940
+			controls_state = 751
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus hun_ger_army"
+			hidden_effect = {
+				HUN = {
+					load_oob = HUN_GER_VOL
+				}
+				GER = {
+					load_oob = GER_HUN_VOL
+				}
+			}
+			custom_effect_tooltip = hun_german_units
+		}
+	}
+
+	focus = {
+		id = hun_join_stahlpakt
+		icon = GFX_Valkist_Germany
+		cost = 10
+		x = 20
+		y = 3
+		prerequisite = {
+			focus = hun_ger_army
+		}
+		available = {
+			is_puppet = no
+			GER = {
+				exists = yes
+				is_faction_leader = yes
+				is_puppet = no
+				has_dictatorship_government = yes
+			}
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus hun_join_stahlpakt"
+			GER = {
+				country_event = hun_for.22
+			}
+		}
+	}
+
+	focus = {
+		id = hun_collab_with_iron_guard
+		icon = GFX_goal_iron_guard_romania
+		cost = 5
+		x = 22
+		y = 1
+		prerequisite = {
+			focus = hun_foreign_dip
+		}
+		available = {
+			HUN = {
+				is_puppet = no
+				is_faction_leader = yes
+			}
+			ROM = {
+				OR = {
+					has_government = national_populist
+					has_government = valkist
+				}
+				is_puppet = no
+			}
+		}
+
+		bypass = {
+			ROM ={
+				OR = {
+					is_in_faction_with = HUN
+					is_puppet_of = HUN
+				}
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus hun_collab_with_iron_guard"
+			if = {
+				limit = {
+					HUN = {
+						is_in_faction = yes
+						is_faction_leader = yes
+					}
+				}
+				HUN = {
+					add_to_faction = ROM
+				}
+				else_if = {
+					limit = {
+						is_in_faction = no
+					}
+					HUN = {
+						create_faction = "Budapest-Bucuresti Pact"
+						add_to_faction = ROM
+					}
+				}
+				else_if = {
+					limit = {
+						is_in_faction = yes
+						is_faction_leader = no
+					}
+					HUN = {
+						faction_leader = {
+							add_to_faction = ROM
+						}
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = hun_carpathian_agreement
+		icon = GFX_goal_generic_military_deal
+		cost = 5
+		x = 22
+		y = 2
+		prerequisite = {
+			focus = hun_collab_with_iron_guard
+		}
+		available = {
+			HUN = {
+				is_puppet = no
+			}
+			ROM = {
+				OR = {
+					is_puppet_of = HUN
+					is_in_faction_with = HUN
+				}
+			}
+		}
+
+		bypass = {
+			HUN = {
+				owns_state = 154
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus hun_carpathian_agreement"
+			HUN = {
+				transfer_state = 154
+			}
+		}
+	}
+
+	focus = { #Repurposing Cropdusters
+		id = hun_cropdusters
+		icon = GFX_goal_generic_air_production
+		cost = 5
+		x = 4
+		y = 1
+		ai_will_do = {
+			factor = 80
+		}
+		prerequisite = {
+			focus = hun_mil_start
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus hun_cropdusters"
+			hidden_effect = {
+				create_equipment_variant = {
+					name = "Repurposed Cropduster"
+					type = CAS_equipment_1
+					upgrades = {
+					}
+				}
+				add_equipment_to_stockpile = { type = CAS_equipment_1 amount = 50 producer = HUN}
+			}
+			custom_effect_tooltip = hun_50_rep
+		}
+	}
+
+	focus = {
+		id = hun_revive_airforce
+		icon = GFX_goal_generic_air_doctrine
+		cost = 5
+		x = 4
+		y = 2
+		ai_will_do = {
+			factor = 80
+		}
+		prerequisite = {
+			focus = hun_cropdusters
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus hun_revive_airforce"
+			air_experience = 25
+			add_ideas = hun_rebuilt_airforce
+		}
+	}
+
+	focus = {
+		id = hun_offense_airforce
+		icon = GFX_goal_generic_major_war
+		cost = 5
+		x = 4
+		y = 3
+		ai_will_do = {
+			factor = 80
+		}
+		prerequisite = {
+			focus = hun_revive_airforce
+		}
+		mutually_exclusive = {
+			focus = hun_defense_airforce
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus hun_offense_airforce"
+			air_experience = 5
+			add_ideas = hun_attack_air
+		}
+	}
+
+	focus = {
+		id = hun_defense_airforce
+		icon = GFX_goal_generic_defence
+		cost = 5
+		x = 2
+		y = 3
+		ai_will_do = {
+			factor = 80
+		}
+		prerequisite = {
+			focus = hun_revive_airforce
+		}
+		mutually_exclusive = {
+			focus = hun_offense_airforce
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus hun_defense_airforce"
+			air_experience = 5
+			add_ideas = hun_defend_air
+		}
+	}
+
+	focus = {
+		id = hun_new_airbases
+		icon = GFX_goal_generic_airports
+		cost = 10
+		x = 4
+		y = 4
+		ai_will_do = {
+			factor = 80
+		}
+		prerequisite = {
+			focus = hun_offense_airforce
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus hun_new_airbases"
+			155 = {
+				add_building_construction = {
+					type = air_base
+					level = 3
+					instant_build = yes
+				}
+			}
+			940 = {
+				add_building_construction = {
+					type = air_base
+					level = 3
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = hun_expand_air_training
+		icon = GFX_focus_generic_treaty
+		cost = 5
+		x = 2
+		y = 4
+		ai_will_do = {
+			factor = 80
+		}
+		prerequisite = {
+			focus = hun_defense_airforce
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus hun_expand_air_training"
+			air_experience = 75
+		}
+	}
+
+	focus = {
+		id = hun_experimental_air
+		icon = GFX_goal_generic_air_fighter2_new
+		cost = 10
+		x = 3
+		y = 5
+		ai_will_do = {
+			factor = 80
+		}
+		prerequisite = {
+			focus = hun_expand_air_training
+			focus = hun_new_airbases
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus hun_experimental_air"
+			add_tech_bonus = {
+				bonus = 0.25
+				uses = 2
+				category = light_fighter
+			}
+		}
+	}
+
+	focus = {
+		id = hun_expand_experiment
+		icon = GFX_focus_wonderweapons
+		cost = 15
+		x = 3
+		y = 6
+		prerequisite = {
+			focus = hun_experimental_air
+		}
+		available = {
+			date > 1939.7.1
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus hun_expand_experiment"
+			add_tech_bonus = {
+				bonus = 0.10
+				uses = 1
+				category = nuclear
+			}
+		}
+	}
+
+	focus = {
+		id = hun_revive_navy
+		icon = GFX_goal_generic_build_navy
+		cost = 10
+		x = 0
+		y = 1
+		ai_will_do = {
+			factor = 20
+		}
+		prerequisite = {
+			focus = hun_mil_start
+		}
+		available = {
+			any_owned_state = {
+				is_coastal = yes
+			}
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus hun_revive_navy"
+			navy_experience = 25
+		}
+	}
+
+	focus = {
+		id = hun_navy_doctrine
+		icon = GFX_goal_navy_decision
+		cost = 10
+		x = 0
+		y = 2
+		prerequisite = {
+			focus = hun_revive_navy
+		}
+		available = {
+			any_owned_state = {
+				is_coastal = yes
+			}
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus hun_navy_doctrine"
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.5
+				uses = 1
+				category = naval_doctrine
+			}
+		}
+	}
+
+	focus = {
+		id = hun_undersea_navy
+		icon = GFX_goal_generic_navy_submarine
+		cost = 10
+		x = -2
+		y = 3
+		prerequisite = {
+			focus = hun_navy_doctrine
+		}
+		available = {
+			any_owned_state = {
+				is_coastal = yes
+			}
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus hun_undersea_navy"
+			add_tech_bonus = {
+				bonus = 0.5
+				uses = 1
+				category = ss_tech
+			}
+		}
+	}
+
+	focus = {
+		id = hun_cruisar_effort
+		icon = GFX_goal_generic_navy_cruiser
+		cost = 10
+		x = -2
+		y = 4
+		prerequisite = {
+			focus = hun_undersea_navy
+		}
+		available = {
+			any_owned_state = {
+				is_coastal = yes
+			}
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus hun_cruisar_effort"
+			add_tech_bonus = {
+				bonus = 0.5
+				uses = 1
+				category = cl_tech
+				category = ca_tech
+			}
+		}
+	}
+
+	focus = {
+		id = hun_floating_fortress
+		icon = GFX_goal_generic_navy_battleship
+		cost = 10
+		x = -2
+		y = 5
+		prerequisite = {
+			focus = hun_cruisar_effort
+		}
+		available = {
+			any_owned_state = {
+				is_coastal = yes
+			}
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus hun_floating_fortress"
+			add_tech_bonus = {
+				bonus = 0.5
+				uses = 1
+				category = bb_tech
+				category = shbb_tech
+			}
+		}
+	}
+
+	focus = {
+		id = hun_mediterranean_wolves
+		icon = GFX_goal_generic_wolf_pack
+		cost = 10
+		x = 0
+		y = 3
+		prerequisite = {
+			focus = hun_navy_doctrine
+		}
+		available = {
+			any_owned_state = {
+				is_coastal = yes
+			}
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus hun_mediterranean_wolves"
+			add_tech_bonus = {
+				bonus = 0.5
+				uses = 1
+				category = submarine_doctrine
+			}
+		}
+	}
+
+	focus = {
+		id = hun_flexible_ships
+		icon = GFX_focus_generic_navy_battleship2
+		cost = 10
+		x = 0
+		y = 4
+		prerequisite = {
+			focus = hun_mediterranean_wolves
+		}
+		available = {
+			any_owned_state = {
+				is_coastal = yes
+			}
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus hun_flexible_ships"
+			add_tech_bonus = {
+				bonus = 0.5
+				uses = 1
+				category = cl_tech
+				category = dd_tech
+			}
+		}
+	}
+
+	focus = {
+		id = hun_carrier_research
+		icon = GFX_goal_generic_navy_carrier
+		cost = 10
+		x = 0
+		y = 5
+		prerequisite = {
+			focus = hun_flexible_ships
+		}
+		available = {
+			any_owned_state = {
+				is_coastal = yes
+			}
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus hun_carrier_research"
+			add_tech_bonus = {
+				bonus = 0.5
+				uses = 1
+				category = cv_tech
+			}
+		}
+	}
+
+	focus = { #Pruchase German Guns
+		id = hun_buy_guns
+		icon = GFX_goal_generic_military_equipment
+		cost = 5
+		x = 6
+		y = 2
+		ai_will_do = {
+			factor = 160
+		}
+		prerequisite = {
+			focus = hun_mil_start
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus hun_buy_guns"
+			GER = {
+				country_event = {
+					id = hun.2
+					days = 2
+				}
+			}
+		}
+	}
+
+	focus = { #Establish Secret Police
+		id = hun_est_bizt
+		icon = GFX_goal_secret_agents
+		cost = 5
+		x = 7
+		y = 1
+		ai_will_do = {
+			factor = 20
+		}
+		prerequisite = {
+			focus = hun_mil_start
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus hun_est_bizt"
+			add_ideas = hun_secret_police
+			add_tech_bonus = {
+				name = infantry_bonus
+				bonus = 0.5
+				uses = 1
+				category = military_police_tech
+			}
+		}
+	}
+
+	focus = { #vengeful spirit
+		id = hun_venge
+		icon = GFX_goal_generic_secret_weapon
+		cost = 5
+		x = 6
+		y = 3
+		ai_will_do = {
+			factor = 320
+		}
+		prerequisite = {
+			focus = hun_buy_guns
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus hun_venge"
+			add_ideas = hun_vengeful
+			hidden_effect = {
+				country_event = {
+					id = hun.11
+					days = 15
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = hun_doctrine_evaluate
+		icon = GFX_goal_generic_army_doctrines
+		cost = 10
+		x = 6
+		y = 4
+		ai_will_do = {
+			factor = 160
+		}
+		prerequisite = {
+			focus = hun_venge
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus hun_doctrine_evaluate"
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.5
+				uses = 1
+				category = land_doctrine
+			}
+		}
+	}
+
+	focus = {
+		id = hun_combined_arms
+		icon = GFX_goal_generic_army_superior_firepower
+		cost = 10
+		x = 5
+		y = 5
+		ai_will_do = {
+			factor = 160
+		}
+		prerequisite = {
+			focus = hun_doctrine_evaluate
+		}
+		mutually_exclusive = {
+			focus = hun_independant_army
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus hun_combined_arms"
+			add_tech_bonus = {
+				bonus = 0.40
+				uses = 2
+				category = infantry_weapons
+			}
+		}
+	}
+
+	focus = {
+		id = hun_independant_army
+		icon = GFX_goal_generic_barricades
+		cost = 10
+		x = 7
+		y = 5
+		ai_will_do = {
+			factor = 160
+		}
+		prerequisite = {
+			focus = hun_doctrine_evaluate
+		}
+		mutually_exclusive = {
+			focus = hun_combined_arms
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus hun_independant_army"
+			add_tech_bonus = {
+				bonus = 0.20
+				uses = 1
+				category = infantry_weapons
+			}
+			add_tech_bonus = {
+				bonus = 0.20
+				uses = 1
+				category = artillery
+			}
+		}
+	}
+
+	focus = {
+		id = hun_youth_army
+		icon = GFX_goal_generic_drafted_army
+		cost = 10
+		x = 6
+		y = 6
+		prerequisite = {
+			focus = hun_independant_army
+			focus = hun_combined_arms
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus hun_youth_army"
+			add_ideas = hun_youth_army_idea
+		}
+	}
+
+	focus = {
+		id = hun_more_doctrine
+		icon = GFX_goal_generic_army_cooperation
+		cost = 10
+		x = 6
+		y = 7
+		prerequisite = {
+			focus = hun_youth_army
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus hun_more_doctrine"
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.5
+				uses = 1
+				category = land_doctrine
+			}
+		}
+	}
+
+	focus = {
+		id = hun_trianon_begone
+		icon = GFX_goal_generic_treaty_fails
+		cost = 5
+		x = 10
+		y = 4
+		ai_will_do = {
+			factor = 160
+			modifier = {
+				factor = 2
+				date > 1938.9.1
+			}
+			modifier = {
+				factor = 4
+				date > 1938.10.1
+			}
+			modifier = {
+				factor = 12
+				date > 1939.1.1
+			}
+			modifier = {
+				factor = 4000
+				date > 1939.2.1
+			}
+		}
+		available = {
+			has_war = no
+			has_army_manpower = { size > 74999 }
+		}
+		prerequisite = {
+			focus = hun_venge
+		}
+		prerequisite = {
+			focus = hun_autarky
+		}
+		prerequisite = {
+			focus = hun_tank_focus
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus hun_trianon_begone"
+			remove_ideas = hun_trianon
+			swap_ideas = {
+				remove_idea = hun_secret_rearm_2
+				add_idea = hun_rearmed
+			}
+		}
+	}
+
+	focus = {
+		id = hun_south_slovakia
+		icon = GFX_goal_generic_more_territorial_claims
+		cost = 10
+		x = 8
+		y = 6
+		will_lead_to_war_with = SLO
+		ai_will_do = {
+			factor = 160
+			modifier = {
+				factor = 10
+				SLO = {
+					has_army_manpower = { size < 100000 }
+				}
+			}
+			modifier = {
+				factor = 10
+				HUN = {
+					has_army_manpower = { size > 79999 }
+				}
+			}
+			modifier = {
+				factor = 0
+				SLO = {
+					is_in_faction = yes
+				}
+			}
+		}
+		available = {
+			has_war = no
+			has_army_manpower = { size > 79999 }
+		}
+		prerequisite = {
+			focus = hun_trianon_begone
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus hun_south_slovakia"
+			custom_effect_tooltip = hun_slovak_army_size
+			SLO = {
+				country_event = {
+					id = hun.21
+					days = 3
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = hun_slovak_fate
+		icon = GFX_goal_generic_territory_or_war
+		cost = 10
+		x = 8
+		y = 7
+		will_lead_to_war_with = SLO
+		ai_will_do = {
+			factor = 320
+			modifier = {
+				factor = 4
+				SLO = {
+					is_in_faction = no
+				}
+			}
+			modifier = {
+				factor = 4
+				HUN = {
+					has_army_manpower = { size > 89999 }
+				}
+			}
+			modifier = {
+				factor = 0
+				SLO = {
+					is_in_faction = yes
+				}
+			}
+		}
+		available = {
+			has_war = no
+			has_army_manpower = { size > 79999 }
+			SLO = {
+				exists = yes
+				is_puppet = no
+			}
+		}
+		prerequisite = {
+			focus = hun_south_slovakia
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus hun_slovak_fate"
+			SLO = {
+				country_event = {
+					id = hun.24
+					days = 2
+				}
+			}
+		}
+	}
+
+	focus = { #demand Alfold
+		id = hun_demand_alfold
+		icon = GFX_goal_generic_demand_territory
+		cost = 5
+		x = 10
+		y = 5
+		will_lead_to_war_with = ROM
+		ai_will_do = {
+			factor = 20
+		}
+		available = {
+			has_war = no
+			154 = {
+				NOT = {
+					is_owned_and_controlled_by = HUN
+				}
+			}
+		}
+		prerequisite = {
+			focus = hun_trianon_begone
+		}
+		bypass = {
+			154 = {
+				is_owned_and_controlled_by = HUN
+			}
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus hun_demand_alfold"
+			ROM = {
+				country_event = {
+					id = hun.8
+					days = 3
+				}
+			}
+		}
+	}
+
+	focus = { #demand Transylvania
+		id = hun_demand_transylvania
+		icon = GFX_goal_generic_attack_romania
+		cost = 10
+		x = 10
+		y = 6
+		will_lead_to_war_with = ROM
+		ai_will_do = {
+			factor = 320
+			modifier = {
+				factor = 100
+				HUN = {
+					has_army_manpower = { size > 99999 }
+				}
+			}
+			modifier = {
+				factor = 50
+				ROM = {
+					is_in_faction = no
+				}
+			}
+		}
+		available = {
+			has_war = no
+			76 = {
+				NOT = {
+					is_owned_and_controlled_by = HUN
+				}
+			}
+			762 = {
+				NOT = {
+					is_owned_and_controlled_by = HUN
+				}
+			}
+			83 = {
+				NOT = {
+					is_owned_and_controlled_by = HUN
+				}
+			}
+		}
+		prerequisite = {
+			focus = hun_demand_alfold
+		}
+		bypass = {
+			HUN = {
+				has_war_with = ROM
+			}
+			76 = {
+				is_owned_and_controlled_by = HUN
+			}
+			762 = {
+				is_owned_and_controlled_by = HUN
+			}
+			83 = {
+				is_owned_and_controlled_by = HUN
+			}
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus hun_demand_transylvania"
+			ROM = {
+				country_event = {
+					id = hun.5
+					days = 3
+				}
+			}
+		}
+	}
+
+	focus = { #demand Illyria
+		id = hun_demand_illyria
+		icon = GFX_goal_HUN_step_on_skull
+		cost = 10
+		x = 10
+		y = 7
+		will_lead_to_war_with = SER
+		ai_will_do = {
+			factor = 320
+			modifier = {
+				factor = 100
+				HUN = {
+					has_army_manpower = { size > 99999 }
+				}
+			}
+			modifier = {
+				factor = 50
+				SER = {
+					is_in_faction = no
+				}
+			}
+		}
+		available = {
+			has_war = no
+			45 = {
+				NOT = {
+					is_owned_and_controlled_by = HUN
+				}
+			}
+			750 = {
+				NOT = {
+					is_owned_and_controlled_by = HUN
+				}
+			}
+			985 = {
+				NOT = {
+					is_owned_and_controlled_by = HUN
+				}
+			}
+		}
+		prerequisite = {
+			focus = hun_demand_transylvania
+		}
+		bypass = {
+			HUN = {
+				has_war_with = SER
+			}
+			45 = {
+				is_owned_and_controlled_by = HUN
+			}
+			750 = {
+				is_owned_and_controlled_by = HUN
+			}
+			985 = {
+				is_owned_and_controlled_by = HUN
+			}
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus hun_demand_illyria"
+			SER = {
+				country_event = {
+					id = hun_for.7
+					days = 3
+				}
+			}
+		}
+	}
+
+	focus = { #demand Burgenland
+		id = hun_demand_austria
+		icon = GFX_goal_generic_attack_austria
+		cost = 10
+		x = 12
+		y = 6
+		will_lead_to_war_with = ROM
+		ai_will_do = {
+			factor = 320
+			modifier = {
+				factor = 0.2
+				772 = {
+					owner = {
+						tag = GER
+					}
+				}
+			}
+			modifier = {
+				factor = 20
+				HUN = {
+					has_army_manpower = { size > 99999 }
+				}
+			}
+			modifier = {
+				factor = 10
+				AUS = {
+					is_in_faction = no
+				}
+			}
+		}
+		available = {
+			has_war = no
+			HUN = {
+				has_capitulated = no
+				is_puppet = no
+			}
+		}
+		bypass = {
+			HUN = {
+				owns_state = 772
+			}
+			772 = {
+				controller = {
+					has_war_with = HUN
+				}
+			}
+		}
+		prerequisite = {
+			focus = hun_trianon_begone
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus hun_demand_austria"
+			772 = {
+				controller = {
+					country_event = hun_for.19
+				}
+			}
+		}
+	}
+
+	focus = { #Entrench party
+		id = hun_entrench_party
+		icon = GFX_goal_generic_political_pressure
+		cost = 5
+		x = 16
+		y = 1
+		ai_will_do = {
+			factor = 10
+		}
+		prerequisite = {
+			focus = hun_poli_stab
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus hun_entrench_party"
+			increase_ruling_party_popularity_by_10 = yes
+		}
+	}
+
+	focus = { #Economic Boost
+		id = hun_economic_boost
+		icon = GFX_goal_generic_cash_stimulus_plan
+		cost = 10
+		x = 14
+		y = 1
+		ai_will_do = {
+			factor = 320
+		}
+		prerequisite = {
+			focus = hun_poli_stab
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus hun_economic_boost"
+			155 = {
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			43 = {
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			swap_ideas = {
+				remove_idea = hun_economic_ruin
+				add_idea = hun_economic_ruin_1
+			}
+		}
+	}
+
+	focus = { #focus on civ industry
+		id = hun_focus_civ
+		icon = GFX_goal_generic_construct_civ_factory
+		cost = 10
+		x = 15
+		y = 2
+		ai_will_do = {
+			factor = 160
+		}
+		prerequisite = {
+			focus = hun_economic_boost
+		}
+		mutually_exclusive = {
+			focus = hun_focus_mil
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus hun_focus_civ"
+			random_owned_controlled_state = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
+			swap_ideas = {
+				remove_idea = hun_economic_ruin_1
+				add_idea = hun_economic_ruin_2
+			}
+		}
+	}
+
+	focus = { #focus on mil industry
+		id = hun_focus_mil
+		icon = GFX_goal_generic_construct_mil_factory
+		cost = 10
+		x = 13
+		y = 2
+		ai_will_do = {
+			factor = 160
+		}
+		prerequisite = {
+			focus = hun_economic_boost
+		}
+		mutually_exclusive = {
+			focus = hun_focus_civ
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus hun_focus_mil"
+			random_owned_controlled_state = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
+			}
+			swap_ideas = {
+				remove_idea = hun_economic_ruin_1
+				add_idea = hun_economic_ruin_2
+			}
+		}
+	}
+
+	focus = {
+		id = hun_autarky
+		icon = GFX_goal_generic_autarky
+		cost = 15
+		x = 14
+		y = 3
+		ai_will_do = {
+			factor = 160
+		}
+		prerequisite = {
+			focus = hun_focus_civ
+			focus = hun_focus_mil
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus hun_autarky"
+			random_owned_controlled_state = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
+			swap_ideas = {
+				remove_idea = hun_economic_ruin_2
+				add_idea = hun_recovered_economy
+			}
+		}
+	}
+
+	focus = {
+		id = hun_end_republic
+		icon = GFX_goal_generic_grim_reaper
+		cost = 5
+		x = 12
+		y = 1
+		ai_will_do = {
+			factor = 80
+		}
+		prerequisite = {
+			focus = hun_poli_stab
+		}
+		available = {
+			national_populist > 0.7
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus hun_end_republic"
+			set_cosmetic_tag = HUN_state
+			add_political_power = 50
+		}
+	}
+
+	focus = {
+		id = hun_state_as_one
+		icon = GFX_goal_national_populism
+		cost = 5
+		x = 12
+		y = 3
+		ai_will_do = {
+			factor = 40
+		}
+		prerequisite = {
+			focus = hun_end_republic
+		}
+		available = {
+			national_populist > 0.7
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus hun_state_as_one"
+			increase_ruling_party_popularity_by_10 = yes
+			add_stability = 0.05
+		}
+	}
+
+	focus = {
+		id = hun_secret_training
+		icon = GFX_goal_generic_small_arms
+		cost = 10
+		x = 10
+		y = 1
+		ai_will_do = {
+			factor = 320
+		}
+		prerequisite = {
+			focus = hun_mil_start
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus hun_secret_training"
+			add_manpower = 35000
+			hidden_effect = {
+				load_oob = HUN
+			}
+			swap_ideas = {
+				add_idea = hun_secret_rearm_2
+				remove_idea = hun_secret_rearm
+			}
+			custom_effect_tooltip = hun_1936
+		}
+	}
+
+	focus = {
+		id = hun_camo_airbase
+		icon = GFX_goal_generic_air_fighter
+		cost = 5
+		x = 10
+		y = 2
+		ai_will_do = {
+			factor = 160
+		}
+		prerequisite = {
+			focus = hun_secret_training
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus hun_camo_airbase"
+			if = {
+				limit = { has_dlc_bba = yes }
+				add_equipment_to_stockpile = {
+					type = small_plane_airframe_0
+					variant_name = "Weiss WM-16 Budapest"
+					amount = 50
+					producer = INS
+				}
+			}
+			else = {
+				add_equipment_to_stockpile = { type = CAS_equipment_1 amount = 50 producer = HUN}
+			}
+			add_ideas = hun_aircraft_boost
+		}
+	}
+
+	focus = {
+		id = hun_tank_focus
+		icon = GFX_goal_generic_army_tanks
+		cost = 5
+		x = 10
+		y = 3
+		ai_will_do = {
+			factor = 160
+		}
+		prerequisite = {
+			focus = hun_camo_airbase
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus hun_tank_focus"
+			add_tech_bonus = {
+				name = armor_bonus
+				bonus = 0.75
+				uses = 1
+				category = armor
+			}
+		}
+	}
+
+	focus = {
+		id = hun_planned_econ
+		icon = GFX_goal_generic_banking_legislation
+		cost = 10
+		x = 13
+		y = 4
+		ai_will_do = {
+			factor = 40
+		}
+		mutually_exclusive = {
+			focus = hun_devolved_econ
+		}
+		prerequisite = {
+			focus = hun_autarky
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus hun_planned_econ"
+			add_ideas = hun_factory_cap
+		}
+	}
+
+	focus = {
+		id = hun_devolved_econ
+		icon = GFX_goal_generic_foreign_investments
+		cost = 10
+		x = 15
+		y = 4
+		ai_will_do = {
+			factor = 40
+		}
+		mutually_exclusive = {
+			focus = hun_planned_econ
+		}
+		prerequisite = {
+			focus = hun_autarky
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus hun_devolved_econ"
+			add_ideas = hun_factory_ret
+		}
+	}
+
+	focus = {
+		id = hun_sub_rails
+		icon = GFX_goal_generic_railway_construction
+		cost = 10
+		x = 15
+		y = 5
+		ai_will_do = {
+			factor = 40
+		}
+		prerequisite = {
+			focus = hun_devolved_econ
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus hun_sub_rails"
+			random_owned_controlled_state = {
+				add_building_construction = {
+					type = infrastructure
+					instant_build = yes
+					level = 2
+				}
+			}
+			random_owned_controlled_state = {
+				add_building_construction = {
+					type = infrastructure
+					instant_build = yes
+					level = 2
+				}
+			}
+			random_owned_controlled_state = {
+				add_building_construction = {
+					type = infrastructure
+					instant_build = yes
+					level = 1
+				}
+			}
+			random_owned_controlled_state = {
+				add_building_construction = {
+					type = infrastructure
+					instant_build = yes
+					level = 1
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = hun_state_factory
+		icon = GFX_goal_factory_complex
+		cost = 10
+		x = 13
+		y = 5
+		ai_will_do = {
+			factor = 40
+		}
+		prerequisite = {
+			focus = hun_planned_econ
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus hun_state_factory"
+			random_owned_controlled_state = {
+				add_building_construction = {
+					type = industrial_complex
+					instant_build = yes
+					level = 1
+				}
+			}
+			random_owned_controlled_state = {
+				add_building_construction = {
+					type = arms_factory
+					instant_build = yes
+					level = 1
+				}
+			}
+			random_owned_controlled_state = {
+				add_building_construction = {
+					type = industrial_complex
+					instant_build = yes
+					level = 1
+				}
+			}
+			random_owned_controlled_state = {
+				add_building_construction = {
+					type = arms_factory
+					instant_build = yes
+					level = 1
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = hun_danube_forts_1
+		icon = GFX_goal_generic_defence
+		cost = 5
+		x = 8
+		y = 2
+		ai_will_do = {
+			factor = 80
+			modifier = {
+				factor = 50
+				ROM = {
+					is_in_faction = yes
+				}
+			}
+		}
+		prerequisite = {
+			focus = hun_mil_start
+		}
+		available = {
+			43 = {
+				is_owned_and_controlled_by = HUN
+			}
+			940 = {
+				is_owned_and_controlled_by = HUN
+			}
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus hun_danube_forts_1"
+			43 = {
+				add_building_construction = {
+					type = bunker
+					province = 9690
+					level = 2
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					province = 9660
+					level = 2
+					instant_build = yes
+				}
+			}
+			940 = {
+				add_building_construction = {
+					type = bunker
+					province = 11625
+					level = 2
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					province = 6670
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = hun_danube_forts_2
+		icon = GFX_goal_generic_defence
+		cost = 5
+		x = 8
+		y = 3
+		ai_will_do = {
+			factor = 80
+			modifier = {
+				factor = 50
+				ROM = {
+					is_in_faction = yes
+				}
+			}
+		}
+		prerequisite = {
+			focus = hun_danube_forts_1
+		}
+		available = {
+			155 = {
+				is_owned_and_controlled_by = HUN
+			}
+			751 = {
+				is_owned_and_controlled_by = HUN
+			}
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus hun_danube_forts_2"
+			155 = {
+				add_building_construction = {
+					type = bunker
+					province = 11663
+					level = 2
+					instant_build = yes
+				}
+			}
+			751 = {
+				add_building_construction = {
+					type = bunker
+					province = 6703
+					level = 2
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					province = 3680
+					level = 2
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					province = 9643
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = hun_nat_col
+		icon = GFX_SIA_maritmesilkroad
+		cost = 5
+		x = 17
+		y = 4
+		ai_will_do = {
+			factor = 40
+		}
+		prerequisite = {
+			focus = hun_autarky
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus hun_nat_col"
+			random_owned_controlled_state = {
+				add_extra_state_shared_building_slots = 2
+			}
+			random_owned_controlled_state = {
+				add_extra_state_shared_building_slots = 2
+			}
+		}
+	}
+}

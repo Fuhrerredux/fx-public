@@ -1,0 +1,4116 @@
+#####################
+#   Zhili Focus Tree#
+#      By Thymos	#
+#####################
+focus_tree = {
+	id = FR_Zhili_base
+	country = {
+		factor = 0
+		modifier = {
+			add = 50
+			tag = ZHI
+		}
+	}
+	continuous_focus_position = { x = 50 y = 2000 }
+
+	# shared_focus = ZHI_MAIN_far_east
+	# shared_focus = ZHI_further_improvement
+	# shared_focus = ZHI_MIL_traitors
+	# shared_focus = ZHI_jade_emperor_domain
+	# shared_focus = ZHI_dragon_of_eastern_sea
+	# shared_focus = ZHI_MAIN_broken_jewel
+
+	focus = {
+		id = ZHI_MAIN_far_east
+		icon = GFX_goal_dragon_of_the_east
+		cost = 7
+		x = 8
+		y = 0
+
+		available = {
+			hidden_trigger = {
+				always = no
+			}
+		}
+
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_MAIN_far_east"
+			custom_effect_tooltip = unlock_focuses
+		}
+	}
+
+	#Our Crumbling Industry
+	focus = {
+		id = ZHI_MAIN_industry
+		icon = GFX_goal_crumbling_industry
+		cost = 5
+		prerequisite = {
+			focus = ZHI_MAIN_far_east
+		}
+		x = 10
+		y = 1
+
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_MAIN_industry"
+			add_political_power = 25
+		}
+	}
+	#Clear the Forests
+	focus = {
+		id = ZHI_MAIN_clear_forests
+		icon = GFX_goal_generic_forestry
+		cost = 8
+		prerequisite = {
+			focus = ZHI_MAIN_industry
+		}
+
+		mutually_exclusive = {
+			focus = ZHI_MAIN_jap_funds
+		}
+		x = 11
+		y = 2
+
+
+
+		bypass = {
+			has_country_flag = five_zhili_feng_war
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_MAIN_clear_forests"
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+			}
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+			}
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+			}
+		}
+	}
+	#Establish New Factories
+	focus = {
+		id = ZHI_MAIN_factories
+		icon = GFX_goal_generic_construct_civ_factory
+		cost = 8
+		prerequisite = {
+			focus = ZHI_MAIN_clear_forests
+		}
+
+		x = 11
+		y = 3
+
+
+
+		bypass = {
+			has_country_flag = five_zhili_feng_war
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_MAIN_factories"
+			random_owned_state = {
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+						include_locked = yes
+					}
+					OR = {
+						is_in_home_area = yes
+						NOT = {
+							owner = {
+								any_owned_state = {
+									free_building_slots = {
+										building = arms_factory
+										size > 0
+										include_locked = yes
+									}
+									is_in_home_area = yes
+								}
+							}
+						}
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_state = {
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+						include_locked = yes
+					}
+					OR = {
+						is_in_home_area = yes
+						NOT = {
+							owner = {
+								any_owned_state = {
+									free_building_slots = {
+										building = arms_factory
+										size > 0
+										include_locked = yes
+									}
+									is_in_home_area = yes
+								}
+							}
+						}
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	#Subsidies for New Companies
+	focus = {
+		id = ZHI_MAIN_subsidies
+		icon = GFX_IRE_Zinc
+		cost = 8
+		prerequisite = {
+			focus = ZHI_MAIN_factories
+		}
+
+
+		x = 11
+		y = 4
+
+
+
+		bypass = {
+			has_country_flag = five_zhili_feng_war
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_MAIN_subsidies"
+			add_timed_idea = {
+				idea = ZHI_subsidies
+				days = 180
+			}
+		}
+	}
+	#Ask for funds from the Japanese
+	focus = {
+		id = ZHI_MAIN_jap_funds
+		icon = GFX_goal_ZHI_request_japanese_funding
+		cost = 8
+		prerequisite = {
+			focus = ZHI_MAIN_industry
+		}
+
+
+		x = 9
+		y = 2
+
+		mutually_exclusive = {
+			focus =	ZHI_MAIN_clear_forests
+		}
+
+		bypass = {
+			has_country_flag = five_zhili_feng_war
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_MAIN_jap_funds"
+			add_ideas = ZHI_jap_funds
+			custom_effect_tooltip = zhi_jap_influence
+			add_to_variable = {
+				var = ZHI_zhili_influence_with_japan
+				value = 1
+			}
+		}
+	}
+	#Invite Japanese Corporations
+	focus = {
+		id = ZHI_MAIN_jap_corps
+		icon = GFX_focus_chi_collaboration_with_the_japanese
+		cost = 8
+		prerequisite = {
+			focus = ZHI_MAIN_jap_funds
+		}
+
+
+		x = 9
+		y = 3
+
+		bypass = {
+			has_country_flag = five_zhili_feng_war
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_MAIN_jap_corps"
+			add_ideas = ZHI_jap_corps
+			random_owned_state = {
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+						include_locked = yes
+					}
+					OR = {
+						is_in_home_area = yes
+						NOT = {
+							owner = {
+								any_owned_state = {
+									free_building_slots = {
+										building = arms_factory
+										size > 0
+										include_locked = yes
+									}
+									is_in_home_area = yes
+								}
+							}
+						}
+					}
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
+			}
+			add_to_variable = {
+				var = ZHI_zhili_influence_with_japan
+				value = 2
+			}
+		}
+	}
+	#Increase imports from Japan
+	focus = {
+		id = ZHI_MAIN_jap_imports
+		icon = GFX_goal_generic_trade
+		cost = 8
+		prerequisite = {
+			focus = ZHI_MAIN_jap_corps
+		}
+
+
+		x = 9
+		y = 4
+
+		bypass = {
+			has_country_flag = five_zhili_feng_war
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_MAIN_jap_imports"
+			add_opinion_modifier = {
+				target = JAP
+				modifier = japan_zhili_trade
+			}
+			add_to_variable = {
+				var = ZHI_zhili_influence_with_japan
+				value = 1
+			}
+		}
+	}
+
+	#Our Mighty Military
+	focus = {
+		id = ZHI_MAIN_military
+		icon = GFX_goal_traitor_clique
+		cost = 5
+		prerequisite = {
+			focus = ZHI_MAIN_far_east
+		}
+		x = 6
+		y = 1
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_MAIN_military"
+			add_political_power = 25
+		}
+	}
+	#Wu Peifu Reforms
+	focus = {
+		id = ZHI_MAIN_wu_reforms
+		icon = GFX_goal_generic_forceful_treaty
+		cost = 8
+		prerequisite = {
+			focus = ZHI_MAIN_military
+		}
+		mutually_exclusive = {
+			focus = ZHI_MAIN_jap_advisors
+		}
+		x = 7
+		y = 2
+
+		bypass = {
+			has_country_flag = five_zhili_feng_war
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_MAIN_wu_reforms"
+			swap_ideas = {
+				add_idea = ZHI_fallen_grace2
+				remove_idea = ZHI_fallen_grace1
+			}
+		}
+	}
+	#Japanese Advisors
+	focus = {
+		id = ZHI_MAIN_jap_advisors
+		icon = GFX_focus_jap_pacific_guardian
+		cost = 8
+		prerequisite = {
+			focus = ZHI_MAIN_military
+		}
+		available = {
+			country_exists = JAP
+			NOT = {
+				has_country_flag = zhili_freedom
+			}
+		}
+		mutually_exclusive = {
+			focus = ZHI_MAIN_wu_reforms
+		}
+		x = 5
+		y = 2
+
+		bypass = {
+			OR = {
+				has_country_flag = five_zhili_feng_war
+				has_country_flag = ZHI_zhili_freedom
+			}
+
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_MAIN_jap_advisors"
+			swap_ideas = {
+				add_idea = ZHI_jap_grace2
+				remove_idea = ZHI_fallen_grace1
+			}
+			custom_effect_tooltip = zhi_jap_influence
+			add_to_variable = {
+				var = ZHI_zhili_influence_with_japan
+				value = 1
+			}
+		}
+	}
+	#Organise the militias
+	focus = {
+		id = ZHI_MAIN_org_militia
+		icon = GFX_goal_army_guy
+		cost = 8
+		prerequisite = {
+			focus = ZHI_MAIN_wu_reforms
+		}
+		x = 7
+		y = 3
+
+		bypass = {
+			has_country_flag = five_zhili_feng_war
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_MAIN_org_militia"
+			country_event = zhi.4
+		}
+	}
+	#Remind them why we fight
+	focus = {
+		id = ZHI_MAIN_why_fight
+		icon = GFX_goal_generic_demand_territory
+		cost = 8
+		prerequisite = {
+			focus = ZHI_MAIN_org_militia
+		}
+		x = 7
+		y = 4
+
+		bypass = {
+			has_country_flag = five_zhili_feng_war
+		}
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_MAIN_why_fight"
+			country_event = zhi.6
+			add_to_variable = {
+				var = ZHI_zhili_influence_with_japan
+				value = -2
+			}
+			swap_ideas = {
+				add_idea = ZHI_fallen_grace3
+				remove_idea = ZHI_fallen_grace2
+			}
+		}
+	}
+	#Increase our military budget
+	focus = {
+		id = ZHI_MAIN_mil_budget
+		icon = GFX_goal_generic_axis_build_infantry
+		cost = 8
+		prerequisite = {
+			focus = ZHI_MAIN_jap_advisors
+		}
+		x = 5
+		y = 3
+
+		bypass = {
+			has_country_flag = five_zhili_feng_war
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_MAIN_mil_budget"
+			swap_ideas = {
+				add_idea = ZHI_japanese_backing2
+				remove_idea = ZHI_japanese_backing
+			}
+			add_to_variable = {
+				var = ZHI_zhili_influence_with_japan
+				value = 1
+			}
+		}
+	}
+	#Ask the Japanese for new Weapons
+	focus = {
+		id = ZHI_MAIN_jap_weapons
+		icon = GFX_goal_arisaka
+		cost = 8
+		prerequisite = {
+			focus = ZHI_MAIN_mil_budget
+		}
+		x = 5
+		y = 4
+
+		bypass = {
+			has_country_flag = five_zhili_feng_war
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_MAIN_jap_weapons"
+			add_equipment_to_stockpile = {
+				type = infantry_equipment
+				amount = 1500
+				producer = JAP
+			}
+			add_to_variable = {
+				var = ZHI_zhili_influence_with_japan
+				value = 1
+			}
+		}
+	}
+	#The Jaden Jewel of China
+	focus = {
+		id = ZHI_MAIN_jaden_jewel
+		icon = GFX_goal_jewel_of_china
+		cost = 9
+		available = {
+			NOT = {
+				has_war_with = FNG
+			}
+		}
+		prerequisite = {
+			focus = ZHI_MAIN_jap_weapons
+			focus = ZHI_MAIN_why_fight
+		}
+		prerequisite = {
+			focus = ZHI_MAIN_jap_imports
+			focus = ZHI_MAIN_subsidies
+		}
+		x = 8
+		y = 5
+
+		bypass = {
+			has_country_flag = five_zhili_feng_war
+		}
+		mutually_exclusive = {
+			focus = ZHI_MAIN_broken_jewel
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_MAIN_jaden_jewel"
+			add_ideas = ZHI_jaden_jewel
+		}
+	}
+	#The Broken Jewel of China
+	focus = {
+		id = ZHI_MAIN_broken_jewel
+		icon = GFX_goal_broken_jewel_of_china
+		cost = 9
+
+		x = 6
+		y = 5
+		available = {
+			has_country_flag = ZHI_failed_revital
+		}
+		mutually_exclusive = {
+			focus = ZHI_MAIN_jaden_jewel
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_MAIN_broken_jewel"
+			add_ideas = ZHI_broken_jewel
+		}
+	}
+
+	# Fifth Zhili-Fengtian War
+	focus = {
+		id = ZHI_fifth_zhili_fengtian_war
+		icon = GFX_goal_COS_War
+		cost = 7
+		prerequisite = {
+			focus = ZHI_MAIN_jaden_jewel
+			focus = ZHI_MAIN_broken_jewel
+		}
+		available = {
+			hidden_trigger = {
+				always = no
+			}
+		}
+		x = 0
+		y = 1
+		relative_position_id = ZHI_MAIN_jaden_jewel
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_fifth_zhili_fengtian_war"
+			custom_effect_tooltip = unlock_focuses
+		}
+	}
+
+	# Our Japanese Friends
+	focus = {
+		id = ZHI_our_japanese_ally
+		icon = GFX_focus_chi_collaboration_with_the_japanese
+		cost = 7
+		available = {
+			hidden_trigger = { always = no }
+		}
+		prerequisite = {
+			focus = ZHI_fifth_zhili_fengtian_war
+		}
+		x = -4
+		y = 1
+		relative_position_id = ZHI_fifth_zhili_fengtian_war
+		bypass = {
+			OR = {
+				has_country_flag = jap_help_zhi
+				JAP = {
+					has_country_flag = JAP_support_declared
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_our_japanese_ally"
+			custom_effect_tooltip = unlock_focuses
+		}
+	}
+
+	# Japan Supports Us
+	focus = {
+		id = ZHI_japan_supports_us
+		icon = GFX_focus_jap_showa_restoration
+		cost = 7
+		available = {
+			hidden_trigger = { always = no }
+		}
+		prerequisite = {
+			focus = ZHI_our_japanese_ally
+		}
+		mutually_exclusive = {
+			focus = ZHI_japan_supports_fengtian
+		}
+		x = -1
+		y = 1
+		relative_position_id = ZHI_our_japanese_ally
+		bypass = {
+			JAP = {
+				has_country_flag = JAP_support_ZHI
+			}
+		}
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_japan_supports_us"
+			custom_effect_tooltip = unlock_focuses
+		}
+	}
+
+	# Japan Supports Fengtian
+	focus = {
+		id = ZHI_japan_supports_fengtian
+		icon = GFX_focus_jap_cast_the_die
+		cost = 7
+		available = {
+			hidden_trigger = { always = no }
+		}
+		prerequisite = {
+			focus = ZHI_our_japanese_ally
+		}
+		mutually_exclusive = {
+			focus = ZHI_japan_supports_us
+		}
+		x = 1
+		y = 1
+		relative_position_id = ZHI_our_japanese_ally
+		bypass = {
+			JAP = {
+				has_country_flag = JAP_support_FNG
+			}
+		}
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_japan_supports_fengtian"
+			custom_effect_tooltip = unlock_focuses
+		}
+	}
+
+
+	#The Great Rivalry is won
+	focus = {
+		id = ZHI_the_great_rivalry_is_won
+		icon = GFX_goal_beiyang_victory
+		cost = 7
+		available = {
+			has_country_flag = zhi_win
+		}
+		prerequisite = {
+			focus = ZHI_fifth_zhili_fengtian_war
+		}
+		x = 7
+		y = 1
+		relative_position_id = ZHI_fifth_zhili_fengtian_war
+
+		bypass = {
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_the_great_rivalry_is_won"
+		}
+	}
+	#What now
+	focus = {
+		id = ZHI_what_now
+		icon = GFX_focus_generic_treaty
+		cost = 7
+		available = {
+			has_country_flag = ZHI_unnerving_silence
+		}
+		prerequisite = {
+			focus = ZHI_the_great_rivalry_is_won
+		}
+		x = 0
+		y = 1
+		relative_position_id = ZHI_the_great_rivalry_is_won
+
+		bypass = {
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_what_now"
+		}
+	}
+	#A New Dawn for Zhili
+	focus = {
+		id = ZHI_a_new_dawn_for_zhili
+		icon = GFX_goal_COS_Ferrer_Coup
+		cost = 7
+		available = {
+			hidden_trigger = { always = no }
+		}
+		prerequisite = {
+			focus = ZHI_what_now
+		}
+		mutually_exclusive = {
+			focus = ZHI_jade_marshal_prevails
+			focus = ZHI_our_greatest_glory
+		}
+		x = -3
+		y = 1
+		relative_position_id = ZHI_what_now
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_a_new_dawn_for_zhili"
+			custom_effect_tooltip = unlock_focuses
+		}
+	}
+
+	#Legacy of the League
+	focus = {
+		id = ZHI_lfp
+		icon = GFX_goal_generic_secret_weapon
+		cost = 7
+		prerequisite = {
+			focus = ZHI_a_new_dawn_for_zhili
+		}
+		x = 0
+		y = 1
+		relative_position_id = ZHI_a_new_dawn_for_zhili
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_lfp"
+			set_cosmetic_tag = ZHI_BEI
+			country_event = zhi.15
+			add_stability = 0.03
+			set_country_flag = zhi_improvement
+			hidden_effect = {
+				every_state = {
+					limit = {
+						is_core_of = KMT
+					}
+					add_core_of = ZHI
+				}
+			}
+		}
+	}
+	#Throw Out Foreign Officials
+	focus = {
+		id = ZHI_no_imperialists
+		icon = GFX_goal_no_foreigner
+		cost = 7
+		prerequisite = {
+			focus = ZHI_lfp
+		}
+		x = -1
+		y = 2
+		relative_position_id = ZHI_a_new_dawn_for_zhili
+
+		bypass = {
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_no_imperialists"
+			add_political_power = -60
+			add_stability = 0.05
+		}
+	}
+	#The Nanking Warlord
+	focus = {
+		id = ZHI_nanking_warlord
+		icon = GFX_goal_officers
+		cost = 7
+		prerequisite = {
+			focus = ZHI_lfp
+		}
+		x = 1
+		y = 2
+		relative_position_id = ZHI_a_new_dawn_for_zhili
+
+		bypass = {
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_nanking_warlord"
+			swap_ideas = {
+				add_idea = ZHI_the_nanking_warlord
+				remove_idea = ZHI_no_marshal
+			}
+		}
+	}
+	#Close Down the Country
+	focus = {
+		id = ZHI_closed_borders
+		icon = GFX_goal_skull_fortification
+		cost = 7
+		prerequisite = {
+			focus = ZHI_no_imperialists
+		}
+		prerequisite = {
+			focus = ZHI_nanking_warlord
+		}
+		x = 0
+		y = 3
+		relative_position_id = ZHI_a_new_dawn_for_zhili
+
+		bypass = {
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_closed_borders"
+			add_ideas = closed_economy
+			add_ideas = ZHI_closed_nation
+		}
+	}
+	#The Private Army of Sun
+	focus = {
+		id = ZHI_private_army
+		icon = GFX_goal_army_guy_2
+		cost = 7
+		prerequisite = {
+			focus = ZHI_closed_borders
+		}
+
+		x = 0
+		y = 4
+		relative_position_id = ZHI_a_new_dawn_for_zhili
+
+		bypass = {
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_private_army"
+			hidden_effect = {
+				division_template = {
+					name = "Elite Veterans"		# Su Chuanfang's Private army is much better equipped and organised than the regular Chinese division, but smaller in numbers.
+					regiments = {
+						infantry = { x = 0 y = 0 }
+						infantry = { x = 0 y = 1 }
+						infantry = { x = 1 y = 0 }
+						infantry = { x = 1 y = 1 }
+						infantry = { x = 1 y = 2 }
+						infantry = { x = 0 y = 2 }
+						infantry = { x = 2 y = 0 }
+						infantry = { x = 2 y = 1 }
+						infantry = { x = 2 y = 2 }
+					}
+					support = {
+					}
+				}
+				load_OOB = ZHI_private_army_sun
+			}
+			custom_effect_tooltip = zhi_private_army
+		}
+	}
+	#Eternal Warlord of China
+	focus = {
+		id = ZHI_eternal_warlord
+		icon = GFX_goal_forced_mil
+		cost = 7
+		prerequisite = {
+			focus = ZHI_private_army
+		}
+
+		x = 0
+		y = 5
+		relative_position_id = ZHI_a_new_dawn_for_zhili
+
+		bypass = {
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_eternal_warlord"
+			custom_effect_tooltip = zhi_foreign_expansion
+			set_country_flag = zhi_centralise
+			hidden_effect = {
+				set_country_flag = ZHI_SUN
+				mark_focus_tree_layout_dirty = yes
+			}
+		}
+	}
+	#The Jade Marshall prevails
+	focus = {
+		id = ZHI_jade_marshal_prevails
+		icon = GFX_goal_army_guy
+		cost = 7
+		available = {
+			hidden_trigger = { always = no }
+		}
+		prerequisite = {
+			focus = ZHI_what_now
+		}
+		mutually_exclusive = {
+			focus = ZHI_a_new_dawn_for_zhili
+			focus = ZHI_our_greatest_glory
+		}
+		x = 0
+		y = 1
+		relative_position_id = ZHI_what_now
+
+		bypass = {
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_jade_marshal_prevails"
+			custom_effect_tooltip = unlock_focuses
+		}
+	}
+	#Some things never change
+	focus = {
+		id = ZHI_some_things_never_change
+		icon = GFX_goal_DOM_The_Trial
+		cost = 7
+		prerequisite = {
+			focus = ZHI_jade_marshal_prevails
+		}
+		x = -1
+		y = 1
+		relative_position_id = ZHI_jade_marshal_prevails
+
+		bypass = {
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_some_things_never_change"
+			country_event = zhi.14
+		}
+	}
+	#Arrest disloyal officers
+	focus = {
+		id = ZHI_arrest_disloyal_officers
+		icon = GFX_goal_skull_treaty2
+		cost = 7
+		prerequisite = {
+			focus = ZHI_jade_marshal_prevails
+		}
+		x = 1
+		y = 1
+		relative_position_id = ZHI_jade_marshal_prevails
+
+		bypass = {
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_arrest_disloyal_officers"
+			if = {
+				limit = {
+					has_idea = ZHI_traitors
+				}
+				swap_ideas = {
+					add_idea = ZHI_almost_loyal
+					remove_idea = ZHI_traitors
+				}
+			}
+			if = {
+				limit = {
+					has_idea = ZHI_traitors2
+				}
+				swap_ideas = {
+					add_idea = ZHI_almost_loyal2
+					remove_idea = ZHI_traitors2
+				}
+			}
+		}
+
+	}
+
+	#Cement the Marshal's Power
+	focus = {
+		id = ZHI_power_cement
+		icon = GFX_goal_cement_power
+		cost = 7
+		prerequisite = {
+			focus = ZHI_arrest_disloyal_officers
+		}
+		prerequisite = {
+			focus = ZHI_some_things_never_change
+		}
+		x = 0
+		y = 2
+		relative_position_id = ZHI_jade_marshal_prevails
+
+		bypass = {
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_power_cement"
+			swap_ideas = {
+				add_idea = ZHI_jade_marshal2
+				remove_idea = ZHI_jade_marshall
+			}
+			set_cosmetic_tag = ZHI_BEY
+			country_event = zhi.16
+			set_country_flag = zhi_improvement
+			hidden_effect = {
+				every_state = {
+					limit = {
+						is_core_of = KMT
+					}
+					add_core_of = ZHI
+				}
+			}
+		}
+	}
+	#No Turning Back
+	focus = {
+		id = ZHI_no_turning
+		icon = GFX_goal_step_on_skull
+		cost = 7
+		prerequisite = {
+			focus = ZHI_power_cement
+		}
+		x = 0
+		y = 3
+		relative_position_id = ZHI_jade_marshal_prevails
+
+		bypass = {
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_no_turning"
+			custom_effect_tooltip = zhi_foreign_expansion
+			set_country_flag = zhi_centralise
+			hidden_effect = {
+				set_country_flag = ZHI_BEIYANG
+				mark_focus_tree_layout_dirty = yes
+			}
+		}
+	}
+	#Our Greatest Glory
+	focus = {
+		id = ZHI_our_greatest_glory
+		icon = GFX_goal_DOM_End_Judicial_Corruption
+		cost = 7
+		available = {
+			hidden_trigger = { always = no }
+		}
+		prerequisite = {
+			focus = ZHI_what_now
+		}
+		mutually_exclusive = {
+			focus = ZHI_a_new_dawn_for_zhili
+			focus = ZHI_jade_marshal_prevails
+		}
+		x = 3
+		y = 1
+		relative_position_id = ZHI_what_now
+
+		bypass = {
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_our_greatest_glory"
+			custom_effect_tooltip = unlock_focuses
+		}
+	}
+	#Is not in never falling
+	focus = {
+		id = ZHI_is_not_in_ever_falling
+		icon = GFX_goal_white_flag
+		cost = 7
+		prerequisite = {
+			focus = ZHI_our_greatest_glory
+		}
+		x = 0
+		y = 1
+		relative_position_id = ZHI_our_greatest_glory
+
+		bypass = {
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_is_not_in_ever_falling"
+			add_ideas = ZHI_planning_of_government
+		}
+	}
+	#But in rising every time we fall
+	focus = {
+		id = ZHI_but_in_rising_every_time_we_fall
+		icon = GFX_focus_generic_combined_arms
+		cost = 10
+		prerequisite = {
+			focus = ZHI_is_not_in_ever_falling
+		}
+		x = 0
+		y = 2
+		relative_position_id = ZHI_our_greatest_glory
+
+		bypass = {
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_but_in_rising_every_time_we_fall"
+			remove_ideas = ZHI_planning_of_government
+			swap_ideas = {
+				remove_idea = ZHI_no_marshal
+				add_idea = ZHI_president_of_beiyang
+			}
+			set_cosmetic_tag = ZHI_BEY
+			country_event = zhi.17
+			add_country_leader_role = {
+				character = ZHI_Cao_Kun
+				promote_leader = yes
+				country_leader = {
+					ideology = authoritarian_democrat_subtype
+					traits = {}
+				}
+			}
+			hidden_effect = {
+				every_state = {
+					limit = {
+						is_core_of = KMT
+					}
+					add_core_of = ZHI
+				}
+			}
+		}
+	}
+	#The New Constitution
+	focus = {
+		id = ZHI_cao_constitution
+		icon = GFX_goal_constitutional_guarantees
+		cost = 7
+		prerequisite = {
+			focus = ZHI_but_in_rising_every_time_we_fall
+		}
+
+		x = 0
+		y = 3
+		relative_position_id = ZHI_our_greatest_glory
+
+		bypass = {
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_cao_constitution"
+			custom_effect_tooltip = zhi_foreign_expansion
+			set_country_flag = zhi_centralise
+			country_event = zhi.20
+			hidden_effect = {
+				set_country_flag = ZHI_BEIYANG
+				mark_focus_tree_layout_dirty = yes
+			}
+			set_country_flag = zhi_improvement
+		}
+	}
+	#Elected Officials
+	focus = {
+		id = ZHI_elected_officials
+		icon = GFX_goal_HOL_progressive_tax
+		cost = 7
+		available = {
+			OR = {
+				has_country_flag = zhi_democracy
+				has_country_flag = zhi_almost_democracy
+			}
+			OR = {
+				has_country_flag = zhi_sch_integrated
+				has_country_flag = zhi_yun_integrated
+			}
+		}
+		prerequisite = {
+			focus = ZHI_cao_constitution
+		}
+
+		x = -1
+		y = 4
+		relative_position_id = ZHI_our_greatest_glory
+
+		bypass = {
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_elected_officials"
+			country_event = zhi.19
+		}
+	}
+	#The Election
+	focus = {
+		id = ZHI_election
+		icon = GFX_goal_DOM_Call_Special_Election
+		cost = 7
+		available = {
+			has_country_flag = zhi_democracy
+		}
+		prerequisite = {
+			focus = ZHI_cao_constitution
+		}
+
+		x = 1
+		y = 4
+		relative_position_id = ZHI_our_greatest_glory
+
+		bypass = {
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_election"
+			country_event = zhi.18
+		}
+	}
+
+	### Further Improvement Branch
+
+	#Further Improvement
+	focus = {
+		id = ZHI_further_improvement
+		icon = GFX_goal_production
+		cost = 2
+		x = 4
+		y = 10
+
+		available = {
+			has_country_flag = zhi_improvement
+		}
+
+
+		bypass = {
+			has_country_flag = ZHI_further_improvements
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_further_improvement"
+			add_stability = 0.025
+		}
+	}
+
+	focus = {
+		#Fund a New Project
+		id = ZHI_fund_a_new_project
+		icon = GFX_goal_capitalist_system
+		cost = 10
+		prerequisite = {
+			focus = ZHI_further_improvement
+		}
+		x = 2
+		y = 1
+		relative_position_id = ZHI_further_improvement
+
+		bypass = {
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_fund_a_new_project"
+			add_timed_idea = {
+				idea = ZHI_fund_project
+				days = 90
+			}
+		}
+	}
+
+	focus = {
+		#A New Military Academy
+		id = ZHI_a_new_military_academy
+		icon = GFX_goal_enlist_the_police
+		cost = 10
+		prerequisite = {
+			focus = ZHI_fund_a_new_project
+		}
+
+		x = -2
+		y = 1
+		relative_position_id = ZHI_fund_a_new_project
+
+		bypass = {
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_a_new_military_academy"
+			add_ideas = ZHI_good_officers
+		}
+	}
+
+	focus = {
+		#Better Schools
+		id = ZHI_better_schools
+		icon = GFX_focus_research2
+		cost = 12
+		prerequisite = {
+			focus = ZHI_fund_a_new_project
+		}
+
+		x = 2
+		y = 1
+		relative_position_id = ZHI_fund_a_new_project
+
+		bypass = {
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_better_schools"
+			CHI_improve_literacy = yes
+		}
+	}
+
+	focus = {
+		#Expand the Curriculum
+		id = ZHI_better_schools2
+		icon = GFX_goal_generic_scientific_exchange
+		cost = 12
+		prerequisite = {
+			focus = ZHI_better_schools
+		}
+		x = 2
+		y = 1
+		relative_position_id = ZHI_better_schools
+
+		bypass = {
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_better_schools2"
+			add_research_slot = 1
+		}
+	}
+	focus = {
+		#Expand the University of Shandong
+		id = ZHI_expand_shandong_university
+		icon = GFX_goal_great_science
+		cost = 8
+		prerequisite = {
+			focus = ZHI_better_schools
+		}
+		x = 0
+		y = 1
+		relative_position_id = ZHI_better_schools
+
+		bypass = {
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_expand_shandong_university"
+			CHI_improve_literacy = yes
+		}
+	}
+	focus = {
+		#Educational Standards in the Army
+		id = ZHI_education_army
+		icon = GFX_goal_brain
+		cost = 12
+		prerequisite = {
+			focus = ZHI_better_schools
+			focus = ZHI_a_new_military_academy
+		}
+		x = -2
+		y = 1
+		relative_position_id = ZHI_better_schools
+
+		bypass = {
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_education_army"
+			add_doctrine_cost_reduction = {
+				name = ZHI_education_army
+				category = land_doctrine
+				cost_reduction = 0.5
+				uses = 1
+			}
+		}
+	}
+	focus = {
+		#Further Military Funding
+		id = ZHI_mil_funding
+		icon = GFX_DAH_Topke
+		cost = 10
+		prerequisite = {
+			focus = ZHI_a_new_military_academy
+		}
+		x = 0
+		y = 1
+		relative_position_id = ZHI_a_new_military_academy
+
+		bypass = {
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_mil_funding"
+			CHI_improve_literacy = yes
+		}
+	}
+	focus = {
+		#Military Industrialisation
+		id = ZHI_mil_industry
+		icon = GFX_goal_industry_air
+		cost = 10
+		prerequisite = {
+			focus = ZHI_a_new_military_academy
+		}
+		x = -2
+		y = 1
+		relative_position_id = ZHI_a_new_military_academy
+
+		bypass = {
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_mil_industry"
+			random_owned_state = {
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+						include_locked = yes
+					}
+					OR = {
+						is_in_home_area = yes
+						NOT = {
+							owner = {
+								any_owned_state = {
+									free_building_slots = {
+										building = arms_factory
+										size > 0
+										include_locked = yes
+									}
+									is_in_home_area = yes
+								}
+							}
+						}
+					}
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
+			}
+			add_ideas = ZHI_mil_industrial_power
+		}
+	}
+	focus = {
+		#A Chinese Industrial Revolution
+		id = ZHI_industrial_rev
+		icon = GFX_focus_generic_industry_3
+		cost = 10
+		prerequisite = {
+			focus = ZHI_further_improvement
+		}
+		x = -5
+		y = 1
+		relative_position_id = ZHI_further_improvement
+
+		bypass = {
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_industrial_rev"
+			CHI_improve_economy = yes
+		}
+	}
+	focus = {
+		#Mass Production
+		id = ZHI_mass_production
+		icon = GFX_goal_develop_provinces
+		cost = 10
+		available = {
+			owns_state = 615
+			num_of_factories > 42
+		}
+		prerequisite = {
+			focus = ZHI_industrial_rev
+		}
+		x = 1
+		y = 1
+		relative_position_id = ZHI_industrial_rev
+
+		bypass = {
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_mass_production"
+			CHI_improve_economy = yes
+		}
+	}
+	focus = {
+		#Efficiency Standards
+		id = ZHI_efficiency
+		icon = GFX_goal_manage_industries
+		cost = 10
+		available = {
+			owns_state = 613
+			num_of_factories > 70
+		}
+		prerequisite = {
+			focus = ZHI_mass_production
+		}
+		x = 1
+		y = 2
+		relative_position_id = ZHI_industrial_rev
+
+		bypass = {
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_efficiency"
+			CHI_improve_economy = yes
+			add_tech_bonus = {
+				category = industry
+				bonus = 1.0
+				uses = 2
+			}
+		}
+	}
+	focus = {
+		#Industrial Complexes in South China
+		id = ZHI_south_industry
+		icon = GFX_IRE_RTN
+		cost = 10
+		available = {
+			owns_state = 613
+		}
+		prerequisite = {
+			focus = ZHI_industrial_rev
+		}
+		x = -1
+		y = 1
+		relative_position_id = ZHI_industrial_rev
+
+		bypass = {
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_south_industry"
+			613 = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
+			592 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			595 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = {
+		#Industrial Effort in Qinghai
+		id = ZHI_qinghai_industry
+		icon = GFX_IRE_RTN
+		cost = 10
+		available = {
+			owns_state = 604
+		}
+		prerequisite = {
+			focus = ZHI_south_industry
+		}
+		x = -1
+		y = 2
+		relative_position_id = ZHI_industrial_rev
+
+		bypass = {
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_qinghai_industry"
+			604 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			283 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = {
+		#Industrial Giant
+		id = ZHI_industry_giant
+		icon = GFX_goal_Focus_Military_Mobilisation
+		cost = 15
+		available = {
+			owns_state = 604
+			owns_state = 601
+			num_of_factories > 120
+		}
+		prerequisite = {
+			focus = ZHI_qinghai_industry
+		}
+		prerequisite = {
+			focus = ZHI_efficiency
+		}
+		x = 0
+		y = 3
+		relative_position_id = ZHI_industrial_rev
+
+		bypass = {
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_industry_giant"
+			remove_ideas = backwards_economy_3
+			add_ideas = ZHI_massive_industrial_effort
+		}
+	}
+
+
+	### Military Branch, An Army of Traitors
+
+	focus = {
+		id = ZHI_MIL_traitors
+		icon = GFX_focus_generic_conspiracy
+		cost = 7
+
+		available = {
+			hidden_trigger = {
+				always = no
+			}
+		}
+		x = 19
+		y = 0
+
+		bypass = {
+			has_country_flag = ZHI_traitor_army
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_MIL_traitors"
+			custom_effect_tooltip = unlock_focuses
+		}
+	}
+
+
+
+	#Superior Firepower
+	focus = {
+		id = ZHI_MIL_suns_plan
+		icon = GFX_goal_generic_army_artillery2
+		cost = 7
+		prerequisite = {
+			focus = ZHI_MIL_traitors
+		}
+
+		available = {
+			hidden_trigger = {
+				always = no
+			}
+		}
+
+		x = 17
+		y = 1
+
+		bypass = {
+			has_country_flag = ZHI_sup_firepower
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_MIL_suns_plan"
+			custom_effect_tooltip = unlock_focuses
+		}
+	}
+
+	#With Japanese Help - Superior Firepower
+	focus = {
+		id = ZHI_MIL_sun_jap_help
+		icon = GFX_focus_AST_war_japan
+		cost = 7
+		prerequisite = {
+			focus = ZHI_MIL_suns_plan
+		}
+		mutually_exclusive = {
+			focus = ZHI_MIL_sun_no_help
+		}
+
+		x = 18
+		y = 2
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_MIL_sun_jap_help"
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.3
+				uses = 3
+				category = cat_superior_firepower
+			}
+			custom_effect_tooltip = zhi_jap_influence
+			add_to_variable = {
+				var = ZHI_zhili_influence_with_japan
+				value = 1
+			}
+		}
+	}
+	#Blinding light of the Rising Sun
+	focus = {
+		id = ZHI_MIL_rising_sun
+		icon = GFX_goal_blinding_sun
+		cost = 7
+		prerequisite = {
+			focus = ZHI_MIL_sun_jap_help
+		}
+
+		x = 18
+		y = 3
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_MIL_rising_sun"
+			country_event = zhi.5
+			add_ideas = ZHI_japanese_training
+		}
+	}
+	#Quality Equipment
+	focus = {
+		id = ZHI_MIL_quality_equip
+		icon = GFX_goal_military_academy
+		cost = 7
+		prerequisite = {
+			focus = ZHI_MIL_rising_sun
+		}
+
+		x = 18
+		y = 4
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_MIL_quality_equip"
+			add_tech_bonus = {
+				name = infantry_weapons_bonus
+				bonus = 0.5
+				uses = 2
+				category = infantry_weapons
+				category = artillery
+			}
+			add_to_variable = {
+				var = ZHI_zhili_influence_with_japan
+				value = 1
+			}
+		}
+	}
+	#Without Japanese Help - Superior Firepower
+	focus = {
+		id = ZHI_MIL_sun_no_help
+		icon = GFX_goal_demand_sudetenland
+		cost = 7
+		prerequisite = {
+			focus = ZHI_MIL_suns_plan
+		}
+
+		mutually_exclusive = {
+			focus = ZHI_MIL_sun_jap_help
+		}
+
+		x = 16
+		y = 2
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_MIL_sun_no_help"
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.3
+				uses = 3
+				category = cat_superior_firepower
+			}
+		}
+	}
+	#Thunder Rains from the Skies
+	focus = {
+		id = ZHI_MIL_thunder_rains
+		icon = GFX_goal_ZHI_thunder_rains
+		cost = 7
+		prerequisite = {
+			focus = ZHI_MIL_sun_no_help
+		}
+
+		x = 16
+		y = 3
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_MIL_thunder_rains"
+			add_ideas = {
+				ZHI_thunder_rains
+			}
+		}
+	}
+	#Replace the Old Artillery
+	focus = {
+		id = ZHI_MIL_replace_artillery
+		icon = GFX_goal_generic_army_artillery
+		cost = 7
+		prerequisite = {
+			focus = ZHI_MIL_thunder_rains
+		}
+
+		x = 16
+		y = 4
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_MIL_replace_artillery"
+			add_tech_bonus = {
+				name = infantry_weapons_bonus
+				bonus = 1
+				uses = 1
+				category = artillery
+			}
+		}
+	}
+	# A Well-Equipped Army
+	focus = {
+		id = ZHI_MIL_well_equipped
+		icon = GFX_goal_generic_military_sphere
+		cost = 7
+		prerequisite = {
+			focus = ZHI_MIL_replace_artillery
+			focus = ZHI_MIL_quality_equip
+		}
+
+		x = 17
+		y = 5
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_MIL_well_equipped"
+			add_ideas = {
+				ZHI_well_equipped
+			}
+		}
+	}
+	# Grand Battleplan - The Jade Marshall Overrules his Advisors
+	focus = {
+		id = ZHI_MIL_jade_marshall_plan
+		icon = GFX_goal_planning_bonus
+		cost = 7
+		prerequisite = {
+			focus = ZHI_MIL_traitors
+		}
+		available = {
+			hidden_trigger = {
+				always = no
+			}
+		}
+
+		x = 21
+		y = 1
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		bypass = {
+			has_country_flag = ZHI_grand_battleplan
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_MIL_jade_marshall_plan"
+			custom_effect_tooltip = unlock_focuses
+		}
+	}
+	# Grand Battleplan - Japanese Support
+	focus = {
+		id = ZHI_MIL_grand_with_jap
+		icon = GFX_focus_jap_pacific_guardian
+		cost = 7
+		prerequisite = {
+			focus = ZHI_MIL_jade_marshall_plan
+		}
+
+		mutually_exclusive = {
+			focus = ZHI_MIL_grand_without_jap
+		}
+
+		x = 20
+		y = 2
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_MIL_grand_with_jap"
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.3
+				uses = 3
+				category = cat_grand_battle_plan
+			}
+			custom_effect_tooltip = zhi_jap_influence
+			add_to_variable = {
+				var = ZHI_zhili_influence_with_japan
+				value = 1
+			}
+		}
+	}
+	# Japanese Organisation
+	focus = {
+		id = ZHI_MIL_jap_org
+		icon = GFX_focus_generic_little_entente
+		cost = 7
+		prerequisite = {
+			focus = ZHI_MIL_grand_with_jap
+		}
+
+		x = 20
+		y = 3
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_MIL_jap_org"
+			add_ideas = {
+				ZHI_jap_org
+			}
+			add_to_variable = {
+				var = ZHI_zhili_influence_with_japan
+				value = 1
+			}
+		}
+	}
+	# Japanese Officers in the Army
+	focus = {
+		id = ZHI_MIL_jap_officers
+		icon = GFX_focus_generic_military_mission
+		cost = 7
+		prerequisite = {
+			focus = ZHI_MIL_jap_org
+		}
+
+		x = 20
+		y = 4
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_MIL_jap_officers"
+			add_ideas = {
+				ZHI_jap_officers
+			}
+			add_to_variable = {
+				var = ZHI_zhili_influence_with_japan
+				value = 1
+			}
+		}
+	}
+	# Grand Battleplan - Without Support
+	focus = {
+		id = ZHI_MIL_grand_without_jap
+		icon = GFX_goal_generic_position_armies
+		cost = 7
+		prerequisite = {
+			focus = ZHI_MIL_jade_marshall_plan
+		}
+
+		mutually_exclusive = {
+			focus = ZHI_MIL_grand_with_jap
+		}
+
+		x = 22
+		y = 2
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_MIL_grand_without_jap"
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.3
+				uses = 3
+				category = cat_grand_battle_plan
+			}
+		}
+	}
+	# Enforce Loyalty
+	focus = {
+		id = ZHI_MIL_enforce_loyalty
+		icon = GFX_goal_ZHI_enforce_loyalty
+		cost = 7
+		prerequisite = {
+			focus = ZHI_MIL_grand_without_jap
+		}
+
+		x = 22
+		y = 3
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_MIL_enforce_loyalty"
+			add_ideas = {
+				ZHI_enforced_loyalty
+			}
+			add_to_variable = {
+				var = ZHI_zhili_influence_with_japan
+				value = -1
+			}
+		}
+	}
+	# Plan War Scenarios
+	focus = {
+		id = ZHI_MIL_plan_scenarios
+		icon = GFX_goal_planning_bonus
+		cost = 7
+		prerequisite = {
+			focus = ZHI_MIL_enforce_loyalty
+		}
+
+		x = 22
+		y = 4
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_MIL_plan_scenarios"
+			add_ideas = {
+				ZHI_war_scenarios
+			}
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.5
+				uses = 1
+				category = cat_grand_battle_plan
+			}
+		}
+	}
+	# A Well-led Army
+	focus = {
+		id = ZHI_MIL_well_led
+		icon = GFX_goal_ideology_paternal_autocrat
+		cost = 7
+		prerequisite = {
+			focus = ZHI_MIL_plan_scenarios
+			focus = ZHI_MIL_jap_officers
+		}
+
+		x = 21
+		y = 5
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_MIL_well_led"
+			add_ideas = {
+				ZHI_well_led
+			}
+		}
+	}
+	# A Modern Military
+	focus = {
+		id = ZHI_modern_military
+		icon = GFX_focus_generic_tank_production
+		cost = 10
+		prerequisite = {
+			focus = ZHI_MIL_well_led
+			focus = ZHI_MIL_well_equipped
+		}
+
+		x = -2
+		y = 1
+		relative_position_id = ZHI_MIL_well_led
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_modern_military"
+			add_ideas = {
+				ZHI_modern_military
+			}
+			army_experience = 30
+		}
+	}
+	# Mass Assault - The Committee fails to make a Decision
+	focus = {
+		id = ZHI_comittee_fails_to_make_a_decision
+		icon = GFX_goal_army_guy_2
+		cost = 7
+		prerequisite = {
+			focus = ZHI_MIL_traitors
+		}
+		available = {
+			always = no
+			custom_trigger_tooltip = {
+				tooltip = unlocked_later
+			}
+		}
+
+		x = 6
+		y = 2
+		relative_position_id = ZHI_MIL_traitors
+
+		bypass = {
+			has_country_flag = ZHI_mass_assault
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_comittee_fails_to_make_a_decision"
+		}
+	}
+	# Use our Vast Manpower
+	focus = {
+		id = ZHI_use_our_vast_manpower
+		icon = GFX_goal_Human_tsunam_2
+		cost = 7
+		prerequisite = {
+			focus = ZHI_comittee_fails_to_make_a_decision
+		}
+
+		x = 0
+		y = 1
+		relative_position_id = ZHI_comittee_fails_to_make_a_decision
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_use_our_vast_manpower"
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.5
+				uses = 2
+				category = cat_mass_assault
+			}
+			swap_ideas = {
+				remove_idea = ZHI_traitors
+				add_idea = ZHI_traitors2
+			}
+		}
+	}
+	# New Weapons
+	focus = {
+		id = ZHI_new_weapons
+		icon = GFX_goal_national_arsenal
+		cost = 7
+		prerequisite = {
+			focus = ZHI_use_our_vast_manpower
+		}
+
+		x = 2
+		y = 2
+		relative_position_id = ZHI_use_our_vast_manpower
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_new_weapons"
+			add_tech_bonus = {
+				name = infantry_weapons_bonus
+				bonus = 0.25
+				uses = 2
+				category = infantry_weapons
+			}
+		}
+	}
+	# Depth in the Lines
+	focus = {
+		id = ZHI_depth_in_lines
+		icon = GFX_focus_generic_license_production
+		cost = 7
+		prerequisite = {
+			focus = ZHI_use_our_vast_manpower
+		}
+
+		x = 0
+		y = 1
+		relative_position_id = ZHI_use_our_vast_manpower
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_depth_in_lines"
+			add_ideas = {
+				ZHI_depth_lines
+			}
+		}
+	}
+	# Strategically Placed Operation
+	focus = {
+		id = ZHI_strategically_placed_operations
+		icon = GFX_goal_generic_position_armies
+		cost = 7
+		prerequisite = {
+			focus = ZHI_depth_in_lines
+		}
+
+		x = 0
+		y = 1
+		relative_position_id = ZHI_depth_in_lines
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_strategically_placed_operations"
+			add_ideas = {
+				ZHI_concentrations
+			}
+		}
+	}
+	# A Modern Military?
+	focus = {
+		id = ZHI_not_modern_military
+		icon = GFX_SIA_Urban_Warfare_NF
+		cost = 10
+		prerequisite = {
+			focus = ZHI_strategically_placed_operations
+		}
+
+		x = 0
+		y = 1
+		relative_position_id = ZHI_strategically_placed_operations
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_not_modern_military"
+			add_ideas = {
+				ZHI_not_so_modern_military
+			}
+		}
+	}
+
+	###Air Tree
+
+	focus = {
+		id = ZHI_jade_emperor_domain
+		icon = GFX_goal_generic_air_fighter
+		cost = 7
+
+		available = {
+			if = {
+				limit = { has_dlc_bba = no }
+				has_tech = early_fighter
+			}
+		}
+
+		x = 32
+		y = 0
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_jade_emperor_domain"
+			add_doctrine_cost_reduction = {
+				name = air_doc_bonus
+				cost_reduction = 0.25
+				uses = 2
+				category = air_doctrine
+			}
+		}
+	}
+	focus = {
+		id = ZHI_grand_scheme
+		icon = GFX_focus_generic_provoke_border_clashes
+		cost = 7
+		prerequisite = {
+			focus = ZHI_jade_emperor_domain
+		}
+		mutually_exclusive = {
+			focus = ZHI_minor_support
+		}
+		x = -2
+		y = 1
+		relative_position_id = ZHI_jade_emperor_domain
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_grand_scheme"
+			add_tech_bonus = {
+				name = bomber_bonus
+				bonus = 0.15
+				uses = 3
+				category = cat_strategic_bomber
+				category = tactical_bomber
+			}
+		}
+	}
+
+	focus = {
+		id = ZHI_minor_support
+		icon = GFX_goal_generic_build_airforce
+		cost = 7
+		prerequisite = {
+			focus = ZHI_jade_emperor_domain
+		}
+		mutually_exclusive = {
+			focus = ZHI_grand_scheme
+		}
+		x = 2
+		y = 1
+		relative_position_id = ZHI_jade_emperor_domain
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_minor_support"
+			add_tech_bonus = {
+				name = CAS_bonus
+				bonus = 0.15
+				uses = 3
+				category = cas_bomber
+			}
+		}
+	}
+
+	focus = {
+		id = ZHI_winds_of_destruction
+		icon = GFX_goal_winds_of_destruction
+		cost = 7
+		prerequisite = {
+			focus = ZHI_grand_scheme
+		}
+		mutually_exclusive = {
+			focus = ZHI_dragon_of_the_east
+			focus = ZHI_legacy_of_the_monkey_king
+		}
+		x = -1
+		y = 1
+		relative_position_id = ZHI_grand_scheme
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_winds_of_destruction"
+			add_ideas = ZHI_winds_of_destruction_idea
+		}
+	}
+
+	focus = {
+		id = ZHI_dragon_of_the_east
+		icon = GFX_goal_factory_complex
+		cost = 7
+		prerequisite = {
+			focus = ZHI_minor_support
+			focus = ZHI_grand_scheme
+		}
+		mutually_exclusive = {
+			focus = ZHI_winds_of_destruction
+			focus = ZHI_legacy_of_the_monkey_king
+		}
+		x = 2
+		y = 1
+		relative_position_id = ZHI_grand_scheme
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_dragon_of_the_east"
+			597 = {
+				if = {
+					limit = {
+						is_owned_by = ZHI
+					}
+					add_building_construction = {
+						type = air_base
+						level = 2
+						instant_build = yes
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ZHI_legacy_of_the_monkey_king
+		icon = GFX_goal_monkey_king
+		cost = 7
+		prerequisite = {
+			focus = ZHI_minor_support
+		}
+		mutually_exclusive = {
+			focus = ZHI_winds_of_destruction
+			focus = ZHI_dragon_of_the_east
+		}
+		x = 1
+		y = 1
+		relative_position_id = ZHI_minor_support
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_legacy_of_the_monkey_king"
+			add_ideas = ZHI_monkey_king
+		}
+	}
+
+	focus = {
+		id = ZHI_heaven_bow_before_us
+		icon = GFX_goal_generic_air_fighter2
+		cost = 7
+		prerequisite = {
+			focus = ZHI_legacy_of_the_monkey_king
+			focus = ZHI_dragon_of_the_east
+			focus = ZHI_winds_of_destruction
+		}
+		x = 0
+		y = 1
+		relative_position_id = ZHI_dragon_of_the_east
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_heaven_bow_before_us"
+			add_ideas = {
+				ZHI_heavenly_kings
+			}
+		}
+	}
+
+	### Navy Tree
+
+	focus = {
+		id = ZHI_dragon_of_eastern_sea
+		icon = GFX_goal_dragon_of_the_east
+		cost = 7
+		x = 42
+		y = 0
+		available = {
+			naval_base > 0
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_dragon_of_eastern_sea"
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.5
+				uses = 1
+				category = naval_doctrine
+			}
+		}
+	}
+	#Serpents of the Deep
+	focus = {
+		id = ZHI_serpent_of_the_deep
+		icon = GFX_goal_sea_serpent
+		cost = 7
+		prerequisite = {
+			focus = ZHI_dragon_of_eastern_sea
+		}
+		mutually_exclusive = {
+			focus = ZHI_dragon_seas_of_the_high_sea
+		}
+		x = -2
+		y = 1
+		relative_position_id = ZHI_dragon_of_eastern_sea
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_serpent_of_the_deep"
+			add_tech_bonus = {
+				name = nav_doctrine_bonus
+				bonus = 0.3
+				uses = 2
+				category = trade_interdiction_tree
+			}
+		}
+	}
+	#Unshakable Pursuit
+	focus = {
+		id = ZHI_unshakable_pursuit
+		icon = GFX_goal_generic_construct_naval_dockyard
+		cost = 7
+		prerequisite = {
+			focus = ZHI_serpent_of_the_deep
+		}
+		x = 0
+		y = 1
+		relative_position_id = ZHI_serpent_of_the_deep
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_unshakable_pursuit"
+			add_ideas = {
+				ZHI_sub_pursuit
+			}
+		}
+	}
+	#Under the Cover of Midnight
+	focus = {
+		id = ZHI_under_the_cover_midnight
+		icon = GFX_goal_ZHI_under_midnight
+		cost = 7
+		prerequisite = {
+			focus = ZHI_unshakable_pursuit
+		}
+		x = 0
+		y = 1
+		relative_position_id = ZHI_unshakable_pursuit
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_under_the_cover_midnight"
+			add_ideas = {
+				ZHI_night_raids
+			}
+		}
+	}
+	#Undetected, Unexpected
+	focus = {
+		id = ZHI_undetected_unexpected
+		icon = GFX_goal_bluewater_navy
+		cost = 7
+		prerequisite = {
+			focus = ZHI_under_the_cover_midnight
+		}
+		x = 0
+		y = 1
+		relative_position_id = ZHI_under_the_cover_midnight
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_undetected_unexpected"
+			add_ideas = {
+				ZHI_coordinated_attacks
+			}
+		}
+	}
+	#Dragons of the High Seas
+	focus = {
+		id = ZHI_dragon_seas_of_the_high_sea
+		icon = GFX_focus_generic_destroyer
+		cost = 7
+		prerequisite = {
+			focus = ZHI_dragon_of_eastern_sea
+		}
+		mutually_exclusive = {
+			focus = ZHI_serpent_of_the_deep
+		}
+		x = 2
+		y = 1
+		relative_position_id = ZHI_dragon_of_eastern_sea
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_dragon_seas_of_the_high_sea"
+			add_tech_bonus = {
+				name = nav_doctrine_bonus
+				bonus = 0.3
+				uses = 2
+				category = fleet_in_being_tree
+			}
+		}
+	}
+	#Unbreakable Scales
+	focus = {
+		id = ZHI_unbreakble_scales
+		icon = GFX_GEA_status_of_admirality
+		cost = 7
+		prerequisite = {
+			focus = ZHI_dragon_seas_of_the_high_sea
+		}
+		x = 0
+		y = 1
+		relative_position_id = ZHI_dragon_seas_of_the_high_sea
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_unbreakble_scales"
+			add_ideas = {
+				ZHI_improved_hulls
+			}
+		}
+	}
+	#The Dragon's Breath
+	focus = {
+		id = ZHI_the_dragon_breath
+		icon = GFX_goal_generic_navy_battleship
+		cost = 7
+		prerequisite = {
+			focus = ZHI_unbreakble_scales
+		}
+		x = 0
+		y = 1
+		relative_position_id = ZHI_unbreakble_scales
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_the_dragon_breath"
+			add_ideas = {
+				ZHI_improved_he_shells
+			}
+		}
+	}
+	#Dragon King of the Seas
+	focus = {
+		id = ZHI_dragon_king_of_the_seas
+		icon = GFX_goal_dragon_king
+		cost = 7
+		available = {
+			owns_state = 608
+		}
+		prerequisite = {
+			focus = ZHI_the_dragon_breath
+		}
+		x = 0
+		y = 1
+		relative_position_id = ZHI_the_dragon_breath
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_dragon_king_of_the_seas"
+			country_event = zhi.7
+		}
+	}
+	#Masters of the Yellow Sea
+	focus = {
+		id = ZHI_masters_yellow_sea
+		icon = GFX_goal_generic_coastal_navy2
+		cost = 7
+		prerequisite = {
+			focus = ZHI_dragon_king_of_the_seas
+			focus = ZHI_undetected_unexpected
+		}
+		x = -2
+		y = 1
+		relative_position_id = ZHI_dragon_king_of_the_seas
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ZHI_masters_yellow_sea"
+			navy_experience = 50
+			add_ideas = {
+				ZHI_war_fleet
+			}
+		}
+	}
+	# }
+
+# 	# Beiyang
+
+#Centralisation of the Beiyang Government
+focus = {
+	id = ZHI_beiyang_centralise
+	icon = GFX_goal_beiyang_star
+	cost = 7
+
+	allow_branch = {
+		has_country_flag = ZHI_BEIYANG
+	}
+
+	available = {
+		has_country_flag = zhi_centralise
+	}
+
+	x = 25
+	y = 7
+
+	bypass = {
+	}
+
+	ai_will_do = {
+		factor = 10
+	}
+
+	completion_reward = {
+		log = "[GetDateText]: [Root.GetName]: Focus ZHI_beiyang_centralise"
+		country_event = { id = zhi.21 days = 1}
+	}
+}
+#Crush the Shanxi Traitors
+focus = {
+	id = ZHI_shanxi_traitors
+	icon = GFX_GEA_counter_insurgency
+	cost = 7
+	available = {
+		NOT = {
+			has_war = yes
+		}
+		country_exists = SHX
+	}
+	prerequisite = {
+		focus = ZHI_beiyang_centralise
+	}
+
+	x = -1
+	y = 1
+	relative_position_id = ZHI_beiyang_centralise
+
+	bypass = {
+		NOT = {
+			country_exists = SHX
+		}
+	}
+
+	ai_will_do = {
+		factor = 10
+	}
+	will_lead_to_war_with = SHX
+	completion_reward = {
+		log = "[GetDateText]: [Root.GetName]: Focus ZHI_shanxi_traitors"
+		declare_war_on = {
+			target = SHX
+			type = annex_everything
+		}
+	}
+}
+#No More Kyakhta Agreements
+focus = {
+	id = ZHI_no_kyakhta
+	icon = GFX_goal_no_agreements
+	cost = 7
+	available = {
+		NOT = {
+			has_war = yes
+		}
+		country_exists = MON
+	}
+	prerequisite = {
+		focus = ZHI_beiyang_centralise
+	}
+	x = 1
+	y = 1
+	relative_position_id = ZHI_beiyang_centralise
+
+	bypass = {
+		NOT = {
+			country_exists = MON
+		}
+	}
+
+	ai_will_do = {
+		factor = 10
+	}
+	will_lead_to_war_with = MON
+	completion_reward = {
+		log = "[GetDateText]: [Root.GetName]: Focus ZHI_no_kyakhta"
+		MON = {
+			country_event = {id = zhi.22 days = 1}
+		}
+	}
+}
+#An Agreement with the Whites
+focus = {
+	id = ZHI_white_deal
+	icon = GFX_goal_constitutional_guarantees
+	cost = 7
+	prerequisite = {
+		focus = ZHI_no_kyakhta
+	}
+	available = {
+		country_exists = RUS
+	}
+
+	x = 1
+	y = 2
+	relative_position_id = ZHI_beiyang_centralise
+
+	bypass = {
+		NOT = {
+			country_exists = RUS
+		}
+	}
+
+	ai_will_do = {
+		factor = 10
+	}
+
+	completion_reward = {
+		log = "[GetDateText]: [Root.GetName]: Focus ZHI_white_deal"
+		RUS = {
+			country_event = { id = zhi.25 days = 1}
+		}
+	}
+}
+#Expand the Administration
+focus = {
+	id = ZHI_admin_expansion
+	icon = GFX_goal_Centralised_Government
+	cost = 10
+	prerequisite = {
+		focus = ZHI_shanxi_traitors
+	}
+
+	x = -1
+	y = 2
+	relative_position_id = ZHI_beiyang_centralise
+
+	bypass = {
+	}
+
+	ai_will_do = {
+		factor = 120
+	}
+
+	completion_reward = {
+		log = "[GetDateText]: [Root.GetName]: Focus ZHI_admin_expansion"
+		add_political_power = 35
+		add_stability = 0.05
+	}
+}
+#Topple the Southern Pretenders
+focus = {
+	id = ZHI_die_kmt
+	icon = GFX_goal_topple_south
+	cost = 7
+	available = {
+		NOT = {
+			has_war = yes
+		}
+		OR = {
+			country_exists = KMT
+			country_exists = GXC
+			country_exists = GDC
+		}
+	}
+	prerequisite = {
+		focus = ZHI_white_deal
+	}
+	prerequisite = {
+		focus = ZHI_admin_expansion
+	}
+	x = 0
+	y = 3
+	relative_position_id = ZHI_beiyang_centralise
+
+	bypass = {
+
+		NOT = {
+			OR = {
+				country_exists = KMT
+				country_exists = GXC
+				country_exists = GDC
+			}
+		}
+	}
+
+	ai_will_do = {
+		factor = 10
+	}
+	will_lead_to_war_with = KMT
+	will_lead_to_war_with = GXC
+	will_lead_to_war_with = GDC
+	completion_reward = {
+		log = "[GetDateText]: [Root.GetName]: Focus ZHI_die_kmt"
+		if = {
+			limit = {
+				KMT = {
+					exists = yes
+				}
+			}
+			create_wargoal = {
+				type = annex_everything
+				target = KMT
+			}
+		}
+		if = {
+			limit = {
+				GXC = {
+					exists = yes
+				}
+			}
+			create_wargoal = {
+				type = annex_everything
+				target = GXC
+			}
+		}
+		if = {
+			limit = {
+				GDC = {
+					exists = yes
+				}
+			}
+			create_wargoal = {
+				type = annex_everything
+				target = GDC
+			}
+		}
+	}
+}
+#An Offer for Long Yun
+focus = {
+	id = ZHI_yunnan_offer
+	icon = GFX_goal_generic_military_deal
+	cost = 7
+	available = {
+		NOT = {
+			has_war = yes
+		}
+		country_exists = YUN
+	}
+	prerequisite = {
+		focus = ZHI_die_kmt
+	}
+	x = -3
+	y = 4
+	relative_position_id = ZHI_beiyang_centralise
+
+	bypass = {
+		NOT = {
+			country_exists = YUN
+		}
+	}
+
+	ai_will_do = {
+		factor = 10
+	}
+	will_lead_to_war_with = YUN
+	completion_reward = {
+		log = "[GetDateText]: [Root.GetName]: Focus ZHI_yunnan_offer"
+		YUN = {
+			country_event = { id = zhi.28 days = 1}
+		}
+	}
+}
+#Take Down the Mas
+focus = {
+	id = ZHI_ma_attack
+	icon = GFX_goal_no_bufang
+	cost = 7
+	available = {
+		NOT = {
+			has_war = yes
+		}
+		OR = {
+			country_exists = SIK
+			country_exists = XSM
+		}
+	}
+	prerequisite = {
+		focus = ZHI_die_kmt
+	}
+	x = -1
+	y = 4
+	relative_position_id = ZHI_beiyang_centralise
+
+	bypass = {
+		NOT = {
+			AND = {
+				country_exists = SIK
+				country_exists = XSM
+			}
+		}
+	}
+
+	ai_will_do = {
+		factor = 10
+	}
+	will_lead_to_war_with = XSM
+	will_lead_to_war_with = SIK
+	completion_reward = {
+		log = "[GetDateText]: [Root.GetName]: Focus ZHI_ma_attack"
+		create_wargoal = {
+			type = annex_everything
+			target = SIK
+		}
+		create_wargoal = {
+			type = annex_everything
+			target = XSM
+		}
+	}
+}
+#Subjugate the Tibetans
+focus = {
+	id = ZHI_tibet_is_china
+	icon = GFX_goal_zhili_tibet
+	cost = 7
+	available = {
+		NOT = {
+			has_war = yes
+		}
+		country_exists = TIB
+	}
+	prerequisite = {
+		focus = ZHI_die_kmt
+	}
+	x = 1
+	y = 4
+	relative_position_id = ZHI_beiyang_centralise
+
+	bypass = {
+		NOT = {
+			country_exists = TIB
+		}
+	}
+
+	ai_will_do = {
+		factor = 10
+	}
+	will_lead_to_war_with = TIB
+	completion_reward = {
+		log = "[GetDateText]: [Root.GetName]: Focus ZHI_tibet_is_china"
+		create_wargoal = {
+			type = annex_everything
+			target = TIB
+		}
+	}
+}
+#An Offer for Deng Xihou
+focus = {
+	id = ZHI_Sichuan_offer
+	icon = GFX_goal_generic_military_deal
+	cost = 7
+	available = {
+		NOT = {
+			has_war = yes
+		}
+		country_exists = SCH
+	}
+	prerequisite = {
+		focus = ZHI_die_kmt
+	}
+	x = 3
+	y = 4
+	relative_position_id = ZHI_beiyang_centralise
+
+	bypass = {
+		NOT = {
+			country_exists = SCH
+		}
+	}
+
+	ai_will_do = {
+		factor = 10
+	}
+	will_lead_to_war_with = SCH
+	completion_reward = {
+		log = "[GetDateText]: [Root.GetName]: Focus ZHI_Sichuan_offer"
+		SCH = {
+			country_event = {id = zhi.31 days = 1}
+		}
+	}
+}
+#Against the Foreign Imperialist!
+focus = {
+	id = ZHI_no_imperialism
+	icon = GFX_focus_chi_one_china_policy
+	cost = 7
+	prerequisite = {
+		focus = ZHI_Sichuan_offer
+	}
+	prerequisite = {
+		focus = ZHI_tibet_is_china
+	}
+	prerequisite = {
+		focus = ZHI_ma_attack
+	}
+	prerequisite = {
+		focus = ZHI_yunnan_offer
+	}
+	x = 0
+	y = 5
+	relative_position_id = ZHI_beiyang_centralise
+
+	bypass = {
+	}
+
+	ai_will_do = {
+		factor = 10
+	}
+
+	completion_reward = {
+		log = "[GetDateText]: [Root.GetName]: Focus ZHI_no_imperialism"
+		custom_effect_tooltip = ZHI_one_china
+		hidden_effect = {
+			set_country_flag = ZHI_no_imperialists
+		}
+	}
+}
+#Our Place on the World Stage
+focus = {
+	id = ZHI_world_stage
+	icon = GFX_goal_FRA_World_Revolution
+	cost = 5
+	prerequisite = {
+		focus = ZHI_beiyang_centralise
+	}
+	x = 4
+	y = 1
+	relative_position_id = ZHI_beiyang_centralise
+
+	bypass = {
+	}
+
+	ai_will_do = {
+		factor = 10
+	}
+
+	completion_reward = {
+		log = "[GetDateText]: [Root.GetName]: Focus ZHI_world_stage"
+		add_political_power = 50
+	}
+}
+#International Alliances
+focus = {
+	id = ZHI_alliances
+	icon = GFX_goal_generic_national_unity
+	cost = 7
+	prerequisite = {
+		focus = ZHI_world_stage
+	}
+	x = -1
+	y = 1
+	relative_position_id = ZHI_world_stage
+
+	bypass = {
+	}
+
+	ai_will_do = {
+		factor = 10
+	}
+
+	completion_reward = {
+		log = "[GetDateText]: [Root.GetName]: Focus ZHI_alliances"
+		custom_effect_tooltip = ZHI_cool_alliances
+		hidden_effect = {set_country_flag = ZHI_int_alliances}
+	}
+}
+#Support the Whites
+focus = {
+	id = ZHI_support_whites
+	icon = GFX_goal_russia
+	cost = 7
+	available = {
+		RUS = {
+			exists = yes
+		}
+		has_country_flag = ZHI_RUS_support
+	}
+	prerequisite = {
+		focus = ZHI_world_stage
+	}
+	x = 1
+	y = 1
+	relative_position_id = ZHI_world_stage
+
+	bypass = {
+	}
+
+	ai_will_do = {
+		factor = 10
+	}
+
+	completion_reward = {
+		log = "[GetDateText]: [Root.GetName]: Focus ZHI_support_whites"
+		send_equipment = {
+			equipment = infantry_equipment
+			amount = 3500
+			target = RUS
+		}
+		RUS = {
+			country_event = { id = zhi.34 days = 1}
+		}
+	}
+}
+#Anti-Soviet Alliance
+focus = {
+	id = ZHI_anti_soviet
+	icon = GFX_goal_broken_red_star
+	cost = 7
+	available = {
+		RUS = {
+			exists = yes
+		}
+	}
+
+	prerequisite = {
+		focus = ZHI_support_whites
+	}
+	x = 1
+	y = 2
+	relative_position_id = ZHI_world_stage
+
+	bypass = {
+	}
+
+	ai_will_do = {
+		factor = 10
+	}
+
+	completion_reward = {
+		log = "[GetDateText]: [Root.GetName]: Focus ZHI_anti_soviet"
+		RUS = {
+			country_event = { id = zhi.35 days = 1}
+		}
+
+	}
+}
+
+# SUN
+
+focus = {
+	id = ZHI_beiyang_state
+	icon = GFX_goal_beiyang_star
+	cost = 7
+
+	x = 25
+	y = 7
+	allow_branch = {
+		has_country_flag = ZHI_SUN
+	}
+	bypass = {
+	}
+
+	ai_will_do = {
+		factor = 10
+	}
+
+	completion_reward = {
+		log = "[GetDateText]: [Root.GetName]: Focus ZHI_beiyang_state"
+		country_event = { id = zhi.38 days = 1}
+	}
+}
+#Yan Xishan's Head
+focus = {
+	id = ZHI_shanxi_conquest
+	icon = GFX_goal_yan_xishan
+	cost = 7
+	available = {
+		NOT = {
+			has_war = yes
+		}
+		country_exists = SHX
+	}
+	prerequisite = {
+		focus = ZHI_beiyang_state
+	}
+
+	x = 0
+	y = 1
+	relative_position_id = ZHI_beiyang_state
+
+	bypass = {
+		NOT = {
+			country_exists = SHX
+		}
+	}
+
+	ai_will_do = {
+		factor = 10
+	}
+
+	will_lead_to_war_with = SHX
+
+	completion_reward = {
+		log = "[GetDateText]: [Root.GetName]: Focus ZHI_shanxi_conquest"
+		declare_war_on = {
+			target = SHX
+			type = annex_everything
+		}
+	}
+}
+#Exploit Southern Weakness
+focus = {
+	id = ZHI_south_weakness
+	icon = GFX_goal_topple_south
+	cost = 7
+	available = {
+		NOT = {
+			has_war = yes
+		}
+		OR = {
+			country_exists = KMT
+			country_exists = GXC
+			country_exists = GDC
+		}
+	}
+	prerequisite = {
+		focus = ZHI_shanxi_conquest
+	}
+
+	x = 0
+	y = 2
+	relative_position_id = ZHI_beiyang_state
+
+	bypass = {
+		NOT = {
+			OR = {
+				country_exists = KMT
+				country_exists = GXC
+				country_exists = GDC
+			}
+		}
+	}
+
+	ai_will_do = {
+		factor = 10
+	}
+
+	completion_reward = {
+		log = "[GetDateText]: [Root.GetName]: Focus ZHI_south_weakness"
+		if = {
+			limit = {
+				KMT = {
+					exists = yes
+				}
+			}
+			create_wargoal = {
+				type = annex_everything
+				target = KMT
+			}
+		}
+		if = {
+			limit = {
+				GXC = {
+					exists = yes
+				}
+			}
+			create_wargoal = {
+				type = annex_everything
+				target = GXC
+			}
+		}
+		if = {
+			limit = {
+				GDC = {
+					exists = yes
+				}
+			}
+			create_wargoal = {
+				type = annex_everything
+				target = GDC
+			}
+		}
+
+	}
+}
+#Force the Steppe to Kneel
+focus = {
+	id = ZHI_steppe_conquest
+	icon = GFX_goal_white_flag
+	cost = 7
+	available = {
+		NOT = {
+			has_war = yes
+		}
+		country_exists = MON
+	}
+	prerequisite = {
+		focus = ZHI_south_weakness
+	}
+
+	x = -3
+	y = 3
+	relative_position_id = ZHI_beiyang_state
+
+	bypass = {
+		NOT = {
+			country_exists = MON
+		}
+	}
+
+	ai_will_do = {
+		factor = 10
+	}
+
+	completion_reward = {
+		log = "[GetDateText]: [Root.GetName]: Focus ZHI_steppe_conquest"
+		create_wargoal = {
+			type = annex_everything
+			target = MON
+		}
+		set_country_flag = zhi_invade_mon
+	}
+}
+#Deal with the Resistance
+focus = {
+	id = ZHI_steppe_resist
+	icon = GFX_goal_flames_of_rebellion
+	cost = 7
+	available = {
+		NOT = {
+			has_war = yes
+		}
+	}
+	prerequisite = {
+		focus = ZHI_steppe_conquest
+	}
+
+	x = -3
+	y = 4
+	relative_position_id = ZHI_beiyang_state
+
+	bypass = {
+	}
+
+	ai_will_do = {
+		factor = 10
+	}
+
+	completion_reward = {
+		log = "[GetDateText]: [Root.GetName]: Focus ZHI_steppe_resist"
+		remove_ideas = ZHI_khatan_resist
+	}
+}
+#Desecrate the Hui Lands
+focus = {
+	id = ZHI_hui_conquest
+	icon = GFX_goal_no_bufang
+	cost = 7
+	available = {
+		NOT = {
+			has_war = yes
+		}
+		OR = {
+			country_exists = XSM
+			country_exists = SIK
+		}
+	}
+	prerequisite = {
+		focus = ZHI_south_weakness
+	}
+
+	x = 3
+	y = 3
+	relative_position_id = ZHI_beiyang_state
+
+	bypass = {
+		NOT = {
+			OR = {
+				country_exists = XSM
+				country_exists = SIK
+			}
+		}
+	}
+
+	ai_will_do = {
+		factor = 10
+	}
+
+	completion_reward = {
+		log = "[GetDateText]: [Root.GetName]: Focus ZHI_hui_conquest"
+		create_wargoal = {
+			type = annex_everything
+			target = SIK
+		}
+		create_wargoal = {
+			type = annex_everything
+			target = XSM
+		}
+	}
+}
+#Enforce Han Chinese Values
+focus = {
+	id = ZHI_enforce_values
+	icon = GFX_goal_POR_the_tarrafal
+	cost = 7
+
+	prerequisite = {
+		focus = ZHI_hui_conquest
+	}
+
+	x = 3
+	y = 4
+	relative_position_id = ZHI_beiyang_state
+
+	bypass = {
+	}
+
+	ai_will_do = {
+		factor = 10
+	}
+
+	completion_reward = {
+		log = "[GetDateText]: [Root.GetName]: Focus ZHI_enforce_values"
+		add_timed_idea = {
+			idea = ZHI_hui_suppresion
+			days = 65
+		}
+		add_stability = -0.12
+	}
+}
+#Long Yun's Head
+focus = {
+	id = ZHI_yunnan_conquest
+	icon = GFX_goal_long_yun
+	cost = 7
+	available = {
+		NOT = {
+			has_war = yes
+		}
+		country_exists = YUN
+	}
+	prerequisite = {
+		focus = ZHI_south_weakness
+	}
+
+	x = -1
+	y = 3
+	relative_position_id = ZHI_beiyang_state
+
+	bypass = {
+		NOT = {
+			country_exists = YUN
+		}
+	}
+
+	ai_will_do = {
+		factor = 10
+	}
+
+	will_lead_to_war_with = YUN
+
+	completion_reward = {
+		log = "[GetDateText]: [Root.GetName]: Focus ZHI_yunnan_conquest"
+		declare_war_on = {
+			target = YUN
+			type = annex_everything
+		}
+	}
+}
+#Deng Xihou's Head
+focus = {
+	id = ZHI_sichuan_conquest
+	icon = GFX_goal_deng_xihou
+	cost = 7
+	available = {
+		NOT = {
+			has_war = yes
+		}
+		country_exists = SCH
+	}
+	prerequisite = {
+		focus = ZHI_south_weakness
+	}
+
+	x = 1
+	y = 3
+	relative_position_id = ZHI_beiyang_state
+
+	bypass = {
+		NOT = {
+			country_exists = SCH
+		}
+	}
+
+	ai_will_do = {
+		factor = 10
+	}
+
+	will_lead_to_war_with = SCH
+
+	completion_reward = {
+		log = "[GetDateText]: [Root.GetName]: Focus ZHI_sichuan_conquest"
+		declare_war_on = {
+			target = SCH
+			type = annex_everything
+		}
+	}
+}
+#Desolate the Tibetan Plateau
+focus = {
+	id = ZHI_tibet_conquest
+	icon = GFX_goal_zhili_tibet
+	cost = 7
+	available = {
+		NOT = {
+			has_war = yes
+		}
+		country_exists = TIB
+	}
+	prerequisite = {
+		focus = ZHI_yunnan_conquest
+	}
+	prerequisite = {
+		focus = ZHI_sichuan_conquest
+	}
+
+	x = 0
+	y = 4
+	relative_position_id = ZHI_beiyang_state
+
+	bypass = {
+		NOT = {
+			country_exists = TIB
+		}
+	}
+
+	ai_will_do = {
+		factor = 10
+	}
+
+	will_lead_to_war_with = TIB
+
+	completion_reward = {
+		log = "[GetDateText]: [Root.GetName]: Focus ZHI_tibet_conquest"
+		declare_war_on = {
+			target = TIB
+			type = annex_everything
+		}
+	}
+}
+#Antagonise the Whites
+focus = {
+	id = ZHI_white_conquest
+	icon = GFX_goal_LEC_armsRUS
+	cost = 7
+	available = {
+		NOT = {
+			has_war = yes
+		}
+		country_exists = RUS
+	}
+	prerequisite = {
+		focus = ZHI_tibet_conquest
+	}
+
+	x = -1
+	y = 5
+	relative_position_id = ZHI_beiyang_state
+
+	bypass = {
+		NOT = {
+			country_exists = RUS
+		}
+	}
+
+	ai_will_do = {
+		factor = 10
+	}
+
+	will_lead_to_war_with = RUS
+
+	completion_reward = {
+		log = "[GetDateText]: [Root.GetName]: Focus ZHI_white_conquest"
+		create_wargoal = {
+			type = annex_everything
+			target = RUS
+		}
+	}
+}
+#Destroy the Foreign Invaders
+focus = {
+	id = ZHI_imperial_conquest
+	icon = GFX_focus_chi_one_china_policy
+	cost = 7
+	available = {
+		NOT = {
+			has_war = yes
+		}
+	}
+	prerequisite = {
+		focus = ZHI_tibet_conquest
+	}
+
+	x = 1
+	y = 5
+	relative_position_id = ZHI_beiyang_state
+
+	bypass = {
+	}
+
+	ai_will_do = {
+		factor = 10
+	}
+
+	completion_reward = {
+		log = "[GetDateText]: [Root.GetName]: Focus ZHI_imperial_conquest"
+		custom_effect_tooltip = ZHI_one_china
+		hidden_effect = {
+			set_country_flag = ZHI_no_imperialists
+		}
+	}
+}
+#Anti-Imperialist Propaganda
+focus = {
+	id = ZHI_imperial_propaganda
+	icon = GFX_goal_generic_propaganda
+	cost = 7
+	available = {
+		NOT = {
+			has_war = yes
+		}
+	}
+	prerequisite = {
+		focus = ZHI_beiyang_state
+	}
+
+	x = 4
+	y = 1
+	relative_position_id = ZHI_beiyang_state
+
+	bypass = {
+	}
+
+	ai_will_do = {
+		factor = 10
+	}
+
+	completion_reward = {
+		log = "[GetDateText]: [Root.GetName]: Focus ZHI_imperial_propaganda"
+		add_political_power = 50
+		add_opinion_modifier = {
+			target = ENG
+			modifier = ZHI_imperialist_scum
+		}
+		add_opinion_modifier = {
+			target = FRA
+			modifier = ZHI_imperialist_scum
+		}
+		add_opinion_modifier = {
+			target = ITA
+			modifier = ZHI_imperialist_scum
+		}
+		reverse_add_opinion_modifier = {
+			target = ENG
+			modifier = ZHI_denounced_imperialism
+		}
+		reverse_add_opinion_modifier = {
+			target = FRA
+			modifier = ZHI_denounced_imperialism
+		}
+		reverse_add_opinion_modifier = {
+			target = ITA
+			modifier = ZHI_denounced_imperialism
+		}
+
+	}
+}
+#Chinese Sovereignty
+focus = {
+	id = ZHI_sovereignty
+	icon = GFX_goal_beiyang_victory
+	cost = 7
+
+	prerequisite = {
+		focus = ZHI_imperial_propaganda
+	}
+	mutually_exclusive = {
+		focus = ZHI_savarkar_support
+	}
+
+	x = -1
+	y = 1
+	relative_position_id = ZHI_imperial_propaganda
+
+	bypass = {
+	}
+
+	ai_will_do = {
+		factor = 10
+	}
+
+	completion_reward = {
+		log = "[GetDateText]: [Root.GetName]: Focus ZHI_sovereignty"
+		add_war_support = 0.10
+		create_faction = ZHI_sun_faction
+	}
+}
+#An Offer for Savarkar
+focus = {
+	id = ZHI_savarkar_support
+	icon = GFX_goal_chinese_investment
+	cost = 7
+	available = {
+		IND = {
+			has_government = national_populist
+		}
+	}
+
+	prerequisite = {
+		focus = ZHI_imperial_propaganda
+	}
+	mutually_exclusive = {
+		focus = ZHI_sovereignty
+	}
+
+	x = 1
+	y = 1
+	relative_position_id = ZHI_imperial_propaganda
+
+	bypass = {
+	}
+
+	ai_will_do = {
+		factor = 10
+	}
+
+	completion_reward = {
+		log = "[GetDateText]: [Root.GetName]: Focus ZHI_savarkar_support"
+		IND = {
+			country_event = {id = zhi.40 days = 1}
+		}
+	}
+}
+
+
+
+}

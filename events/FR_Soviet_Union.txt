@@ -1,0 +1,7184 @@
+﻿#######################
+# Soviet Union events #
+##################
+# Created by mop, Drowse and fbruchmueller #
+##################
+
+add_namespace = soviet
+add_namespace = sovietcongress
+add_namespace = troika
+add_namespace = sovietscorched
+
+country_event = {
+	id = soviet.1
+	immediate = {log = "[GetDateText]: [Root.GetName]: event soviet.1"}
+	title = soviet.1.t
+	desc = soviet.1.d
+	picture = soviet_intro
+
+	fire_only_once = yes
+	is_triggered_only = yes
+	immediate = {
+		hidden_effect = {
+
+		}
+	}
+	option = {
+		name = soviet.1.a
+	}
+}
+
+country_event = { #Lenin Death
+	id = soviet.2
+	immediate = {log = "[GetDateText]: [Root.GetName]: event soviet.2"}
+	title = "The Death of Lenin"
+	desc = soviet.2.d
+	picture = soviet_lenin_death
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			set_country_flag = SOV_EMPTY_TREE
+			mark_focus_tree_layout_dirty = yes
+			country_event = {
+				id = sovietpol.1304
+				days = 2
+			}
+			random_other_country = {
+				news_event = { id = fxnews.36 days = 1 }
+			}
+		}
+	}
+	option = {
+		name = "The Union mourns for Comrade Lenin!"
+		swap_ideas = {
+			remove_idea = SOV_political_divide
+			add_idea = SOV_political_chaos
+		}
+		retire_character = SOV_Vladimir_Lenin
+		add_country_leader_role = {
+			character = SOV_Congress_of_Soviets
+			promote_leader = yes
+			country_leader = {
+				ideology = collectivist_subtype
+			}
+		}
+		set_country_flag = SOV_LENIN_DEATH
+	}
+}
+
+country_event = {
+	id = soviet.3
+	immediate = {log = "[GetDateText]: [Root.GetName]: event soviet.3"}
+	title = "The Fate of the Soviet Union"
+	desc = soviet.3.d
+	picture = soviet_opposition_collectivization
+
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			country_event = {
+				id = sovietpol.1319
+				days = 30
+			}
+		}
+	}
+
+	option = {
+		name = "An emergency triumvirate is established to prevent Trotsky from seizing power."
+		ai_chance = {
+			factor = 35
+			modifier = {
+				factor = 100
+				has_country_flag = SOV_rule_picked_triumvirate
+			}
+		}
+		custom_effect_tooltip = SOV_TROIKA_TAKEOVER
+		set_country_flag = SOV_TROIKA
+
+		hidden_effect = {
+			country_event = {
+				id = soviet.4
+				days = 3
+			}
+		}
+	}
+
+	option = {
+		name = "Marshal Tukhachevsky and a loyal Red Army detatchment march on the Congress."
+		ai_chance = {
+			factor = 30
+			modifier = {
+				factor = 100
+				has_country_flag = SOV_rule_picked_tukha
+			}
+		}
+		custom_effect_tooltip = SOV_TUKHACHEVSKY_TAKEOVER
+
+		hidden_effect = {
+			country_event = {
+				id = sovietpol.1321
+				days = 3
+			}
+		}
+	}
+	option = {
+		name = "Lenin's wife reveals a letter from Lenin, stating Sergey Kirov as his preferred heir"
+		ai_chance = {
+			factor = 35
+			modifier = {
+				factor = 100
+				has_country_flag = SOV_rule_picked_kirov
+			}
+		}
+		custom_effect_tooltip = SOV_KIROV_TAKEOVER
+
+		hidden_effect = {
+			country_event = {
+				id = sovietpol.1320
+				days = 3
+			}
+		}
+	}
+}
+country_event = {
+	id = soviet.4
+	immediate = {log = "[GetDateText]: [Root.GetName]: event soviet.4"}
+	title = "Soviet Troika Formed"
+	desc = soviet.4.d
+	picture = soviet_congress
+
+	is_triggered_only = yes
+
+	option = {
+		name = "The Soviet Union must fight through these hard times."
+		set_country_flag = SOV_BUKHARIN_ALIVE
+		set_country_flag = SOV_MOLOTOV_ALIVE
+		set_country_flag = SOV_ZINOVIEV_ALIVE
+		country_event = {
+			id = soviet.5 days = 5
+		}
+	}
+
+}
+
+country_event = {
+	id = soviet.5
+	immediate = {log = "[GetDateText]: [Root.GetName]: event soviet.5"}
+	title = "Molotov consolidates power"
+	desc = soviet.5.d
+	picture = soviet_molotov
+
+	is_triggered_only = yes
+
+	option = {
+		name = "The Union will be safe from the treacherous!"
+		add_political_power = -25
+		hidden_effect = {
+			country_event = {
+				id = soviet.6 days = 5
+			}
+			add_to_variable = {
+				soviet_corruption = 10
+			}
+			add_to_variable = {
+				soviet_congress = 5
+			}
+		}
+	}
+
+}
+
+country_event = {
+	id = soviet.6
+	immediate = {log = "[GetDateText]: [Root.GetName]: event soviet.6"}
+	title = "Bukharin and the Left Communists Meet in Oslo"
+	desc = soviet.6.d
+	picture = soviet_bukharin
+
+	is_triggered_only = yes
+
+	option = {
+		name = "These left-wing communists have always been an infantile disorder."
+		add_political_power = -5
+		hidden_effect = {
+			country_event = {
+				id = soviet.7 days = 14
+			}
+			if = {
+				limit = {
+					has_country_flag = SOV_chose_Bukharin
+				}
+				add_to_variable = {
+					soviet_congress = 5
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = soviet.7
+	immediate = {log = "[GetDateText]: [Root.GetName]: event soviet.7"}
+	title = "Molotov Presents National Collectivism"
+	desc = soviet.7.d
+	picture = soviet_molotov
+
+	is_triggered_only = yes
+
+	option = {
+		name = "He proposed WHAT??"
+		add_political_power = -25
+		add_stability = -0.02
+		country_event = {
+			id = soviet.8 days = 3
+		}
+		hidden_effect = {
+			if = {
+				limit = {
+					has_country_flag = SOV_chose_molotov
+				}
+				add_to_variable = {
+					soviet_congress = 5
+				}
+				add_to_variable = {
+					soviet_military = 5
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = soviet.8
+	immediate = {log = "[GetDateText]: [Root.GetName]: event soviet.8"}
+	title = "Trotsky's Internationalism"
+	desc = soviet.8.d
+	picture = soviet_trotsky
+
+	is_triggered_only = yes
+
+	option = {
+		name = "Factionalism has gripped the Union."
+		hidden_effect = {
+			country_event = {
+				id = soviet.9 days = 12
+			}
+			if = {
+				limit = {
+					has_country_flag = SOV_chose_Trotsky
+				}
+				add_to_variable = {
+					soviet_congress = 10
+				}
+			}
+			else = {
+				subtract_from_variable = {
+					soviet_congress = 10
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = soviet.9
+	immediate = {log = "[GetDateText]: [Root.GetName]: event soviet.9"}
+	title = "Bukharin's Opposition"
+	desc = soviet.9.d
+	picture = soviet_bukharin2
+
+	is_triggered_only = yes
+
+	option = {
+		name = "Cracks have begun appearing in the troika."
+		add_political_power = -5
+		set_party_name = {
+			ideology = libertarian_socialist
+			long_name = SOV_bukharin_opposition_long
+			name = SOV_bukharin_opposition
+		}
+		add_country_leader_role = {
+			character = SOV_Nikolay_Bukharin
+			promote_leader = yes
+			country_leader = {
+				ideology = bukharinist_subtype
+				traits = { SOV_the_theorist }
+			}
+		}
+
+		hidden_effect = {
+			country_event = {
+				id = soviet.10 days = 5
+			}
+			if = {
+				limit = {
+					has_country_flag = SOV_chose_Bukharin
+				}
+				add_to_variable = {
+					soviet_congress = 10
+				}
+			}
+			else = {
+				subtract_from_variable = {
+					soviet_congress = 10
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = soviet.10
+	immediate = {log = "[GetDateText]: [Root.GetName]: event soviet.10"}
+	title = "Trotsky and Zinoviev form a United Front"
+	desc = soviet.10.d
+	picture = soviet_zinoviev_trotsky
+
+	is_triggered_only = yes
+
+	option = {
+		name = "A scheming traitor!"
+		set_country_flag = SOV_trotsky_influence
+		if = {
+			limit = {
+				has_country_flag = SOV_chose_Trotsky
+			}
+			subtract_from_variable = {
+				soviet_congress = 5
+			}
+			add_to_variable = {
+				soviet_military = 10
+			}
+			add_to_variable = {
+				soviet_corruption = 10
+			}
+		}
+		hidden_effect = {
+			country_event = {
+				id = soviet.15 days = 15
+			}
+			country_event = {
+				id = soviet.23 days = 20
+			}
+		}
+	}
+}
+
+country_event = {
+	id = soviet.15
+	immediate = {log = "[GetDateText]: [Root.GetName]: event soviet.15"}
+	title = "Zinoviev losing grasp on his platform"
+	desc = soviet.15.d
+	picture = soviet_zinoviev_trotsky
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		name = "Zinoviev better sort it this out."
+	}
+}
+
+country_event = {
+	id = soviet.23
+	immediate = {log = "[GetDateText]: [Root.GetName]: event soviet.23"}
+	title = "Divisions in the Troika"
+	desc = soviet.23.d
+	picture = soviet_intro
+
+	is_triggered_only = yes
+
+	immediate = {
+		set_country_flag = SOV_struggle_time
+	}
+
+	option = {
+		name = "Vyacheslav Molotov asserts his authority"
+		set_country_flag = SOV_chose_molotov
+		set_variable = {
+			var = soviet_congress
+			value = 35
+		}
+		set_variable = {
+			var = soviet_military
+			value = 25
+		}
+		set_variable = {
+			var = soviet_corruption
+			value = 20
+		}
+	}
+	option = {
+		name = "Nikolai Bukharin asserts his influence"
+		set_country_flag = SOV_chose_Bukharin
+		set_variable = {
+			var = soviet_congress
+			value = 50
+		}
+		set_variable = {
+			var = soviet_military
+			value = 25
+		}
+		set_variable = {
+			var = soviet_corruption
+			value = 50
+		}
+	}
+	option = {
+		name = "Zinoviev and his Trotskyite allies assert their dominance"
+		set_country_flag = SOV_chose_Trotsky
+		set_variable = {
+			var = soviet_congress
+			value = 50
+		}
+		set_variable = {
+			var = soviet_military
+			value = 25
+		}
+		set_variable = {
+			var = soviet_corruption
+			value = 35
+		}
+	}
+}
+
+country_event = { # Corruption is gone
+	id = soviet.24
+	immediate = {log = "[GetDateText]: [Root.GetName]: event soviet.24"}
+	title = "Anti corruption measures are paying off"
+	desc = soviet.24.d
+	picture = diplomacy3
+
+	trigger = {
+		original_tag = SOV
+		has_idea = SOV_low_corruption
+		check_variable = {
+			soviet_corruption < 15
+		}
+	}
+
+	mean_time_to_happen = {
+		days = 14
+	}
+
+	option = {
+		name = "A more open government should be our goal"
+		remove_ideas = SOV_low_corruption
+	}
+}
+
+country_event = { # Corruption is low
+	id = soviet.25
+	immediate = {log = "[GetDateText]: [Root.GetName]: event soviet.25"}
+	title = "Corruption is rising in our government"
+	desc = soviet.25.d
+	picture = diplomacy3
+
+	trigger = {
+		original_tag = SOV
+		NOT = {
+			OR = {
+				has_idea = SOV_low_corruption
+				has_idea = SOV_medium_corruption
+				has_idea = SOV_high_corruption
+			}
+		}
+		check_variable = {
+			soviet_corruption > 24
+		}
+	}
+
+	mean_time_to_happen = {
+		days = 14
+	}
+
+	option = {
+		name = "We must keep corruption under control"
+		add_ideas = SOV_low_corruption
+	}
+}
+
+country_event = { # Corruption is moderate
+	id = soviet.26
+	immediate = {log = "[GetDateText]: [Root.GetName]: event soviet.26"}
+	title = "Corruption is common in our government"
+	desc = soviet.26.d
+	picture = diplomacy3
+
+	trigger = {
+		original_tag = SOV
+		has_idea = SOV_low_corruption
+		NOT = {
+			has_idea = SOV_medium_corruption
+		}
+		check_variable = {
+			soviet_corruption > 49
+		}
+	}
+
+	mean_time_to_happen = {
+		days = 14
+	}
+
+	option = {
+		name = "We must keep corruption under control"
+		swap_ideas = {
+			remove_idea = SOV_low_corruption
+			add_idea = SOV_medium_corruption
+		}
+	}
+}
+
+country_event = { # Corruption is high
+	id = soviet.27
+	immediate = {log = "[GetDateText]: [Root.GetName]: event soviet.27"}
+	title = "Corruption is pervasive in our government"
+	desc = soviet.27.d
+	picture = diplomacy3
+
+	trigger = {
+		original_tag = SOV
+		has_idea = SOV_medium_corruption
+		NOT = {
+			has_idea = SOV_high_corruption
+		}
+		check_variable = {
+			soviet_corruption > 74
+		}
+	}
+
+	mean_time_to_happen = {
+		days = 14
+	}
+
+	option = {
+		name = "We must stop corruption at all costs"
+		swap_ideas = {
+			remove_idea = SOV_medium_corruption
+			add_idea = SOV_high_corruption
+		}
+	}
+}
+
+country_event = { # Corruption is lowering
+	id = soviet.28
+	immediate = {log = "[GetDateText]: [Root.GetName]: event soviet.28"}
+	title = "Corruption is decreasing"
+	desc = soviet.28.d
+	title = "Corruption ain't as bad as it used to be"
+	desc = soviet.27.d
+	picture = diplomacy3
+
+	trigger = {
+		original_tag = SOV
+		has_idea = SOV_high_corruption
+		NOT = {
+			has_idea = SOV_medium_corruption
+		}
+		check_variable = {
+			soviet_corruption < 50
+		}
+	}
+
+	mean_time_to_happen = {
+		days = 14
+	}
+
+	option = {
+		name = "There is still work to do."
+		swap_ideas = {
+			remove_idea = SOV_high_corruption
+			add_idea = SOV_medium_corruption
+		}
+	}
+}
+
+country_event = { # Corruption is lowering
+	id = soviet.29
+	immediate = {log = "[GetDateText]: [Root.GetName]: event soviet.29"}
+	title = "Corruption is in a steady decline"
+	desc = soviet.27.d
+	picture = diplomacy3
+
+	trigger = {
+		original_tag = SOV
+		has_idea = SOV_medium_corruption
+		NOT = {
+			has_idea = SOV_low_corruption
+		}
+		check_variable = {
+			soviet_corruption < 35
+		}
+	}
+
+	mean_time_to_happen = {
+		days = 14
+	}
+
+	option = {
+		name = "We are on the right path."
+		swap_ideas = {
+			remove_idea = SOV_medium_corruption
+			add_idea = SOV_low_corruption
+		}
+	}
+}
+
+country_event = { # Corruption is gone
+	id = soviet.30
+	immediate = {log = "[GetDateText]: [Root.GetName]: event soviet.30"}
+	title = "Corruption is now a thing of the past"
+	desc = soviet.30.d
+	picture = diplomacy3
+
+	trigger = {
+		original_tag = SOV
+		has_idea = SOV_low_corruption
+		check_variable = {
+			soviet_corruption < 20
+		}
+	}
+
+	mean_time_to_happen = {
+		days = 14
+	}
+
+	option = {
+		remove_ideas = SOV_low_corruption
+		name = "Take that Capitalists!"
+	}
+}
+
+country_event = { # Send Equipment
+	id = soviet.31
+	title = soviet.31.t
+	desc = soviet.31.d
+	picture = GFX_report_event_soviet_soldiers_tank
+	is_triggered_only = yes
+
+	option = {
+		name = soviet.31.a
+		effect_tooltip = {
+			add_equipment_to_stockpile = {
+				type = infantry_equipment
+				amount = 1000
+				producer = FROM
+			}
+		}
+	}
+}
+
+################
+####Congress####
+################
+
+country_event = {
+	id = sovietcongress.1
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietcongress.1"}
+	title = "Fate of the Kulaks"
+	desc = sovietcongress.1.d
+
+	picture = GFX_report_event_soviet_soldiers_tank
+
+	fire_only_once = yes
+
+	is_triggered_only = yes
+
+	option = {
+		name = "Stop cheating!"
+	}
+}
+
+country_event = {
+	id = sovietcongress.2
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietcongress.2"}
+	title = "Which Army Doctinre should we support?"
+	desc = sovietcongress.2.d
+
+	picture = GFX_report_event_soviet_soldiers_tank
+
+	fire_only_once = yes
+
+	is_triggered_only = yes
+
+	option = {
+		name = "Stop cheating!"
+	}
+}
+
+country_event = {
+	id = sovietcongress.3
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietcongress.3"}
+	title = "Should we change our Foreign Policy?"
+	desc = sovietcongress.3.d
+
+	picture = GFX_report_event_soviet_soldiers_tank
+
+	fire_only_once = yes
+
+	is_triggered_only = yes
+
+	option = {
+		name = "Stop cheating!"
+	}
+}
+
+country_event = {
+	id = sovietcongress.4
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietcongress.4"}
+	title = "Should we abolish the Secret Service?"
+	desc = sovietcongress.4.d
+
+	picture = GFX_report_event_soviet_soldiers_tank
+
+	fire_only_once = yes
+
+	is_triggered_only = yes
+
+	option = {
+		name = "Stop cheating!"
+	}
+}
+
+country_event = {
+	id = sovietcongress.5
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietcongress.5"}
+	title = "Treatment of minorities"
+	desc = sovietcongress.4.d
+
+	picture = GFX_report_event_soviet_soldiers_tank
+
+	fire_only_once = yes
+
+	is_triggered_only = yes
+
+	option = {
+		name = "Stop cheating!"
+	}
+}
+
+##########
+# Troika #
+##########
+
+### Molotov's Events ####
+country_event = {
+	id = troika.1
+	immediate = {log = "[GetDateText]: [Root.GetName]: event troika.1"}
+	title = "Molotov undermines our political campaign"
+	desc = troika.1.d
+	picture = soviet_molotov
+
+	is_triggered_only = yes
+
+	option = {
+		name = "Molotov must be stopped"
+		custom_effect_tooltip = "Lose 20% Congressional Support"
+		subtract_from_variable = {
+			soviet_congress = 20
+		}
+	}
+}
+
+country_event = {
+	id = troika.2
+	immediate = {log = "[GetDateText]: [Root.GetName]: event troika.2"}
+	title = "Molotov and Bukharin rebuke our speech"
+	desc = troika.2.d
+	picture = GFX_report_event_soviet_soldiers_tank
+
+	is_triggered_only = yes
+
+	option = {
+		name = "We must rid ourselves of such liars"
+		custom_effect_tooltip = "Lose 20% Congressional Support"
+		subtract_from_variable = {
+			soviet_congress = 20
+		}
+	}
+}
+
+country_event = {
+	id = troika.3
+	immediate = {log = "[GetDateText]: [Root.GetName]: event troika.3"}
+	title = "Molotov and Trotsky rebuke our speech"
+	desc = troika.3.d
+	picture = soviet_molotov
+
+	is_triggered_only = yes
+
+	option = {
+		name = "We must rid ourselves of such liars"
+		custom_effect_tooltip = "Lose 20% Congressional Support"
+		subtract_from_variable = {
+			soviet_congress = 20
+		}
+	}
+}
+
+country_event = {
+	id = troika.4
+	immediate = {log = "[GetDateText]: [Root.GetName]: event troika.4"}
+	title = "Bukharin and Trotsky rebuke our speech"
+	desc = troika.4.d
+	picture = soviet_bukharin2
+
+	is_triggered_only = yes
+
+	option = {
+		name = "We must rid ourselves of such liars"
+		custom_effect_tooltip = "Lose 20% Congressional Support"
+		subtract_from_variable = {
+			soviet_congress = 20
+		}
+	}
+}
+
+country_event = {
+	id = troika.5
+	immediate = {log = "[GetDateText]: [Root.GetName]: event troika.5"}
+	title = "Trotsky vetos our officer appointments"
+	desc = troika.5.d
+	picture = soviet_trotsky_speech
+
+	is_triggered_only = yes
+
+	option = {
+		name = "Trotsky must be stopped"
+		custom_effect_tooltip = "Lose 20% Military Influence"
+		subtract_from_variable = {
+			soviet_military = 20
+		}
+	}
+}
+
+country_event = {
+	id = troika.6
+	immediate = {log = "[GetDateText]: [Root.GetName]: event troika.6"}
+	title = "Bukharin overrules our recent congressional expulsions"
+	desc = troika.6.d
+	picture = soviet_bukharin2
+
+	is_triggered_only = yes
+
+	option = {
+		name = "We will drop this issue for now"
+		custom_effect_tooltip = "Lose 20% Congressional Support"
+		subtract_from_variable = {
+			soviet_congress = 20
+		}
+	}
+	option = {
+		name = "We must open an investigation"
+		add_political_power = -50
+		custom_effect_tooltip = "Lose 10% Congressional Support, "
+		subtract_from_variable = {
+			soviet_congress = 10
+		}
+		custom_effect_tooltip = "Lose 10% Corruption"
+		subtract_from_variable = {
+			soviet_corruption = 10
+		}
+		country_event = {
+			id = troika.8
+			days = 20
+		}
+	}
+}
+
+country_event = {
+	id = troika.7
+	immediate = {log = "[GetDateText]: [Root.GetName]: event troika.7"}
+	title = "Trotsky overrules our recent congressional expulsions"
+	desc = troika.7.d
+	picture = soviet_trotsky_speech
+
+	is_triggered_only = yes
+
+	option = {
+		name = "Looks like we have dissidents in our own ranks"
+		custom_effect_tooltip = "Lose 20% Congressional Support"
+		subtract_from_variable = {
+			soviet_congress = 20
+		}
+	}
+	option = {
+		name = "We must open an investigation"
+		add_political_power = -50
+		custom_effect_tooltip = "Lose 10% Congressional Support, "
+		subtract_from_variable = {
+			soviet_congress = 10
+		}
+		custom_effect_tooltip = "Lose 10% Corruption"
+		subtract_from_variable = {
+			soviet_corruption = 10
+		}
+		hidden_effect = {
+			random_list = {
+				50 = {
+					country_event = troika.8
+				}
+				50 = {
+					country_event = troika.9
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = troika.8
+	immediate = {log = "[GetDateText]: [Root.GetName]: event troika.8"}
+	title = "Suspected dissidents are found innocent"
+	desc = troika.8.d
+	picture = diplomacy3
+
+	is_triggered_only = yes
+
+	option = {
+		name = "well this is an embarrassment"
+		custom_effect_tooltip = "Lose 10% Congressional Support"
+		subtract_from_variable = {
+			soviet_congress = 10
+		}
+		custom_effect_tooltip = "Gain 20% Corruption"
+		add_to_variable = {
+			soviet_corruption = 20
+		}
+	}
+}
+
+country_event = {
+	id = troika.9
+	immediate = {log = "[GetDateText]: [Root.GetName]: event troika.9"}
+	title = "Suspected dissidents are found guilty"
+	desc = troika.9.d
+	picture = soviet_arrest
+
+	is_triggered_only = yes
+
+	option = {
+		name = "Justice is served"
+		custom_effect_tooltip = "Gain 20% Congressional Support, "
+		add_to_variable = {
+			soviet_congress = 20
+		}
+		custom_effect_tooltip = "Lose 10% Corruption"
+		subtract_from_variable = {
+			soviet_corruption = 10
+		}
+	}
+}
+
+country_event = {
+	id = troika.10
+	immediate = {log = "[GetDateText]: [Root.GetName]: event troika.10"}
+	title = "Political Bribery discovered"
+	desc = troika.10.d
+	picture = diplomacy
+
+	is_triggered_only = yes
+
+	option = {
+		name = "well this is an embarrassment"
+		custom_effect_tooltip = "Lose 20% Congressional Support, "
+		subtract_from_variable = {
+			soviet_congress = 20
+		}
+		custom_effect_tooltip = "Gain 10% Corruption"
+		add_to_variable = {
+			soviet_corruption = 10
+		}
+	}
+}
+
+country_event = {
+	id = troika.11
+	immediate = {log = "[GetDateText]: [Root.GetName]: event troika.11"}
+	title = "Molotov and Bukharin publicly decry Trotsky's corruption"
+	desc = troika.11.d
+	picture = soviet_molotov
+
+	is_triggered_only = yes
+
+	option = {
+		name = "We must rid ourselves of such liars"
+		custom_effect_tooltip = "Lose 15% Congressional Support"
+		subtract_from_variable = {
+			soviet_congress = 15
+		}
+	}
+}
+
+country_event = {
+	id = troika.12
+	immediate = {log = "[GetDateText]: [Root.GetName]: event troika.12"}
+	title = "Molotov and Trotsky publicly decry Bukharin's corruption"
+	desc = troika.12.d
+	picture = soviet_molotov
+
+	is_triggered_only = yes
+
+	option = {
+		name = "We must rid ourselves of such liars"
+		custom_effect_tooltip = "Lose 15% Congressional Support"
+		subtract_from_variable = {
+			soviet_congress = 15
+		}
+	}
+}
+
+country_event = {
+	id = troika.13
+	immediate = {log = "[GetDateText]: [Root.GetName]: event troika.13"}
+	title = "Bukharin and Trotsky publicly decry Molotov's corruption"
+	desc = troika.13.d
+	picture = soviet_trotsky_speech
+
+	is_triggered_only = yes
+
+	option = {
+		name = "We must rid ourselves of such liars"
+		custom_effect_tooltip = "Lose 15% Congressional Support"
+		subtract_from_variable = {
+			soviet_congress = 15
+		}
+	}
+}
+
+country_event = {
+	id = troika.14
+	immediate = {log = "[GetDateText]: [Root.GetName]: event troika.14"}
+
+	trigger = {
+		original_tag = SOV
+		check_variable = {
+			soviet_corruption > 74
+		}
+		NOT = {
+			has_country_flag = SOV_troika_done
+		}
+	}
+
+	hidden = yes
+
+	fire_only_once = yes
+
+	mean_time_to_happen = {
+		days = 14
+	}
+
+	option = {
+		trigger = {
+			has_country_flag = SOV_chose_Trotsky
+		}
+		random_list = {
+			50 = {
+				add_political_power = 1 #place holder
+			}
+			50 = {
+				country_event = troika.11
+			}
+		}
+	}
+	option = {
+		trigger = {
+			has_country_flag = SOV_chose_Bukharin
+		}
+		random_list = {
+			50 = {
+				add_political_power = 1 #place holder
+			}
+			50 = {
+				country_event = troika.12
+			}
+		}
+	}
+	option = {
+		trigger = {
+			has_country_flag = SOV_chose_molotov
+		}
+		random_list = {
+			50 = {
+				add_political_power = 1 #place holder
+			}
+			50 = {
+				country_event = troika.13
+			}
+		}
+	}
+}
+
+country_event = {
+	id = troika.15
+	immediate = {log = "[GetDateText]: [Root.GetName]: event troika.15"}
+	title = "Molotov and Bukharin conspire with the military"
+	desc = troika.11.d
+	picture = soviet_bukharin2
+
+	is_triggered_only = yes
+
+	option = {
+		name = "We must be vigilant of a possible coup"
+		custom_effect_tooltip = "Lose 15% Congressional Support"
+		subtract_from_variable = {
+			soviet_congress = 15
+		}
+	}
+}
+
+country_event = {
+	id = troika.16
+	immediate = {log = "[GetDateText]: [Root.GetName]: event troika.16"}
+	title = "Molotov and Trotsky conspire with the military"
+	desc = troika.12.d
+	picture = soviet_trotsky_speech
+
+	is_triggered_only = yes
+
+	option = {
+		name = "We must be vigilant of a possible coup"
+		custom_effect_tooltip = "Lose 15% Congressional Support"
+		subtract_from_variable = {
+			soviet_congress = 15
+		}
+	}
+}
+
+country_event = {
+	id = troika.17
+	immediate = {log = "[GetDateText]: [Root.GetName]: event troika.17"}
+	title = "Bukharin and Trotsky conspire with the military"
+	desc = troika.13.d
+	picture = soviet_bukharin2
+
+	is_triggered_only = yes
+
+	option = {
+		name = "We must be vigilant of a possible coup"
+		custom_effect_tooltip = "Lose 15% Congressional Support"
+		subtract_from_variable = {
+			soviet_congress = 15
+		}
+	}
+}
+
+country_event = { # Random event - Opponents using the military to hinder your rise to power.
+	id = troika.18
+	immediate = {log = "[GetDateText]: [Root.GetName]: event troika.18"}
+
+	trigger = {
+		original_tag = SOV
+		check_variable = {
+			soviet_congress > 64
+		}
+		check_variable = {
+			soviet_military < 31
+		}
+		NOT = {
+			has_country_flag = SOV_troika_done
+		}
+	}
+
+	hidden = yes
+
+	fire_only_once = yes
+
+	mean_time_to_happen = {
+		days = 14
+	}
+
+	option = {
+		trigger = {
+			has_country_flag = SOV_chose_Trotsky
+		}
+		random_list = {
+			50 = {
+				add_political_power = 1 #place holder
+			}
+			50 = {
+				country_event = troika.15
+			}
+		}
+	}
+	option = {
+		trigger = {
+			has_country_flag = SOV_chose_Bukharin
+		}
+		random_list = {
+			50 = {
+				add_political_power = 1 #place holder
+			}
+			50 = {
+				country_event = troika.16
+			}
+		}
+	}
+	option = {
+		trigger = {
+			has_country_flag = SOV_chose_molotov
+		}
+		random_list = {
+			50 = {
+				add_political_power = 1 #place holder
+			}
+			50 = {
+				country_event = troika.17
+			}
+		}
+	}
+}
+
+country_event = {
+	id = troika.19
+	immediate = {log = "[GetDateText]: [Root.GetName]: event troika.19"}
+	title = "The Soviet Congress votes Molotov as Premier of the USSR"
+	desc = troika.19.d
+	picture = soviet_molotov
+
+	is_triggered_only = yes
+
+	option = {
+		name = "Long Live Socialism!"
+		set_country_flag = SOV_regime_stabilized
+		clr_country_flag = SOV_struggle_time
+		set_country_flag = SOV_molotov
+		remove_ideas = SOV_political_divide
+		set_country_flag = SOV_MOLOTOV_TREE
+		mark_focus_tree_layout_dirty = yes
+		set_variable = {
+			soviet_corruption = 0
+		}
+		set_politics = {
+			ruling_party = vanguardist
+			elections_allowed = no
+		}
+		add_popularity = {
+			ideology = vanguardist
+			popularity = 0.15
+		}
+		remove_every_minister = yes
+
+		activate_advisor = SOV_Vyacheslav_Molotov_hog_van
+		activate_advisor = SOV_Karl_Radek_for_van
+		activate_advisor = SOV_Mikhail_Tomskiy_eco_van
+		activate_advisor = SOV_Genrikh_Yagoda_sec_van
+
+		add_political_power = 100
+		add_stability = 0.1
+		hidden_effect = { news_event = fxnews.105 }
+	}
+}
+
+country_event = {
+	id = troika.20
+	immediate = {log = "[GetDateText]: [Root.GetName]: event troika.20"}
+	title = "The Soviet Congress votes Bukharin as Premier of the USSR"
+	desc = troika.20.d
+	picture = soviet_bukharin
+
+	is_triggered_only = yes
+
+	option = {
+		name = "Long Live Socialism!"
+		set_country_flag = SOV_BUKHARIN_TREE
+		mark_focus_tree_layout_dirty = yes
+		set_country_flag = SOV_bukharin_in_power
+		set_country_flag = SOV_regime_stabilized
+		clr_country_flag = SOV_struggle_time
+		remove_ideas = SOV_political_divide
+		set_variable = {
+			soviet_corruption = 0
+		}
+		add_popularity = {
+			ideology = libertarian_socialist
+			popularity = 0.15
+		}
+		add_country_leader_role = {
+			character = SOV_Nikolay_Bukharin
+			promote_leader = yes
+			country_leader = {
+				ideology = bukharinist_subtype
+				traits = { SOV_the_theorist }
+			}
+		}
+		set_politics = {
+			ruling_party = libertarian_socialist
+			elections_allowed = no
+		}
+		remove_every_minister = yes
+
+		activate_advisor = SOV_Nikolay_Bukharin_hog_lib
+		activate_advisor = SOV_Mariya_Spiridonova_for_lib
+		activate_advisor = SOV_Matvey_Skobelev_eco_lib
+		activate_advisor = SOV_Pavel_Sudoplatov_sec_lib
+
+		add_political_power = 100
+		add_stability = 0.1
+		hidden_effect = { news_event = fxnews.104 }
+	}
+}
+
+country_event = {
+	id = troika.21
+	immediate = {log = "[GetDateText]: [Root.GetName]: event troika.21"}
+	title = "The Soviet Congress votes Trotsky as Premier of the USSR"
+	desc = troika.21.d
+	picture = soviet_trotsky
+
+	is_triggered_only = yes
+
+	option = {
+		name = "Long Live Socialism!"
+		set_country_flag = SOV_TROTSKY_TREE
+		mark_focus_tree_layout_dirty = yes
+		set_country_flag = SOV_trotsky_in_charge
+		set_country_flag = SOV_regime_stabilized
+		clr_country_flag = SOV_struggle_time
+		remove_ideas = SOV_political_divide
+		set_variable = {
+			soviet_corruption = 0
+		}
+		add_country_leader_role = {
+			character = SOV_Leon_Trotsky
+			promote_leader = yes
+			country_leader = {
+				ideology = collectivist_subtype
+				traits = { SOV_the_revolutionary }
+			}
+		}
+		add_political_power = 100
+		add_stability = 0.1
+		hidden_effect = { news_event = fxnews.106 }
+	}
+}
+
+country_event = {
+	id = troika.22
+	immediate = {log = "[GetDateText]: [Root.GetName]: event troika.22"}
+	title = "The Soviet Congress refuses to give more funding to the military"
+	desc = troika.22.d
+	picture = GFX_report_event_soviet_soldiers_tank
+
+	is_triggered_only = yes
+
+	option = {
+		name = "Damn!"
+		add_war_support = -0.05
+	}
+}
+
+country_event = {
+	id = troika.23
+	immediate = {log = "[GetDateText]: [Root.GetName]: event troika.23"}
+	title = "The Soviet Congress agrees to give more funding to the military"
+	desc = troika.23.d
+	picture = GFX_report_event_soviet_soldiers_tank
+
+	is_triggered_only = yes
+
+	option = {
+		name = "Good"
+		custom_effect_tooltip = "Gain 15% Military Influence, "
+		add_to_variable = {
+			soviet_military = 15
+		}
+		custom_effect_tooltip = "Gain 10% Corruption"
+		add_to_variable = {
+			soviet_corruption = 10
+		}
+		add_war_support = 0.05
+	}
+}
+
+country_event = {
+	id = troika.24
+	immediate = {log = "[GetDateText]: [Root.GetName]: event troika.24"}
+	title = "Congress applauds our speech"
+	desc = troika.24.d
+	picture = soviet_opposition_collectivization
+
+	is_triggered_only = yes
+
+	option = {
+		name = "Seems our delegates have great taste"
+		custom_effect_tooltip = "Gain 10% Congressional Support"
+		add_to_variable = {
+			soviet_congress = 10
+		}
+	}
+}
+
+country_event = {
+	id = troika.25
+	immediate = {log = "[GetDateText]: [Root.GetName]: event troika.25"}
+	title = "Molotov is expelled from Congress"
+	desc = troika.25.d
+	picture = soviet_arrest
+
+	is_triggered_only = yes
+
+	option = {
+		name = "Our goal marches one step closer"
+		set_country_flag = SOV_no_Molotov
+		add_stability = 0.05
+	}
+}
+
+country_event = {
+	id = troika.26
+	immediate = {log = "[GetDateText]: [Root.GetName]: event troika.26"}
+	title = "Bukharin is expelled from Congress"
+	desc = troika.26.d
+	picture = soviet_arrest
+
+	is_triggered_only = yes
+
+	option = {
+		name = "Our goal marches one step closer"
+		set_country_flag = SOV_no_Bukharin
+		add_stability = 0.05
+	}
+}
+
+country_event = {
+	id = troika.27
+	immediate = {log = "[GetDateText]: [Root.GetName]: event troika.27"}
+	title = "Trotsky is expelled from Congress"
+	desc = troika.27.d
+	picture = soviet_arrest
+
+	is_triggered_only = yes
+
+	option = {
+		name = "Our goal marches one step closer"
+		set_country_flag = SOV_no_Trotsky
+		add_stability = 0.05
+	}
+}
+
+country_event = {
+	id = troika.37
+	immediate = {log = "[GetDateText]: [Root.GetName]: event troika.37"}
+	title = "Collapse of the Troika"
+	desc = troika.37.d
+	picture = soviet_massacre
+
+	trigger = {
+		has_country_flag = SOV_struggle_time
+		OR = {
+			AND = {
+				check_variable = {
+					soviet_congress < 20
+				}
+				check_variable = {
+					soviet_military < 20
+				}
+			}
+			check_variable = {
+				soviet_corruption > 90
+			}
+		}
+	}
+
+	fire_only_once = yes
+
+	mean_time_to_happen = {
+		days = 30
+	}
+
+	option = {
+		name = "Three Cheers for the 'little Napoleon'"
+		add_stability = -0.30
+		clr_country_flag = SOV_struggle_time
+		set_variable = {
+			soviet_corruption = 0
+		}
+		set_country_flag = SOV_Tukhachevsky_in_charge
+		set_country_flag = SOV_TUKHACHEVSKY_TREE
+		mark_focus_tree_layout_dirty = yes
+		add_country_leader_role = {
+			character = SOV_Mikhail_Tukhachevsky
+			promote_leader = yes
+			country_leader = {
+				ideology = collectivist_subtype
+				traits = { SOV_the_soldier }
+			}
+		}
+		hidden_effect = {
+			random_other_country = {
+				news_event = {
+					id = fxnews.38
+					days = 1
+				}
+			}
+		}
+
+	}
+}
+
+##########################
+# Random Event selection #
+##########################
+
+country_event = { #SOV_recruit_army
+	id = troika.28
+	immediate = {log = "[GetDateText]: [Root.GetName]: event troika.28"}
+	title = ""
+	desc = ""
+	is_triggered_only = yes
+
+	option = {
+		name = ""
+		name = ""
+		ai_chance = {
+			factor = 50
+		}
+		SOV = {
+			country_event = troika.22
+		}
+	}
+
+	option = {
+		name = ""
+		name = ""
+		ai_chance = {
+			factor = 50
+		}
+		SOV = {
+			country_event = troika.23
+		}
+	}
+}
+
+country_event = { #SOV_promote_loyal_officers
+	id = troika.29
+	immediate = {log = "[GetDateText]: [Root.GetName]: event troika.29"}
+	title = ""
+	desc = ""
+	is_triggered_only = yes
+
+	option = {
+		name = ""
+		ai_chance = {
+			factor = 30
+		}
+		SOV = {
+			country_event = troika.5
+		}
+	}
+
+	option = {
+		name = ""
+		ai_chance = {
+			factor = 70
+		}
+		SOV = {
+			add_political_power = 1
+		}
+	}
+}
+
+country_event = { #SOV_bribe_politicians
+	id = troika.30
+	immediate = {log = "[GetDateText]: [Root.GetName]: event troika.30"}
+	title = ""
+	desc = ""
+	is_triggered_only = yes
+
+	option = {
+		name = ""
+		ai_chance = {
+			factor = 30
+		}
+		SOV = {
+			country_event = troika.10
+		}
+	}
+
+	option = {
+		name = ""
+		ai_chance = {
+			factor = 70
+		}
+		SOV = {
+			add_political_power = 1
+		}
+	}
+}
+
+country_event = { #SOV_bribe_politicians
+	id = troika.31
+	immediate = {log = "[GetDateText]: [Root.GetName]: event troika.31"}
+	title = ""
+	desc = ""
+	is_triggered_only = yes
+
+	option = {
+		name = ""
+		ai_chance = {
+			factor = 30
+		}
+		SOV = {
+			country_event = troika.6
+		}
+	}
+
+	option = {
+		name = ""
+		ai_chance = {
+			factor = 70
+		}
+		SOV = {
+			add_political_power = 1
+		}
+	}
+}
+
+country_event = { #SOV_bribe_politicians 2
+	id = troika.32
+	immediate = {log = "[GetDateText]: [Root.GetName]: event troika.32"}
+	title = ""
+	desc = ""
+	is_triggered_only = yes
+
+	option = {
+		name = ""
+		ai_chance = {
+			factor = 30
+		}
+		SOV = {
+			country_event = troika.7
+		}
+	}
+
+	option = {
+		name = ""
+		ai_chance = {
+			factor = 70
+		}
+		SOV = {
+			add_political_power = 1
+		}
+	}
+}
+
+country_event = { #SOV_public_speech
+	id = troika.33
+	immediate = {log = "[GetDateText]: [Root.GetName]: event troika.33"}
+	title = ""
+	desc = ""
+	is_triggered_only = yes
+
+	option = {
+		name = ""
+		ai_chance = {
+			factor = 30
+		}
+		SOV = {
+			country_event = troika.2
+		}
+	}
+
+	option = {
+		name = ""
+		ai_chance = {
+			factor = 30
+		}
+		SOV = {
+			country_event = troika.24
+		}
+	}
+
+	option = {
+		name = ""
+		ai_chance = {
+			factor = 70
+		}
+		SOV = {
+			add_political_power = 1
+		}
+	}
+}
+
+country_event = { #SOV_public_speech 2
+	id = troika.34
+	immediate = {log = "[GetDateText]: [Root.GetName]: event troika.34"}
+	title = ""
+	desc = ""
+	is_triggered_only = yes
+
+	option = {
+		name = ""
+		ai_chance = {
+			factor = 25
+		}
+		SOV = {
+			country_event = troika.3
+		}
+	}
+
+	option = {
+		name = ""
+		ai_chance = {
+			factor = 25
+		}
+		SOV = {
+			country_event = troika.24
+		}
+	}
+
+	option = {
+		name = ""
+		ai_chance = {
+			factor = 50
+		}
+		SOV = {
+			add_political_power = 1
+		}
+	}
+}
+
+country_event = { #SOV_public_speech 3
+	id = troika.35
+	immediate = {log = "[GetDateText]: [Root.GetName]: event troika.35"}
+	title = ""
+	desc = ""
+	is_triggered_only = yes
+
+	option = {
+		name = ""
+		ai_chance = {
+			factor = 25
+		}
+		SOV = {
+			country_event = troika.4
+		}
+	}
+
+	option = {
+		name = ""
+		ai_chance = {
+			factor = 25
+		}
+		SOV = {
+			country_event = troika.24
+		}
+	}
+
+	option = {
+		name = ""
+		ai_chance = {
+			factor = 50
+		}
+		SOV = {
+			add_political_power = 1
+		}
+	}
+}
+
+country_event = { #SOV_campaign_union
+	id = troika.36
+	immediate = {log = "[GetDateText]: [Root.GetName]: event troika.36"}
+	title = ""
+	desc = ""
+	is_triggered_only = yes
+
+	option = {
+		name = ""
+		ai_chance = {
+			factor = 30
+		}
+		SOV = {
+			country_event = troika.1
+		}
+	}
+
+	option = {
+		name = ""
+		ai_chance = {
+			factor = 70
+		}
+		SOV = {
+			add_political_power = 1
+		}
+	}
+}
+
+
+add_namespace = sovietpol
+
+country_event = {
+	id = sovietpol.0
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.0"}
+	title = "The Great Patriotic War"
+	desc = sovietpol.0.d
+	picture = soviet_frunze
+
+	fire_only_once = yes
+	trigger = {
+		original_tag = SOV
+		OR = {
+			has_defensive_war_with = GER
+			has_defensive_war_with = ENG
+			has_defensive_war_with = FRA
+			has_defensive_war_with = USA
+			has_defensive_war_with = JAP
+			has_defensive_war_with = ITA
+		}
+	}
+	option = {
+		ai_chance = {
+			factor = 100
+		}
+		name = "For the Motherland!"
+		set_country_flag = sov_great_patriotic_war
+		add_ideas = SOV_great_patriotic_war
+	}
+}
+
+country_event = {
+	id = sovietpol.1
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1"}
+	title = "First Light and Heavy Enterprises"
+	desc = sovietpol.1.d
+	picture = soviet_workers
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		name = "Onwards!"
+		random_owned_controlled_state = {
+			limit = {
+				free_building_slots = {
+					building = industrial_complex
+					size > 0
+					include_locked = yes
+				}
+				OR = {
+					is_in_home_area = yes
+					NOT = {
+						owner = {
+							any_owned_state = {
+								free_building_slots = {
+									building = industrial_complex
+									size > 0
+									include_locked = yes
+								}
+								is_in_home_area = yes
+							}
+						}
+					}
+				}
+			}
+			add_extra_state_shared_building_slots = 1
+			add_building_construction = {
+				type = industrial_complex
+				level = 1
+				instant_build = yes
+			}
+		}
+		hidden_effect = {
+			country_event = { id = sovietpol.2 days = 15 }
+		}
+	}
+}
+
+country_event = {
+	id = sovietpol.2
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.2"}
+	title = "Recruiting Farmers?"
+	desc = sovietpol.2.d
+	picture = soviet_farmers
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		name = "Yes we need them"
+		hidden_effect = {
+			country_event = { id = sovietpol.3 days = 45 }
+			country_event = { id = sovietpol.5 days = 15 }
+		}
+	}
+	option = {
+		name = "We will be fine without them"
+		hidden_effect = {
+			country_event = { id = sovietpol.4 days = 45 }
+			country_event = { id = sovietpol.5 days = 15 }
+		}
+	}
+}
+
+country_event = {
+	id = sovietpol.3
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.3"}
+	title = "Minor Famine"
+	desc = sovietpol.3.d
+	picture = soviet_farmers
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		name = "Atleast we didn't miss the plan"
+		add_stability = -0.05
+	}
+}
+
+country_event = {
+	id = sovietpol.4
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.4"}
+	title = "Behind Schedule"
+	desc = sovietpol.4.d
+	picture = soviet_gosplan
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		name = "Atleast we avoided a famine"
+		add_political_power = -50
+	}
+}
+
+
+country_event = {
+	id = sovietpol.5
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.5"}
+	title = "New Engineers"
+	desc = sovietpol.5.d
+	picture = soviet_trials
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		name = "Forwards!"
+		add_political_power = 25
+		hidden_effect = {
+			country_event = { id = sovietpol.6 days = 15 }
+		}
+	}
+}
+
+
+country_event = {
+	id = sovietpol.6
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.6"}
+	title = "Shock Worker"
+	desc = sovietpol.6.d
+	picture = soviet_shock_workers
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		name = "Truly exemplary"
+		add_political_power = 25
+		hidden_effect = {
+			country_event = { id = sovietpol.7 days = 15 }
+		}
+	}
+}
+
+
+country_event = {
+	id = sovietpol.7
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.7"}
+	title = "White Sea-Baltic Sea Canal"
+	desc = sovietpol.7.d
+	picture = soviet_canal
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		name = "Forwards!"
+		add_political_power = 15
+		random_owned_state = {
+			prioritize = { 216 }
+			limit = {
+				free_building_slots = {
+					building = industrial_complex
+					size > 1
+					include_locked = yes
+				}
+				OR = {
+					is_in_home_area = yes
+					NOT = {
+						owner = {
+							any_owned_state = {
+								free_building_slots = {
+									building = industrial_complex
+									size > 1
+									include_locked = yes
+								}
+								is_in_home_area = yes
+							}
+						}
+					}
+				}
+			}
+			add_extra_state_shared_building_slots = 1
+			add_building_construction = {
+				type = industrial_complex
+				level = 1
+				instant_build = yes
+			}
+		}
+		hidden_effect = {
+			country_event = { id = sovietpol.8 days = 15 }
+		}
+	}
+}
+
+country_event = {
+	id = sovietpol.8
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.8"}
+	title = "Creation of an Engineering Industry"
+	desc = sovietpol.8.d
+	picture = soviet_workers
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		name = "A true show of progress"
+		add_political_power = 15
+		random_owned_controlled_state = {
+			limit = {
+				free_building_slots = {
+					building = industrial_complex
+					size > 0
+					include_locked = yes
+				}
+				OR = {
+					is_in_home_area = yes
+					NOT = {
+						owner = {
+							any_owned_state = {
+								free_building_slots = {
+									building = industrial_complex
+									size > 0
+									include_locked = yes
+								}
+								is_in_home_area = yes
+							}
+						}
+					}
+				}
+			}
+			add_extra_state_shared_building_slots = 2
+			add_building_construction = {
+				type = industrial_complex
+				level = 2
+				instant_build = yes
+			}
+		}
+
+		hidden_effect = {
+			country_event = { id = sovietpol.9 days = 5 }
+		}
+	}
+}
+
+country_event = {
+	id = sovietpol.9
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.9"}
+	title = "First Modern Factories"
+	desc = sovietpol.9.d
+	picture = soviet_factory
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		name = "Progress!"
+		add_political_power = 15
+		random_owned_controlled_state = {
+			limit = {
+				free_building_slots = {
+					building = industrial_complex
+					size > 0
+					include_locked = yes
+				}
+				OR = {
+					is_in_home_area = yes
+					NOT = {
+						owner = {
+							any_owned_state = {
+								free_building_slots = {
+									building = industrial_complex
+									size > 0
+									include_locked = yes
+								}
+								is_in_home_area = yes
+							}
+						}
+					}
+				}
+			}
+			add_extra_state_shared_building_slots = 2
+			add_building_construction = {
+				type = industrial_complex
+				level = 2
+				instant_build = yes
+			}
+		}
+	}
+}
+
+
+country_event = {
+	id = sovietpol.20
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.20"}
+	title = "The PGOTZ"
+	desc = sovietpol.20.d
+	picture = skhtz
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		name = "Truly something to be proud of"
+	}
+}
+
+country_event = {
+	id = sovietpol.25
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.25"}
+	title = "School Reforms"
+	desc = sovietpol.25.d
+	picture = soviet_education
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		name = "This will bring the nation forwards"
+	}
+}
+
+country_event = {
+	id = sovietpol.26
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.26"}
+	title = "Personality Cult around Molotov"
+	desc = sovietpol.26.d
+	picture = soviet_molotov_cult
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		name = "All hail our wise leader"
+	}
+}
+
+country_event = {
+	id = sovietpol.1000
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1000"}
+	title = "Letter of the Twenty-Two"
+	desc = sovietpol.1000.d
+	picture = soviet_letter_twenty_two
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		name = "Shut up Syndicalists"
+		set_country_flag = SOV_KIROV_TREE
+		mark_focus_tree_layout_dirty = yes
+		hidden_effect = {
+			country_event = {
+				id = sovietpol.1001
+				days = 3
+			}
+		}
+	}
+}
+
+country_event = {
+	id = sovietpol.1001
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1001"}
+	title = "Creation of the Worker's Opposition"
+	desc = sovietpol.1001.d
+	picture = soviet_letter_twenty_two
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		name = "We will show these revisionists what true socialism is"
+		custom_effect_tooltip = SOV_power_struggle_tooltip
+		set_country_flag = SOV_kirov_libsoc_fight
+		set_variable = { sov_kirov_factor = 20 }
+		set_variable = { sov_shliapnikov_factor = 10 }
+		hidden_effect = {
+			activate_mission = SOV_Shliapnikov_Supporters_mission
+			activate_mission = SOV_26_congress_mission
+			country_event = {
+				id = sovietpol.1003
+				days = 3
+			}
+		}
+	}
+}
+
+country_event = {
+	id = sovietpol.1002
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1002"}
+	title = sovietpol.1002.t
+	desc = sovietpol.1002.d
+
+	hidden = yes
+
+	fire_only_once = no
+
+	is_triggered_only = yes
+
+	trigger = {
+		has_country_flag = SOV_kirov_libsoc_fight
+	}
+
+	option = {
+		ai_chance = {
+			factor = 100
+		}
+		name = sovietpol.1002.a
+		activate_mission = SOV_Shliapnikov_Supporters_mission
+	}
+}
+
+country_event = {
+	id = sovietpol.1003
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1003"}
+	title = "All-Russian Union of Writers support Shliapnikov"
+	desc = sovietpol.1003.d
+	picture = Soviet_Zamyatin
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		ai_chance = {
+			factor = 100
+		}
+		name = "We don't need those puny writers"
+		custom_effect_tooltip = Kirov_min_1
+		subtract_from_variable = { var = sov_kirov_factor value = 1 }
+		hidden_effect = {
+			country_event = {
+				id = sovietpol.1004
+				days = 3
+			}
+		}
+	}
+}
+
+country_event = {
+	id = sovietpol.1004
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1004"}
+	title = "Trade Unions are supporting Shliapnikov"
+	desc = sovietpol.1004.d
+	picture = soviet_opposition_collectivization
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		ai_chance = {
+			factor = 100
+		}
+		name = "We don't need their support"
+		custom_effect_tooltip = Shliapnikov_3
+		add_to_variable = { var = sov_shliapnikov_factor value = 3 }
+		custom_effect_tooltip = Kirov_min_3
+		subtract_from_variable = { var = sov_kirov_factor value = 3 }
+		hidden_effect = {
+			country_event = {
+				id = sovietpol.1005
+				days = 3
+			}
+		}
+	}
+}
+
+country_event = {
+	id = sovietpol.1005
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1005"}
+	title = "Shliapnikov and allies starts a tour through the Soviet Union"
+	desc = sovietpol.1005.d
+	picture = Soviet_Tour
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		ai_chance = {
+			factor = 100
+		}
+		name = "They won't have much success"
+		hidden_effect = {
+			activate_mission = SOV_Kollontai_Speech_mission
+			country_event = {
+				id = sovietpol.1006
+				days = 35
+			}
+		}
+	}
+}
+
+country_event = {
+	id = sovietpol.1006
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1006"}
+	title = "Shliapnikov visits factories"
+	desc = sovietpol.1006.d
+	picture = soviet_workers
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		ai_chance = {
+			factor = 100
+		}
+		name = "Kirov's Charisma will convince them of our superiority"
+		custom_effect_tooltip = Shliapnikov_3
+		add_to_variable = { var = sov_shliapnikov_factor value = 3 }
+		custom_effect_tooltip = Kirov_min_3
+		subtract_from_variable = { var = sov_kirov_factor value = 3 }
+		hidden_effect = {
+			activate_mission = SOV_Shliapnikov_visits_factories_mission
+			country_event = {
+				id = sovietpol.1007
+				days = 35
+			}
+		}
+	}
+}
+
+country_event = {
+	id = sovietpol.1007
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1007"}
+	title = "Shliapnikov makes a speech before delegates"
+	desc = sovietpol.1007.d
+	picture = soviet_shliapnikov
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		ai_chance = {
+			factor = 100
+		}
+		name = "Where is our Party Discipline?"
+		custom_effect_tooltip = Shliapnikov_3
+		add_to_variable = { var = sov_shliapnikov_factor value = 3 }
+		custom_effect_tooltip = Kirov_min_3
+		subtract_from_variable = { var = sov_kirov_factor value = 3 }
+		hidden_effect = {
+			activate_mission = SOV_Shliapnikov_delegates_mission
+			country_event = {
+				id = sovietpol.1008
+				days = 3
+			}
+		}
+	}
+}
+
+country_event = {
+	id = sovietpol.1008
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1008"}
+	title = "The Tour comes to an end"
+	desc = sovietpol.1008.d
+	picture = Soviet_Tour
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		ai_chance = {
+			factor = 100
+		}
+		name = "The worst should be over"
+	}
+}
+
+country_event = {
+	id = sovietpol.1049
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1049"}
+	title = "Kollontai removed from Podium"
+	desc = sovietpol.1049.d
+	picture = Soviet_Kollontai
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		ai_chance = {
+			factor = 100
+		}
+		name = "Good Riddance"
+	}
+}
+
+
+country_event = {
+	id = sovietpol.1050
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1050"}
+	title = "26th Congress"
+	desc = sovietpol.1050.d
+	picture = diplomacy3
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		ai_chance = {
+			factor = 100
+		}
+		name = "Let's see who won..."
+		if = {
+			limit = {
+				check_variable = {
+					sov_kirov_factor < sov_shliapnikov_factor
+				}
+			}
+			country_event = sovietpol.1051
+			else = {
+				country_event = sovietpol.1052
+			}
+		}
+	}
+}
+
+country_event = {
+	id = sovietpol.1051
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1051"}
+	title = "Shliapnikov becomes Premier"
+	desc = sovietpol.1051.d
+	picture = soviet_shliapnikov
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		ai_chance = {
+			factor = 100
+		}
+		name = "Let's hope he will guide us through this trying times"
+		set_country_flag = SOV_regime_stabilized
+		set_country_flag = SOV_shliapnikov_victory
+		remove_ideas = SOV_political_divide
+		hidden_effect = {
+			set_country_flag = SOV_SHLIAPNIKOV_TREE
+			mark_focus_tree_layout_dirty = yes
+			set_politics = {
+				ruling_party = libertarian_socialist
+				elections_allowed = no
+			}
+			add_popularity = {
+				ideology = libertarian_socialist
+				popularity = 0.15
+			}
+			add_country_leader_role = {
+				character = SOV_Alexander_Shliapnikov
+				promote_leader = yes
+				country_leader = {
+					ideology = libertarian_socialist_subtype
+					traits = { SOV_the_metallworker }
+				}
+			}
+			remove_every_minister = yes
+
+			activate_advisor = SOV_Nikolay_Bukharin_hog_lib
+			activate_advisor = SOV_Mariya_Spiridonova_for_lib
+			activate_advisor = SOV_Matvey_Skobelev_eco_lib
+			activate_advisor = SOV_Pavel_Sudoplatov_sec_lib
+			hidden_effect = { news_event = fxnews.108 }
+		}
+	}
+}
+
+country_event = {
+	id = sovietpol.1052
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1052"}
+	title = "Kirov becomes Premier"
+	desc = sovietpol.1052.d
+	picture = soviet_kirov
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		ai_chance = {
+			factor = 100
+		}
+		name = "Let's hope he will guide us through this trying times"
+		remove_ideas = SOV_political_divide
+		set_country_flag = SOV_kirov_victory
+		set_country_flag = SOV_regime_stabilized
+		hidden_effect = { news_event = fxnews.107 }
+	}
+}
+country_event = {
+	id = sovietpol.1100
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1100"}
+	title = "Arrest of Kalinin"
+	desc = sovietpol.1100.d
+	picture = soviet_arrest
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		ai_chance = {
+			factor = 100
+		}
+		name = "For the Motherland!"
+		country_event = {
+			id = sovietpol.1101
+			days = 3
+		}
+	}
+}
+
+country_event = {
+	id = sovietpol.1101
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1101"}
+	title = "Divisons are deserting!"
+	desc = sovietpol.1101.d
+	picture = soviet_breakdown_communications
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		ai_chance = {
+			factor = 100
+		}
+		name = "We will punish those traitors"
+		add_stability = -0.20
+		add_ideas = SOV_January_Coup_idea
+		set_equipment_fraction = 0.5
+		hidden_effect = {
+			country_event = {
+				id = sovietpol.1102
+				days = 3
+			}
+			country_event = {
+				id = sovietpol.1200
+				days = 2
+			}
+			news_event = fxnews.38
+			country_event = {
+				id = sovietpol.1199
+				days = 180
+			}
+			#if = {
+				#	limit = {
+					#		has_template = "Strelkovaya Diviziya"
+					#	}
+				#	delete_unit_template_and_units = { division_template = "Strelkovaya Diviziya" }
+				#}
+			#if = {
+				#	limit = {
+					#		has_template = "Gornostrelkovaya Diviziya"
+					#	}
+				#	delete_unit_template_and_units = { division_template = "Gornostrelkovaya Diviziya" }
+				#}
+			#if = {
+				#	limit = {
+					#		has_template = "Kavaleriyskaya Diviziya"
+					#	}
+				#	delete_unit_template_and_units = { division_template = "Kavaleriyskaya Diviziya" }
+				#}
+			#load_oob = SOV_Tukh
+			set_country_flag = SOV_MILITARY_COUP_TREE
+			mark_focus_tree_layout_dirty = yes
+			set_country_flag = SOV_military_coup_started
+			set_variable = {
+				var = sov_stability_factor
+				value = 10
+			}
+		}
+		248 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		247 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		246 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		242 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		205 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		223 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		254 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		195 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		208 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		264 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		263 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		216 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		215 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		214 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		213 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		351 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		253 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		263 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		209 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		914 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+
+	}
+}
+country_event = {
+	id = sovietpol.1102
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1102"}
+	title = "First Speech of Chairman Frunze"
+	desc = sovietpol.1102.d
+	picture = soviet_frunze
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		ai_chance = {
+			factor = 100
+		}
+		name = "What a great speech"
+		custom_effect_tooltip = SOV_government_3
+		add_to_variable = { var = sov_stability_factor value = 3 }
+		hidden_effect = {
+			country_event = {
+				id = sovietpol.1103
+				days = 3
+			}
+		}
+	}
+}
+country_event = {
+	id = sovietpol.1103
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1103"}
+	title = "Protests against the coup"
+	desc = sovietpol.1103.d
+	picture = soviet_moscow_protests
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		ai_chance = {
+			factor = 100
+		}
+		name = "We will deal with them"
+		custom_effect_tooltip = SOV_government_min_3
+		subtract_from_variable = { var = sov_stability_factor value = 3 }
+		hidden_effect = {
+			country_event = {
+				id = sovietpol.1104
+				days = 2
+			}
+		}
+	}
+}
+country_event = {
+	id = sovietpol.1104
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1104"}
+	title = "Moscow Massacre"
+	desc = sovietpol.1104.d
+	picture = soviet_soviet_massacre
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		ai_chance = {
+			factor = 100
+		}
+		name = "Good Riddance"
+		custom_effect_tooltip = SOV_government_min_3
+		subtract_from_variable = { var = sov_stability_factor value = 3 }
+		hidden_effect = {
+			country_event = {
+				id = sovietpol.1105
+				days = 3
+			}
+		}
+	}
+}
+
+country_event = {
+	id = sovietpol.1105
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1105"}
+	title = "Degrading Health of Frunze"
+	desc = sovietpol.1105.d
+	picture = soviet_frunze
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		ai_chance = {
+			factor = 100
+		}
+		name = "Let's hope he will be recover soon"
+		hidden_effect = {
+			country_event = {
+				id = sovietpol.1106
+				days = 3
+			}
+		}
+	}
+}
+
+country_event = {
+	id = sovietpol.1106
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1106"}
+	title = "Death of Frunze"
+	desc = sovietpol.1106.d
+	picture = soviet_frunze
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		ai_chance = {
+			factor = 100
+		}
+		name = "Rest in Peace"
+		set_country_flag = Michail_V_Frunze_dead
+		hidden_effect = {
+			country_event = {
+				id = sovietpol.1107
+				days = 1
+			}
+		}
+	}
+}
+
+country_event = {
+	id = sovietpol.1107
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1107"}
+	title = "New Chairman"
+	desc = sovietpol.1107.d
+	picture = diplomacy3
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		ai_chance = {
+			factor = 30
+		}
+		name = "Yezhov is the new Chairman"
+		hidden_effect = {
+			country_event = {
+				id = sovietpol.1108
+				days = 3
+			}
+		}
+	}
+	option = {
+		ai_chance = {
+			factor = 30
+		}
+		name = "Voroshilov is the new Chairman"
+		hidden_effect = {
+			country_event = {
+				id = sovietpol.1112
+				days = 3
+			}
+		}
+	}
+	option = {
+		ai_chance = {
+			factor = 40
+		}
+		name = "Tukhachevksy himself assumes the office of Chairman" #The absolute madlad
+		hidden_effect = {
+			country_event = {
+				id = sovietpol.1115
+				days = 3
+			}
+		}
+	}
+}
+
+country_event = {
+	id = sovietpol.1108
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1108"}
+	title = "Voroshilov denounces Yezhov"
+	desc = sovietpol.1108.d
+	picture = soviet_voroshilov
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		ai_chance = {
+			factor = 100
+		}
+		name = "You are just jealous"
+		custom_effect_tooltip = SOV_government_min_3
+		subtract_from_variable = { var = sov_stability_factor value = 3 }
+		hidden_effect = {
+			country_event = {
+				id = sovietpol.1109
+				days = 3
+			}
+		}
+	}
+}
+
+country_event = {
+	id = sovietpol.1109
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1109"}
+	title = "The OGPU expands it's influence"
+	desc = sovietpol.1109.d
+	picture = soviet_ogpu
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		ai_chance = {
+			factor = 100
+		}
+		name = "Worrying"
+		hidden_effect = {
+			country_event = {
+				id = sovietpol.1110
+				days = 15
+			}
+			country_event = {
+				id = sovietpol.1116
+				days = 3
+			}
+		}
+	}
+}
+
+country_event = {
+	id = sovietpol.1110
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1110"}
+	title = "Assasination of Tukhachevsky"
+	desc = sovietpol.1110.d
+	picture = soviet_soviet_massacre
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		ai_chance = {
+			factor = 100
+		}
+		name = "Who is responsible?!"
+		retire_character = SOV_Mikhail_Tukhachevsky
+		custom_effect_tooltip = SOV_government_min_5
+		subtract_from_variable = { var = sov_stability_factor value = 5 }
+		hidden_effect = {
+			country_event = {
+				id = sovietpol.1111
+				days = 1
+			}
+		}
+	}
+}
+country_event = {
+	id = sovietpol.1111
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1111"}
+	title = "Yezhov becomes Premier"
+	desc = sovietpol.1111.d
+	picture = soviet_yezhov
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		ai_chance = {
+			factor = 100
+		}
+		name = "God save us"
+		set_country_flag = SOV_Yezhov_in_charge
+		set_politics = {
+			ruling_party = vanguardist
+			elections_allowed = no
+			last_election = "1935.9.13"
+			election_frequency = 72
+		}
+		add_popularity = {
+			ideology = vanguardist
+			popularity = 0.15
+		}
+		remove_every_minister = yes
+
+		activate_advisor = SOV_Vyacheslav_Molotov_hog_van
+		activate_advisor = SOV_Karl_Radek_for_van
+		activate_advisor = SOV_Mikhail_Tomskiy_eco_van
+		activate_advisor = SOV_Genrikh_Yagoda_sec_van
+
+		add_country_leader_role = {
+			character = SOV_Nikolai_Yezhov
+			promote_leader = yes
+			country_leader = {
+				ideology = socialist_security_state_subtype
+				traits = { SOV_the_spymaster }
+			}
+		}
+		effect_tooltip = {
+			retire_character = SOV_Mikhail_Tukhachevsky
+		}
+		hidden_effect = {
+			SOV_Mikhail_Tukhachevsky = { set_nationality = XXB }
+		}
+		hidden_effect = { news_event = fxnews.110 }
+	}
+}
+country_event = {
+	id = sovietpol.1112
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1112"}
+	title = "Yezhov denounces Voroshilov"
+	desc = sovietpol.1112.d
+	picture = soviet_yezhov
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		ai_chance = {
+			factor = 100
+		}
+		name = "Stop being jealous"
+		custom_effect_tooltip = SOV_government_min_3
+		subtract_from_variable = { var = sov_stability_factor value = 3 }
+		hidden_effect = {
+			country_event = {
+				id = sovietpol.1113
+				days = 3
+			}
+		}
+	}
+}
+country_event = {
+	id = sovietpol.1113
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1113"}
+	title = "Voroshilov is expanding his influence"
+	desc = sovietpol.1113.d
+	picture = soviet_ogpu
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		ai_chance = {
+			factor = 100
+		}
+		name = "What is he doing?"
+		hidden_effect = {
+			country_event = {
+				id = sovietpol.1114
+				days = 15
+			}
+			country_event = {
+				id = sovietpol.1116
+				days = 3
+			}
+		}
+	}
+}
+country_event = {
+	id = sovietpol.1114
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1114"}
+	title = "Voroshilov coups Tukhachevsky"
+	desc = sovietpol.1114.d
+	picture = soviet_voroshilov
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		ai_chance = {
+			factor = 100
+		}
+		name = "All Hail the new Premier"
+		custom_effect_tooltip = SOV_government_min_5
+		subtract_from_variable = { var = sov_stability_factor value = 5 }
+		set_country_flag = SOV_Voroshilov_in_charge
+		set_politics = {
+			ruling_party = vanguardist
+			elections_allowed = no
+			last_election = "1935.9.13"
+			election_frequency = 72
+		}
+		add_popularity = {
+			ideology = vanguardist
+			popularity = 0.15
+		}
+		remove_every_minister = yes
+
+		activate_advisor = SOV_Vyacheslav_Molotov_hog_van
+		activate_advisor = SOV_Karl_Radek_for_van
+		activate_advisor = SOV_Mikhail_Tomskiy_eco_van
+		activate_advisor = SOV_Genrikh_Yagoda_sec_van
+
+		add_country_leader_role = {
+			character = SOV_Kliment_Voroshilov
+			promote_leader = yes
+			country_leader = {
+				ideology = red_junta_subtype
+				traits = { SOV_the_general }
+			}
+		}
+		effect_tooltip = {
+			retire_character = SOV_Mikhail_Tukhachevsky
+		}
+		hidden_effect = {
+			SOV_Mikhail_Tukhachevsky = { set_nationality = XXB }
+		}
+		hidden_effect = { news_event = fxnews.111 }
+	}
+}
+country_event = {
+	id = sovietpol.1115
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1115"}
+	title = "Yezhov and Voroshilov protest agains Tukhachevsky"
+	desc = sovietpol.1115.d
+	picture = soviet_yezhov
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		ai_chance = {
+			factor = 100
+		}
+		name = "Stop being jealous"
+		set_country_flag = SOV_Tukhachevsky_in_charge
+		custom_effect_tooltip = SOV_government_min_5
+		subtract_from_variable = { var = sov_stability_factor value = 5 }
+		hidden_effect = {
+			country_event = {
+				id = sovietpol.1116
+				days = 3
+			}
+		}
+	}
+}
+country_event = {
+	id = sovietpol.1116
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1116"}
+	title = "Old Guard Unifies behind Kirov"
+	desc = sovietpol.1116.d
+	picture = soviet_kirov
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		ai_chance = {
+			factor = 100
+		}
+		name = "Worrying"
+		custom_effect_tooltip = SOV_government_min_3
+		subtract_from_variable = { var = sov_stability_factor value = 3 }
+		set_country_flag = sov_old_guard_unified
+		hidden_effect = {
+			country_event = {
+				id = sovietpol.1117
+				days = 3
+			}
+		}
+	}
+}
+country_event = {
+	id = sovietpol.1117
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1117"}
+	title = "Soviets support Kirov"
+	desc = sovietpol.1117.d
+	picture = diplomacy3
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		ai_chance = {
+			factor = 100
+		}
+		name = "We'll find allies elswhere"
+		custom_effect_tooltip = SOV_government_min_3
+		subtract_from_variable = { var = sov_stability_factor value = 3 }
+		hidden_effect = {
+			if = {
+				limit = {
+					has_country_flag = SOV_Tukhachevsky_in_charge
+				}
+				set_country_flag = SOV_Trade_Union_buddies
+			}
+			#			country_event = {
+				#				id = sovietpol.1118
+				#				days = 3
+				#				}
+		}
+	}
+}
+country_event = {
+	id = sovietpol.1199
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1199"}
+	title = "Soviets support Kirov"
+	desc = sovietpol.1117.d
+	picture = diplomacy3
+	trigger = {
+		is_ai = yes
+	}
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		ai_chance = {
+			factor = 100
+		}
+		name = "We'll find allies elswhere"
+		add_to_variable = { var = sov_stability_factor value = 50 }
+	}
+}
+
+country_event = {
+	id = sovietpol.1200
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1200"}
+	title = "s"
+	desc = sovietpol.1200.d
+	picture = soviet_frunze
+
+	fire_only_once = yes
+	is_triggered_only = yes
+	hidden = yes
+	option = {
+		ai_chance = {
+			factor = 100
+		}
+		name = "Stop being jealous"
+		country_event = {
+			id = sovietpol.11000
+			days = 3
+		}
+		country_event = {
+			id = sovietpol.12000
+			days = 6
+		}
+		country_event = {
+			id = sovietpol.12002
+			days = 15
+		}
+		401 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		407 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		406 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		251 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		250 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		249 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		399 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		398 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		651 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		237 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		587 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		402 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		404 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		586 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		732 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+
+	}
+}
+country_event = {
+	id = sovietpol.11000
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.11000"}
+	title = "s"
+	desc = sovietpol.11000.d
+	picture = soviet_frunze
+
+	fire_only_once = yes
+	is_triggered_only = yes
+	hidden = yes
+	option = {
+		ai_chance = {
+			factor = 100
+		}
+		name = "Stop being jealous"
+		589 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		588 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		652 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		582 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		583 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		572 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		653 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		580 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		579 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		577 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		403 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+	}
+}
+country_event = {
+	id = sovietpol.12000
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.12000"}
+	title = "s"
+	desc = sovietpol.12000.d
+	picture = soviet_frunze
+
+	fire_only_once = yes
+	is_triggered_only = yes
+	hidden = yes
+	option = {
+		ai_chance = {
+			factor = 100
+		}
+		name = "Stop being jealous"
+		country_event = {
+			id = sovietpol.12001
+			days = 6
+		}
+		country_event = {
+			id = sovietpol.12010
+			days = 3
+		}
+		210 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		948 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+
+		}
+		243 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+
+		}
+		244 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+
+		}
+		791 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+
+		}
+		222 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+
+		}
+		220 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+
+		}
+		240 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+
+		}
+		228 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+
+		}
+		227 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+
+		}
+		218 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+
+		}
+		245 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+
+		}
+		265 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+
+		}
+		239 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+
+		}
+		255 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+
+		}
+		252 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+
+		}
+	}
+}
+country_event = {
+	id = sovietpol.12010
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.12010"}
+	title = "s"
+	desc = sovietpol.12010.d
+	picture = soviet_frunze
+
+	fire_only_once = yes
+	is_triggered_only = yes
+	hidden = yes
+	option = {
+		ai_chance = {
+			factor = 100
+		}
+		name = "Stop being jealous"
+		256 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		400 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		397 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		262 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		581 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		573 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		722 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		224 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		258 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		257 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		260 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		234 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		235 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		238 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		217 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		236 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+	}
+}
+country_event = {
+	id = sovietpol.12001
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.12001"}
+	title = "s"
+	desc = sovietpol.12000.d
+	picture = soviet_frunze
+
+	fire_only_once = yes
+	is_triggered_only = yes
+	hidden = yes
+	option = {
+		ai_chance = {
+			factor = 100
+		}
+		name = "Stop being jealous"
+		589 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		588 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		652 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		582 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		583 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		572 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		653 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		580 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		579 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		577 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		403 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+	}
+}
+country_event = {
+	id = sovietpol.12002
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.12002"}
+	title = "s"
+	desc = sovietpol.12002.d
+	picture = soviet_frunze
+
+	fire_only_once = yes
+	is_triggered_only = yes
+	hidden = yes
+	option = {
+		ai_chance = {
+			factor = 100
+		}
+		name = "Stop being jealous"
+		571 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		570 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		40 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		654 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		569 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		578 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		577 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		516 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		576 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		568 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		567 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		590 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		566 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		575 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		644 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		574 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		562 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+		637 = {
+			set_state_flag = SOV_demil_state
+			add_state_modifier = {
+				modifier = {
+					local_manpower = -0.5
+					local_org_regain = -0.5
+					local_supplies = -0.5
+				}
+			}
+		}
+	}
+}
+country_event = {
+	id = sovietpol.1201
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1201"}
+	title = "The Ural-Siberian Method"
+	desc = sovietpol.1201.d
+	picture = soviet_anti_kulak
+
+	trigger = {
+		tag = SOV
+		has_country_flag = SOV_collectivization_started
+	}
+
+	fire_only_once = yes
+	is_triggered_only = yes
+	option = {
+		ai_chance = {
+			factor = 100
+		}
+		name = "They deserve this"
+	}
+}
+country_event = {
+	id = sovietpol.1202
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1202"}
+	title = "New Repression Measures"
+	desc = sovietpol.1202.d
+	picture = soviet_supression
+
+
+	trigger = {
+		tag = SOV
+		has_country_flag = SOV_collectivization_started
+	}
+
+	fire_only_once = yes
+	is_triggered_only = yes
+	option = {
+		ai_chance = {
+			factor = 100
+		}
+		name = "We will safeguard law and order"
+	}
+}
+country_event = {
+	id = sovietpol.1203
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1203"}
+	title = "[Root.GetLeader] holds speech"
+	desc = sovietpol.1203.d
+	picture = soviet_congress
+	trigger = {
+		tag = SOV
+		has_country_flag = SOV_did_repressive_measures
+		has_country_flag = SOV_did_siberia_ural_method
+		has_country_flag = SOV_collectivization_started
+	}
+	mean_time_to_happen = {
+		days = 50
+	}
+	fire_only_once = yes
+	option = {
+		ai_chance = {
+			factor = 100
+		}
+		name = "What a great speech"
+	}
+}
+country_event = {
+	id = sovietpol.1204
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1204"}
+	title = "We have secured an Emergency Grain Reserve"
+	desc = sovietpol.1204.d
+	picture = soviet_grain
+	trigger = {
+		tag = SOV
+		has_country_flag = SOV_collectivization_started
+		check_variable = {
+			collectivization > 25
+		}
+	}
+	mean_time_to_happen = {
+		days = 100
+	}
+	fire_only_once = yes
+	option = {
+		ai_chance = {
+			factor = 100
+		}
+		name = "This should hopefully give us some security"
+		add_stability = 0.10
+		add_political_power = 50
+	}
+}
+country_event = {
+	id = sovietpol.1205
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1205"}
+	title = "Peasants are opposing the new Measures"
+	desc = sovietpol.1205.d
+	picture = soviet_peasant_opposition
+
+	trigger = {
+		tag = SOV
+		has_country_flag = SOV_collectivization_started
+	}
+
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		ai_chance = {
+			factor = 100
+		}
+		name = "The measures were for your best"
+		add_stability = -0.05
+		add_political_power = -25
+	}
+}
+country_event = {
+	id = sovietpol.1206
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1206"}
+	title = "Twenty-Five-Thousanders are terrozing the countryside"
+	desc = sovietpol.1206.d
+	picture = soviet_twenty_five_thousanders
+
+	trigger = {
+		tag = SOV
+		has_country_flag = SOV_collectivization_started
+	}
+
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		ai_chance = {
+			factor = 100
+		}
+		name = "I hope they will calm down"
+		add_political_power = -25
+	}
+}
+country_event = {
+	id = sovietpol.1207
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1207"}
+	title = "We surpassed expectations of the Central Committe"
+	desc = sovietpol.1207.d
+	picture = soviet_collectivization
+
+	trigger = {
+		tag = SOV
+		has_country_flag = SOV_collectivization_started
+		check_variable = {
+			collectivization > 10
+		}
+	}
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		ai_chance = {
+			factor = 100
+		}
+		name = "Collectivization can't be stopped!"
+		add_political_power = 50
+	}
+}
+country_event = {
+	id = sovietpol.1208
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1208"}
+	title = "Workers’ and Peasants’ Inspectorate Study on the Collectivization"
+	desc = sovietpol.1208.d
+	picture = soviet_gosplan
+
+	trigger = {
+		tag = SOV
+		has_country_flag = SOV_collectivization_started
+	}
+	mean_time_to_happen = {
+		months = 3
+	}
+	fire_only_once = yes
+	option = {
+		name = "An interesting opinion"
+	}
+}
+country_event = {
+	id = sovietpol.1209
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1209"}
+	title = "Rising Invidualism of Peasants"
+	desc = sovietpol.1209.d
+	picture = soviet_opposition_collectivization
+
+	trigger = {
+		tag = SOV
+		has_country_flag = SOV_collectivization_started
+	}
+	mean_time_to_happen = {
+		months = 1
+	}
+	fire_only_once = yes
+	option = {
+		name = "Worrying..."
+		hidden_effect = {
+			country_event = {
+				id = sovietpol.1210
+				days = 25
+			}
+		}
+	}
+}
+country_event = {
+	id = sovietpol.1210
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1210"}
+	title = "Peasants are fleeing to the Cities"
+	desc = sovietpol.1210.d
+	picture = soviet_peasants_leaving
+
+	trigger = {
+		tag = SOV
+		has_country_flag = SOV_collectivization_started
+		NOT = {
+			has_country_flag = SOV_internal_passport
+		}
+	}
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "Stop them!"
+		custom_effect_tooltip = SOV_minus_5collectivization
+		activate_mission = SOV_peasants_emigration_cities
+		set_country_flag = SOV_peasants_are_fleeing
+		hidden_effect = {
+			add_offsite_building = {
+				type = collectivization_idea
+				level = -5
+			}
+			if = {
+				limit = {
+					check_variable = {
+						collectivization > 5
+					}
+				}
+				subtract_from_variable = {
+					var = collectivization
+					value = 5
+				}
+				else = {
+					set_variable = {
+						var = collectivization
+						value = 0
+					}
+				}
+			}
+			SOV_set_collectivization_var = yes
+		}
+	}
+}
+country_event = {
+	id = sovietpol.1211
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1211"}
+	title = "Peasants' Anger against the Government is growing"
+	desc = sovietpol.1211.d
+	picture = soviet_peasant
+
+	trigger = {
+		tag = SOV
+		has_country_flag = SOV_collectivization_started
+	}
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "We will manage"
+		add_stability = -0.03
+		set_country_flag = SOV_peasant_anger
+		hidden_effect = {
+			country_event = {
+				id = sovietpol.1212
+				days = 30
+			}
+		}
+	}
+}
+country_event = {
+	id = sovietpol.1212
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1212"}
+	title = "Peasant Solidarity is Eroding"
+	desc = sovietpol.1212.d
+	picture = soviet_peasant
+
+	trigger = {
+		tag = SOV
+		has_country_flag = SOV_collectivization_started
+	}
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		name = "Hopefully this benefits us"
+	}
+}
+country_event = {
+	id = sovietpol.1213
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1213"}
+	title = sovietpol.1213.t
+	desc = sovietpol.1213.d
+
+	is_triggered_only = yes
+	immediate = {
+		SOV = {
+			set_country_flag = sovietpol.1213_triggered
+		}
+	}
+	option = {
+		name = sovietpol.1213.a
+		ai_chance = {
+			factor = 25
+		}
+		trigger = {
+			NOT = {
+				has_country_flag = SOV_peasant_anger
+			}
+		}
+		SOV = {
+			country_event = {
+				id = sovietpol.1212
+				days = 120
+			}
+		}
+		random_other_country = {
+			limit = {
+				is_ai = yes
+			}
+			country_event = {
+				id = sovietpol.1213
+				days = 120
+			}
+		}
+	}
+	option = {
+		name = sovietpol.1213.b
+		ai_chance = {
+			factor = 25
+		}
+		trigger = {
+			SOV = {
+				NOT = {
+					has_country_flag = SOV_party_officials_competing
+				}
+			}
+		}
+		SOV = {
+			country_event = {
+				id = sovietpol.1214
+				days = 120
+			}
+		}
+		random_other_country = {
+			limit = {
+				is_ai = yes
+			}
+			country_event = {
+				id = sovietpol.1213
+				days = 120
+			}
+		}
+	}
+	option = {
+		name = sovietpol.1213.c
+		ai_chance = {
+			factor = 25
+		}
+		trigger = {
+			SOV = {
+				NOT = {
+					has_country_flag = SOV_crime_wave
+				}
+			}
+		}
+		SOV = {
+			country_event = {
+				id = sovietpol.1215
+				days = 120
+			}
+		}
+		random_other_country = {
+			limit = {
+				is_ai = yes
+			}
+			country_event = {
+				id = sovietpol.1213
+				days = 120
+			}
+		}
+	}
+	option = {
+		name = sovietpol.1213.e
+		ai_chance = {
+			factor = 25
+		}
+		trigger = {
+			SOV = {
+				NOT = {
+					has_country_flag = SOV_destroying_livestock
+				}
+			}
+		}
+		SOV = {
+			country_event = {
+				id = sovietpol.1216
+				days = 120
+			}
+		}
+		random_other_country = {
+			limit = {
+				is_ai = yes
+			}
+			country_event = {
+				id = sovietpol.1213
+				days = 120
+			}
+		}
+	}
+}
+country_event = {
+	id = sovietpol.1214
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1214"}
+	title = "Party Officials Are Competing with Each Other"
+	desc = sovietpol.1214.d
+	#picture = soviet_intourist
+	trigger = {
+		tag = SOV
+		has_country_flag = SOV_collectivization_started
+	}
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "This will boost the collectivization"
+		set_country_flag = SOV_party_officials_competing
+		custom_effect_tooltip = SOV_3collectivization
+		hidden_effect = {
+			add_to_variable = {
+				var = collectivization
+				value = 3
+			}
+			add_offsite_building = {
+				type = collectivization_idea
+				level = 3
+			}
+			SOV_set_collectivization_var = yes
+		}
+	}
+}
+country_event = {
+	id = sovietpol.1215
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1215"}
+	title = "Crime Wave"
+	desc = sovietpol.1215.d
+	picture = soviet_union_economic_breakdown
+	trigger = {
+		tag = SOV
+		has_country_flag = SOV_collectivization_started
+	}
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "This does not bode well"
+		set_country_flag = SOV_crime_wave
+		custom_effect_tooltip = SOV_minus_3collectivization
+		hidden_effect = {
+			add_offsite_building = {
+				type = collectivization_idea
+				level = -3
+			}
+			if = {
+				limit = {
+					check_variable = {
+						collectivization > 3
+					}
+				}
+				subtract_from_variable = {
+					var = collectivization
+					value = 3
+				}
+				else = {
+					set_variable = {
+						var = collectivization
+						value = 0
+					}
+				}
+			}
+			SOV_set_collectivization_var = yes
+		}
+	}
+}
+
+country_event = {
+	id = sovietpol.1216
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1216"}
+	title = "Peasants Are Destroying Their Livestock"
+	desc = sovietpol.1216.d
+	picture = soviet_farm
+	trigger = {
+		tag = SOV
+		has_country_flag = SOV_collectivization_started
+	}
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "You will be punished for this"
+		set_country_flag = SOV_destroying_livestock
+		custom_effect_tooltip = SOV_minus_5collectivization
+		hidden_effect = {
+			add_offsite_building = {
+				type = collectivization_idea
+				level = -5
+			}
+			if = {
+				limit = {
+					check_variable = {
+						collectivization > 5
+					}
+				}
+				subtract_from_variable = {
+					var = collectivization
+					value = 5
+				}
+				else = {
+					set_variable = {
+						var = collectivization
+						value = 0
+					}
+				}
+			}
+			SOV_set_collectivization_var = yes
+		}
+	}
+}
+country_event = {
+	id = sovietpol.1230
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1230"}
+	title = "Creation of the [GetMonth] Politburo Commission"
+	desc = sovietpol.1230.d
+	picture = soviet_meeting
+	trigger = {
+		tag = SOV
+		has_country_flag = SOV_collectivization_started
+	}
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "Let's get to work"
+		hidden_effect = {
+			country_event = {
+				id = sovietpol.1231
+				days = 14
+			}
+		}
+	}
+}
+country_event = {
+	id = sovietpol.1231
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1231"}
+	title = "The Commission Has Completed Their Draft"
+	desc = sovietpol.1231.d
+	picture = soviet_congress
+	trigger = {
+		tag = SOV
+		has_country_flag = SOV_collectivization_started
+	}
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "An interesting draft"
+		hidden_effect = {
+			country_event = {
+				id = sovietpol.1232
+				days = 6
+			}
+		}
+	}
+}
+country_event = {
+	id = sovietpol.1232
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1232"}
+	title = "Disapproval of the Decree"
+	desc = sovietpol.1232.d
+	picture = soviet_opposition_collectivization
+	trigger = {
+		tag = SOV
+		has_country_flag = SOV_collectivization_started
+	}
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "Interesting"
+		hidden_effect = {
+			country_event = {
+				id = sovietpol.1233
+				days = 10
+			}
+		}
+	}
+}
+country_event = {
+	id = sovietpol.1233
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1233"}
+	title = "Revised Version of the Decree"
+	desc = sovietpol.1233.d
+	picture = soviet_meeting
+	trigger = {
+		tag = SOV
+		has_country_flag = SOV_collectivization_started
+	}
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "Hopefully this one will stick"
+		hidden_effect = {
+			country_event = {
+				id = sovietpol.1234
+				days = 15
+			}
+		}
+	}
+}
+country_event = {
+	id = sovietpol.1234
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1234"}
+	title = "The Collectivization Decree Is Put into Effect"
+	desc = sovietpol.1234.d
+	picture = soviet_newspaper
+	trigger = {
+		tag = SOV
+		has_country_flag = SOV_collectivization_started
+	}
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "A landmark moment for regime-peasant relations!"
+		custom_effect_tooltip = SOV_3collectivization
+		hidden_effect = {
+			add_to_variable = {
+				var = collectivization
+				value = 3
+			}
+			add_offsite_building = {
+				type = collectivization_idea
+				level = 3
+			}
+			SOV_set_collectivization_var = yes
+		}
+	}
+}
+country_event = {
+	id = sovietpol.1235
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1235"}
+	title = "Search and Requisition"
+	desc = sovietpol.1235.d
+	picture = soviet_children_playing
+	trigger = {
+		tag = SOV
+		has_country_flag = SOV_collectivization_started
+	}
+	mean_time_to_happen = {
+		months = 20
+	}
+	fire_only_once = yes
+
+	option = {
+		name = "Such a fun game"
+	}
+}
+country_event = {
+	id = sovietpol.1236
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1236"}
+	title = "Dividing Kulaks into Classes"
+	desc = sovietpol.1236.d
+	picture = soviet_meeting
+	trigger = {
+		tag = SOV
+		has_country_flag = SOV_collectivization_started
+	}
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "A dead kulak is a good kulak"
+	}
+}
+country_event = {
+	id = sovietpol.1237
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1237"}
+	title = "Preparing the Purge of Kulak Elements from the Countryside"
+	desc = sovietpol.1237.d
+	picture = soviet_congress
+	trigger = {
+		tag = SOV
+		has_country_flag = SOV_collectivization_started
+	}
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "No pardon"
+		hidden_effect = {
+			country_event = {
+				id = sovietpol.1238
+				days = 15
+			}
+		}
+	}
+}
+country_event = {
+	id = sovietpol.1238
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1238"}
+	title = "Telegram on Dekulakization to Plenipotentiary Representatives"
+	desc = sovietpol.1238.d
+	picture = soviet_newspaper
+	trigger = {
+		tag = SOV
+		has_country_flag = SOV_collectivization_started
+	}
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "Everything going like plan"
+		hidden_effect = {
+			country_event = {
+				id = sovietpol.1239
+				days = 15
+			}
+		}
+	}
+}
+country_event = {
+	id = sovietpol.1239
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1239"}
+	title = "Decree 'On Measures for the Liquidation of Kulak Farms in Raions of Wholesale Collectivization'"
+	desc = sovietpol.1239.d
+	picture = soviet_newspaper
+	trigger = {
+		tag = SOV
+		has_country_flag = SOV_collectivization_started
+	}
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "Time to purge this parasite"
+		custom_effect_tooltip = SOV_7collectivization
+		custom_effect_tooltip = SOV_unlocks_kulaks
+		hidden_effect = {
+			add_to_variable = {
+				var = collectivization
+				value = 7
+			}
+			add_offsite_building = {
+				type = collectivization_idea
+				level = 7
+			}
+			SOV_set_collectivization_var = yes
+			set_country_flag = SOV_killing_kulak_time
+		}
+	}
+}
+country_event = {
+	id = sovietpol.1240
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1240"}
+	title = "Purge of Kulaks"
+	desc = sovietpol.1240.d
+	picture = soviet_arrest
+	trigger = {
+		tag = SOV
+		has_country_flag = SOV_killing_kulak_time
+	}
+	mean_time_to_happen = {
+		months = 3
+	}
+	fire_only_once = yes
+
+	option = {
+		name = "Justice"
+	}
+}
+
+country_event = {
+	id = sovietpol.1300
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1300"}
+	title = "Intourist Celeberates its 10 Year Anniversary"
+	desc = sovietpol.1300.d
+	picture = soviet_intourist
+	trigger = {
+		tag = SOV
+		date > 1939.1.1
+	}
+	mean_time_to_happen = {
+		months = 2
+	}
+	fire_only_once = yes
+
+	option = {
+		name = "Let's hope for 10 more years of fun!"
+	}
+}
+country_event = {
+	id = sovietpol.1301
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1301"}
+	title = "The Press is Critizing us"
+	desc = sovietpol.1301.d
+	picture = soviet_newspaper
+	trigger = {
+		tag = SOV
+		OR = {
+			has_completed_focus = SOV_freedom_of_speech_in_the_party
+			has_completed_focus = SOV_support_marxist_pluralism
+		}
+	}
+	mean_time_to_happen = {
+		months = 5
+	}
+	fire_only_once = yes
+
+	option = {
+		name = "Didn't see that coming"
+		add_political_power = -25
+	}
+}
+country_event = {
+	id = sovietpol.1302
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1302"}
+	title = "'Cosmic Voyage' Released in Soviet Cinemas"
+	desc = sovietpol.1302.d
+	picture = soviet_cosmic_voyage
+	trigger = {
+		tag = SOV
+		date > 1937.1.1
+	}
+	mean_time_to_happen = {
+		months = 3
+	}
+	fire_only_once = yes
+
+	option = {
+		name = "A true masterpiece"
+	}
+}
+country_event = {
+	id = sovietpol.1303
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1303"}
+	title = "Lenin Collapses"
+	desc = sovietpol.1303.d
+	picture = soviet_lenin_collapse
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	immediate = {
+		hidden_effect = {
+			country_event = {
+				id = soviet.2
+				days = 3
+			}
+		}
+	}
+	option = {
+		name = "Oh no..."
+		add_political_power = -25
+	}
+}
+country_event = {
+	id = sovietpol.1304
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1304"}
+	title = "Peasants Are Revolting"
+	desc = sovietpol.1304.d
+	picture = soviet_peasant_revolt
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	immediate = {
+		hidden_effect = {
+			country_event = {
+				id = sovietpol.1305
+				days = 4
+			}
+		}
+	}
+	option = {
+		name = "Let's hope this will not escalate"
+		add_political_power = -50
+	}
+}
+country_event = {
+	id = sovietpol.1305
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1305"}
+	title = "Workers Are Calling a General Strike"
+	desc = sovietpol.1305.d
+	picture = soviet_worker_meeting
+
+	is_triggered_only = yes
+	fire_only_once = yes
+	immediate = {
+		hidden_effect = {
+			country_event = {
+				id = sovietpol.1306
+				days = 3
+			}
+		}
+	}
+
+	option = {
+		name = "We are supposed to represent you!"
+	}
+}
+country_event = {
+	id = sovietpol.1306
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1306"}
+	title = "General Strike Is Started"
+	desc = sovietpol.1306.d
+	picture = soviet_worker_protest
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	immediate = {
+		hidden_effect = {
+			country_event = {
+				id = sovietpol.1307
+				days = 2
+			}
+		}
+		hidden_effect = {
+			country_event = {
+				id = sovietpol.1310
+				days = 4
+			}
+		}
+		hidden_effect = {
+			country_event = {
+				id = sovietpol.1311
+				days = 6
+			}
+		}
+	}
+
+	option = {
+		name = "This doesn't sound good..."
+		add_ideas = SOV_crippled_industry
+	}
+}
+country_event = {
+	id = sovietpol.1307
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1307"}
+	title = "Railway Strike"
+	desc = sovietpol.1307.d
+	picture = soviet_railway_strike
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	immediate = {
+		hidden_effect = {
+			country_event = {
+				id = sovietpol.1308
+				days = 5
+			}
+		}
+	}
+
+	option = {
+		name = "We will punish them for this disobedience"
+		add_stability = -0.03
+		custom_effect_tooltip = SOV_railways_damaged
+		hidden_effect = {
+			195 = { # Leningrad
+				damage_building = {
+					type = infrastructure
+					damage = 0.5
+				}
+			}
+			218 = { # Rostov
+				damage_building = {
+					type = infrastructure
+					damage = 0.5
+				}
+			}
+			218 = { # Moscow
+				damage_building = {
+					type = infrastructure
+					damage = 0.3
+				}
+			}
+			218 = { # Jaroslavl
+				damage_building = {
+					type = infrastructure
+					damage = 0.5
+				}
+			}
+			399 = { # Izhevsk
+				damage_building = {
+					type = infrastructure
+					damage = 0.3
+				}
+			}
+			653 = { # Sverdlovsk
+				damage_building = {
+					type = infrastructure
+					damage = 0.3
+				}
+			}
+			403 = { # Tyumen
+				damage_building = {
+					type = infrastructure
+					damage = 0.3
+				}
+			}
+			571 = { # Omsk
+				damage_building = {
+					type = infrastructure
+					damage = 0.5
+				}
+			}
+			571 = { # Omsk
+				damage_building = {
+					type = infrastructure
+					damage = 0.5
+				}
+			}
+			566 = { # Irkutsk
+				damage_building = {
+					type = infrastructure
+					damage = 0.5
+				}
+			}
+		}
+	}
+}
+country_event = {
+	id = sovietpol.1308
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1308"}
+	title = "Economy Is Brought to a Halt"
+	desc = sovietpol.1308.d
+	picture = soviet_union_economic_breakdown
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	immediate = {
+		hidden_effect = {
+			country_event = {
+				id = sovietpol.1309
+				days = 4
+			}
+			country_event = {
+				id = sovietpol.1312
+				days = 5
+			}
+			country_event = {
+				id = sovietpol.1316
+				days = 15
+			}
+		}
+	}
+
+	option = {
+		name = "This is a disaster!"
+		swap_ideas = {
+			remove_idea = SOV_crippled_industry
+			add_idea = SOV_economic_breakdown
+		}
+	}
+}
+country_event = {
+	id = sovietpol.1309
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1309"}
+	title = "Pravda Sales Are Dropping Rapidly"
+	desc = sovietpol.1309.d
+	picture = soviet_printing_press
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "This is not a good sign"
+		add_political_power = -15
+	}
+}
+country_event = {
+	id = sovietpol.1310
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1310"}
+	title = "Clashes between Students and Police"
+	desc = sovietpol.1310.d
+	picture = soviet_students_armed
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "Please stay civil"
+		decrease_ruling_party_popularity_by_5 = yes
+	}
+}
+country_event = {
+	id = sovietpol.1311
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1311"}
+	title = "Demonstrations in Favor of the Government"
+	desc = sovietpol.1311.d
+	picture = soviet_pro_government_protests
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "Something good happening to us finally!"
+		add_stability = 0.03
+	}
+}
+country_event = {
+	id = sovietpol.1312
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1312"}
+	title = "Kirov Calls for Unity and Stability"
+	desc = sovietpol.1312.d
+	picture = soviet_kirov
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	immediate = {
+		hidden_effect = {
+			country_event = {
+				id = sovietpol.1313
+				days = 3
+			}
+		}
+	}
+
+	option = {
+		name = "Such a great speech!"
+		add_political_power = 5
+	}
+}
+country_event = {
+	id = sovietpol.1313
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1313"}
+	title = "Rumours of a Trotskyite Takeover"
+	desc = sovietpol.1313.d
+	picture = soviet_trotsky
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	immediate = {
+		hidden_effect = {
+			country_event = {
+				id = sovietpol.1314
+				days = 3
+			}
+		}
+	}
+	option = {
+		name = "Concerning..."
+	}
+}
+country_event = {
+	id = sovietpol.1314
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1314"}
+	title = "Meeting between Generals"
+	desc = sovietpol.1314.d
+	picture = soviet_generals_meeting
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	immediate = {
+		hidden_effect = {
+			country_event = {
+				id = sovietpol.1315
+				days = 3
+			}
+		}
+	}
+	option = {
+		name = "What are they up to?"
+	}
+}
+country_event = {
+	id = sovietpol.1315
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1315"}
+	title = "Alliance between Molotov, Bukharin and Zinoviev"
+	desc = sovietpol.1315.d
+	picture = soviet_meeting
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	immediate = {
+		hidden_effect = {
+			country_event = {
+				id = sovietpol.1318
+				days = 4
+			}
+		}
+	}
+
+	option = {
+		name = "Interesting"
+	}
+}
+country_event = {
+	id = sovietpol.1316
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1316"}
+	title = "Strikers Gave in"
+	desc = sovietpol.1316.d
+	picture = soviet_worker_meeting
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	immediate = {
+		hidden_effect = {
+			country_event = {
+				id = sovietpol.1317
+				days = 15
+			}
+		}
+	}
+
+	option = {
+		name = "Finally"
+		add_political_power = 25
+	}
+}
+country_event = {
+	id = sovietpol.1317
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1317"}
+	title = "Economy Recovers"
+	desc = sovietpol.1317.d
+	picture = soviet_workers
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "Finally"
+		remove_ideas = SOV_economic_breakdown
+		hidden_effect = {
+			remove_ideas = SOV_crippled_industry
+		}
+	}
+}
+country_event = {
+	id = sovietpol.1318
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1318"}
+	title = "Soviets Endorse Kirov"
+	desc = sovietpol.1318.d
+	picture = soviet_kirov
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	immediate = {
+		hidden_effect = {
+			country_event = {
+				id = soviet.3
+				days = 5
+			}
+		}
+	}
+
+	option = {
+		name = "Interesting"
+	}
+}
+country_event = {
+	id = sovietpol.1319
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1319"}
+	title = "End of the Political Chaos"
+	desc = sovietpol.1319.d
+	picture = soviet_congress
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	immediate = {
+	}
+
+	option = {
+		name = "Let's hope this will stay like this"
+		swap_ideas = {
+			remove_idea = SOV_political_chaos
+			add_idea = SOV_political_divide
+		}
+	}
+}
+country_event = {
+	id = sovietpol.1320
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1320"}
+	title = "Kirov Is the New Temporary Premier"
+	desc = sovietpol.1320.d
+	picture = soviet_congress
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "Let's hope he will be successful"
+		add_country_leader_role = {
+			character = SOV_Sergey_Kirov
+			promote_leader = yes
+			country_leader = {
+				ideology = collectivist_subtype
+				traits = { SOV_son }
+			}
+		}
+		hidden_effect = {
+			country_event = {
+				id = sovietpol.1000 days = 3
+			}
+		}
+	}
+}
+country_event = {
+	id = sovietpol.1321
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1321"}
+	title = "Tukhachevsky Storms the Capital"
+	desc = sovietpol.1321.d
+	picture = soviet_military_coup
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "That doesn't sound good"
+		add_country_leader_role = {
+			character = SOV_Mikhail_Tukhachevsky
+			promote_leader = yes
+			country_leader = {
+				ideology = collectivist_subtype
+				traits = { SOV_the_soldier }
+			}
+		}
+		hidden_effect = {
+			country_event = {
+				id = sovietpol.1100
+				days = 3
+			}
+		}
+		add_ideas = military_junta
+	}
+}
+country_event = {
+	id = sovietpol.1322
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1322"}
+	title = "The Founding of Norilsk"
+	desc = sovietpol.1322.d
+	picture = soviet_norilsk
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "Atleast it helps the industry"
+		516 = {
+			add_extra_state_shared_building_slots = 1
+			add_building_construction = {
+				type = arms_factory
+				level = 1
+				instant_build = yes
+			}
+		}
+	}
+}
+country_event = {
+	id = sovietpol.1323
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1323"}
+	title = "The Release of 'Otkroveniye'"
+	desc = sovietpol.1323.d
+	picture = soviet_otkroveniye
+
+	trigger = {
+		tag = SOV
+		date > 1941.1.1
+	}
+	mean_time_to_happen = {
+		months = 6
+	}
+	fire_only_once = yes
+
+	option = {
+		name = "Such a great movie"
+	}
+}
+
+country_event = {
+	id = sovietpol.1324
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1324"}
+	title = "Housing Shortage"
+	desc = sovietpol.1324.d
+	picture = soviet_housing_shortage
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "We will find a way to midigate this"
+		add_stability = -0.05
+		hidden_effect = {
+			country_event = {
+				id = sovietpol.1325
+				days = 15
+			}
+		}
+	}
+}
+country_event = {
+	id = sovietpol.1325
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1325"}
+	title = "Expansion of Kommunalki"
+	desc = sovietpol.1325.d
+	picture = soviet_housing_shortage
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "Let's hope this will make families more collective"
+		add_stability = 0.03
+	}
+}
+country_event = {
+	id = sovietpol.1326
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1326"}
+	title = "Latinisation of Soviet Union is Complete"
+	desc = sovietpol.1326.d
+	picture = soviet_latinisation
+	trigger = {
+		tag = SOV
+		date > 1937.1.1
+		OR = {
+			has_government = collectivist
+			has_government = libertarian_socialist
+		}
+	}
+	mean_time_to_happen = {
+		months = 6
+	}
+	fire_only_once = yes
+
+	option = {
+		name = "This will help us modernize our nation"
+		add_political_power = 25
+	}
+}
+country_event = {
+	id = sovietpol.1327
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1327"}
+	title = "End of the Latinisation of Soviet Union"
+	desc = sovietpol.1327.d
+	picture = soviet_latinisation
+	trigger = {
+		tag = SOV
+		has_government = vanguardist
+	}
+	mean_time_to_happen = {
+		months = 3
+	}
+	fire_only_once = yes
+
+	option = {
+		name = "It wasn't useful"
+		add_political_power = 25
+	}
+}
+country_event = {
+	id = sovietpol.1328
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1328"}
+	title = "End of the Russian Silver Age"
+	desc = sovietpol.1328.d
+	picture = soviet_russian_silver_age
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "Unfortunate"
+	}
+}
+country_event = {
+	id = sovietpol.1329
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1329"}
+	title = "Establishing Assembly Lines"
+	desc = sovietpol.1329.d
+	picture = soviet_assembly_lines
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "This will help us modernizing the economy"
+		add_offsite_building = { type = industrial_complex level = 1 }
+	}
+}
+country_event = {
+	id = sovietpol.1330
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1330"}
+	title = "Modernizing Craft Shops"
+	desc = sovietpol.1330.d
+	picture = soviet_craft_shop
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "This will help us modernizing the economy"
+		add_offsite_building = { type = industrial_complex level = 1 }
+	}
+}
+country_event = {
+	id = sovietpol.1331
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1331"}
+	title = "Imaginism"
+	desc = sovietpol.1331.d
+	picture = soviet_imaganism
+
+	trigger = {
+		has_country_flag = SOV_trotsky_in_charge
+	}
+	mean_time_to_happen = {
+		months = 2
+	}
+	fire_only_once = yes
+
+	option = {
+		name = "An interesting movement"
+	}
+}
+
+country_event = {
+	id = sovietpol.1332
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1332"}
+	title = "Bukharin Endorses the Bezbozhnik"
+	desc = sovietpol.1332.d
+	picture = soviet_bezbozhnik
+
+	trigger = {
+		has_country_flag = SOV_bukharin_in_power
+	}
+	mean_time_to_happen = {
+		months = 2
+	}
+	fire_only_once = yes
+
+	option = {
+		name = "An interesting newspaper"
+	}
+}
+
+country_event = {
+	id = sovietpol.1333
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1333"}
+	title = "The New Soviet Man"
+	desc = sovietpol.1333.d
+	picture = soviet_new_soviet_man
+
+	trigger = {
+		OR = {
+			has_country_flag = SOV_Tukhachevsky_in_charge
+			has_country_flag = SOV_kirov_victory
+		}
+	}
+	mean_time_to_happen = {
+		months = 2
+	}
+	fire_only_once = yes
+
+	option = {
+		name = "An interesting movement"
+	}
+}
+
+country_event = {
+	id = sovietpol.1334
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1334"}
+	title = "Fight Against the 'Bourgeois Family'"
+	desc = sovietpol.1334.d
+	picture = soviet_family
+
+	trigger = {
+		tag = SOV
+		has_government = libertarian_socialist
+	}
+	mean_time_to_happen = {
+		months = 3
+	}
+	fire_only_once = yes
+
+	option = {
+		name = "Interesting"
+	}
+}
+country_event = {
+	id = sovietpol.1335
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1335"}
+	title = "10 Year Anniversary of the Red Army Choir"
+	desc = sovietpol.1335.d
+	picture = soviet_red_army_choir
+
+	trigger = {
+		tag = SOV
+		date > 1938.5.1
+	}
+	fire_only_once = yes
+
+	option = {
+		name = "I'll see you again dark-eyed Cossack Girl"
+	}
+}
+country_event = {
+	id = sovietpol.1336
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1336"}
+	title = "Reds and Whites"
+	desc = sovietpol.1336.d
+	picture = soviet_children_playing
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "Such a fun game"
+	}
+}
+country_event = {
+	id = sovietpol.1337
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1337"}
+	title = "Specialist Baitings"
+	desc = sovietpol.1337.d
+	picture = soviet_trials
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "No pardon for the bourgeoise"
+		add_political_power = -25
+	}
+}
+country_event = {
+	id = sovietpol.1338
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1338"}
+	title = "Russification of Jews"
+	desc = sovietpol.1338.d
+	picture = soviet_supression
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "Speak Russian!"
+	}
+}
+country_event = {
+	id = sovietpol.1339
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietpol.1339"}
+	title = "Belomorkanal"
+	desc = sovietpol.1339.d
+	picture = soviet_belomorkanal
+
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "Speak Russian!"
+	}
+}
+
+# Scorched Earth Events
+country_event = {
+	id = sovietscorched.1
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietscorched.1"}
+	title = sovietscorched.1.t
+	desc = sovietscorched.1.d
+	picture = soviet_farmers
+
+	is_triggered_only = yes
+
+	option = {
+		name = sovietscorched.1.a
+		every_state = {
+			limit = {
+				has_state_flag = SOV_scorched_ukraine
+			}
+			THIS = {
+				clr_state_flag = SOV_scorched_ukraine
+				add_state_modifier = {
+					modifier = {
+						local_org_regain = 0.5
+						local_intel_to_enemies = 0.5
+						local_supplies = 0.5
+						local_building_slots_factor = 0.25
+						local_non_core_manpower = 1.0
+						local_manpower = 0.5
+						local_resources_factor = 0.5
+						local_resources = 0.5
+					}
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = sovietscorched.2
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietscorched.2"}
+	title = sovietscorched.2.t
+	desc = sovietscorched.2.d
+	picture = soviet_farmers
+
+	is_triggered_only = yes
+
+	option = {
+		name = sovietscorched.2.a
+		every_state = {
+			limit = {
+				has_state_flag = SOV_scorched_belarus
+			}
+			THIS = {
+				clr_state_flag = SOV_scorched_belarus
+				add_state_modifier = {
+					modifier = {
+						local_org_regain = 0.5
+						local_intel_to_enemies = 0.5
+						local_supplies = 0.5
+						local_building_slots_factor = 0.25
+						local_non_core_manpower = 1.0
+						local_manpower = 0.5
+						local_resources_factor = 0.5
+						local_resources = 0.5
+					}
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = sovietscorched.3
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietscorched.3"}
+	title = sovietscorched.3.t
+	desc = sovietscorched.3.d
+	picture = soviet_farmers
+
+	is_triggered_only = yes
+
+	option = {
+		name = sovietscorched.3.a
+		every_state = {
+			limit = {
+				has_state_flag = SOV_scorched_baltic
+			}
+			THIS = {
+				clr_state_flag = SOV_scorched_baltic
+				add_state_modifier = {
+					modifier = {
+						local_org_regain = 0.5
+						local_intel_to_enemies = 0.5
+						local_supplies = 0.5
+						local_building_slots_factor = 0.25
+						local_non_core_manpower = 1.0
+						local_manpower = 0.5
+						local_resources_factor = 0.5
+						local_resources = 0.5
+					}
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = sovietscorched.4
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietscorched.4"}
+	title = sovietscorched.4.t
+	desc = sovietscorched.4.d
+	picture = soviet_farmers
+
+	is_triggered_only = yes
+
+	option = {
+		name = sovietscorched.4.a
+		every_state = {
+			limit = {
+				has_state_flag = SOV_scorched_east_poland
+			}
+			THIS = {
+				clr_state_flag = SOV_scorched_east_poland
+				add_state_modifier = {
+					modifier = {
+						local_org_regain = 0.5
+						local_intel_to_enemies = 0.5
+						local_supplies = 0.5
+						local_building_slots_factor = 0.25
+						local_non_core_manpower = 1.0
+						local_manpower = 0.5
+						local_resources_factor = 0.5
+						local_resources = 0.5
+					}
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = sovietscorched.5
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietscorched.5"}
+	title = sovietscorched.5.t
+	desc = sovietscorched.5.d
+	picture = soviet_farmers
+
+	is_triggered_only = yes
+
+	option = {
+		name = sovietscorched.5.a
+		every_state = {
+			limit = {
+				has_state_flag = SOV_scorched_finland
+			}
+			THIS = {
+				clr_state_flag = SOV_scorched_finland
+				add_state_modifier = {
+					modifier = {
+						local_org_regain = 0.5
+						local_intel_to_enemies = 0.5
+						local_supplies = 0.5
+						local_building_slots_factor = 0.25
+						local_non_core_manpower = 1.0
+						local_manpower = 0.5
+						local_resources_factor = 0.5
+						local_resources = 0.5
+					}
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = sovietscorched.6
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietscorched.6"}
+	title = sovietscorched.6.t
+	desc = sovietscorched.6.d
+	picture = soviet_farmers
+
+	is_triggered_only = yes
+
+	option = {
+		name = sovietscorched.6.a
+		every_state = {
+			limit = {
+				has_state_flag = SOV_scorched_north_scandinavia
+			}
+			THIS = {
+				clr_state_flag = SOV_scorched_north_scandinavia
+				add_state_modifier = {
+					modifier = {
+						local_org_regain = 0.5
+						local_intel_to_enemies = 0.5
+						local_supplies = 0.5
+						local_building_slots_factor = 0.25
+						local_non_core_manpower = 1.0
+						local_manpower = 0.5
+						local_resources_factor = 0.5
+						local_resources = 0.5
+					}
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = sovietscorched.7
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietscorched.7"}
+	title = sovietscorched.7.t
+	desc = sovietscorched.7.d
+	picture = soviet_farmers
+
+	is_triggered_only = yes
+
+	option = {
+		name = sovietscorched.7.a
+		every_state = {
+			limit = {
+				has_state_flag = SOV_scorched_north_front
+			}
+			THIS = {
+				clr_state_flag = SOV_scorched_north_front
+				add_state_modifier = {
+					modifier = {
+						local_org_regain = 0.5
+						local_intel_to_enemies = 0.5
+						local_supplies = 0.5
+						local_building_slots_factor = 0.25
+						local_non_core_manpower = 1.0
+						local_manpower = 0.5
+						local_resources_factor = 0.5
+						local_resources = 0.5
+					}
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = sovietscorched.8
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietscorched.8"}
+	title = sovietscorched.8.t
+	desc = sovietscorched.8.d
+	picture = soviet_farmers
+
+	is_triggered_only = yes
+
+	option = {
+		name = sovietscorched.8.a
+		every_state = {
+			limit = {
+				has_state_flag = SOV_scorched_arctic
+			}
+			THIS = {
+				clr_state_flag = SOV_scorched_arctic
+				add_state_modifier = {
+					modifier = {
+						local_org_regain = 0.5
+						local_intel_to_enemies = 0.5
+						local_supplies = 0.5
+						local_building_slots_factor = 0.25
+						local_non_core_manpower = 1.0
+						local_manpower = 0.5
+						local_resources_factor = 0.5
+						local_resources = 0.5
+					}
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = sovietscorched.9
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietscorched.9"}
+	title = sovietscorched.9.t
+	desc = sovietscorched.9.d
+	picture = soviet_farmers
+
+	is_triggered_only = yes
+
+	option = {
+		name = sovietscorched.9.a
+		every_state = {
+			limit = {
+				has_state_flag = SOV_scorched_central_russia
+			}
+			THIS = {
+				clr_state_flag = SOV_scorched_central_russia
+				add_state_modifier = {
+					modifier = {
+						local_org_regain = 0.5
+						local_intel_to_enemies = 0.5
+						local_supplies = 0.5
+						local_building_slots_factor = 0.25
+						local_non_core_manpower = 1.0
+						local_manpower = 0.5
+						local_resources_factor = 0.5
+						local_resources = 0.5
+					}
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = sovietscorched.10
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietscorched.10"}
+	title = sovietscorched.10.t
+	desc = sovietscorched.10.d
+	picture = soviet_farmers
+
+	is_triggered_only = yes
+
+	option = {
+		name = sovietscorched.10.a
+		every_state = {
+			limit = {
+				has_state_flag = SOV_scorched_west_steppe
+			}
+			THIS = {
+				clr_state_flag = SOV_scorched_west_steppe
+				add_state_modifier = {
+					modifier = {
+						local_org_regain = 0.5
+						local_intel_to_enemies = 0.5
+						local_supplies = 0.5
+						local_building_slots_factor = 0.25
+						local_non_core_manpower = 1.0
+						local_manpower = 0.5
+						local_resources_factor = 0.5
+						local_resources = 0.5
+					}
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = sovietscorched.11
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietscorched.11"}
+	title = sovietscorched.11.t
+	desc = sovietscorched.11.d
+	picture = soviet_farmers
+
+	is_triggered_only = yes
+
+	option = {
+		name = sovietscorched.11.a
+		every_state = {
+			limit = {
+				has_state_flag = SOV_scorched_transvolga
+			}
+			THIS = {
+				clr_state_flag = SOV_scorched_transvolga
+				add_state_modifier = {
+					modifier = {
+						local_org_regain = 0.5
+						local_intel_to_enemies = 0.5
+						local_supplies = 0.5
+						local_building_slots_factor = 0.25
+						local_non_core_manpower = 1.0
+						local_manpower = 0.5
+						local_resources_factor = 0.5
+						local_resources = 0.5
+					}
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = sovietscorched.12
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietscorched.12"}
+	title = sovietscorched.12.t
+	desc = sovietscorched.12.d
+	picture = soviet_farmers
+
+	is_triggered_only = yes
+
+	option = {
+		name = sovietscorched.12.a
+		every_state = {
+			limit = {
+				has_state_flag = SOV_scorched_kuban
+			}
+			THIS = {
+				clr_state_flag = SOV_scorched_kuban
+				add_state_modifier = {
+					modifier = {
+						local_org_regain = 0.5
+						local_intel_to_enemies = 0.5
+						local_supplies = 0.5
+						local_building_slots_factor = 0.25
+						local_non_core_manpower = 1.0
+						local_manpower = 0.5
+						local_resources_factor = 0.5
+						local_resources = 0.5
+					}
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = sovietscorched.13
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietscorched.13"}
+	title = sovietscorched.13.t
+	desc = sovietscorched.13.d
+	picture = soviet_farmers
+
+	is_triggered_only = yes
+
+	option = {
+		name = sovietscorched.13.a
+		every_state = {
+			limit = {
+				has_state_flag = SOV_scorched_caucasus
+			}
+			THIS = {
+				clr_state_flag = SOV_scorched_caucasus
+				add_state_modifier = {
+					modifier = {
+						local_org_regain = 0.5
+						local_intel_to_enemies = 0.5
+						local_supplies = 0.5
+						local_building_slots_factor = 0.25
+						local_non_core_manpower = 1.0
+						local_manpower = 0.5
+						local_resources_factor = 0.5
+						local_resources = 0.5
+					}
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = sovietscorched.14
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietscorched.14"}
+	title = sovietscorched.14.t
+	desc = sovietscorched.14.d
+	picture = soviet_farmers
+
+	is_triggered_only = yes
+
+	option = {
+		name = sovietscorched.14.a
+		every_state = {
+			limit = {
+				has_state_flag = SOV_scorched_ural
+			}
+			THIS = {
+				clr_state_flag = SOV_scorched_ural
+				add_state_modifier = {
+					modifier = {
+						local_org_regain = 0.5
+						local_intel_to_enemies = 0.5
+						local_supplies = 0.5
+						local_building_slots_factor = 0.25
+						local_non_core_manpower = 1.0
+						local_manpower = 0.5
+						local_resources_factor = 0.5
+						local_resources = 0.5
+					}
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = sovietscorched.15
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietscorched.15"}
+	title = sovietscorched.15.t
+	desc = sovietscorched.15.d
+	picture = soviet_farmers
+
+	is_triggered_only = yes
+
+	option = {
+		name = sovietscorched.15.a
+		every_state = {
+			limit = {
+				has_state_flag = SOV_scorched_great_steppe
+			}
+			THIS = {
+				clr_state_flag = SOV_scorched_great_steppe
+				add_state_modifier = {
+					modifier = {
+						local_org_regain = 0.5
+						local_intel_to_enemies = 0.5
+						local_supplies = 0.5
+						local_building_slots_factor = 0.25
+						local_non_core_manpower = 1.0
+						local_manpower = 0.5
+						local_resources_factor = 0.5
+						local_resources = 0.5
+					}
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = sovietscorched.16
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietscorched.16"}
+	title = sovietscorched.16.t
+	desc = sovietscorched.16.d
+	picture = soviet_farmers
+
+	is_triggered_only = yes
+
+	option = {
+		name = sovietscorched.16.a
+		every_state = {
+			limit = {
+				has_state_flag = SOV_scorched_trans_urals
+			}
+			THIS = {
+				clr_state_flag = SOV_scorched_trans_urals
+				add_state_modifier = {
+					modifier = {
+						local_org_regain = 0.5
+						local_intel_to_enemies = 0.5
+						local_supplies = 0.5
+						local_building_slots_factor = 0.25
+						local_non_core_manpower = 1.0
+						local_manpower = 0.5
+						local_resources_factor = 0.5
+						local_resources = 0.5
+					}
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = sovietscorched.17
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietscorched.17"}
+	title = sovietscorched.17.t
+	desc = sovietscorched.17.d
+	picture = soviet_farmers
+
+	is_triggered_only = yes
+
+	option = {
+		name = sovietscorched.17.a
+		every_state = {
+			limit = {
+				has_state_flag = SOV_scorched_east_siberia
+			}
+			THIS = {
+				clr_state_flag = SOV_scorched_east_siberia
+				add_state_modifier = {
+					modifier = {
+						local_org_regain = 0.5
+						local_intel_to_enemies = 0.5
+						local_supplies = 0.5
+						local_building_slots_factor = 0.25
+						local_non_core_manpower = 1.0
+						local_manpower = 0.5
+						local_resources_factor = 0.5
+						local_resources = 0.5
+					}
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = sovietscorched.18
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietscorched.18"}
+	title = sovietscorched.18.t
+	desc = sovietscorched.18.d
+	picture = soviet_farmers
+
+	is_triggered_only = yes
+
+	option = {
+		name = sovietscorched.18.a
+		every_state = {
+			limit = {
+				has_state_flag = SOV_scorched_far_east
+			}
+			THIS = {
+				clr_state_flag = SOV_scorched_far_east
+				add_state_modifier = {
+					modifier = {
+						local_org_regain = 0.5
+						local_intel_to_enemies = 0.5
+						local_supplies = 0.5
+						local_building_slots_factor = 0.25
+						local_non_core_manpower = 1.0
+						local_manpower = 0.5
+						local_resources_factor = 0.5
+						local_resources = 0.5
+					}
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = sovietscorched.19
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietscorched.19"}
+	title = sovietscorched.19.t
+	desc = sovietscorched.19.d
+	picture = soviet_farmers
+
+	is_triggered_only = yes
+
+	option = {
+		name = sovietscorched.19.a
+		every_state = {
+			limit = {
+				has_state_flag = SOV_scorched_west_siberia
+			}
+			THIS = {
+				clr_state_flag = SOV_scorched_west_siberia
+				add_state_modifier = {
+					modifier = {
+						local_org_regain = 0.5
+						local_intel_to_enemies = 0.5
+						local_supplies = 0.5
+						local_building_slots_factor = 0.25
+						local_non_core_manpower = 1.0
+						local_manpower = 0.5
+						local_resources_factor = 0.5
+						local_resources = 0.5
+					}
+				}
+			}
+		}
+	}
+}
+
+country_event = { # State Modifier failsafe if USSR doesn't exist anymore
+	id = sovietscorched.20
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietscorched.20"}
+
+	trigger = { # USSR has been defeated
+		SOV = {
+			exists = no
+			# NOT = {
+				# owns_state = 219 # Moscow
+				# }
+			# has_war = no
+		}
+	}
+
+	mean_time_to_happen = {
+		days = 60
+	}
+
+	fire_only_once = yes
+
+	hidden = yes
+
+	option = {
+		every_state = {
+			limit = {
+				has_state_flag = SOV_scorched_west_siberia
+			}
+			THIS = {
+				clr_state_flag = SOV_scorched_west_siberia
+				add_state_modifier = {
+					modifier = {
+						local_org_regain = 0.5
+						local_intel_to_enemies = 0.5
+						local_supplies = 0.5
+						local_building_slots_factor = 0.25
+						local_non_core_manpower = 1.0
+						local_manpower = 0.5
+						local_resources_factor = 0.5
+						local_resources = 0.5
+					}
+				}
+			}
+		}
+
+		every_state = {
+			limit = {
+				has_state_flag = SOV_scorched_far_east
+			}
+			THIS = {
+				clr_state_flag = SOV_scorched_far_east
+				add_state_modifier = {
+					modifier = {
+						local_org_regain = 0.5
+						local_intel_to_enemies = 0.5
+						local_supplies = 0.5
+						local_building_slots_factor = 0.25
+						local_non_core_manpower = 1.0
+						local_manpower = 0.5
+						local_resources_factor = 0.5
+						local_resources = 0.5
+					}
+				}
+			}
+		}
+
+		every_state = {
+			limit = {
+				has_state_flag = SOV_scorched_east_siberia
+			}
+			THIS = {
+				clr_state_flag = SOV_scorched_east_siberia
+				add_state_modifier = {
+					modifier = {
+						local_org_regain = 0.5
+						local_intel_to_enemies = 0.5
+						local_supplies = 0.5
+						local_building_slots_factor = 0.25
+						local_non_core_manpower = 1.0
+						local_manpower = 0.5
+						local_resources_factor = 0.5
+						local_resources = 0.5
+					}
+				}
+			}
+		}
+
+		every_state = {
+			limit = {
+				has_state_flag = SOV_scorched_trans_urals
+			}
+			THIS = {
+				clr_state_flag = SOV_scorched_trans_urals
+				add_state_modifier = {
+					modifier = {
+						local_org_regain = 0.5
+						local_intel_to_enemies = 0.5
+						local_supplies = 0.5
+						local_building_slots_factor = 0.25
+						local_non_core_manpower = 1.0
+						local_manpower = 0.5
+						local_resources_factor = 0.5
+						local_resources = 0.5
+					}
+				}
+			}
+		}
+
+		every_state = {
+			limit = {
+				has_state_flag = SOV_scorched_great_steppe
+			}
+			THIS = {
+				clr_state_flag = SOV_scorched_great_steppe
+				add_state_modifier = {
+					modifier = {
+						local_org_regain = 0.5
+						local_intel_to_enemies = 0.5
+						local_supplies = 0.5
+						local_building_slots_factor = 0.25
+						local_non_core_manpower = 1.0
+						local_manpower = 0.5
+						local_resources_factor = 0.5
+						local_resources = 0.5
+					}
+				}
+			}
+		}
+
+		every_state = {
+			limit = {
+				has_state_flag = SOV_scorched_ural
+			}
+			THIS = {
+				clr_state_flag = SOV_scorched_ural
+				add_state_modifier = {
+					modifier = {
+						local_org_regain = 0.5
+						local_intel_to_enemies = 0.5
+						local_supplies = 0.5
+						local_building_slots_factor = 0.25
+						local_non_core_manpower = 1.0
+						local_manpower = 0.5
+						local_resources_factor = 0.5
+						local_resources = 0.5
+					}
+				}
+			}
+		}
+
+		every_state = {
+			limit = {
+				has_state_flag = SOV_scorched_caucasus
+			}
+			THIS = {
+				clr_state_flag = SOV_scorched_caucasus
+				add_state_modifier = {
+					modifier = {
+						local_org_regain = 0.5
+						local_intel_to_enemies = 0.5
+						local_supplies = 0.5
+						local_building_slots_factor = 0.25
+						local_non_core_manpower = 1.0
+						local_manpower = 0.5
+						local_resources_factor = 0.5
+						local_resources = 0.5
+					}
+				}
+			}
+		}
+
+		every_state = {
+			limit = {
+				has_state_flag = SOV_scorched_kuban
+			}
+			THIS = {
+				clr_state_flag = SOV_scorched_kuban
+				add_state_modifier = {
+					modifier = {
+						local_org_regain = 0.5
+						local_intel_to_enemies = 0.5
+						local_supplies = 0.5
+						local_building_slots_factor = 0.25
+						local_non_core_manpower = 1.0
+						local_manpower = 0.5
+						local_resources_factor = 0.5
+						local_resources = 0.5
+					}
+				}
+			}
+		}
+
+		every_state = {
+			limit = {
+				has_state_flag = SOV_scorched_transvolga
+			}
+			THIS = {
+				clr_state_flag = SOV_scorched_transvolga
+				add_state_modifier = {
+					modifier = {
+						local_org_regain = 0.5
+						local_intel_to_enemies = 0.5
+						local_supplies = 0.5
+						local_building_slots_factor = 0.25
+						local_non_core_manpower = 1.0
+						local_manpower = 0.5
+						local_resources_factor = 0.5
+						local_resources = 0.5
+					}
+				}
+			}
+		}
+
+		every_state = {
+			limit = {
+				has_state_flag = SOV_scorched_west_steppe
+			}
+			THIS = {
+				clr_state_flag = SOV_scorched_west_steppe
+				add_state_modifier = {
+					modifier = {
+						local_org_regain = 0.5
+						local_intel_to_enemies = 0.5
+						local_supplies = 0.5
+						local_building_slots_factor = 0.25
+						local_non_core_manpower = 1.0
+						local_manpower = 0.5
+						local_resources_factor = 0.5
+						local_resources = 0.5
+					}
+				}
+			}
+		}
+
+		every_state = {
+			limit = {
+				has_state_flag = SOV_scorched_central_russia
+			}
+			THIS = {
+				clr_state_flag = SOV_scorched_central_russia
+				add_state_modifier = {
+					modifier = {
+						local_org_regain = 0.5
+						local_intel_to_enemies = 0.5
+						local_supplies = 0.5
+						local_building_slots_factor = 0.25
+						local_non_core_manpower = 1.0
+						local_manpower = 0.5
+						local_resources_factor = 0.5
+						local_resources = 0.5
+					}
+				}
+			}
+		}
+
+		every_state = {
+			limit = {
+				has_state_flag = SOV_scorched_arctic
+			}
+			THIS = {
+				clr_state_flag = SOV_scorched_arctic
+				add_state_modifier = {
+					modifier = {
+						local_org_regain = 0.5
+						local_intel_to_enemies = 0.5
+						local_supplies = 0.5
+						local_building_slots_factor = 0.25
+						local_non_core_manpower = 1.0
+						local_manpower = 0.5
+						local_resources_factor = 0.5
+						local_resources = 0.5
+					}
+				}
+			}
+		}
+
+		every_state = {
+			limit = {
+				has_state_flag = SOV_scorched_north_front
+			}
+			THIS = {
+				clr_state_flag = SOV_scorched_north_front
+				add_state_modifier = {
+					modifier = {
+						local_org_regain = 0.5
+						local_intel_to_enemies = 0.5
+						local_supplies = 0.5
+						local_building_slots_factor = 0.25
+						local_non_core_manpower = 1.0
+						local_manpower = 0.5
+						local_resources_factor = 0.5
+						local_resources = 0.5
+					}
+				}
+			}
+		}
+
+		every_state = {
+			limit = {
+				has_state_flag = SOV_scorched_north_scandinavia
+			}
+			THIS = {
+				clr_state_flag = SOV_scorched_north_scandinavia
+				add_state_modifier = {
+					modifier = {
+						local_org_regain = 0.5
+						local_intel_to_enemies = 0.5
+						local_supplies = 0.5
+						local_building_slots_factor = 0.25
+						local_non_core_manpower = 1.0
+						local_manpower = 0.5
+						local_resources_factor = 0.5
+						local_resources = 0.5
+					}
+				}
+			}
+		}
+
+		every_state = {
+			limit = {
+				has_state_flag = SOV_scorched_finland
+			}
+			THIS = {
+				clr_state_flag = SOV_scorched_finland
+				add_state_modifier = {
+					modifier = {
+						local_org_regain = 0.5
+						local_intel_to_enemies = 0.5
+						local_supplies = 0.5
+						local_building_slots_factor = 0.25
+						local_non_core_manpower = 1.0
+						local_manpower = 0.5
+						local_resources_factor = 0.5
+						local_resources = 0.5
+					}
+				}
+			}
+		}
+
+		every_state = {
+			limit = {
+				has_state_flag = SOV_scorched_east_poland
+			}
+			THIS = {
+				clr_state_flag = SOV_scorched_east_poland
+				add_state_modifier = {
+					modifier = {
+						local_org_regain = 0.5
+						local_intel_to_enemies = 0.5
+						local_supplies = 0.5
+						local_building_slots_factor = 0.25
+						local_non_core_manpower = 1.0
+						local_manpower = 0.5
+						local_resources_factor = 0.5
+						local_resources = 0.5
+					}
+				}
+			}
+		}
+
+		every_state = {
+			limit = {
+				has_state_flag = SOV_scorched_baltic
+			}
+			THIS = {
+				clr_state_flag = SOV_scorched_baltic
+				add_state_modifier = {
+					modifier = {
+						local_org_regain = 0.5
+						local_intel_to_enemies = 0.5
+						local_supplies = 0.5
+						local_building_slots_factor = 0.25
+						local_non_core_manpower = 1.0
+						local_manpower = 0.5
+						local_resources_factor = 0.5
+						local_resources = 0.5
+					}
+				}
+			}
+		}
+
+		every_state = {
+			limit = {
+				has_state_flag = SOV_scorched_belarus
+			}
+			THIS = {
+				clr_state_flag = SOV_scorched_belarus
+				add_state_modifier = {
+					modifier = {
+						local_org_regain = 0.5
+						local_intel_to_enemies = 0.5
+						local_supplies = 0.5
+						local_building_slots_factor = 0.25
+						local_non_core_manpower = 1.0
+						local_manpower = 0.5
+						local_resources_factor = 0.5
+						local_resources = 0.5
+					}
+				}
+			}
+		}
+
+		every_state = {
+			limit = {
+				has_state_flag = SOV_scorched_ukraine
+			}
+			THIS = {
+				clr_state_flag = SOV_scorched_ukraine
+				add_state_modifier = {
+					modifier = {
+						local_org_regain = 0.5
+						local_intel_to_enemies = 0.5
+						local_supplies = 0.5
+						local_building_slots_factor = 0.25
+						local_non_core_manpower = 1.0
+						local_manpower = 0.5
+						local_resources_factor = 0.5
+						local_resources = 0.5
+					}
+				}
+			}
+		}
+	}
+}
+
+# Random scorched earth events
+country_event = { # Famine develops
+	id = sovietscorched.21
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietscorched.21"}
+	title = sovietscorched.21.t
+	desc = sovietscorched.21.d
+	picture = soviet_anti_kulak
+
+	is_triggered_only = yes
+
+	option = { # It's the cost of war
+		name = sovietscorched.21.a
+		add_manpower = -10000
+		add_stability = -0.05
+	}
+
+	option = { # attempt to help
+		name = sovietscorched.21.b
+		add_manpower = -5000
+		add_political_power = -50
+	}
+}
+
+country_event = { # Some equipment falls into enemy hands
+	id = sovietscorched.22
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietscorched.22"}
+	title = sovietscorched.22.t
+	desc = sovietscorched.22.d
+	picture = soviet_railway_strike
+
+	is_triggered_only = yes
+
+	option = { # damn
+		name = sovietscorched.22.a
+		add_equipment_to_stockpile = {
+			type = infantry_equipment
+			amount = -3000
+			producer = SOV
+		}
+		add_equipment_to_stockpile = {
+			type = artillery_equipment
+			amount = -300
+			producer = SOV
+		}
+		add_equipment_to_stockpile = {
+			type = motorized_equipment
+			amount = -30
+			producer = SOV
+		}
+		add_equipment_to_stockpile = {
+			type = light_tank_equipment_1
+			amount = -30
+			producer = SOV
+		}
+	}
+
+	option = { # give more training
+		name = sovietscorched.22.b
+		army_experience = -25
+		add_equipment_to_stockpile = {
+			type = infantry_equipment
+			amount = -1500
+			producer = SOV
+		}
+		add_equipment_to_stockpile = {
+			type = artillery_equipment
+			amount = -150
+			producer = SOV
+		}
+		add_equipment_to_stockpile = {
+			type = motorized_equipment
+			amount = -15
+			producer = SOV
+		}
+		add_equipment_to_stockpile = {
+			type = light_tank_equipment_1
+			amount = -15
+			producer = SOV
+		}
+	}
+}
+
+country_event = { # Protests towards scorching tactics
+	id = sovietscorched.23
+	immediate = {log = "[GetDateText]: [Root.GetName]: event sovietscorched.23"}
+	title = sovietscorched.23.t
+	desc = sovietscorched.23.d
+	picture = soviet_worker_protest
+
+	is_triggered_only = yes
+
+	option = { # damn
+		name = sovietscorched.23.a
+		add_political_power = -50
+	}
+
+	option = { # invest more resources
+		name = sovietscorched.23.b
+		add_command_power = -15
+	}
+}

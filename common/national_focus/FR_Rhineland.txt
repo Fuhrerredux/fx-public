@@ -1,0 +1,2260 @@
+###################################
+## 		Rhine Focus Tree 		 ##
+###################################
+##    Created by CalvinSoul      ##
+###################################
+focus_tree = {
+	id = rhineland_focus
+	continuous_focus_position = { x = 2900 y = 25 }
+	country = {
+		factor=0
+		modifier = {
+			add = 10
+			tag = RHI
+		}
+	}
+
+	default = no
+
+	##### Political Focuses Begin ######
+	focus = {
+		id = RHI_watch_on_the_rhine
+		icon = GFX_RHI_Interallied_Gov
+		bypass = {
+			hidden_trigger = {
+				has_global_flag=RHI_F_crisis_end
+			}
+		}
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = unlocked_later
+				has_global_flag=RHI_F_crisis_end
+			}
+		}
+		available_if_capitulated = yes
+		cost = 50
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_watch_on_the_rhine"
+			custom_effect_tooltip  = RHI_FT_crisis
+		}
+		ai_will_do = { factor = 40 }
+		x =4
+		y =0
+	}
+	focus = {
+		id = RHI_independence_1
+		icon = GFX_RHI_independence
+		bypass = {}
+		mutually_exclusive = { focus = RHI_autonomy_1}
+		mutually_exclusive = { focus = RHI_mandate_1}
+		mutually_exclusive = { focus = RHI_valkist_1}
+		prerequisite = { focus = RHI_watch_on_the_rhine }
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = unlocked_later
+				has_global_flag = RHI_F_independent
+			}
+		}
+		available_if_capitulated = yes
+		cost = 1
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_independence_1"
+			remove_from_faction = RHI
+			remove_ideas = {RHI_S_political_powderkeg }
+			FRA = { end_puppet = RHI }
+		}
+		ai_will_do = { factor = 40 }
+		x = 1
+		y =1
+	}
+	focus = {
+		id = RHI_independence_2
+		icon = GFX_goal_army_guy_2
+		bypass = {}
+		prerequisite = { focus = RHI_independence_1 }
+		available = {}
+		available_if_capitulated = yes
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_independence_2"
+			custom_effect_tooltip  = RHI_FT_gov_oob
+			hidden_effect = {
+				load_oob = RHI_IND
+			}
+		}
+		ai_will_do = { factor = 40 }
+		x = 1
+		y =2
+	}
+	focus = {
+		id = RHI_independence_3
+		icon = GFX_goal_factory_complex
+		bypass = {}
+		prerequisite = { focus = RHI_independence_2 }
+		available = {}
+		available_if_capitulated = yes
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_independence_3"
+			swap_ideas = { remove_idea = RHI_S_rhine_crisis add_idea = RHI_S_crisis_recovery } }
+		ai_will_do = { factor = 40 }
+		x = 1
+		y =3
+	}
+	focus = {
+		id = RHI_independence_4
+		icon = GFX_goal_enlist_the_police
+		bypass = {}
+		prerequisite = { focus = RHI_independence_3 }
+		available = {}
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_independence_4"
+			set_country_flag = RHI_F_remilitarize
+			add_ideas=RHI_S_ind_gov
+			custom_effect_tooltip  = RHI_FT_unlocked_mil_tree
+		}
+		ai_will_do = { factor = 40 }
+		x = 1
+		y =4
+	}
+	focus = {
+		id = RHI_autonomy_1
+		icon = GFX_RHI_autonomy
+		bypass = {}
+		mutually_exclusive = { focus = RHI_independence_1}
+		mutually_exclusive = { focus = RHI_mandate_1}
+		mutually_exclusive = { focus = RHI_valkist_1}
+		prerequisite = { focus = RHI_watch_on_the_rhine }
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = unlocked_later
+				has_global_flag=RHI_F_autonomous
+			}
+		}
+		available_if_capitulated = yes
+		cost = 1
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_autonomy_1"
+			remove_ideas = { RHI_S_political_powderkeg }
+			FRA = { set_autonomy = {
+					target = RHI
+					autonomy_state = autonomy_dominion
+				}
+			}
+			hidden_effect = {
+				add_popularity = { ideology = valkist popularity = 0.20 }
+				add_popularity = { ideology = national_populist popularity = 0.10 }
+				add_popularity = { ideology = social_democrat popularity = 0.20 }
+				add_popularity = { ideology = social_conservative popularity = 0.40 }
+				add_popularity = { ideology = libertarian_socialist popularity = 0.05 }
+				set_politics = {
+					ruling_party = social_conservative
+					elections_allowed = no
+				}
+			}
+
+		}
+		ai_will_do = { factor = 40 }
+		x = 3
+		y =1
+	}
+	focus = {
+		id = RHI_autonomy_2
+		icon = GFX_goal_generic_forceful_treaty
+		bypass = {}
+		prerequisite = { focus = RHI_autonomy_1 }
+		available = {}
+		available_if_capitulated = yes
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_autonomy_2"
+			custom_effect_tooltip  = RHI_FT_gov_oob
+			hidden_effect = {
+				load_oob = RHI_AUT
+				delete_unit_template_and_units = { division_template = "French Garrison" }
+			}
+		}
+		ai_will_do = { factor = 40}
+		x = 3
+		y =2
+	}
+	focus = {
+		id = RHI_autonomy_3
+		icon = GFX_goal_revolution_tools
+		bypass = {}
+		prerequisite = { focus = RHI_autonomy_2 }
+		available = {}
+		available_if_capitulated = yes
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_autonomy_3"
+			swap_ideas = { remove_idea = RHI_S_rhine_crisis add_idea = RHI_S_crisis_recovery }
+		}
+		ai_will_do = { factor = 40}
+		x = 3
+		y =3
+	}
+	focus = {
+		id = RHI_autonomy_4
+		icon = GFX_goal_national_mobilization
+		bypass = {}
+		prerequisite = { focus = RHI_autonomy_3 }
+		available = {}
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_autonomy_4"
+			set_country_flag = RHI_F_remilitarize
+			add_ideas=RHI_S_aut_gov
+			custom_effect_tooltip  = RHI_FT_unlocked_mil_tree
+		}
+		ai_will_do = { factor = 40}
+		x = 3
+		y =4
+	}
+	focus = {
+		id = RHI_mandate_1
+		icon = GFX_RHI_Mandate_Flag
+		bypass = {}
+		mutually_exclusive = { focus = RHI_autonomy_1}
+		mutually_exclusive = { focus = RHI_independence_1}
+		mutually_exclusive = { focus = RHI_valkist_1}
+		prerequisite = { focus = RHI_watch_on_the_rhine }
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = unlocked_later
+				has_global_flag=RHI_F_mandate
+			}
+		}
+		available_if_capitulated = yes
+		cost = 1
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_mandate_1"
+			remove_ideas = { RHI_S_political_powderkeg }
+			FRA = { set_autonomy = {
+					target = RHI
+					autonomy_state = autonomy_puppet
+				}
+			}
+			hidden_effect = {
+				add_popularity = { ideology = valkist popularity = 0.25 }
+				add_popularity = { ideology = national_populist popularity = 0.10 }
+				add_popularity = { ideology = social_democrat popularity = 0.10 }
+				add_popularity = { ideology = social_conservative popularity = 0.10 }
+				add_popularity = { ideology = paternal_autocrat popularity = 0.33 }
+				add_popularity = { ideology = libertarian_socialist popularity = 0.05 }
+				set_politics = {
+					ruling_party = paternal_autocrat
+					elections_allowed = no
+				}
+			}
+		}
+		ai_will_do = { factor = 40 }
+		x = 5
+		y =1
+	}
+	focus = {
+		id = RHI_mandate_2
+		icon = GFX_goal_generic_fortify_city
+		bypass = {}
+		prerequisite = { focus = RHI_mandate_1 }
+		available = {}
+		available_if_capitulated = yes
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_mandate_2"
+			custom_effect_tooltip  = RHI_FT_gov_oob
+			hidden_effect = {
+				load_oob = RHI_MAN
+				delete_unit_template_and_units = { division_template = "French Garrison" }
+			}
+		}
+		ai_will_do = { factor = 40 }
+		x = 5
+		y =2
+	}
+	focus = {
+		id = RHI_mandate_3
+		icon = GFX_goal_step_on_skull
+		bypass = {}
+		prerequisite = { focus = RHI_mandate_2 }
+		available = {}
+		available_if_capitulated = yes
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_mandate_3"
+			swap_ideas = { remove_idea = RHI_S_rhine_crisis add_idea = RHI_S_crisis_recovery }
+		}
+		ai_will_do = { factor = 40 }
+		x = 5
+		y =3
+	}
+	focus = {
+		id = RHI_mandate_4
+		icon = GFX_focus_generic_self_management
+		bypass = {}
+		prerequisite = { focus = RHI_mandate_3 }
+		available = {}
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_mandate_4"
+			add_ideas=RHI_S_man_gov
+			set_country_flag = RHI_F_remilitarize
+			custom_effect_tooltip  = RHI_FT_unlocked_mil_tree
+		}
+		ai_will_do = { factor = 40 }
+		x = 5
+		y =4
+	}
+
+	focus = {
+		id = RHI_valkist_1
+		icon = GFX_goal_ideology_valkist
+		bypass = {}
+		mutually_exclusive = { focus = RHI_autonomy_1}
+		mutually_exclusive = { focus = RHI_mandate_1}
+		mutually_exclusive = { focus = RHI_independence_1}
+		prerequisite = { focus = RHI_watch_on_the_rhine }
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = unlocked_later
+				has_global_flag=RHI_F_valkist
+			}
+		}
+		available_if_capitulated = yes
+		cost = 1
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_valkist_1"
+			remove_ideas = {RHI_S_political_powderkeg }
+			hidden_effect = {
+				set_autonomy = {
+					target = RHI
+					autonomy_state = autonomy_free
+				}
+			}
+			GER = { set_autonomy = {
+					target = RHI
+					autonomy_state = autonomy_dominion
+				}
+			}
+		}
+		ai_will_do = { factor = 40 }
+		x = 7
+		y =1
+	}
+	focus = {
+		id = RHI_valkist_2
+		icon = GFX_focus_ger_reichskommisariats
+		bypass = {}
+		prerequisite = { focus = RHI_valkist_1 }
+		available = {}
+		available_if_capitulated = yes
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_valkist_2"
+			custom_effect_tooltip  = RHI_FT_gov_oob
+			hidden_effect = {
+				load_oob = RHI_VAL
+			}
+		}
+		ai_will_do = { factor = 40 }
+		x = 7
+		y =2
+	}
+	focus = {
+		id = RHI_valkist_3
+		icon = GFX_DAH_Topke
+		bypass = {}
+		prerequisite = { focus = RHI_valkist_2 }
+		available = {}
+		available_if_capitulated = yes
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_valkist_3"
+			swap_ideas = { remove_idea = RHI_S_rhine_crisis add_idea = RHI_S_crisis_recovery }
+		}
+		ai_will_do = { factor = 40 }
+		x = 7
+		y =3
+	}
+	focus = {
+		id = RHI_valkist_4
+		icon = GFX_focus_ger_oppose_hitler
+		bypass = {}
+		prerequisite = { focus = RHI_valkist_3 }
+		available = {}
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_valkist_4"
+			add_ideas=RHI_S_val_gov
+			set_country_flag = RHI_F_remilitarize
+			GER = { set_autonomy = {
+					target = RHI
+					autonomy_state = autonomy_puppet
+				}
+			}
+			custom_effect_tooltip  = RHI_FT_unlocked_mil_tree
+		}
+		ai_will_do = { factor = 40 }
+		x = 7
+		y =4
+	}
+
+	#####Fate of Rhenish Groups Focuses#####
+	focus = {
+		id = RHI_stability
+		icon = GFX_goal_government_icon
+		bypass = {}
+		available = {has_country_flag=RHI_F_remilitarize }
+		available_if_capitulated = yes
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_stability"
+			add_political_power = 25
+		}
+		ai_will_do = { factor = 25}
+		x = 5
+		y =6
+	}
+	focus = {
+		id = RHI_intellectuals
+		icon = GFX_focus_generic_self_management
+		bypass = {}
+		available = {}
+		prerequisite = { focus = RHI_stability }
+		available_if_capitulated = yes
+		cost = 1
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_intellectuals"
+			add_political_power = 30
+		}
+		ai_will_do = { factor = 25}
+		x = 1
+		y =7
+	}
+	focus = {
+		id = RHI_intellectuals_diverse
+		icon = GFX_goal_liberty
+		bypass = {}
+		available = {}
+		prerequisite = {focus =  RHI_intellectuals }
+		mutually_exclusive = {focus =  RHI_intellectuals_unity}
+		available_if_capitulated = yes
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_intellectuals_diverse"
+			swap_ideas = { remove_idea = RHI_S_melting_pot add_idea = RHI_S_melted_pot }
+		}
+		ai_will_do = {
+			factor = 25
+			modifier = {
+				factor = 0.1
+				has_government = valkist
+			}
+			modifier = {
+				factor = 0.1
+				has_government = paternal_autocrat
+			}
+			modifier = {
+				factor = 10
+				has_government = social_conservative
+			}
+			modifier = {
+				factor = 1.0
+				has_government = national_populist
+			}
+			modifier = {
+				factor = 1
+				has_government = social_democrat
+			}
+		}
+		x = 0
+		y =8
+	}
+	focus = {
+		id = RHI_intellectuals_unity
+		icon = GFX_goal_secret_agents
+		bypass = {}
+		available = {}
+		prerequisite = {focus =  RHI_intellectuals }
+		mutually_exclusive = {focus =  RHI_intellectuals_diverse}
+		available_if_capitulated = yes
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_intellectuals_unity"
+			add_stability = 0.06
+			remove_ideas = RHI_S_melting_pot
+			remove_ideas = RHI_S_einstein
+		}
+		ai_will_do = { factor = 25
+			modifier = {
+				factor = 10
+				has_government = valkist
+			}
+			modifier = {
+				factor = 10
+				has_government = paternal_autocrat
+			}
+			modifier = {
+				factor = 0.1
+				has_government = social_conservative
+			}
+			modifier = {
+				factor = 1.0
+				has_government = national_populist
+			}
+			modifier = {
+				factor = 1
+				has_government = social_democrat
+			}
+
+
+		}
+		x = 2
+		y =8
+	}
+	focus = {
+		id = RHI_spartacists
+		icon = GFX_focus_generic_soviet_politics
+		bypass = {}
+		available = {}
+		prerequisite = { focus = RHI_stability }
+		available_if_capitulated = yes
+		cost = 1
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_spartacists"
+			add_political_power = 30
+		}
+		ai_will_do = { factor = 25}
+		x = 5
+		y =7
+	}
+	focus = {
+		id = RHI_spartacists_allow
+		icon = GFX_goal_red_star_dove
+		bypass = {}
+		available = {}
+		prerequisite = {focus =  RHI_spartacists }
+		mutually_exclusive = {focus =  RHI_spartacists_ban}
+		available_if_capitulated = yes
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_spartacists_allow"
+			swap_ideas = { remove_idea = RHI_S_spectre_of_spartacists add_idea = RHI_S_legal_FAUR }
+		}
+		ai_will_do = { factor = 25
+			modifier = {
+				factor = 0.1
+				has_government = valkist
+			}
+			modifier = {
+				factor = 0.1
+				has_government = paternal_autocrat
+			}
+			modifier = {
+				factor = 1
+				has_government = social_conservative
+			}
+			modifier = {
+				factor = 1.0
+				has_government = national_populist
+			}
+			modifier = {
+				factor = 1
+				has_government = social_democrat
+			}
+		}
+		x = 4
+		y =8
+	}
+	focus = {
+		id = RHI_spartacists_ban
+		icon = GFX_goal_broken_red_star
+		bypass = {}
+		available = {}
+		prerequisite = {focus =  RHI_spartacists }
+		mutually_exclusive = {focus =  RHI_spartacists_allow}
+		available_if_capitulated = yes
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_spartacists_ban"
+			add_stability = 0.05
+			remove_ideas = RHI_S_spectre_of_spartacists
+		}
+		ai_will_do = { factor = 25
+			modifier = {
+				factor = 10
+				has_government = valkist
+			}
+			modifier = {
+				factor = 10
+				has_government = paternal_autocrat
+			}
+			modifier = {
+				factor = 1
+				has_government = social_conservative
+			}
+			modifier = {
+				factor = 1.0
+				has_government = national_populist
+			}
+			modifier = {
+				factor = 1
+				has_government = social_democrat
+			}
+		}
+		x = 6
+		y =8
+	}
+
+	focus = {
+		id = RHI_freikorps
+		icon = GFX_goal_national_populism
+		bypass = {}
+		available = {}
+		prerequisite = { focus = RHI_stability }
+		available_if_capitulated = yes
+		cost = 1
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_freikorps"
+			add_political_power =  30
+		}
+		ai_will_do = { factor = 25}
+		x = 9
+		y =7
+	}
+	focus = {
+		id = RHI_freikorps_allow
+		icon = GFX_RHI_blank_hat
+		bypass = {}
+		available = {}
+		prerequisite = {focus =  RHI_freikorps }
+		mutually_exclusive = {focus =  RHI_freikorps_ban}
+		available_if_capitulated = yes
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_freikorps_allow"
+			swap_ideas = { remove_idea = RHI_S_rhenish_freikorps add_idea = RHI_S_integrated_freikorps }
+		}
+		ai_will_do = { factor = 25
+			modifier = {
+				factor = 0.1
+				has_government = valkist
+			}
+			modifier = {
+				factor = 0.1
+				has_government = paternal_autocrat
+			}
+			modifier = {
+				factor = 0.1
+				has_government = social_conservative
+			}
+			modifier = {
+				factor = 10
+				has_government = national_populist
+			}
+			modifier = {
+				factor = 10
+				has_government = social_democrat
+			}
+		}
+		x = 8
+		y =8
+	}
+	focus = {
+		id = RHI_freikorps_ban
+		icon = GFX_RHI_broken_hat
+		bypass = {}
+		available = {}
+		prerequisite = {focus =  RHI_freikorps }
+		mutually_exclusive = {focus =  RHI_freikorps_allow}
+		available_if_capitulated = yes
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_freikorps_ban"
+			add_stability = 0.08
+			remove_ideas = RHI_S_rhenish_freikorps
+			delete_unit_template_and_units = { division_template = "Freikorps Division" }
+		}
+		ai_will_do = { factor = 25
+			modifier = {
+				factor = 10
+				has_government = valkist
+			}
+			modifier = {
+				factor = 10
+				has_government = paternal_autocrat
+			}
+			modifier = {
+				factor = 10
+				has_government = social_conservative
+			}
+			modifier = {
+				factor = 0.1
+				has_government = national_populist
+			}
+			modifier = {
+				factor = 0.1
+				has_government = social_democrat
+			}
+		}
+		x = 10
+		y =8
+	}
+	focus = {
+		id = RHI_stability_spirit
+		icon = GFX_RHI_handcuffs
+		bypass = {}
+		available = {}
+		prerequisite = {focus = RHI_intellectuals_unity 	focus = RHI_intellectuals_diverse}
+		prerequisite = {focus = RHI_spartacists_ban 			focus = RHI_spartacists_allow}
+		prerequisite = {focus = RHI_freikorps_ban 			focus = RHI_freikorps_allow}
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_stability_spirit"
+			add_stability = 0.05
+			custom_effect_tooltip  = RHI_FT_stability_spirit
+			if = {
+				limit = {
+					AND = {
+						has_completed_focus = RHI_intellectuals_diverse
+						has_completed_focus = RHI_spartacists_allow
+						has_completed_focus = RHI_freikorps_allow
+					}
+				}
+				add_ideas = RHI_S_free_society
+			}
+			if = {
+				limit = {
+					AND = {
+						has_completed_focus = RHI_intellectuals_diverse
+						has_completed_focus = RHI_spartacists_allow
+						has_completed_focus = RHI_freikorps_ban
+					}
+				}
+				add_ideas = RHI_S_limited_society
+			}
+			if = {
+				limit = {
+					AND = {
+						has_completed_focus = RHI_intellectuals_diverse
+						has_completed_focus = RHI_spartacists_ban
+						has_completed_focus = RHI_freikorps_allow
+					}
+				}
+				add_ideas = RHI_S_limited_society
+			}
+			if = {
+				limit = {
+					AND = {
+						has_completed_focus = RHI_intellectuals_diverse
+						has_completed_focus = RHI_spartacists_ban
+						has_completed_focus = RHI_freikorps_ban
+					}
+				}
+				add_ideas = RHI_S_limited_society
+			}
+			if = {
+				limit = {
+					AND = {
+						has_completed_focus = RHI_intellectuals_unity
+						has_completed_focus = RHI_spartacists_allow
+						has_completed_focus = RHI_freikorps_allow
+					}
+				}
+				add_ideas = RHI_S_secret_police
+			}
+			if = {
+				limit = {
+					AND = {
+						has_completed_focus = RHI_intellectuals_unity
+						has_completed_focus = RHI_spartacists_allow
+						has_completed_focus = RHI_freikorps_ban
+					}
+				}
+				add_ideas = RHI_S_secret_police
+			}
+			if = {
+				limit = {
+					AND = {
+						has_completed_focus = RHI_intellectuals_unity
+						has_completed_focus = RHI_spartacists_ban
+						has_completed_focus = RHI_freikorps_allow
+					}
+				}
+				add_ideas = RHI_S_secret_police
+			}
+			if = {
+				limit = {
+					AND = {
+						has_completed_focus = RHI_intellectuals_unity
+						has_completed_focus = RHI_spartacists_ban
+						has_completed_focus = RHI_freikorps_ban
+					}
+				}
+				add_ideas = RHI_S_police_state
+			}
+		}
+		ai_will_do = { factor = 25}
+		x = 5
+		y =9
+	}
+	##### Economic Focuses Start #####
+	focus = {
+		id = RHI_rhenish_economy
+		icon = GFX_goal_bankruptcy
+		available = { date > 1938.1.1 }
+		available_if_capitulated = yes
+		cost = 0
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_rhenish_economy"
+		}
+		ai_will_do = { factor = 100}
+		x = 48
+		y =0
+	}
+	focus = {
+		id = RHI_nationalist_economy
+		icon = GFX_RHI_independence
+		mutually_exclusive = {focus = RHI_autonomist_economy}
+		mutually_exclusive = {focus = RHI_mandate_economy}
+		prerequisite = {focus = RHI_rhenish_economy}
+		available = {has_global_flag=RHI_F_independent}
+		available_if_capitulated = yes
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_nationalist_economy"
+		}
+		ai_will_do = { factor =  100}
+		x = 42
+		y =1
+	}
+	focus = {
+		id = RHI_autonomist_economy
+		icon = GFX_RHI_autonomy
+		mutually_exclusive = {focus = RHI_nationalist_economy}
+		mutually_exclusive = {focus = RHI_mandate_economy}
+		prerequisite = {focus = RHI_rhenish_economy}
+		available = {has_global_flag=RHI_F_autonomous}
+		available_if_capitulated = yes
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_autonomist_economy"
+		}
+		ai_will_do = { factor =  100}
+		x = 48
+		y =1
+	}
+	focus = {
+		id = RHI_mandate_economy
+		icon = GFX_RHI_Mandate_Flag
+		mutually_exclusive = {focus = RHI_autonomist_economy}
+		mutually_exclusive = {focus = RHI_nationalist_economy}
+		available = {has_global_flag=RHI_F_mandate}
+		prerequisite = {focus = RHI_rhenish_economy}
+		available_if_capitulated = yes
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_mandate_economy"
+		}
+		ai_will_do = { factor =  100}
+		x = 54
+		y =1
+	}
+	focus = {
+		id = RHI_dorten_economy
+		icon = GFX_RHI_Dorten
+		mutually_exclusive = {focus = RHI_matthes_economy}
+		prerequisite = {focus = RHI_nationalist_economy}
+		available = {has_government = national_populist}
+		available_if_capitulated = yes
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_dorten_economy"
+			add_ideas = RHI_S_autarky
+		}
+		ai_will_do = { factor =  100}
+		x =  39
+		y =2
+	}
+	focus = {
+		id = RHI_matthes_economy
+		icon = GFX_RHI_Matthes
+		mutually_exclusive = {focus = RHI_dorten_economy}
+		mutually_exclusive = {focus = RHI_konrad_economy}
+		prerequisite = {focus = RHI_nationalist_economy	focus = RHI_autonomist_economy}
+		available = {has_government = social_democrat}
+		available_if_capitulated = yes
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_matthes_economy"
+			add_ideas = RHI_S_welfare_state
+		}
+		ai_will_do = { factor =  100}
+		x =  45
+		y = 2
+	}
+	focus = {
+		id = RHI_konrad_economy
+		icon = GFX_RHI_Konrad
+		mutually_exclusive = {focus = RHI_matthes_economy}
+		mutually_exclusive = {focus = RHI_strict_economy}
+		prerequisite = {focus = RHI_autonomist_economy	focus = RHI_mandate_economy}
+		available = {has_government = social_conservative}
+		available_if_capitulated = yes
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_konrad_economy"
+			add_ideas = RHI_S_cooperation_1
+		}
+		ai_will_do = { factor =  100}
+		x =  51
+		y = 2
+	}
+	focus = {
+		id = RHI_strict_economy
+		icon = GFX_RHI_Mangin
+		mutually_exclusive = {focus = RHI_konrad_economy}
+		prerequisite = {focus = RHI_mandate_economy}
+		available = {has_government = paternal_autocrat}
+		available_if_capitulated = yes
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_strict_economy"
+			add_ideas = RHI_S_strict_economy
+		}
+		ai_will_do = { factor =  100}
+		x =  57
+		y = 2
+	}
+	focus = {
+		id = RHI_total_nationalization
+		icon = GFX_goal_engineers
+		mutually_exclusive = {focus = RHI_gentle_nationalization}
+		prerequisite = {focus = RHI_dorten_economy}
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_total_nationalization"
+			51= {
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 3
+					instant_build = yes
+				}
+
+			}
+			746= {
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 3
+					instant_build = yes
+				}
+			}
+			42= {
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 3
+					instant_build = yes
+				}
+			}
+			add_political_power = -75
+		}
+		ai_will_do = { factor =  100}
+		x =  38
+		y =3
+	}
+	focus = {
+		id = RHI_gentle_nationalization
+		icon = GFX_goal_generic_construction2
+		mutually_exclusive = {focus = RHI_total_nationalization}
+		prerequisite = {focus = RHI_dorten_economy}
+		available_if_capitulated = yes
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_gentle_nationalization"
+			51= {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			746= {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			42= {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			add_political_power = -50
+		}
+		ai_will_do = { factor =  100}
+		x =  40
+		y = 3
+	}
+	focus = {
+		id = RHI_employment_projects
+		icon = GFX_goal_generic_consumer_goods
+		prerequisite = {focus = RHI_matthes_economy}
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_employment_projects"
+			add_timed_idea = {
+				idea = RHI_S_employment_projects
+				days = 365
+			}
+		}
+		ai_will_do = { factor =  100}
+		x =  45
+		y =3
+	}
+	focus = {
+		id = RHI_french_investors
+		icon = GFX_goal_generic_trade
+		prerequisite = {focus = RHI_konrad_economy}
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_french_investors"
+			swap_ideas = {
+				remove_idea = RHI_S_cooperation_1
+				add_idea = RHI_S_cooperation_2
+			}
+		}
+		ai_will_do = { factor =  100}
+		x =  51
+		y = 3
+	}
+	focus = {
+		id = RHI_french_workers
+		icon = GFX_goal_NFA_Restore_the_Suspended_Constitution
+		prerequisite = {focus = RHI_strict_economy}
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_french_workers"
+			add_timed_idea = {
+				idea = RHI_S_french_workers
+				days = 365
+			}
+		}
+		ai_will_do = { factor =  100}
+		x = 57
+		y =3
+	}
+	focus = {
+		id = RHI_fund_rhenish_industry
+		icon = GFX_goal_construction_engineering
+		prerequisite = {focus = RHI_total_nationalization focus = RHI_gentle_nationalization}
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_fund_rhenish_industry"
+			add_timed_idea = {idea = RHI_S_fund_industry days  = 180}
+		}
+		ai_will_do = { factor =  100}
+		x = 39
+		y = 4
+	}
+	focus = {
+		id = RHI_welfare_state
+		icon = GFX_focus_generic_concessions
+		prerequisite = {focus = RHI_employment_projects}
+		mutually_exclusive = {focus = RHI_limited_benefits}
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_welfare_state"
+			swap_ideas = {
+				remove_idea = RHI_S_welfare_state
+				add_idea = RHI_S_welfare_state_full_1
+			}
+		}
+		ai_will_do = { factor =  100}
+		x = 44
+		y = 4
+	}
+	focus = {
+		id = RHI_limited_benefits
+		icon = GFX_focus_empty_coffers
+		prerequisite = {focus = RHI_employment_projects}
+		mutually_exclusive = {focus = RHI_welfare_state}
+		available_if_capitulated = yes
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_limited_benefits"
+			swap_ideas = {
+				remove_idea = RHI_S_welfare_state
+				add_idea = RHI_S_welfare_state_limited_1
+			}
+		}
+		ai_will_do = { factor =  100}
+		x = 46
+		y = 4
+	}
+	focus = {
+		id = RHI_increased_economy_independence
+		icon = GFX_goal_generic_positive_trade_relations
+		prerequisite = {focus = RHI_french_investors}
+		mutually_exclusive = {focus = RHI_french_economy_guidance}
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_increased_economy_independence"
+			swap_ideas = {
+				remove_idea = RHI_S_cooperation_2
+				add_idea = RHI_S_cooperation_free
+			}
+		}
+		ai_will_do = { factor =  100}
+		x = 50
+		y = 4
+	}
+	focus = {
+		id = RHI_french_economy_guidance
+		icon = GFX_goal_generic_positive_trade_relations_gold
+		prerequisite = {focus = RHI_french_investors}
+		mutually_exclusive = {focus = RHI_increased_economy_independence}
+		available_if_capitulated = yes
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_french_economy_guidance"
+			swap_ideas = {
+				remove_idea = RHI_S_cooperation_2
+				add_idea = RHI_S_cooperation_limited
+			}
+		}
+		ai_will_do = { factor =  100}
+		x = 52
+		y =4
+	}
+	focus = {
+		id = RHI_cooperate_with_rhenish_companies
+		icon = GFX_goal_generic_national_unity
+		prerequisite = {focus = RHI_french_workers}
+		mutually_exclusive = {focus = RHI_sieze_rhenish_companies}
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_cooperate_with_rhenish_companies"
+			add_political_power = 50
+		}
+		ai_will_do = { factor =  100}
+		x = 56
+		y = 4
+	}
+	focus = {
+		id = RHI_sieze_rhenish_companies
+		icon = GFX_goal_state_economy
+		prerequisite = {focus = RHI_french_workers}
+		mutually_exclusive = {focus = RHI_cooperate_with_rhenish_companies}
+		available_if_capitulated = yes
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_sieze_rhenish_companies"
+			add_ideas = RHI_S_extractive_economy
+		}
+		ai_will_do = { factor =  100}
+		x = 58
+		y = 4
+	}
+	focus = {
+		id = RHI_corporate_economy
+		icon = GFX_goal_ideology_national_populist
+		prerequisite = {focus = RHI_fund_rhenish_industry}
+		mutually_exclusive = {focus = RHI_populist_economy}
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_corporate_economy"
+			swap_ideas = {
+				remove_idea = RHI_S_autarky
+				add_idea = RHI_S_autarky_corporate
+			}
+			remove_ideas = RHI_S_crisis_recovery
+		}
+		ai_will_do = { factor =  100}
+		x = 38
+		y = 5
+	}
+	focus = {
+		id = RHI_populist_economy
+		icon = GFX_goal_social_labour
+		prerequisite = {focus = RHI_fund_rhenish_industry}
+		mutually_exclusive = {focus = RHI_corporate_economy}
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_populist_economy"
+			swap_ideas = {
+				remove_idea = RHI_S_autarky
+				add_idea = RHI_S_autarky_populist
+			}
+			remove_ideas = RHI_S_crisis_recovery
+		}
+		ai_will_do = { factor =  100}
+		x = 40
+		y =5
+	}
+	focus = {
+		id = RHI_social_economy
+		icon = GFX_goal_ideology_social_democrat
+		prerequisite = {focus = RHI_welfare_state focus = RHI_limited_benefits}
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_social_economy"
+			if = {
+				limit = {
+					has_completed_focus = RHI_welfare_state
+				}
+				swap_ideas = {
+					remove_idea = RHI_S_welfare_state_full_1
+					add_idea = RHI_S_welfare_state_full_2
+				}
+			}
+			if = {
+				limit = {
+					has_completed_focus = RHI_limited_benefits
+				}
+				swap_ideas = {
+					remove_idea = RHI_S_welfare_state_limited_1
+					add_idea = RHI_S_welfare_state_limited_1
+				}
+			}
+			remove_ideas = RHI_S_crisis_recovery
+		}
+		ai_will_do = { factor =  100}
+		x = 45
+		y = 5
+	}
+	focus = {
+		id = RHI_cooperative_econopmy
+		icon = GFX_goal_liberty
+		prerequisite = {focus=RHI_increased_economy_independence focus = RHI_french_economy_guidance}
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_cooperative_econopmy"
+			add_timed_idea = {idea = RHI_S_Wirtschaftswunder days = 365}
+			remove_ideas = RHI_S_crisis_recovery
+		}
+		ai_will_do = { factor =  100}
+		x = 51
+		y = 5
+	}
+	focus = {
+		id = RHI_extractive_economy
+		icon = GFX_goal_secret_agents
+		prerequisite = {focus = RHI_cooperate_with_rhenish_companies focus = RHI_sieze_rhenish_companies}
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_extractive_economy"
+			swap_ideas = {
+				remove_idea = RHI_S_strict_economy
+				add_idea = RHI_S_strict_economy_2
+			}
+			remove_ideas = RHI_S_crisis_recovery
+		}
+		ai_will_do = { factor =  100}
+		x = 57
+		y = 5
+	}
+	focus = {
+		id = RHI_wide_research
+		icon = GFX_focus_research
+		prerequisite = {focus = RHI_corporate_economy focus = RHI_populist_economy focus = RHI_social_economy focus = RHI_cooperative_econopmy focus = RHI_extractive_economy}
+		mutually_exclusive = {focus =RHI_tall_research}
+		available_if_capitulated = yes
+		cost = 15
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_wide_research"
+			add_research_slot = 1
+		}
+		ai_will_do = { factor =  100}
+		x = 47
+		y = 6
+	}
+	focus = {
+		id = RHI_tall_research
+		icon = GFX_goal_military_research
+		prerequisite = {focus = RHI_corporate_economy focus = RHI_populist_economy focus = RHI_social_economy focus = RHI_cooperative_econopmy focus = RHI_extractive_economy}
+		mutually_exclusive = {focus =RHI_wide_research}
+		available_if_capitulated = yes
+		cost = 15
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_tall_research"
+			add_ideas = RHI_S_tall_research
+		}
+		ai_will_do = { factor =  100}
+		x = 49
+		y = 6
+	}
+
+	##### MILITERIZATION FOCUSES START #####
+	#Focus for Militarize the Rhineland
+	focus = {
+		id = RHI_militarize_rhineland
+		icon = GFX_focus_generic_little_entente
+		bypass = {}
+		available = { has_country_flag=RHI_F_remilitarize }
+		available_if_capitulated = yes
+		cost = 1
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_militarize_rhineland"
+
+			add_ideas = limited_conscription
+			remove_ideas = RHI_S_disarmed
+			add_ideas = RHI_S_air_doctrine_dispute
+			add_ideas = RHI_S_army_doctrine_dispute
+
+		}
+		ai_will_do = { factor = 100}
+		x = 14
+		y =0
+	}
+	#Focus for Rhenish Armed Forces
+	focus = {
+		id = RHI_rhenish_armed_forces
+		icon = GFX_goal_conscription
+		bypass = {}
+		mutually_exclusive = { focus = RHI_rhenish_french_cooperation}
+		mutually_exclusive = { focus =RHI_french_military_mandate}
+		prerequisite = { focus = RHI_militarize_rhineland }
+		available = {
+			or = {	has_government = social_democrat
+				has_government = national_populist
+				has_government = valkist
+			}
+		}
+		available_if_capitulated = yes
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_rhenish_armed_forces"
+			hidden_effect = {
+				RHI_Charles_Mangin = { set_nationality = XXB }
+				RHI_Adolphe_Guillaumat = { set_nationality = XXB }
+				RHI_Louis_Theodore_Kleinmann = { set_nationality = XXB }
+				RHI_Henri_Mordacq = { set_nationality = XXB }
+				RHI_Albert_Tanant = { set_nationality = XXB }
+			}
+			effect_tooltip = {
+				RHI_Charles_Mangin = { remove_unit_leader_role = yes }
+				RHI_Adolphe_Guillaumat = { remove_unit_leader_role = yes }
+				RHI_Louis_Theodore_Kleinmann = { remove_unit_leader_role = yes }
+				RHI_Henri_Mordacq = { remove_unit_leader_role = yes }
+				RHI_Albert_Tanant = { remove_unit_leader_role = yes }
+			}
+			add_timed_idea = {
+				idea = RHI_S_military_reorganization
+				days = 365
+			}
+			add_field_marshal_role = {
+				character = RHI_Heinrich_von_Vietinghoff
+				traits = {defensive_doctrine inflexible_strategist trait_cautious }
+				skill = 4
+				attack_skill = 2
+				defense_skill = 4
+				planning_skill = 3
+				logistics_skill = 2
+			}
+			add_field_marshal_role = {
+				character = RHI_Ernst_Busch
+				traits = {old_guard}
+				skill = 2
+				attack_skill = 2
+				defense_skill = 1
+				planning_skill = 1
+				logistics_skill = 1
+			}
+			add_corps_commander_role = {
+				character = RHI_Hans_Salmuth
+				traits = {infantry_officer }
+				skill = 3
+				attack_skill = 3
+				defense_skill = 3
+				planning_skill = 2
+				logistics_skill = 2
+			}
+			add_corps_commander_role = {
+				character = RHI_Karl_Adolf_Hollidt
+				traits = {trickster}
+				skill = 2
+				attack_skill = 2
+				defense_skill = 2
+				planning_skill = 1
+				logistics_skill = 2
+			}
+			add_corps_commander_role = {
+				character = RHI_Ludwig_Cruwell
+				traits = {panzer_leader}
+				skill = 2
+				attack_skill = 2
+				defense_skill = 2
+				planning_skill = 2
+				logistics_skill = 1
+			}
+			add_corps_commander_role = {
+				character = RHI_Smilo_Freiher_von_Luttwitz
+				traits = {brilliant_strategist trait_reckless}
+				skill = 3
+				attack_skill = 3
+				defense_skill = 3
+				planning_skill = 2
+				logistics_skill = 3
+			}
+			add_corps_commander_role = {
+				character = RHI_Curt_Gallenkamp
+				traits = {harsh_leader}
+				skill = 1
+				attack_skill = 1
+				defense_skill = 1
+				planning_skill = 1
+				logistics_skill = 1
+			}
+		}
+		ai_will_do = { factor = 100}
+		x =11
+		y =1
+	}
+	#Focus for Military Reorganization
+	focus = {
+		id = RHI_military_reorganization
+		icon = GFX_goal_authority
+		bypass = {}
+		mutually_exclusive = { }
+		prerequisite = { focus = RHI_rhenish_armed_forces}
+		available = {  }
+		available_if_capitulated = yes
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_military_reorganization"
+			set_country_flag = RHI_F_rhenish_officers
+			add_ideas = RHI_S_rhenish_patriotic_army
+		}
+		ai_will_do = { factor = 100}
+		x =11
+		y =2
+	}
+	#Focus for Rhenish-French Cooperation
+	focus = {
+		id = RHI_rhenish_french_cooperation
+		icon = GFX_goal_generic_national_unity
+		bypass = {}
+		mutually_exclusive = { focus = RHI_french_military_mandate}
+		mutually_exclusive = { focus = RHI_rhenish_armed_forces}
+		prerequisite = { focus = RHI_militarize_rhineland }
+		available = {
+			or = {	has_government = social_conservative
+				has_government = authoritarian_democrat
+			}
+		}
+		available_if_capitulated = yes
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_rhenish_french_cooperation"
+			add_ideas = RHI_S_french_rhenish_union_army
+		}
+		ai_will_do = { factor = 100}
+		x =14
+		y =1
+	}
+	#Focus for Rhenish Officers
+	focus = {
+		id = RHI_rhenish_officers
+		icon = GFX_goal_generic_improve_relations
+		bypass = {}
+		mutually_exclusive = { focus = RHI_french_officers}
+		prerequisite = { focus = RHI_rhenish_french_cooperation}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_rhenish_officers"
+			set_country_flag = RHI_F_rhenish_officers
+			add_ideas= RHI_S_rhenish_officers
+			hidden_effect = {
+				RHI_Charles_Mangin = { set_nationality = XXB }
+				RHI_Adolphe_Guillaumat = { set_nationality = XXB }
+				RHI_Louis_Theodore_Kleinmann = { set_nationality = XXB }
+				RHI_Henri_Mordacq = { set_nationality = XXB }
+				RHI_Albert_Tanant = { set_nationality = XXB }
+			}
+			effect_tooltip = {
+				RHI_Charles_Mangin = { remove_unit_leader_role = yes }
+				RHI_Adolphe_Guillaumat = { remove_unit_leader_role = yes }
+				RHI_Louis_Theodore_Kleinmann = { remove_unit_leader_role = yes }
+				RHI_Henri_Mordacq = { remove_unit_leader_role = yes }
+				RHI_Albert_Tanant = { remove_unit_leader_role = yes }
+			}
+			add_field_marshal_role = {
+				character = RHI_Heinrich_von_Vietinghoff
+				traits = { defensive_doctrine inflexible_strategist trait_cautious }
+				skill = 4
+				attack_skill = 2
+				defense_skill = 4
+				planning_skill = 3
+				logistics_skill = 2
+			}
+			add_field_marshal_role = {
+				character = RHI_Ernst_Busch
+				traits = { ld_guard }
+				skill = 2
+				attack_skill = 2
+				defense_skill = 1
+				planning_skill = 1
+				logistics_skill = 1
+			}
+			add_corps_commander_role = {
+				character = RHI_Hans_Salmuth
+				traits = { infantry_officer }
+				skill = 3
+				attack_skill = 3
+				defense_skill = 3
+				planning_skill = 2
+				logistics_skill = 2
+			}
+			add_corps_commander_role = {
+				character = RHI_Karl_Adolf_Hollidt
+				traits = { trickster }
+				skill = 2
+				attack_skill = 2
+				defense_skill = 2
+				planning_skill = 1
+				logistics_skill = 2
+			}
+			add_corps_commander_role = {
+				character = RHI_Ludwig_Cruwell
+				traits = { panzer_leader }
+				skill = 2
+				attack_skill = 2
+				defense_skill = 2
+				planning_skill = 2
+				logistics_skill = 1
+			}
+			add_corps_commander_role = {
+				character = RHI_Smilo_Freiher_von_Luttwitz
+				traits = {brilliant_strategist trait_reckless}
+				skill = 3
+				attack_skill = 3
+				defense_skill = 3
+				planning_skill = 2
+				logistics_skill = 3
+			}
+			add_corps_commander_role = {
+				character = RHI_Curt_Gallenkamp
+				traits = {harsh_leader}
+				skill = 1
+				attack_skill = 1
+				defense_skill = 1
+				planning_skill = 1
+				logistics_skill = 1
+			}
+		}
+		cost = 5
+		available_if_capitulated = yes
+		ai_will_do = { factor = 100}
+		x =13
+		y =2
+	}
+	#Focus for French Officers
+	focus = {
+		id = RHI_french_officers
+		icon = GFX_focus_generic_military_mission
+		bypass = {}
+
+		mutually_exclusive = { focus = RHI_rhenish_officers}
+		prerequisite = { focus = RHI_rhenish_french_cooperation}
+		available = {  }
+		cost = 5
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_french_officers"
+			add_ideas = RHI_S_french_officers
+			set_country_flag = RHI_F_french_officers
+		}
+		ai_will_do = { factor = 100}
+		x =15
+		y =2
+	}
+	#Focus for French Military Mandate
+	focus = {
+		id = RHI_french_military_mandate
+		icon = GFX_RHI_Mandate_Flag
+		bypass = {}
+		mutually_exclusive = { focus = RHI_rhenish_armed_forces}
+		mutually_exclusive = { focus =RHI_rhenish_french_cooperation}
+		prerequisite = { focus = RHI_militarize_rhineland }
+		available = {has_government = paternal_autocrat}
+		available_if_capitulated = yes
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_french_military_mandate"
+			add_ideas = RHI_S_french_officers
+			set_country_flag = RHI_F_french_officers
+		}
+		ai_will_do = { factor = 100}
+		x =17
+		y =1
+	}
+	#Focus for French Enlistment
+	focus = {
+		id = RHI_french_enlistment
+		icon = GFX_RHI_Mandate_Manpower
+		bypass = {}
+		mutually_exclusive = { focus = RHI_rhenish_conscription}
+		prerequisite = { focus = RHI_french_military_mandate}
+		available = {  }
+		available_if_capitulated = yes
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_french_enlistment"
+			add_ideas=RHI_S_french_enlistment
+		}
+		ai_will_do = { factor = 100}
+		x =19
+		y =2
+	}
+	#Focus for Rhenish Conscription
+	focus = {
+		id = RHI_rhenish_conscription
+		icon = GFX_focus_generic_strike_at_democracy2
+		bypass = {}
+		mutually_exclusive = { focus = RHI_french_enlistment}
+		prerequisite = { focus = RHI_french_military_mandate}
+		available = {  }
+		available_if_capitulated = yes
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_rhenish_conscription"
+			add_ideas=RHI_S_forced_conscription
+		}
+		ai_will_do = { factor = 100}
+		x =17
+		y =2
+	}
+	#Focus for Rhenish Doctrine Dispute
+	focus = {
+		id = RHI_rhenish_doctrine_dispute
+		icon = GFX_goal_generic_special_forces
+		bypass = {}
+		mutually_exclusive = { }
+		prerequisite = { focus = RHI_rhenish_officers  focus = RHI_military_reorganization}
+		available = {  }
+		available_if_capitulated = yes
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_rhenish_doctrine_dispute"
+			remove_ideas = RHI_S_army_doctrine_dispute
+		}
+		ai_will_do = { factor = 100}
+		x =11
+		y =3
+	}
+	#Focus for Rhenish Firepower
+	focus = {
+		id = RHI_rhenish_firepower
+		icon = GFX_goal_national_artillery
+		bypass = {}
+		mutually_exclusive = { focus = RHI_fortress_rhine}
+		prerequisite = { focus = RHI_rhenish_doctrine_dispute}
+		available = {  }
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_rhenish_firepower"
+			add_ideas = RHI_S_superior_firepower_1
+			add_doctrine_cost_reduction = {
+				name = doctrine_bonus
+				cost_reduction = 0.25
+				uses = 2
+				category = cat_superior_firepower
+			}
+		}
+		ai_will_do = { factor = 40 }
+		x =10
+		y =4
+	}
+	#Focus for Rhenish Firepower 2
+	focus = {
+		id = RHI_rhenish_firepower_2
+		icon = GFX_goal_economic_control
+		bypass = {}
+		mutually_exclusive = { }
+		prerequisite = { focus = RHI_rhenish_firepower}
+		available = {  }
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_rhenish_firepower_2"
+			swap_ideas = { remove_idea = RHI_S_superior_firepower_1 add_idea = RHI_S_superior_firepower_2 }
+			add_doctrine_cost_reduction = {
+				name = doctrine_bonus
+				cost_reduction = 0.5
+				uses = 1
+				category = cat_superior_firepower
+			}
+		}
+		ai_will_do = { factor = 40 }
+		x =10
+		y =5
+	}
+	#Focus for Fortress Rhine
+	focus = {
+		id = RHI_fortress_rhine
+		icon = GFX_goal_national_arsenal
+		bypass = {}
+		mutually_exclusive = { focus = RHI_rhenish_firepower}
+		prerequisite = { focus = RHI_rhenish_doctrine_dispute}
+		available = {  }
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_fortress_rhine"
+			add_ideas=RHI_S_defensive_doctrine_1
+			add_doctrine_cost_reduction = {
+				name = doctrine_bonus
+				cost_reduction = 0.25
+				uses = 2
+				category = cat_grand_battle_plan
+			}
+		}
+		ai_will_do = { factor = 40 }
+		x =12
+		y =4
+	}
+	#Focus for Fortress Rhine 2
+	focus = {
+		id = RHI_fortress_rhine_2
+		icon = GFX_goal_generic_defence
+		bypass = {}
+		mutually_exclusive = {}
+		prerequisite = { focus = RHI_fortress_rhine}
+		available = {  }
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_fortress_rhine_2"
+			swap_ideas = { remove_idea=RHI_S_defensive_doctrine_1 add_idea=RHI_S_defensive_doctrine_2}
+			add_doctrine_cost_reduction = {
+				name = doctrine_bonus
+				cost_reduction = 0.5
+				uses = 1
+				category = cat_grand_battle_plan
+			}
+		}
+		ai_will_do = { factor = 40 }
+		x =12
+		y =5
+	}
+	#Focus for French Doctrine Dispute
+	focus = {
+		id = RHI_french_doctrine_dispute
+		icon = GFX_goal_generic_build_tank
+		bypass = {}
+		mutually_exclusive = { }
+		prerequisite = { focus = RHI_rhenish_conscription  focus = RHI_french_enlistment  focus = RHI_french_officers}
+		available = {  }
+		available_if_capitulated = yes
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_french_doctrine_dispute"
+			remove_ideas = RHI_S_army_doctrine_dispute
+		}
+		ai_will_do = { factor = 100}
+		x =17
+		y =3
+	}
+	#Focus for Trench Warefare
+	focus = {
+		id = RHI_trench_warefare
+		icon = GFX_human_tsunami
+		bypass = {}
+		mutually_exclusive = { focus = RHI_mechanized_guard}
+		prerequisite = { focus = RHI_french_doctrine_dispute}
+		available = {  }
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_trench_warefare"
+			add_ideas=RHI_S_trench_war_1
+			add_doctrine_cost_reduction = {
+				name = doctrine_bonus
+				cost_reduction = 0.25
+				uses = 2
+				category = cat_grand_battle_plan
+			}
+		}
+		ai_will_do = { factor = 40 }
+		x =16
+		y =4
+	}
+	#Focus for Trench Warefare 2
+	focus = {
+		id = RHI_trench_warefare_2
+		icon = GFX_goal_forced_res
+		bypass = {}
+		mutually_exclusive = {}
+		prerequisite = { focus = RHI_trench_warefare}
+		available = {  }
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_trench_warefare_2"
+			swap_ideas = { add_idea=RHI_S_trench_war_2 remove_idea=RHI_S_trench_war_1}
+			add_doctrine_cost_reduction = {
+				name = doctrine_bonus
+				cost_reduction = 0.5
+				uses = 1
+				category = cat_grand_battle_plan
+			}
+		}
+		ai_will_do = { factor = 40 }
+		x =16
+		y =5
+	}
+	#Focus for Mechanized Guard
+	focus = {
+		id = RHI_mechanized_guard
+		icon = GFX_goal_generic_army_motorized
+		bypass = {}
+		mutually_exclusive = { focus = RHI_trench_warefare}
+		prerequisite = { focus = RHI_french_doctrine_dispute}
+		available = {  }
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_mechanized_guard"
+			add_ideas=RHI_S_blitz_1
+			add_doctrine_cost_reduction = {
+				name = doctrine_bonus
+				cost_reduction = 0.25
+				uses = 2
+				category = cat_mobile_warfare
+			}
+
+		}
+		ai_will_do = { factor = 40 }
+		x =18
+		y =4
+	}
+	#Focus for Mechanized Guard 2
+	focus = {
+		id = RHI_mechanized_guard_2
+		icon = GFX_goal_continuous_armor_production
+		bypass = {}
+		mutually_exclusive = { }
+		prerequisite = { focus = RHI_mechanized_guard}
+		available = {  }
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_mechanized_guard_2"
+			swap_ideas = { add_idea=RHI_S_blitz_2 remove_idea=RHI_S_blitz_1}
+			add_doctrine_cost_reduction = {
+				name = doctrine_bonus
+				cost_reduction = 0.5
+				uses = 1
+				category = cat_mobile_warfare
+			}
+		}
+		ai_will_do = { factor = 40 }
+		x =18
+		y =5
+	}
+	##Fort Construction Focuses
+	#Focus for Begin Construction
+	focus = {
+		id = RHI_forts_1
+		icon = GFX_goal_generic_fortify_city
+		bypass = {}
+		mutually_exclusive = {}
+		prerequisite = { focus = RHI_fortress_rhine focus= RHI_trench_warefare}
+		available = {  }
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_forts_1"
+			add_ideas=RHI_S_fort_production
+			###Inner Rhineland
+			746 = {
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 11435
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 11470
+					instant_build = yes
+				}
+
+			}
+			##Outer Rhineland
+			51 = {
+				add_building_construction = {
+					type = bunker
+					level = 1
+					province = 6469
+					instant_build = yes
+				}
+			}
+		}
+		ai_will_do = { factor = 40 }
+		x =14
+		y =5
+	}
+	#Focus for Western Construction
+	focus = {
+		id = RHI_forts_west_1
+		icon = GFX_goal_generic_construct_military
+		bypass = {}
+		mutually_exclusive = {focus=RHI_forts_east_1}
+		prerequisite = { focus = RHI_forts_1}
+		available = {  }
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_forts_west_1"
+			###Moselland
+			42 = {
+				add_building_construction = {
+					type = bunker
+					level = 3
+					province = 9575
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 3
+					province = 11531
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 3
+					province = 563
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 3
+					province = 3558
+					instant_build = yes
+				}
+			}
+			###Westlich Rhineland
+			746 = {
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 9522
+					instant_build = yes
+				}
+			}
+		}
+		ai_will_do = { factor = 40 }
+		x =13
+		y =6
+	}
+	#Focus for Eastern Construction
+	focus = {
+		id = RHI_forts_east_1
+		icon = GFX_goal_generic_construct_military
+		bypass = {}
+		mutually_exclusive = {focus=RHI_forts_west_1}
+		prerequisite = { focus = RHI_forts_1}
+		available = {  }
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_forts_east_1"
+			##Outer Rhineland
+			51 = {
+				add_building_construction = {
+					type = bunker
+					level = 3
+					province = 3512
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 3
+					province = 6469
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 3
+					province = 9482
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 3
+					province = 529
+					instant_build = yes
+				}
+			}
+			###Moselland
+			42 = {
+				add_building_construction = {
+					type = bunker
+					level = 3
+					province = 3423
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 3
+					province = 11560
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 3
+					province = 3558
+					instant_build = yes
+				}
+			}
+		}
+		ai_will_do = { factor = 40 }
+		x =15
+		y =6
+	}
+	#Focus for Military Research
+	focus = {
+		id = RHI_military_research
+		icon = GFX_goal_generic_scientific_exchange
+		bypass = {}
+		mutually_exclusive = {}
+		prerequisite = { focus = RHI_rhenish_doctrine_dispute focus= RHI_french_doctrine_dispute}
+		available = {  }
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_military_research"
+			add_research_slot = 1
+		}
+		ai_will_do = { factor =  100}
+		x =14
+		y =4
+	}
+
+	##### MILITERIZATION FOCUSES END #####
+	##### AIRFORCE FOCUSES BEGIN#####
+
+	#Focus Airforce
+	focus = {
+		id = RHI_Fliegertruppen
+		icon = GFX_goal_generic_build_airforce
+		bypass = {}
+		prerequisite = {}
+		available = {has_completed_focus = RHI_military_research}
+		available_if_capitulated = yes
+		cost = 1
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_Fliegertruppen"
+
+		}
+		ai_will_do = { factor = 40 }
+		x =25
+		y =0
+	}
+	#Focus CAS Doctrine
+	focus = {
+		id = RHI_CAS_Air
+		icon = GFX_goal_generic_air_doctrine
+		bypass = {}
+		mutually_exclusive = { focus = RHI_Oper_Air}
+		prerequisite = {focus=RHI_Fliegertruppen}
+		available = {}
+		available_if_capitulated = yes
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_CAS_Air"
+			remove_ideas = RHI_S_air_doctrine_dispute
+			add_doctrine_cost_reduction = { cost_reduction = 0.25 uses = 3 category = cat_battlefield_support }
+		}
+		ai_will_do = { factor = 40 }
+		x =23
+		y =1
+	}
+	#Focus Operational Integrity Doctrine
+	focus = {
+		id = RHI_Oper_Air
+		icon = GFX_goal_generic_air_fighter2
+		bypass = {}
+		mutually_exclusive = { focus = RHI_CAS_Air}
+		prerequisite = {focus=RHI_Fliegertruppen}
+		available = {}
+		available_if_capitulated = yes
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_Oper_Air"
+			remove_ideas = RHI_S_air_doctrine_dispute
+			add_doctrine_cost_reduction = { cost_reduction = 0.25 uses = 3 category = cat_operational_integrity }
+		}
+		ai_will_do = { factor = 40 }
+		x =27
+		y =1
+	}
+	#Focus Aircraft Production
+	focus = {
+		id = RHI_Air_Production_Debate
+		icon = GFX_goal_generic_production2
+		bypass = {}
+		prerequisite = {focus=RHI_Oper_Air focus=RHI_CAS_Air }
+		available = {}
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_Air_Production_Debate"
+			add_political_power = 50
+		}
+		ai_will_do = { factor = 40 }
+		x =25
+		y =2
+	}
+	#Focus Domestic Production
+	focus = {
+		id = RHI_Air_Local_Production
+		icon = GFX_goal_production
+		bypass = {}
+		mutually_exclusive = { focus = RHI_Air_Foreign_Production}
+		prerequisite = {focus=RHI_Air_Production_Debate}
+		available = {}
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_Air_Local_Production"
+			air_experience = 50
+		}
+		ai_will_do = { factor = 40 }
+		x =23
+		y =3
+	}
+	#Focus Foreign Production
+	focus = {
+		id = RHI_Air_Foreign_Production
+		icon = GFX_focus_generic_license_production
+		bypass = {}
+		mutually_exclusive = { focus = RHI_Air_Local_Production}
+		prerequisite = {focus=RHI_Air_Production_Debate}
+		available = {}
+		available_if_capitulated = yes
+		cost = 5
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_Air_Foreign_Production"
+
+		}
+		ai_will_do = { factor = 40 }
+		x =27
+		y =3
+	}
+	#Focus Light Research
+	focus = {
+		id = RHI_Air_Light_Research
+		icon = GFX_goal_generic_air_fighter
+		bypass = {}
+		mutually_exclusive = {focus= RHI_Air_Heavy_Research}
+		prerequisite = {focus= RHI_Air_Local_Production}
+		available = {}
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_Air_Light_Research"
+			add_tech_bonus = { bonus = 0.25 uses = 2 category = cas_bomber }
+			add_tech_bonus = { bonus = 0.25 uses = 2 category = light_fighter }
+		}
+		ai_will_do = { factor = 40 }
+		x =22
+		y =4
+	}
+	#Focus Light Production
+	focus = {
+		id = RHI_Air_Light_Production
+		icon = GFX_goal_generic_air_fighter
+		bypass = {}
+		prerequisite = {focus= RHI_Air_Light_Research}
+		available = {}
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_Air_Light_Production"
+			add_ideas=RHI_S_light_production
+		}
+		ai_will_do = { factor = 40 }
+		x =22
+		y =5
+	}
+	#Focus Heavy Research
+	focus = {
+		id = RHI_Air_Heavy_Research
+		icon = GFX_goal_generic_air_bomber
+		bypass = {}
+		mutually_exclusive = { focus = RHI_Air_Light_Research}
+		prerequisite = {focus= RHI_Air_Local_Production}
+		available = {}
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_Air_Heavy_Research"
+			add_tech_bonus = { bonus = 0.25 uses = 2 category = cat_heavy_fighter }
+			add_tech_bonus = { bonus = 0.25 uses = 2 category = cat_strategic_bomber }
+		}
+		ai_will_do = { factor = 40 }
+		x =24
+		y =4
+	}
+	#Focus Heavy Production
+	focus = {
+		id = RHI_Air_Heavy_Production
+		icon = GFX_goal_generic_air_bomber
+		bypass = {}
+		prerequisite = {focus= RHI_Air_Heavy_Research}
+		available = {}
+		available_if_capitulated = yes
+		cost = 10
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus RHI_Air_Heavy_Production"
+			add_ideas = RHI_S_heavy_production
+		}
+		ai_will_do = { factor = 40 }
+		x =24
+		y =5
+	}
+	##### AIRFORCE FOCUSES END#####
+}

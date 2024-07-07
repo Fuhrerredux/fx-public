@@ -1,0 +1,508 @@
+foreign_politics = {
+	SAU_invite_muscat = {
+		allowed = { original_tag = SAU }
+		cost = 20
+		fire_only_once = yes
+		ai_will_do = {
+			factor = 200
+		}
+		target_trigger = {
+			FROM = { tag = OMA }
+		}
+		available = {
+			is_faction_leader = yes
+		}
+		visible = {
+			has_country_flag = SAU_punish_muscat_flag
+
+			OMA = {
+				exists = yes
+				is_in_faction = no
+				is_subject = no
+			}
+		}
+		complete_effect = {
+			add_to_faction = OMA
+		}
+	}
+}
+
+foreign_politics = {
+	SAU_send_equipment = {
+		allowed = { original_tag = SAU }
+		icon = GFX_decision_hol_exchange_intelligence_data
+		cost = 50
+		fire_only_once = yes
+		ai_will_do = {
+			factor = 200
+		}
+		target_trigger = {
+			FROM = { tag = OMA }
+		}
+		available = {
+			ENG = {
+				owns_state = 294
+			}
+		}
+		visible = {
+			has_completed_focus = SAU_provoke_oman_rebellion
+		}
+		complete_effect = {
+			custom_effect_tooltip = SAU_send_equipment_tt
+			hidden_effect = {
+				ENG = {
+					country_event = { id = saudi.18 days = 1}
+				}
+			}
+		}
+	}
+	SAU_punish_muscat = {
+		allowed = { original_tag = ENG }
+		icon = GFX_decision_generic_ignite_civil_war
+		fire_only_once = yes
+		days_mission_timeout = 160
+		selectable_mission = no
+		is_good = no
+		ai_will_do = {
+			factor = 200
+		}
+		available = {
+			if = {
+				limit = {
+					OMA = { is_in_faction_with = SAU }
+				}
+				OMA = { has_capitulated = yes }
+				custom_trigger_tooltip = {
+					tooltip = SAU_control_core_state
+					any_of = {
+						array = SAU.core_states
+						var:v = {
+							controller = {
+								tag = ROOT
+							}
+						}
+					}
+				}
+				else = {
+					OMA = {
+						OR = {
+							has_capitulated = yes
+							exists = no
+						}
+					}
+				}
+			}
+		}
+		activation = {
+			has_country_flag = SAU_punish_muscat_flag
+		}
+		target_trigger = {
+			FROM = {
+				tag = OMA
+				has_war_with = ROOT
+			}
+		}
+		visible = {
+			FROM = {
+				exists = yes
+				has_war_with = ROOT
+			}
+		}
+		timeout_effect = {
+			white_peace = OMA
+			every_enemy_country = {
+				limit = {
+					is_in_faction_with = OMA
+				}
+				white_peace = ROOT
+			}
+			clr_country_flag = SAU_punish_muscat_flag
+		}
+		complete_effect = {
+			clr_country_flag = SAU_punish_muscat_flag
+		}
+	}
+	SAU_protect_lebanon = {
+		allowed = { original_tag = FRA }
+		icon = GFX_decision_generic_ignite_civil_war
+		fire_only_once = yes
+		days_mission_timeout = 160
+		selectable_mission = no
+		is_good = no
+		available = {
+			PHN = {
+				has_capitulated = no
+			}
+			custom_trigger_tooltip = {
+				tooltip = SAU_protect_lebanon_tt
+				any_of = {
+					array = SAU.core_states
+					var:v = {
+						controller = {
+							tag = ROOT
+						}
+					}
+				}
+			}
+		}
+		activation = {
+			has_country_flag = SAU_protect_lebanon_flag
+		}
+		target_trigger = {
+			FROM = {
+				tag = SAU
+				has_war_with = ROOT
+			}
+		}
+		visible = {
+			country_exists = FROM
+			has_war_with = FROM
+		}
+		timeout_effect = {
+			white_peace = SAU
+			every_enemy_country = {
+				limit = {
+					is_in_faction_with = SAU
+				}
+				white_peace = ROOT
+			}
+			clr_country_flag = SAU_protect_lebanon_flag
+		}
+		complete_effect = {
+			clr_country_flag = SAU_protect_lebanon_flag
+		}
+	}
+	SAU_protect_jerusalem = {
+		allowed = { original_tag = ENG }
+		icon = GFX_decision_generic_ignite_civil_war
+		fire_only_once = yes
+		days_mission_timeout = 160
+		selectable_mission = no
+		is_good = no
+		available = {
+			ISR = {
+				has_capitulated = no
+			}
+			custom_trigger_tooltip = {
+				tooltip = SAU_protect_jerusalem_tt
+				any_of = {
+					array = SAU.core_states
+					var:v = {
+						controller = {
+							tag = ROOT
+						}
+					}
+				}
+			}
+		}
+		activation = {
+			has_country_flag = SAU_protect_jerusalem_flag
+		}
+		target_trigger = {
+			FROM = {
+				tag = SAU
+				has_war_with = ROOT
+			}
+		}
+		visible = {
+			country_exists = FROM
+			has_war_with = FROM
+		}
+		timeout_effect = {
+			white_peace = SAU
+			every_enemy_country = {
+				limit = {
+					is_in_faction_with = SAU
+				}
+				white_peace = ROOT
+			}
+			clr_country_flag = SAU_protect_jerusalem_flag
+		}
+		complete_effect = {
+			clr_country_flag = SAU_protect_jerusalem_flag
+		}
+	}
+	SAU_reclaim_trucial_states = {
+		allowed = { original_tag = ENG }
+		icon = GFX_decision_generic_ignite_civil_war
+		fire_only_once = yes
+		days_mission_timeout = 230
+		selectable_mission = no
+		is_good = no
+		available = {
+			OR = {
+				SAU = { has_capitulated = yes }
+				custom_trigger_tooltip = {
+					tooltip = SAU_reclaim_trucial_states_tt
+					any_of = {
+						array = SAU.core_states
+						var:v = {
+							controller = {
+								tag = ROOT
+							}
+						}
+					}
+				}
+			}
+		}
+		activation = {
+			has_country_flag = SAU_reclaim_trucial_states_flag
+		}
+		target_trigger = {
+			FROM = {
+				tag = SAU
+				has_war_with = ROOT
+			}
+		}
+		visible = {
+			country_exists = FROM
+			has_war_with = FROM
+		}
+		timeout_effect = {
+			white_peace = SAU
+			every_enemy_country = {
+				limit = {
+					is_in_faction_with = SAU
+				}
+				white_peace = ROOT
+			}
+			clr_country_flag = SAU_reclaim_trucial_states_flag
+		}
+		complete_effect = {
+			clr_country_flag = SAU_reclaim_trucial_states_flag
+		}
+	}
+}
+
+SAU_war_of_arabian_reunification = {
+	SAU_integrate_jabal_shammar = {
+		icon = GFX_decision_generic_form_nation
+		cost = 20
+		days_remove = 30
+		state_target = yes
+		on_map_mode = map_and_decisions_view
+		ai_will_do = {
+			factor = 200
+		}
+		target_trigger = {
+			owns_state = FROM
+			FROM = {
+				is_core_of = RAS
+			}
+		}
+		targets = {
+			945 946
+		}
+		available = {
+			has_full_control_of_state = FROM
+		}
+		visible = {
+			FROM = {
+				NOT = { is_core_of = ROOT }
+			}
+			owns_state = FROM
+			has_completed_focus = SAU_purge_rashidis
+		}
+		remove_effect = {
+			FROM = {
+				remove_core_of = RAS
+				remove_claim_by = ROOT
+				add_core_of = ROOT
+			}
+		}
+	}
+	SAU_integrate_hejaz = {
+		icon = GFX_decision_generic_form_nation
+		cost = 20
+		days_remove = 30
+		state_target = yes
+		on_map_mode = map_and_decisions_view
+		ai_will_do = {
+			factor = 200
+		}
+		target_trigger = {
+			owns_state = FROM
+			FROM = {
+				is_core_of = HEJ
+			}
+		}
+		targets = {
+			679 1031
+		}
+		available = {
+			has_full_control_of_state = FROM
+		}
+		visible = {
+			FROM = {
+				NOT = { is_core_of = ROOT }
+			}
+			owns_state = FROM
+			has_completed_focus = SAU_hunt_hashemites
+		}
+		remove_effect = {
+			FROM = {
+				remove_core_of = HEJ
+				remove_claim_by = ROOT
+				add_core_of = ROOT
+			}
+		}
+	}
+	SAU_raise_militia = {
+		icon = GFX_decision_generic_military
+		fire_only_once = yes
+		days_remove = 14
+		state_target = yes
+		on_map_mode = map_and_decisions_view
+		ai_will_do = {
+			factor = 200
+		}
+		targets = {
+			744 292 1032
+		}
+		target_trigger = { owns_state = FROM }
+		visible = {
+			OR = {
+				country_exists = HEJ
+				country_exists = RAS
+			}
+		}
+		available = {
+			has_full_control_of_state = FROM
+			custom_trigger_tooltip = {
+				tooltip = SAU_not_raising_division_tt
+				NOT = {
+					has_country_flag = SAU_raising_division
+				}
+			}
+		}
+		remove_effect = {
+			clr_country_flag = SAU_raising_division
+			if = {
+				limit = {
+					NOT = {
+						all_owned_state = {
+							is_impassable_state = yes
+						}
+					}
+				}
+				FROM = {
+					create_unit = {
+						division = "name = \"Banu Thaqif Militia\" division_template = \"Qasam Milishia\" start_experience_factor = 0.5"
+						owner = SAU
+					}
+				}
+			}
+		}
+		complete_effect = {
+			set_country_flag = SAU_raising_division
+		}
+	}
+	SAU_raise_cavalry = {
+		icon = GFX_decision_generic_cavalry
+		fire_only_once = yes
+		days_remove = 14
+		state_target = yes
+		on_map_mode = map_and_decisions_view
+		ai_will_do = {
+			factor = 200
+		}
+		targets = {
+			744 292 1032
+		}
+		target_trigger = { owns_state = FROM }
+		visible = {
+			OR = {
+				country_exists = HEJ
+				country_exists = RAS
+			}
+		}
+		available = {
+			has_full_control_of_state = FROM
+			custom_trigger_tooltip = {
+				tooltip = SAU_raising_division_tt
+				NOT = {
+					has_country_flag = SAU_raising_division
+				}
+			}
+		}
+		remove_effect = {
+			clr_country_flag = SAU_raising_division
+			random_owned_controlled_state = {
+				limit = { is_impassable_state = no }
+				FROM = {
+					create_unit = {
+						division = "name = \"Saudi Calvary\" division_template = \"Firqat Alfursan\" start_experience_factor = 1.0"
+						owner = SAU
+					}
+				}
+			}
+		}
+		complete_effect = {
+			set_country_flag = SAU_raising_division
+		}
+	}
+}
+
+SAU_dealing_with_the_ikhwan = {
+	SAU_punish_the_ikhwan = {
+		icon = GFX_decision_generic_police_action
+		is_good = no
+		days_mission_timeout = 240
+		ai_will_do = {
+			factor = 200
+		}
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = SAU_punish_the_ikhwan_tt
+				744 = {
+					has_state_flag = SAU_free_of_ikhwan
+				}
+				946 = {
+					has_state_flag = SAU_free_of_ikhwan
+				}
+				1032 = {
+					has_state_flag = SAU_free_of_ikhwan
+				}
+			}
+		}
+		activation = {
+			has_completed_focus = SAU_eliminate_threats
+		}
+		timeout_effect = {
+
+		}
+		complete_effect = {
+			remove_ideas = SAU_ikhwan_resistance_idea
+		}
+	}
+	SAU_conduct_operations_in_from = {
+		icon = GFX_decision_oppression
+		cost = 20
+		days_remove = 30
+		state_target = yes
+		ai_will_do = {
+			factor = 200
+		}
+		visible = {
+			has_idea = SAU_ikhwan_resistance_idea
+			has_completed_focus = SAU_crush_ikhwan
+		}
+		available = {
+			has_full_control_of_state = FROM
+		}
+		target_trigger = {
+			FROM = {
+				OR = {
+					state = 744
+					state = 946
+					state = 1032
+				}
+			}
+		}
+		remove_effect = {
+			FROM = {
+				SAU_decrease_ikhwan_resistance = yes
+			}
+		}
+	}
+}

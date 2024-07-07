@@ -1,0 +1,626 @@
+# - Notes from SuperMarks
+# - These strategy plans are enabled shortly after game-start following a hidden event being fired for AI Britain where five possible options are chosen with 20% chance for each.
+# - Each of these options will dictate an 'objective' for AI UK to aim towards. They are as follows: Cape to Singapore (build railways bro), Squash Soviets (Lenin on suicide watch), Reform Entente (be best buds with France and restore the Entente Cordiale)
+# - Isolationist Imperial Federation (Form the ImpFed and completely ignore global affairs until you do) and finally Challenge France (do everything in your power to kill France even if it means siding with the Germans).
+# - There isn't much room for flexibility in these plans but by making good use of the abort command I will hopefully avoid silly situations (Yes I know this is HoI4. What do you mean that's wishful thinking?).
+
+
+#####CAPE TO SINGAPORE#####
+
+ENG_alternate_plan_1 = {
+	name = "Cape to Singapore"
+	desc = "AI will prioritise completing Cape to Singapore project. Will largely ignore GW2 in Europe until completed."
+	
+	enable = {
+		original_tag = ENG
+		has_country_flag = capesingapore
+		NOT = { has_completed_focus = ENG_cape_singapore }
+		AND = {
+			NOT = {
+				has_war_with = GER
+				has_war_with = FRA
+				has_war_with = ITA
+				has_war_with = SOV
+				has_war_with = JAP
+				has_war_with = USA
+				has_war_with = ARB
+				has_war_with = IRQ
+				has_war_with = PER
+				has_war_with = SIA
+				has_war_with = AFG
+			}
+		}
+	}
+	
+	abort = {		# - The strategy plan will end if the UK is at war with any of the major powers. To avoid them pursuing something stupid when they should be focusing on winning a war.
+		OR = {
+			has_war_with = GER
+			has_war_with = FRA
+			has_war_with = ITA
+			has_war_with = SOV
+			has_war_with = JAP
+			has_war_with = USA
+			has_war_with = ARB
+			has_war_with = IRQ
+			has_war_with = PER
+			has_war_with = SIA
+			has_war_with = AFG
+			has_completed_focus = ENG_cape_singapore		# If we've finished our goal abort the strategy plan
+		}
+	}
+	
+	ai_national_focuses = {		# - Foci we should rush for immediately in this order
+		ENG_mil_review 				# - 35 days
+		ENG_recon_army				# - 35 days
+		ENG_imperial_development	# - 7 days
+		ENG_theraf					# - 35 days
+		ENG_thern					# - 35 days
+		ENG_grandfleet				# - 35 days
+		ENG_harris					# - 35 days
+		ENG_haig					# - 35 days 	LSMC should fire half way through this.
+		ENG_austerity				# - 70 days
+		ENG_redu_budget				# - 35 days
+		ENG_unprofit				# - 35 days
+		ENG_cut_invest				# - 35 days
+		ENG_new_taxes				# - 35 days
+		ENG_sector_cuts				# - 35 days 	When this is finished there's a short lull before rest of the eco tree is opened up
+		ENG_battleplan				# - 35 days
+		ENG_supporttanks			# - 35 days
+		ENG_entrenchment			# - 35 days
+		ENG_continue_austerity		# - 7 days
+		ENG_devalue					# - 35 days
+		ENG_further_cuts			# - 70 days
+		ENG_cut_benefits			# - 70 days
+		ENG_interest				# - 35 days
+		ENG_mil_cuts				# - 35 days
+		ENG_cut_invest2				# - 35 days
+		ENG_end_austerity			# - 35 days		Economic Stuff is done, time for Politics
+		ENG_imperialism_focus				# - 7 days		Moved this up so UK unlocks civvie eco earlier.
+		ENG_landship				# - 35 days		These two foci have been moved up to allow hopefully alleviate the problem of the UK not training additional divisions
+		ENG_renew_mil				# - 7 days		These two foci have been moved up to allow hopefully alleviate the problem of the UK not training additional divisions
+		ENG_con_maj					# - 7 days
+		ENG_fund_royal_society			# - 35 days
+		ENG_court_corp				# - 35 days
+		ENG_royal_charter_companies			# - 35 days
+		ENG_five_eyes_programme			# - 35 days
+		ENG_fund_mi6			# - 35 days
+		ENG_tory_nation				# - 35 days		Domestic Politics is done, now Imperial Politics
+		ENG_status_quo				# - 7 days
+		ENG_bonds					# - 70 days
+		ENG_promote_trade			# - 70 days
+		ENG_mil_coord				# - 70 days
+		ENG_imp_science				# - 70 days
+		ENG_empire_unity			# - 70 days		Foreign Policy now
+		ENG_cape_cairo				# - 70 days		
+		ENG_dip_iraq				# - 35 days
+		ENG_dip_arabia				# - 35 days
+		ENG_dip_persia				# - 35 days
+		ENG_cape_calcutta			# - 140 days 	More
+		ENG_defend_singapore		# - 35 days
+		ENG_mountain_pass			# - 35 days
+		ENG_dip_siam				# - 35 days
+		ENG_cape_singapore			# - 70 days 	Railways
+	}
+	
+	research = {		# - Bit more focus on Navy tech as Cape to Singapore is intended to be extension of 19thC Britain
+		naval_doctrine = 20.0
+		naval_equipment = 20.0
+		air_doctrine = 10.0
+		cat_grand_battle_plan = 10.0
+	}
+
+	ideas = {		# - Additional national spirits/ideas the AI will pursue above others. You can reference companies and ministers in this area and the AI will make a point of getting them.
+
+	}
+
+	# Keep small, as it is used as a factor for some things (such as research needs)
+	# Recommended around 1.0. Useful for relation between plans
+	weight = {
+		factor = 1.0
+		modifier = {
+			factor = 1.0
+		}
+	}
+	
+	focus_factors = {		# Other foci we should prioritise above others but when the above list is finished.
+		ENG_cape_calcutta = 5.0
+		ENG_cape_singapore = 5.0
+		ENG_renew_mil = 5.0
+	}
+}
+
+#####AVENGE 1776#####
+
+ENG_alternate_plan_2 = {
+	name = "Crush Collectivism"
+	desc = "AI will prioritise destroying the Soviet Union. All other priorities are secondary, GW2 included."
+	
+	enable = {
+		original_tag = ENG
+		has_country_flag = avenging1776
+		AND = {
+			NOT = {
+				has_war_with = GER
+				has_war_with = FRA
+				has_war_with = ITA
+				has_war_with = SOV
+				has_war_with = JAP
+				has_war_with = USA
+				has_war_with = PER
+				has_war_with = SIA
+				has_war_with = AFG
+				has_war_with = TRK
+			}
+		}
+		SOV = { exists = yes }
+	}
+	
+	abort = {
+		OR = {
+			has_war_with = GER
+			has_war_with = FRA
+			has_war_with = ITA
+			has_war_with = SOV
+			has_war_with = JAP
+			has_war_with = USA
+			has_war_with = PER
+			has_war_with = SIA
+			has_war_with = AFG
+			has_war_with = TRK
+		}
+		SOV = { exists = no }	# We should probably stop trying to kill the Soviets if they're already dead.
+	}
+	
+	ai_national_focuses = {		# - Foci we should rush for immediately in this order
+		ENG_mil_review 				# - 35 days
+		ENG_recon_army				# - 35 days
+		ENG_imperial_development	# - 7 days
+		ENG_theraf					# - 35 days
+		ENG_thern					# - 35 days
+		ENG_faa						# - 35 days
+		ENG_portal					# - 35 days
+		ENG_ironside				# - 35 days 	LSMC should fire half way through this.
+		ENG_austerity				# - 70 days
+		ENG_redu_budget				# - 35 days
+		ENG_unprofit				# - 35 days
+		ENG_cut_invest				# - 35 days
+		ENG_new_taxes				# - 35 days
+		ENG_sector_cuts				# - 35 days 	No lull in Eco tree becuase UK is PatAut
+		ENG_continue_austerity		# - 7 days
+		ENG_devalue					# - 35 days
+		ENG_further_cuts			# - 70 days
+		ENG_cut_benefits			# - 70 days
+		ENG_interest				# - 35 days
+		ENG_mil_cuts				# - 35 days
+		ENG_cut_invest2				# - 35 days
+		ENG_end_austerity			# - 35 days		Economic Stuff is done, time for Politics
+		ENG_imperialism_focus				# - 7 days		Moved up so UK unlocks civvie eco earlier.
+		ENG_absolutism				# - 7 days
+		ENG_fate_unions				# - 35 days
+		ENG_aristocracy				# - 35 days
+		ENG_faith_nation			# - 35 days
+		ENG_household_guard			# - 35 days
+		ENG_expand_privy			# - 35 days
+		ENG_destiny					# - 35 days		Politics done, onto Military
+		ENG_art_produ1				# - 35 days
+		ENG_expand_ra				# - 35 days
+		ENG_incorp_aa				# - 35 days
+		ENG_art_produ2				# - 35 days
+		ENG_renew_mil				# - 7 days		Several foci have been moved up to allow the UK access to a greater supply of MP sooner.
+		ENG_status_quo				# - 7 days
+		ENG_bonds					# - 70 days
+		ENG_promote_trade			# - 70 days
+		ENG_mil_coord				# - 70 days
+		ENG_imp_science				# - 70 days
+		ENG_empire_unity			# - 70 days	
+		ENG_exercises				# - 35 days
+		ENG_protocv					# - 35 days
+		ENG_exp_shipyards1			# - 35 days
+		ENG_escort_vessels			# - 35 days
+		ENG_support_army			# - 35 days
+		ENG_control_skies			# - 35 days
+		ENG_develop_fighters		# - 35 days		Military in a good place, time for Foreign Affairs
+		ENG_cape_cairo				# - 70 days
+		ENG_dip_iraq				# - 70 days
+		ENG_dip_persia				# - 70 days
+		ENG_cape_calcutta			# - 140 days
+		ENG_defend_singapore		# - 35 days
+		ENG_mountain_pass			# - 35 days
+		ENG_dip_siam				# - 35 days
+		ENG_cape_singapore			# - 70 days
+		ENG_dip_afghanistan			# - 35 days
+		#ENG_dip_ussr				# - 7 days	Temporarily disabled so that the AI will correctly attack Transcaspia first.
+	}
+	
+	research = {		# - More focus on land doctrine in preparation for large land war in Central Asia and elsewhere.
+		cat_superior_firepower = 15.0
+		infantry_weapons = 10.0
+		armor = 10.0
+		artillery = 5.0
+		air_doctrine = 20.0
+		air_equipment = 20.0
+		cas_bomber = 5.0
+	}
+
+	ideas = {
+
+	}
+	
+	ai_strategy = {		# - You can add ai_strategy code blocks here to make the AI do additional things. Here I'm making the UK AI focus on containing the USA from game-start.
+		type = contain
+		id = "SOV"			
+		value = 200
+	}
+
+	# Keep small, as it is used as a factor for some things (such as research needs)
+	# Recommended around 1.0. Useful for relation between plans
+	weight = {
+		factor = 1.0
+		modifier = {
+			factor = 1.0
+		}
+	}
+	
+	focus_factors = {
+		ENG_renew_mil = 5.0
+	}
+}
+
+#####REFORM ENTENTE#####
+
+ENG_alternate_plan_3 = {
+	name = "Reform Entente"
+	desc = "AI will prioritise mending fences with France with aim of restoring Entente."
+	
+	enable = {
+		original_tag = ENG
+		has_country_flag = reformentente
+		AND = {
+			NOT = {
+				has_war_with = GER
+				has_war_with = FRA
+				has_war_with = ITA
+				has_war_with = SOV
+				has_war_with = JAP
+				has_war_with = USA
+			}
+		}
+		NOT = { FRA = { is_in_faction_with = ENG } }	# This would mean that the goal is complete
+	}
+	
+	abort = {
+		OR = {
+			has_war_with = GER
+			has_war_with = FRA
+			has_war_with = ITA
+			has_war_with = SOV
+			has_war_with = JAP
+			has_war_with = USA
+			FRA = { exists = no }	# Trying to Reform the Entente is pointless if France doesn't even exist.
+			FRA = { is_in_faction_with = ENG }	# This would mean that the goal is complete
+		}
+	}
+	
+	ai_national_focuses = {		# - Foci we should rush for immediately in this order
+		ENG_mil_review 				# - 35 days
+		ENG_recon_army				# - 35 days
+		ENG_imperial_development	# - 7 days
+		ENG_theraf					# - 35 days
+		ENG_thern					# - 35 days
+		ENG_grandfleet				# - 35 days
+		ENG_harris					# - 35 days
+		ENG_massingberd				# - 35 days 	LSMC should fire half way through this.
+		ENG_stimulus				# - 70 days
+		ENG_produ_quota				# - 35 days
+		ENG_subsidies				# - 35 days
+		ENG_inflation				# - 35 days
+		ENG_target_tax				# - 35 days
+		ENG_tariffs					# - 35 days
+		ENG_sector_cuts				# - 35 days 	Brief lull before next eco foci become available
+		ENG_moto_efforts			# - 35 days
+		ENG_introcruisers			# - 35 days
+		ENG_deploy_ra				# - 35 days		Rest of eco can start now
+		ENG_renew_mil				# - 7 days		Moved this up as it's only 7 days and can afford to be taken before eco.
+		ENG_mosleys_plan			# - 7 days
+		ENG_pub_works				# - 35 days
+		ENG_pensions				# - 35 days
+		ENG_infra_projects			# - 35 days
+		ENG_home_market				# - 70 days
+		ENG_national_effort			# - 70 days		Economic Stuff is done, time for Politics
+		ENG_imperialism_focus		# - 7 days
+		ENG_socialist_coalition		# - 7 days
+		ENG_bbc			# - 35 days
+		ENG_regulate_industrial_growth			# - 35 days
+		ENG_imperial_chemical		# - 35 days
+		ENG_small_business_subsidies				# - 35 days
+		ENG_public_works			# - 35 days
+		ENG_united_socialist		# - 35 days		Politics done, deal with Ireland now
+		ENG_towards_independence	# - 70 days
+		ENG_ire_discussion			# - 35 days
+		ENG_ire_create_parliament	# - 35 days
+		ENG_ire_divided				# - 35 days
+		ENG_ire_pass_homerule		# - 70 days		Ireland finished, onto Imperial Politics
+		ENG_decentralise			# - 7 days
+		ENG_red_gg					# - 35 days
+		ENG_autono_fp				# - 35 days
+		ENG_estab_con				# - 35 days
+		ENG_affirm_sow				# - 7 days		Imperial Stuff done, now to Foreign Affairs
+		ENG_london_conf				# - 28 days		After this we'll let the UK get involved in GW2.
+	}
+	
+	research = {		# - Better focus on aircraft some as France may be dead by the time we get involved. Need Marines too for landings.
+		air_equipment = 30.0
+		marine_tech = 25.0 
+		air_doctrine = 20.0
+		cat_mobile_warfare = 10.0
+	}
+
+	ideas = {
+
+	}
+	
+	ai_strategy = {	
+		type = contain
+		id = "GER"			
+		value = 200
+	}
+
+	# Keep small, as it is used as a factor for some things (such as research needs)
+	# Recommended around 1.0. Useful for relation between plans
+	weight = {
+		factor = 1.0
+		modifier = {
+			factor = 1.0
+		}
+	}
+	
+	focus_factors = {
+		ENG_renew_mil = 5.0
+	}
+}
+
+#####ISOLATIONIST IMPERIAL FEDERATION#####
+
+ENG_alternate_plan_4 = {
+	name = "Isolationist Imperial Federation"
+	desc = "AI will go ImpFed and be extremely Isolationist until ImpFed is finished."
+	
+	enable = {
+		original_tag = ENG
+		has_country_flag = isoimpfed
+		AND = {
+			NOT = {
+				has_war_with = GER
+				has_war_with = FRA
+				has_war_with = ITA
+				has_war_with = SOV
+				has_war_with = JAP
+				has_war_with = USA
+			}
+		}
+		NOT = { has_completed_focus = ENG_diss_parl }
+	}
+	
+	abort = {
+		OR = {
+			has_war_with = GER
+			has_war_with = FRA
+			has_war_with = ITA
+			has_war_with = SOV
+			has_war_with = JAP
+			has_war_with = USA
+			has_completed_focus = ENG_diss_parl
+		}
+	}
+	
+	ai_national_focuses = {		# - Foci we should rush for immediately in this order
+		ENG_mil_review 				# - 35 days
+		ENG_recon_army				# - 35 days
+		ENG_imperial_development	# - 7 days
+		ENG_theraf					# - 35 days
+		ENG_thern					# - 35 days
+		ENG_grandfleet				# - 35 days
+		ENG_harris					# - 35 days
+		ENG_ironside				# - 35 days 	LSMC should fire half way through this.
+		ENG_austerity				# - 70 days
+		ENG_redu_budget				# - 35 days
+		ENG_unprofit				# - 35 days
+		ENG_cut_invest				# - 35 days
+		ENG_new_taxes				# - 35 days
+		ENG_sector_cuts				# - 35 days 	Brief lull in Eco tree because UK is Tory/LibNats
+		ENG_assist_canada			# - 70 days
+		ENG_australasia_dev			# - 70 days		Rest of eco can start now
+		ENG_lfaire					# - 7 days
+		ENG_end_subs				# - 140 days
+		ENG_lift_caps				# - 140 days
+		ENG_liberate_markets		# - 175 days	Economic Stuff is done, time for Politics
+		ENG_standsalone				# - 7 days		Do this as fast as possible to get access to national spirit and civ eco.
+		ENG_tory_coalition			# - 7 days
+		ENG_court_corp				# - 35 days
+		ENG_fund_mi6				# - 35 days
+		ENG_rely_foreign_investment			# - 35 days
+		ENG_bbc			# - 35 days
+		ENG_imperial_chemical			# - 35 days
+		ENG_national_arms_deal		# - 35 days
+		ENG_unify_gov				# - 35 days		Politics done, finish Imperial Development now
+		ENG_saf_diamonds			# - 70 days
+		ENG_india_dev				# - 70 days
+		ENG_est_iedc				# - 35 days
+		ENG_fund_ito				# - 35 days
+		ENG_create_isaac			# - 35 days
+		ENG_imp_council				# - 35 days		Development finished, now for ImpFed stuff
+		ENG_imp_fed					# - 7 days
+		ENG_ris						# - 35 days
+		ENG_sup_loyal				# - 35 days
+		ENG_rej_imp_conf			# - 35 days
+		ENG_imp_parl				# - 35 days		Bit of a break here before doing the rest of this stuff.
+		ENG_standsalone				# - 7 days
+		ENG_hi_def					# - 35 days
+		ENG_reinf_scapa				# - 35 days
+		ENG_remember_1066			# - 35 days
+		ENG_air_supr				# - 35 days
+		#ENG_decen_command			# - 35 days
+		#ENG_renew_territorials		# - 35 days
+		#ENG_home_guard				# - 35 days
+		#ENG_invictus				# - 35 days
+		ENG_art_produ1				# - 35 days
+		ENG_art_produ2				# - 35 days
+		ENG_renew_mil				# - 7 days		Back to ImpFed stuff now		Since UK gets Dominion troops this can be far enough down the list.
+		ENG_dom_integ				# - 35 days
+		ENG_common_eco				# - 35 days
+		ENG_imp_command				# - 35 days
+		ENG_diss_parl				# - 70 days		ImpFed done, decision should occur soon
+	}
+	
+	research = {		# - Shield and Sword
+		naval_doctrine = 50.0
+		naval_equipment = 15.0 
+		air_doctrine = 25.0
+		cat_superior_firepower = 10.0
+	}
+
+	ideas = {
+
+	}
+
+	# Keep small, as it is used as a factor for some things (such as research needs)
+	# Recommended around 1.0. Useful for relation between plans
+	weight = {
+		factor = 1.0
+		modifier = {
+			factor = 1.0
+		}
+	}
+	
+	focus_factors = {
+		ENG_renew_mil = 5.0
+	}
+}
+
+
+#####CHALLENGE FRANCE#####
+
+ENG_alternate_plan_5 = {
+	name = "Challenge France"
+	desc = "AI will prioritise killing the French, even at the expense of Europe."
+	
+	enable = {
+		original_tag = ENG
+		has_country_flag = challengefrance
+		AND = {
+			NOT = {
+				has_war_with = GER
+				has_war_with = FRA
+				has_war_with = ITA
+				has_war_with = SOV
+				has_war_with = JAP
+				has_war_with = USA
+			}
+		}
+		FRA = { exists = yes }
+	}
+	
+	abort = {
+		OR = {
+			has_war_with = GER
+			has_war_with = FRA
+			has_war_with = ITA
+			has_war_with = SOV
+			has_war_with = JAP
+			has_war_with = USA
+		}
+		FRA = { exists = no }	# If France is already dead then surely our problems are over.
+	}
+	
+	ai_national_focuses = {		# - Foci we should rush for immediately in this order
+		ENG_mil_review 				# - 35 days
+		ENG_recon_army				# - 35 days
+		ENG_imperial_development	# - 7 days
+		ENG_theraf					# - 35 days
+		ENG_thern					# - 35 days
+		ENG_grandfleet				# - 35 days
+		ENG_harris					# - 35 days
+		ENG_ironside				# - 35 days 	LSMC should fire half way through this.
+		ENG_austerity				# - 70 days
+		ENG_redu_budget				# - 35 days
+		ENG_unprofit				# - 35 days
+		ENG_cut_invest				# - 35 days
+		ENG_new_taxes				# - 35 days
+		ENG_sector_cuts				# - 35 days 	No lull in Eco tree becuase UK is PatAut
+		ENG_continue_austerity		# - 7 days
+		ENG_devalue					# - 35 days
+		ENG_further_cuts			# - 70 days
+		ENG_cut_benefits			# - 70 days
+		ENG_interest				# - 35 days
+		ENG_mil_cuts				# - 35 days
+		ENG_cut_invest2				# - 35 days
+		ENG_end_austerity			# - 35 days		Economic Stuff is done, some military stuff and then politics
+		ENG_imperialism_focus		# - 7 days		Unlock this asap to get access to civvie eco.
+		ENG_art_produ1				# - 35 days
+		ENG_art_produ2				# - 35 days
+		ENG_expand_ra				# - 35 days
+		ENG_incorp_aa				# - 35 days
+		ENG_renew_mil				# - 7 days		Moved this up along with military foci to help UK get more divisions out sooner.
+		ENG_junta					# - 7 days
+		ENG_establish_barb			# - 35 days
+		ENG_purge_opposition		# - 35 days
+		ENG_soldier_education		# - 35 days
+		ENG_royal_army_reforms		# - 35 days
+		ENG_mil_ind_complex			# - 35 days
+		ENG_future_britain			# - 35 days		Politics done, deal with Ireland
+		ENG_towards_integration		# - 70 days
+		ENG_expand_control			# - 35 days
+		ENG_ire_invest				# - 35 days
+		ENG_ire_endreligdiscr		# - 35 days
+		ENG_ire_reinforce_constab	# - 35 days
+		ENG_crush_brotherhood		# - 70 days		Ireland done, now for Imperialism
+		ENG_status_quo				# - 7 days
+		ENG_bonds					# - 70 days
+		ENG_promote_trade			# - 70 days
+		ENG_mil_coord				# - 70 days
+		ENG_imp_science				# - 70 days
+		ENG_empire_unity			# - 70 days		Foreign Policy now
+		ENG_london_conf				# - 28 days
+		ENG_dip_portugal			# - 35 days
+		ENG_dip_hellas				# - 35 days		Military Preparations Now
+		ENG_learn_jutland			# - 35 days
+		ENG_nav_course				# - 35 days
+		ENG_mod_nav_cons			# - 35 days
+		ENG_strat_destruct			# - 35 days
+		ENG_lrange_escorts			# - 35 days
+		ENG_future_invest			# - 35 days
+		ENG_nott_project			# - 35 days		The Final Reckoning
+		#ENG_dip_france				# - 7 days
+		ENG_final_struggle			# - 7 days
+	}
+	
+	research = {		# - Need a mix of navy and land focus to assist in dealing with France, but navy is still more important.
+		naval_doctrine = 25.0
+		naval_equipment = 20.0
+		cat_superior_firepower = 10.0
+		infantry_tech = 15.0
+	}
+
+	ideas = {
+
+	}
+	
+	ai_strategy = {
+		type = contain
+		id = "FRA"			
+		value = 200
+	}
+
+	# Keep small, as it is used as a factor for some things (such as research needs)
+	# Recommended around 1.0. Useful for relation between plans
+	weight = {
+		factor = 1.0
+		modifier = {
+			factor = 1.0
+		}
+	}
+	
+	focus_factors = {
+		ENG_renew_mil = 5.0
+	}
+}

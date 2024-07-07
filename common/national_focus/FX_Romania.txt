@@ -1,0 +1,5029 @@
+#!gfx:interface/FX_goals.gfx
+#!gfx:interface/KR_goals.gfx
+# Romanian Focus Tree
+# created by: dax0102
+
+focus_tree = {
+	id = romanian_focus
+	country = {
+		factor = 0
+		modifier = {
+			add = 10
+			tag = ROM
+		}
+	}
+
+	# Preservation of Greater Romania
+	focus = {
+		id = ROM_preservation_of_greater_romania
+		icon = GFX_focus_rom_preserve_romania
+		x = 7
+		y = 0
+		cost = 6
+		completion_reward = {
+			add_political_power = 150
+		}
+	}
+
+	# Suppress Hungarians
+	focus = {
+		id = ROM_suppress_hungarians
+		icon = GFX_goal_step_on_skull
+		x = -7
+		y = 1
+		cost = 2
+		ai_will_do = {
+			factor = 200
+			modifier = {
+				factor = 10
+				has_idea = ROM_tensions_in_transylvania
+			}
+		}
+		available = { has_idea = ROM_tensions_in_transylvania }
+		prerequisite = { focus = ROM_preservation_of_greater_romania }
+		relative_position_id = ROM_preservation_of_greater_romania
+		completion_reward = {
+			custom_effect_tooltip = ROM_hungarian_suppression
+			hidden_effect = {
+				country_event = { id = romania.60 days = 30 }
+				remove_ideas = ROM_tensions_in_transylvania
+				every_owned_state = {
+					limit = {
+						is_controlled_by = ROM
+						OR = {
+							state = 762
+							state = 154
+							state = 84
+							state = 83
+							state = 82
+							state = 76
+						}
+					}
+					if = {
+						limit = {
+							has_dynamic_modifier = {
+								modifier = ROM_hungarian_resistance
+								scope = ROOT
+							}
+						}
+						remove_dynamic_modifier = { modifier = ROM_hungarian_resistance }
+					}
+					else_if = {
+						limit = {
+							has_dynamic_modifier = {
+								modifier = ROM_hungarian_resistance_1
+								scope = ROOT
+							}
+						}
+						remove_dynamic_modifier = { modifier = ROM_hungarian_resistance_1 }
+					}
+				}
+			}
+		}
+	}
+
+	# Defensive Positions
+	focus = {
+		id = ROM_defensive_positions
+		icon = GFX_goal_skull_fortification
+		x = -5
+		y = 1
+		cost = 3
+		ai_will_do = {
+			factor = 10
+			modifier = {
+				factor = 40
+				NOT = { has_country_flag = ROM_black_wednesday }
+			}
+			modifier = {
+				factor = 80
+				HUN = {
+					has_completed_focus = hun_trianon_begone
+				}
+			}
+		}
+		available = { has_capitulated = no }
+		prerequisite = { focus = ROM_preservation_of_greater_romania }
+		relative_position_id = ROM_preservation_of_greater_romania
+		completion_reward = {
+			78 = {
+				add_building_construction = {
+					type = bunker
+					level = 1
+					province = 3577
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 1
+					province = 6600
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 1
+					province = 11686
+					instant_build = yes
+				}
+			}
+			853 = {
+				add_building_construction = {
+					type = bunker
+					level = 1
+					province = 6727
+					instant_build = yes
+				}
+			}
+			82 = {
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 9606
+					instant_build = yes
+				}
+			}
+			83 = {
+				add_building_construction = {
+					type = bunker
+					level = 1
+					province = 646
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 1
+					province = 6697
+					instant_build = yes
+				}
+			}
+			762 = {
+				add_building_construction = {
+					type = bunker
+					level = 1
+					province = 713
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	# Tisza Forts Expansion
+	focus = {
+		id = ROM_tisza_forts_expansion
+		icon = GFX_goal_generic_construction
+		x = -1
+		y = 1
+		cost = 6
+		ai_will_do = {
+			factor = 10
+			modifier = {
+				factor = 40
+				NOT = { has_country_flag = ROM_black_wednesday }
+			}
+			modifier = {
+				factor = 80
+				HUN = {
+					has_completed_focus = hun_trianon_begone
+				}
+			}
+		}
+		available = {
+			has_capitulated = no
+			owns_state = 83
+			owns_state = 762
+		}
+		prerequisite = { focus = ROM_defensive_positions }
+		relative_position_id = ROM_defensive_positions
+		completion_reward = {
+			83 = {
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 646
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 6682
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 6697
+					instant_build = yes
+				}
+			}
+			762 = {
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 3696
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 713
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 746
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	# Bessarabia Forts Expansion
+	focus = {
+		id = ROM_bessarabia_forts_expansion
+		icon = GFX_goal_generic_construction2
+		x = 1
+		y = 1
+		cost = 6
+		ai_will_do = {
+			factor = 10
+			modifier = {
+				factor = 40
+				NOT = { has_country_flag = ROM_black_wednesday }
+			}
+		}
+		available = {
+			has_capitulated = no
+			owns_state = 78
+			owns_state = 853
+		}
+		prerequisite = { focus = ROM_defensive_positions }
+		relative_position_id = ROM_defensive_positions
+		completion_reward = {
+			78 = {
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 3577
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 414
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 6600
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 11705
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 11686
+					instant_build = yes
+				}
+			}
+			853 = {
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 6743
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 6727
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	# Defensive Line in the Carpathians
+	focus = {
+		id = ROM_defensive_lines_in_the_carpathians
+		icon = GFX_goal_generic_construct_military
+		x = -2
+		y = 2
+		cost = 6
+		ai_will_do = {
+			factor = 10
+			modifier = {
+				factor = 40
+				NOT = { has_country_flag = ROM_black_wednesday }
+			}
+		}
+		available = {
+			has_capitulated = no
+			owns_state = 76
+			owns_state = 84
+			owns_state = 82
+		}
+		prerequisite = { focus = ROM_defensive_positions }
+		relative_position_id = ROM_defensive_positions
+		completion_reward = {
+			76 = {
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 9704
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 13210
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 727
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 9685
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 711
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 3689
+					instant_build = yes
+				}
+			}
+			84 = {
+				add_building_construction = {
+					type = bunker
+					level = 3
+					province = 690
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 3676
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 6709
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 6679
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 3665
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 9619
+					instant_build = yes
+				}
+			}
+			82 = {
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 11592
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 3
+					province = 9606
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	# City Defenses
+	focus = {
+		id = ROM_city_defenses
+		icon = GFX_goal_nested_fortifications
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			owns_state = 76
+			owns_state = 79
+			owns_state = 84
+			owns_state = 861
+			owns_state = 46
+		}
+		prerequisite = { focus = ROM_tisza_forts_expansion }
+		prerequisite = { focus = ROM_bessarabia_forts_expansion }
+		relative_position_id = ROM_tisza_forts_expansion
+		completion_reward = {
+			76 = {
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 6711
+					instant_build = yes
+				}
+			}
+			79 = {
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 9716
+					instant_build = yes
+				}
+			}
+			84 = {
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 690
+					instant_build = yes
+				}
+			}
+			861 = {
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 657
+					instant_build = yes
+				}
+			}
+			46 = {
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 3663
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 4
+					province = 9617
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	# Encourage Militarism
+	focus = {
+		id = ROM_encourage_militarism
+		icon = GFX_goal_generic_paramilitary
+		x = -1
+		y = 1
+		cost = 6
+		prerequisite = { focus = ROM_city_defenses }
+		relative_position_id = ROM_city_defenses
+		completion_reward = {
+			add_ideas = ROM_rising_militarism
+		}
+	}
+
+	# Contracts with UDR
+	focus = {
+		id = ROM_contracts_with_udr
+		icon = GFX_goal_national_arsenal
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = ROM_city_defenses }
+		relative_position_id = ROM_city_defenses
+		completion_reward = {
+			add_equipment_to_stockpile = {
+				type = artillery_equipment_1
+				amount = 1000
+				producer = ROM
+			}
+			add_offsite_building = {
+				type = arms_factory
+				level = 1
+			}
+		}
+	}
+
+	# Agricultural Expansion
+	focus = {
+		id = ROM_agricultural_expansion
+		icon = GFX_focus_AUS_agriculture
+		x = -3
+		y = 1
+		cost = 6
+		prerequisite = { focus = ROM_preservation_of_greater_romania }
+		relative_position_id = ROM_preservation_of_greater_romania
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+				}
+
+				add_extra_state_shared_building_slots = 2
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+				}
+
+				add_extra_state_shared_building_slots = 2
+			}
+		}
+	}
+
+	# Continue Industrial Development
+	focus = {
+		id = ROM_continue_industrial_development
+		icon = GFX_goal_generic_production2
+		x = -1
+		y =1
+		cost = 6
+		prerequisite = { focus = ROM_preservation_of_greater_romania }
+		relative_position_id = ROM_preservation_of_greater_romania
+		completion_reward = {
+			add_tech_bonus = {
+				category = industry
+				bonus = 1.0
+				uses = 2
+			}
+		}
+	}
+
+	# Fund Local Industries
+	focus = {
+		id = ROM_fund_local_industries
+		icon = GFX_goal_generic_construct_civ_factory
+		x = -1
+		y = 1
+		cost = 6
+		prerequisite = { focus = ROM_agricultural_expansion }
+		prerequisite = { focus = ROM_continue_industrial_development }
+		relative_position_id = ROM_continue_industrial_development
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROM
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+				}
+
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROM
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+				}
+
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	# Expand the Weapons Factories
+	focus = {
+		id = ROM_expand_the_weapons_factories
+		icon = GFX_goal_generic_construct_mil_factory
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = ROM_continue_industrial_development }
+		relative_position_id = ROM_continue_industrial_development
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+						include_locked = yes
+					}
+				}
+
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+						include_locked = yes
+					}
+				}
+
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	# Rural Infrastructure Projects
+	focus = {
+		id = ROM_rural_infrastructure_projects
+		icon = GFX_goal_generic_construct_infrastructure
+		x = 0
+		y = 2
+		cost = 6
+		prerequisite = { focus = ROM_agricultural_expansion }
+		relative_position_id = ROM_agricultural_expansion
+		completion_reward = {
+			random_owned_controlled_state = {
+				add_building_construction = {
+					type = infrastructure
+					level = 3
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				add_building_construction = {
+					type = infrastructure
+					level = 3
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				add_building_construction = {
+					type = infrastructure
+					level = 3
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				add_building_construction = {
+					type = infrastructure
+					level = 3
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	# Enforce Fairer Wages
+	focus = {
+		id = ROM_enforce_fairer_wages
+		icon = GFX_goal_generic_workers_rights
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = ROM_fund_local_industries }
+		prerequisite = { focus = ROM_expand_the_weapons_factories }
+		relative_position_id = ROM_fund_local_industries
+		completion_reward = {
+			add_ideas = ROM_standard_wages
+		}
+	}
+
+	# Develop the Mining Industry
+	focus = {
+		id = ROM_develop_the_mining_industry
+		icon = GFX_goal_generic_coal_mining
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			owns_state = 84
+			owns_state = 861
+		}
+		prerequisite = { focus = ROM_rural_infrastructure_projects }
+		relative_position_id = ROM_rural_infrastructure_projects
+		completion_reward = {
+			add_resource = {
+				type = steel
+				amount = 16
+				state = 84
+			}
+			add_resource = {
+				type = tungsten
+				amount = 8
+				state = 861
+			}
+		}
+	}
+
+	# Ploiești Oil Fields Expansion
+	focus = {
+		id = ROM_ploiesti_oil_fields_expansion
+		icon = GFX_goal_basic_oil
+		x = 0
+		y = 2
+		cost = 6
+		available = {
+			has_capitulated = no
+			owns_state = 46
+		}
+		prerequisite = { focus = ROM_rural_infrastructure_projects }
+		relative_position_id = ROM_rural_infrastructure_projects
+		completion_reward = {
+			add_resource = {
+				type = oil
+				amount = 16
+				state = 46
+			}
+		}
+	}
+
+	# Research Fundings
+	focus = {
+		id = ROM_research_fundings
+		icon = GFX_goal_great_science
+		x = 0
+		y = 2
+		cost = 6
+		prerequisite = { focus = ROM_enforce_fairer_wages }
+		relative_position_id = ROM_enforce_fairer_wages
+		completion_reward = {
+			add_research_slot = 1
+		}
+	}
+
+	# The Liberal Regent
+	focus = {
+		id = ROM_the_liberal_regent
+		icon = GFX_goal_ideology_market_liberal
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			hidden_trigger = {
+				always = no
+			}
+		}
+		bypass = {
+			hidden_trigger = {
+				has_country_flag = ROM_liberal_regent
+			}
+		}
+		mutually_exclusive = {
+			focus = ROM_the_status_quo_regent
+			focus = ROM_the_leftist_regent
+		}
+		prerequisite = { focus = ROM_preservation_of_greater_romania }
+		relative_position_id = ROM_preservation_of_greater_romania
+		completion_reward = {
+			effect_tooltip = {
+				activate_advisor = ROM_Constantin_Bratianu_hog_mli
+			}
+		}
+	}
+
+	# The Status Quo Regent
+	focus = {
+		id = ROM_the_status_quo_regent
+		icon = GFX_goal_ideology_authoritarian_democrat
+		x = 3
+		y = 1
+		cost = 6
+		available = {
+			hidden_trigger = {
+				always = no
+			}
+		}
+		bypass = {
+			hidden_trigger = {
+				has_country_flag = ROM_status_quo_regent
+			}
+		}
+		mutually_exclusive = {
+			focus = ROM_the_liberal_regent
+			focus = ROM_the_leftist_regent
+		}
+		prerequisite = { focus = ROM_preservation_of_greater_romania }
+		relative_position_id = ROM_preservation_of_greater_romania
+		completion_reward = {
+			effect_tooltip = {
+				activate_advisor = ROM_Armand_Calinescu_hog_ade
+			}
+		}
+	}
+
+	# The Leftist Regent
+	focus = {
+		id = ROM_the_leftist_regent
+		icon = GFX_goal_ideology_social_democrat
+		x = 5
+		y = 1
+		cost = 6
+		available = {
+			hidden_trigger = {
+				always = no
+			}
+		}
+		bypass = {
+			hidden_trigger = {
+				has_country_flag = ROM_leftist_regent
+			}
+		}
+		mutually_exclusive = {
+			focus = ROM_the_liberal_regent
+			focus = ROM_the_status_quo_regent
+		}
+		prerequisite = { focus = ROM_preservation_of_greater_romania }
+		relative_position_id = ROM_preservation_of_greater_romania
+		completion_reward = {
+			effect_tooltip = {
+				activate_advisor = ROM_Virgil_Madgearu_hog_sde
+			}
+		}
+	}
+
+	# London Crash Response
+	focus = {
+		id = ROM_london_crash_response
+		icon = GFX_focus_empty_coffers
+		x = 0
+		y = 1
+		cost = 6
+		ai_will_do = {
+			factor = 10
+			modifier = {
+				factor = 200
+				has_country_flag = ROM_black_wednesday
+			}
+		}
+		available = {
+			hidden_trigger = {
+				always = no
+			}
+		}
+		bypass = {
+			has_country_flag = ROM_black_wednesday
+		}
+		prerequisite = {
+			focus = ROM_the_liberal_regent
+			focus = ROM_the_status_quo_regent
+			focus = ROM_the_leftist_regent
+		}
+		relative_position_id = ROM_the_status_quo_regent
+		completion_reward = {
+			custom_effect_tooltip = ROM_london_crash_response_tt
+		}
+	}
+
+	# Secure International Investments
+	focus = {
+		id = ROM_secure_international_investments
+		icon = GFX_goal_generic_financial_markets
+		x = -2
+		y = 1
+		cost = 6
+		prerequisite = { focus = ROM_london_crash_response }
+		relative_position_id = ROM_london_crash_response
+		completion_reward = {
+			random_owned_controlled_state = {
+				if = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+		}
+	}
+
+	# Tackle Inflation
+	focus = {
+		id = ROM_tackle_inflation
+		icon = GFX_goal_generic_banking_legislation
+		x = 0
+		y = 1
+		cost = 6
+		ai_will_do = {
+			factor = 10
+			modifier = {
+				factor = 200
+				has_country_flag = ROM_black_wednesday
+			}
+		}
+		prerequisite = { focus = ROM_london_crash_response }
+		relative_position_id = ROM_london_crash_response
+		completion_reward = {
+			ROM_recover_from_black_wednesday = yes
+		}
+	}
+
+	# Approach the Industrialists
+	focus = {
+		id = ROM_approach_the_industrialists
+		icon = GFX_goal_generic_capitalist_system
+		x = 2
+		y = 1
+		cost = 6
+		prerequisite = { focus = ROM_london_crash_response }
+		relative_position_id = ROM_london_crash_response
+		completion_reward =  {
+			add_ideas = ROM_good_business_relations
+		}
+	}
+
+	# Reform the Currency System
+	focus = {
+		id = ROM_reform_the_currency_system
+		icon = GFX_focus_ITA_devaluate_the_lire
+		x = -3
+		y = 1
+		cost = 6
+		ai_will_do = {
+			factor = 10
+			modifier = {
+				factor = 200
+				has_country_flag = ROM_black_wednesday
+			}
+		}
+		prerequisite = { focus = ROM_tackle_inflation }
+		relative_position_id = ROM_tackle_inflation
+		completion_reward = {
+			ROM_recover_from_black_wednesday = yes
+		}
+	}
+
+	# Talks with the Unions
+	focus = {
+		id = ROM_talks_with_the_unions
+		icon = GFX_focus_eng_concessions_to_the_trade_unions
+		x = 3
+		y = 1
+		cost = 6
+		ai_will_do = {
+			factor = 10
+			modifier = {
+				factor = 200
+				has_country_flag = ROM_black_wednesday
+			}
+		}
+		prerequisite = { focus = ROM_tackle_inflation }
+		relative_position_id = ROM_tackle_inflation
+		completion_reward = {
+			ROM_recover_from_black_wednesday = yes
+		}
+	}
+
+	# Increase Purchase Tax
+	focus = {
+		id = ROM_increase_purchase_tax
+		icon = GFX_goal_generic_cash_stimulus_plan
+		x = -1
+		y = 1
+		cost = 6
+		ai_will_do = {
+			factor = 10
+			modifier = {
+				factor = 200
+				has_country_flag = ROM_black_wednesday
+			}
+		}
+		prerequisite = { focus = ROM_tackle_inflation }
+		relative_position_id = ROM_tackle_inflation
+		completion_reward = {
+			ROM_recover_from_black_wednesday = yes
+		}
+	}
+
+	# Find New Trading Partners
+	focus = {
+		id = ROM_find_new_trading_partners
+		icon = GFX_goal_generic_shipyard
+		x = 1
+		y = 1
+		cost = 6
+		ai_will_do = {
+			factor = 10
+			modifier = {
+				factor = 200
+				has_country_flag = ROM_black_wednesday
+			}
+		}
+		prerequisite = { focus = ROM_tackle_inflation }
+		relative_position_id = ROM_tackle_inflation
+		completion_reward = {
+			ROM_recover_from_black_wednesday = yes
+		}
+	}
+
+	# Easing Regulations
+	focus = {
+		id = ROM_easing_regulations
+		icon = GFX_focus_generic_concessions
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = ROM_reform_the_currency_system }
+		prerequisite = { focus = ROM_increase_purchase_tax }
+		prerequisite = { focus = ROM_find_new_trading_partners }
+		prerequisite = { focus = ROM_talks_with_the_unions }
+		relative_position_id = ROM_increase_purchase_tax
+		completion_reward = {
+			ROM_recover_from_black_wednesday = yes
+		}
+	}
+
+	#############################################
+
+	# The Romanian Navy
+	focus = {
+		id = ROM_the_romanian_navy
+		icon = GFX_goal_ROM_navy
+		x = 12
+		y = 7
+		cost = 4
+		completion_reward = {
+			navy_experience = 25
+		}
+	}
+
+	# Adopt New Doctrines
+	focus = {
+		id = ROM_adopt_new_doctrines
+		icon = GFX_goal_generic_navy_doctrines_tactics
+		x = -3
+		y = 1
+		cost = 6
+		prerequisite = { focus = ROM_the_romanian_navy }
+		relative_position_id = ROM_the_romanian_navy
+		completion_reward = {
+			add_doctrine_cost_reduction = {
+				category = naval_doctrine
+				cost_reduction = 0.5
+				uses = 1
+			}
+		}
+	}
+
+	# Construct New Dockyards
+	focus = {
+		id = ROM_construct_new_dockyards
+		icon = GFX_goal_generic_construct_naval_dockyard
+		x = 0
+		y = 1
+		cost = 6
+		prerequisite = { focus = ROM_adopt_new_doctrines }
+		relative_position_id = ROM_adopt_new_doctrines
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = dockyard
+						size > 0
+						include_locked = yes
+					}
+				}
+
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = dockyard
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	# Constructing a Fleet
+	focus = {
+		id = ROM_constructing_a_fleet
+		icon = GFX_goal_generic_sea_focused_navy2
+		x = 2
+		y = 1
+		cost = 6
+		prerequisite = { focus = ROM_adopt_new_doctrines }
+		relative_position_id = ROM_adopt_new_doctrines
+		completion_reward = {
+			add_ideas = ROM_fleet_construction
+		}
+	}
+
+	# Carrier Experimentations
+	focus = {
+		id = ROM_carrier_experimentations
+		icon = GFX_goal_generic_coastal_navy2
+		x = -1
+		y = 1
+		cost = 6
+		prerequisite = { focus = ROM_constructing_a_fleet }
+		relative_position_id = ROM_constructing_a_fleet
+		completion_reward = {
+			add_tech_bonus = {
+				category = cv_tech
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Battleship Research
+	focus = {
+		id = ROM_battleship_research
+		icon = GFX_goal_generic_navy_battleship3
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = ROM_constructing_a_fleet }
+		relative_position_id = ROM_constructing_a_fleet
+		completion_reward = {
+			add_tech_bonus = {
+				category = bb_tech
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Tweaking our Doctrines
+	focus = {
+		id = ROM_tweaking_our_doctrines
+		icon = GFX_goal_generic_navy_battleship3alt
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = {
+			focus = ROM_carrier_experimentations
+			focus = ROM_battleship_research
+		}
+		relative_position_id = ROM_carrier_experimentations
+		completion_reward = {
+			add_doctrine_cost_reduction = {
+				category = naval_doctrine
+				cost_reduction = 0.5
+				uses = 1
+			}
+		}
+	}
+
+	# Marines
+	focus = {
+		id = ROM_marines
+		icon = GFX_goal_generic_amphibious_assault
+		x = -1
+		y = 1
+		cost = 6
+		prerequisite = { focus = ROM_the_romanian_navy }
+		relative_position_id = ROM_the_romanian_navy
+		completion_reward = {
+			add_tech_bonus = {
+				category = marine_tech
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Submarine Modernization
+	focus = {
+		id = ROM_submarine_modernization
+		icon = GFX_goal_generic_navy_submarine
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = ROM_the_romanian_navy }
+		relative_position_id = ROM_the_romanian_navy
+		completion_reward = {
+			add_tech_bonus = {
+				category = ss_tech
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Destoyer Modernization
+	focus = {
+		id = ROM_destroyer_modernization
+		icon = GFX_goal_generic_navy_battleship
+		x = 3
+		y = 1
+		cost = 6
+		prerequisite = { focus = ROM_the_romanian_navy }
+		relative_position_id = ROM_the_romanian_navy
+		completion_reward = {
+			add_tech_bonus = {
+				category = dd_tech
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Reliable Torpedoes
+	focus = {
+		id = ROM_reliable_torpedoes
+		icon = GFX_goal_generic_wolf_pack
+		x = 0
+		y = 1
+		cost = 6
+		prerequisite = { focus = ROM_submarine_modernization }
+		relative_position_id = ROM_submarine_modernization
+		completion_reward = {
+			add_ideas = ROM_improved_torpedoes
+		}
+	}
+
+	# Cruiser Modernization
+	focus = {
+		id = ROM_cruiser_modernization
+		icon = GFX_goal_generic_navy_cruiser
+		x = 0
+		y = 1
+		cost = 6
+		prerequisite = { focus = ROM_destroyer_modernization }
+		relative_position_id = ROM_destroyer_modernization
+		completion_reward = {
+			add_tech_bonus = {
+				category = ca_tech
+				category = cl_tech
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Transport Ships
+	focus = {
+		id = ROM_transport_ships
+		icon = GFX_goal_generic_transports
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = ROM_reliable_torpedoes }
+		prerequisite = { focus = ROM_cruiser_modernization }
+		relative_position_id = ROM_reliable_torpedoes
+		completion_reward = {
+			if = {
+				limit = { has_dlc = "Man the Guns" }
+				add_tech_bonus = {
+					technology = mtg_landing_craft
+					technology = mtg_transport
+					technology = mtg_tank_landing_craft
+					bonus = 2.0
+					uses = 1
+				}
+			}
+			else = {
+				add_tech_bonus = {
+					bonus = 2.0
+					technology = landing_craft
+					technology = transport
+					technology = tank_landing_craft
+					uses = 1
+				}
+			}
+		}
+	}
+
+	# Naval Repair Facilities
+	focus = {
+		id = ROM_naval_repair_facilities
+		icon = GFX_goal_generic_shipyard
+		x = 0
+		y = 1
+		cost = 6
+		prerequisite = { focus = ROM_transport_ships }
+		relative_position_id = ROM_transport_ships
+		completion_reward = {
+			add_ideas = ROM_naval_repair_dockyards
+		}
+	}
+
+	#############################################
+
+	# The Romanian Army
+	focus = {
+		id = ROM_the_romanian_army
+		icon = GFX_goal_ROM_army
+		x = 20
+		y = 7
+		cost = 3
+		offset = {
+			x = -2
+			y = -7
+			trigger = {
+				NOT = {
+					OR = {
+						has_country_flag = ROM_democratic_romania
+						has_country_flag = ROM_socialist_romania
+						has_country_flag = ROM_valkist_romania
+						has_country_flag = ROM_direct_rule_from_bucharest
+						has_country_flag = ROM_natpop_romania
+					}
+				}
+			}
+		}
+		completion_reward = {
+			army_experience = 25
+		}
+	}
+
+	# Weapons Modernization
+	focus = {
+		id = ROM_weapons_modernization
+		icon = GFX_goal_generic_military_equipment
+		x = -2
+		y = 1
+		cost = 6
+		prerequisite = { focus = ROM_the_romanian_army }
+		relative_position_id = ROM_the_romanian_army
+		completion_reward = {
+			add_tech_bonus = {
+				category = infantry_weapons
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Conduct War Games
+	focus = {
+		id = ROM_conduct_war_games
+		icon = GFX_goal_checkmate
+		x = 0
+		y = 1
+		cost = 6
+		prerequisite = { focus = ROM_the_romanian_army }
+		relative_position_id = ROM_the_romanian_army
+		completion_reward = {
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.5
+				uses = 1
+				category = land_doctrine
+			}
+		}
+	}
+
+	# Motorized Development
+	focus = {
+		id = ROM_motorized_development
+		icon = GFX_goal_generic_army_motorized
+		x = 2
+		y = 1
+		cost = 6
+		prerequisite = { focus = ROM_the_romanian_army }
+		relative_position_id = ROM_the_romanian_army
+		completion_reward = {
+			add_tech_bonus = {
+				category = motorized_equipment
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Troops for the Carpathians
+	focus = {
+		id = ROM_troops_for_the_carpathians
+		icon = GFX_goal_generic_mountain_warfare
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = ROM_weapons_modernization }
+		prerequisite = { focus = ROM_conduct_war_games }
+		relative_position_id = ROM_weapons_modernization
+		completion_reward = {
+			add_tech_bonus = {
+				category = mountaineers_tech
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Artillery Modernization
+	focus = {
+		id = ROM_artillery_modernization
+		icon = GFX_goal_generic_army_artillery2
+		x = 0
+		y = 1
+		cost = 6
+		prerequisite = { focus = ROM_troops_for_the_carpathians }
+		relative_position_id = ROM_troops_for_the_carpathians
+		completion_reward = {
+			add_tech_bonus = {
+				category = artillery
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Arms Factories
+	focus = {
+		id = ROM_arms_factories
+		icon = GFX_goal_generic_construct_mil_factory
+		x = 0
+		y = 1
+		cost = 6
+		prerequisite = { focus = ROM_artillery_modernization }
+		relative_position_id = ROM_artillery_modernization
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+						include_locked = yes
+					}
+				}
+
+				add_extra_state_shared_building_slots = 3
+				add_building_construction = {
+					type = arms_factory
+					level = 3
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	# Engineer Corps
+	focus = {
+		id = ROM_engineer_corps
+		icon = GFX_goal_generic_construction2
+		x = -2
+		y = 1
+		cost = 6
+		prerequisite = { focus = ROM_troops_for_the_carpathians }
+		relative_position_id = ROM_troops_for_the_carpathians
+		completion_reward = {
+			add_tech_bonus = {
+				category = engineers_tech
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Improving our Doctrines
+	focus = {
+		id = ROM_improving_our_doctrines
+		icon = GFX_goal_generic_army_doctrines
+		x = 0
+		y = 1
+		cost = 6
+		prerequisite = { focus = ROM_engineer_corps }
+		relative_position_id = ROM_engineer_corps
+		completion_reward = {
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.5
+				uses = 1
+				category = land_doctrine
+			}
+		}
+	}
+
+	# Armoured Research
+	focus = {
+		id = ROM_armoured_research
+		icon = GFX_focus_generic_tank_destroyer
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = ROM_conduct_war_games }
+		prerequisite = { focus = ROM_motorized_development }
+		relative_position_id = ROM_conduct_war_games
+		completion_reward = {
+			add_tech_bonus = {
+				category = armor
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Tank Production Initiative
+	focus = {
+		id = ROM_tank_production_initiative
+		icon = GFX_goal_generic_army_tanks2
+		x = 0
+		y = 1
+		cost = 6
+		prerequisite = { focus = ROM_armoured_research }
+		relative_position_id = ROM_armoured_research
+		completion_reward = {
+			add_ideas = ROM_tank_production
+		}
+	}
+
+	# Signal Divisions
+	focus = {
+		id = ROM_signal_divisions
+		icon = GFX_goal_radio
+		x = 0
+		y = 1
+		cost = 6
+		prerequisite = { focus = ROM_tank_production_initiative }
+		relative_position_id = ROM_tank_production_initiative
+		completion_reward = {
+			add_tech_bonus = {
+				category = signal_company_tech
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# The General Staff
+	focus = {
+		id = ROM_the_general_staff
+		icon = GFX_goal_generic_army_high_command
+		x = 2
+		y = 1
+		cost = 6
+		prerequisite = { focus = ROM_armoured_research }
+		relative_position_id = ROM_armoured_research
+		completion_reward = {
+			add_ideas = ROM_general_staff
+		}
+	}
+
+	# Training Camps
+	focus = {
+		id = ROM_training_camps
+		icon = GFX_goal_army_guy_2
+		x = 0
+		y = 1
+		cost = 6
+		prerequisite = { focus = ROM_the_general_staff }
+		relative_position_id = ROM_the_general_staff
+		completion_reward = {
+			add_ideas = ROM_training_camps_idea
+		}
+	}
+
+	# Fullfiling the Duty
+	focus = {
+		id = ROM_fullfiling_the_duty
+		icon = GFX_goal_generic_drafted_army
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = ROM_arms_factories }
+		prerequisite = { focus = ROM_signal_divisions }
+		relative_position_id = ROM_arms_factories
+		completion_reward = {
+			add_ideas = ROM_duties_to_the_nation
+		}
+	}
+
+	############################################
+
+	# The Romanian Air Force
+	focus = {
+		id = ROM_the_romanian_air_force
+		icon = GFX_goal_ROM_airforce
+		x = 27
+		y = 7
+		cost = 3
+		offset = {
+			x = -8
+			y = 0
+			trigger = {
+				NOT = {
+					OR = {
+						has_country_flag = ROM_democratic_romania
+						has_country_flag = ROM_socialist_romania
+						has_country_flag = ROM_valkist_romania
+						has_country_flag = ROM_direct_rule_from_bucharest
+						has_country_flag = ROM_natpop_romania
+					}
+				}
+			}
+		}
+		completion_reward = {
+			air_experience = 25
+		}
+	}
+
+	# Fighter Modernization
+	focus = {
+		id = ROM_fighter_modernization
+		icon = GFX_goal_generic_air_fighter
+		x = -1
+		y = 1
+		cost = 6
+		prerequisite = { focus = ROM_the_romanian_air_force }
+		relative_position_id = ROM_the_romanian_air_force
+		completion_reward = {
+			add_tech_bonus = {
+				category = light_fighter
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Bomber Modernization
+	focus = {
+		id = ROM_bomber_modernization
+		icon = GFX_goal_generic_air_bomber
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = ROM_the_romanian_air_force }
+		relative_position_id = ROM_the_romanian_air_force
+		completion_reward = {
+			add_tech_bonus = {
+				category = tactical_bomber
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Air Doctrine
+	focus = {
+		id = ROM_air_doctrine
+		icon = GFX_goal_generic_air_doctrine
+		x = -1
+		y = 1
+		cost = 6
+		prerequisite = { focus = ROM_fighter_modernization }
+		relative_position_id = ROM_fighter_modernization
+		completion_reward = {
+			add_doctrine_cost_reduction = {
+				category = air_doctrine
+				cost_reduction = 0.5
+				uses = 1
+			}
+		}
+	}
+
+	# Air Defenses
+	focus = {
+		id = ROM_air_defenses
+		icon = GFX_focus_generic_air_defense
+		x = 0
+		y = 1
+		cost = 6
+		prerequisite = { focus = ROM_air_doctrine }
+		relative_position_id = ROM_air_doctrine
+		completion_reward = {
+			random_owned_controlled_state = {
+				if = {
+					limit = {
+						free_building_slots = {
+							building = anti_air_building
+							size > 3
+						}
+					}
+					add_building_construction = {
+						type = anti_air_building
+						level = 3
+						instant_build = yes
+					}
+				}
+			}
+			random_owned_controlled_state = {
+				if = {
+					limit = {
+						free_building_slots = {
+							building = anti_air_building
+							size > 3
+						}
+					}
+					add_building_construction = {
+						type = anti_air_building
+						level = 3
+						instant_build = yes
+					}
+				}
+			}
+		}
+	}
+
+	# CAS Bombers
+	focus = {
+		id = ROM_cas_bombers
+		icon = GFX_goal_generic_CAS
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = ROM_fighter_modernization }
+		prerequisite = { focus = ROM_bomber_modernization }
+		relative_position_id = ROM_fighter_modernization
+		completion_reward = {
+			add_tech_bonus = {
+				category = cas_bomber
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Specialized Air Production
+	focus = {
+		id = ROM_specialized_air_production
+		icon = GFX_goal_generic_air_production
+		x = 0
+		y = 1
+		cost = 6
+		prerequisite = { focus = ROM_cas_bombers }
+		relative_position_id = ROM_cas_bombers
+		completion_reward = {
+			add_ideas = ROM_air_production
+		}
+	}
+
+	# Strategic Bombers
+	focus = {
+		id = ROM_strategic_bombers
+		icon = GFX_goal_generic_occupy_start_war
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = ROM_bomber_modernization }
+		relative_position_id = ROM_bomber_modernization
+		completion_reward = {
+			add_tech_bonus = {
+				category = cat_strategic_bomber
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# New Pilots
+	focus = {
+		id = ROM_new_pilots
+		icon = GFX_focus_SOV_flying_clubs
+		x = 0
+		y = 1
+		cost = 6
+		prerequisite = { focus = ROM_strategic_bombers }
+		relative_position_id = ROM_strategic_bombers
+		completion_reward = {
+			add_manpower = 25000
+		}
+	}
+
+	# Domination of the Skies
+	focus = {
+		id = ROM_domination_of_the_skies
+		icon = GFX_focus_usa_escort_fighters
+		x = 0
+		y = 1
+		cost = 6
+		prerequisite = { focus = ROM_specialized_air_production }
+		prerequisite = { focus = ROM_air_defenses }
+		prerequisite = { focus = ROM_new_pilots }
+		relative_position_id = ROM_specialized_air_production
+		completion_reward = {
+			add_ideas = ROM_air_domination
+		}
+	}
+
+	#############################################
+
+	# The General Elections
+	focus = {
+		id = ROM_the_general_elections
+		icon = GFX_goal_generic_elections
+		x = 26
+		y = 0
+		cost = 6
+		available = {
+			hidden_trigger = {
+				always = no
+			}
+		}
+		allow_branch = {
+			has_country_flag = ROM_democratic_romania
+			NOT = { has_country_flag = ROM_valkist_romania }
+			NOT = { has_country_flag = ROM_natpop_romania }
+			NOT = { has_country_flag = ROM_direct_rule_from_bucharest }
+			NOT = { has_country_flag = ROM_socialist_romania }
+		}
+		bypass = {
+			has_country_flag = ROM_had_1937_elections
+		}
+		completion_reward = {
+			custom_effect_tooltip = ROM_the_general_elections_tt
+		}
+	}
+
+	# Democratic Left Victorious
+	focus = {
+		id = ROM_democratic_left_victorious
+		icon = GFX_goal_ideology_social_democrat
+		x = -7
+		y = 1
+		cost = 6
+		available = {
+			hidden_trigger = {
+				always = no
+			}
+		}
+		bypass = {
+			has_country_flag = ROM_leftist_election
+		}
+		prerequisite = { focus = ROM_the_general_elections }
+		relative_position_id = ROM_the_general_elections
+		completion_reward = {
+			custom_effect_tooltip = ROM_democratic_left_victorious_tt
+		}
+	}
+
+	# Continue Nationalization
+	focus = {
+		id = ROM_continue_nationalization
+		icon = GFX_goal_state_economy
+		x = -2
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_democratic_government = yes
+		}
+		prerequisite = { focus = ROM_democratic_left_victorious }
+		relative_position_id = ROM_democratic_left_victorious
+		completion_reward = {
+			add_political_power = -100
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROM
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+				}
+
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROM
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+				}
+
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	# Extensive Land Reform
+	focus = {
+		id = ROM_extensive_land_reform
+		icon = GFX_focus_rom_parties_end
+		x = -2
+		y = 2
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_democratic_government = yes
+		}
+		prerequisite = { focus = ROM_continue_nationalization }
+		relative_position_id = ROM_continue_nationalization
+		completion_reward = {
+			add_political_power = -100
+			random_owned_controlled_state = {
+				prioritize = { 46 }
+				if = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 2
+				}
+			}
+			random_owned_controlled_state = {
+				prioritize = { 79 }
+				if = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 2
+				}
+			}
+		}
+	}
+
+	# A Welfare State
+	focus = {
+		id = ROM_a_welfare_state
+		icon = GFX_focus_generic_concessions
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_democratic_government = yes
+		}
+		prerequisite = { focus = ROM_continue_nationalization }
+		relative_position_id = ROM_continue_nationalization
+		completion_reward = {
+			add_ideas = ROM_welfare_idea
+		}
+	}
+
+	# Public Works Programme
+	focus = {
+		id = ROM_public_works_programme
+		icon = GFX_goal_generic_construction
+		x = 0
+		y = 2
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_democratic_government = yes
+		}
+		prerequisite = { focus = ROM_continue_nationalization }
+		relative_position_id = ROM_continue_nationalization
+		completion_reward = {
+			add_ideas = ROM_public_works_programs
+		}
+	}
+
+	# Expanding the Labour Pool
+	focus = {
+		id = ROM_expanding_the_labour_pool
+		icon = GFX_goal_production
+		x = 0
+		y = 2
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_democratic_government = yes
+		}
+		prerequisite = { focus = ROM_a_welfare_state }
+		prerequisite = { focus = ROM_extensive_land_reform }
+		relative_position_id = ROM_a_welfare_state
+		completion_reward = {
+			add_manpower = 15000
+		}
+	}
+
+	# Limit the King's Powers
+	focus = {
+		id = ROM_limit_the_kings_powers
+		icon = GFX_focus_rom_handle_king
+		x = 0
+		y = 1
+		cost = 3
+		available = {
+			has_capitulated = no
+			has_democratic_government = yes
+		}
+		prerequisite = { focus = ROM_democratic_left_victorious }
+		relative_position_id = ROM_democratic_left_victorious
+		completion_reward = {
+			increase_ruling_party_popularity_by_15 = yes
+			add_stability = 0.05
+			add_war_support = 0.05
+		}
+	}
+
+	# Consitutional Education
+	focus = {
+		id = ROM_constitutional_education
+		icon = GFX_goal_KTG_Bookstack
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_democratic_government = yes
+		}
+		prerequisite = { focus = ROM_limit_the_kings_powers }
+		relative_position_id = ROM_continue_nationalization
+		completion_reward = {
+			add_research_slot = 1
+		}
+	}
+
+	# Ban the Radical Far Right
+	focus = {
+		id = ROM_ban_the_radical_far_right
+		icon = GFX_goal_generic_ban_right_wing
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_democratic_government = yes
+		}
+		prerequisite = { focus = ROM_limit_the_kings_powers }
+		prerequisite = { focus = ROM_fight_against_corruption }
+		relative_position_id = ROM_limit_the_kings_powers
+		completion_reward = {
+			add_popularity = {
+				ideology = national_populist
+				popularity = -0.15
+			}
+			add_popularity = {
+				ideology = valkist
+				popularity = -0.15
+			}
+			custom_effect_tooltip = ROM_ban_the_radical_far_right_tt
+		}
+	}
+
+	# Homes for the People
+	focus = {
+		id = ROM_homes_for_the_people
+		icon = GFX_goal_generic_build_housing
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_democratic_government = yes
+		}
+		prerequisite = { focus = ROM_constitutional_education }
+		prerequisite = { focus = ROM_ban_the_radical_far_right }
+		relative_position_id = ROM_constitutional_education
+		completion_reward = {
+			add_offsite_building = {
+				type = industrial_complex
+				level = 2
+			}
+		}
+	}
+
+	# Fight Against Corruption
+	focus = {
+		id = ROM_fight_against_corruption
+		icon = GFX_goal_generic_parliament
+		x = 2
+		y = 1
+		cost = 3
+		available = {
+			has_capitulated = no
+			has_democratic_government = yes
+		}
+		prerequisite = { focus = ROM_democratic_left_victorious }
+		relative_position_id = ROM_democratic_left_victorious
+		completion_reward = {
+			add_timed_idea = {
+				idea = ROM_government_cleansing
+				days = 360
+			}
+		}
+	}
+
+	# Industrial Development Scheme
+	focus = {
+		id = ROM_industrial_development_scheme
+		icon = GFX_goal_factory_complex
+		x = 0
+		y = 2
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_democratic_government = yes
+		}
+		prerequisite = { focus = ROM_fight_against_corruption }
+		relative_position_id = ROM_fight_against_corruption
+		completion_reward = {
+			add_tech_bonus = {
+				category = industry
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Fund the Fortifications
+	focus = {
+		id = ROM_fund_the_fortifications
+		icon = GFX_goal_bag_of_money
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_democratic_government = yes
+		}
+		prerequisite = { focus = ROM_public_works_programme }
+		prerequisite = { focus = ROM_homes_for_the_people }
+		relative_position_id = ROM_homes_for_the_people
+		completion_reward = {
+			add_timed_idea = {
+				idea = ROM_fortification_funding
+				days = 360
+			}
+		}
+	}
+
+	# Cooperate with the Unions
+	focus = {
+		id = ROM_cooperate_with_the_unions
+		icon = GFX_goal_revolution_tools
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_democratic_government = yes
+		}
+		prerequisite = { focus = ROM_homes_for_the_people }
+		relative_position_id = ROM_homes_for_the_people
+		completion_reward = {
+			add_ideas = ROM_union_cooperation
+		}
+	}
+
+	# A Workers Paradise
+	focus = {
+		id = ROM_a_workers_paradise
+		icon = GFX_goal_national_mobilization
+		x = 0
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_democratic_government = yes
+		}
+		prerequisite = { focus = ROM_expanding_the_labour_pool }
+		prerequisite = { focus = ROM_fund_the_fortifications }
+		prerequisite = { focus = ROM_cooperate_with_the_unions }
+		relative_position_id = ROM_fund_the_fortifications
+		completion_reward = {
+			add_political_power = 100
+		}
+	}
+
+	# The Liberal Government
+	focus = {
+		id = ROM_the_liberal_government
+		icon = GFX_goal_ideology_market_liberal
+		x = 0
+		y = 1
+		cost = 6
+		available = {
+			hidden_trigger = {
+				always = no
+			}
+		}
+		bypass = {
+			has_country_flag = ROM_liberal_election
+		}
+		prerequisite = { focus = ROM_the_general_elections }
+		relative_position_id = ROM_the_general_elections
+		completion_reward = {
+			custom_effect_tooltip = ROM_the_liberal_government_tt
+		}
+	}
+
+	# Economic Expansion Initiative
+	focus = {
+		id = ROM_economic_expansion_initiative
+		icon = GFX_goal_generic_foreign_investments
+		x = -3
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_democratic_government = yes
+		}
+		prerequisite = { focus = ROM_the_liberal_government }
+		relative_position_id = ROM_the_liberal_government
+		completion_reward = {
+			add_ideas = ROM_economic_expansion
+		}
+	}
+
+	# Maintain Rationing Programs
+	focus = {
+		id = ROM_maintain_rationing_programs
+		icon = GFX_goal_famine
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_democratic_government = yes
+		}
+		prerequisite = { focus = ROM_economic_expansion_initiative }
+		relative_position_id = ROM_economic_expansion_initiative
+		completion_reward = {
+			add_ideas = ROM_government_rationing
+		}
+	}
+
+	# Economic Investments
+	focus = {
+		id = ROM_economic_investments
+		icon = GFX_goal_generic_banking_legislation
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_democratic_government = yes
+		}
+		prerequisite = { focus = ROM_the_liberal_government }
+		relative_position_id = ROM_the_liberal_government
+		completion_reward = {
+			add_offsite_building = {
+				type = industrial_complex
+				level = 3
+			}
+		}
+	}
+
+	# Generous Farm Subsidies
+	focus = {
+		id = ROM_generous_farm_subsidies
+		icon = GFX_goal_generic_agricultural_aid
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_democratic_government = yes
+		}
+		prerequisite = { focus = ROM_economic_investments }
+		relative_position_id = ROM_economic_investments
+		completion_reward = {
+			add_ideas = ROM_farm_subsidies
+		}
+	}
+
+	# Technological Advancements
+	focus = {
+		id = ROM_technological_advancements
+		icon = GFX_goal_machine
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_democratic_government = yes
+		}
+		prerequisite = { focus = ROM_economic_investments }
+		relative_position_id = ROM_economic_investments
+		completion_reward = {
+			add_tech_bonus = {
+				category = electronics
+				bonus = 1
+				uses = 1
+			}
+		}
+	}
+
+	# Privatize the Oil Industry
+	focus = {
+		id = ROM_privatize_the_oil_industry
+		icon = GFX_goal_further_oil
+		x = 0
+		y = 3
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_democratic_government = yes
+			owns_state = 46
+		}
+		prerequisite = {
+			focus = ROM_generous_farm_subsidies
+			focus = ROM_technological_advancements
+		}
+		prerequisite = {
+			focus = ROM_rural_land_development
+		}
+		relative_position_id = ROM_economic_investments
+		completion_reward = {
+			add_resource = {
+				type = oil
+				amount = 12
+				state = 46
+			}
+		}
+	}
+
+	# Business is Booming
+	focus = {
+		id = ROM_business_is_booming
+		icon = GFX_goal_gold_up
+		x = 0
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_democratic_government = yes
+		}
+		prerequisite = { focus = ROM_privatize_the_oil_industry }
+		prerequisite = { focus = ROM_maternity_services }
+		prerequisite = { focus = ROM_promote_education }
+		relative_position_id = ROM_privatize_the_oil_industry
+		completion_reward = {
+			add_political_power = 100
+		}
+	}
+
+	# Maternity Services
+	focus = {
+		id = ROM_maternity_services
+		icon = GFX_focus_generic_self_management
+		x = 0
+		y = 2
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_democratic_government = yes
+		}
+		prerequisite = { focus = ROM_maintain_rationing_programs }
+		relative_position_id = ROM_maintain_rationing_programs
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = ROM_government_rationing
+				add_idea = ROM_government_social_services
+			}
+		}
+	}
+
+	# Rural Land Development
+	focus = {
+		id = ROM_rural_land_development
+		icon = GFX_goal_KTG_Jungle_Railroad
+		x = 0
+		y = 2
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_democratic_government = yes
+		}
+		prerequisite = { focus = ROM_economic_expansion_initiative }
+		relative_position_id = ROM_economic_expansion_initiative
+		completion_reward = {
+			random_owned_controlled_state = {
+				prioritize = { 46 }
+				if = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 2
+				}
+			}
+			random_owned_controlled_state = {
+				prioritize = { 79 }
+				if = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 2
+				}
+			}
+		}
+	}
+
+	# Rewrite the Constitution
+	focus = {
+		id = ROM_rewrite_the_constitution
+		icon = GFX_goal_Centralised_Government
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_democratic_government = yes
+		}
+		prerequisite = { focus = ROM_the_liberal_government }
+		relative_position_id = ROM_the_liberal_government
+		completion_reward = {
+			add_stability = 0.15
+			add_war_support = 0.15
+			add_political_power = 100
+		}
+	}
+
+	# Disarm the Extremists
+	focus = {
+		id = ROM_disarm_the_extremists
+		icon = GFX_goal_break_rifle
+		x = 0
+		y = 2
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_democratic_government = yes
+		}
+		prerequisite = { focus = ROM_rewrite_the_constitution }
+		relative_position_id = ROM_rewrite_the_constitution
+		completion_reward = {
+			custom_effect_tooltip = ROM_disarm_the_extremists_tt
+			add_popularity = {
+				ideology = valkist
+				popularity = -0.25
+			}
+		}
+	}
+
+	# Concessions to the Land Owners
+	focus = {
+		id = ROM_concessions_to_the_land_owners
+		icon = GFX_DAH_Topke
+		x = 3
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_democratic_government = yes
+		}
+		prerequisite = { focus = ROM_the_liberal_government }
+		relative_position_id = ROM_the_liberal_government
+		completion_reward = {
+			add_timed_idea = {
+				idea = ROM_concessions_to_the_land_owners_idea
+				days = 360
+			}
+			random_owned_controlled_state = {
+				prioritize = { 46 }
+				if = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 2
+				}
+			}
+			random_owned_controlled_state = {
+				prioritize = { 79 }
+				if = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 2
+				}
+			}
+		}
+	}
+
+	# Worker Rights
+	focus = {
+		id = ROM_worker_rights
+		icon = GFX_goal_DOM_End_Judicial_Corruption
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_democratic_government = yes
+		}
+		prerequisite = { focus = ROM_concessions_to_the_land_owners }
+		relative_position_id = ROM_concessions_to_the_land_owners
+		completion_reward = {
+			add_ideas = ROM_worker_rights_idea
+		}
+	}
+
+	# Easier Credit
+	focus = {
+		id = ROM_easier_credit
+		icon = GFX_goal_gold_up
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_democratic_government = yes
+		}
+		prerequisite = { focus = ROM_concessions_to_the_land_owners }
+		relative_position_id = ROM_concessions_to_the_land_owners
+		completion_reward = {
+			add_ideas = ROM_low_interest_rates
+		}
+	}
+
+	# Promote Education
+	focus = {
+		id = ROM_promote_education
+		icon = GFX_focus_research2
+		x = 0
+		y = 2
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_democratic_government = yes
+		}
+		prerequisite = { focus = ROM_disarm_the_extremists }
+		prerequisite = { focus = ROM_worker_rights }
+		relative_position_id = ROM_worker_rights
+		completion_reward = {
+			add_research_slot = 1
+		}
+	}
+
+	# Status Quo Unshaken
+	focus = {
+		id = ROM_status_quo_unshaken
+		icon = GFX_goal_ideology_authoritarian_democrat
+		x = 8
+		y = 1
+		cost = 6
+		available = {
+			hidden_trigger = {
+				always = no
+			}
+		}
+		bypass = {
+			has_country_flag = ROM_status_quo_election
+		}
+		prerequisite = { focus = ROM_the_general_elections }
+		relative_position_id = ROM_the_general_elections
+		completion_reward = {
+			custom_effect_tooltip = ROM_status_quo_unshaken_tt
+		}
+	}
+
+	# Encourage the Agricultural Sector
+	focus = {
+		id = ROM_encourage_the_agricultural_sector
+		icon = GFX_focus_AUS_agriculture
+		x = -3
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_democratic_government = yes
+		}
+		prerequisite = { focus = ROM_status_quo_unshaken }
+		relative_position_id = ROM_status_quo_unshaken
+		completion_reward = {
+			random_owned_controlled_state = {
+				prioritize = { 46 }
+				if = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 2
+				}
+			}
+			random_owned_controlled_state = {
+				prioritize = { 79 }
+				if = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 2
+				}
+			}
+		}
+	}
+
+	# Standardized Healthcare
+	focus = {
+		id = ROM_standardized_healthcare
+		icon = GFX_goal_generic_medical
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_democratic_government = yes
+		}
+		prerequisite = { focus = ROM_encourage_the_agricultural_sector }
+		prerequisite = { focus = ROM_infrastructure_expansion }
+		relative_position_id = ROM_encourage_the_agricultural_sector
+		completion_reward = {
+			add_ideas = ROM_state_healthcare_programs
+			add_tech_bonus = {
+				category = hospital_tech
+				bonus = 1
+				uses = 1
+			}
+		}
+	}
+
+	# Research Councils
+	focus = {
+		id = ROM_research_councils
+		icon = GFX_goal_great_science
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_democratic_government = yes
+		}
+		prerequisite = { focus = ROM_standardized_healthcare }
+		relative_position_id = ROM_standardized_healthcare
+		completion_reward = {
+			add_research_slot = 1
+		}
+	}
+
+	# Explore Romania's Richness
+	focus = {
+		id = ROM_explore_romanias_richness
+		icon = GFX_goal_generic_construction2
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_democratic_government = yes
+		}
+		prerequisite = { focus = ROM_research_councils }
+		relative_position_id = ROM_research_councils
+		completion_reward = {
+			add_tech_bonus = {
+				technology = excavation1
+				technology = excavation2
+				technology = excavation3
+				technology = excavation4
+				technology = excavation5
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Opportunities for the Unemployed
+	focus = {
+		id = ROM_opportunities_for_the_unemployed
+		icon = GFX_goal_conspiracy
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_democratic_government = yes
+		}
+		prerequisite = { focus = ROM_research_councils }
+		relative_position_id = ROM_research_councils
+		completion_reward = {
+			add_offsite_building = {
+				type = industrial_complex
+				level = 2
+			}
+		}
+	}
+
+	# Arms Factory Expansion
+	focus = {
+		id = ROM_arms_factory_expansion
+		icon = GFX_goal_munitions_factories
+		x = 0
+		y = 2
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_democratic_government = yes
+		}
+		prerequisite = { focus = ROM_research_councils }
+		relative_position_id = ROM_research_councils
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROM
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+						include_locked = yes
+					}
+				}
+
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROM
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+						include_locked = yes
+					}
+				}
+
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	# Infrastructure Expansion
+	focus = {
+		id = ROM_infrastructure_expansion
+		icon = GFX_goal_generic_railroad
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_democratic_government = yes
+		}
+		prerequisite = { focus = ROM_status_quo_unshaken }
+		relative_position_id = ROM_status_quo_unshaken
+		completion_reward = {
+			random_owned_controlled_state = {
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	# Urban Projects
+	focus = {
+		id = ROM_urban_projects
+		icon = GFX_goal_generic_construct_civ_factory
+		x = 0
+		y = 2
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_democratic_government = yes
+		}
+		prerequisite = { focus = ROM_infrastructure_expansion }
+		relative_position_id = ROM_infrastructure_expansion
+		completion_reward = {
+			add_tech_bonus = {
+				technology = construction1
+				technology = construction2
+				technology = construction3
+				technology = construction4
+				technology = construction5
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Worker Subsidies
+	focus = {
+		id = ROM_worker_subsidies
+		icon = GFX_goal_HOL_progressive_tax
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_democratic_government = yes
+		}
+		prerequisite = { focus = ROM_urban_projects }
+		prerequisite = { focus = ROM_destroy_leftists }
+		relative_position_id = ROM_urban_projects
+		completion_reward = {
+			add_ideas = ROM_worker_subsidies
+		}
+	}
+
+	# Small Business Subsidies
+	focus = {
+		id = ROM_small_business_subsidies
+		icon = GFX_goal_KTG_Certificate_Focus
+		x = 0
+		y = 2
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_democratic_government = yes
+		}
+		prerequisite = { focus = ROM_status_quo_unshaken }
+		relative_position_id = ROM_status_quo_unshaken
+		completion_reward = {
+			add_ideas = ROM_business_subsidies
+		}
+	}
+
+	# Establish the Siguranta
+	focus = {
+		id = ROM_establish_the_siguranta
+		icon = GFX_goal_secret_agents
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_democratic_government = yes
+		}
+		prerequisite = { focus = ROM_status_quo_unshaken }
+		relative_position_id = ROM_status_quo_unshaken
+		completion_reward = {
+			if = {
+				limit = { has_dlc_lar = yes }
+				add_ideas = ROM_siguranta_lar
+			}
+			else = {
+				add_ideas = ROM_siguranta
+			}
+		}
+	}
+
+	# Hunt Down the Iron Guard
+	focus = {
+		id = ROM_hunt_down_the_iron_guard
+		icon = GFX_goal_generic_political_pressure
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_democratic_government = yes
+		}
+		prerequisite = { focus = ROM_establish_the_siguranta }
+		relative_position_id = ROM_establish_the_siguranta
+		completion_reward = {
+			custom_effect_tooltip = ROM_hunt_down_the_iron_guard_tt
+			add_popularity = {
+				ideology = valkist
+				popularity = -0.25
+			}
+		}
+	}
+
+	# Destroy Leftists
+	focus = {
+		id = ROM_destroy_leftists
+		icon = GFX_HOL_crackdown_syndie
+		x = 0
+		y = 2
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_democratic_government = yes
+		}
+		prerequisite = { focus = ROM_establish_the_siguranta }
+		relative_position_id = ROM_establish_the_siguranta
+		completion_reward = {
+			add_popularity = {
+				ideology = vanguardist
+				popularity = -0.15
+			}
+			add_popularity = {
+				ideology = collectivist
+				popularity = -0.15
+			}
+			add_popularity = {
+				ideology = libertarian_socialist
+				popularity = -0.25
+			}
+		}
+	}
+
+	# Criminalise Radicalism
+	focus = {
+		id = ROM_criminalise_radicalism
+		icon = GFX_goal_skull_treaty
+		x = 0
+		y = 2
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_democratic_government = yes
+		}
+		prerequisite = { focus = ROM_hunt_down_the_iron_guard }
+		prerequisite = { focus = ROM_destroy_leftists }
+		relative_position_id = ROM_hunt_down_the_iron_guard
+		completion_reward = {
+			add_stability = 0.15
+			add_war_support = 0.15
+		}
+	}
+
+	# Stable Democracy
+	focus = {
+		id = ROM_stable_democracy
+		icon = GFX_goal_COS_Ferrer_Coup
+		x = 0
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_democratic_government = yes
+		}
+		prerequisite = { focus = ROM_opportunities_for_the_unemployed }
+		prerequisite = { focus = ROM_worker_subsidies }
+		prerequisite = { focus = ROM_criminalise_radicalism }
+		relative_position_id = ROM_worker_subsidies
+		completion_reward = {
+			add_political_power = 100
+		}
+	}
+
+	#############################################
+
+	# The Radical Left Government
+	focus = {
+		id = ROM_the_radical_left_government
+		icon = GFX_goal_ideology_libertarian_socialism
+		x = 22
+		y = 0
+		cost = 6
+		available = {
+			hidden_trigger = {
+				always = no
+			}
+		}
+		allow_branch = {
+			has_country_flag = ROM_socialist_romania
+			NOT = { has_country_flag = ROM_democratic_romania }
+			NOT = { has_country_flag = ROM_iron_guard_romania }
+			NOT = { has_country_flag = ROM_natpop_romania }
+			NOT = { has_country_flag = ROM_direct_rule_from_bucharest }
+		}
+		bypass = {
+			has_country_flag = ROM_socialist_romania
+		}
+		completion_reward = {
+			custom_effect_tooltip = ROM_the_radical_left_government_tt
+		}
+	}
+
+	# Radical Land Reform
+	focus = {
+		id = ROM_radical_land_reform
+		icon = GFX_focus_prc_agrarian_socialism
+		x = -3
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_socialist_government = yes
+		}
+		prerequisite = { focus = ROM_the_radical_left_government }
+		relative_position_id = ROM_the_radical_left_government
+		completion_reward = {
+			random_owned_controlled_state = {
+				prioritize = { 89 }
+				if = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 2
+				}
+			}
+			random_owned_controlled_state = {
+				prioritize = { 79 }
+				if = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 2
+				}
+			}
+			random_owned_controlled_state = {
+				prioritize = { 81 }
+				if = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 2
+				}
+			}
+			random_owned_controlled_state = {
+				prioritize = { 853 }
+				if = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 2
+				}
+			}
+		}
+	}
+
+	# Decentralized Planning
+	focus = {
+		id = ROM_decentralized_planning
+		icon = GFX_goal_generic_austerity_measures
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_socialist_government = yes
+		}
+		prerequisite = { focus = ROM_radical_land_reform }
+		relative_position_id = ROM_radical_land_reform
+		completion_reward = {
+			add_ideas = ROM_decentralized_economic_planning
+		}
+	}
+
+	# The Industrial Strategy
+	focus = {
+		id = ROM_the_industrial_strategy
+		icon = GFX_goal_workers_rights
+		x = 0
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_socialist_government = yes
+		}
+		prerequisite = { focus = ROM_decentralized_planning }
+		relative_position_id = ROM_decentralized_planning
+		completion_reward = {
+			add_tech_bonus = {
+				category = industry
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Farm to Market Roads
+	focus = {
+		id = ROM_farm_to_market_roads
+		icon = GFX_goal_generic_highway
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_socialist_government = yes
+		}
+		prerequisite = { focus = ROM_radical_land_reform }
+		relative_position_id = ROM_radical_land_reform
+		completion_reward = {
+			random_owned_controlled_state = {
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	# Nationalise the Oil Fields
+	focus = {
+		id = ROM_nationalise_the_oil_fields
+		icon = GFX_goal_basic_oil
+		x = 0
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_socialist_government = yes
+		}
+		prerequisite = { focus = ROM_the_radical_left_government }
+		relative_position_id = ROM_the_radical_left_government
+		completion_reward = {
+			add_resource = { type = oil amount = 12 state = 46 }
+			add_tech_bonus = {
+				category = synth_resources
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Seize Foreign Industries
+	focus = {
+		id = ROM_seize_foreign_industries
+		icon = GFX_goal_generic_seize_investments
+		x = -1
+		y = 2
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_socialist_government = yes
+		}
+		prerequisite = { focus = ROM_nationalise_the_oil_fields }
+		prerequisite = { focus = ROM_farm_to_market_roads }
+		relative_position_id = ROM_nationalise_the_oil_fields
+		completion_reward = {
+			add_offsite_building = {
+				type = industrial_complex
+				level = 2
+			}
+		}
+	}
+
+	# Publicly Owned Entreprise
+	focus = {
+		id = ROM_publicly_owned_entreprise
+		icon = GFX_goal_generic_foreign_investments
+		x = 1
+		y = 2
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_socialist_government = yes
+		}
+		prerequisite = { focus = ROM_abolish_the_monarchy }
+		prerequisite = { focus = ROM_nationalise_the_oil_fields }
+		relative_position_id = ROM_nationalise_the_oil_fields
+		completion_reward = {
+			add_ideas = ROM_public_owned_enterprise
+			add_tech_bonus = {
+				name = industrial_bonus
+				bonus = 1
+				uses = 2
+				category = industry
+			}
+		}
+	}
+
+	# Liberalize Unions
+	focus = {
+		id = ROM_liberalize_unions
+		icon = GFX_goal_generic_workers_democracy
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_socialist_government = yes
+		}
+		prerequisite = { focus = ROM_seize_foreign_industries }
+		relative_position_id = ROM_seize_foreign_industries
+		completion_reward = {
+			add_popularity = {
+				ideology = vanguardist
+				popularity = 0.025
+			}
+			add_popularity = {
+				ideology = collectivist
+				popularity = 0.05
+			}
+			add_popularity = {
+				ideology = libertarian_socialist
+				popularity = 0.1
+			}
+			add_popularity = {
+				ideology = social_democrat
+				popularity = 0.05
+			}
+			add_political_power = 100
+			add_stability = 0.05
+		}
+	}
+
+	# Socialist Social Security
+	focus = {
+		id = ROM_socialist_social_security
+		icon = GFX_focus_generic_self_management
+		x = 0
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_socialist_government = yes
+		}
+		prerequisite = { focus = ROM_liberalize_unions }
+		relative_position_id = ROM_liberalize_unions
+		completion_reward = {
+			add_ideas = ROM_social_security_programs
+		}
+	}
+
+	# Revolutionary Science
+	focus = {
+		id = ROM_revolutionary_science
+		icon = GFX_focus_generic_socialist_science
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_socialist_government = yes
+		}
+		prerequisite = {
+			focus = ROM_seize_foreign_industries
+			focus = ROM_publicly_owned_entreprise
+		}
+		relative_position_id = ROM_seize_foreign_industries
+		completion_reward = {
+			add_research_slot = 1
+		}
+	}
+
+	# Progressive Taxes
+	focus = {
+		id = ROM_progressive_taxes
+		icon = GFX_goal_bag_of_money
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_socialist_government = yes
+		}
+		prerequisite = { focus = ROM_publicly_owned_entreprise }
+		relative_position_id = ROM_publicly_owned_entreprise
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = ROM_public_owned_enterprise
+				add_idea = ROM_public_owned_enterprise_1
+			}
+		}
+	}
+
+	# A New Romania
+	focus = {
+		id = ROM_a_new_romania
+		icon = GFX_goal_ROM_flag
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_socialist_government = yes
+		}
+		prerequisite = { focus = ROM_revolutionary_science }
+		prerequisite = { focus = ROM_progressive_taxes }
+		relative_position_id = ROM_revolutionary_science
+		completion_reward = {
+			add_ideas = ROM_socialist_romania_idea
+		}
+	}
+
+	# Abolish the Monarchy
+	focus = {
+		id = ROM_abolish_the_monarchy
+		icon = GFX_focus_rom_abdicate
+		x = 3
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_socialist_government = yes
+		}
+		prerequisite = { focus = ROM_the_radical_left_government }
+		relative_position_id = ROM_the_radical_left_government
+		completion_reward = {
+			ROM_become_republic = yes
+			swap_ideas = {
+				remove_idea = constitutional_monarchy
+				add_idea = workers_republic
+			}
+		}
+	}
+
+	# Establish the Securitate
+	focus = {
+		id = ROM_establish_the_securitate
+		icon = GFX_goal_generic_espionage
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_socialist_government = yes
+		}
+		prerequisite = { focus = ROM_abolish_the_monarchy }
+		relative_position_id = ROM_abolish_the_monarchy
+		completion_reward = {
+			if = {
+				limit = { has_dlc_lar = yes }
+				add_ideas = ROM_securitate_lar
+			}
+			else = {
+				add_ideas = ROM_securitate
+			}
+		}
+	}
+
+	# Fight Reactionaries
+	focus = {
+		id = ROM_fight_reactionaries
+		icon = GFX_focus_generic_anti_fascist_diplomacy
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_socialist_government = yes
+		}
+		prerequisite = { focus = ROM_abolish_the_monarchy }
+		relative_position_id = ROM_abolish_the_monarchy
+		completion_reward = {
+			activate_mission_tooltip = ROM_eliminate_opposition_socialist
+			hidden_effect = {
+				country_event = { id = romania.33 days = 7 }
+			}
+		}
+	}
+
+	# Join the Internationale
+	focus = {
+		id = ROM_join_the_internationale
+		icon = GFX_focus_SOV_the_path_of_marxism_leninism
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_socialist_government = yes
+		}
+		available = { is_subject = no }
+		bypass = { is_in_faction = yes }
+		prerequisite = { focus = ROM_fight_reactionaries }
+		prerequisite = { focus = ROM_establish_the_securitate }
+		relative_position_id = ROM_fight_reactionaries
+		completion_reward = {
+			custom_effect_tooltip = ROM_join_the_internationale_tt
+		}
+	}
+
+	#############################################
+
+	# Direct Rule from Bucharest
+	focus = {
+		id = ROM_direct_rule_from_bucharest_focus
+		icon = GFX_goal_ideology_paternal_autocrat
+		x = 20
+		y = 0
+		cost = 6
+		available = {
+			hidden_trigger = {
+				always = no
+			}
+		}
+		allow_branch = {
+			has_country_flag = ROM_direct_rule_from_bucharest
+			NOT = { has_country_flag = ROM_natpop_romania }
+			NOT = { has_country_flag = ROM_iron_guard_romania }
+			NOT = { has_country_flag = ROM_socialist_romania }
+			NOT = { has_country_flag = ROM_democratic_romania }
+		}
+		bypass = {
+			has_country_flag = ROM_direct_rule_from_bucharest
+		}
+		completion_reward = {
+			custom_effect_tooltip = ROM_direct_rule_from_bucharest_focus_tt
+		}
+	}
+
+	# The Siguranta
+	focus = {
+		id = ROM_the_siguranta
+		icon = GFX_focus_generic_secret_service_agency
+		x = -2
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = paternal_autocrat
+		}
+		prerequisite = { focus = ROM_direct_rule_from_bucharest_focus }
+		relative_position_id = ROM_direct_rule_from_bucharest_focus
+		completion_reward = {
+			if = {
+				limit = { has_dlc_lar = yes }
+				add_ideas = ROM_siguranta_lar
+			}
+			else = {
+				add_ideas = ROM_siguranta
+			}
+		}
+	}
+
+	# Eradicate the Remaining Legionnaires
+	focus = {
+		id = ROM_eradicate_the_remaining_legionnaires
+		icon = GFX_HOL_crackdown_natpop
+		x = -2
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = paternal_autocrat
+		}
+		prerequisite = { focus = ROM_the_siguranta }
+		relative_position_id = ROM_the_siguranta
+		completion_reward = {
+			activate_mission_tooltip = ROM_eliminate_opposition_royalist
+		}
+	}
+
+	# Arrest Socialist Leaders
+	focus = {
+		id = ROM_arrest_socialist_leaders
+		icon = GFX_HOL_crackdown_syndie
+		x = 0
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = paternal_autocrat
+		}
+		prerequisite = { focus = ROM_the_siguranta }
+		relative_position_id = ROM_the_siguranta
+		completion_reward = {
+			add_popularity = {
+				ideology = vanguardist
+				popularity = -0.05
+			}
+			add_popularity = {
+				ideology = collectivist
+				popularity = -0.05
+			}
+			add_popularity = {
+				ideology = libertarian_socialist
+				popularity = -0.05
+			}
+		}
+	}
+
+	# Royal Philantrophy
+	focus = {
+		id = ROM_royal_philantrophy_focus
+		icon = GFX_focus_rom_royal_dictatorship
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = paternal_autocrat
+		}
+		prerequisite = { focus = ROM_eradicate_the_remaining_legionnaires }
+		prerequisite = { focus = ROM_arrest_socialist_leaders }
+		relative_position_id = ROM_eradicate_the_remaining_legionnaires
+		completion_reward = {
+			add_ideas = ROM_royal_philantrophy
+		}
+	}
+
+	# Corporatism
+	focus = {
+		id = ROM_corporatism
+		icon = GFX_goal_factory_complex
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = paternal_autocrat
+		}
+		prerequisite = { focus = ROM_direct_rule_from_bucharest_focus }
+		relative_position_id = ROM_direct_rule_from_bucharest_focus
+		completion_reward = {
+			add_ideas = ROM_corporatism_idea
+		}
+	}
+
+	# Reshaping the Country
+	focus = {
+		id = ROM_reshaping_the_country
+		icon = GFX_goal_generic_construct_infrastructure
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = paternal_autocrat
+		}
+		prerequisite = { focus = ROM_corporatism }
+		relative_position_id = ROM_corporatism
+		completion_reward = {
+			random_owned_controlled_state = {
+				prioritize = { 46 }
+				if = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 2
+				}
+			}
+			random_owned_controlled_state = {
+				prioritize = { 79 }
+				if = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 2
+				}
+			}
+		}
+	}
+
+	# Electrical Ventures
+	focus = {
+		id = ROM_electrical_ventures
+		icon = GFX_goal_generic_lightbulb
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = paternal_autocrat
+		}
+		prerequisite = { focus = ROM_corporatism }
+		relative_position_id = ROM_corporatism
+		completion_reward = {
+			add_tech_bonus = {
+				category = electronics
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Corporate Subsidies
+	focus = {
+		id = ROM_corporate_subsidies
+		icon = GFX_goal_bag_of_money
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = paternal_autocrat
+		}
+		prerequisite = { focus = ROM_reshaping_the_country }
+		relative_position_id = ROM_reshaping_the_country
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = ROM_corporatism_idea
+				add_idea = ROM_corporatism_1_idea
+			}
+		}
+	}
+
+	# Government-Private Partnerships
+	focus = {
+		id = ROM_government_private_partnerships
+		icon = GFX_DAH_Topke
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = paternal_autocrat
+		}
+		prerequisite = { focus = ROM_reshaping_the_country }
+		relative_position_id = ROM_reshaping_the_country
+		completion_reward = {
+			add_offsite_building = {
+				type = industrial_complex
+				level = 2
+			}
+		}
+	}
+
+	# Union Compromise
+	focus = {
+		id = ROM_union_compromise
+		icon = GFX_goal_generic_enforce_labor_regulation
+		x = 0
+		y = 2
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = paternal_autocrat
+		}
+		prerequisite = { focus = ROM_reshaping_the_country }
+		relative_position_id = ROM_reshaping_the_country
+		completion_reward = {
+			add_ideas = ROM_compromised_with_unions
+		}
+	}
+
+	# Cult of Personality
+	focus = {
+		id = ROM_cult_of_personality
+		icon = GFX_focus_generic_concessions
+		x = 3
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = paternal_autocrat
+			has_country_leader = {
+				character = ROM_Nicholas_von_Hohenzollern_Sigmaringen
+				ruling_only = yes
+			}
+		}
+		prerequisite = { focus = ROM_direct_rule_from_bucharest_focus }
+		relative_position_id = ROM_direct_rule_from_bucharest_focus
+		completion_reward = {
+			add_country_leader_trait = enlightened_sovereign
+		}
+	}
+
+	# Enlightened Sovereign
+	focus = {
+		id = ROM_enlightened_sovereign
+		icon = GFX_focus_SOV_zemsky_sobor
+		x = 0
+		y = 2
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = paternal_autocrat
+			has_country_leader = {
+				character = ROM_Nicholas_von_Hohenzollern_Sigmaringen
+				ruling_only = yes
+			}
+		}
+		prerequisite = { focus = ROM_cult_of_personality }
+		relative_position_id = ROM_cult_of_personality
+		completion_reward = {
+			swap_ruler_traits = {
+				remove = enlightened_sovereign
+				add = enlightened_sovereign_1
+			}
+		}
+	}
+
+	# Royal Research Councils
+	focus = {
+		id = ROM_royal_research_councils
+		icon = GFX_goal_great_science
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = paternal_autocrat
+			has_country_leader = {
+				character = ROM_Nicholas_von_Hohenzollern_Sigmaringen
+				ruling_only = yes
+			}
+		}
+		prerequisite = { focus = ROM_enlightened_sovereign }
+		relative_position_id = ROM_enlightened_sovereign
+		completion_reward = {
+			add_research_slot = 1
+		}
+	}
+
+	# Empower the Camarilla
+	focus = {
+		id = ROM_empower_the_camarilla
+		icon = GFX_focus_generic_home_defense
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = paternal_autocrat
+			has_country_leader = {
+				character = ROM_Nicholas_von_Hohenzollern_Sigmaringen
+				ruling_only = yes
+			}
+		}
+		prerequisite = { focus = ROM_enlightened_sovereign }
+		relative_position_id = ROM_enlightened_sovereign
+		completion_reward = {
+			add_stability = 0.05
+			add_war_support = 0.05
+			increase_ruling_party_popularity_by_15 = yes
+		}
+	}
+
+	# Foreign Alignment
+	focus = {
+		id = ROM_foreign_alignment
+		icon = GFX_goal_generic_neutrality_focus
+		x = 5
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = paternal_autocrat
+		}
+		prerequisite = { focus = ROM_direct_rule_from_bucharest_focus }
+		relative_position_id = ROM_direct_rule_from_bucharest_focus
+		completion_reward = {
+			custom_effect_tooltip = ROM_foreign_alignment_tt
+		}
+	}
+
+	# Defensive Aid
+	focus = {
+		id = ROM_defensive_aid
+		icon = GFX_goal_generic_loans
+		x = -1
+		y =1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = paternal_autocrat
+			is_in_faction = yes
+		}
+		prerequisite = { focus = ROM_foreign_alignment }
+		relative_position_id = ROM_foreign_alignment
+		completion_reward = {
+			if = {
+				limit = { is_in_faction_with = FRA }
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = 2500
+					producer = FRA
+				}
+				add_equipment_to_stockpile = {
+					type = support_equipment
+					amount = 2500
+					producer = FRA
+				}
+			}
+			else_if = {
+				limit = { is_in_faction_with = GER }
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = 2500
+					producer = GER
+				}
+				add_equipment_to_stockpile = {
+					type = support_equipment
+					amount = 2500
+					producer = GER
+				}
+			}
+			else_if = {
+				limit = { is_in_faction_with = POL }
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = 2500
+					producer = POL
+				}
+				add_equipment_to_stockpile = {
+					type = support_equipment
+					amount = 2500
+					producer = POL
+				}
+			}
+
+			add_tech_bonus = {
+				name = ROM_defensive_aid
+				category = infantry_weapons
+				category = artillery
+				category = armor
+				category = air_equipment
+				bonus = 0.75
+				uses = 2
+			}
+		}
+	}
+
+	# Foreign Advisors
+	focus = {
+		id = ROM_foreign_advisors
+		icon = GFX_goal_generic_army_high_command
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = paternal_autocrat
+			is_in_faction = yes
+		}
+		prerequisite = { focus = ROM_foreign_alignment }
+		relative_position_id = ROM_foreign_alignment
+		completion_reward = {
+			if = {
+				limit = { is_in_faction_with = FRA }
+				add_ideas = ROM_entente_officers
+			}
+			else_if = {
+				limit = { is_in_faction_with = GER }
+				add_ideas = ROM_stahlpakt_officers
+			}
+			else_if = {
+				limit = { is_in_faction_with = POL }
+				add_ideas = ROM_polish_officers
+			}
+			else = {
+				custom_effect_tooltip = ROM_foreign_advisors_tt
+			}
+		}
+	}
+
+	#############################################
+
+	# The Iron Guard in Power
+	focus = {
+		id = ROM_the_iron_guard_in_power
+		icon = GFX_goal_ideology_valkist
+		x = 22
+		y = 0
+		cost = 6
+		available = {
+			hidden_trigger = {
+				always = no
+			}
+		}
+		allow_branch = {
+			has_country_flag = ROM_valkist_romania
+			NOT = { has_country_flag = ROM_direct_rule_from_bucharest }
+			NOT = { has_country_flag = ROM_socialist_romania }
+			NOT = { has_country_flag = ROM_natpop_romania }
+			NOT = { has_country_flag = ROM_democratic_romania }
+		}
+		bypass = {
+			has_country_flag = ROM_valkist_romania
+		}
+		completion_reward = {
+			custom_effect_tooltip = ROM_the_iron_guard_in_power_tt
+		}
+	}
+
+	# Loyalty to the Conducator
+	focus = {
+		id = ROM_loyalty_to_the_conducator
+		icon = GFX_goal_ROM_loyalty_to_codreanu
+		x = -2
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = valkist
+		}
+		prerequisite = { focus = ROM_the_iron_guard_in_power }
+		relative_position_id = ROM_the_iron_guard_in_power
+		completion_reward = {
+			activate_mission_tooltip = ROM_eliminate_opposition_valkist
+		}
+	}
+
+	# Join the Stahlpakt
+	focus = {
+		id = ROM_join_the_stahlpakt
+		icon = GFX_goal_ROM_join_stahlpakt
+		x = -3
+		y = 1
+		cost = 6
+		available = {
+			is_subject = no
+			GER = { is_faction_leader = yes }
+		}
+		bypass = { is_in_faction = yes }
+		mutually_exclusive = { focus = ROM_deal_with_serbia }
+		prerequisite = { focus = ROM_loyalty_to_the_conducator }
+		relative_position_id = ROM_loyalty_to_the_conducator
+		completion_reward = {
+			custom_effect_tooltip = ROM_join_the_stahlpakt_tt
+		}
+	}
+
+	# Deal with Serbia
+	focus = {
+		id = ROM_deal_with_serbia
+		icon = GFX_goal_serbia
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			is_subject = no
+			has_capitulated = no
+			country_exists = SER
+			SER = { is_subject = no }
+		}
+		bypass = {
+			OR = {
+				SER = {
+					is_in_faction_with = FROM
+					is_subject_of = ROOT
+				}
+				is_subject_of = SER
+			}
+		}
+		mutually_exclusive = { focus = ROM_join_the_stahlpakt }
+		prerequisite = { focus = ROM_loyalty_to_the_conducator }
+		relative_position_id = ROM_loyalty_to_the_conducator
+		completion_reward = {
+			SER = {
+				country_event = { id = romania.53 hours = 12 }
+			}
+			custom_effect_tooltip = ROM_deal_with_serbia_tt
+			effect_tooltip = {
+				SER = {
+					create_faction = "Balkan Pact"
+					add_to_faction = ROOT
+				}
+			}
+		}
+	}
+
+	# Legionary Secret Police
+	focus = {
+		id = ROM_legionary_secret_police
+		icon = GFX_goal_secret_agents
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = valkist
+		}
+		prerequisite = { focus = ROM_loyalty_to_the_conducator }
+		relative_position_id = ROM_loyalty_to_the_conducator
+		completion_reward = {
+			if = {
+				limit = { has_dlc_lar = yes }
+				add_ideas = ROM_legion_secret_police_idea_lar
+			}
+			else = {
+				add_ideas = ROM_legion_secret_police_idea
+			}
+		}
+	}
+
+
+	# Merge the Legion to the Army
+	focus = {
+		id = ROM_merge_the_legion_to_the_army
+		icon = GFX_goal_conscription
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = valkist
+		}
+		mutually_exclusive = { focus = ROM_the_legion_as_a_separate_force }
+		prerequisite = { focus = ROM_legionary_secret_police }
+		relative_position_id = ROM_legionary_secret_police
+		completion_reward = {
+			add_ideas = ROM_legion_army
+		}
+	}
+
+	# The Legion as a Separate Force
+	focus = {
+		id = ROM_the_legion_as_a_separate_force
+		icon = GFX_goal_generic_paramilitary
+		x = -3
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = valkist
+		}
+		mutually_exclusive = { focus = ROM_merge_the_legion_to_the_army }
+		prerequisite = { focus = ROM_legionary_secret_police }
+		relative_position_id = ROM_legionary_secret_police
+		completion_reward = {
+			add_ideas = ROM_legion_support
+		}
+	}
+
+	# National Legionary State
+	focus = {
+		id = ROM_national_legionary_state
+		icon = GFX_goal_ROM_national_legionary_state
+		x = 0
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = valkist
+		}
+		prerequisite = { focus = ROM_criminalise_socialism }
+		prerequisite = {
+			focus = ROM_the_legion_as_a_separate_force
+			focus = ROM_merge_the_legion_to_the_army
+		}
+		relative_position_id = ROM_merge_the_legion_to_the_army
+		completion_reward = {
+			add_ideas = ROM_legionary_brotherhood
+		}
+	}
+
+	# Guide the Nation
+	focus = {
+		id = ROM_guide_the_nation
+		icon = GFX_goal_generic_authoritarian_government
+		x = 0
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = valkist
+		}
+		prerequisite = { focus = ROM_the_iron_guard_in_power }
+		relative_position_id = ROM_the_iron_guard_in_power
+		completion_reward = {
+			add_political_power = 150
+		}
+	}
+
+	# Criminalise Socialism
+	focus = {
+		id = ROM_criminalise_socialism
+		icon = GFX_HOL_crackdown_syndie
+		x = 0
+		y = 2
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = valkist
+		}
+		prerequisite = { focus = ROM_guide_the_nation }
+		prerequisite = { focus = ROM_seize_royal_wealth }
+		relative_position_id = ROM_guide_the_nation
+		completion_reward = {
+			add_popularity = {
+				ideology = vanguardist
+				popularity = -0.15
+			}
+			add_popularity = {
+				ideology = collectivist
+				popularity = -0.15
+			}
+			add_popularity = {
+				ideology = libertarian_socialist
+				popularity = -0.15
+			}
+		}
+	}
+
+	# Legionary Industrialization
+	focus = {
+		id = ROM_legionary_industrialization
+		icon = GFX_focus_generic_the_giant_wakes
+		x = 2
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = valkist
+		}
+		prerequisite = { focus = ROM_the_iron_guard_in_power }
+		relative_position_id = ROM_the_iron_guard_in_power
+		completion_reward = {
+			add_tech_bonus = {
+				category = industry
+				bonus = 0.75
+				uses = 1
+			}
+		}
+	}
+
+	# Legionary Education
+	focus = {
+		id = ROM_legionary_education
+		icon = GFX_goal_KTG_Bookstack
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = valkist
+		}
+		prerequisite = { focus = ROM_legionary_industrialization }
+		relative_position_id = ROM_legionary_industrialization
+		completion_reward = {
+			add_research_slot = 1
+		}
+	}
+
+	# Alliance with the Church
+	focus = {
+		id = ROM_alliance_with_the_church
+		icon = GFX_goal_generic_orthodoxy
+		x = 0
+		y = 2
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = valkist
+		}
+		prerequisite = { focus = ROM_legionary_education }
+		prerequisite = { focus = ROM_obligatory_camp_service }
+		relative_position_id = ROM_legionary_education
+		completion_reward = {
+			increase_ruling_party_popularity_by_5 = yes
+			add_stability = 0.1
+			add_war_support = 0.1
+		}
+	}
+
+	# Their Assets do not Matter
+	focus = {
+		id = ROM_seize_royal_wealth
+		icon = GFX_goal_generic_seize_investments
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = valkist
+		}
+		prerequisite = { focus = ROM_legionary_industrialization }
+		relative_position_id = ROM_legionary_industrialization
+		completion_reward = {
+			random_owned_controlled_state = {
+				prioritize = { 89 }
+				if = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			random_owned_controlled_state = {
+				prioritize = { 79 }
+				if = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			random_owned_controlled_state = {
+				prioritize = { 46 }
+				if = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+		}
+	}
+
+	# Green Agrarian Roots
+	focus = {
+		id = ROM_green_agriarian_roots
+		icon = GFX_goal_agriculture
+		x = 0
+		y = 2
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = valkist
+		}
+		prerequisite = { focus = ROM_seize_royal_wealth }
+		prerequisite = { focus = ROM_green_welfare }
+		relative_position_id = ROM_seize_royal_wealth
+		completion_reward = {
+			add_ideas = ROM_legionary_agriculture
+		}
+	}
+
+
+	# Green Welfare
+	focus = {
+		id = ROM_green_welfare
+		icon = GFX_focus_generic_concessions
+		x = 0
+		y = 2
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = valkist
+		}
+		prerequisite = { focus = ROM_seize_royal_wealth }
+		prerequisite = { focus = ROM_legionary_industrialization }
+		relative_position_id = ROM_legionary_industrialization
+		completion_reward = {
+			add_ideas = ROM_legionary_welfare
+		}
+	}
+
+	# Obligatory Camp Service
+	focus = {
+		id = ROM_obligatory_camp_service
+		icon = GFX_goal_economic_control
+		x = 2
+		y = 2
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = valkist
+		}
+		prerequisite = { focus = ROM_legionary_industrialization }
+		relative_position_id = ROM_legionary_industrialization
+		completion_reward = {
+			add_ideas = ROM_camp_service
+		}
+	}
+
+	# Legionary Culture Centres
+	focus = {
+		id = ROM_legionary_culture_centres
+		icon = GFX_goal_generic_culture2
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = valkist
+		}
+		prerequisite = { focus = ROM_green_agriarian_roots }
+		prerequisite = { focus = ROM_alliance_with_the_church }
+		relative_position_id = ROM_green_agriarian_roots
+		completion_reward = {
+			add_ideas = ROM_culture_centres
+		}
+	}
+
+	#############################################
+
+	# The Nationalist Kingdom
+	focus = {
+		id = ROM_the_nationalist_kingdom
+		icon = GFX_goal_ideology_national_populist
+		x = 18
+		y = 0
+		cost = 6
+		available = {
+			hidden_trigger = {
+				always = no
+			}
+		}
+		allow_branch = {
+			has_country_flag = ROM_natpop_romania
+			NOT = { has_country_flag = ROM_direct_rule_from_bucharest }
+			NOT = { has_country_flag = ROM_socialist_romania }
+			NOT = { has_country_flag = ROM_democratic_romania }
+			NOT = { has_country_flag = ROM_iron_guard_romania }
+		}
+		bypass = {
+			has_country_flag = ROM_natpop_romania
+		}
+		mutually_exclusive = { focus = ROM_resurrect_an_empire }
+		completion_reward = {
+			custom_effect_tooltip = ROM_the_nationalist_kingdom_tt
+		}
+	}
+
+	# Found New Universities
+	focus = {
+		id = ROM_found_new_universities
+		icon = GFX_focus_research
+		x = -2
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = national_populist
+		}
+		prerequisite = { focus = ROM_the_nationalist_kingdom }
+		relative_position_id = ROM_the_nationalist_kingdom
+		completion_reward = {
+			add_research_slot = 1
+		}
+	}
+
+	# Get Corporate Support
+	focus = {
+		id = ROM_get_corporate_support
+		icon = GFX_goal_state_economy
+		x = 0
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = national_populist
+		}
+		prerequisite = { focus = ROM_the_nationalist_kingdom }
+		relative_position_id = ROM_the_nationalist_kingdom
+		completion_reward = {
+			random_owned_controlled_state = {
+				if = {
+					limit = {
+						is_core_of = ROM
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+
+					add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = industrial_complex
+						level = 2
+						instant_build = yes
+					}
+				}
+			}
+			random_owned_controlled_state = {
+				if = {
+					limit = {
+						is_core_of = ROM
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+
+					add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = industrial_complex
+						level = 2
+						instant_build = yes
+					}
+				}
+			}
+		}
+	}
+
+	# New Cities
+	focus = {
+		id = ROM_new_cities
+		icon = GFX_focus_generic_industry_3
+		x = -2
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = national_populist
+		}
+		prerequisite = { focus = ROM_get_corporate_support }
+		relative_position_id = ROM_get_corporate_support
+		completion_reward = {
+			random_owned_controlled_state = {
+				if = {
+					limit = {
+						is_core_of = ROM
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+
+					add_extra_state_shared_building_slots = 2
+				}
+			}
+			random_owned_controlled_state = {
+				if = {
+					limit = {
+						is_core_of = ROM
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+
+					add_extra_state_shared_building_slots = 2
+				}
+			}
+			random_owned_controlled_state = {
+				if = {
+					limit = {
+						is_core_of = ROM
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+
+					add_extra_state_shared_building_slots = 2
+				}
+			}
+			random_owned_controlled_state = {
+				if = {
+					limit = {
+						is_core_of = ROM
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+
+					add_extra_state_shared_building_slots = 2
+				}
+			}
+		}
+	}
+
+	# Efficient Production
+	focus = {
+		id = ROM_efficient_production
+		icon = GFX_goal_production
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = national_populist
+		}
+		prerequisite = { focus = ROM_get_corporate_support }
+		prerequisite = { focus = ROM_new_legal_codes }
+		relative_position_id = ROM_new_cities
+		completion_reward = {
+			add_ideas = ROM_efficient_production_idea
+		}
+	}
+
+	# Massive Military Funding
+	focus = {
+		id = ROM_massive_military_funding
+		icon = GFX_goal_bag_of_money
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = national_populist
+		}
+		prerequisite = { focus = ROM_efficient_production }
+		prerequisite = { focus = ROM_new_cities }
+		relative_position_id = ROM_efficient_production
+		completion_reward = {
+			add_timed_idea = {
+				idea = ROM_military_buildup
+				days = 480
+			}
+		}
+	}
+
+	# Technological Innovations
+	focus = {
+		id = ROM_technological_innovations
+		icon = GFX_goal_machine
+		x = 0
+		y = 2
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = national_populist
+		}
+		prerequisite = { focus = ROM_efficient_production }
+		relative_position_id = ROM_efficient_production
+		completion_reward = {
+			add_tech_bonus = {
+				category = electronics
+				bonus = 1
+				uses = 2
+			}
+		}
+	}
+
+	# Recruitment Programs
+	focus = {
+		id = ROM_recruitment_programs
+		icon = GFX_goal_army_guy
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = national_populist
+		}
+		prerequisite = { focus = ROM_efficient_production }
+		relative_position_id = ROM_efficient_production
+		completion_reward = {
+			add_manpower = 35000
+		}
+	}
+
+	# New Legal Codes
+	focus = {
+		id = ROM_new_legal_codes
+		icon = GFX_goal_DOM_The_Trial
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = national_populist
+		}
+		prerequisite = { focus = ROM_get_corporate_support }
+		relative_position_id = ROM_get_corporate_support
+		completion_reward = {
+			add_stability = 0.25
+			add_war_support = 0.25
+		}
+	}
+
+	# The Secret Police
+	focus = {
+		id = ROM_the_secret_police
+		icon = GFX_goal_secret_agents
+		x = 0
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = national_populist
+		}
+		prerequisite = { focus = ROM_new_legal_codes }
+		relative_position_id = ROM_new_legal_codes
+		completion_reward = {
+			if = {
+				limit = { has_dlc_lar = yes }
+				add_ideas = ROM_siguranta_lar
+			}
+			else = {
+				add_ideas = ROM_siguranta
+			}
+		}
+	}
+
+	# Patriotism
+	focus = {
+		id = ROM_patriotism
+		icon = GFX_goal_volunteer_alliance
+		x = 2
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = national_populist
+		}
+		prerequisite = { focus = ROM_the_nationalist_kingdom }
+		relative_position_id = ROM_the_nationalist_kingdom
+		completion_reward = {
+			add_ideas = ROM_romanian_patriotism
+		}
+	}
+
+	# Create Youth Organizations
+	focus = {
+		id = ROM_create_youth_organizations
+		icon = GFX_goal_conspiracy
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = national_populist
+		}
+		prerequisite = { focus = ROM_patriotism }
+		relative_position_id = ROM_patriotism
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = ROM_romanian_patriotism
+				add_idea = ROM_romanian_patriotism_1
+			}
+		}
+	}
+
+	# Resurrect an Empire
+	focus = {
+		id = ROM_resurrect_an_empire
+		icon = GFX_focus_rom_royal_dictatorship
+		x = 6
+		y = 0
+		cost = 6
+		available = {
+			hidden_trigger = {
+				always = no
+			}
+		}
+		bypass = {
+			has_country_flag = ROM_natpop_romania
+			has_country_leader = {
+				character = ROM_Alexandru_Cantacuzino
+				ruling_only = yes
+			}
+		}
+		allow_branch = {
+			has_country_leader = {
+				character = ROM_Alexandru_Cantacuzino
+				ruling_only = yes
+			}
+			NOT = { has_country_flag = ROM_iron_guard_romania }
+			NOT = { has_country_flag = ROM_socialist_romania }
+			NOT = { has_country_flag = ROM_democratic_romania }
+			NOT = { has_country_flag = ROM_direct_rule_from_bucharest }
+		}
+		mutually_exclusive = { focus = ROM_the_nationalist_kingdom }
+		relative_position_id = ROM_the_nationalist_kingdom
+		completion_reward = {
+			custom_effect_tooltip = ROM_resurrect_an_empire_tt
+		}
+	}
+
+	# Rescue Failing Companies
+	focus = {
+		id = ROM_rescue_failing_companies
+		icon = GFX_goal_factory_complex
+		x = -2
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = national_populist
+		}
+		prerequisite = { focus = ROM_resurrect_an_empire }
+		relative_position_id = ROM_resurrect_an_empire
+		completion_reward = {
+			add_offsite_building = {
+				type = industrial_complex
+				level = 3
+			}
+		}
+	}
+
+	# New Education Curriculum
+	focus = {
+		id = ROM_new_education_curriculum
+		icon = GFX_goal_KTG_Bookstack
+		x = 0
+		y = 2
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = national_populist
+		}
+		prerequisite = { focus = ROM_rescue_failing_companies }
+		prerequisite = { focus = ROM_create_youth_organizations }
+		relative_position_id = ROM_rescue_failing_companies
+		completion_reward = {
+			add_research_slot = 1
+		}
+	}
+
+	# Begin Mobilization
+	focus = {
+		id = ROM_begin_mobilization
+		icon = GFX_goal_national_mobilization
+		x = 0
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = national_populist
+		}
+		prerequisite = { focus = ROM_resurrect_an_empire }
+		relative_position_id = ROM_resurrect_an_empire
+		completion_reward = {
+			increase_mobilization = yes
+		}
+	}
+
+	# The Athens Conference
+	focus = {
+		id = ROM_the_athens_conference
+		icon = GFX_goal_government_icon
+		x = -1
+		y = 1
+		cost = 6
+		ai_will_do = {
+			base = 200
+		}
+		available = {
+			has_capitulated = no
+			has_government = national_populist
+			country_exists = GRE
+		}
+		mutually_exclusive = { focus = ROM_strike_first }
+		prerequisite = { focus = ROM_begin_mobilization }
+		relative_position_id = ROM_begin_mobilization
+		completion_reward = {
+			GRE = {
+				country_event = { id = romania.41 hours = 8 }
+			}
+		}
+	}
+
+	# Strike First
+	focus = {
+		id = ROM_strike_first
+		icon = GFX_goal_generic_attack_greece
+		x = 1
+		y = 1
+		cost = 6
+		ai_will_do = {
+			base = 800
+		}
+		available = {
+			has_capitulated = no
+			has_government = national_populist
+			country_exists = GRE
+			can_declare_war_on = GRE
+		}
+		bypass = {
+			OR = {
+				owns_state = 1045
+				AND = {
+					exists = no
+					any_owned_state = {
+						is_core_of = GRE
+					}
+				}
+				GRE = {
+					is_subject_of = ROOT
+				}
+			}
+		}
+		will_lead_to_war_with = GRE
+		mutually_exclusive = { focus = ROM_the_athens_conference }
+		prerequisite = { focus = ROM_begin_mobilization }
+		relative_position_id = ROM_begin_mobilization
+		completion_reward = {
+			declare_war_on = {
+				target = GRE
+				type = annex_everything
+			}
+		}
+	}
+
+	# Reclaim the Territories
+	focus = {
+		id = ROM_reclaim_the_territories
+		icon = GFX_goal_ottoman
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = national_populist
+			country_exists = TUR
+			can_declare_war_on = TUR
+		}
+		bypass = {
+			OR = {
+				owns_state = 341
+				AND = {
+					exists = no
+					any_owned_state = {
+						is_core_of = TUR
+					}
+				}
+				TUR = { is_subject_of = ROOT }
+			}
+		}
+		prerequisite = {
+			focus = ROM_the_athens_conference
+			focus = ROM_strike_first
+		}
+		relative_position_id = ROM_the_athens_conference
+		completion_reward = {
+			unlock_decision_category_tooltip = ROM_reclaimation_of_old_territories
+		}
+	}
+
+	# Industrial Renovation
+	focus = {
+		id = ROM_industrial_renovation
+		icon = GFX_goal_construction
+		x = 2
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = national_populist
+		}
+		prerequisite = { focus = ROM_resurrect_an_empire }
+		relative_position_id = ROM_resurrect_an_empire
+		completion_reward = {
+			random_owned_controlled_state = {
+				if = {
+					limit = {
+						is_core_of = ROM
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 2
+				}
+			}
+			random_owned_controlled_state = {
+				if = {
+					limit = {
+						is_core_of = ROM
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 2
+				}
+			}
+		}
+	}
+
+	# Relief Camps
+	focus = {
+		id = ROM_relief_camps
+		icon = GFX_goal_generic_construction2
+		x = 0
+		y = 2
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = national_populist
+		}
+		prerequisite = { focus = ROM_industrial_renovation }
+		relative_position_id = ROM_industrial_renovation
+		completion_reward = {
+			add_ideas = ROM_relief_camps_idea
+		}
+	}
+
+	# The True Successor
+	focus = {
+		id = ROM_the_true_successor
+		icon = GFX_focus_generic_home_defense
+		x = 0
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = national_populist
+		}
+		prerequisite = { focus = ROM_new_education_curriculum }
+		prerequisite = { focus = ROM_reclaim_the_territories }
+		prerequisite = { focus = ROM_relief_camps }
+		relative_position_id = ROM_reclaim_the_territories
+		completion_reward = {
+			every_owned_state = {
+				limit = {
+					OR = {
+						is_core_of = GRE
+						is_core_of = BUL
+						is_core_of = SER
+						is_core_of = TUR
+					}
+				}
+				add_core_of = ROOT
+			}
+			set_cosmetic_tag = ROM_byzantium
+		}
+	}
+}

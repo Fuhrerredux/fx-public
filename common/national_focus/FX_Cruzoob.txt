@@ -1,0 +1,1281 @@
+# Cruzoob Focus Tree
+# created by: dax0102
+
+focus_tree = {
+	id = cruzoob_focus
+	country = {
+		factor = 0
+		modifier = {
+			add = 10
+			tag = CRU
+		}
+	}
+
+	continuous_focus_position = { x = 1500 y = 850 }
+
+	# Stabilization of the State
+	focus = {
+		id = CRU_stabilization_of_the_state
+		icon = GFX_goal_CRU_stabilization_state
+		x = 3
+		y = 0
+		cost = 5
+		completion_reward = {
+			add_stability = 0.15
+			add_political_power = 100
+		}
+	}
+
+	# Economic Investments
+	focus = {
+		id = CRU_economic_investments
+		icon = GFX_goal_generic_foreign_investments
+		x = -2
+		y = 1
+		cost = 6
+		prerequisite = { focus = CRU_stabilization_of_the_state }
+		relative_position_id = CRU_stabilization_of_the_state
+		completion_reward = {
+			add_tech_bonus = {
+				category = industry
+				bonus = 1.0
+				uses = 3
+			}
+		}
+	}
+
+	# Industry Construction
+	focus = {
+		id = CRU_industry_construction
+		icon = GFX_goal_generic_construct_civ_factory
+		x = -1
+		y = 1
+		cost = 6
+		prerequisite = { focus = CRU_economic_investments }
+		relative_position_id = CRU_economic_investments
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+				}
+
+				add_extra_state_shared_building_slots = 3
+				add_building_construction = {
+					type = industrial_complex
+					level = 3
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	# Factory Construction
+	focus = {
+		id = CRU_factory_construction
+		icon = GFX_goal_generic_construct_mil_factory
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = CRU_economic_investments }
+		relative_position_id = CRU_economic_investments
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+						include_locked = yes
+					}
+				}
+
+				add_extra_state_shared_building_slots = 3
+				add_building_construction = {
+					type = arms_factory
+					level = 3
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	# Roads and Highways
+	focus = {
+		id = CRU_roads_and_highways
+		icon = GFX_goal_generic_construct_infrastructure
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = CRU_industry_construction }
+		prerequisite = { focus = CRU_factory_construction }
+		relative_position_id = CRU_industry_construction
+		completion_reward = {
+			random_owned_controlled_state = {
+				add_building_construction = {
+					type = infrastructure
+					level = 4
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	# Encourage Tourism
+	focus = {
+		id = CRU_encourage_tourism
+		icon = GFX_goal_generic_isolation
+		x = -1
+		y = 1
+		cost = 6
+		prerequisite = { focus = CRU_roads_and_highways }
+		relative_position_id = CRU_roads_and_highways
+		completion_reward = {
+			add_ideas = CRU_tourism
+		}
+	}
+
+	# Prioritize Mining
+	focus = {
+		id = CRU_prioritize_mining
+		icon = GFX_goal_generic_construction2
+		x = 1
+		y = 1
+		cost = 6
+		available = { has_full_control_of_state = 474 }
+		prerequisite = { focus = CRU_roads_and_highways }
+		relative_position_id = CRU_roads_and_highways
+		completion_reward = {
+			add_resource = {
+				type = steel
+				amount = 16
+				state = 474
+			}
+			add_resource = {
+				type = tungsten
+				amount = 8
+				state = 474
+			}
+		}
+	}
+
+	# Stable Economy
+	focus = {
+		id = CRU_stable_economy
+		icon = GFX_goal_gold_up
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = CRU_encourage_tourism }
+		prerequisite = { focus = CRU_prioritize_mining }
+		relative_position_id = CRU_encourage_tourism
+		completion_reward = {
+			if = {
+				limit = { has_idea = CRU_non_existent_industry }
+				remove_ideas = CRU_non_existent_industry
+			}
+		}
+	}
+
+	# Rural Development
+	focus = {
+		id = CRU_rural_development
+		icon = GFX_goal_factory_complex
+		x = 2
+		y = 1
+		cost = 6
+		prerequisite = { focus = CRU_stabilization_of_the_state }
+		relative_position_id = CRU_stabilization_of_the_state
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+				}
+
+				add_extra_state_shared_building_slots = 2
+			}
+		}
+	}
+
+	# Invite German Advisors
+	focus = {
+		id = CRU_invite_german_advisors
+		icon = GFX_focus_ger_reichskommisariats
+		x = -1
+		y = 1
+		cost = 6
+		prerequisite = { focus = CRU_rural_development }
+		relative_position_id = CRU_rural_development
+		completion_reward = {
+			GER = { country_event = cruzoob.100 }
+		}
+	}
+
+	# Seize American Capital
+	focus = {
+		id = CRU_seize_american_capital
+		icon = GFX_goal_generic_seize_investments
+		x = 0
+		y = 2
+		cost = 6
+		prerequisite = { focus = CRU_rural_development }
+		relative_position_id = CRU_rural_development
+		completion_reward = {
+			USA = {
+				add_opinion_modifier = {
+					target = ROOT
+					modifier = CRU_seized_our_investments
+				}
+			}
+			add_offsite_building = {
+				type = industrial_complex
+				level = 3
+			}
+			add_offsite_building = {
+				type = arms_factory
+				level = 3
+			}
+		}
+	}
+
+	# Border Fortifications
+	focus = {
+		id = CRU_border_fortifications
+		icon = GFX_goal_generic_fortify_city
+		x = 0
+		y = 2
+		cost = 6
+		available = { has_capitulated = no }
+		prerequisite = { focus = CRU_seize_american_capital }
+		prerequisite = { focus = CRU_invite_german_advisors }
+		relative_position_id = CRU_invite_german_advisors
+		completion_reward = {
+			474 = {
+				add_building_construction = {
+					type = bunker
+					level = 3
+					province = {
+						all_provinces = yes
+					}
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	# Coastal Fortifications
+	focus = {
+		id = CRU_coastal_fortifications
+		icon = GFX_focus_generic_coastal_fort
+		x = 1
+		y = 1
+		cost = 6
+		available = { has_capitulated = no }
+		prerequisite = { focus = CRU_seize_american_capital }
+		relative_position_id = CRU_seize_american_capital
+		completion_reward = {
+			474 = {
+				add_building_construction = {
+					type = coastal_bunker
+					province = {
+						all_provinces = yes
+						limit_to_coastal = yes
+					}
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	# The Question of the Church
+	focus = {
+		id = CRU_the_question_of_the_church
+		icon = GFX_goal_CRU_church
+		x = 4
+		y = 1
+		cost = 6
+		prerequisite = { focus = CRU_stabilization_of_the_state }
+		relative_position_id = CRU_stabilization_of_the_state
+		completion_reward = {
+			country_event = cruzoob.1
+		}
+	}
+
+	# Education and Propaganda
+	focus = {
+		id = CRU_education_and_propaganda
+		icon = GFX_goal_big_news
+		x = -1
+		y = 1
+		cost = 6
+		prerequisite = { focus = CRU_the_question_of_the_church }
+		relative_position_id = CRU_the_question_of_the_church
+		completion_reward = {
+			add_war_support = 0.15
+			country_event = cruzoob.2
+		}
+	}
+
+	# Labour Codes
+	focus = {
+		id = CRU_labour_codes
+		icon = GFX_goal_production
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = CRU_the_question_of_the_church }
+		relative_position_id = CRU_the_question_of_the_church
+		completion_reward = {
+			add_ideas = CRU_labour_regulations
+		}
+	}
+
+	# Restructure the Bureaucracy
+	focus = {
+		id = CRU_restructure_the_bureaucracy
+		icon = GFX_focus_generic_self_management
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = CRU_education_and_propaganda }
+		prerequisite = { focus = CRU_labour_codes }
+		relative_position_id = CRU_education_and_propaganda
+		completion_reward = {
+			add_ideas = CRU_reformed_bureaucracy
+		}
+	}
+
+	# Waiting and Preparing
+	focus = {
+		id = CRU_waiting_and_preparing
+		icon = GFX_goal_national_mobilization
+		x = 6
+		y = 1
+		cost = 6
+		prerequisite = { focus = CRU_stabilization_of_the_state }
+		relative_position_id = CRU_stabilization_of_the_state
+		completion_reward = {
+			increase_mobilization = yes
+			add_ideas = CRU_waiting_and_preparing_idea
+		}
+	}
+
+	# Watch the Mexicans
+	focus = {
+		id = CRU_watch_the_mexicans
+		icon = GFX_goal_CRU_watch_the_mexicans
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = CRU_waiting_and_preparing }
+		relative_position_id = CRU_waiting_and_preparing
+		completion_reward = {
+			unlock_decision_category_tooltip = CRU_mexican_infiltration
+			hidden_effect = {
+				country_event = { id = cruzoob.103 days = 120 }
+			}
+		}
+	}
+
+	# The Tables Have Turned
+	focus = {
+		id = CRU_the_tables_have_turned
+		icon = GFX_goal_step_on_skull
+		x = 0
+		y = 2
+		cost = 6
+		available = {
+			OR = {
+				NOT = { country_exists = MEX }
+				MEX = { is_subject = yes }
+				owns_state = 277
+			}
+		}
+		prerequisite = { focus = CRU_waiting_and_preparing }
+		relative_position_id = CRU_waiting_and_preparing
+		completion_reward = {
+			unlock_decision_category_tooltip = CRU_spreading_our_culture
+		}
+	}
+
+	# Spread our Spirit
+	focus = {
+		id = CRU_spread_our_spirit
+		icon = GFX_goal_liberty
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = CRU_the_tables_have_turned }
+		relative_position_id = CRU_the_tables_have_turned
+		completion_reward = {
+			add_popularity = {
+				ideology = valkist
+				popularity = 0.05
+			}
+			add_popularity = {
+				ideology = national_populist
+				popularity = 0.05
+			}
+		}
+	}
+
+	# Seeking New Friends
+	focus = {
+		id = CRU_seeking_new_friends
+		icon = GFX_goal_generic_national_unity
+		x = -1
+		y = 1
+		cost = 6
+		prerequisite = { focus = CRU_the_tables_have_turned }
+		prerequisite = { focus = CRU_restructure_the_bureaucracy }
+		relative_position_id = CRU_the_tables_have_turned
+		completion_reward = {
+			add_political_power = 150
+		}
+	}
+
+	# Friends in Europe
+	focus = {
+		id = CRU_friends_in_europe
+		icon = GFX_goal_germany
+		x = -3
+		y = 1
+		cost = 6
+		available = {
+			is_subject = no
+			GER = {
+				exists = yes
+				has_capitulated = no
+				has_government = valkist
+			}
+		}
+		prerequisite = { focus = CRU_seeking_new_friends }
+		relative_position_id = CRU_seeking_new_friends
+		completion_reward = {
+			GER = {
+				reverse_add_opinion_modifier = {
+					modifier = CRU_improved_relations
+					target = ROOT
+				}
+			}
+			set_country_flag = CRU_improved_relations_with_ger
+		}
+	}
+
+	# Friends in the South
+	focus = {
+		id = CRU_friends_in_the_south
+		icon = GFX_goal_flag_wuliwya_suyu
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			is_subject = no
+			BOL = {
+				exists = yes
+				has_capitulated = no
+				has_government = valkist
+			}
+		}
+		prerequisite = { focus = CRU_seeking_new_friends }
+		relative_position_id = CRU_seeking_new_friends
+		completion_reward = {
+			BOL = {
+				reverse_add_opinion_modifier = {
+					modifier = CRU_improved_relations
+					target = ROOT
+				}
+			}
+			set_country_flag = CRU_improved_relations_with_bol
+		}
+	}
+
+	# Joint Army Exercises
+	focus = {
+		id = CRU_joint_army_exercises
+		icon = GFX_goal_cavalry
+		x = -1
+		y = 1
+		cost = 6
+		prerequisite = {
+			focus = CRU_friends_in_europe
+			focus = CRU_friends_in_the_south
+		}
+		relative_position_id = CRU_friends_in_the_south
+		completion_reward = {
+			if = {
+				limit = { has_country_flag = CRU_improved_relations_with_ger }
+				GER = { country_event = cruzoob.104 }
+			}
+			if = {
+				limit = { has_country_flag = CRU_improved_relations_with_bol }
+				BOL = { country_event = cruzoob.104 }
+			}
+		}
+	}
+
+	# Intelligence Sharing
+	focus = {
+		id = CRU_intelligence_sharing
+		icon = GFX_goal_electronics
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = CRU_friends_in_the_south }
+		relative_position_id = CRU_friends_in_the_south
+		completion_reward = {
+			BOL = { country_event = cruzoob.107 }
+		}
+	}
+
+	# Join the Stahlpakt
+	focus = {
+		id = CRU_join_the_stahlpakt
+		icon = GFX_focus_ger_oppose_hitler
+		x = 0
+		y = 2
+		cost = 6
+		available = {
+			is_subject = no
+			GER = {
+				exists = yes
+				has_capitulated = no
+				is_faction_leader = yes
+				NOT = { has_war_with = ROOT }
+			}
+		}
+		mutually_exclusive = { focus = CRU_a_native_alliance }
+		prerequisite = { focus = CRU_friends_in_europe }
+		relative_position_id = CRU_friends_in_europe
+		completion_reward = {
+			GER = { country_event = cruzoob.110 }
+		}
+	}
+
+	# A Native Alliance
+	focus = {
+		id = CRU_a_native_alliance
+		icon = GFX_goal_enlist_the_police
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			is_subject = no
+			BOL = {
+				exists = yes
+				has_capitulated = no
+				NOT = { has_war_with = ROOT }
+				has_government = valkist
+			}
+		}
+		mutually_exclusive = { focus = CRU_join_the_stahlpakt }
+		prerequisite = { focus = CRU_joint_army_exercises }
+		relative_position_id = CRU_joint_army_exercises
+		completion_reward = {
+			BOL = { country_event = cruzoob.113 }
+		}
+	}
+
+	# Establish Relations in the Pacific
+	focus = {
+		id = CRU_establish_relations_in_the_pacific
+		icon = GFX_goal_flag_phillipines
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			is_subject = no
+			PHI = {
+				exists = yes
+				has_capitulated = no
+			}
+		}
+		prerequisite = {
+			focus = CRU_seeking_new_friends
+			focus = CRU_spread_our_spirit
+		}
+		relative_position_id = CRU_seeking_new_friends
+		completion_reward = {
+			PHI = {
+				reverse_add_opinion_modifier = {
+					modifier = CRU_improved_relations
+					target = ROOT
+				}
+			}
+		}
+	}
+
+	# Trade Opportunities in Asia
+	focus = {
+		id = CRU_trade_opportunities_in_asia
+		icon = GFX_goal_generic_shipyard
+		x = 0
+		y = 2
+		cost = 6
+		prerequisite = { focus = CRU_establish_relations_in_the_pacific }
+		relative_position_id = CRU_establish_relations_in_the_pacific
+		completion_reward = {
+			PHI = { country_event = cruzoob.116 }
+		}
+	}
+
+	# Creating Our New Generation
+	focus = {
+		id = CRU_creating_our_new_generation
+		icon = GFX_goal_CRU_chichen_itza
+		x = 0
+		y = 1
+		cost = 6
+		prerequisite = {
+			focus = CRU_join_the_stahlpakt
+			focus = CRU_a_native_alliance
+			focus = CRU_trade_opportunities_in_asia
+		}
+		relative_position_id = CRU_a_native_alliance
+		completion_reward = {
+			set_cosmetic_tag = CRU_empire
+			hidden_effect = {
+				CRU_Francisco_May_Pech = {
+					set_character_name = "Pakal III"
+					set_portraits = {
+						civilian = {
+							large = "gfx/leaders/CRU/Portrait_CRU_Pakal_III.png"
+							small = "gfx/interface/ministers/CRU/CRU_Francisco_May_Pech.png"
+						}
+					}
+				}
+			}
+		}
+	}
+
+	# Southern Expansion
+	focus = {
+		id = CRU_reclaim_the_south
+		icon = GFX_goal_centroamerica
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			GUA = { CRU_can_declare_war = yes }
+		}
+		bypass = { has_war_with = GUA }
+		prerequisite = { focus = CRU_spread_our_spirit }
+		relative_position_id = CRU_spread_our_spirit
+		completion_reward = {
+			create_wargoal = {
+				type = annex_everything
+				target = GUA
+			}
+		}
+	}
+
+	# Drift to the North
+	focus = {
+		id = CRU_drift_to_the_north
+		icon = GFX_goal_generic_attack_usa
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			USA = { CRU_can_declare_war = yes }
+		}
+		bypass = { has_war_with = USA }
+		mutually_exclusive = { focus = CRU_continue_south }
+		prerequisite = { focus = CRU_reclaim_the_south }
+		relative_position_id = CRU_reclaim_the_south
+		completion_reward = {
+			create_wargoal = {
+				type = annex_everything
+				target = USA
+			}
+		}
+	}
+
+	# Continue South
+	focus = {
+		id = CRU_continue_south
+		icon = GFX_goal_USA_protection_for_central_america
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			OR = {
+				ELS = { CRU_can_declare_war = yes }
+				NIC = { CRU_can_declare_war = yes }
+				COS = { CRU_can_declare_war = yes }
+				PAN = { CRU_can_declare_war = yes }
+			}
+		}
+		bypass = {
+			has_war_with = ELS
+			has_war_with = NIC
+			has_war_with = COS
+			has_war_with = PAN
+		}
+		mutually_exclusive = { focus = CRU_drift_to_the_north }
+		prerequisite = { focus = CRU_reclaim_the_south }
+		relative_position_id = CRU_reclaim_the_south
+		completion_reward = {
+			if = {
+				limit = { ELS = { CRU_can_declare_war = yes } }
+				create_wargoal = {
+					target = ELS
+					type = annex_everything
+				}
+			}
+			if = {
+				limit = { NIC = { CRU_can_declare_war = yes } }
+				create_wargoal = {
+					target = NIC
+					type = annex_everything
+				}
+			}
+			if = {
+				limit = { COS = { CRU_can_declare_war = yes } }
+				create_wargoal = {
+					target = COS
+					type = annex_everything
+				}
+			}
+			if = {
+				limit = { PAN = { CRU_can_declare_war = yes } }
+				create_wargoal = {
+					target = PAN
+					type = annex_everything
+				}
+			}
+		}
+	}
+
+	# Expanding our Borders
+	focus = {
+		id = CRU_expanding_our_borders
+		icon = GFX_goal_generic_occupy_states_ongoing_war
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = {
+			focus = CRU_drift_to_the_north
+			focus = CRU_continue_south
+		}
+		relative_position_id = CRU_drift_to_the_north
+		completion_reward = {
+			custom_effect_tooltip = CRU_can_integrate_states
+		}
+	}
+
+	# Our Rise is their Downfall
+	focus = {
+		id = CRU_our_rise_is_their_downfall
+		icon = GFX_goal_graveyard
+		x = 0
+		y = 1
+		cost = 6
+		prerequisite = { focus = CRU_expanding_our_borders }
+		relative_position_id = CRU_expanding_our_borders
+		completion_reward = {
+			if = {
+				limit = { has_idea = CRU_mayan_ascension1 }
+				swap_ideas = {
+					remove_idea = CRU_mayan_ascension1
+					add_idea = CRU_mayan_ascension3
+				}
+			}
+			else_if = {
+				limit = { has_idea = CRU_mayan_ascension2 }
+				swap_ideas = {
+					remove_idea = CRU_mayan_ascension2
+					add_idea = CRU_mayan_ascension3
+				}
+			}
+		}
+	}
+
+	# The Warriors of Tomorrow
+	focus = {
+		id = CRU_the_warriors_of_tomorrow
+		icon = GFX_goal_CRU_mayan_warrior
+		x = 16
+		y = 0
+		cost = 6
+		completion_reward = {
+			army_experience = 25
+		}
+	}
+
+	# Adopt Modern Doctrines
+	focus = {
+		id = CRU_adopt_modern_doctrines
+		icon = GFX_goal_generic_position_armies
+		x = -2
+		y = 1
+		cost = 6
+		prerequisite = { focus = CRU_the_warriors_of_tomorrow }
+		relative_position_id = CRU_the_warriors_of_tomorrow
+		completion_reward = {
+			add_doctrine_cost_reduction = {
+				name = CRU_adopt_modern_doctrines
+				cost_reduction = 0.5
+				uses = 1
+				category = land_doctrine
+			}
+		}
+	}
+
+	# Standardization of Equipment
+	focus = {
+		id = CRU_standardization_of_equipment
+		icon = GFX_goal_generic_small_arms
+		x = -2
+		y = 1
+		cost = 6
+		prerequisite = { focus = CRU_adopt_modern_doctrines }
+		relative_position_id = CRU_adopt_modern_doctrines
+		completion_reward = {
+			add_tech_bonus = {
+				category = infantry_weapons
+				bonus = 1.0
+				uses = 1
+			}
+			add_equipment_to_stockpile = {
+				type = infantry_equipment_1
+				amount = 5000
+				producer = CRU
+			}
+		}
+	}
+
+	# Communication Improvements
+	focus = {
+		id = CRU_communication_improvements
+		icon = GFX_goal_radio
+		x = 0
+		y = 1
+		cost = 6
+		prerequisite = { focus = CRU_adopt_modern_doctrines }
+		relative_position_id = CRU_adopt_modern_doctrines
+		completion_reward = {
+			add_tech_bonus = {
+				category = signal_company_tech
+				category = electronics
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Firepower Research
+	focus = {
+		id = CRU_firepower_research
+		icon = GFX_goal_artillery
+		x = 2
+		y = 1
+		cost = 6
+		prerequisite = { focus = CRU_adopt_modern_doctrines }
+		relative_position_id = CRU_adopt_modern_doctrines
+		completion_reward = {
+			add_tech_bonus = {
+				category = artillery
+				bonus = 1.0
+				uses = 1
+			}
+			add_equipment_to_stockpile = {
+				type = artillery_equipment
+				amount = 5000
+				producer = CRU
+			}
+		}
+	}
+
+	# Logistics Support
+	focus = {
+		id = CRU_logistics_support
+		icon = GFX_goal_generic_support_equipment
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = CRU_communication_improvements }
+		prerequisite = { focus = CRU_standardization_of_equipment }
+		prerequisite = { focus = CRU_firepower_research }
+		relative_position_id = CRU_communication_improvements
+		completion_reward = {
+			add_tech_bonus = {
+				category = logistics_tech
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Repurpose Civilian Trucks
+	focus = {
+		id = CRU_repurpose_civilian_trucks
+		icon = GFX_goal_generic_army_motorized
+		x = -1
+		y = 1
+		cost = 6
+		prerequisite = { focus = CRU_communication_improvements }
+		prerequisite = { focus = CRU_standardization_of_equipment }
+		prerequisite = { focus = CRU_firepower_research }
+		relative_position_id = CRU_communication_improvements
+		completion_reward = {
+			add_tech_bonus = {
+				category = motorized_equipment
+				bonus = 1.0
+				uses = 1
+			}
+			add_equipment_to_stockpile = {
+				type = motorized_equipment_1
+				amount = 1000
+				producer = CRU
+			}
+		}
+	}
+
+	# Coordinated Strikes
+	focus = {
+		id = CRU_coordinated_strikes
+		icon = GFX_goal_army_guy_2
+		x = -1
+		y = 1
+		cost = 6
+		prerequisite = { focus = CRU_repurpose_civilian_trucks }
+		prerequisite = { focus = CRU_logistics_support }
+		relative_position_id = CRU_logistics_support
+		completion_reward = {
+			add_doctrine_cost_reduction = {
+				name = CRU_coordinated_strikes
+				cost_reduction = 0.5
+				uses = 1
+				category = land_doctrine
+			}
+		}
+	}
+
+	# Fund Yucatan Arsenal
+	focus = {
+		id = CRU_fund_yucatan_arsenal
+		icon = GFX_goal_national_arsenal
+		x = -1
+		y = 1
+		cost = 6
+		prerequisite = { focus = CRU_repurpose_civilian_trucks }
+		relative_position_id = CRU_repurpose_civilian_trucks
+		completion_reward = {
+			custom_effect_tooltip = available_designer
+			show_ideas_tooltip = CRU_yucatan_arsenal
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+						include_locked = yes
+					}
+				}
+
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	# Form a General Staff
+	focus = {
+		id = CRU_form_a_general_staff
+		icon = GFX_goal_officers
+		x = 2
+		y = 1
+		cost = 6
+		prerequisite = { focus = CRU_the_warriors_of_tomorrow }
+		relative_position_id = CRU_the_warriors_of_tomorrow
+		completion_reward = {
+			add_ideas = CRU_general_staff
+		}
+	}
+
+	# Found a Training School
+	focus = {
+		id = CRU_found_a_training_school
+		icon = GFX_focus_generic_military_academy
+		x = 0
+		y = 1
+		cost = 6
+		prerequisite = { focus = CRU_form_a_general_staff }
+		relative_position_id = CRU_form_a_general_staff
+		completion_reward = {
+			add_ideas = CRU_training_school
+		}
+	}
+
+	# Recruitment Campaigns
+	focus = {
+		id = CRU_recruitment_campaigns
+		icon = GFX_goal_HOL_amend_wapenwet
+		x = -1
+		y = 1
+		cost = 6
+		prerequisite = { focus = CRU_found_a_training_school }
+		relative_position_id = CRU_found_a_training_school
+		completion_reward = {
+			add_manpower = 10000
+		}
+	}
+
+	# Attract the Cristeros
+	focus = {
+		id = CRU_attract_the_cristeros
+		icon = GFX_goal_conquistador_legacy
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			MEX = { has_government = paternal_autocrat }
+		}
+		prerequisite = { focus = CRU_found_a_training_school }
+		relative_position_id = CRU_found_a_training_school
+		completion_reward = {
+			add_ideas = CRU_cristero_exodus
+		}
+	}
+
+	# Form Reserves
+	focus = {
+		id = CRU_form_reserves
+		icon = GFX_goal_conscription
+		x = 0
+		y = 2
+		cost = 6
+		prerequisite = {
+			focus = CRU_attract_the_cristeros
+			focus = CRU_recruitment_campaigns
+		}
+		relative_position_id = CRU_found_a_training_school
+		completion_reward = {
+			if = {
+				limit = { has_idea = CRU_mayan_ascension1 }
+				swap_ideas = {
+					remove_idea = CRU_mayan_ascension1
+					add_idea = CRU_mayan_ascension2
+				}
+			}
+		}
+	}
+
+	# The New Kind of Warfare
+	focus = {
+		id = CRU_the_new_kind_of_warfare
+		icon = GFX_focus_RAJ_lions_of_the_great_war
+		x = 6
+		y = 0
+		cost = 6
+		relative_position_id = CRU_the_warriors_of_tomorrow
+		completion_reward = {
+			air_experience = 15
+			navy_experience = 15
+		}
+	}
+
+	# Air Warriors
+	focus = {
+		id = CRU_air_warriors
+		icon = GFX_goal_generic_air_fighter2
+		x = -1
+		y = 1
+		cost = 6
+		prerequisite = { focus = CRU_the_new_kind_of_warfare }
+		relative_position_id = CRU_the_new_kind_of_warfare
+		completion_reward = {
+			add_manpower = 10000
+		}
+	}
+
+	# Sea Warriors
+	focus = {
+		id = CRU_sea_warriors
+		icon = GFX_goal_generic_amphibious_assault
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = CRU_the_new_kind_of_warfare }
+		relative_position_id = CRU_the_new_kind_of_warfare
+		completion_reward = {
+			add_tech_bonus = {
+				category = marine_tech
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Purchase Foreign Aircraft
+	focus = {
+		id = CRU_purchase_foreign_aircraft
+		icon = GFX_goal_generic_air_fighter
+		x = 0
+		y = 1
+		cost = 6
+		available = { 
+			if = {
+				limit = { has_dlc_bba = no }
+				has_tech = early_fighter
+			}
+		}
+		prerequisite = { focus = CRU_air_warriors }
+		relative_position_id = CRU_air_warriors
+		completion_reward = {
+			if = {
+				limit = { has_dlc_bba = yes }
+				add_equipment_to_stockpile = {
+					type = small_plane_airframe_0
+					amount = 250
+					producer = "GER"
+					variant_name = "He 51"
+				}
+				else = {
+					add_equipment_to_stockpile = {
+						type = fighter_equipment_0
+						amount = 250
+						producer = GER
+					}
+				}
+			}
+			add_timed_idea = {
+				idea = CRU_aircraft_purchase
+				days = 120
+			}
+		}
+	}
+
+	# Air Bases and Defenses
+	focus = {
+		id = CRU_air_bases_and_defenses
+		icon = GFX_focus_generic_air_defense
+		x = 0
+		y = 1
+		cost = 6
+		prerequisite = { focus = CRU_purchase_foreign_aircraft }
+		relative_position_id = CRU_purchase_foreign_aircraft
+		completion_reward = {
+			random_owned_controlled_state = {
+				if = {
+					limit = {
+						free_building_slots = {
+							building = air_base
+							size > 1
+						}
+					}
+					add_building_construction = {
+						type = air_base
+						level = 2
+						instant_build = yes
+					}
+				}
+			}
+		}
+	}
+
+	# Purchase Foreign Ships
+	focus = {
+		id = CRU_purchase_foreign_ships
+		icon = GFX_goal_generic_buy_ships
+		x = 0
+		y = 1
+		cost = 6
+		prerequisite = { focus = CRU_sea_warriors }
+		relative_position_id = CRU_sea_warriors
+		completion_reward = {
+			add_equipment_to_stockpile = {
+				type = convoy_1
+				amount = 500
+				producer = GER
+			}
+			add_timed_idea = {
+				idea = CRU_naval_purchase
+				days = 120
+			}
+		}
+	}
+
+	# Naval Bases
+	focus = {
+		id = CRU_naval_bases
+		icon = GFX_goal_generic_naval_industry
+		x = 0
+		y = 1
+		cost = 6
+		prerequisite = { focus = CRU_purchase_foreign_ships }
+		relative_position_id = CRU_purchase_foreign_ships
+		completion_reward = {
+			random_owned_controlled_state = {
+				if = {
+					limit = {
+						free_building_slots = {
+							building = dockyard
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = dockyard
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+		}
+	}
+
+	# Naval and Air Coordinations
+	focus = {
+		id = CRU_naval_and_air_coordinations
+		icon = GFX_goal_generic_navy_carrier
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = CRU_air_bases_and_defenses }
+		prerequisite = { focus = CRU_naval_bases }
+		relative_position_id = CRU_air_bases_and_defenses
+		completion_reward = {
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.5
+				uses = 2
+				category = naval_doctrine
+				category = air_doctrine
+			}
+		}
+	}
+
+	# Defend our Faith and Culture
+	focus = {
+		id = CRU_defend_our_faith_and_culture
+		icon = GFX_goal_CRU_mayan_clubs
+		x = 0
+		y = 1
+		cost = 6
+		prerequisite = { focus = CRU_coordinated_strikes }
+		prerequisite = { focus = CRU_form_reserves }
+		prerequisite = { focus = CRU_naval_and_air_coordinations }
+		relative_position_id = CRU_form_reserves
+		completion_reward = {
+			if = {
+				limit = { has_idea = CRU_spirit_of_the_faithful1 }
+				swap_ideas = {
+					remove_idea = CRU_spirit_of_the_faithful1
+					add_idea = CRU_spirit_of_the_faithful2
+				}
+			}
+		}
+	}
+}

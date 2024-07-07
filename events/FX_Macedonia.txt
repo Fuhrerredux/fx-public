@@ -1,0 +1,372 @@
+add_namespace = macedonia
+
+news_event = { #Alexander The Great spoted peeing in a bush, by a Alexandrian traveller
+	id = macedonia.1
+	title = macedonia.1.t
+	desc = macedonia.1.d
+	picture = "GFX_news_event_MAC_alexander_peed_alexandria"
+	is_triggered_only = yes
+	option = {
+		name = macedonia.1.a
+		news_event = {
+			id = macedonia.2
+			days = 15
+		}
+	}
+}
+news_event = { #Rumours have been confirmed, as Alexander was seen returning to his grave.
+	id = macedonia.2
+	title = macedonia.2.t
+	desc = macedonia.2.d
+	picture = "GFX_news_event_MAC_alexander_peed_alexandria"
+	is_triggered_only = yes
+	option = {
+		name = macedonia.2.a
+		447 = {
+			add_core_of = MAC
+			transfer_state_to = MAC
+		}
+		# MAC = { set_country_flag = MACEDON_FORMED_SUPEREVENT }
+		# news_event = {
+			# 	id = super.1
+			# 	days = 1
+			# }
+	}
+}
+news_event = { #Alexander visits greece
+	id = macedonia.3
+	title = macedonia.3.t
+	desc = macedonia.3.d
+	picture = "GFX_news_event_MAC_alexander_king_greece"
+	is_triggered_only = yes
+	option = {
+		name = macedonia.3.a
+		news_event = {
+			id = macedonia.4
+			days = 1
+			random_hours = 6
+		}
+		# MAC = {
+			# 	annex_country = {
+				# 		target = GRE
+				# 		transfer_troops = yes
+				# 	}
+			# 	every_state = {
+				# 		limit = {
+					# 			is_core_of = GRE
+					# 		}
+				# 		add_core_of = MAC
+				# 	}
+			# 	add_state_core = 765
+			# }
+	}
+}
+news_event = { #Alexander annexes greece
+	id = macedonia.4
+	title = macedonia.4.t
+	desc = macedonia.4.d
+	picture = "GFX_news_event_MAC_alexander_king_greece"
+	is_triggered_only = yes
+	option = {
+		name = macedonia.4.a
+		# if = {
+			# 	limit = {
+				# 		has_global_flag = GRE_accept_annex_MAC
+				# 	}
+			# 	MAC = {
+				# 		change_tag_from = GRE
+				# 	}
+			GRE = {
+				transfer_navy = {
+					target = MAC
+				}
+			}
+			MAC = {
+				annex_country = {
+					target = GRE
+					transfer_troops = yes
+				}
+				every_state = {
+					limit = {
+						is_core_of = GRE
+					}
+					add_core_of = MAC
+				}
+				add_state_core = 765
+				add_state_core = 787
+				add_state_core = 106
+				set_capital = {
+					state = 731
+				}
+				set_country_flag = GRE_CONQ
+				set_country_flag = DARDANELLIA_CONQ
+				set_country_flag = EAST_THRACE_CONQ
+				set_country_flag = NORTH_EPIRUS_CONQ
+				set_country_flag = SMYRNA_CONQ
+				set_country_flag = WEST_BANAT_CONQ
+				set_country_flag = WEST_THRACE_CONQ
+				731 = {
+					add_victory_points = {
+						province = 11818
+						value = 30
+					}
+				}
+			}
+			# }
+		# else = {
+			# 	GRE = {
+				# 		transfer_navy = {
+					# 			target = MAC
+					# 		}
+				# 	}
+			# 	MAC = {
+				# 		annex_country = {
+					# 			target = GRE
+					# 			transfer_troops = yes
+					# 		}
+				# 		every_state = {
+					# 			limit = {
+						# 				is_core_of = GRE
+						# 			}
+					# 			add_core_of = MAC
+					# 		}
+				# 		add_state_core = 765
+				# 	}
+			# }
+	}
+}
+country_event = {
+	id = macedonia.5
+	title = macedonia.5.t
+	desc = macedonia.5.d
+	is_triggered_only = yes
+	option = { #do you want to change tags when alexander conquers greece?
+		name = macedonia.5.a
+		# set_global_flag = GRE_accept_annex_MAC
+		ai_chance = {
+			factor = 0
+		}
+		# news_event = {
+			# 	id = macedonia.4
+			# 	days = 3
+			# 	random_hours = 8
+			# }
+		MAC = {
+			change_tag_from = GRE
+		}
+		every_character = {
+			limit = {
+				has_nationality = GRE
+				is_country_leader = no
+			}
+			set_nationality = MAC
+		}
+	}
+	option = { 		#what?
+		name = macedonia.5.b
+		ai_chance = {
+			factor = 1000
+		}
+		MAC = {
+			annex_country = {
+				target = GRE
+				transfer_troops = yes
+			}
+		}
+	}
+}
+news_event = { #Alexander goes to annex BUL
+	id = macedonia.6
+	title = macedonia.6.t
+	desc = macedonia.6.d
+	is_triggered_only = yes
+	option = {
+		name = macedonia.6.a
+
+	}
+}
+country_event = {
+	id = macedonia.7
+	title = macedonia.7.t
+	desc = macedonia.7.d
+	is_triggered_only = yes
+	option = { #annex north macedonia, pirot, puppet SER, CRO, BOS
+		name = macedonia.7.a
+		MAC = {
+			annex_country = {
+				target = SER
+			}
+			transfer_state = 787
+			transfer_state = 106
+			transfer_state = 942
+			add_state_core = 787
+			add_state_core = 106
+			add_state_core = 942
+		}
+		SER = {
+			every_state = {
+				limit = {
+					is_core_of = SER
+					NOT = {
+						state = 108
+						state = 941
+						state = 107
+						state = 1038
+						state = 931
+						state = 105
+						state = 45
+						state = 985
+						state = 750
+					}
+				}
+				remove_core_of = SER
+				add_claim_by = SER
+			}
+			transfer_state = 108
+			transfer_state = 941
+			transfer_state = 107
+			transfer_state = 1038
+			transfer_state = 931
+			transfer_state = 105
+			transfer_state = 45
+			transfer_state = 985
+			transfer_state = 750
+		}
+		MAC = {
+			set_autonomy = {
+				target = SER
+				autonomy_state = autonomy_puppet
+			}
+		}
+		CRO = {
+			transfer_state = 767
+			transfer_state = 102
+			transfer_state = 103
+			transfer_state = 788
+			transfer_state = 789
+			transfer_state = 1039
+			transfer_state = 109
+			transfer_state = 1036
+			add_state_core = 1039
+			add_state_core = 1036
+		}
+		MAC = {
+			set_autonomy = {
+				target = CRO
+				autonomy_state = autonomy_puppet
+			}
+		}
+		BOS = {
+			transfer_state = 788
+			transfer_state = 104
+			transfer_state = 1034
+			transfer_state = 1037
+			transfer_state = 1035
+			add_state_core = 1034
+			add_state_core = 1037
+			add_state_core = 1035
+		}
+		MAC = {
+			set_autonomy = {
+				target = BOS
+				autonomy_state = autonomy_puppet
+			}
+		}
+	}
+}
+country_event = {
+	id = macedonia.8
+	title = macedonia.8.t
+	desc = macedonia.8.d
+	is_triggered_only = yes
+	option = {
+		name = macedonia.8.a
+	}
+}
+news_event = {
+	id = macedonia.9
+	title = macedonia.9.t
+	desc = macedonia.9.d
+	is_triggered_only = yes
+	option = {
+		name = macedonia.9.a
+	}
+}
+country_event = {
+	id = macedonia.10
+	title = macedonia.10.t
+	desc = macedonia.10.d
+	is_triggered_only = yes
+	option = {
+		name = macedonia.10.a
+		ai_chance = {
+			factor = 10
+		}
+		set_country_leader_portrait = {
+			portrait = GFX_Portrait_Macedonia_Alexander_Communist
+		}
+		set_country_leader_name = {
+			name = "Comrade Aléxandros"
+		}
+		set_politics = {
+			ruling_party = vanguardist
+			elections_allowed = no
+		}
+		add_popularity = {
+			ideology = authoritarian_democrat
+			popularity = -100
+		}
+		add_popularity = {
+			ideology = vanguardist
+			popularity = 100
+		}
+	}
+	option = {
+		name = macedonia.10.b
+		ai_chance = {
+			factor = 10
+		}
+		set_country_leader_portrait = {
+			portrait = GFX_Portrait_Macedonia_Alexander_Valkist
+		}
+		set_country_leader_name = {
+			name = "F[umlaut]hrer Aléxandros"
+		}
+		set_politics = {
+			ruling_party = valkist
+			elections_allowed = no
+		}
+		add_popularity = {
+			ideology = authoritarian_democrat
+			popularity = -100
+		}
+		add_popularity = {
+			ideology = valkist
+			popularity = 100
+		}
+	}
+	option = {
+		name = macedonia.10.c
+		ai_chance = {
+			factor = 10
+		}
+		set_country_leader_name = {
+			name = "Aléxandros O Mégas"
+		}
+		set_country_leader_portrait = {
+			portrait = GFX_Portrait_Macedonia_Alexander_Monarch
+		}
+		set_politics = {
+			ruling_party = paternal_autocrat
+			elections_allowed = no
+		}
+		add_popularity = {
+			ideology = var:current_party_ideology_group
+			popularity = -100
+		}
+		add_popularity = {
+			ideology = paternal_autocrat
+			popularity = 100
+		}
+	}
+}

@@ -1,0 +1,4646 @@
+# United States Focus Tree
+# created by: dax0102
+
+focus_tree = {
+	id = usa_focus
+	country = {
+		factor = 0
+		modifier = {
+			add = 10
+			tag = USA
+		}
+	}
+
+	initial_show_position = {
+		focus = USA_last_minute_reforms
+	}
+
+	continuous_focus_position = { x = 3100 y = 1000 }
+
+	# Last Minute Reforms
+	focus = {
+		id = USA_last_minute_reforms
+		icon = GFX_goal_USA_new_deal
+		x = 2
+		y = 0
+		cost = 2
+		ai_will_do = { factor = 4000 }
+		available = {
+			has_country_leader = {
+				character = USA_Charles_Curtis
+				ruling_only = yes
+			}
+			USA_1936_elections_happened = no
+		}
+		completion_reward = {
+			add_political_power = 100
+		}
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+	}
+
+	# Filipino Independence
+	focus = {
+		id = USA_filipino_independence
+		icon = GFX_goal_PHI_renounce_colonialism
+		x = -1
+		y = 1
+		cost = 6
+		ai_will_do = { factor = 1000 }
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+		available = {
+			country_exists = PHI
+			PHI = {
+				is_subject_of = ROOT
+			}
+		}
+		bypass = {
+			OR = {
+				NOT = { country_exists = PHI }
+				PHI = {
+					is_subject = no
+				}
+			}
+		}
+		prerequisite = { focus = USA_last_minute_reforms }
+		relative_position_id = USA_last_minute_reforms
+		completion_reward = {
+			USA_decrease_effects_of_the_depression = yes
+			end_puppet = PHI
+			set_country_flag = USA_recognized_filipino_independence
+			PHI = {
+				country_event = { id = philippines.1 days = 2 }
+			}
+		}
+	}
+
+
+	# Pass the Economic Stilmulus Bill
+	focus = {
+		id = USA_pass_the_economic_stimulus_bill
+		icon = GFX_DAH_Topke
+		x = 0
+		y = 1
+		cost = 6
+		ai_will_do = { factor = 800 }
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+			FOCUS_FILTER_ECONOMIC_RECOVERY
+		}
+		prerequisite = { focus = USA_filipino_independence }
+		relative_position_id = USA_filipino_independence
+		completion_reward = {
+			add_stability = 0.05
+			USA_decrease_effects_of_the_depression = yes
+			hidden_effect = {
+				country_event = { id = usa.29 days = 2 }
+			}
+		}
+	}
+
+	# Expand Soup Kitchens
+	focus = {
+		id = USA_expand_soup_kitchens
+		icon = GFX_goal_famine
+		x = 1
+		y = 1
+		cost = 6
+		ai_will_do = { factor = 2000 }
+		prerequisite = { focus = USA_last_minute_reforms }
+		relative_position_id = USA_last_minute_reforms
+		completion_reward = {
+			USA_decrease_effects_of_malnourishment = yes
+		}
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+			FOCUS_FILTER_ECONOMIC_RECOVERY
+		}
+	}
+
+	# Increase Corporate Taxes
+	focus = {
+		id = USA_increase_corporate_taxes
+		icon = GFX_goal_factory_complex
+		x = -2
+		y = 1
+		cost = 6
+		ai_will_do = { factor = 800 }
+		prerequisite = { focus = USA_filipino_independence }
+		relative_position_id = USA_filipino_independence
+		completion_reward = {
+			USA_decrease_effects_of_the_depression = yes
+		}
+		search_filters = {
+			FOCUS_FILTER_ECONOMIC_RECOVERY
+		}
+	}
+
+	# Decrease Military Spending
+	focus = {
+		id = USA_decrease_military_spending
+		icon = GFX_focus_empty_coffers
+		x = 2
+		y = 1
+		cost = 6
+		ai_will_do = { factor = 800 }
+		prerequisite = { focus = USA_filipino_independence }
+		relative_position_id = USA_filipino_independence
+		completion_reward = {
+			USA_decrease_effects_of_the_depression = yes
+		}
+		search_filters = {
+			FOCUS_FILTER_ECONOMIC_RECOVERY
+		}
+	}
+
+	# Farmer Loans
+	focus = {
+		id = USA_farmer_loans
+		icon = GFX_focus_AUS_agriculture
+		x = -1
+		y = 1
+		cost = 6
+		ai_will_do = { factor = 1000 }
+		prerequisite = { focus = USA_pass_the_economic_stimulus_bill }
+		prerequisite = { focus = USA_increase_corporate_taxes }
+		relative_position_id = USA_pass_the_economic_stimulus_bill
+		completion_reward = {
+			USA_decrease_effects_of_malnourishment = yes
+		}
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+	}
+
+	# Liquidate Failing Companies
+	focus = {
+		id = USA_liquidate_failing_companies
+		icon = GFX_goal_generic_seize_investments
+		x = 1
+		y = 1
+		cost = 6
+		ai_will_do = { factor = 1000 }
+		prerequisite = { focus = USA_pass_the_economic_stimulus_bill }
+		prerequisite = { focus = USA_decrease_military_spending }
+		relative_position_id = USA_pass_the_economic_stimulus_bill
+		completion_reward = {
+			USA_decrease_effects_of_the_depression = yes
+		}
+		search_filters = {
+			FOCUS_FILTER_ECONOMIC_RECOVERY
+		}
+	}
+
+	# Slow Recovery
+	focus = {
+		id = USA_slow_recovery
+		icon = GFX_goal_KMT_the_modern_age
+		x = 0
+		y = 2
+		cost = 6
+		ai_will_do = { factor = 1000 }
+		prerequisite = { focus = USA_farmer_loans }
+		prerequisite = { focus = USA_liquidate_failing_companies }
+		relative_position_id = USA_pass_the_economic_stimulus_bill
+		completion_reward = {
+			increase_ruling_party_popularity_by_5 = yes
+			add_stability = 0.05
+			hidden_effect = {
+				country_event = { id = usa.30 days = 4 }
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_ECONOMIC_RECOVERY
+		}
+	}
+
+	##########################################################
+
+	# Review the Army
+	focus = {
+		id = USA_review_the_army
+		icon = GFX_goal_USA_army
+		x = 11
+		y = 0
+		cost = 6
+		ai_will_do = {
+			factor = 800
+		}
+		available = {
+			has_capitulated = no
+		}
+		completion_reward = {
+			army_experience = 25
+		}
+		search_filters = {
+			FOCUS_FILTER_ARMY_BONUS
+		}
+	}
+
+	# Speed of Armor
+	focus = {
+		id = USA_speed_of_armor
+		icon = GFX_goal_generic_army_mobile_warfare
+		x = -5
+		y = 1
+		cost = 6
+		mutually_exclusive = {
+			focus = USA_crushing_blow_of_firepower
+			focus = USA_importance_of_planning
+			focus = USA_superiority_in_numbers
+		}
+		prerequisite = { focus = USA_review_the_army }
+		relative_position_id = USA_review_the_army
+		completion_reward = {
+			add_doctrine_cost_reduction = {
+				category = cat_mobile_warfare
+				cost_reduction = 0.5
+				uses = 1
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_ARMY_BONUS
+		}
+	}
+
+	# Crushing Blow of Firepower
+	focus = {
+		id = USA_crushing_blow_of_firepower
+		icon = GFX_goal_generic_army_superior_firepower
+		x = -1
+		y = 1
+		cost = 6
+		mutually_exclusive = {
+			focus = USA_speed_of_armor
+			focus = USA_importance_of_planning
+			focus = USA_superiority_in_numbers
+		}
+		prerequisite = { focus = USA_review_the_army }
+		relative_position_id = USA_review_the_army
+		completion_reward = {
+			add_doctrine_cost_reduction = {
+				category = cat_superior_firepower
+				cost_reduction = 0.5
+				uses = 1
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_ARMY_BONUS
+		}
+	}
+
+	# Importance of Planning
+	focus = {
+		id = USA_importance_of_planning
+		icon = GFX_goal_generic_army_grand_battleplan
+		x = 1
+		y = 1
+		cost = 6
+		ai_will_do = {
+			base = 800
+		}
+		mutually_exclusive = {
+			focus = USA_superiority_in_numbers
+			focus = USA_speed_of_armor
+			focus = USA_crushing_blow_of_firepower
+		}
+		prerequisite = { focus = USA_review_the_army }
+		relative_position_id = USA_review_the_army
+		completion_reward = {
+			add_doctrine_cost_reduction = {
+				category = cat_grand_battle_plan
+				cost_reduction = 0.5
+				uses = 1
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_ARMY_BONUS
+		}
+	}
+
+	# Superiority in Numbers
+	focus = {
+		id = USA_superiority_in_numbers
+		icon = GFX_goal_generic_army_mass_assault
+		x = 4
+		y = 1
+		cost = 6
+		mutually_exclusive = {
+			focus = USA_speed_of_armor
+			focus = USA_crushing_blow_of_firepower
+			focus = USA_importance_of_planning
+		}
+		prerequisite = { focus = USA_review_the_army }
+		relative_position_id = USA_review_the_army
+		completion_reward = {
+			add_doctrine_cost_reduction = {
+				category = cat_mass_assault
+				cost_reduction = 0.5
+				uses = 1
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_ARMY_BONUS
+		}
+	}
+
+	# Expanding Motorized Divisions
+	focus = {
+		id = USA_expanding_motorized_divisions
+		icon = GFX_goal_generic_army_motorized
+		x = -1
+		y = 1
+		cost = 6
+		prerequisite = { focus = USA_speed_of_armor }
+		relative_position_id = USA_speed_of_armor
+		completion_reward = {
+			add_equipment_to_stockpile = {
+				type = motorized_equipment
+				amount = 1000
+				producer = ROOT
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_PRODUCTION
+		}
+	}
+
+	# Tank Research Prioritization
+	focus = {
+		id = USA_tank_research_prioritization
+		icon = GFX_goal_double_research
+		x = -1
+		y = 1
+		cost = 6
+		prerequisite = { focus = USA_expanding_motorized_divisions }
+		relative_position_id = USA_expanding_motorized_divisions
+		completion_reward = {
+			add_tech_bonus = {
+				category = armor
+				bonus = 1.0
+				uses = 1
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_RESEARCH
+		}
+	}
+
+	# Experimental Tank Divisions
+	focus = {
+		id = USA_experimental_tank_divisions
+		icon = GFX_goal_American_Armor
+		x = 0
+		y = 2
+		cost = 6
+		prerequisite = { focus = USA_speed_of_armor }
+		relative_position_id = USA_speed_of_armor
+		completion_reward = {
+			custom_effect_tooltip = USA_experimental_tank_divisions_tt
+			hidden_effect = {
+				load_oob = "USA_tanks"
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_ARMY_BONUS
+		}
+	}
+
+	# Further Tank Development
+	focus = {
+		id = USA_further_tank_development
+		icon = GFX_goal_generic_army_tanks2
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = USA_tank_research_prioritization }
+		prerequisite = { focus = USA_experimental_tank_divisions }
+		relative_position_id = USA_tank_research_prioritization
+		completion_reward = {
+			add_tech_bonus = {
+				category = armor
+				bonus = 1.0
+				uses = 1
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_RESEARCH
+		}
+	}
+
+	# Tank Production Initiatives
+	focus = {
+		id = USA_tank_production_initiatives
+		icon = GFX_goal_USA_tanks
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = USA_experimental_tank_divisions }
+		prerequisite = { focus = USA_tank_research_prioritization }
+		relative_position_id = USA_experimental_tank_divisions
+		completion_reward = {
+			add_ideas = USA_tank_production
+		}
+		search_filters = {
+			FOCUS_FILTER_PRODUCTION
+		}
+	}
+
+	# Artillery Modernization
+	focus = {
+		id = USA_artillery_modernization
+		icon = GFX_goal_artillery
+		x = -1
+		y = 1
+		cost = 6
+		prerequisite = { focus = USA_crushing_blow_of_firepower }
+		relative_position_id = USA_crushing_blow_of_firepower
+		completion_reward = {
+			add_tech_bonus = {
+				category = artillery
+				bonus = 1.0
+				uses = 1
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_RESEARCH
+		}
+	}
+
+	# Defense Contractors
+	focus = {
+		id = USA_defense_contractors
+		icon = GFX_goal_generic_construct_mil_factory
+		x = -3
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+		}
+		prerequisite = {
+			focus = USA_crushing_blow_of_firepower
+			focus = USA_speed_of_armor
+		}
+		relative_position_id = USA_crushing_blow_of_firepower
+		search_filters = {
+			FOCUS_FILTER_PRODUCTION
+		}
+		completion_reward = {
+			random_owned_controlled_state = {
+				if = {
+					limit = {
+						free_building_slots = {
+							building = arms_factory
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = arms_factory
+						level = 2
+						instant_build = yes
+					}
+				}
+			}
+			random_owned_controlled_state = {
+				if = {
+					limit = {
+						free_building_slots = {
+							building = arms_factory
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = arms_factory
+						level = 2
+						instant_build = yes
+					}
+				}
+			}
+		}
+	}
+
+	# American Auto Industry
+	focus = {
+		id = USA_american_auto_industry
+		icon = GFX_goal_USA_auto_industry
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+		}
+		prerequisite = {
+			focus = USA_artillery_modernization
+			focus = USA_defense_contractors
+		}
+		relative_position_id = USA_defense_contractors
+		search_filters = {
+			FOCUS_FILTER_PRODUCTION
+		}
+		completion_reward = {
+			add_ideas = USA_american_auto_industry_idea
+		}
+	}
+
+	# Improvements in Equipment Manufacturing
+	focus = {
+		id = USA_standardized_equipment_manufacturing
+		icon = GFX_goal_industry_air
+		x = 0
+		y = 2
+		cost = 6
+		prerequisite = { focus = USA_artillery_modernization }
+		relative_position_id = USA_artillery_modernization
+		search_filters = {
+			FOCUS_FILTER_PRODUCTION
+		}
+		completion_reward = {
+			add_ideas = USA_weapons_manufacturing
+		}
+	}
+
+	# Rifle Improvements
+	focus = {
+		id = USA_rifle_improvements
+		icon = GFX_goal_generic_military_equipment
+		x = -1
+		y = 1
+		cost = 6
+		ai_will_do = {
+			base = 800
+		}
+		prerequisite = {
+			focus = USA_crushing_blow_of_firepower
+			focus = USA_importance_of_planning
+		}
+		relative_position_id = USA_importance_of_planning
+		search_filters = {
+			FOCUS_FILTER_RESEARCH
+		}
+		completion_reward = {
+			add_tech_bonus = {
+				category = infantry_weapons
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Expand the Engineer Corps
+	focus = {
+		id = USA_expand_the_engineer_corps
+		icon = GFX_goal_generic_construction2
+		x = -1
+		y = 1
+		cost = 6
+		prerequisite = { focus = USA_rifle_improvements }
+		relative_position_id = USA_rifle_improvements
+		search_filters = {
+			FOCUS_FILTER_RESEARCH
+		}
+		completion_reward = {
+			add_tech_bonus = {
+				category = engineers_tech
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Reconaissance Improvements
+	focus = {
+		id = USA_recon_improvements
+		icon = GFX_goal_radio
+		x = 0
+		y = 2
+		cost = 6
+		prerequisite = { focus = USA_rifle_improvements }
+		relative_position_id = USA_rifle_improvements
+		search_filters = {
+			FOCUS_FILTER_RESEARCH
+		}
+		completion_reward = {
+			add_tech_bonus = {
+				category = recon_tech
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Modernize Training
+	focus = {
+		id = USA_modernize_training
+		icon = GFX_goal_COS_American_Staff
+		x = 0
+		y = 2
+		cost = 6
+		ai_will_do = {
+			base = 800
+		}
+		prerequisite = { focus = USA_importance_of_planning }
+		prerequisite = { focus = USA_rifle_improvements }
+		relative_position_id = USA_importance_of_planning
+		search_filters = {
+			FOCUS_FILTER_ARMY_BONUS
+		}
+		completion_reward = {
+			add_ideas = USA_army_training
+		}
+	}
+
+	# Reform the Command Structure
+	focus = {
+		id = USA_reform_the_command_structure
+		icon = GFX_goal_generic_army_high_command
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = {
+			focus = USA_importance_of_planning
+			focus = USA_superiority_in_numbers
+		}
+		relative_position_id = USA_importance_of_planning
+		search_filters = {
+			FOCUS_FILTER_ARMY_BONUS
+		}
+		completion_reward = {
+			add_ideas = USA_efficient_command_structure
+		}
+	}
+
+	# Expand West Point
+	focus = {
+		id = USA_expand_west_point
+		icon = GFX_goal_USA_army_cap
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = USA_reform_the_command_structure }
+		relative_position_id = USA_reform_the_command_structure
+		search_filters = {
+			FOCUS_FILTER_ARMY_BONUS
+		}
+		completion_reward = {
+			add_ideas = USA_expanded_officer_schools
+		}
+	}
+
+	# Army Rangers
+	focus = {
+		id = USA_army_rangers
+		icon = GFX_goal_generic_special_forces
+		x = 0
+		y = 2
+		cost = 6
+		prerequisite = { focus = USA_reform_the_command_structure }
+		relative_position_id = USA_reform_the_command_structure
+		search_filters = {
+			FOCUS_FILTER_RESEARCH
+		}
+		completion_reward = {
+			add_tech_bonus = {
+				# category = cat_special_units
+				bonus = 1.0
+				uses = 2
+			}
+		}
+	}
+
+	# Recruitment Campaigns
+	focus = {
+		id = USA_recruitment_campaigns
+		icon = GFX_goal_army_guy_2
+		x = 0
+		y = 1
+		cost = 6
+		prerequisite = { focus = USA_superiority_in_numbers }
+		relative_position_id = USA_superiority_in_numbers
+		search_filters = {
+			FOCUS_FILTER_PRODUCTION
+			FOCUS_FILTER_MANPOWER
+		}
+		completion_reward = {
+			add_manpower = 10000
+			random_owned_controlled_state = {
+				if = {
+					limit = {
+						free_building_slots = {
+							building = arms_factory
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = arms_factory
+						level = 2
+						instant_build = yes
+					}
+				}
+			}
+		}
+	}
+
+	# Logistics Improvements
+	focus = {
+		id = USA_logistics_improvements
+		icon = GFX_goal_generic_support_equipment
+		x = 0
+		y = 2
+		cost = 6
+		prerequisite = { focus = USA_recruitment_campaigns }
+		relative_position_id = USA_recruitment_campaigns
+		search_filters = {
+			FOCUS_FILTER_RESEARCH
+		}
+		completion_reward = {
+			add_tech_bonus = {
+				category = logistics_tech
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	# Refine our Tactics
+	focus = {
+		id = USA_refine_our_tactics
+		icon = GFX_goal_generic_position_armies
+		x = 2
+		y = 1
+		cost = 6
+		prerequisite = { focus = USA_superiority_in_numbers }
+		relative_position_id = USA_superiority_in_numbers
+		search_filters = {
+			FOCUS_FILTER_ARMY_BONUS
+		}
+		completion_reward = {
+			add_doctrine_cost_reduction = {
+				category = land_doctrine
+				cost_reduction = 0.75
+				uses = 2
+			}
+		}
+	}
+
+	# Women's Army Corps
+	focus = {
+		id = USA_womens_army_corps
+		icon = GFX_IRE_women_pilots
+		x = 1
+		y = 2
+		cost = 6
+		prerequisite = { focus = USA_superiority_in_numbers }
+		relative_position_id = USA_superiority_in_numbers
+		search_filters = {
+			FOCUS_FILTER_PRODUCTION
+			FOCUS_FILTER_MANPOWER
+		}
+		completion_reward = {
+			add_ideas = USA_womens_army_corps_idea
+		}
+	}
+
+	# The Army Reformed
+	focus = {
+		id = USA_the_army_reformed
+		icon = GFX_goal_USA_army_improved
+		x = 0
+		y = 2
+		cost = 6
+		ai_will_do = {
+			base = 2000
+		}
+		prerequisite = {
+			focus = USA_tank_production_initiatives
+			focus = USA_standardized_equipment_manufacturing
+			focus = USA_modernize_training
+			focus = USA_logistics_improvements
+		}
+		relative_position_id = USA_modernize_training
+		search_filters = {
+			FOCUS_FILTER_ARMY_BONUS
+		}
+		completion_reward = {
+			remove_ideas = USA_failed_offensive
+		}
+	}
+
+	##########################################################
+
+	# Air Force Debate
+	focus = {
+		id = USA_air_force_debate
+		icon = GFX_goal_generic_air_command
+		x = 21
+		y = 0
+		cost = 6
+		ai_will_do = {
+			factor = 10
+			modifier = {
+				factor = 0.2
+				has_idea = USA_failed_offensive
+			}
+			modifier = {
+				factor = 0.2
+				USA_has_great_depression = yes
+			}
+		}
+		available = {
+			has_capitulated = no
+		}
+		completion_reward = {
+			country_event = usa.3
+		}
+		search_filters = {
+			FOCUS_FILTER_AIRFORCE_BONUS
+		}
+	}
+
+	# Create the USAF
+	focus = {
+		id = USA_create_the_usaf
+		icon = GFX_goal_USA_airforce
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = USA_created_the_usaf_tt
+				always = no
+			}
+		}
+		bypass = {
+			hidden_trigger = {
+				has_country_flag = USA_created_the_usaf
+			}
+		}
+		mutually_exclusive = { focus = USA_expand_the_usaac }
+		prerequisite = { focus = USA_air_force_debate }
+		relative_position_id = USA_air_force_debate
+		completion_reward = {
+			custom_effect_tooltip = USA_create_the_usaf_tt
+		}
+	}
+
+	# Expand the USAAC
+	focus = {
+		id = USA_expand_the_usaac
+		icon = GFX_goal_USA_usaac
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = USA_expanded_the_usaac_tt
+				always = no
+			}
+		}
+		bypass = {
+			hidden_trigger = {
+				has_country_flag = USA_expanded_the_usaac
+			}
+		}
+		mutually_exclusive = { focus = USA_create_the_usaf }
+		prerequisite = { focus = USA_air_force_debate }
+		relative_position_id = USA_air_force_debate
+		completion_reward = {
+			custom_effect_tooltip = USA_expand_the_usaac_tt
+		}
+	}
+
+	# Fighter Modernization
+	focus = {
+		id = USA_fighter_modernization
+		icon = GFX_goal_generic_air_fighter2_new
+		x = 0
+		y = 2
+		cost = 6
+		prerequisite = {
+			focus = USA_create_the_usaf
+			focus = USA_expand_the_usaac
+		}
+		relative_position_id = USA_air_force_debate
+		completion_reward = {
+			add_tech_bonus = {
+				category = light_fighter
+				bonus = 1.0
+				uses = 1
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_RESEARCH
+		}
+	}
+
+	# Army Support Doctrine
+	focus = {
+		id = USA_army_support_doctrine
+		icon = GFX_goal_generic_air_doctrine
+		x = -1
+		y = 1
+		cost = 6
+		prerequisite = { focus = USA_expand_the_usaac }
+		relative_position_id = USA_expand_the_usaac
+		completion_reward = {
+			add_doctrine_cost_reduction = {
+				category = cat_battlefield_support
+				cost_reduction = 0.5
+				uses = 1
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_AIRFORCE_BONUS
+		}
+	}
+
+	# New CAS
+	focus = {
+		id = USA_new_cas
+		icon = GFX_goal_generic_CAS
+		x = -1
+		y = 1
+		cost = 6
+		prerequisite = { focus = USA_army_support_doctrine }
+		relative_position_id = USA_army_support_doctrine
+		completion_reward = {
+			add_tech_bonus = {
+				category = cas_bomber
+				bonus = 1.0
+				uses = 1
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_RESEARCH
+		}
+	}
+
+	# New Bombers
+	focus = {
+		id = USA_new_bombers
+		icon = GFX_goal_generic_air_bomber
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = USA_army_support_doctrine }
+		relative_position_id = USA_army_support_doctrine
+		completion_reward = {
+			add_tech_bonus = {
+				category = tactical_bomber
+				bonus = 1.0
+				uses = 1
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_RESEARCH
+		}
+	}
+
+
+	# Carpet Bombing Doctrine
+	focus = {
+		id = USA_carpet_bombing_doctrine
+		icon = GFX_goal_bombs_away
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = USA_create_the_usaf }
+		relative_position_id = USA_create_the_usaf
+		completion_reward = {
+			add_doctrine_cost_reduction = {
+				category = cat_strategic_destruction
+				cost_reduction = 0.5
+				uses = 1
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_AIRFORCE_BONUS
+		}
+	}
+
+
+	# Strategic Bombers
+	focus = {
+		id = USA_strategic_bombers
+		icon = GFX_goal_generic_occupy_start_war
+		x = -1
+		y = 1
+		cost = 6
+		prerequisite = { focus = USA_carpet_bombing_doctrine }
+		relative_position_id = USA_carpet_bombing_doctrine
+		completion_reward = {
+			add_tech_bonus = {
+				category = cat_strategic_bomber
+				bonus = 1.0
+				uses = 1
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_RESEARCH
+		}
+	}
+
+	# Heavy Escorts
+	focus = {
+		id = USA_heavy_escorts
+		icon = GFX_focus_usa_escort_fighters
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = USA_carpet_bombing_doctrine }
+		relative_position_id = USA_carpet_bombing_doctrine
+		completion_reward = {
+			add_tech_bonus = {
+				category = cat_heavy_fighter
+				bonus = 1.0
+				uses = 1
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_RESEARCH
+		}
+	}
+
+	# Air Bases
+	focus = {
+		id = USA_air_bases
+		icon = GFX_goal_generic_airports
+		x = -2
+		y = 2
+		cost = 6
+		prerequisite = { focus = USA_fighter_modernization }
+		relative_position_id = USA_fighter_modernization
+		completion_reward = {
+			random_owned_controlled_state = {
+				if = {
+					limit = {
+						free_building_slots = {
+							building = air_base
+							size > 1
+						}
+					}
+					add_building_construction = {
+						type = air_base
+						level = 2
+						instant_build = yes
+					}
+				}
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_AIRFORCE_BONUS
+		}
+	}
+
+	# Air Defenses
+	focus = {
+		id = USA_air_defenses
+		icon = GFX_focus_generic_air_defense
+		x = 2
+		y = 2
+		cost = 6
+		prerequisite = { focus = USA_fighter_modernization }
+		relative_position_id = USA_fighter_modernization
+		completion_reward = {
+			if = {
+				limit = {
+					NOT = { has_tech = interwar_antiair }
+				}
+				set_technology = {
+					interwar_antiair = 1
+				}
+			}
+
+			if = {
+				limit = { has_tech = interwar_antiair }
+				random_owned_controlled_state = {
+					if = {
+						limit = {
+							free_building_slots = {
+								building = anti_air_building
+								size > 1
+							}
+						}
+						add_building_construction = {
+							type = anti_air_building
+							level = 2
+							instant_build = yes
+						}
+					}
+				}
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_AIRFORCE_BONUS
+			FOCUS_FILTER_RESEARCH
+		}
+	}
+
+	# The Screaming Eagles
+	focus = {
+		id = USA_the_screaming_eagles
+		icon = GFX_goal_USA_screaming_eagles
+		x = 0
+		y = 2
+		cost = 6
+		prerequisite = { focus = USA_fighter_modernization }
+		relative_position_id = USA_fighter_modernization
+		completion_reward = {
+			add_tech_bonus = {
+				category = para_tech
+				bonus = 1.0
+				uses = 1
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_RESEARCH
+		}
+	}
+
+	# RADAR Programs
+	focus = {
+		id = USA_radar_programs
+		icon = GFX_goal_generic_radar_instillation
+		x = -1
+		y = 1
+		cost = 6
+		prerequisite = { focus = USA_the_screaming_eagles }
+		relative_position_id = USA_the_screaming_eagles
+		completion_reward = {
+			add_tech_bonus = {
+				category = radar_tech
+				bonus = 0.75
+				uses = 2
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_RESEARCH
+		}
+	}
+
+	# Fund Oppenheimer's Research
+	focus = {
+		id = USA_fund_oppenheimers_research
+		icon = GFX_goal_nuclear
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			is_subject = no
+		}
+		prerequisite = { focus = USA_the_screaming_eagles }
+		relative_position_id = USA_the_screaming_eagles
+		completion_reward = {
+			add_tech_bonus = {
+				category = nuclear
+				bonus = 1.0
+				uses = 1
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_RESEARCH
+		}
+	}
+
+	##########################################################
+	##########################################################
+	##########################################################
+
+	# Address the Navy
+	focus = {
+		id = USA_address_the_navy
+		icon = GFX_goal_USA_navy
+		x = 3
+		y = 6
+		cost = 6
+		ai_will_do = {
+			factor = 200
+			modifier = {
+				factor = 0.2
+				has_idea = USA_failed_offensive
+			}
+			modifier = {
+				factor = 0.2
+				USA_has_great_depression = yes
+			}
+		}
+		available = {
+			has_capitulated = no
+		}
+		search_filters = { FOCUS_FILTER_NAVY_BONUS }
+		completion_reward = {
+			navy_experience = 25
+		}
+	}
+
+	# From the Skies
+	focus = {
+		id = USA_from_the_skies
+		icon = GFX_goal_generic_sea_focused_navy2
+		x = -2
+		y = 1
+		cost = 6
+		mutually_exclusive = { focus = USA_under_the_sea }
+		prerequisite = { focus = USA_address_the_navy }
+		relative_position_id = USA_address_the_navy
+		completion_reward = {
+			add_doctrine_cost_reduction = {
+				category = cat_base_strike
+				cost_reduction = 0.5
+				uses = 1
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_NAVY_BONUS
+		}
+	}
+
+	# Under the Sea
+	focus = {
+		id = USA_under_the_sea
+		icon = GFX_goal_generic_wolf_pack
+		x = 2
+		y = 1
+		cost = 6
+		mutually_exclusive = { focus = USA_from_the_skies }
+		prerequisite = { focus = USA_address_the_navy }
+		relative_position_id = USA_address_the_navy
+		completion_reward = {
+			add_doctrine_cost_reduction = {
+				category = cat_trade_interdiction
+				cost_reduction = 0.5
+				uses = 1
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_NAVY_BONUS
+		}
+	}
+
+	# Carrier Modernization
+	focus = {
+		id = USA_carrier_modernization
+		icon = GFX_goal_generic_navy_carrier
+		x = -1
+		y = 1
+		cost = 6
+		prerequisite = { focus = USA_from_the_skies }
+		relative_position_id = USA_from_the_skies
+		completion_reward = {
+			add_tech_bonus = {
+				category = cv_tech
+				bonus = 1.0
+				uses = 1
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_NAVY_BONUS
+			FOCUS_FILTER_RESEARCH
+		}
+	}
+
+	# Battleship Escorts
+	focus = {
+		id = USA_battleship_escorts
+		icon = GFX_goal_generic_navy_battleship3
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = USA_from_the_skies }
+		relative_position_id = USA_from_the_skies
+		completion_reward = {
+			add_tech_bonus = {
+				category = bb_tech
+				bonus = 1.0
+				uses = 1
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_NAVY_BONUS
+			FOCUS_FILTER_RESEARCH
+		}
+	}
+
+	# Naval Bombers
+	focus = {
+		id = USA_naval_bombers
+		icon = GFX_goal_generic_air_naval_bomber
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = USA_carrier_modernization }
+		prerequisite = { focus = USA_battleship_escorts }
+		relative_position_id = USA_carrier_modernization
+		completion_reward = {
+			add_tech_bonus = {
+				category = naval_bomber
+				bonus = 1.0
+				uses = 1
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_NAVY_BONUS
+			FOCUS_FILTER_AIRFORCE_BONUS
+		}
+	}
+
+	# Expand the Port of Boston
+	focus = {
+		id = USA_expand_the_port_of_boston
+		icon = GFX_goal_generic_construction2
+		x = -1
+		y = 3
+		cost = 6
+		available = { controls_state = 357 }
+		prerequisite = { focus = USA_carrier_modernization }
+		relative_position_id = USA_carrier_modernization
+		completion_reward = {
+			357 = {
+				if = {
+					limit = {
+						free_building_slots = {
+							building = dockyard
+							size > 0
+							include_locked = yes
+						}
+					}
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = dockyard
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_PRODUCTION
+		}
+	}
+
+
+	# Cruiser Modernization
+	focus = {
+		id = USA_cruiser_modernization
+		icon = GFX_goal_USA_coast_guard
+		x = 2
+		y = 2
+		cost = 6
+		prerequisite = {
+			focus = USA_from_the_skies
+			focus = USA_under_the_sea
+		}
+		relative_position_id = USA_from_the_skies
+		completion_reward = {
+			add_tech_bonus = {
+				category = cl_tech
+				category = ca_tech
+				bonus = 1.0
+				uses = 1
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_NAVY_BONUS
+			FOCUS_FILTER_RESEARCH
+		}
+	}
+
+	# Doctrine Improvements
+	focus = {
+		id = USA_doctrine_improvements
+		icon = GFX_goal_generic_navy_doctrines_tactics
+		x = -1
+		y = 1
+		cost = 6
+		prerequisite = { focus = USA_naval_bombers }
+		relative_position_id = USA_naval_bombers
+		completion_reward = {
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.5
+				uses = 1
+				category = naval_doctrine
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_NAVY_BONUS
+		}
+	}
+
+	# Submarine Modernization
+	focus = {
+		id = USA_submarine_modernization
+		icon = GFX_goal_generic_navy_submarine
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = USA_under_the_sea }
+		relative_position_id = USA_under_the_sea
+		completion_reward = {
+			add_tech_bonus = {
+				category = ss_tech
+				bonus = 1.0
+				uses = 1
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_NAVY_BONUS
+			FOCUS_FILTER_RESEARCH
+		}
+	}
+
+	# Destroyer Modernization
+	focus = {
+		id = USA_destroyer_modernization
+		icon = GFX_goal_generic_coastal_navy2
+		x = 0
+		y = 2
+		cost = 6
+		prerequisite = { focus = USA_under_the_sea }
+		relative_position_id = USA_under_the_sea
+		completion_reward = {
+			add_tech_bonus = {
+				category = dd_tech
+				bonus = 1.0
+				uses = 1
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_NAVY_BONUS
+			FOCUS_FILTER_RESEARCH
+		}
+	}
+
+	# Expand the Port of Los Angeles
+	focus = {
+		id = USA_expand_the_port_of_los_angeles
+		icon = GFX_goal_generic_construction
+		x = 1
+		y = 1
+		cost = 6
+		available = { controls_state = 378 }
+		prerequisite = { focus = USA_submarine_modernization }
+		relative_position_id = USA_submarine_modernization
+		completion_reward = {
+			378 = {
+				if = {
+					limit = {
+						free_building_slots = {
+							building = dockyard
+							size > 0
+							include_locked = yes
+						}
+					}
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = dockyard
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_PRODUCTION
+		}
+	}
+
+	# Amphibious Transports
+	focus = {
+		id = USA_amphibious_transports
+		icon = GFX_goal_generic_occupy_states_coastal
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = {
+			focus = USA_cruiser_modernization
+			focus = USA_destroyer_modernization
+		}
+		relative_position_id = USA_cruiser_modernization
+		completion_reward = {
+			if = {
+				limit = { has_dlc = "Man the Guns" }
+				add_tech_bonus = {
+					technology = mtg_landing_craft
+					technology = mtg_transport
+					technology = mtg_tank_landing_craft
+					bonus = 2.0
+					uses = 1
+				}
+			}
+			else = {
+				add_tech_bonus = {
+					bonus = 2.0
+					technology = landing_craft
+					technology = transport
+					technology = tank_landing_craft
+					uses = 1
+				}
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_NAVY_BONUS
+		}
+	}
+
+	# The Marines
+	focus = {
+		id = USA_the_marines
+		icon = GFX_goal_USA_primaris_marines
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = USA_amphibious_transports }
+		relative_position_id = USA_amphibious_transports
+		completion_reward = {
+			add_tech_bonus = {
+				category = marine_tech
+				bonus = 1.0
+				uses = 1
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_RESEARCH
+		}
+	}
+
+	# Maritime Industry
+	focus = {
+		id = USA_maritime_industry
+		icon = GFX_goal_generic_shipyard
+		x = -1
+		y = 1
+		cost = 6
+		prerequisite = {
+			focus = USA_under_the_sea
+			focus = USA_from_the_skies
+		}
+		relative_position_id = USA_under_the_sea
+		completion_reward = {
+			add_ideas = USA_maritime_industry_idea
+		}
+		search_filters = {
+			FOCUS_FILTER_PRODUCTION
+		}
+	}
+
+	# The WAVES
+	focus = {
+		id = USA_the_waves
+		icon = GFX_goal_generic_naval_industry
+		x = -1
+		y = 1
+		cost = 6
+		prerequisite = {
+			focus = USA_cruiser_modernization
+			focus = USA_naval_bombers
+		}
+		relative_position_id = USA_cruiser_modernization
+		completion_reward = {
+			add_ideas = USA_the_waves_idea
+			add_manpower = 5000
+		}
+		search_filters = {
+			FOCUS_FILTER_MANPOWER
+			FOCUS_FILTER_PRODUCTION
+		}
+	}
+
+	# Recruit New Admirals
+	focus = {
+		id = USA_recruit_new_admirals
+		icon = GFX_goal_USA_new_admirals
+		x = 0
+		y = 2
+		cost = 6
+		prerequisite = { focus = USA_cruiser_modernization }
+		relative_position_id = USA_cruiser_modernization
+		completion_reward = {
+			add_naval_commander_role = {
+				character = USA_Alfred_Pride
+				traits = { air_controller }
+				skill = 1
+				attack_skill = 1
+				defense_skill = 1
+				maneuvering_skill = 1
+				coordination_skill = 1
+			}
+			add_naval_commander_role = {
+				character = USA_Charles_Maynard_Cooke_Jr
+				traits = { seawolf }
+				skill = 1
+				attack_skill = 1
+				defense_skill = 1
+				maneuvering_skill = 1
+				coordination_skill = 1
+			}
+			add_naval_commander_role = {
+				character = USA_Daniel_Edward_Barbey
+				traits = { fleet_protector navy_career_officer }
+				skill = 2
+				attack_skill = 2
+				defense_skill = 1
+				maneuvering_skill = 2
+				coordination_skill = 2
+			}
+			add_naval_commander_role = {
+				character = USA_Felix_Budwell_Stump
+				traits = { air_controller }
+				skill = 2
+				attack_skill = 2
+				defense_skill = 2
+				maneuvering_skill = 1
+				coordination_skill = 2
+			}
+			add_naval_commander_role = {
+				character = USA_Harry_Wilbur_Hill
+				traits = { ironside chief_engineer }
+				skill = 2
+				attack_skill = 1
+				defense_skill = 1
+				maneuvering_skill = 3
+				coordination_skill = 2
+			}
+		}
+	}
+
+	# New Dockyards
+	focus = {
+		id = USA_new_dockyards
+		icon = GFX_goal_generic_construct_naval_dockyard
+		x = -2
+		y = 2
+		cost = 6
+		prerequisite = {
+			focus = USA_cruiser_modernization
+			focus = USA_naval_bombers
+		}
+		relative_position_id = USA_cruiser_modernization
+		completion_reward = {
+			random_owned_controlled_state = {
+				if = {
+					limit = {
+						free_building_slots = {
+							building = dockyard
+							size > 0
+							include_locked = yes
+						}
+					}
+				}
+
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = dockyard
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				if = {
+					limit = {
+						free_building_slots = {
+							building = dockyard
+							size > 0
+							include_locked = yes
+						}
+					}
+				}
+
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = dockyard
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				if = {
+					limit = {
+						free_building_slots = {
+							building = dockyard
+							size > 0
+							include_locked = yes
+						}
+					}
+				}
+
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = dockyard
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_PRODUCTION
+		}
+	}
+
+	# Liberty Ships
+	focus = {
+		id = USA_liberty_ships
+		icon = GFX_goal_generic_buy_ships
+		x = 0
+		y = 2
+		cost = 6
+		prerequisite = { focus = USA_expand_the_port_of_los_angeles }
+		relative_position_id = USA_expand_the_port_of_los_angeles
+		completion_reward = {
+			add_ideas = USA_liberty_ships_idea
+		}
+		search_filters = {
+			FOCUS_FILTER_PRODUCTION
+		}
+	}
+
+	# Batteries
+	focus = {
+		id = USA_better_batteries
+		icon = GFX_goal_generic_navy_cruiser
+		x = 0
+		y = 2
+		cost = 6
+		prerequisite = {
+			focus = USA_destroyer_modernization
+			focus = USA_cruiser_modernization
+		}
+		relative_position_id = USA_submarine_modernization
+		completion_reward = {
+			if = {
+				limit = { has_dlc_mtg = yes }
+				add_tech_bonus = {
+					category = ship_modules_tech
+					bonus = 1.0
+					uses = 2
+				}
+
+				else = {
+					navy_experience = 25
+				}
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_NAVY_BONUS
+		}
+	}
+
+	# Locked-and-Loaded
+	focus = {
+		id = USA_locked_and_loaded
+		icon = GFX_goal_USA_navy_top
+		x = 0
+		y = 1
+		cost = 6
+		prerequisite = {
+			focus = USA_recruit_new_admirals
+			focus = USA_new_dockyards
+			focus = USA_the_marines
+		}
+		relative_position_id = USA_recruit_new_admirals
+		completion_reward = {
+			add_ideas = USA_america_rules_the_waves
+		}
+		search_filters = {
+			FOCUS_FILTER_NAVY_BONUS
+		}
+	}
+
+	##########################################################
+
+	# Elections of 1936
+	focus = {
+		id = USA_elections_of_1936
+		icon = GFX_goal_USA_elections
+		x = 31
+		y = 0
+		cost = 6
+		ai_will_do = { factor = 2000 }
+		available = {
+			USA_1936_elections_happened = yes
+		}
+		bypass = {
+			hidden_trigger = {
+				has_country_flag = USA_had_1936_elections
+			}
+		}
+		completion_reward = {
+			custom_effect_tooltip = USA_elections_of_1936_tt
+		}
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+	}
+
+	# President Long
+	focus = {
+		id = USA_president_long
+		icon = GFX_goal_USA_president_long
+		x = -3
+		y = 1
+		cost = 0
+		ai_will_do = { factor = 2000 }
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = USA_president_long_victory_tt
+				has_country_flag = USA_1936_huey_long
+			}
+		}
+		bypass = {
+			hidden_trigger = {
+				has_country_flag = USA_1936_huey_long
+			}
+		}
+		prerequisite = { focus = USA_elections_of_1936 }
+		relative_position_id = USA_elections_of_1936
+		completion_reward = {
+			custom_effect_tooltip = USA_president_long_tt
+		}
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+	}
+
+	# President Roosevelt
+	focus = {
+		id = USA_president_roosevelt
+		icon = GFX_goal_USA_president_roosevelt
+		x = 3
+		y = 1
+		cost = 0
+		ai_will_do = { factor = 2000 }
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = USA_president_roosevelt_victory_tt
+				has_country_flag = USA_1936_quentin_roosevelt
+			}
+		}
+		bypass = {
+			hidden_trigger = {
+				has_country_flag = USA_1936_quentin_roosevelt
+			}
+		}
+		prerequisite = { focus = USA_elections_of_1936 }
+		relative_position_id = USA_elections_of_1936
+		completion_reward = {
+			custom_effect_tooltip = USA_president_roosevelt_tt
+		}
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+	}
+
+	# President Landon
+	focus = {
+		id = USA_president_landon
+		icon = GFX_goal_USA_president_landon
+		x = 7
+		y = 1
+		cost = 0
+		ai_will_do = { factor = 2000 }
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = USA_president_landon_victory_tt
+				has_country_flag = USA_1936_alf_landon
+			}
+		}
+		bypass = {
+			hidden_trigger = {
+				has_country_flag = USA_1936_alf_landon
+			}
+		}
+		prerequisite = { focus = USA_elections_of_1936 }
+		relative_position_id = USA_elections_of_1936
+		completion_reward = {
+			custom_effect_tooltip = USA_president_landon_tt
+		}
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+	}
+
+	# President Garner
+	focus = {
+		id = USA_president_garner
+		icon = GFX_goal_USA_president_garner
+		x = 12
+		y = 1
+		cost = 0
+		ai_will_do = { factor = 2000 }
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = USA_president_garner_victory_tt
+				has_country_flag = USA_1936_john_nance_garner
+			}
+		}
+		bypass = {
+			hidden_trigger = {
+				has_country_flag = USA_1936_john_nance_garner
+			}
+		}
+		prerequisite = { focus = USA_elections_of_1936 }
+		relative_position_id = USA_elections_of_1936
+		completion_reward = {
+			custom_effect_tooltip = USA_president_garner_tt
+		}
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+	}
+
+	# Start Welfare for the Poor
+	focus = {
+		id = USA_start_welfare_for_the_poor
+		icon = GFX_goal_famine
+		x = -2
+		y = 1
+		cost = 6
+		ai_will_do = { factor = 200 }
+		prerequisite = { focus = USA_president_long }
+		relative_position_id = USA_president_long
+		completion_reward = {
+			USA_decrease_effects_of_malnourishment = yes
+		}
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+	}
+
+	# Economic Reforms
+	focus = {
+		id = USA_economic_reforms
+		icon = GFX_goal_gold_up
+		x = 0
+		y = 1
+		cost = 6
+		ai_will_do = { factor = 200 }
+		prerequisite = { focus = USA_president_long }
+		relative_position_id = USA_president_long
+		completion_reward = {
+			USA_decrease_effects_of_the_depression = yes
+		}
+		search_filters = {
+			FOCUS_FILTER_ECONOMIC_RECOVERY
+		}
+	}
+
+	# Secure Workers' Rights
+	focus = {
+		id = USA_secure_workers_rights
+		icon = GFX_goal_generic_workers_rights
+		x = 2
+		y = 1
+		cost = 6
+		prerequisite = { focus = USA_president_long }
+		relative_position_id = USA_president_long
+		completion_reward = {
+			add_ideas = USA_workers_rights
+		}
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+			FOCUS_FILTER_PRODUCTION
+		}
+	}
+
+	# Share Our Wealth
+	focus = {
+		id = USA_share_our_wealth
+		icon = GFX_america_goal_champagn
+		x = 0
+		y = 1
+		cost = 6
+		ai_will_do = { factor = 200 }
+		prerequisite = { focus = USA_secure_workers_rights }
+		prerequisite = { focus = USA_start_welfare_for_the_poor }
+		prerequisite = { focus = USA_economic_reforms }
+		relative_position_id = USA_economic_reforms
+		completion_reward = {
+			USA_decrease_effects_of_the_depression = yes
+			hidden_effect = {
+				country_event = { id = usa.47 days = 14 }
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_ECONOMIC_RECOVERY
+		}
+	}
+
+	# Improve Interstate Infrastructure
+	focus = {
+		id = USA_improve_interstate_infrastructure
+		icon = GFX_goal_generic_construct_infrastructure
+		x = 0
+		y = 1
+		cost = 6
+		prerequisite = { focus = USA_share_our_wealth }
+		relative_position_id = USA_share_our_wealth
+		completion_reward = {
+			random_owned_controlled_state = {
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+	}
+
+	# Free Basic Education
+	focus = {
+		id = USA_free_basic_education
+		icon = GFX_goal_great_science
+		x = -2
+		y = 1
+		cost = 6
+		prerequisite = { focus = USA_share_our_wealth }
+		relative_position_id = USA_share_our_wealth
+		completion_reward = {
+			add_research_slot = 1
+		}
+		search_filters = {
+			FOCUS_FILTER_RESEARCH
+		}
+	}
+
+	# Import Regulation
+	focus = {
+		id = USA_import_regulation
+		icon = GFX_goal_generic_trade
+		x = 1
+		y = 1
+		cost = 6
+		ai_will_do = { factor = 200 }
+		prerequisite = { focus = USA_free_basic_education }
+		prerequisite = { focus = USA_improve_interstate_infrastructure }
+		relative_position_id = USA_free_basic_education
+		completion_reward = {
+			USA_decrease_effects_of_the_depression = yes
+		}
+		search_filters = {
+			FOCUS_FILTER_ECONOMIC_RECOVERY
+		}
+	}
+
+	# New Industries
+	focus = {
+		id = USA_new_industries
+		icon = GFX_goal_factory_complex
+		x = 1
+		y = 3
+		cost = 6
+		ai_will_do = { factor = 2000 }
+		prerequisite = { focus = USA_import_regulation }
+		prerequisite = { focus = USA_federal_pensions_reform }
+		relative_position_id = USA_share_our_wealth
+		completion_reward = {
+			USA_decrease_effects_of_the_depression = yes
+		}
+		search_filters = {
+			FOCUS_FILTER_ECONOMIC_RECOVERY
+		}
+	}
+
+	# Tax Reforms
+	focus = {
+		id = USA_tax_reforms
+		icon = GFX_goal_generic_foreign_investments
+		x = 3
+		y = 2
+		cost = 6
+		ai_will_do = { factor = 200 }
+		prerequisite = {
+			focus = USA_president_long
+			focus = USA_president_roosevelt
+		}
+		relative_position_id = USA_president_long
+		completion_reward = {
+			USA_decrease_effects_of_the_depression = yes
+		}
+		search_filters = {
+			FOCUS_FILTER_ECONOMIC_RECOVERY
+		}
+	}
+
+	# Agricultural Adjustment Act
+	focus = {
+		id = USA_agricultural_adjustment_act
+		icon = GFX_goal_generic_agricultural_aid
+		x = -1
+		y = 1
+		cost = 6
+		ai_will_do = { factor = 100 }
+		prerequisite = { focus = USA_tax_reforms }
+		relative_position_id = USA_tax_reforms
+		completion_reward = {
+			USA_decrease_effects_of_malnourishment = yes
+		}
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+	}
+
+	# Light the Union
+	focus = {
+		id = USA_light_the_union
+		icon = GFX_goal_generic_lightbulb
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = USA_tax_reforms }
+		relative_position_id = USA_tax_reforms
+		completion_reward = {
+			add_tech_bonus = {
+				category = electronics
+				bonus = 1.0
+				uses = 1
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_RESEARCH
+		}
+	}
+
+	# Second Homestead Act
+	focus = {
+		id = USA_second_homestead_act
+		icon = GFX_focus_usa_guarantee_the_american_dream
+		x = 3
+		y = 1
+		cost = 6
+		prerequisite = { focus = USA_tax_reforms }
+		relative_position_id = USA_tax_reforms
+		completion_reward = {
+			random_owned_controlled_state = {
+				if = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+				}
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+	}
+
+	# Federal Pensions Reform
+	focus = {
+		id = USA_federal_pensions_reform
+		icon = GFX_goal_government_icon
+		x = 0
+		y = 2
+		cost = 6
+		ai_will_do = { factor = 200 }
+		prerequisite = { focus = USA_tax_reforms }
+		relative_position_id = USA_tax_reforms
+		completion_reward = {
+			USA_decrease_effects_of_the_depression = yes
+		}
+		search_filters = {
+			FOCUS_FILTER_ECONOMIC_RECOVERY
+		}
+	}
+
+	# Increase Tariffs
+	focus = {
+		id = USA_increase_tariffs
+		icon = GFX_goal_generic_positive_trade_relations_gold
+		x = -2
+		y = 1
+		cost = 6
+		ai_will_do = { factor = 200 }
+		prerequisite = { focus = USA_president_roosevelt }
+		relative_position_id = USA_president_roosevelt
+		completion_reward = {
+			USA_decrease_effects_of_the_depression = yes
+		}
+		search_filters = {
+			FOCUS_FILTER_ECONOMIC_RECOVERY
+		}
+	}
+
+	# Economic Investments
+	focus = {
+		id = USA_economic_investments
+		icon = GFX_goal_bag_of_money
+		x = 0
+		y = 1
+		cost = 6
+		ai_will_do = { factor = 200 }
+		prerequisite = { focus = USA_president_roosevelt }
+		relative_position_id = USA_president_roosevelt
+		completion_reward = {
+			USA_decrease_effects_of_the_depression = yes
+			hidden_effect = {
+				country_event = { id = usa.46 months = 3 }
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_ECONOMIC_RECOVERY
+		}
+	}
+
+	# Compact with the Workers
+	focus = {
+		id = USA_compact_with_the_workers
+		icon = GFX_goal_generic_enforce_labor_regulation
+		x = 2
+		y = 1
+		cost = 6
+		prerequisite = { focus = USA_president_roosevelt }
+		relative_position_id = USA_president_roosevelt
+		completion_reward = {
+			add_ideas = USA_worker_agreements
+		}
+		search_filters = {
+			FOCUS_FILTER_PRODUCTION
+		}
+	}
+
+	# Nationwide Social Security
+	focus = {
+		id = USA_nationwide_social_security
+		icon = GFX_focus_generic_self_management
+		x = 0
+		y = 1
+		cost = 6
+		ai_will_do = { factor = 200 }
+		prerequisite = { focus = USA_economic_investments }
+		prerequisite = { focus = USA_increase_tariffs }
+		prerequisite = { focus = USA_compact_with_the_workers }
+		relative_position_id = USA_economic_investments
+		completion_reward = {
+			USA_decrease_effects_of_the_depression = yes
+		}
+		search_filters = {
+			FOCUS_FILTER_ECONOMIC_RECOVERY
+		}
+	}
+
+	# Education for All
+	focus = {
+		id = USA_education_for_all
+		icon = GFX_focus_generic_university_1
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = {
+			focus = USA_compact_with_the_workers
+			focus = USA_private_partnerships
+		}
+		relative_position_id = USA_compact_with_the_workers
+		completion_reward = {
+			add_research_slot = 1
+		}
+		search_filters = {
+			FOCUS_FILTER_RESEARCH
+		}
+	}
+
+	# Bridge the Racial Gap
+	focus = {
+		id = USA_bridge_the_racial_gap
+		icon = GFX_goal_liberty
+		x = 1
+		y = 1
+		cost = 6
+		ai_will_do = { factor = 100 }
+		prerequisite = { focus = USA_education_for_all }
+		relative_position_id = USA_education_for_all
+		completion_reward = {
+			USA_decrease_effects_of_malnourishment = yes
+		}
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+	}
+
+	# Develop the Rural Regions
+	focus = {
+		id = USA_develop_the_rural_regions
+		icon = GFX_goal_generic_construction2
+		x = -1
+		y = 1
+		cost = 6
+		prerequisite = { focus = USA_education_for_all }
+		relative_position_id = USA_education_for_all
+		completion_reward = {
+			random_owned_controlled_state = {
+				if = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+				}
+			}
+			random_owned_controlled_state = {
+				if = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+				}
+			}
+			random_owned_controlled_state = {
+				if = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+				}
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+	}
+
+	# Public Works Administration
+	focus = {
+		id = USA_public_works_administration
+		icon = GFX_goal_construction_engineering
+		x = -1
+		y = 1
+		cost = 6
+		prerequisite = { focus = USA_develop_the_rural_regions }
+		relative_position_id = USA_develop_the_rural_regions
+		completion_reward = {
+			add_ideas = USA_public_works
+		}
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+			FOCUS_FILTER_PRODUCTION
+		}
+	}
+
+
+	# Economic Rehabilitation
+	focus = {
+		id = USA_economic_rehabilitation
+		icon = GFX_goal_generic_cash_stimulus_plan
+		x = -2
+		y = 1
+		cost = 6
+		ai_will_do = { factor = 2000 }
+		prerequisite = { focus = USA_federal_pensions_reform }
+		prerequisite = { focus = USA_public_works_administration }
+		relative_position_id = USA_public_works_administration
+		completion_reward = {
+			USA_decrease_effects_of_the_depression = yes
+		}
+		search_filters = {
+			FOCUS_FILTER_ECONOMIC_RECOVERY
+		}
+	}
+
+	# Hydroelectric Conquest
+	focus = {
+		id = USA_hydroelectric_conquest
+		icon = GFX_focus_generic_hydroelectric_energy
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = USA_develop_the_rural_regions }
+		relative_position_id = USA_develop_the_rural_regions
+		completion_reward = {
+			unlock_decision_category_tooltip = USA_hydroelectric
+		}
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+			FOCUS_FILTER_PRODUCTION
+		}
+	}
+
+	# Industrial Recovery Program
+	focus = {
+		id = USA_industrial_recovery_program
+		icon = GFX_goal_generic_construct_civ_factory
+		x = 0
+		y = 1
+		cost = 6
+		ai_will_do = { factor = 2000 }
+		prerequisite = { focus = USA_lower_the_income_tax }
+		prerequisite = { focus = USA_public_works_administration }
+		relative_position_id = USA_hydroelectric_conquest
+		completion_reward = {
+			USA_decrease_effects_of_the_depression = yes
+		}
+		search_filters = {
+			FOCUS_FILTER_ECONOMIC_RECOVERY
+		}
+	}
+
+	# Increase Public Salaries
+	focus = {
+		id = USA_increase_public_salaries
+		icon = GFX_focus_mex_privatisation
+		x = 2
+		y = 1
+		cost = 6
+		ai_will_do = { factor = 200 }
+		prerequisite = { focus = USA_president_landon }
+		relative_position_id = USA_president_landon
+		completion_reward = {
+			USA_decrease_effects_of_the_depression = yes
+		}
+		search_filters = {
+			FOCUS_FILTER_ECONOMIC_RECOVERY
+		}
+	}
+
+	# Banking Reforms
+	focus = {
+		id = USA_banking_reforms
+		icon = GFX_goal_generic_banking_legislation
+		x = 0
+		y = 2
+		cost = 6
+		ai_will_do = { factor = 200 }
+		prerequisite = {
+			focus = USA_increase_public_salaries
+			focus = USA_privitization_of_services
+		}
+		relative_position_id = USA_increase_public_salaries
+		completion_reward = {
+			USA_decrease_effects_of_the_depression = yes
+		}
+		search_filters = {
+			FOCUS_FILTER_ECONOMIC_RECOVERY
+		}
+	}
+	# Private Partnerships
+	focus = {
+		id = USA_private_partnerships
+		icon = GFX_goal_collaborate_local_elites
+		x = 0
+		y = 1
+		cost = 6
+		ai_will_do = { factor = 200 }
+		prerequisite = { focus = USA_president_landon }
+		relative_position_id = USA_president_landon
+		completion_reward = {
+			USA_decrease_effects_of_the_depression = yes
+		}
+		search_filters = {
+			FOCUS_FILTER_ECONOMIC_RECOVERY
+		}
+	}
+
+	# Ensure Press Freedoms
+	focus = {
+		id = USA_ensure_press_freedoms
+		icon = GFX_goal_big_news
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = USA_private_partnerships }
+		relative_position_id = USA_private_partnerships
+		completion_reward = {
+			add_stability = 0.05
+			add_war_support = 0.05
+		}
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+	}
+
+	# Lower the Income Tax
+	focus = {
+		id = USA_lower_the_income_tax
+		icon = GFX_DAH_Topke
+		x = 0
+		y = 2
+		cost = 6
+		ai_will_do = { factor = 200 }
+		prerequisite = { focus = USA_ensure_press_freedoms }
+		prerequisite = { focus = USA_banking_reforms }
+		relative_position_id = USA_ensure_press_freedoms
+		completion_reward = {
+			USA_decrease_effects_of_the_depression = yes
+		}
+		search_filters = {
+			FOCUS_FILTER_ECONOMIC_RECOVERY
+		}
+	}
+
+
+	# Bureaucratic Reforms
+	focus = {
+		id = USA_bureaucratic_reforms
+		icon = GFX_goal_Centralised_Government
+		x = -1
+		y = 1
+		cost = 6
+		prerequisite = {
+			focus = USA_president_garner
+			focus = USA_president_landon
+		}
+		relative_position_id = USA_president_garner
+		completion_reward = {
+			add_political_power = 150
+		}
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+	}
+
+	# Privatization of Services
+	focus = {
+		id = USA_privitization_of_services
+		icon = GFX_goal_generic_autarky
+		x = -1
+		y = 1
+		cost = 6
+		ai_will_do = { factor = 200 }
+		prerequisite = { focus = USA_bureaucratic_reforms }
+		relative_position_id = USA_bureaucratic_reforms
+		completion_reward = {
+			USA_decrease_effects_of_the_depression = yes
+		}
+		search_filters = {
+			FOCUS_FILTER_ECONOMIC_RECOVERY
+		}
+	}
+
+	# Mining Grants
+	focus = {
+		id = USA_mining_grants
+		icon = GFX_goal_generic_production
+		x = 0
+		y = 2
+		cost = 6
+		prerequisite = { focus = USA_privitization_of_services }
+		relative_position_id = USA_privitization_of_services
+		completion_reward = {
+			add_tech_bonus = {
+				technology = excavation1
+				technology = excavation2
+				technology = excavation3
+				technology = excavation4
+				bonus = 1.0
+				uses = 1
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_RESEARCH
+		}
+	}
+
+	# Review the Anti-Trust Laws
+	focus = {
+		id = USA_review_the_anti_trust_laws
+		icon = GFX_goal_DOM_End_Judicial_Corruption
+		x = 0
+		y = 2
+		cost = 6
+		ai_will_do = { factor = 200 }
+		prerequisite = { focus = USA_president_garner }
+		prerequisite = { focus = USA_bureaucratic_reforms }
+		relative_position_id = USA_president_garner
+		completion_reward = {
+			USA_decrease_effects_of_the_depression = yes
+		}
+		search_filters = {
+			FOCUS_FILTER_ECONOMIC_RECOVERY
+		}
+	}
+
+	# Pass the Workers Relations Act
+	focus = {
+		id = USA_pass_the_workers_relations_act
+		icon = GFX_goal_workers_rights
+		x = 0
+		y = 2
+		cost = 6
+		ai_will_do = { factor = 100 }
+		prerequisite = {
+			focus = USA_privitization_of_services
+			focus = USA_review_the_anti_trust_laws
+		}
+		relative_position_id = USA_bureaucratic_reforms
+		completion_reward = {
+			USA_decrease_effects_of_malnourishment = yes
+		}
+		search_filters = {
+			FOCUS_FILTER_ECONOMIC_RECOVERY
+		}
+	}
+
+	# Medical Emergency Fund
+	focus = {
+		id = USA_medical_emergency_fund
+		icon = GFX_goal_generic_medical
+		x = 0
+		y = 2
+		cost = 6
+		ai_will_do = { factor = 100 }
+		prerequisite = { focus = USA_review_the_anti_trust_laws }
+		relative_position_id = USA_review_the_anti_trust_laws
+		completion_reward = {
+			USA_decrease_effects_of_malnourishment = yes
+		}
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+	}
+
+	# Morality and Values
+	focus = {
+		id = USA_morality_and_values
+		icon = GFX_goal_CRU_church
+		x = 2
+		y = 1
+		cost = 6
+		prerequisite = { focus = USA_president_garner }
+		relative_position_id = USA_president_garner
+		completion_reward = {
+			add_stability = 0.05
+			add_war_support = 0.05
+		}
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+	}
+
+	# Limit Union Activities
+	focus = {
+		id = USA_limit_union_activities
+		icon = GFX_goal_generic_crush_unions
+		x = -1
+		y = 2
+		cost = 6
+		prerequisite = { focus = USA_morality_and_values }
+		relative_position_id = USA_morality_and_values
+		completion_reward = {
+			add_ideas = USA_limited_union_activities
+			USA_decrease_effects_of_the_depression = yes
+			hidden_effect = {
+				country_event = { id = usa.36 days = 6 }
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_PRODUCTION
+		}
+	}
+
+	# Centers for Higher Learning
+	focus = {
+		id = USA_centers_for_higher_learning
+		icon = GFX_goal_KTG_Bookstack
+		x = 0
+		y = 1
+		cost = 6
+		prerequisite = { focus = USA_morality_and_values }
+		relative_position_id = USA_morality_and_values
+		completion_reward = {
+			add_research_slot = 1
+		}
+		search_filters = {
+			FOCUS_FILTER_RESEARCH
+		}
+	}
+
+	# Construction Subsidies
+	focus = {
+		id = USA_construction_subsidies
+		icon = GFX_goal_generic_construction
+		x = 2
+		y = 1
+		cost = 6
+		prerequisite = { focus = USA_morality_and_values }
+		relative_position_id = USA_morality_and_values
+		completion_reward = {
+			add_ideas = USA_construction_subsidies
+		}
+		search_filters = {
+			FOCUS_FILTER_PRODUCTION
+		}
+	}
+
+	# Expand Public Housing
+	focus = {
+		id = USA_expand_public_housing
+		icon = GFX_goal_generic_build_housing
+		x = -1
+		y = 1
+		cost = 6
+		prerequisite = { focus = USA_construction_subsidies }
+		relative_position_id = USA_construction_subsidies
+		completion_reward = {
+			random_owned_controlled_state = {
+				if = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+				}
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_PRODUCTION
+		}
+	}
+
+	# Improve Urban Infrastructure
+	focus = {
+		id = USA_improve_urban_infrastructure
+		icon = GFX_goal_generic_construct_infrastructure
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = USA_construction_subsidies }
+		relative_position_id = USA_construction_subsidies
+		completion_reward = {
+			random_owned_controlled_state = {
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+	}
+
+	# Fight Inflation Struggles
+	focus = {
+		id = USA_fight_inflation_struggles
+		icon = GFX_focus_empty_coffers
+		x = -2
+		y = 2
+		cost = 2
+		ai_will_do = { factor = 200 }
+		prerequisite = { focus = USA_construction_subsidies }
+		relative_position_id = USA_construction_subsidies
+		completion_reward = {
+			USA_decrease_effects_of_the_depression = yes
+		}
+		search_filters = {
+			FOCUS_FILTER_ECONOMIC_RECOVERY
+		}
+	}
+
+	# Recovery from the Depression
+	focus = {
+		id = USA_recovery_from_the_depression
+		icon = GFX_goal_generic_debt_negotiations
+		x = 0
+		y = 2
+		cost = 6
+		ai_will_do = { factor = 2000 }
+		prerequisite = { focus = USA_medical_emergency_fund }
+		prerequisite = { focus = USA_limit_union_activities }
+		prerequisite = { focus = USA_fight_inflation_struggles }
+		relative_position_id = USA_limit_union_activities
+		completion_reward = {
+			USA_decrease_effects_of_the_depression = yes
+		}
+		search_filters = {
+			FOCUS_FILTER_ECONOMIC_RECOVERY
+		}
+	}
+
+	###############################################
+	###############################################
+	###############################################
+
+	# The Emergency Government
+	focus = {
+		id = USA_the_emergency_government
+		icon = GFX_goal_USA_eagle
+		x = 13
+		y = 6
+		cost = 2
+		ai_will_do = {
+			base = 1000
+		}
+		allow_branch = {
+			has_country_flag = USA_union_collapsed
+		}
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = unlocked_later
+				always = no
+			}
+		}
+		bypass = {
+			hidden_trigger = {
+				USA_union_has_collapsed = yes
+			}
+		}
+	}
+
+	# Restore Order
+	focus = {
+		id = USA_restore_order
+		icon = GFX_goal_national_mobilization
+		x = 0
+		y = 1
+		cost = 6
+		ai_will_do = {
+			base = 200
+		}
+		prerequisite = { focus = USA_the_emergency_government }
+		relative_position_id = USA_the_emergency_government
+		completion_reward = {
+			add_stability = 0.15
+			add_war_support = 0.15
+		}
+	}
+
+	# Assure the People
+	focus = {
+		id = USA_assure_the_people
+		icon = GFX_goal_generic_national_unity
+		x = -1
+		y = 1
+		cost = 6
+		ai_will_do = {
+			base = 40
+		}
+		prerequisite = { focus = USA_restore_order }
+		relative_position_id = USA_restore_order
+		completion_reward = {
+			remove_ideas = USA_apathetic_citizens
+		}
+	}
+
+	# Calm the Businessmen
+	focus = {
+		id = USA_calm_the_businessmen
+		icon = GFX_goal_generic_intelligence_exchange
+		x = 0
+		y = 1
+		cost = 6
+		ai_will_do = {
+			base = 800
+		}
+		prerequisite = { focus = USA_assure_the_people }
+		prerequisite = { focus = USA_arrest_dissidents }
+		relative_position_id = USA_assure_the_people
+		completion_reward = {
+			remove_ideas = USA_economic_shock
+		}
+	}
+
+	# Arrest Dissidents
+	focus = {
+		id = USA_arrest_dissidents
+		icon = GFX_goal_generic_political_pressure
+		x = 1
+		y = 1
+		cost = 6
+		ai_will_do = {
+			base = 200
+		}
+		prerequisite = { focus = USA_restore_order }
+		relative_position_id = USA_restore_order
+		completion_reward = {
+			remove_ideas = USA_crumbling_army
+		}
+	}
+
+	# Federal Bureau of Investigation
+	focus = {
+		id = USA_use_the_fbi
+		icon = GFX_goal_USA_directors_boys
+		x = 0
+		y = 1
+		cost = 6
+		ai_will_do = {
+			base = 200
+		}
+		prerequisite = { focus = USA_arrest_dissidents }
+		prerequisite = { focus = USA_assure_the_people }
+		relative_position_id = USA_arrest_dissidents
+		completion_reward = {
+			remove_ideas = USA_anarchy_and_chaos
+		}
+	}
+
+	# Call the Reservists
+	focus = {
+		id = USA_call_the_reservists
+		icon = GFX_goal_army_guy_2
+		x = -3
+		y = 1
+		cost = 6
+		prerequisite = { focus = USA_restore_order }
+		relative_position_id = USA_restore_order
+		completion_reward = {
+			custom_effect_tooltip = USA_call_the_reservists_tt
+			hidden_effect = {
+				load_oob = "USA_reservists"
+			}
+		}
+	}
+
+	# Recall the Veterans
+	focus = {
+		id = USA_recall_the_veterans
+		icon = GFX_focus_generic_military_mission
+		x = 3
+		y = 1
+		cost = 6
+		prerequisite = { focus = USA_restore_order }
+		relative_position_id = USA_restore_order
+		completion_reward = {
+			custom_effect_tooltip = USA_recall_the_veterans_tt
+			hidden_effect = {
+				load_oob = "USA_veterans"
+			}
+		}
+	}
+
+	# Civilian Public Service
+	focus = {
+		id = USA_civilian_public_service
+		icon = GFX_goal_generic_construct_civ_factory
+		x = 1
+		y = 2
+		cost = 6
+		prerequisite = { focus = USA_call_the_reservists }
+		prerequisite = { focus = USA_calm_the_businessmen }
+		prerequisite = { focus = USA_use_the_fbi }
+		relative_position_id = USA_call_the_reservists
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+				}
+
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+				}
+
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	# Kickstart New Recruitment Campaigns
+	focus = {
+		id = USA_kickstart_new_recruitment_campaigns
+		icon = GFX_goal_conspiracy
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = USA_calm_the_businessmen }
+		prerequisite = { focus = USA_use_the_fbi }
+		relative_position_id = USA_calm_the_businessmen
+		completion_reward = {
+			add_manpower = 10000
+		}
+	}
+
+	# Military Industrial Complex
+	focus = {
+		id = USA_military_industrial_complex
+		icon = GFX_goal_generic_construct_mil_factory
+		x = -1
+		y = 2
+		cost = 6
+		prerequisite = { focus = USA_recall_the_veterans }
+		prerequisite = { focus = USA_calm_the_businessmen }
+		prerequisite = { focus = USA_use_the_fbi }
+		relative_position_id = USA_recall_the_veterans
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+						include_locked = yes
+					}
+				}
+
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+						include_locked = yes
+					}
+				}
+
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	# Emergency Funds
+	focus = {
+		id = USA_emergency_funds
+		icon = GFX_goal_bag_of_money
+		x = 0
+		y = 1
+		cost = 6
+		prerequisite = { focus = USA_call_the_reservists }
+		relative_position_id = USA_call_the_reservists
+		completion_reward = {
+			add_timed_idea = {
+				idea = USA_emergency_funds_idea
+				days = 1200
+			}
+		}
+	}
+
+	# The GI Bill
+	focus = {
+		id = USA_the_gi_bill
+		icon = GFX_goal_USA_national_guard
+		x = 0
+		y = 1
+		cost = 6
+		prerequisite = { focus = USA_recall_the_veterans }
+		relative_position_id = USA_recall_the_veterans
+		completion_reward = {
+			add_ideas = USA_american_gis
+		}
+	}
+
+	# Consolidate America
+	focus = {
+		id = USA_consolidate_america
+		icon = GFX_goal_authoritarian
+		x = 0
+		y = 1
+		cost = 6
+		prerequisite = { focus = USA_civilian_public_service }
+		prerequisite = { focus = USA_kickstart_new_recruitment_campaigns }
+		prerequisite = { focus = USA_military_industrial_complex }
+		relative_position_id = USA_kickstart_new_recruitment_campaigns
+		completion_reward = {
+			unlock_decision_category_tooltip = USA_american_unification
+			hidden_effect = {
+				activate_targeted_decision = { target = ORE decision = USA_demand_oregon }
+				activate_targeted_decision = { target = NAR decision = USA_attack_traitors }
+				activate_targeted_decision = { target = CLB decision = USA_attack_traitors }
+				activate_targeted_decision = { target = NEE decision = USA_attack_traitors }
+				activate_targeted_decision = { target = SRA decision = USA_attack_traitors }
+				activate_targeted_decision = { target = CAN decision = USA_demand_territory }
+				activate_targeted_decision = { target = MEX decision = USA_demand_territory }
+				activate_targeted_decision = { target = ENG decision = USA_demand_territory }
+			}
+		}
+	}
+
+	###############################################
+	###############################################
+	###############################################
+
+	# America on the World Stage
+	focus = {
+		id = USA_america_on_the_world_stage
+		icon = GFX_goal_usa
+		x = 22
+		y = 7
+		offset = {
+			x = -8
+			y = -1
+			trigger = { NOT = { has_country_flag = USA_union_collapsed } }
+		}
+		cost = 6
+		available = {
+			USA_has_great_depression = no
+			USA_union_has_collapsed = no
+			MEX = {
+				OR = {
+					exists = no
+					is_subject = yes
+				}
+			}
+		}
+		completion_reward = {
+			add_war_support = 0.10
+		}
+	}
+
+	# Continue Isolation
+	focus = {
+		id = USA_continue_isolation
+		icon = GFX_goal_USA_fortress
+		x = -3
+		y = 1
+		cost = 6
+		ai_will_do = {
+			factor = 200
+		}
+		mutually_exclusive = { focus = USA_new_interventionism }
+		prerequisite = { focus = USA_america_on_the_world_stage }
+		relative_position_id = USA_america_on_the_world_stage
+		completion_reward = {
+			add_ideas = USA_continued_isolationism
+		}
+	}
+
+
+	# Fortify the Northern Border
+	focus = {
+		id = USA_fortify_the_northern_border
+		icon = GFX_goal_generic_attack_canada
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			controls_state = 837
+			controls_state = 840
+			controls_state = 841
+			controls_state = 358
+			controls_state = 393
+		}
+		bypass = {
+			OR = {
+				any_home_area_neighbor_country = {
+					tag = ENG
+					tag = CAN
+				}
+				CAN = {
+					is_subject_of = ROOT
+					is_in_faction_with = ROOT
+				}
+			}
+		}
+		prerequisite = { focus = USA_continue_isolation }
+		relative_position_id = USA_continue_isolation
+		completion_reward = {
+			custom_effect_tooltip = USA_add_forts_maine_tt
+			custom_effect_tooltip = USA_add_forts_michigan_tt
+			custom_effect_tooltip = USA_add_forts_vermont_tt
+			custom_effect_tooltip = USA_add_forts_new_york_tt
+			custom_effect_tooltip = USA_add_forts_new_hampshire_tt
+			837 = {
+				if = {
+					limit = { is_controlled_by = ROOT }
+					hidden_effect = {
+						add_building_construction = {
+							type = bunker
+							level = 3
+							province = 1619
+							instant_build = yes
+						}
+						add_building_construction = {
+							type = bunker
+							level = 3
+							province = 1282
+							instant_build = yes
+						}
+						add_building_construction = {
+							type = bunker
+							level = 3
+							province = 4287
+							instant_build = yes
+						}
+						add_building_construction = {
+							type = bunker
+							level = 3
+							province = 10247
+							instant_build = yes
+						}
+						add_building_construction = {
+							type = bunker
+							level = 3
+							province = 12221
+							instant_build = yes
+						}
+						add_building_construction = {
+							type = bunker
+							level = 3
+							province = 12201
+							instant_build = yes
+						}
+						add_building_construction = {
+							type = bunker
+							level = 3
+							province = 6719
+							instant_build = yes
+						}
+					}
+				}
+			}
+			840 = {
+				if = {
+					limit = { is_controlled_by = ROOT }
+					hidden_effect = {
+						add_building_construction = {
+							type = bunker
+							level = 3
+							province = 10481
+							instant_build = yes
+						}
+					}
+				}
+			}
+			841 = {
+				if = {
+					limit = { is_controlled_by = ROOT }
+					hidden_effect = {
+						add_building_construction = {
+							type = bunker
+							level = 3
+							province = 7629
+							instant_build = yes
+						}
+					}
+				}
+			}
+			358 = {
+				if = {
+					limit = { is_controlled_by = ROOT }
+					hidden_effect = {
+						add_building_construction = {
+							type = bunker
+							level = 3
+							province = 11662
+							instant_build = yes
+						}
+						add_building_construction = {
+							type = bunker
+							level = 3
+							province = 3602
+							instant_build = yes
+						}
+						add_building_construction = {
+							type = bunker
+							level = 3
+							province = 598
+							instant_build = yes
+						}
+						add_building_construction = {
+							type = bunker
+							level = 3
+							province = 6778
+							instant_build = yes
+						}
+						add_building_construction = {
+							type = bunker
+							level = 3
+							province = 6795
+							instant_build = yes
+						}
+						add_building_construction = {
+							type = bunker
+							level = 3
+							province = 3747
+							instant_build = yes
+						}
+						add_building_construction = {
+							type = bunker
+							level = 3
+							province = 3733
+							instant_build = yes
+						}
+						add_building_construction = {
+							type = bunker
+							level = 3
+							province = 734
+							instant_build = yes
+						}
+						add_building_construction = {
+							type = bunker
+							level = 3
+							province = 11654
+							instant_build = yes
+						}
+						add_building_construction = {
+							type = bunker
+							level = 3
+							province = 6707
+							instant_build = yes
+						}
+					}
+				}
+			}
+			393 = {
+				if = {
+					limit = { is_controlled_by = ROOT }
+					hidden_effect = {
+						add_building_construction = {
+							type = bunker
+							level = 3
+							province = 6710
+							instant_build = yes
+						}
+						add_building_construction = {
+							type = bunker
+							level = 3
+							province = 9724
+							instant_build = yes
+						}
+					}
+				}
+			}
+		}
+	}
+
+	# Patrol the Seas
+	focus = {
+		id = USA_patrol_the_seas
+		icon = GFX_goal_generic_sea_focused_navy2
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = USA_continue_isolation }
+		relative_position_id = USA_continue_isolation
+		completion_reward = {
+			add_tech_bonus = {
+				category = naval_equipment
+				bonus = 0.5
+				uses = 2
+			}
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.5
+				uses = 2
+				category = naval_doctrine
+			}
+		}
+	}
+
+	# Defensive Tactics
+	focus = {
+		id = USA_defensive_tactics
+		icon = GFX_goal_generic_barricades
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			is_subject = no
+		}
+		prerequisite = { focus = USA_fortify_the_northern_border }
+		prerequisite = { focus = USA_patrol_the_seas }
+		relative_position_id = USA_fortify_the_northern_border
+		completion_reward = {
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.5
+				uses = 2
+				category = land_doctrine
+			}
+		}
+	}
+
+	# Fortify Hawaii
+	focus = {
+		id = USA_fortify_hawaii
+		icon = GFX_goal_HAW_shield
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			is_subject = no
+			controls_state = 629
+		}
+		prerequisite = { focus = USA_defensive_tactics }
+		relative_position_id = USA_defensive_tactics
+		completion_reward = {
+			629 = {
+				add_building_construction = {
+					type = naval_base
+					level = 4
+					instant_build = yes
+					province = 4180
+				}
+				add_building_construction = {
+					type = air_base
+					level = 4
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = coastal_bunker
+					level = 2
+					instant_build = yes
+					province = {
+						all_provinces = yes
+						limit_to_coastal = yes
+					}
+				}
+			}
+		}
+	}
+
+	# Fortify Puerto Rico
+	focus = {
+		id = USA_fortify_puerto_rico
+		icon = GFX_goal_PUE_navy
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			is_subject = no
+			controls_state = 686
+		}
+		prerequisite = { focus = USA_defensive_tactics }
+		relative_position_id = USA_defensive_tactics
+		completion_reward = {
+			686 = {
+				add_building_construction = {
+					type = naval_base
+					level = 4
+					instant_build = yes
+					province = 1440
+				}
+				add_building_construction = {
+					type = air_base
+					level = 4
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = coastal_bunker
+					level = 2
+					instant_build = yes
+					province = {
+						all_provinces = yes
+						limit_to_naval_base = yes
+					}
+				}
+			}
+		}
+	}
+
+	# Pragmatic Trade
+	focus = {
+		id = USA_pragmatic_trade
+		icon = GFX_goal_generic_shipyard
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_war = no
+			is_subject = no
+		}
+		prerequisite = { focus = USA_fortify_hawaii }
+		prerequisite = { focus = USA_fortify_puerto_rico }
+		relative_position_id = USA_fortify_hawaii
+		completion_reward = {
+			add_political_power = 150
+		}
+	}
+
+	# America Leaps Forward
+	focus = {
+		id = USA_america_leaps_forward
+		icon = GFX_goal_USA_leaps_forward
+		x = 0
+		y = 2
+		cost = 6
+		available = {
+			has_war = no
+			is_subject = no
+		}
+		prerequisite = { focus = USA_pragmatic_trade }
+		relative_position_id = USA_pragmatic_trade
+		completion_reward = {
+			add_research_slot = 1
+		}
+	}
+
+	# New Interventionism
+	focus = {
+		id = USA_new_interventionism
+		icon = GFX_goal_USA_enter_the_fray
+		x = 3
+		y = 1
+		cost = 6
+		ai_will_do = {
+			factor = 400
+		}
+		bypass = {
+			is_in_faction = yes
+		}
+		mutually_exclusive = { focus = USA_continue_isolation }
+		prerequisite = { focus = USA_america_on_the_world_stage }
+		relative_position_id = USA_america_on_the_world_stage
+		completion_reward = {
+			add_ideas = USA_persued_interventionism
+		}
+	}
+
+	# American Panama
+	focus = {
+		id = USA_american_panama
+		icon = GFX_goal_USA_american_panama
+		x = 3
+		y = 1
+		cost = 6
+		available = {
+			is_subject = no
+			controls_state = 685
+		}
+		prerequisite = {
+			focus = USA_continue_isolation
+			focus = USA_new_interventionism
+		}
+		relative_position_id = USA_continue_isolation
+		completion_reward = {
+			add_state_core = 685
+			685 = {
+				add_building_construction = {
+					type = naval_base
+					level = 4
+					instant_build = yes
+					province = 7617
+				}
+				add_building_construction = {
+					type = air_base
+					level = 4
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = coastal_bunker
+					level = 2
+					instant_build = yes
+					province = {
+						all_provinces = yes
+						limit_to_naval_base = yes
+					}
+				}
+			}
+		}
+	}
+
+	# Anti-Imperialist Bulwark
+	focus = {
+		id = USA_anti_imperialist_bulwark
+		icon = GFX_goal_USA_anti_imperialism
+		x = -1
+		y = 1
+		cost = 6
+		ai_will_do = {
+			factor = 200
+		}
+		mutually_exclusive = { focus = USA_revive_old_alliances }
+		prerequisite = { focus = USA_new_interventionism }
+		bypass = {
+			is_faction_leader = yes
+		}
+		relative_position_id = USA_new_interventionism
+		completion_reward = {
+			create_faction = washington_accord
+			every_other_country = {
+				limit = {
+					OR = {
+						tag = ENG
+						tag = FRA
+						tag = ITA
+					}
+				}
+
+				add_opinion_modifier = {
+					target = ROOT
+					modifier = ROM_cut_off_relations
+				}
+				reverse_add_opinion_modifier = {
+					target = ROOT
+					modifier = ROM_cut_off_relations
+				}
+			}
+
+			unlock_decision_tooltip = USA_propose_alliance_with_brazil
+
+			unlock_decision_tooltip = USA_propose_alliance_with_brazil
+		}
+	}
+
+	# Revive Old Alliances
+	focus = {
+		id = USA_revive_old_alliances
+		icon = GFX_goal_USA_meet_with_entente
+		x = 3
+		y = 1
+		cost = 6
+		ai_will_do = {
+			factor = 200
+		}
+		available = {
+			is_in_faction = no
+		}
+		mutually_exclusive = { focus = USA_anti_imperialist_bulwark }
+		prerequisite = { focus = USA_new_interventionism }
+		bypass = {
+			is_in_faction_with = FRA
+		}
+		relative_position_id = USA_new_interventionism
+		completion_reward = {
+			every_other_country = {
+				limit = {
+					OR = {
+						tag = FRA
+						is_in_faction_with = FRA
+					}
+					is_subject = no
+				}
+				add_opinion_modifier = {
+					target = ROOT
+					modifier = CRU_improved_relations
+				}
+				reverse_add_opinion_modifier = {
+					target = ROOT
+					modifier = CRU_improved_relations
+				}
+			}
+		}
+	}
+
+	# Secure Cuba
+	focus = {
+		id = USA_secure_cuba
+		icon = GFX_goal_generic_attack_cuba
+		x = 1
+		y = 1
+		cost = 6
+		will_lead_to_war_with = CUB
+		available = {
+			country_exists = CUB
+			NOT = { is_in_faction_with = CUB }
+		}
+		bypass = {
+			OR = {
+				owns_state = 315
+				CUB = {
+					is_in_faction_with = ROOT
+					is_subject_of = ROOT
+					has_war_with = ROOT
+				}
+			}
+		}
+		prerequisite = {
+			focus = USA_anti_imperialist_bulwark
+			focus = USA_patrol_the_seas
+		}
+		relative_position_id = USA_patrol_the_seas
+		completion_reward = {
+			create_wargoal = {
+				target = CUB
+				type = annex_everything
+			}
+		}
+	}
+
+	# Avenge 1812
+	focus = {
+		id = USA_avenge_1812
+		icon = GFX_goal_operation_kingslayer
+		x = -1
+		y = 1
+		cost = 6
+		will_lead_to_war_with = ENG
+		ai_will_do = {
+			base = 0
+			modifier = {
+				add = 100
+				ENG = {
+					has_government = authoritarian_democrat
+				}
+			}
+			modifier = {
+				add = 80
+				ENG = {
+					has_government = paternal_autocrat
+				}
+			}
+			modifier = {
+				add = 100
+				ENG = {
+					has_war_with = FRA
+				}
+			}
+			modifier = {
+				add = 100
+				ENG = {
+					has_war_with = ITA
+				}
+			}
+			modifier = {
+				add = 100
+				country_exists = BEA
+			}
+			modifier = {
+				add = 1000
+				ENG = {
+					is_in_faction_with = GER
+				}
+			}
+			modifier = {
+				add = -200
+				ENG = {
+					has_war_with = GER
+				}
+			}
+		}
+		available = {
+			country_exists = ENG
+		}
+		bypass = {
+			OR = {
+				has_war_with = ENG
+				custom_trigger_tooltip = {
+					tooltip = USA_defeated_windsor_tt
+					OR = {
+						NOT = { country_exists = ENG }
+						EGL = {
+							exists = yes
+							is_subject_of = ROOT
+							is_in_faction_with = ROOT
+						}
+					}
+				}
+			}
+		}
+		prerequisite = { focus = USA_anti_imperialist_bulwark }
+		relative_position_id = USA_anti_imperialist_bulwark
+		completion_reward = {
+			create_wargoal = {
+				target = ENG
+				type = annex_everything
+			}
+		}
+	}
+
+	# Carribean Lake
+	focus = {
+		id = USA_carribean_lake
+		icon = GFX_goal_CUB_regional_diplomacy
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			OR = {
+				custom_trigger_tooltip = {
+					tooltip = USA_britain_owns_west_indies_tt
+					ENG = {
+						any_owned_state = {
+							OR = {
+								state = 689
+								state = 690
+								state = 691
+								state = 692
+								state = 693
+								state = 696
+								state = 308
+								state = 311
+							}
+						}
+					}
+				}
+				custom_trigger_tooltip = {
+					tooltip = USA_france_owns_west_indies_tt
+					FRA = {
+						any_owned_state = {
+							OR = {
+								state = 694
+								state = 310
+								state = 969
+							}
+						}
+					}
+				}
+				HAI = {
+					exists = yes
+					NOT = { is_subject_of = ROOT }
+				}
+				DOM = {
+					exists = yes
+					NOT = { is_subject_of = ROOT }
+				}
+			}
+		}
+		bypass = {
+			318 = { is_owned_by_ROOT_or_ally = yes }
+			319 = { is_owned_by_ROOT_or_ally = yes }
+		}
+		prerequisite = {
+			focus = USA_secure_cuba
+			focus = USA_avenge_1812
+		}
+		relative_position_id = USA_avenge_1812
+		completion_reward = {
+			if = {
+				limit = {
+					HAI = {
+						NOT = { is_subject_of = ROOT }
+					}
+				}
+				unlock_decision_tooltip = USA_demand_haiti
+			}
+			unlock_decision_tooltip = USA_demand_domincan_republic
+			unlock_decision_tooltip = USA_demand_british_west_indies
+			unlock_decision_tooltip = USA_demand_french_west_indies
+		}
+	}
+
+	# The Banana Republics
+	focus = {
+		id = USA_the_banana_republics
+		icon = GFX_goal_bananas
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			OR = {
+				country_exists = GUA
+				country_exists = CRU
+				country_exists = ELS
+				country_exists = NIC
+				country_exists = COS
+				country_exists = HON
+				country_exists = PAN
+			}
+		}
+		bypass = {
+			NOT = {
+				OR = {
+					country_exists = GUA
+					country_exists = CRU
+					country_exists = ELS
+					country_exists = NIC
+					country_exists = COS
+					country_exists = HON
+					country_exists = PAN
+				}
+			}
+		}
+		prerequisite = {
+			focus = USA_carribean_lake
+			focus = USA_fortify_puerto_rico
+		}
+		relative_position_id = USA_carribean_lake
+		completion_reward = {
+			custom_effect_tooltip = USA_the_banana_republics_tt
+		}
+	}
+
+	# Stop Radicalism in South America
+	focus = {
+		id = USA_stop_radicalism_in_south_america
+		icon = GFX_goal_USA_spirit_of_monroe
+		x = 0
+		y = 2
+		cost = 6
+		available = {
+			OR = {
+				custom_trigger_tooltip = {
+					tooltip = USA_argentina_radical_tt
+					ARG = {
+						exists = yes
+						has_democratic_government = no
+					}
+				}
+				custom_trigger_tooltip = {
+					tooltip = USA_chile_radical_tt
+					CHL = {
+						exists = yes
+						has_democratic_government = no
+					}
+				}
+				custom_trigger_tooltip = {
+					tooltip = USA_colombia_radical_tt
+					COL = {
+						exists = yes
+						has_democratic_government = no
+					}
+				}
+				custom_trigger_tooltip = {
+					tooltip = USA_ecuador_radical_tt
+					ECU = {
+						exists = yes
+						has_democratic_government = no
+					}
+				}
+				custom_trigger_tooltip = {
+					tooltip = USA_peru_radical_tt
+					PRU = {
+						exists = yes
+						has_democratic_government = no
+					}
+				}
+				custom_trigger_tooltip = {
+					tooltip = USA_brazil_radical_tt
+					NOT = { country_exists = BRA }
+					OR = {
+						country_exists = UBR
+						country_exists = BPS
+					}
+				}
+			}
+		}
+		bypass = {
+			ARG = {
+				has_democratic_government = yes
+			}
+			BRA = {
+				exists = yes
+			}
+			BPS = {
+				exists = no
+			}
+			CHL = {
+				has_democratic_government = yes
+			}
+			COL = {
+				has_democratic_government = yes
+			}
+			ECU = {
+				has_democratic_government = yes
+			}
+			PRU = {
+				has_democratic_government = yes
+			}
+			UBR = {
+				exists = no
+			}
+		}
+		prerequisite = {
+			focus = USA_fortify_puerto_rico
+			focus = USA_the_banana_republics
+		}
+		relative_position_id = USA_fortify_puerto_rico
+		completion_reward = {
+			custom_effect_tooltip = USA_stop_radicalism_in_south_america_tt
+		}
+	}
+
+	# Demand Greenland
+	focus = {
+		id = USA_demand_greenland
+		icon = GFX_goal_generic_demand_greenland
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			is_subject = no
+			NOT = {
+				owns_state = 101
+				owns_state = 911
+			}
+		}
+		bypass = {
+			101 = { is_owned_by_ROOT_or_ally = yes }
+			911 = { is_owned_by_ROOT_or_ally = yes }
+		}
+		prerequisite = {
+			focus = USA_anti_imperialist_bulwark
+			focus = USA_revive_old_alliances
+		}
+		relative_position_id = USA_anti_imperialist_bulwark
+		completion_reward = {
+			unlock_decision_tooltip = USA_offer_to_purchase_greenland
+		}
+	}
+
+	# Atlantic Outposts
+	focus = {
+		id = USA_atlantic_outposts
+		icon = GFX_goal_USA_atlantic_outposts
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			is_subject = no
+			NOT = {
+				OR = {
+					controls_state = 100
+					controls_state = 178
+					controls_state = 697
+					controls_state = 698
+				}
+			}
+		}
+		bypass = {
+			owns_state = 100
+			owns_state = 178
+			owns_state = 697
+			owns_state = 698
+		}
+		prerequisite = {
+			focus = USA_anti_imperialist_bulwark
+			focus = USA_revive_old_alliances
+		}
+		relative_position_id = USA_revive_old_alliances
+		completion_reward = {
+			custom_effect_tooltip = USA_purchase_atlantic_territories_tt
+		}
+	}
+
+	# Blood on the Emerald Isle
+	focus = {
+		id = USA_blood_on_the_emerald_isle
+		icon = GFX_IRE_peoples_army
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			NOT = {
+				country_exists = IRE
+			}
+			ENG = {
+				exists = yes
+				any_owned_state = {
+					is_core_of = IRE
+				}
+			}
+		}
+		bypass = {
+			IRE = {
+				OR = {
+					exists = yes
+					is_in_faction_with = ROOT
+					is_subject_of = ROOT
+				}
+			}
+		}
+		prerequisite = {
+			focus = USA_avenge_1812
+			focus = USA_demand_greenland
+		}
+		relative_position_id = USA_avenge_1812
+		completion_reward = {
+			custom_effect_tooltip = USA_blood_on_the_emerald_isle_tt
+
+			ENG = {
+				every_owned_state = {
+					limit = {
+						is_core_of = IRE
+						NOT = { is_core_of = ENG }
+					}
+
+					add_resistance = 20
+				}
+			}
+		}
+	}
+
+	# Stop the Valkist Menace
+	focus = {
+		id = USA_stop_the_valkist_menace
+		icon = GFX_goal_generic_attack_german_reich
+		x = 1
+		y = 1
+		cost = 6
+		will_lead_to_war_with = GER
+		available = {
+			country_exists = GER
+		}
+		bypass = {
+			has_war_with = GER
+			custom_trigger_tooltip = {
+				tooltip = USA_defeated_valkist_ger_tt
+				country_exists = GRP
+				GER = { exists = no }
+			}
+		}
+		prerequisite = { focus = USA_demand_greenland }
+		prerequisite = {
+			focus = USA_atlantic_outposts
+			focus = USA_entente_alliance
+		}
+		relative_position_id = USA_demand_greenland
+		completion_reward = {
+			create_wargoal = {
+				target = GER
+				type = annex_everything
+			}
+		}
+	}
+
+	# The Marshall Plan
+	focus = {
+		id = USA_the_marshall_plan
+		icon = GFX_goal_USA_marshall_plan
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			has_war = no
+			custom_trigger_tooltip = {
+				tooltip = USA_defeated_valkist_ger_tt
+				country_exists = GRP
+				GER = { exists = no }
+			}
+		}
+		prerequisite = { focus = USA_stop_the_valkist_menace }
+		relative_position_id = USA_stop_the_valkist_menace
+		completion_reward = {
+			custom_effect_tooltip = USA_the_marshall_plan_tt
+		}
+	}
+
+	# Villainify German Valkism
+	focus = {
+		id = USA_villainify_german_valkism
+		icon = GFX_goal_USA_no_valkist
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_war = no
+			custom_trigger_tooltip = {
+				tooltip = USA_defeated_valkist_ger_tt
+				country_exists = GRP
+				GER = { exists = no }
+			}
+		}
+		prerequisite = { focus = USA_stop_the_valkist_menace }
+		relative_position_id = USA_stop_the_valkist_menace
+		completion_reward = {
+			add_political_power = 100
+			if = {
+				limit = { country_exists = GRP }
+				GRP = {
+					add_ideas = USA_clamp_down_on_valkism
+				}
+			}
+		}
+	}
+
+	# Crush the Socialist Threat
+	focus = {
+		id = USA_crush_the_socialist_threat
+		icon = GFX_focus_attack_soviet
+		x = -1
+		y = 1
+		cost = 6
+		will_lead_to_war_with = SOV
+		available = {
+			country_exists = SOV
+		}
+		bypass = {
+			OR = {
+				NOT = { country_exists = SOV }
+				has_war_with = SOV
+			}
+		}
+		prerequisite = { focus = USA_the_marshall_plan }
+		prerequisite = { focus = USA_villainify_german_valkism }
+		relative_position_id = USA_villainify_german_valkism
+		completion_reward = {
+			create_wargoal = {
+				target = SOV
+				type = annex_everything
+			}
+		}
+	}
+
+	# Intervene in India
+	focus = {
+		id = USA_intervene_in_india
+		icon = GFX_PRF_new_india
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = USA_british_not_controls_india_tt
+				RAJ = {
+					exists = yes
+					NOT = { owns_state = 439 }
+					has_country_flag = RAJ_Ceylon
+				}
+				country_exists = IND
+			}
+			IND = {
+				has_war = yes
+				is_subject = no
+			}
+		}
+		bypass = {
+			custom_trigger_tooltip = {
+				tooltip = PHI_british_controls_india_tt
+				RAJ = {
+					exists = yes
+					owns_state = 439
+					NOT = {
+						has_country_flag = RAJ_Ceylon
+					}
+				}
+				NOT = { country_exists = IND }
+			}
+		}
+		prerequisite = { focus = USA_villainify_german_valkism }
+		relative_position_id = USA_villainify_german_valkism
+		completion_reward = {
+			army_experience = 15
+			send_equipment = {
+				target = IND
+				type = infantry_equipment
+				amount = 5000
+			}
+			send_equipment = {
+				target = IND
+				type = support_equipment
+				amount = 1000
+			}
+			IND = {
+				country_event = { id = usa.64 days = 2 }
+			}
+		}
+	}
+
+	# Giant of the West
+	focus = {
+		id = USA_giant_of_the_west
+		icon = GFX_goal_USA_sphere_of_influence
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			OR = {
+				country_exists = LIB
+				country_exists = SAF
+				country_exists = ZAF
+			}
+		}
+		bypass = {
+			LIB = {
+				OR = {
+					exists = no
+					is_subject_of = ROOT
+					is_in_faction_with = ROOT
+				}
+			}
+			SAF = {
+				OR = {
+					exists = no
+					is_subject_of = ROOT
+					is_in_faction_with = ROOT
+				}
+			}
+		}
+		prerequisite = { focus = USA_crush_the_socialist_threat }
+		prerequisite = { focus = USA_intervene_in_india }
+		relative_position_id = USA_crush_the_socialist_threat
+		completion_reward = {
+			create_wargoal = {
+				target = LIB
+				type = puppet_wargoal_focus
+			}
+			if = {
+				limit = {
+					country_exists = SAF
+				}
+				create_wargoal = {
+					target = SAF
+					type = puppet_wargoal_focus
+				}
+			}
+			if = {
+				limit = {
+					country_exists = ZAF
+				}
+				create_wargoal = {
+					target = ZAF
+					type = puppet_wargoal_focus
+				}
+			}
+		}
+	}
+
+	# Pacific Guardian
+	focus = {
+		id = USA_pacific_guardian
+		icon = GFX_goal_USA_pacific_guardian
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			OR = {
+				country_exists = BEA
+				country_exists = FIC
+			}
+		}
+		bypass = {
+			OR = {
+				country_exists = ICR
+				country_exists = CAM
+				country_exists = VIN
+				country_exists = LAO
+			}
+			country_exists = INS
+		}
+		prerequisite = {
+			focus = USA_strike_japan
+		}
+		relative_position_id = USA_crush_the_socialist_threat
+		completion_reward = {
+			custom_effect_tooltip = USA_pacific_guardian_tt
+		}
+	}
+
+	# Guam Forward Base
+	focus = {
+		id = USA_guam_forward_base
+		icon = GFX_goal_USA_guam_base
+		x = 0
+		y = 2
+		cost = 6
+		available = {
+			is_subject = no
+			controls_state = 638
+		}
+		prerequisite = {
+			focus = USA_carribean_lake
+		}
+		prerequisite = { focus = USA_blood_on_the_emerald_isle }
+		relative_position_id = USA_avenge_1812
+		completion_reward = {
+			638 = {
+				add_building_construction = {
+					type = naval_base
+					level = 4
+					instant_build = yes
+					province = 12140
+				}
+				add_building_construction = {
+					type = air_base
+					level = 4
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = coastal_bunker
+					level = 2
+					instant_build = yes
+					province = 12140
+				}
+			}
+		}
+	}
+
+	# Our Pacific Friend
+	focus = {
+		id = USA_our_pacific_friend
+		icon = GFX_goal_USA_philippines
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			PHI = {
+				exists = yes
+				is_in_faction = no
+				NOT = { has_war_with = ROOT }
+				has_elected_government = yes
+			}
+		}
+		bypass = {
+			PHI = {
+				OR = {
+					exists = no
+					is_in_faction_with = ROOT
+					is_subject_of = ROOT
+				}
+			}
+		}
+		prerequisite = { focus = USA_guam_forward_base }
+		relative_position_id = USA_guam_forward_base
+		completion_reward = {
+			unlock_decision_tooltip = USA_invite_philippines
+		}
+	}
+
+	# Strike Japan
+	focus = {
+		id = USA_strike_japan
+		icon = GFX_focus_attack_japan
+		x = 1
+		y = 1
+		cost = 6
+		will_lead_to_war_with = JAP
+		available = {
+			country_exists = JAP
+		}
+		bypass = {
+			JAP = {
+				OR = {
+					exists = no
+					has_war_with = ROOT
+					is_subject_of = ROOT
+					is_in_faction_with = ROOT
+				}
+			}
+		}
+		prerequisite = {
+			focus = USA_guam_forward_base
+			focus = USA_the_marshall_plan
+		}
+		relative_position_id = USA_guam_forward_base
+		completion_reward = {
+			create_wargoal = {
+				target = JAP
+				type = annex_everything
+			}
+		}
+	}
+
+	# Support the KMT
+	focus = {
+		id = USA_support_the_kuomintang
+		icon = GFX_goal_KMT_military_affairs_cmsn
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			KMT = {
+				country_exists = yes
+				has_war = yes
+				NOT = { has_war_with = ROOT }
+			}
+		}
+		bypass = {
+			KMT = {
+				OR = {
+					exists = no
+					has_capitulated = yes
+					is_subject = yes
+				}
+			}
+		}
+		prerequisite = { focus = USA_our_pacific_friend }
+		prerequisite = { focus = USA_strike_japan }
+		relative_position_id = USA_our_pacific_friend
+		completion_reward = {
+			army_experience = 15
+			send_equipment = {
+				target = KMT
+				type = infantry_equipment
+				amount = 5000
+			}
+			send_equipment = {
+				target = KMT
+				type = support_equipment
+				amount = 1000
+			}
+			KMT = {
+				country_event = { id = usa.64 days = 2 }
+			}
+		}
+	}
+
+	# Entente Alliance
+	focus = {
+		id = USA_entente_alliance
+		icon = GFX_focus_chi_reach_out_to_france
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			FRA = {
+				is_faction_leader = yes
+				NOT = { has_war_with = ROOT }
+			}
+		}
+		prerequisite = { focus = USA_revive_old_alliances }
+		relative_position_id = USA_revive_old_alliances
+		completion_reward = {
+			unlock_decision_tooltip = USA_join_entente
+		}
+	}
+
+	# The Arsenal of Democracy
+	focus = {
+		id = USA_the_arsenal_of_democracy
+		icon = GFX_focus_generic_the_giant_wakes
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			has_war = yes
+			has_capitulated = no
+		}
+		bypass = {
+			is_subject = yes
+		}
+		prerequisite = { focus = USA_entente_alliance }
+		relative_position_id = USA_entente_alliance
+		completion_reward = {
+			add_ideas = USA_arsenal_of_democracy_idea
+		}
+	}
+
+	# Longer Reach
+	focus = {
+		id = USA_longer_reach
+		icon = GFX_goal_generic_navy_battleship3alt
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_war = yes
+			has_capitulated = no
+		}
+		bypass = {
+			is_subject = yes
+		}
+		prerequisite = { focus = USA_entente_alliance }
+		relative_position_id = USA_entente_alliance
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = USA_persued_interventionism
+				add_idea = USA_persued_interventionism_1
+			}
+		}
+	}
+
+	# Entente Lend Lease
+	focus = {
+		id = USA_entente_lend_lease
+		icon = GFX_goal_generic_military_equipment
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			is_subject = no
+		}
+		prerequisite = { focus = USA_the_arsenal_of_democracy }
+		prerequisite = { focus = USA_longer_reach }
+		relative_position_id = USA_the_arsenal_of_democracy
+		completion_reward = {
+			custom_effect_tooltip = USA_entente_lend_lease_tt
+		}
+	}
+}

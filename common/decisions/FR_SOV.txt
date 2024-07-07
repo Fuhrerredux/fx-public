@@ -1,0 +1,10431 @@
+### Soviet Union by Drowse and fbruchmueller ###
+
+SOV_defense_of_the_revolution = {
+	SOV_construction_of_the_stavka = {
+
+		icon = generic_prepare_civil_war
+
+		available = {
+			OR = {
+				has_war = yes
+				threat > 0.3
+			}
+		}
+
+		visible = {
+		}
+
+		fire_only_once = yes
+
+		days_remove = 90
+
+		cost = 100
+
+		modifier = {
+			civilian_factory_use = 1
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_construction_of_the_stavka"
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SOV_construction_of_the_stavka"
+			add_command_power = 25
+		}
+
+		ai_will_do = {
+			base = 0
+			modifier = {
+				add = 50
+				num_of_factories > 5
+			}
+		}
+	}
+	SOV_train_new_generals = {
+
+		icon = GFX_decision_generic_army_support
+
+		available = {
+
+		}
+
+		visible = {
+		}
+
+		fire_only_once = yes
+
+		days_remove = 15
+		days_re_enable = 340
+
+		modifier = {
+			experience_gain_army_factor = 0.05
+		}
+		custom_cost_trigger = {
+			command_power > 29
+			has_political_power > 24
+		}
+		custom_cost_text = decision_cost_CP_30_pp_25
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_train_new_generals"
+			if = {
+				limit = { num_divisions < 10 }
+				army_experience = 5
+			}
+			else_if = {
+				limit = {
+					num_divisions > 9
+					num_divisions < 20
+				}
+				army_experience = 10
+			}
+			else_if = {
+				limit = {
+					num_divisions > 19
+				}
+				army_experience = 20
+			}
+
+			hidden_effect = { add_command_power = -30 add_political_power = -25 }
+		}
+
+		ai_will_do = {
+			base = 0
+			modifier = {
+				threat > 0.5
+				add = 2
+			}
+		}
+	}
+
+	SOV_the_motherland_needs_you = {
+
+		icon = GFX_decision_generic_ignite_civil_war
+
+		available = {
+			NOT = { has_country_flag = war_propaganda_campaign_running }
+			has_war_support < 0.7
+			OR = {
+				has_war = yes
+				threat > 0.75
+			}
+		}
+
+		visible = {
+		}
+
+		fire_only_once = no
+
+		days_remove = 365
+		days_re_enable = 180
+
+		cost = 100
+
+		modifier = {
+			conscription = 0.005
+			mobilization_speed = 0.05
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_the_motherland_needs_you"
+			set_country_flag = war_propaganda_campaign_running
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SOV_the_motherland_needs_you"
+			clr_country_flag = war_propaganda_campaign_running
+		}
+
+		ai_will_do = {
+			base = 0
+			modifier = {
+				add = 1
+				has_war_support < 0.4
+				has_war = yes
+			}
+		}
+	}
+}
+SOV_collectivization_decision = {
+
+	SOV_peasants_emigration_cities = {
+		icon = GFX_decision_revolt
+		allowed = { original_tag = SOV }
+		available = {
+			has_country_flag = SOV_internal_passport_flag
+		}
+		visible = {
+		}
+		activation = {
+			always = no
+		}
+		days_mission_timeout = 30
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 0
+		}
+
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout SOV_peasants_emigration_cities"
+			custom_effect_tooltip = SOV_minus_10collectivization
+			hidden_effect = {
+				add_offsite_building = {
+					type = collectivization_idea
+					level = -10
+				}
+				if = {
+					limit = {
+						check_variable = {
+							collectivization > 10
+						}
+					}
+					subtract_from_variable = {
+						var = collectivization
+						value = 10
+					}
+					else = {
+						set_variable = {
+							var = collectivization
+							value = 0
+						}
+					}
+				}
+				SOV_set_collectivization_var = yes
+			}
+		}
+	}
+	SOV_create_internal_passport = {
+		icon = GFX_decision_generic_operation
+		allowed = { original_tag = SOV }
+		available = {
+		}
+		visible = {
+			NOT = {
+				has_country_flag = SOV_internal_passport_flag
+			}
+			has_country_flag = SOV_peasants_are_fleeing
+		}
+
+		cost = 35
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 0
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_create_internal_passport"
+			set_country_flag = SOV_internal_passport_flag
+			custom_effect_tooltip = SOV_internal_passport
+		}
+	}
+
+	SOV_retreat_from_collectivization = {
+		icon = GFX_decision_generic_break_treaty
+		allowed = { original_tag = SOV }
+		available = {
+		}
+		visible = {
+		}
+
+		cost = 15
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 0
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_retreat_from_collectivization"
+			custom_effect_tooltip = SOV_ending_collectivization
+			add_stability = -0.15
+			decrease_ruling_party_popularity_by_15 = yes
+			hidden_effect = {
+				set_country_flag = SOV_ended_collectivization
+				clr_country_flag = SOV_collectivization_started
+				set_variable = {
+					var = collectivization
+					value = 0
+				}
+				add_offsite_building = {
+					type = collectivization_idea
+					level = -100
+				}
+				remove_ideas = SOV_collectivization
+			}
+		}
+	}
+	SOV_siberian_ural_method = {
+		icon = GFX_decision_generic_air
+		allowed = { original_tag = SOV }
+		available = {
+		}
+		visible = {
+		}
+
+		cost = 25
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_siberian_ural_method"
+			modify_country_flag = {
+				flag = SOV_kulak
+				value = 1
+			}
+			country_event = sovietpol.1201
+			set_country_flag = SOV_did_siberia_ural_method
+			custom_effect_tooltip = SOV_5collectivization
+			hidden_effect = {
+				add_to_variable = {
+					var = collectivization
+					value = 5
+				}
+				add_offsite_building = {
+					type = collectivization_idea
+					level = 5
+				}
+				SOV_set_collectivization_var = yes
+			}
+		}
+	}
+	SOV_intensifaction_of_repressive_measures = {
+		icon = GFX_decision_oppression
+		allowed = { original_tag = SOV }
+		available = {
+		}
+		visible = {
+		}
+
+		cost = 15
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_intensifaction_of_repressive_measures"
+			country_event = sovietpol.1202
+			set_country_flag = SOV_did_repressive_measures
+			custom_effect_tooltip = SOV_3collectivization
+			hidden_effect = {
+				add_to_variable = {
+					var = collectivization
+					value = 3
+				}
+				add_offsite_building = {
+					type = collectivization_idea
+					level = 3
+				}
+				SOV_set_collectivization_var = yes
+				country_event = {
+					id = sovietpol.1205
+					days = 5
+				}
+			}
+		}
+	}
+	SOV_creating_the_25_thousand = {
+		icon = GFX_decision_generic_political_discourse
+		allowed = { original_tag = SOV }
+		available = {
+		}
+		visible = {
+		}
+
+		cost = 25
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_creating_the_25_thousand"
+			custom_effect_tooltip = SOV_5collectivization
+			hidden_effect = {
+				add_to_variable = {
+					var = collectivization
+					value = 5
+				}
+				add_offsite_building = {
+					type = collectivization_idea
+					level = 5
+				}
+				SOV_set_collectivization_var = yes
+				country_event = {
+					id = sovietpol.1206
+					days = 15
+				}
+			}
+		}
+	}
+	SOV_Force_middle_peasants_into_collective_farms = {
+		icon = GFX_decision_generic_ignite_civil_war
+		allowed = { original_tag = SOV }
+		available = {
+			has_country_flag = SOV_did_repressive_measures
+		}
+		visible = {
+		}
+
+		cost = 35
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_Force_middle_peasants_into_collective_farms"
+			custom_effect_tooltip = SOV_7collectivization
+			hidden_effect = {
+				add_to_variable = {
+					var = collectivization
+					value = 7
+				}
+				add_offsite_building = {
+					type = collectivization_idea
+					level = 7
+				}
+				SOV_set_collectivization_var = yes
+			}
+		}
+	}
+	SOV_creating_secrete_reserves = {
+		icon = GFX_decision_generic_industry
+		allowed = { original_tag = SOV }
+		available = {
+		}
+		visible = {
+			has_country_flag = SOV_killing_kulak_time
+		}
+
+		cost = 15
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_creating_secrete_reserves"
+			custom_effect_tooltip = SOV_3collectivization
+			hidden_effect = {
+				add_to_variable = {
+					var = collectivization
+					value = 3
+				}
+				add_offsite_building = {
+					type = collectivization_idea
+					level = 3
+				}
+				SOV_set_collectivization_var = yes
+			}
+		}
+	}
+	SOV_seizing_kulak_savings = {
+		icon = GFX_decision_generic_scorched_earth
+		allowed = { original_tag = SOV }
+		available = {
+		}
+		visible = {
+			has_country_flag = SOV_killing_kulak_time
+		}
+
+		cost = 25
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_seizing_kulak_savings"
+			custom_effect_tooltip = SOV_5collectivization
+			hidden_effect = {
+				add_to_variable = {
+					var = collectivization
+					value = 5
+				}
+				add_offsite_building = {
+					type = collectivization_idea
+					level = 5
+				}
+				SOV_set_collectivization_var = yes
+			}
+		}
+	}
+	SOV_exiling_kulaks = {
+		icon = GFX_decision_generic_air
+		allowed = { original_tag = SOV }
+		available = {
+		}
+		visible = {
+			has_country_flag = SOV_killing_kulak_time
+		}
+
+		cost = 25
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_exiling_kulaks"
+			custom_effect_tooltip = SOV_5collectivization
+			hidden_effect = {
+				add_to_variable = {
+					var = collectivization
+					value = 5
+				}
+				add_offsite_building = {
+					type = collectivization_idea
+					level = 5
+				}
+				SOV_set_collectivization_var = yes
+			}
+		}
+	}
+	SOV_strengthening_border_guards = {
+		icon = GFX_decision_generic_civil_support
+		allowed = { original_tag = SOV }
+		available = {
+		}
+		visible = {
+			has_country_flag = SOV_killing_kulak_time
+		}
+
+		cost = 25
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_strengthening_border_guards"
+			custom_effect_tooltip = SOV_3collectivization
+			hidden_effect = {
+				add_to_variable = {
+					var = collectivization
+					value = 3
+				}
+				add_offsite_building = {
+					type = collectivization_idea
+					level = 3
+				}
+				SOV_set_collectivization_var = yes
+			}
+		}
+	}
+	SOV_finding_kulaks = {
+		icon = GFX_decision_generic_operation
+		allowed = { original_tag = SOV }
+		available = {
+		}
+		visible = {
+			has_country_flag = SOV_killing_kulak_time
+		}
+
+		cost = 25
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_finding_kulaks"
+			custom_effect_tooltip = SOV_3collectivization
+			hidden_effect = {
+				add_to_variable = {
+					var = collectivization
+					value = 3
+				}
+				add_offsite_building = {
+					type = collectivization_idea
+					level = 3
+				}
+				SOV_set_collectivization_var = yes
+			}
+		}
+	}
+	SOV_Liquidating_unsuccessful_collective_farms = {
+		icon = GFX_decision_ger_mefo_bills
+		allowed = { original_tag = SOV }
+		available = {
+		}
+		visible = {
+		}
+
+		cost = 10
+		days_re_enable = 180
+
+		fire_only_once = no
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_Liquidating_unsuccessful_collective_farms"
+			custom_effect_tooltip = SOV_minus_5collectivization
+			hidden_effect = {
+				add_offsite_building = {
+					type = collectivization_idea
+					level = -5
+				}
+				if = {
+					limit = {
+						check_variable = {
+							collectivization > 5
+						}
+					}
+					subtract_from_variable = {
+						var = collectivization
+						value = 5
+					}
+					else = {
+						set_variable = {
+							var = collectivization
+							value = 0
+						}
+					}
+				}
+				SOV_set_collectivization_var = yes
+			}
+		}
+	}
+}
+SOV_policy = {
+	SOV_exile_writers = {
+		icon = GFX_decision_oppression
+		allowed = { original_tag = SOV }
+		available = {
+		}
+		visible = {
+			has_government = vanguardist
+		}
+
+		cost = 100
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_exile_writers"
+			increase_ruling_party_popularity_by_10 = yes
+			hidden_effect = {
+				country_event = {
+					id = sovietpol.1328
+					days = 50
+				}
+			}
+		}
+	}
+
+	SOV_five_year_plans_decision = {
+		icon = GFX_decision_generic_tank
+		allowed = { original_tag = SOV }
+		available = {
+		}
+		visible = {
+			OR = {
+				has_country_flag = SOV_Yezhov_in_charge
+				has_country_flag = SOV_Voroshilov_in_charge
+			}
+		}
+
+		cost = 100
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 15
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_five_year_plans_decision"
+			activate_mission = SOV_Five_Year_mission
+			set_country_flag = SOV_five_year_plan
+			SOV_reduce_industrilization = yes
+		}
+	}
+	SOV_starting_collectivization = {
+		icon = GFX_decision_generic_tank
+		allowed = { original_tag = SOV }
+		available = {
+		}
+		visible = {
+			OR = {
+				has_country_flag = SOV_Yezhov_in_charge
+				has_country_flag = SOV_Voroshilov_in_charge
+			}
+		}
+
+		cost = 100
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 15
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_starting_collectivization"
+			custom_effect_tooltip = SOV_starting_collectivization
+			set_country_flag = SOV_collectivization_started
+			set_country_flag = {
+				flag = SOV_kulak
+				value = 0
+			}
+			add_ideas = SOV_collectivization
+			hidden_effect = {
+				country_event = {
+					id = sovietpol.1207
+					days = 365
+				}
+				country_event = {
+					id = sovietpol.1230
+					days = 50
+				}
+				country_event = {
+					id = sovietpol.1236
+					days = 25
+				}
+				random_other_country = {
+					limit = {
+						is_ai = yes
+					}
+					country_event = sovietpol.1213
+				}
+			}
+		}
+	}
+
+	SOV_expansion_of_gulags = {
+		icon = GFX_decision_generic_prepare_civil_war
+		allowed = { original_tag = SOV }
+		available = {
+		}
+		visible = {
+			has_government = vanguardist
+		}
+
+		cost = 50
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_expansion_of_gulags"
+			add_popularity = {
+				ideology = vanguardist
+				popularity = 0.05
+			}
+			hidden_effect = {
+				country_event = {
+					id = sovietpol.1322
+					months = 3
+				}
+			}
+		}
+	}
+
+	SOV_work_discipline = {
+		icon = GFX_decision_generic_political_discourse
+		allowed = { original_tag = SOV }
+		available = {
+			has_completed_focus = SOV_carrot_and_stick_reforms
+		}
+		visible = {
+			has_country_flag = SOV_Yezhov_in_charge
+		}
+
+		cost = 50
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 15
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_work_discipline"
+			add_stability = 0.05
+		}
+	}
+	SOV_increase_welfare = {
+		icon = GFX_decision_generic_nationalism
+		allowed = { original_tag = SOV }
+		available = {
+			has_completed_focus = SOV_carrot_and_stick_reforms
+		}
+		visible = {
+			has_country_flag = SOV_Yezhov_in_charge
+		}
+
+		cost = 80
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 15
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_increase_welfare"
+			add_popularity = {
+				ideology = vanguardist
+				popularity = 0.08
+			}
+		}
+	}
+	SOV_rationning = {
+		icon = GFX_decision_ger_military_buildup
+		allowed = { original_tag = SOV }
+		available = {
+		}
+		visible = {
+			has_country_flag = SOV_Voroshilov_in_charge
+		}
+		remove_trigger = {
+			has_country_flag = SOV_rationing_ended
+		}
+		cost = 50
+
+		days_remove = -1
+
+		ai_will_do = {
+			factor = 15
+		}
+
+		modifier = {
+			consumer_goods_factor = -0.05
+			stability_factor = -0.10
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_rationning"
+			set_country_flag = SOV_rationing
+			clr_country_flag = SOV_rationing_ended
+		}
+	}
+	SOV_ending_rationing = {
+		icon = GFX_decision_ger_military_buildup
+		allowed = { original_tag = SOV }
+		available = {
+		}
+		visible = {
+			has_country_flag = SOV_rationing
+		}
+		cost = 50
+
+		ai_will_do = {
+			factor = 0
+			modifier = {
+				add = 20
+				has_stability < 0.5
+			}
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_ending_rationing"
+			set_country_flag = SOV_rationing_ended
+			clr_country_flag = SOV_rationing
+		}
+	}
+	SOV_collective_farm_market = {
+		icon = GFX_decision_generic_operation
+		allowed = { original_tag = SOV }
+		available = {
+			has_completed_focus = SOV_collectivization_focus
+		}
+		visible = {
+			has_country_flag = SOV_ended_collectivization
+		}
+
+		cost = 150
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_collective_farm_market"
+			add_stability = 0.03
+			add_offsite_building = { type = industrial_complex level = 1 }
+		}
+	}
+
+	SOV_fiscal_conservatism = {
+		icon = GFX_decision_generic_political_discourse
+		allowed = { original_tag = SOV }
+		available = {
+		}
+		visible = {
+			has_country_flag = SOV_molotov
+		}
+
+		cost = 50
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_fiscal_conservatism"
+			add_stability = 0.05
+		}
+	}
+
+	SOV_moscow_pool = {
+		icon = GFX_decision_ger_mefo_bills
+		allowed = { original_tag = SOV }
+		available = {
+		}
+		visible = {
+			OR = {
+				has_government = libertarian_socialist
+				has_country_flag = SOV_construction_aborted
+			}
+		}
+
+		cost = 50
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_moscow_pool"
+			increase_ruling_party_popularity_by_5 = yes
+		}
+	}
+	SOV_apartments_free = {
+		icon = GFX_decision_generic_nationalism
+		allowed = { original_tag = SOV }
+		available = {
+		}
+		visible = {
+			has_country_flag = SOV_shliapnikov_victory
+		}
+
+		cost = 100
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_apartments_free"
+			increase_ruling_party_popularity_by_5 = yes
+		}
+	}
+	SOV_building_appartments = {
+		icon = GFX_decision_generic_construction
+		allowed = { original_tag = SOV }
+		available = {
+		}
+		visible = {
+			has_country_flag = SOV_shliapnikov_victory
+		}
+
+		cost = 60
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_building_appartments"
+			add_popularity = {
+				ideology = libertarian_socialist
+				popularity = 0.03
+			}
+			add_stability = 0.03
+		}
+	}
+	SOV_special_trams_trains_for_workers = {
+		icon = GFX_decision_ger_mefo_bills
+		allowed = { original_tag = SOV }
+		available = {
+		}
+		visible = {
+			has_country_flag = SOV_shliapnikov_victory
+		}
+
+		cost = 25
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_special_trams_trains_for_workers"
+			add_stability = 0.05
+		}
+	}
+	SOV_enforcing_party_discipline = {
+		icon = GFX_decision_oppression
+		allowed = { original_tag = SOV }
+		available = {
+		}
+		visible = {
+			has_country_flag = SOV_kirov_victory
+		}
+
+		cost = 100
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_enforcing_party_discipline"
+			add_popularity = {
+				ideology = libertarian_socialist
+				popularity = -0.05
+			}
+			add_popularity = {
+				ideology = vanguardist
+				popularity = -0.05
+			}
+		}
+	}
+	SOV_loyal_trade_union = {
+		icon = GFX_decision_generic_political_discourse
+		allowed = { original_tag = SOV }
+		available = {
+		}
+		visible = {
+			has_country_flag = SOV_kirov_victory
+		}
+
+		cost = 60
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_loyal_trade_union"
+			add_popularity = {
+				ideology = collectivist
+				popularity = 0.03
+			}
+			add_stability = 0.03
+		}
+	}
+	SOV_policy_of_tolerance_in_arts = {
+		icon = GFX_decision_generic_nationalism
+		allowed = { original_tag = SOV }
+		available = {
+		}
+		visible = {
+			has_country_flag = SOV_kirov_victory
+		}
+
+		cost = 50
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_policy_of_tolerance_in_arts"
+			add_popularity = {
+				ideology = collectivist
+				popularity = 0.05
+			}
+		}
+	}
+	SOV_healthcare = {
+		icon = GFX_decision_hospital
+		allowed = { original_tag = SOV }
+		available = {
+		}
+		visible = {
+			has_country_flag = SOV_Tukhachevsky_in_charge
+		}
+
+		cost = 80
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_healthcare"
+			add_popularity = {
+				ideology = collectivist
+				popularity = 0.03
+			}
+			add_stability = 0.05
+		}
+	}
+	SOV_increasing_pensions = {
+		icon = GFX_decision_ger_mefo_bills
+		allowed = { original_tag = SOV }
+		available = {
+		}
+		visible = {
+			has_country_flag = SOV_Tukhachevsky_in_charge
+		}
+
+		cost = 50
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_increasing_pensions"
+			add_popularity = {
+				ideology = collectivist
+				popularity = 0.05
+			}
+		}
+	}
+	SOV_radio_speeches = {
+		icon = GFX_decision_generic_nationalism
+		allowed = { original_tag = SOV }
+		available = {
+		}
+		visible = {
+			has_country_flag = SOV_Tukhachevsky_in_charge
+		}
+
+		cost = 50
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_radio_speeches"
+			add_popularity = {
+				ideology = collectivist
+				popularity = 0.05
+			}
+		}
+	}
+	SOV_supporting_art = {
+		icon = GFX_decision_generic_nationalism
+		allowed = { original_tag = SOV }
+		available = {
+		}
+		visible = {
+			has_country_flag = SOV_trotsky_in_charge
+		}
+
+		cost = 30
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_supporting_art"
+			add_popularity = {
+				ideology = collectivist
+				popularity = 0.03
+			}
+		}
+	}
+	SOV_fight_against_racism = {
+		icon = GFX_decision_generic_political_discourse
+		allowed = { original_tag = SOV }
+		available = {
+		}
+		visible = {
+			has_country_flag = SOV_trotsky_in_charge
+		}
+
+		cost = 50
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_fight_against_racism"
+			add_stability = 0.05
+		}
+	}
+	SOV_strengthen_democracy_at_work = {
+		icon = GFX_decision_generic_operation
+		allowed = { original_tag = SOV }
+		available = {
+		}
+		visible = {
+			has_country_flag = SOV_trotsky_in_charge
+		}
+
+		cost = 100
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_strengthen_democracy_at_work"
+			add_stability = 0.05
+			add_popularity = {
+				ideology = collectivist
+				popularity = 0.05
+			}
+		}
+	}
+	SOV_strengthen_local_party_iniative = {
+		icon = GFX_decision_generic_operation
+		allowed = { original_tag = SOV }
+		available = {
+		}
+		visible = {
+			has_country_flag = SOV_bukharin_in_power
+		}
+
+		cost = 80
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_strengthen_local_party_iniative"
+			add_stability = 0.05
+			add_popularity = {
+				ideology = libertarian_socialist
+				popularity = 0.03
+			}
+		}
+	}
+	SOV_promote_socialism = {
+		icon = GFX_decision_generic_political_discourse
+		allowed = { original_tag = SOV }
+		available = {
+		}
+		visible = {
+			has_country_flag = SOV_bukharin_in_power
+		}
+
+		cost = 50
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_promote_socialism"
+			add_popularity = {
+				ideology = libertarian_socialist
+				popularity = 0.05
+			}
+		}
+	}
+	SOV_support_AUW = {
+		icon = GFX_decision_generic_political_discourse
+		allowed = { original_tag = SOV }
+		available = {
+		}
+		visible = {
+			has_country_flag = SOV_bukharin_in_power
+		}
+
+		cost = 30
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_support_AUW"
+			add_popularity = {
+				ideology = libertarian_socialist
+				popularity = 0.03
+			}
+		}
+	}
+	SOV_ending_conscription = {
+		icon = GFX_decision_generic_prepare_civil_war
+		allowed = { original_tag = SOV }
+		available = {
+		}
+		visible = {
+		}
+
+		cost = 25
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_ending_conscription"
+			add_ideas = volunteer_only
+		}
+	}
+	SOV_construction_palace_soviets = {
+		icon = GFX_decision_ger_mefo_bills
+		allowed = { original_tag = SOV }
+		available = {
+			num_of_civilian_factories_available_for_projects > 2
+		}
+		visible = {
+			OR = {
+				has_government = vanguardist
+				has_government = collectivist
+			}
+			NOT = {
+				has_country_flag = SOV_construction_aborted
+			}
+		}
+		modifier = {
+			civilian_factory_use = 3
+		}
+		cost = 100
+		days_remove = 600
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 10
+			modifier = {
+				factor = 5
+				num_of_factories > 15
+			}
+			modifier = {
+				factor = 0
+				has_war = yes
+			}
+		}
+		remove_trigger = {
+			has_country_flag = SOV_construction_aborted
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_construction_palace_soviets"
+			set_country_flag = SOV_construction
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SOV_construction_palace_soviets"
+			increase_ruling_party_popularity_by_10 = yes
+			add_stability = 0.10
+			clr_country_flag = SOV_construction
+			hidden_effect = {
+				news_event = {
+					id = fxnews.37
+					days = 1
+				}
+			}
+		}
+	}
+
+	SOV_aborting_construction = {
+		icon = GFX_decision_ger_mefo_bills
+		allowed = { original_tag = SOV }
+		available = {
+		}
+		visible = {
+			has_country_flag = SOV_construction
+		}
+
+		cost = 10
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 5
+			modifier = {
+				factor = 100
+				has_war = yes
+			}
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_aborting_construction"
+			set_country_flag = SOV_construction_aborted
+		}
+	}
+}
+SOV_great_patriotic_war_decision = {
+	SOV_unite_the_left = {
+		icon = GFX_decision_generic_nationalism
+		allowed = { original_tag = SOV }
+		available = {
+		}
+		visible = {
+		}
+
+		cost = 10
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 100
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_unite_the_left"
+			custom_effect_tooltip = SOV_uniting_the_left
+			if = {
+				limit = {
+					has_government = libertarian_socialist
+				}
+				set_temp_variable = { coalition_partner_var = token:vanguardist }
+				add_to_coalition = yes
+				set_temp_variable = { coalition_partner_var = token:collectivist }
+				add_to_coalition = yes
+			}
+			if = {
+				limit = {
+					has_government = collectivist
+				}
+				set_temp_variable = { coalition_partner_var = token:vanguardist }
+				add_to_coalition = yes
+				set_temp_variable = { coalition_partner_var = token:libertarian_socialist }
+				add_to_coalition = yes
+			}
+			if = {
+				limit = {
+					has_government = vanguardist
+				}
+				set_temp_variable = { coalition_partner_var = token:libertarian_socialist }
+				add_to_coalition = yes
+				set_temp_variable = { coalition_partner_var = token:collectivist }
+				add_to_coalition = yes
+			}
+		}
+	}
+
+	SOV_lessing_production_standards = {
+		icon = GFX_decision_ger_mefo_bills
+		allowed = { original_tag = SOV }
+		available = {
+		}
+		visible = {
+		}
+
+		cost = 25
+
+		fire_only_once = yes
+		days_remove = 35
+		ai_will_do = {
+			factor = 100
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SOV_lessing_production_standards"
+			swap_ideas = {
+				remove_idea = SOV_great_patriotic_war
+				add_idea = SOV_great_patriotic_war_spamming_equipment
+			}
+		}
+	}
+	SOV_mobilization = {
+		icon = GFX_decision_generic_tank
+		allowed = { original_tag = SOV }
+		available = {
+		}
+		visible = {
+			NOT = {
+				has_idea = tot_economic_mobilisation
+			}
+		}
+
+		cost = 25
+
+		fire_only_once = yes
+		days_remove = 35
+		ai_will_do = {
+			factor = 100
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SOV_mobilization"
+			add_ideas = tot_economic_mobilisation
+		}
+	}
+	SOV_relocate_industry_from_moscow = {
+
+		icon = generic_construction
+
+		highlight_states = {
+			state = 219
+		}
+
+		available = {
+			219 = { #Moscow
+				is_owned_and_controlled_by = SOV
+				arms_factory > 0
+				industrial_complex > 2
+			}
+			407 = { is_owned_and_controlled_by = SOV }
+			401 = { is_owned_and_controlled_by = SOV } #Magnitogorsk
+		}
+
+		fire_only_once = yes
+
+		cost = 25
+		days_remove = 15
+
+		ai_will_do = {
+			factor = 200
+		}
+
+		visible = {
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SOV_relocate_industry_from_moscow"
+			if = {
+				limit = {
+					controls_state = 219
+				}
+				219 = { #Moscow
+					remove_building = {
+						type = arms_factory
+						level = 1
+					}
+					remove_building = {
+						type = industrial_complex
+						level = 3
+					}
+				}
+				407 = { #Zlatoust
+					add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = arms_factory
+						level = 1
+						instant_build = yes
+					}
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+
+					hidden_effect = {
+						damage_building = { type = arms_factory damage = 0.3 }
+						damage_building = { type = industrial_complex damage = 0.1 }
+					}
+				}
+				401 = { #Magnitogorsk
+					add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = industrial_complex
+						level = 2
+						instant_build = yes
+					}
+
+					hidden_effect = {
+						damage_building = { type = industrial_complex damage = 0.1 }
+					}
+				}
+				custom_effect_tooltip = relocate_industry_repair
+			}
+		}
+	}
+	SOV_relocate_industry_from_leningrad = {
+
+		icon = generic_construction
+
+		highlight_states = {
+			state = 195
+		}
+
+		available = {
+			195 = { #Leningrad
+				is_owned_and_controlled_by = SOV
+				arms_factory > 0
+				industrial_complex > 0
+			}
+			399 = { is_owned_and_controlled_by = SOV }
+		}
+
+		fire_only_once = yes
+
+		cost = 25
+		days_remove = 15
+
+		modifier = {
+
+		}
+
+		ai_will_do = {
+			factor = 200
+		}
+
+		visible = {
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SOV_relocate_industry_from_leningrad"
+			if = {
+				limit = {
+					controls_state = 195
+				}
+				195 = { #Leningrad
+					remove_building = {
+						type = arms_factory
+						level = 1
+					}
+					remove_building = {
+						type = industrial_complex
+						level = 1
+					}
+				}
+				399 = {
+					add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = arms_factory
+						level = 1
+						instant_build = yes
+					}
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+					hidden_effect = {
+						damage_building = { type = arms_factory damage = 0.2 }
+						damage_building = { type = industrial_complex damage = 0.1 }
+					}
+				}
+				custom_effect_tooltip = relocate_industry_repair
+			}
+		}
+	}
+	SOV_fortifying_moscow = {
+
+		icon = GFX_decision_fortress
+
+		highlight_states = {
+			state = 219
+		}
+
+		available = {
+			219 = { is_owned_and_controlled_by = SOV }
+			num_of_civilian_factories_available_for_projects > 2
+		}
+
+		fire_only_once = yes
+
+		cost = 25
+		days_remove = 70
+
+		ai_will_do = {
+			factor = 200
+		}
+
+		modifier = {
+			civilian_factory_use = 3
+		}
+
+		visible = {
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SOV_fortifying_moscow"
+			219 = {
+				custom_effect_tooltip = SOV_defense_of_moscow_forts
+				hidden_effect = {
+					add_building_construction = {
+						type = bunker
+						level = 3
+						province = 3391
+						instant_build = yes
+					}
+					add_building_construction = {
+						type = bunker
+						level = 3
+						province = 6414
+						instant_build = yes
+					}
+					add_building_construction = {
+						type = bunker
+						level = 3
+						province = 9348
+						instant_build = yes
+					}
+					add_building_construction = {
+						type = bunker
+						level = 3
+						province = 301
+						instant_build = yes
+					}
+					add_building_construction = {
+						type = bunker
+						level = 3
+						province = 9378
+						instant_build = yes
+					}
+					add_building_construction = {
+						type = bunker
+						level = 3
+						province = 6283
+						instant_build = yes
+					}
+					add_building_construction = {
+						type = bunker
+						level = 3
+						province = 3259
+						instant_build = yes
+					}
+					add_building_construction = {
+						type = bunker
+						level = 3
+						province = 11282
+						instant_build = yes
+					}
+					add_building_construction = {
+						type = bunker
+						level = 4
+						province = 6380
+						instant_build = yes
+					}
+				}
+			}
+		}
+	}
+
+	SOV_no_time_for_luxus = {
+		icon = GFX_decision_generic_industry
+		allowed = { original_tag = SOV }
+		available = {
+		}
+		visible = {
+		}
+
+		cost = 10
+		days_remove = -1
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 100
+		}
+
+		modifier = {
+			production_speed_arms_factory_factor = 0.10
+			industrial_capacity_factory = 0.10
+			stability_factor = -0.10
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_no_time_for_luxus"
+		}
+		remove_trigger = {
+			has_war = no
+		}
+	}
+}
+
+SOV_industry_decision = {
+	SOV_breakneck_industrialization = {
+
+		icon = GFX_decision_generic_tank
+
+		available = {
+		}
+		visible = {
+			OR = {
+				has_government = vanguardist
+				has_country_flag = SOV_trotsky_in_charge
+			}
+			has_country_flag = SOV_lacking_industrialization_flag
+		}
+
+		days_remove = 180
+		fire_only_once = yes
+
+		modifier = {
+			stability_weekly = -0.005
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SOV_breakneck_industrialization"
+			SOV_reduce_industrilization = yes
+		}
+
+
+		ai_will_do = {
+			factor = 200
+		}
+	}
+	SOV_Five_Year_mission = {
+
+		allowed = {
+			always = no
+		}
+
+		icon = GFX_ger_mefo_bills
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = has_five_year_plan
+				has_five_year_plan = yes
+			}
+			num_of_factories > 120
+			has_country_flag = SOV_moscow_metro
+			has_country_flag = SOV_mts_created
+		}
+
+
+		selectable_mission = yes
+		days_mission_timeout = 1825
+		is_good = no
+		fire_only_once = yes
+
+		cancel_trigger = {
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_Five_Year_mission"
+			custom_effect_tooltip = SOV_Succes_Five_Year_Plan
+			add_political_power = 100
+			add_stability = 0.10
+		}
+
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout SOV_Five_Year_mission"
+			custom_effect_tooltip = SOV_Failure_Five_Year_Plan
+			add_political_power = -100
+			add_stability = -0.10
+		}
+
+		ai_will_do = {
+			factor = 200
+		}
+	}
+	SOV_building_moscow_metro = {
+
+		icon = GFX_decision_generic_construction
+
+		available = {
+			has_country_flag = SOV_regime_stabilized
+			num_of_civilian_factories_available_for_projects > 1
+			219 = {
+				is_owned_by = SOV
+			}
+			has_completed_focus = SOV_railway_expansion
+		}
+		visible = {
+		}
+
+		highlight_states = {
+			state = 219
+		}
+
+		cost = 25
+		days_remove = 180
+
+		modifier = {
+			civilian_factory_use = 2
+		}
+		fire_only_once = yes
+		ai_will_do = {
+			factor = 5
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SOV_building_moscow_metro"
+			219 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+			set_country_flag = SOV_moscow_metro
+		}
+	}
+	SOV_creating_the_MTS = {
+		icon = GFX_decision_generic_civil_support
+		allowed = { original_tag = SOV }
+		available = {
+			has_country_flag = SOV_regime_stabilized
+			has_completed_focus = SOV_mechanization
+		}
+		visible = {
+		}
+
+		cost = 80
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_creating_the_MTS"
+			add_stability = 0.03
+			increase_ruling_party_popularity_by_5 = yes
+			set_country_flag = SOV_mts_created
+		}
+	}
+	SOV_further_industrialization = {
+
+		icon = generic_industry
+
+		available = {
+			has_country_flag = SOV_regime_stabilized
+		}
+
+		visible = {
+		}
+
+		cost = 50
+
+		fire_only_once = no
+		days_remove = 210
+		days_re_enable = 365
+		modifier = {
+			production_speed_buildings_factor = 0.1
+		}
+
+		ai_will_do = {
+			factor = 5
+		}
+	}
+	SOV_support_consumer_good_industry = {
+		icon = GFX_decision_generic_construction
+		allowed = { original_tag = SOV }
+		available = {
+		}
+		visible = {
+			has_country_flag = SOV_Tukhachevsky_in_charge
+		}
+
+		cost = 150
+		days_remove = 35
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SOV_support_consumer_good_industry"
+			add_offsite_building = { type = industrial_complex level = 2 }
+		}
+	}
+	SOV_helping_collectivized_farms = {
+		icon = GFX_decision_generic_decision
+		allowed = { original_tag = SOV }
+		available = {
+			has_country_flag = SOV_regime_stabilized
+			has_country_flag = SOV_collectivization_started
+		}
+		visible = {
+			has_government = vanguardist
+		}
+
+		cost = 60
+
+		fire_only_once = yes
+		days_re_enable = 365
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_helping_collectivized_farms"
+			add_stability = 0.03
+			add_popularity = {
+				ideology = vanguardist
+				popularity = 0.03
+			}
+		}
+	}
+}
+
+
+SOV_foreign_decision = {
+	SOV_brazil_civil_war_support = {
+		icon = ger_military_buildup
+		targets = { UBR }
+		target_trigger = {
+			country_exists = UBR
+			UBR = { has_war = yes }
+		}
+		available = {
+			country_exists = UBR
+			UBR = {
+				OR = {
+					has_war_with = BRA
+					has_war_with = BPS
+				}
+			}
+		}
+		visible = {
+			UBR = {
+				OR = {
+					has_war_with = BRA
+					has_war_with = BPS
+				}
+			}
+		}
+		complete_effect = {
+			army_experience = 5
+			send_equipment = {
+				target = FROM
+				type = infantry_equipment
+				amount = 1000
+			}
+			FROM = { country_event = { id = soviet.31 days = 2 } }
+		}
+		custom_cost_trigger = {
+			has_equipment = { infantry_equipment > 1999 }
+		}
+		custom_cost_text = 2000_infantry_equipment_1
+		ai_will_do = {
+			factor = 1000
+		}
+	}
+	SOV_supporting_spain = {
+		icon = ger_military_buildup
+		targets = { SPA }
+		target_trigger = {
+			country_exists = SPA
+		}
+		available = {
+			country_exists = SPA
+			SPA = {
+				OR = {
+					has_war_with = SPR
+					has_war_with = SPM
+					has_war_with = SPF
+				}
+			}
+		}
+		visible = {
+			SPA = {
+				OR = {
+					has_war_with = SPR
+					has_war_with = SPM
+					has_war_with = SPF
+				}
+			}
+		}
+		custom_cost_trigger = {
+			has_equipment = { infantry_equipment > 1999 }
+		}
+		custom_cost_text = 2000_infantry_equipment_1
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_supporting_spain target: [From.GetName]"
+			send_equipment = { target = SPA type = infantry_equipment amount = 2000 }
+			FROM = { country_event = { id = soviet.31 days = 2 } }
+		}
+		ai_will_do = {
+			factor = 1000
+		}
+	}
+
+	SOV_Germany = {
+		war_with_on_remove = GER
+		icon = generic_decision
+
+		target_trigger = {
+			FROM = {
+				tag = GER
+			}
+		}
+
+		allowed = {
+		}
+
+		available = {
+			NOT = {
+				has_country_flag = SOV_lacking_industrialization_flag
+			}
+		}
+
+		visible = {
+			original_tag = SOV
+			GER = {
+				exists = yes
+				NOT = {
+					is_in_faction_with = SOV
+				}
+			}
+			OR = {
+				FROM = {
+					any_neighbor_country = {
+						OR = {
+							is_subject_of = SOV
+							is_in_faction_with = SOV
+							tag = SOV
+						}
+					}
+				}
+				VRS = {
+					is_puppet_of = GER
+				}
+			}
+		}
+
+		fire_only_once = yes
+
+		days_remove = 30
+
+		cost = 50
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_Germany target: [From.GetName]"
+			every_state = {
+				limit = {
+					is_owned_by = GER
+				}
+				add_claim_by = SOV
+			}
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SOV_Germany target: [From.GetName]"
+			SOV = {
+				declare_war_on = {
+					type = annex_everything
+					target = GER
+				}
+			}
+		}
+
+		ai_will_do = {
+			factor = 0
+			modifier = {
+				factor = 0
+				SOV = {
+					has_war = yes
+				}
+			}
+			modifier = {
+				factor = 1000
+				FROM = { alliance_strength_ratio > 1.5 }
+			}
+		}
+	}
+
+	SOV_Poland = {
+		war_with_on_remove = POL
+		icon = generic_decision
+
+		target_trigger = {
+			FROM = {
+				tag = POL
+			}
+		}
+
+		allowed = {
+		}
+
+		available = {
+			NOT = {
+				has_country_flag = SOV_lacking_industrialization_flag
+			}
+		}
+
+		visible = {
+			original_tag = SOV
+			POL = {
+				exists = yes
+				NOT = {
+					is_in_faction_with = SOV
+				}
+			}
+			FROM = {
+				any_neighbor_country = {
+					OR = {
+						is_subject_of = SOV
+						is_in_faction_with = SOV
+						tag = SOV
+					}
+				}
+			}
+		}
+
+		fire_only_once = yes
+
+		days_remove = 30
+
+		cost = 50
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_Poland target: [From.GetName]"
+			every_state = {
+				limit = {
+					is_owned_by = POL
+				}
+				add_claim_by = SOV
+			}
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SOV_Poland target: [From.GetName]"
+			SOV = {
+				declare_war_on = {
+					type = annex_everything
+					target = POL
+				}
+			}
+		}
+
+		ai_will_do = {
+			factor = 0
+			modifier = {
+				factor = 0
+				SOV = {
+					has_war = yes
+				}
+			}
+			modifier = {
+				factor = 0
+				FROM = { alliance_strength_ratio < 1.5 }
+			}
+		}
+	}
+
+	SOV_invade_finland = {
+		war_with_on_remove = FIN
+
+		icon = infiltrate_state
+
+		target_trigger = {
+			FROM = {
+				tag = FIN
+			}
+		}
+
+		available = {
+			FIN = {
+				exists = yes
+				NOT = {
+					is_in_faction_with = SOV
+				}
+			}
+			NOT = {
+				has_country_flag = SOV_lacking_industrialization_flag
+			}
+		}
+
+		visible = {
+			original_tag = SOV
+			FIN = {
+				exists = yes
+			}
+			FROM = {
+				any_neighbor_country = {
+					OR = {
+						is_subject_of = SOV
+						is_in_faction_with = SOV
+						tag = SOV
+					}
+				}
+			}
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_invade_finland target: [From.GetName]"
+			146 = {
+				add_core_of = SOV
+			}
+			147 = {
+				add_core_of = SOV
+			}
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SOV_invade_finland target: [From.GetName]"
+			SOV = {
+				declare_war_on = {
+					type = take_state_focus
+					target = FIN
+					generator = { 146 147 }
+				}
+			}
+		}
+
+		fire_only_once = yes
+
+		days_remove = 30
+
+		cost = 50
+
+		ai_will_do = {
+			factor = 1000
+			modifier = {
+				factor = 0
+				SOV = {
+					has_war = yes
+				}
+			}
+			modifier = {
+				factor = 0
+				FROM = { alliance_strength_ratio < 1.5 }
+			}
+		}
+	}
+
+	SOV_invade_ukraine = {
+		war_with_on_remove = UKR
+
+		icon = infiltrate_state
+
+		target_trigger = {
+			FROM = {
+				tag = UKR
+			}
+		}
+
+		available = {
+			UKR = {
+				exists = yes
+				NOT = {
+					is_in_faction_with = SOV
+				}
+			}
+			NOT = {
+				has_country_flag = SOV_lacking_industrialization_flag
+			}
+		}
+
+		visible = {
+			original_tag = SOV
+			UKR = {
+				exists = yes
+			}
+			FROM = {
+				any_neighbor_country = {
+					OR = {
+						is_subject_of = SOV
+						is_in_faction_with = SOV
+						tag = SOV
+					}
+				}
+			}
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_invade_ukraine target: [From.GetName]"
+			every_state = {
+				limit = {
+					is_owned_by = UKR
+				}
+				add_claim_by = SOV
+			}
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SOV_invade_ukraine target: [From.GetName]"
+			SOV = {
+				declare_war_on = {
+					type = annex_everything
+					target = UKR
+				}
+			}
+		}
+
+		fire_only_once = yes
+
+		days_remove = 30
+
+		cost = 50
+
+		ai_will_do = {
+			factor = 1000
+			modifier = {
+				factor = 0
+				SOV = {
+					has_war = yes
+				}
+			}
+			modifier = {
+				factor = 0
+				FROM = { alliance_strength_ratio < 1.5 }
+			}
+		}
+	}
+
+	SOV_invade_belarus = {
+		war_with_on_remove = BLR
+
+		icon = infiltrate_state
+
+		target_trigger = {
+			FROM = {
+				tag = BLR
+			}
+		}
+
+		available = {
+			BLR = {
+				exists = yes
+				NOT = {
+					is_in_faction_with = SOV
+				}
+			}
+			NOT = {
+				has_country_flag = SOV_lacking_industrialization_flag
+			}
+		}
+
+		visible = {
+			original_tag = SOV
+			BLR = {
+				exists = yes
+			}
+			FROM = {
+				any_neighbor_country = {
+					OR = {
+						is_subject_of = SOV
+						is_in_faction_with = SOV
+						tag = SOV
+					}
+				}
+			}
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_invade_belarus target: [From.GetName]"
+			every_state = {
+				limit = {
+					is_owned_by = BLR
+				}
+				add_claim_by = SOV
+			}
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SOV_invade_belarus target: [From.GetName]"
+			SOV = {
+				declare_war_on = {
+					type = annex_everything
+					target = BLR
+				}
+			}
+		}
+
+		fire_only_once = yes
+
+		days_remove = 30
+
+		cost = 50
+
+		ai_will_do = {
+			factor = 1000
+			modifier = {
+				factor = 0
+				SOV = {
+					has_war = yes
+				}
+			}
+			modifier = {
+				factor = 0
+				FROM = { alliance_strength_ratio < 1.5 }
+			}
+		}
+	}
+
+	SOV_invade_latvia = {
+		war_with_on_remove = LAT
+
+		icon = infiltrate_state
+
+		target_trigger = {
+			FROM = {
+				tag = LAT
+			}
+		}
+
+		available = {
+			LAT = {
+				exists = yes
+				NOT = {
+					is_in_faction_with = SOV
+				}
+			}
+			NOT = {
+				has_country_flag = SOV_lacking_industrialization_flag
+			}
+		}
+
+		visible = {
+			original_tag = SOV
+			LAT = {
+				exists = yes
+			}
+			FROM = {
+				any_neighbor_country = {
+					OR = {
+						is_subject_of = SOV
+						is_in_faction_with = SOV
+						tag = SOV
+					}
+				}
+			}
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_invade_latvia target: [From.GetName]"
+			if = {
+				limit = {
+					EST = {
+						is_puppet_of = SOV
+					}
+				}
+				every_state = {
+					limit = {
+						is_owned_by = LAT
+					}
+					add_core_of = EST
+				}
+				else = {
+					every_state = {
+						limit = {
+							is_owned_by = LAT
+						}
+						add_claim_by = SOV
+					}
+				}
+			}
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SOV_invade_latvia target: [From.GetName]"
+			SOV = {
+				declare_war_on = {
+					type = annex_everything
+					target = LAT
+				}
+			}
+		}
+
+		fire_only_once = yes
+
+		days_remove = 30
+
+		cost = 50
+
+		ai_will_do = {
+			factor = 1000
+			modifier = {
+				factor = 0
+				SOV = {
+					has_war = yes
+				}
+			}
+			modifier = {
+				factor = 0
+				FROM = { alliance_strength_ratio < 1.5 }
+			}
+		}
+	}
+
+	SOV_invade_estonia = {
+		war_with_on_remove = EST
+
+		icon = infiltrate_state
+
+		target_trigger = {
+			FROM = {
+				tag = EST
+			}
+		}
+
+		available = {
+			EST = {
+				exists = yes
+				NOT = {
+					is_in_faction_with = SOV
+				}
+			}
+			NOT = {
+				has_country_flag = SOV_lacking_industrialization_flag
+			}
+		}
+
+		visible = {
+			original_tag = SOV
+			EST = {
+				exists = yes
+			}
+			FROM = {
+				any_neighbor_country = {
+					OR = {
+						is_subject_of = SOV
+						is_in_faction_with = SOV
+						tag = SOV
+					}
+				}
+			}
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_invade_estonia target: [From.GetName]"
+			every_state = {
+				limit = {
+					is_owned_by = EST
+				}
+				add_claim_by = SOV
+			}
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SOV_invade_estonia target: [From.GetName]"
+			SOV = {
+				declare_war_on = {
+					type = annex_everything
+					target = EST
+				}
+			}
+		}
+
+		fire_only_once = yes
+
+		days_remove = 30
+
+		cost = 50
+
+		ai_will_do = {
+			factor = 1000
+			modifier = {
+				factor = 0
+				SOV = {
+					has_war = yes
+				}
+			}
+			modifier = {
+				factor = 0
+				FROM = { alliance_strength_ratio < 1.5 }
+			}
+		}
+	}
+
+	SOV_invade_transcaspian = {
+		war_with_on_remove = TRK
+
+		icon = infiltrate_state
+
+		target_trigger = {
+			FROM = {
+				tag = TRK
+			}
+		}
+
+		available = {
+			TRK = {
+				exists = yes
+				NOT = {
+					is_in_faction_with = SOV
+				}
+			}
+			has_country_flag = SOV_regime_stabilized
+		}
+
+		visible = {
+			original_tag = SOV
+			TRK = {
+				exists = yes
+			}
+			FROM = {
+				any_neighbor_country = {
+					OR = {
+						is_subject_of = SOV
+						is_in_faction_with = SOV
+						tag = SOV
+					}
+				}
+			}
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_invade_transcaspian target: [From.GetName]"
+			every_state = {
+				limit = {
+					is_owned_by = TRK
+				}
+				add_claim_by = SOV
+			}
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SOV_invade_transcaspian target: [From.GetName]"
+			SOV = {
+				declare_war_on = {
+					type = annex_everything
+					target = TRK
+				}
+			}
+		}
+
+		fire_only_once = yes
+
+		days_remove = 30
+
+		cost = 50
+
+		ai_will_do = {
+			factor = 1000
+			modifier = {
+				factor = 0
+				SOV = {
+					has_war = yes
+				}
+			}
+			modifier = {
+				factor = 0
+				FROM = { alliance_strength_ratio < 1.5 }
+			}
+		}
+	}
+
+	SOV_invade_russia = {
+		war_with_on_remove = RUS
+
+		icon = infiltrate_state
+
+		target_trigger = {
+			FROM = {
+				tag = RUS
+			}
+		}
+
+		available = {
+			RUS = {
+				exists = yes
+				NOT = {
+					is_in_faction_with = SOV
+				}
+			}
+			NOT = {
+				has_country_flag = SOV_lacking_industrialization_flag
+			}
+		}
+
+		visible = {
+			original_tag = SOV
+			RUS = {
+				exists = yes
+			}
+			FROM = {
+				any_neighbor_country = {
+					OR = {
+						is_subject_of = SOV
+						is_in_faction_with = SOV
+						tag = SOV
+					}
+				}
+			}
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_invade_russia target: [From.GetName]"
+			every_state = {
+				limit = {
+					is_owned_by = RUS
+				}
+				add_core_of = SOV
+			}
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SOV_invade_russia target: [From.GetName]"
+			SOV = {
+				declare_war_on = {
+					type = annex_everything
+					target = RUS
+				}
+			}
+		}
+
+		fire_only_once = yes
+
+		days_remove = 30
+
+		cost = 50
+
+		ai_will_do = {
+			factor = 1000
+			modifier = {
+				factor = 0
+				SOV = {
+					has_war = yes
+				}
+			}
+			modifier = {
+				factor = 0
+				FROM = { alliance_strength_ratio < 1.5 }
+			}
+		}
+	}
+
+	SOV_invade_mongolia = {
+		war_with_on_remove = MON
+
+		icon = infiltrate_state
+
+		target_trigger = {
+			FROM = {
+				tag = MON
+			}
+		}
+
+		available = {
+			MON = {
+				exists = yes
+				NOT = {
+					is_in_faction_with = SOV
+				}
+			}
+			NOT = {
+				has_country_flag = SOV_lacking_industrialization_flag
+			}
+		}
+
+		visible = {
+			original_tag = SOV
+			MON = {
+				exists = yes
+			}
+			FROM = {
+				any_neighbor_country = {
+					OR = {
+						is_subject_of = SOV
+						is_in_faction_with = SOV
+						tag = SOV
+					}
+				}
+			}
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_invade_mongolia target: [From.GetName]"
+			329 = {
+				add_core_of = SOV
+			}
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SOV_invade_mongolia target: [From.GetName]"
+			SOV = {
+				declare_war_on = {
+					type = take_state_focus
+					target = MON
+					generator = { 329 }
+				}
+			}
+		}
+
+		fire_only_once = yes
+
+		days_remove = 30
+
+		cost = 50
+
+		ai_will_do = {
+			factor = 1000
+			modifier = {
+				factor = 0
+				SOV = {
+					has_war = yes
+				}
+			}
+			modifier = {
+				factor = 0
+				FROM = { alliance_strength_ratio < 1.5 }
+			}
+		}
+	}
+
+	SOV_invade_checnya = {
+		war_with_on_remove = GOR
+
+		icon = infiltrate_state
+
+		target_trigger = {
+			FROM = {
+				tag = GOR
+			}
+		}
+
+		available = {
+			GOR = {
+				exists = yes
+				NOT = {
+					is_in_faction_with = SOV
+				}
+			}
+			has_country_flag = SOV_regime_stabilized
+		}
+
+		visible = {
+			original_tag = SOV
+			GOR = {
+				exists = yes
+			}
+			FROM = {
+				any_neighbor_country = {
+					OR = {
+						is_subject_of = SOV
+						is_in_faction_with = SOV
+						tag = SOV
+					}
+				}
+			}
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_invade_checnya target: [From.GetName]"
+			every_state = {
+				limit = {
+					is_owned_by = GOR
+				}
+				add_core_of = SOV
+			}
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SOV_invade_checnya target: [From.GetName]"
+			SOV = {
+				declare_war_on = {
+					type = annex_everything
+					target = GOR
+				}
+			}
+		}
+
+		fire_only_once = yes
+
+		days_remove = 30
+
+		cost = 50
+
+		ai_will_do = {
+			factor = 1000
+			modifier = {
+				factor = 0
+				SOV = {
+					has_war = yes
+				}
+			}
+			modifier = {
+				factor = 0
+				FROM = { alliance_strength_ratio < 1.5 }
+			}
+		}
+	}
+
+	SOV_invade_georgia = {
+		war_with_on_remove = GEO
+
+		icon = infiltrate_state
+
+		target_trigger = {
+			FROM = {
+				tag = GEO
+			}
+		}
+
+		available = {
+			GEO = {
+				exists = yes
+				NOT = {
+					is_in_faction_with = SOV
+				}
+			}
+			NOT = {
+				has_country_flag = SOV_lacking_industrialization_flag
+				has_country_flag = SOV_GEO_accepted_rapprochement
+			}
+		}
+
+		visible = {
+			original_tag = SOV
+			GEO = {
+				exists = yes
+			}
+			FROM = {
+				any_neighbor_country = {
+					OR = {
+						is_subject_of = SOV
+						is_in_faction_with = SOV
+						tag = SOV
+					}
+				}
+			}
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_invade_georgia target: [From.GetName]"
+			every_state = {
+				limit = {
+					is_owned_by = GEO
+				}
+				add_claim_by = SOV
+			}
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SOV_invade_georgia target: [From.GetName]"
+			SOV = {
+				declare_war_on = {
+					type = annex_everything
+					target = GEO
+				}
+			}
+		}
+
+		fire_only_once = yes
+
+		days_remove = 30
+
+		cost = 50
+
+		ai_will_do = {
+			factor = 1000
+			modifier = {
+				factor = 0
+				SOV = {
+					has_war = yes
+				}
+			}
+			modifier = {
+				factor = 0
+				FROM = { alliance_strength_ratio < 1.5 }
+			}
+		}
+	}
+
+	SOV_invade_azerbaijan = {
+		war_with_on_remove = AZR
+
+		icon = infiltrate_state
+
+		target_trigger = {
+			FROM = {
+				tag = AZR
+			}
+		}
+
+		available = {
+			AZR = {
+				exists = yes
+				NOT = {
+					is_in_faction_with = SOV
+				}
+			}
+			NOT = {
+				has_country_flag = SOV_lacking_industrialization_flag
+			}
+		}
+
+		visible = {
+			original_tag = SOV
+			AZR = {
+				exists = yes
+			}
+			FROM = {
+				any_neighbor_country = {
+					OR = {
+						is_subject_of = SOV
+						is_in_faction_with = SOV
+						tag = SOV
+					}
+				}
+			}
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_invade_azerbaijan target: [From.GetName]"
+			every_state = {
+				limit = {
+					is_owned_by = AZR
+				}
+				add_claim_by = SOV
+			}
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SOV_invade_azerbaijan target: [From.GetName]"
+			SOV = {
+				declare_war_on = {
+					type = annex_everything
+					target = AZR
+				}
+			}
+		}
+
+		fire_only_once = yes
+
+		days_remove = 30
+
+		cost = 50
+
+		ai_will_do = {
+			factor = 0
+			modifier = {
+				factor = 0
+				SOV = {
+					has_war = yes
+				}
+			}
+			modifier = {
+				factor = 1000
+				FROM = { alliance_strength_ratio < 1.5 }
+			}
+		}
+	}
+
+	SOV_invade_armenia = {
+		war_with_on_remove = ARM
+
+		icon = infiltrate_state
+
+		target_trigger = {
+			FROM = {
+				tag = ARM
+			}
+		}
+
+		available = {
+			ARM = {
+				exists = yes
+				NOT = {
+					is_in_faction_with = SOV
+				}
+			}
+			NOT = {
+				has_country_flag = SOV_lacking_industrialization_flag
+			}
+		}
+
+		visible = {
+			original_tag = SOV
+			ARM = {
+				exists = yes
+			}
+			FROM = {
+				any_neighbor_country = {
+					OR = {
+						is_subject_of = SOV
+						is_in_faction_with = SOV
+						tag = SOV
+					}
+				}
+			}
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_invade_armenia target: [From.GetName]"
+			every_state = {
+				limit = {
+					is_owned_by = ARM
+				}
+				add_claim_by = SOV
+			}
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SOV_invade_armenia target: [From.GetName]"
+			SOV = {
+				declare_war_on = {
+					type = annex_everything
+					target = ARM
+				}
+			}
+		}
+
+		fire_only_once = yes
+
+		days_remove = 30
+
+		cost = 50
+
+		ai_will_do = {
+			factor = 1000
+			modifier = {
+				factor = 0
+				SOV = {
+					has_war = yes
+				}
+			}
+			modifier = {
+				factor = 0
+				FROM = { alliance_strength_ratio < 1.5 }
+			}
+		}
+	}
+}
+
+SOV_power_struggle = {
+
+	SOV_molotov_chairmen = {
+
+		icon = generic_form_nation
+
+		available = {
+			original_tag = SOV
+			check_variable = {
+				soviet_congress > 79
+			}
+			check_variable = {
+				soviet_military > 49
+			}
+			check_variable = {
+				soviet_corruption < 75
+			}
+		}
+
+		visible = {
+			original_tag = SOV
+			has_country_flag = SOV_chose_molotov
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_molotov_chairmen"
+			set_country_flag = SOV_troika_done
+			country_event = troika.19
+		}
+
+		fire_only_once = yes
+
+		cost = 100
+
+		ai_will_do = {
+			factor = 1000
+		}
+	}
+
+	SOV_bukharin_chairmen = {
+
+		icon = generic_form_nation
+
+		available = {
+			original_tag = SOV
+			check_variable = {
+				soviet_congress > 79
+			}
+			check_variable = {
+				soviet_military > 49
+			}
+			check_variable = {
+				soviet_corruption < 75
+			}
+		}
+
+		visible = {
+			original_tag = SOV
+			has_country_flag = SOV_chose_Bukharin
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_bukharin_chairmen"
+			set_country_flag = SOV_troika_done
+			country_event = troika.20
+		}
+
+		fire_only_once = yes
+
+		cost = 100
+
+		ai_will_do = {
+			factor = 1000
+		}
+	}
+
+	SOV_zinoviev_chairmen = {
+
+		icon = generic_form_nation
+
+		available = {
+			original_tag = SOV
+			check_variable = {
+				soviet_congress > 79
+			}
+			check_variable = {
+				soviet_military > 49
+			}
+			check_variable = {
+				soviet_corruption < 75
+			}
+		}
+
+		visible = {
+			original_tag = SOV
+			has_country_flag = SOV_chose_Trotsky
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_zinoviev_chairmen"
+			set_country_flag = SOV_troika_done
+			country_event = troika.21
+		}
+
+		fire_only_once = yes
+
+		cost = 100
+
+		ai_will_do = {
+			factor = 1000
+		}
+	}
+
+	SOV_recruit_army = {
+
+		icon = generic_industry
+
+		available = {
+			original_tag = SOV
+		}
+
+		visible = {
+			original_tag = SOV
+			check_variable = {
+				soviet_military < 100
+			}
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_recruit_army"
+			custom_effect_tooltip = "Gain 10% Military Influence"
+			hidden_effect = {
+				random_country  = {
+					limit = {
+						is_ai = yes
+					}
+					THIS = {
+						country_event = troika.28
+					}
+				}
+			}
+		}
+
+		days_remove = 120
+
+		days_re_enable = 1
+
+		cost = 50
+
+		ai_will_do = {
+			factor = 100
+			modifier = {
+				factor = 5
+				check_variable = {
+					soviet_military < 50
+				}
+			}
+		}
+	}
+
+	SOV_promote_loyal_officers = {
+
+		icon = generic_industry
+
+		available = {
+			original_tag = SOV
+			check_variable = {
+				soviet_military > 19
+			}
+		}
+
+		visible = {
+			original_tag = SOV
+			check_variable = {
+				soviet_military < 100
+			}
+		}
+
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_promote_loyal_officers"
+			hidden_effect = {
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = SOV_chose_Bukharin
+							has_country_flag = SOV_chose_molotov
+						}
+						NOT = {
+							OR = {
+								has_country_flag = SOV_no_Bukharin
+								has_country_flag = SOV_no_Zinoviev
+							}
+						}
+					}
+					random_country  = {
+						limit = {
+							is_ai = yes
+						}
+						THIS = {
+							country_event = troika.29
+						}
+					}
+				}
+			}
+			custom_effect_tooltip = "Gain 15% Military Influence, "
+			add_to_variable = {
+				soviet_military = 15
+			}
+			custom_effect_tooltip = "Gain 10% Corruption"
+			add_to_variable = {
+				soviet_corruption = 10
+			}
+		}
+
+		days_remove = 120
+
+		days_re_enable = 1
+
+		cost = 50
+
+		ai_will_do = {
+			factor = 100
+			modifier = {
+				factor = 5
+				check_variable = {
+					soviet_military < 50
+				}
+			}
+		}
+	}
+
+	SOV_bribe_politicians = {
+
+		icon = generic_political_discourse
+
+		available = {
+			original_tag = SOV
+			check_variable = {
+				soviet_corruption > 29
+			}
+		}
+
+		visible = {
+			original_tag = SOV
+			check_variable = {
+				soviet_military < 100
+			}
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_bribe_politicians"
+			hidden_effect = {
+				random_country  = {
+					limit = {
+						is_ai = yes
+					}
+					THIS = {
+						country_event = troika.30
+					}
+				}
+			}
+			custom_effect_tooltip = "Gain 15% Congressional Support, "
+			add_to_variable = {
+				soviet_congress = 15
+			}
+			custom_effect_tooltip = "Gain 10% Corruption"
+			add_to_variable = {
+				soviet_corruption = 10
+			}
+		}
+
+		days_remove = 120
+
+		days_re_enable = 1
+
+		cost = 50
+
+		ai_will_do = {
+			factor = 100
+			modifier = {
+				factor = 5
+				check_variable = {
+					soviet_congress < 80
+				}
+			}
+		}
+	}
+
+	SOV_expel_dissedents = {
+
+		icon = generic_political_discourse
+
+		available = {
+			original_tag = SOV
+			check_variable = {
+				soviet_congress > 39
+			}
+		}
+
+		visible = {
+			original_tag = SOV
+			check_variable = {
+				soviet_congress < 100
+			}
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_expel_dissedents"
+			hidden_effect = {
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = SOV_chose_Trotsky
+							AND = {
+								has_country_flag = SOV_chose_molotov
+								has_country_flag = SOV_no_Zinoviev
+							}
+						}
+						NOT = {
+							has_country_flag = SOV_no_Bukharin
+						}
+					}
+					random_country  = {
+						limit = {
+							is_ai = yes
+						}
+						THIS = {
+							country_event = troika.31
+						}
+					}
+				}
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = SOV_chose_Bukharin
+							AND = {
+								has_country_flag = SOV_chose_molotov
+								has_country_flag = SOV_no_Bukharin
+							}
+						}
+						NOT = {
+							has_country_flag = SOV_no_Zinoviev
+						}
+					}
+					random_country  = {
+						limit = {
+							is_ai = yes
+						}
+						THIS = {
+							country_event = troika.32
+						}
+					}
+				}
+			}
+			custom_effect_tooltip = "Gain 15% Congressional Support, "
+			add_to_variable = {
+				soviet_congress = 15
+			}
+			custom_effect_tooltip = "Gain 10% Corruption"
+			add_to_variable = {
+				soviet_corruption = 10
+			}
+		}
+
+		days_remove = 120
+
+		days_re_enable = 1
+
+		cost = 50
+
+		ai_will_do = {
+			factor = 100
+			modifier = {
+				factor = 5
+				check_variable = {
+					soviet_congress < 80
+				}
+			}
+		}
+	}
+
+	SOV_public_speech = {
+
+		icon = generic_political_discourse
+
+		available = {
+			original_tag = SOV
+			check_variable = {
+				soviet_congress > 19
+			}
+			check_variable = {
+				soviet_corruption < 40
+			}
+		}
+
+		visible = {
+			original_tag = SOV
+			check_variable = {
+				soviet_congress < 100
+			}
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_public_speech"
+			hidden_effect = {
+				if = {
+					limit = {
+						has_country_flag = SOV_chose_Trotsky
+						NOT = {
+							has_country_flag = SOV_no_Zinoviev
+						}
+					}
+					random_country  = {
+						limit = {
+							is_ai = yes
+						}
+						THIS = {
+							country_event = troika.33
+						}
+					}
+				}
+				if = {
+					limit = {
+						has_country_flag = SOV_chose_Bukharin
+						NOT = {
+							has_country_flag = SOV_no_Bukharin
+						}
+					}
+					random_country  = {
+						limit = {
+							is_ai = yes
+						}
+						THIS = {
+							country_event = troika.34
+						}
+					}
+				}
+				if = {
+					limit = {
+						has_country_flag = SOV_chose_molotov
+						NOT = {
+							has_country_flag = SOV_no_Molotov
+						}
+					}
+					random_country  = {
+						limit = {
+							is_ai = yes
+						}
+						THIS = {
+							country_event = troika.35
+						}
+					}
+				}
+			}
+			custom_effect_tooltip = "Gain 15% Congressional Support"
+			add_to_variable = {
+				soviet_congress = 15
+			}
+		}
+
+		days_remove = 120
+
+		days_re_enable = 1
+
+		cost = 50
+
+		ai_will_do = {
+			factor = 100
+			modifier = {
+				factor = 5
+				check_variable = {
+					soviet_congress < 80
+				}
+			}
+		}
+	}
+
+	SOV_campaign_union = {
+
+		icon = generic_political_discourse
+
+		available = {
+			original_tag = SOV
+		}
+
+		visible = {
+			original_tag = SOV
+			check_variable = {
+				soviet_congress < 100
+			}
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_campaign_union"
+			hidden_effect = {
+				if = {
+					limit = {
+						OR = {
+							has_country_flag = SOV_chose_Bukharin
+							has_country_flag = SOV_chose_Trotsky
+						}
+						NOT = {
+							has_country_flag = SOV_no_Molotov
+						}
+					}
+					random_country  = {
+						limit = {
+							is_ai = yes
+						}
+						THIS = {
+							country_event = troika.36
+						}
+					}
+				}
+			}
+			custom_effect_tooltip = "Gain 15% Congressional Support"
+			add_to_variable = {
+				soviet_congress = 15
+			}
+		}
+
+		days_remove = 120
+
+		days_re_enable = 1
+
+		cost = 50
+
+		ai_will_do = {
+			factor = 100
+			modifier = {
+				factor = 5
+				check_variable = {
+					soviet_congress < 80
+				}
+			}
+		}
+	}
+
+	SOV_no_corruption = {
+
+		icon = generic_independence
+
+		available = {
+			original_tag = SOV
+		}
+
+		visible = {
+			original_tag = SOV
+			check_variable = {
+				soviet_congress > 0
+			}
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_no_corruption"
+			custom_effect_tooltip = "Lose 25% Corruption"
+			subtract_from_variable = {
+				soviet_corruption = 25
+			}
+		}
+
+		days_remove = 90
+
+		days_re_enable = 1
+
+		cost = 50
+
+		ai_will_do = {
+			factor = 100
+			modifier = {
+				factor = 10
+				check_variable = {
+					soviet_corruption > 70
+				}
+			}
+		}
+	}
+
+	SOV_political_support = {
+
+		icon = generic_nationalism
+
+		available = {
+			original_tag = SOV
+			check_variable = {
+				soviet_congress > 19
+			}
+		}
+
+		visible = {
+			original_tag = SOV
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_political_support"
+			add_political_power = 125
+			custom_effect_tooltip = "Lose 10% Congressional Support, "
+			subtract_from_variable = {
+				soviet_congress = 10
+			}
+			custom_effect_tooltip = "Gain 10% Corruption"
+			add_to_variable = {
+				soviet_corruption = 10
+			}
+		}
+
+		days_remove = 120
+
+		days_re_enable = 1
+
+		cost = 25
+
+		ai_will_do = {
+			factor = 100
+		}
+	}
+
+	SOV_expel_molotov = {
+
+		icon = generic_break_treaty
+
+		available = {
+			original_tag = SOV
+			check_variable = {
+				soviet_military > 69
+			}
+		}
+
+		visible = {
+			original_tag = SOV
+			OR = {
+				has_country_flag = SOV_chose_Bukharin
+				has_country_flag = SOV_chose_Trotsky
+			}
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_expel_molotov"
+			country_event = troika.25
+			custom_effect_tooltip = "Gain 10% Corruption, "
+			add_to_variable = {
+				soviet_corruption = 10
+			}
+			custom_effect_tooltip = "Gain 10% Congressional Support, "
+			add_to_variable = {
+				soviet_congress = 10
+			}
+			custom_effect_tooltip = "Lose 10% Military Influence"
+			subtract_from_variable = {
+				soviet_military = 10
+			}
+		}
+
+		fire_only_once = yes
+
+		cost = 50
+
+		ai_will_do = {
+			factor = 100
+		}
+	}
+
+	SOV_expel_bukharin = {
+
+		icon = generic_break_treaty
+
+		available = {
+			original_tag = SOV
+			check_variable = {
+				soviet_military > 69
+			}
+		}
+
+		visible = {
+			original_tag = SOV
+			OR = {
+				has_country_flag = SOV_chose_Trotsky
+				has_country_flag = SOV_chose_molotov
+			}
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_expel_bukharin"
+			country_event = troika.26
+			custom_effect_tooltip = "Gain 10% Corruption, "
+			add_to_variable = {
+				soviet_corruption = 10
+			}
+			custom_effect_tooltip = "Gain 10% Congressional Support, "
+			add_to_variable = {
+				soviet_congress = 10
+			}
+			custom_effect_tooltip = "Lose 10% Military Influence"
+			subtract_from_variable = {
+				soviet_military = 10
+			}
+		}
+
+		fire_only_once = yes
+
+		cost = 50
+
+		ai_will_do = {
+			factor = 100
+		}
+	}
+
+	SOV_expel_zinoviev = {
+
+		icon = generic_break_treaty
+
+		available = {
+			original_tag = SOV
+			check_variable = {
+				soviet_military > 69
+			}
+		}
+
+		visible = {
+			original_tag = SOV
+			OR = {
+				has_country_flag = SOV_chose_Bukharin
+				has_country_flag = SOV_chose_molotov
+			}
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_expel_zinoviev"
+			country_event = troika.27
+			custom_effect_tooltip = "Gain 10% Corruption, "
+			add_to_variable = {
+				soviet_corruption = 10
+			}
+			custom_effect_tooltip = "Gain 10% Congressional Support, "
+			add_to_variable = {
+				soviet_congress = 10
+			}
+			custom_effect_tooltip = "Lose 10% Military Influence"
+			subtract_from_variable = {
+				soviet_military = 10
+			}
+		}
+
+		fire_only_once = yes
+
+		cost = 50
+
+		ai_will_do = {
+			factor = 100
+		}
+	}
+}
+
+SOV_military_coup_decisions = {
+
+	SOV_propaganda = {
+
+		icon = ger_mefo_bills
+
+		allowed = {
+		}
+
+		available = {
+		}
+
+		fire_only_once = no
+		days_re_enable = 20
+
+		days_remove = 30
+
+		cost = 25
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SOV_propaganda"
+			custom_effect_tooltip = SOV_government_5
+			add_to_variable = { var = sov_stability_factor value = 5 }
+		}
+
+		ai_will_do = {
+			factor = 5
+		}
+	}
+
+	SOV_alliance_trade_unions = {
+
+		icon = GFX_decision_generic_decision
+
+		allowed = {
+		}
+
+		visible = {
+			has_country_flag = SOV_Trade_Union_buddies
+		}
+
+		available = {
+		}
+
+		fire_only_once = yes
+
+		cost = 0
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_alliance_trade_unions"
+			custom_effect_tooltip = SOV_government_6
+			add_to_variable = { var = sov_stability_factor value = 6 }
+		}
+
+		ai_will_do = {
+			factor = 50
+			modifier = {
+				factor = 5
+				check_variable = {
+					sov_stability_factor < 35
+				}
+			}
+		}
+	}
+
+	SOV_control_press = {
+
+		icon = GFX_decision_oppression
+
+		allowed = {
+		}
+
+		available = {
+		}
+
+		days_re_enable = 30
+
+		days_remove = 30
+
+		fire_only_once = no
+
+		cost = 15
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SOV_control_press"
+			custom_effect_tooltip = SOV_government_3
+			add_to_variable = { var = sov_stability_factor value = 3 }
+		}
+
+		ai_will_do = {
+			factor = 50
+			modifier = {
+				factor = 5
+				check_variable = {
+					sov_stability_factor < 35
+				}
+			}
+		}
+	}
+	SOV_intimidate_opposition = {
+
+		icon = GFX_decision_oppression
+
+		allowed = {
+		}
+
+		available = {
+		}
+
+		days_re_enable = 30
+
+		days_remove = 30
+
+		fire_only_once = no
+
+		cost = 25
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SOV_intimidate_opposition"
+			custom_effect_tooltip = SOV_government_5
+			add_to_variable = { var = sov_stability_factor value = 5 }
+		}
+
+		ai_will_do = {
+			factor = 50
+			modifier = {
+				factor = 5
+				check_variable = {
+					sov_stability_factor < 35
+				}
+			}
+		}
+	}
+	SOV_expand_police = {
+
+		icon = GFX_decision_generic_army_support
+
+		allowed = {
+		}
+
+		available = {
+		}
+
+		days_re_enable = 30
+
+		days_remove = 30
+
+		fire_only_once = no
+
+		cost = 25
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SOV_expand_police"
+			custom_effect_tooltip = SOV_government_5
+			add_to_variable = { var = sov_stability_factor value = 5 }
+		}
+
+		ai_will_do = {
+			factor = 50
+			modifier = {
+				factor = 5
+				check_variable = {
+					sov_stability_factor < 35
+				}
+			}
+		}
+	}
+	SOV_hold_speech = {
+
+		icon = GFX_decision_generic_nationalism
+
+		allowed = {
+		}
+
+		available = {
+		}
+
+		days_re_enable = 30
+
+		days_remove = 30
+
+		fire_only_once = no
+
+		cost = 25
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SOV_hold_speech"
+			custom_effect_tooltip = SOV_government_5
+			add_to_variable = { var = sov_stability_factor value = 5 }
+		}
+
+		ai_will_do = {
+			factor = 50
+			modifier = {
+				factor = 5
+				check_variable = {
+					sov_stability_factor < 35
+				}
+			}
+		}
+	}
+	SOV_purge_unloyal = {
+
+		icon = GFX_decision_generic_army_support
+
+		allowed = {
+		}
+		visible = {
+			has_country_Flag = SOV_Yezhov_in_charge
+		}
+		available = {
+		}
+
+		days_re_enable = 30
+
+		days_remove = 30
+
+		fire_only_once = yes
+
+		cost = 50
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SOV_purge_unloyal"
+			custom_effect_tooltip = SOV_government_10
+			add_to_variable = { var = sov_stability_factor value = 10 }
+		}
+
+		ai_will_do = {
+			factor = 50
+			modifier = {
+				factor = 5
+				check_variable = {
+					sov_stability_factor < 35
+				}
+			}
+		}
+	}
+	SOV_support_from_the_army = {
+
+		icon = GFX_decision_generic_tank
+
+		allowed = {
+		}
+		visible = {
+			has_country_flag = SOV_Voroshilov_in_charge
+		}
+		available = {
+		}
+
+		days_re_enable = 30
+
+		days_remove = 30
+
+		fire_only_once = yes
+
+		cost = 50
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SOV_support_from_the_army"
+			custom_effect_tooltip = SOV_government_10
+			add_to_variable = { var = sov_stability_factor value = 10 }
+		}
+
+		ai_will_do = {
+			factor = 50
+			modifier = {
+				factor = 5
+				check_variable = {
+					sov_stability_factor < 35
+				}
+			}
+		}
+	}
+	SOV_use_connections = {
+
+		icon = GFX_decision_generic_political_discourse
+
+		allowed = {
+		}
+		visible = {
+			has_country_flag = SOV_Tukhachevsky_in_charge
+		}
+		available = {
+		}
+
+		days_re_enable = 30
+
+		days_remove = 30
+
+		fire_only_once = yes
+
+		cost = 50
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SOV_use_connections"
+			custom_effect_tooltip = SOV_government_10
+			add_to_variable = { var = sov_stability_factor value = 10 }
+		}
+
+		ai_will_do = {
+			factor = 50
+			modifier = {
+				factor = 5
+				check_variable = {
+					sov_stability_factor < 35
+				}
+			}
+		}
+	}
+}
+
+SOV_kirov_vs_libsoc = {
+
+	SOV_press_campaign = {
+		icon = GFX_decision_ger_mefo_bills
+		allowed = { original_tag = SOV }
+		available = {
+		}
+		visible = {
+			always = yes
+		}
+
+		days_remove = 30
+		days_re_enable = 30
+
+		cost = 55
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 30
+			modifier = {
+				add = 100
+				check_variable = {
+					var = sov_kirov_factor
+					value = 30
+					compare = less_than_or_equals
+				}
+			}
+			modifier = {
+				add = 200
+				check_variable = {
+					var = sov_shliapnikov_factor
+					value = 25
+					compare = greater_than_or_equals
+				}
+			}
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SOV_press_campaign"
+			add_to_variable = { var = sov_kirov_factor value = 5 }
+			custom_effect_tooltip = Kirov_5
+		}
+	}
+
+	SOV_harass = {
+		icon = GFX_decision_generic_political_discourse
+		allowed = { original_tag = SOV }
+		available = {
+		}
+		visible = {
+			always = yes
+		}
+
+		days_remove = 30
+		days_re_enable = 30
+
+		cost = 35
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 30
+			modifier = {
+				add = 100
+				check_variable = {
+					var = sov_kirov_factor
+					value = 30
+					compare = less_than_or_equals
+				}
+			}
+			modifier = {
+				add = 200
+				check_variable = {
+					var = sov_shliapnikov_factor
+					value = 25
+					compare = greater_than_or_equals
+				}
+			}
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SOV_harass"
+			add_to_variable = { var = sov_kirov_factor value = 3 }
+			custom_effect_tooltip = Kirov_3
+		}
+	}
+
+	SOV_alliances = {
+		icon = GFX_decision_generic_decision
+		allowed = { original_tag = SOV }
+		available = {
+		}
+		visible = {
+			always = yes
+		}
+
+		days_remove = 30
+		days_re_enable = 30
+
+		cost = 35
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 30
+			modifier = {
+				add = 100
+				check_variable = {
+					var = sov_kirov_factor
+					value = 30
+					compare = less_than_or_equals
+				}
+			}
+			modifier = {
+				add = 200
+				check_variable = {
+					var = sov_shliapnikov_factor
+					value = 25
+					compare = greater_than_or_equals
+				}
+			}
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SOV_alliances"
+			add_to_variable = { var = sov_kirov_factor value = 3 }
+			custom_effect_tooltip = Kirov_3
+		}
+	}
+
+	SOV_26_congress_mission = {
+
+		allowed = {
+			original_tag = SOV
+		}
+		available = {
+			always = no
+		}
+
+		activation = {
+			has_country_flag = SOV_kirov_libsoc_fight
+		}
+
+		icon = generic_political_discourse
+
+		days_mission_timeout = 365
+		fire_only_once = yes
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SOV_26_congress_mission"
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_26_congress_mission"
+		}
+
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout SOV_26_congress_mission"
+			country_event = sovietpol.1050
+			clr_country_flag = SOV_kirov_libsoc_fight
+		}
+	}
+
+	SOV_Gather_Support_Mosocw = {
+		icon = GFX_population_icon
+		allowed = { original_tag = SOV }
+		available = {
+		}
+		visible = {
+			always = yes
+		}
+
+		days_remove = 30
+
+		cost = 70
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 30
+			modifier = {
+				add = 100
+				check_variable = {
+					var = sov_kirov_factor
+					value = 30
+					compare = less_than_or_equals
+				}
+			}
+			modifier = {
+				add = 200
+				check_variable = {
+					var = sov_shliapnikov_factor
+					value = 25
+					compare = greater_than_or_equals
+				}
+			}
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SOV_Gather_Support_Mosocw"
+			add_to_variable = { var = sov_kirov_factor value = 10 }
+			custom_effect_tooltip = Kirov_10
+		}
+	}
+
+	SOV_Gather_Support_Leningrad = {
+		icon = GFX_population_icon
+		allowed = { original_tag = SOV }
+		available = {
+		}
+		visible = {
+			always = yes
+		}
+
+		days_remove = 30
+
+		cost = 70
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 30
+			modifier = {
+				add = 100
+				check_variable = {
+					var = sov_kirov_factor
+					value = 30
+					compare = less_than_or_equals
+				}
+			}
+			modifier = {
+				add = 200
+				check_variable = {
+					var = sov_shliapnikov_factor
+					value = 25
+					compare = greater_than_or_equals
+				}
+			}
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SOV_Gather_Support_Leningrad"
+			add_to_variable = { var = sov_kirov_factor value = 10 }
+			custom_effect_tooltip = Kirov_10
+		}
+	}
+
+
+	SOV_Gather_Support_Caucasus = {
+		icon = GFX_population_icon
+		allowed = { original_tag = SOV }
+		available = {
+		}
+		visible = {
+			always = yes
+		}
+
+		days_remove = 30
+
+		cost = 55
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 30
+			modifier = {
+				add = 100
+				check_variable = {
+					var = sov_kirov_factor
+					value = 30
+					compare = less_than_or_equals
+				}
+			}
+			modifier = {
+				add = 200
+				check_variable = {
+					var = sov_shliapnikov_factor
+					value = 25
+					compare = greater_than_or_equals
+				}
+			}
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SOV_Gather_Support_Caucasus"
+			add_to_variable = { var = sov_kirov_factor value = 5 }
+			custom_effect_tooltip = Kirov_5
+		}
+	}
+	SOV_Gather_Support_Kazakhstan = {
+		icon = GFX_population_icon
+		allowed = { original_tag = SOV }
+		available = {
+		}
+		visible = {
+			always = yes
+		}
+
+		days_remove = 30
+
+		cost = 35
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 30
+			modifier = {
+				add = 100
+				check_variable = {
+					var = sov_kirov_factor
+					value = 30
+					compare = less_than_or_equals
+				}
+			}
+			modifier = {
+				add = 200
+				check_variable = {
+					var = sov_shliapnikov_factor
+					value = 25
+					compare = greater_than_or_equals
+				}
+			}
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SOV_Gather_Support_Kazakhstan"
+			add_to_variable = { var = sov_kirov_factor value = 3 }
+			custom_effect_tooltip = Kirov_3
+		}
+	}
+	SOV_Gather_Support_Urals = {
+		icon = GFX_population_icon
+		allowed = { original_tag = SOV }
+		available = {
+		}
+		visible = {
+			always = yes
+		}
+
+		days_remove = 30
+
+		cost = 35
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 30
+			modifier = {
+				add = 100
+				check_variable = {
+					var = sov_kirov_factor
+					value = 30
+					compare = less_than_or_equals
+				}
+			}
+			modifier = {
+				add = 200
+				check_variable = {
+					var = sov_shliapnikov_factor
+					value = 25
+					compare = greater_than_or_equals
+				}
+			}
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SOV_Gather_Support_Urals"
+			add_to_variable = { var = sov_kirov_factor value = 3 }
+			custom_effect_tooltip = Kirov_3
+		}
+	}
+	SOV_Gather_Support_Far_East = {
+		icon = GFX_population_icon
+		allowed = { original_tag = SOV }
+		available = {
+		}
+		visible = {
+			always = yes
+		}
+
+		days_remove = 30
+
+		cost = 35
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 30
+			modifier = {
+				add = 100
+				check_variable = {
+					var = sov_kirov_factor
+					value = 30
+					compare = less_than_or_equals
+				}
+			}
+			modifier = {
+				add = 200
+				check_variable = {
+					var = sov_shliapnikov_factor
+					value = 25
+					compare = greater_than_or_equals
+				}
+			}
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SOV_Gather_Support_Far_East"
+			add_to_variable = { var = sov_kirov_factor value = 1 }
+			custom_effect_tooltip = Kirov_1
+		}
+	}
+
+	SOV_Decree_obeying_party_orders = {
+		icon = generic_political_discourse
+		allowed = { original_tag = SOV }
+		available = {
+		}
+		visible = {
+			always = yes
+			date > 1936.6.6
+		}
+
+		days_remove = 30
+
+		cost = 100
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 30
+			modifier = {
+				add = 100
+				check_variable = {
+					var = sov_kirov_factor
+					value = 30
+					compare = less_than_or_equals
+				}
+			}
+			modifier = {
+				add = 200
+				check_variable = {
+					var = sov_shliapnikov_factor
+					value = 25
+					compare = greater_than_or_equals
+				}
+			}
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SOV_Decree_obeying_party_orders"
+			add_to_variable = { var = sov_kirov_factor value = 3 }
+			custom_effect_tooltip = Kirov_3
+			subtract_from_variable = { var = sov_shliapnikov_factor value = 3 }
+			custom_effect_tooltip = Shliapnikov_min_3
+		}
+	}
+
+	SOV_Shliapnikov_Supporters_mission = {
+
+		allowed = {
+			original_tag = SOV
+			always = no
+		}
+
+		icon = ger_mefo_bills
+
+		available = {
+			has_country_flag = SOV_kirov_libsoc_fight
+		}
+
+		selectable_mission = yes
+		days_mission_timeout = 15
+
+		cost = 35
+
+		is_good = no
+
+		fire_only_once = no
+
+		ai_will_do = {
+			factor = 30
+			modifier = {
+				add = 100
+				check_variable = {
+					var = sov_kirov_factor
+					value = 30
+					compare = less_than_or_equals
+				}
+			}
+			modifier = {
+				add = 200
+				check_variable = {
+					var = sov_shliapnikov_factor
+					value = 25
+					compare = greater_than_or_equals
+				}
+			}
+		}
+
+		cancel_trigger = {
+			NOT = {
+				has_country_flag = SOV_kirov_libsoc_fight
+			}
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_Shliapnikov_Supporters_mission"
+			add_to_variable = { var = sov_kirov_factor value = 1 }
+			custom_effect_tooltip = Kirov_1
+			hidden_effect = {
+				country_event = {
+					id = sovietpol.1002
+					days = 40
+				}
+			}
+		}
+
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout SOV_Shliapnikov_Supporters_mission"
+			add_to_variable = { var = sov_shliapnikov_factor value = 3 }
+			custom_effect_tooltip = Shliapnikov_3
+			hidden_effect = {
+				country_event = {
+					id = sovietpol.1002
+					days = 20
+				}
+			}
+		}
+	}
+
+	SOV_Kollontai_Speech_mission = {
+
+		allowed = {
+			original_tag = SOV
+		}
+
+		icon = generic_political_discourse
+
+		available = {
+			has_country_flag = SOV_kirov_libsoc_fight
+		}
+
+		selectable_mission = yes
+		days_mission_timeout = 15
+
+		cost = 35
+
+		is_good = no
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 30
+			modifier = {
+				add = 100
+				check_variable = {
+					var = sov_kirov_factor
+					value = 30
+					compare = less_than_or_equals
+				}
+			}
+			modifier = {
+				add = 200
+				check_variable = {
+					var = sov_shliapnikov_factor
+					value = 25
+					compare = greater_than_or_equals
+				}
+			}
+		}
+
+		cancel_trigger = {
+			NOT = {
+				has_country_flag = SOV_kirov_libsoc_fight
+			}
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_Kollontai_Speech_mission"
+			add_to_variable = { var = sov_kirov_factor value = 1 }
+			custom_effect_tooltip = Kirov_1
+			country_event = sovietpol.1049
+		}
+
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout SOV_Kollontai_Speech_mission"
+			add_to_variable = { var = sov_shliapnikov_factor value = 3 }
+			custom_effect_tooltip = Shliapnikov_3
+		}
+	}
+
+	SOV_Shliapnikov_visits_factories_mission = {
+
+		allowed = {
+			original_tag = SOV
+		}
+
+		icon = generic_political_discourse
+
+		available = {
+			has_country_flag = SOV_kirov_libsoc_fight
+		}
+
+		selectable_mission = yes
+		days_mission_timeout = 15
+
+		cost = 35
+
+		is_good = no
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 30
+			modifier = {
+				add = 100
+				check_variable = {
+					var = sov_kirov_factor
+					value = 30
+					compare = less_than_or_equals
+				}
+			}
+			modifier = {
+				add = 200
+				check_variable = {
+					var = sov_shliapnikov_factor
+					value = 25
+					compare = greater_than_or_equals
+				}
+			}
+		}
+
+		cancel_trigger = {
+			NOT = {
+				has_country_flag = SOV_kirov_libsoc_fight
+			}
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_Shliapnikov_visits_factories_mission"
+			add_to_variable = { var = sov_kirov_factor value = 1 }
+			custom_effect_tooltip = Kirov_1
+		}
+
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout SOV_Shliapnikov_visits_factories_mission"
+			add_to_variable = { var = sov_shliapnikov_factor value = 3 }
+			custom_effect_tooltip = Shliapnikov_3
+		}
+	}
+
+	SOV_Shliapnikov_delegates_mission = {
+
+		allowed = {
+			original_tag = SOV
+		}
+
+		icon = generic_political_discourse
+
+		available = {
+			has_country_flag = SOV_kirov_libsoc_fight
+		}
+
+		selectable_mission = yes
+		days_mission_timeout = 15
+
+		cost = 35
+
+		is_good = no
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 30
+			modifier = {
+				add = 100
+				check_variable = {
+					var = sov_kirov_factor
+					value = 30
+					compare = less_than_or_equals
+				}
+			}
+			modifier = {
+				add = 200
+				check_variable = {
+					var = sov_shliapnikov_factor
+					value = 25
+					compare = greater_than_or_equals
+				}
+			}
+		}
+
+		cancel_trigger = {
+			NOT = {
+				has_country_flag = SOV_kirov_libsoc_fight
+			}
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SOV_Shliapnikov_delegates_mission"
+			add_to_variable = { var = sov_kirov_factor value = 1 }
+			custom_effect_tooltip = Kirov_1
+		}
+
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout SOV_Shliapnikov_delegates_mission"
+			add_to_variable = { var = sov_shliapnikov_factor value = 3 }
+			custom_effect_tooltip = Shliapnikov_3
+		}
+	}
+
+}
+
+SOV_scorched_earth_decisions = {
+
+	SOV_scorched_ukraine = {
+		icon = GFX_decision_generic_ignite_civil_war
+		available = {
+			any_owned_state = {
+				has_state_flag = SOV_ukraine
+				NOT = {
+					is_controlled_by = SOV
+				}
+			}
+		}
+		visible = {
+			any_owned_state = {
+				has_state_flag = SOV_ukraine
+				is_controlled_by = SOV
+			}
+		}
+
+		cancel_if_not_visible = yes
+
+		highlight_states = {
+			state = 202
+		}
+
+		days_remove = 45
+		days_re_enable = 555
+
+		custom_cost_trigger = {
+			command_power > 14
+			has_political_power > 49
+		}
+		custom_cost_text = decision_cost_CP_15_pp_50
+
+		ai_will_do = {
+			factor = 25
+			modifier = {
+				factor = 2
+				SOV = {
+					owns_state = 202
+					NOT = {
+						controls_state = 202
+					}
+				}
+			}
+			modifier = {
+				factor = 2
+				SOV = {
+					surrender_progress > 0.1
+				}
+			}
+			modifier = {
+				factor = 2
+				enemies_strength_ratio > 1
+			}
+			modifier = {
+				factor = 2
+				SOV = {
+					has_defensive_war = yes
+				}
+			}
+		}
+
+		fixed_random_seed = no
+
+		complete_effect = {
+			hidden_effect = {
+				random_list = {
+					20 = {
+						SOV = {
+							country_event = {
+								id = sovietscorched.21
+								days = 30
+							}
+						}
+					}
+					20 = {
+						SOV = {
+							country_event = {
+								id = sovietscorched.22
+								days = 30
+							}
+						}
+					}
+					20 = {
+						SOV = {
+							country_event = {
+								id = sovietscorched.23
+								days = 30
+							}
+						}
+					}
+					40 = {
+					}
+				}
+				SOV = {
+					country_event = { # Removes state modifiers
+						id = sovietscorched.1
+						days = 600
+					}
+				}
+			}
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SOV_scorched_ukraine"
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 130
+					industrial_complex > 0
+				}
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 130
+					}
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 130
+					arms_factory > 0
+				}
+				remove_building = {
+					type = arms_factory
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 130
+					}
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 130
+					industrial_complex > 0
+				}
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 130
+					}
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 130
+					arms_factory > 0
+				}
+				remove_building = {
+					type = arms_factory
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 130
+					}
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 130
+					industrial_complex > 0
+				}
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 130
+					arms_factory > 0
+				}
+				remove_building = {
+					type = arms_factory
+					level = 1
+				}
+			}
+
+			every_state = {
+				limit = {
+					is_controlled_by = SOV
+					region = 130
+				}
+				THIS = {
+					set_state_flag = SOV_scorched_ukraine
+					add_state_modifier = {
+						modifier = {
+							local_org_regain = -0.5
+							local_intel_to_enemies = -0.5
+							local_supplies = -0.5
+							local_building_slots_factor = -0.5
+							local_non_core_manpower = -1.0
+							local_manpower = -0.5
+							local_resources_factor = -0.5
+							local_resources = -0.5
+						}
+					}
+				}
+			}
+
+			every_state = {
+				limit = {
+					is_controlled_by = SOV
+					region = 130
+					infrastructure > 3
+				}
+				THIS = {
+					remove_building = {
+						type = infrastructure
+						level = 2
+					}
+				}
+			}
+		}
+	}
+
+	SOV_scorched_belarus = {
+		icon = GFX_decision_generic_ignite_civil_war
+		available = {
+			any_owned_state = {
+				has_state_flag = SOV_belarus
+				NOT = {
+					is_controlled_by = SOV
+				}
+			}
+		}
+		visible = {
+			any_owned_state = {
+				has_state_flag = SOV_belarus
+				is_controlled_by = SOV
+			}
+		}
+
+		cancel_if_not_visible = yes
+
+		highlight_states = {
+			state = 206
+		}
+
+		days_remove = 45
+		days_re_enable = 555
+
+		custom_cost_trigger = {
+			command_power > 14
+			has_political_power > 49
+		}
+		custom_cost_text = decision_cost_CP_15_pp_50
+
+		ai_will_do = {
+			factor = 25
+			modifier = {
+				factor = 2
+				SOV = {
+					owns_state = 206
+					NOT = {
+						controls_state = 206
+					}
+				}
+			}
+			modifier = {
+				factor = 2
+				SOV = {
+					surrender_progress > 0.1
+				}
+			}
+			modifier = {
+				factor = 2
+				enemies_strength_ratio > 1
+			}
+			modifier = {
+				factor = 2
+				SOV = {
+					has_defensive_war = yes
+				}
+			}
+		}
+
+		fixed_random_seed = no
+
+		complete_effect = {
+			hidden_effect = {
+				random_list = {
+					20 = {
+						SOV = {
+							country_event = {
+								id = sovietscorched.21
+								days = 30
+							}
+						}
+					}
+					20 = {
+						SOV = {
+							country_event = {
+								id = sovietscorched.22
+								days = 30
+							}
+						}
+					}
+					20 = {
+						SOV = {
+							country_event = {
+								id = sovietscorched.23
+								days = 30
+							}
+						}
+					}
+					40 = {
+					}
+				}
+				SOV = {
+					country_event = { # Removes state modifiers
+						id = sovietscorched.2
+						days = 600
+					}
+				}
+			}
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SOV_scorched_belarus"
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 131
+					industrial_complex > 0
+				}
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 131
+					}
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 131
+					arms_factory > 0
+				}
+				remove_building = {
+					type = arms_factory
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 131
+					}
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 131
+					industrial_complex > 0
+				}
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 131
+					}
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 131
+					arms_factory > 0
+				}
+				remove_building = {
+					type = arms_factory
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 131
+					}
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 131
+					industrial_complex > 0
+				}
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 131
+					arms_factory > 0
+				}
+				remove_building = {
+					type = arms_factory
+					level = 1
+				}
+			}
+
+			every_state = {
+				limit = {
+					is_controlled_by = SOV
+					region = 131
+				}
+				THIS = {
+					set_state_flag = SOV_scorched_belarus
+					add_state_modifier = {
+						modifier = {
+							local_org_regain = -0.5
+							local_intel_to_enemies = -0.5
+							local_supplies = -0.5
+							local_building_slots_factor = -0.5
+							local_non_core_manpower = -1.0
+							local_manpower = -0.5
+							local_resources_factor = -0.5
+						}
+					}
+				}
+			}
+
+			every_state = {
+				limit = {
+					is_controlled_by = SOV
+					region = 131
+					infrastructure > 3
+				}
+				THIS = {
+					remove_building = {
+						type = infrastructure
+						level = 2
+					}
+				}
+			}
+		}
+	}
+
+
+	SOV_scorched_baltic = {
+		icon = GFX_decision_generic_ignite_civil_war
+		available = {
+			any_owned_state = {
+				has_state_flag = SOV_baltic
+				NOT = {
+					is_controlled_by = SOV
+				}
+			}
+		}
+		visible = {
+			any_owned_state = {
+				has_state_flag = SOV_baltic
+				is_controlled_by = SOV
+			}
+		}
+
+		cancel_if_not_visible = yes
+
+		highlight_states = {
+			state = 757
+		}
+
+		days_remove = 45
+		days_re_enable = 555
+
+		custom_cost_trigger = {
+			command_power > 14
+			has_political_power > 49
+		}
+		custom_cost_text = decision_cost_CP_15_pp_50
+
+		ai_will_do = {
+			factor = 25
+			modifier = {
+				factor = 2
+				SOV = {
+					owns_state = 757
+					NOT = {
+						controls_state = 757
+					}
+				}
+			}
+			modifier = {
+				factor = 2
+				SOV = {
+					surrender_progress > 0.1
+				}
+			}
+			modifier = {
+				factor = 2
+				enemies_strength_ratio > 1
+			}
+			modifier = {
+				factor = 2
+				SOV = {
+					has_defensive_war = yes
+				}
+			}
+		}
+
+		fixed_random_seed = no
+
+		complete_effect = {
+			hidden_effect = {
+				random_list = {
+					20 = {
+						SOV = {
+							country_event = {
+								id = sovietscorched.21
+								days = 30
+							}
+						}
+					}
+					20 = {
+						SOV = {
+							country_event = {
+								id = sovietscorched.22
+								days = 30
+							}
+						}
+					}
+					20 = {
+						SOV = {
+							country_event = {
+								id = sovietscorched.23
+								days = 30
+							}
+						}
+					}
+					40 = {
+					}
+				}
+				SOV = {
+					country_event = { # Removes state modifiers
+						id = sovietscorched.3
+						days = 600
+					}
+				}
+			}
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SOV_scorched_baltic"
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 37
+					industrial_complex > 0
+				}
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 37
+					}
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 37
+					arms_factory > 0
+				}
+				remove_building = {
+					type = arms_factory
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 37
+					}
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 37
+					industrial_complex > 0
+				}
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 37
+					}
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 37
+					arms_factory > 0
+				}
+				remove_building = {
+					type = arms_factory
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 37
+					}
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 37
+					industrial_complex > 0
+				}
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 37
+					arms_factory > 0
+				}
+				remove_building = {
+					type = arms_factory
+					level = 1
+				}
+			}
+
+			every_state = {
+				limit = {
+					is_controlled_by = SOV
+					region = 37
+				}
+				THIS = {
+					set_state_flag = SOV_scorched_baltic
+					add_state_modifier = {
+						modifier = {
+							local_org_regain = -0.5
+							local_intel_to_enemies = -0.5
+							local_supplies = -0.5
+							local_building_slots_factor = -0.5
+							local_non_core_manpower = -1.0
+							local_manpower = -0.5
+							local_resources_factor = -0.5
+						}
+					}
+				}
+			}
+
+			every_state = {
+				limit = {
+					is_controlled_by = SOV
+					region = 37
+					infrastructure > 3
+				}
+				THIS = {
+					remove_building = {
+						type = infrastructure
+						level = 2
+					}
+				}
+			}
+		}
+	}
+
+	SOV_scorched_east_poland = {
+		icon = GFX_decision_generic_ignite_civil_war
+		available = {
+			any_owned_state = {
+				has_state_flag = SOV_east_poland
+				NOT = {
+					is_controlled_by = SOV
+				}
+			}
+		}
+		visible = {
+			any_owned_state = {
+				has_state_flag = SOV_east_poland
+				is_controlled_by = SOV
+			}
+		}
+
+		cancel_if_not_visible = yes
+
+		highlight_states = {
+			state = 92
+		}
+
+		days_remove = 45
+		days_re_enable = 555
+
+		custom_cost_trigger = {
+			command_power > 14
+			has_political_power > 49
+		}
+		custom_cost_text = decision_cost_CP_15_pp_50
+
+		ai_will_do = {
+			factor = 25
+			modifier = {
+				factor = 2
+				SOV = {
+					owns_state = 92
+					NOT = {
+						controls_state = 92
+					}
+				}
+			}
+			modifier = {
+				factor = 2
+				SOV = {
+					surrender_progress > 0.1
+				}
+			}
+			modifier = {
+				factor = 2
+				enemies_strength_ratio > 1
+			}
+			modifier = {
+				factor = 2
+				SOV = {
+					has_defensive_war = yes
+				}
+			}
+		}
+
+		fixed_random_seed = no
+
+		complete_effect = {
+			hidden_effect = {
+				random_list = {
+					20 = {
+						SOV = {
+							country_event = {
+								id = sovietscorched.21
+								days = 30
+							}
+						}
+					}
+					20 = {
+						SOV = {
+							country_event = {
+								id = sovietscorched.22
+								days = 30
+							}
+						}
+					}
+					20 = {
+						SOV = {
+							country_event = {
+								id = sovietscorched.23
+								days = 30
+							}
+						}
+					}
+					40 = {
+					}
+				}
+				SOV = {
+					country_event = { # Removes state modifiers
+						id = sovietscorched.4
+						days = 600
+					}
+				}
+			}
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SOV_scorched_east_poland"
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 39
+					industrial_complex > 0
+				}
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 39
+					}
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 39
+					arms_factory > 0
+				}
+				remove_building = {
+					type = arms_factory
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 39
+					}
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 39
+					industrial_complex > 0
+				}
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 39
+					}
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 39
+					arms_factory > 0
+				}
+				remove_building = {
+					type = arms_factory
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 39
+					}
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 39
+					industrial_complex > 0
+				}
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 39
+					arms_factory > 0
+				}
+				remove_building = {
+					type = arms_factory
+					level = 1
+				}
+			}
+
+			every_state = {
+				limit = {
+					is_controlled_by = SOV
+					region = 39
+				}
+				THIS = {
+					set_state_flag = SOV_scorched_east_poland
+					add_state_modifier = {
+						modifier = {
+							local_org_regain = -0.5
+							local_intel_to_enemies = -0.5
+							local_supplies = -0.5
+							local_building_slots_factor = -0.5
+							local_non_core_manpower = -1.0
+							local_manpower = -0.5
+							local_resources_factor = -0.5
+						}
+					}
+				}
+			}
+
+			every_state = {
+				limit = {
+					is_controlled_by = SOV
+					region = 39
+					infrastructure > 3
+				}
+				THIS = {
+					remove_building = {
+						type = infrastructure
+						level = 2
+					}
+				}
+			}
+		}
+	}
+
+	SOV_scorched_finland = {
+		icon = GFX_decision_generic_ignite_civil_war
+		available = {
+			any_owned_state = {
+				has_state_flag = SOV_finland
+				NOT = {
+					is_controlled_by = SOV
+				}
+			}
+		}
+		visible = {
+			any_owned_state = {
+				has_state_flag = SOV_finland
+				is_controlled_by = SOV
+			}
+		}
+
+		cancel_if_not_visible = yes
+
+		highlight_states = {
+			state = 111
+		}
+
+		days_remove = 45
+		days_re_enable = 555
+
+		custom_cost_trigger = {
+			command_power > 14
+			has_political_power > 49
+		}
+		custom_cost_text = decision_cost_CP_15_pp_50
+
+		ai_will_do = {
+			factor = 25
+			modifier = {
+				factor = 2
+				SOV = {
+					owns_state = 111
+					NOT = {
+						controls_state = 111
+					}
+				}
+			}
+			modifier = {
+				factor = 2
+				SOV = {
+					surrender_progress > 0.1
+				}
+			}
+			modifier = {
+				factor = 2
+				enemies_strength_ratio > 1
+			}
+			modifier = {
+				factor = 2
+				SOV = {
+					has_defensive_war = yes
+				}
+			}
+		}
+
+		fixed_random_seed = no
+
+		complete_effect = {
+			hidden_effect = {
+				random_list = {
+					20 = {
+						SOV = {
+							country_event = {
+								id = sovietscorched.21
+								days = 30
+							}
+						}
+					}
+					20 = {
+						SOV = {
+							country_event = {
+								id = sovietscorched.22
+								days = 30
+							}
+						}
+					}
+					20 = {
+						SOV = {
+							country_event = {
+								id = sovietscorched.23
+								days = 30
+							}
+						}
+					}
+					40 = {
+					}
+				}
+				SOV = {
+					country_event = { # Removes state modifiers
+						id = sovietscorched.5
+						days = 600
+					}
+				}
+			}
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SOV_scorched_finland"
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 13
+					industrial_complex > 0
+				}
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 13
+					}
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 13
+					arms_factory > 0
+				}
+				remove_building = {
+					type = arms_factory
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 13
+					}
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 13
+					industrial_complex > 0
+				}
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 13
+					}
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 13
+					arms_factory > 0
+				}
+				remove_building = {
+					type = arms_factory
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 13
+					}
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 13
+					industrial_complex > 0
+				}
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 13
+					arms_factory > 0
+				}
+				remove_building = {
+					type = arms_factory
+					level = 1
+				}
+			}
+
+			every_state = {
+				limit = {
+					is_controlled_by = SOV
+					region = 13
+				}
+				THIS = {
+					set_state_flag = SOV_scorched_finland
+					add_state_modifier = {
+						modifier = {
+							local_org_regain = -0.5
+							local_intel_to_enemies = -0.5
+							local_supplies = -0.5
+							local_building_slots_factor = -0.5
+							local_non_core_manpower = -1.0
+							local_manpower = -0.5
+							local_resources_factor = -0.5
+						}
+					}
+				}
+			}
+
+			every_state = {
+				limit = {
+					is_controlled_by = SOV
+					region = 13
+					infrastructure > 3
+				}
+				THIS = {
+					remove_building = {
+						type = infrastructure
+						level = 2
+					}
+				}
+			}
+		}
+	}
+
+	SOV_scorched_north_scandinavia = {
+		icon = GFX_decision_generic_ignite_civil_war
+		available = {
+			any_owned_state = {
+				has_state_flag = SOV_north_scandinavia
+				NOT = {
+					is_controlled_by = SOV
+				}
+			}
+		}
+		visible = {
+			any_owned_state = {
+				has_state_flag = SOV_north_scandinavia
+				is_controlled_by = SOV
+			}
+		}
+
+		cancel_if_not_visible = yes
+
+		highlight_states = {
+			state = 213
+		}
+
+		days_remove = 45
+		days_re_enable = 555
+
+		custom_cost_trigger = {
+			command_power > 14
+			has_political_power > 49
+		}
+		custom_cost_text = decision_cost_CP_15_pp_50
+
+		ai_will_do = {
+			factor = 25
+			modifier = {
+				factor = 2
+				SOV = {
+					owns_state = 213
+					NOT = {
+						controls_state = 213
+					}
+				}
+			}
+			modifier = {
+				factor = 2
+				SOV = {
+					surrender_progress > 0.1
+				}
+			}
+			modifier = {
+				factor = 2
+				enemies_strength_ratio > 1
+			}
+			modifier = {
+				factor = 2
+				SOV = {
+					has_defensive_war = yes
+				}
+			}
+		}
+
+		fixed_random_seed = no
+
+		complete_effect = {
+			hidden_effect = {
+				random_list = {
+					20 = {
+						SOV = {
+							country_event = {
+								id = sovietscorched.21
+								days = 30
+							}
+						}
+					}
+					20 = {
+						SOV = {
+							country_event = {
+								id = sovietscorched.22
+								days = 30
+							}
+						}
+					}
+					20 = {
+						SOV = {
+							country_event = {
+								id = sovietscorched.23
+								days = 30
+							}
+						}
+					}
+					40 = {
+					}
+				}
+				SOV = {
+					country_event = { # Removes state modifiers
+						id = sovietscorched.6
+						days = 600
+					}
+				}
+			}
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SOV_scorched_north_scandinavia"
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 12
+					industrial_complex > 0
+				}
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 12
+					}
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 12
+					arms_factory > 0
+				}
+				remove_building = {
+					type = arms_factory
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 12
+					}
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 12
+					industrial_complex > 0
+				}
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 12
+					}
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 12
+					arms_factory > 0
+				}
+				remove_building = {
+					type = arms_factory
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 12
+					}
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 12
+					industrial_complex > 0
+				}
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 12
+					arms_factory > 0
+				}
+				remove_building = {
+					type = arms_factory
+					level = 1
+				}
+			}
+
+			every_state = {
+				limit = {
+					is_controlled_by = SOV
+					region = 12
+				}
+				THIS = {
+					set_state_flag = SOV_scorched_north_scandinavia
+					add_state_modifier = {
+						modifier = {
+							local_org_regain = -0.5
+							local_intel_to_enemies = -0.5
+							local_supplies = -0.5
+							local_building_slots_factor = -0.5
+							local_non_core_manpower = -1.0
+							local_manpower = -0.5
+							local_resources_factor = -0.5
+						}
+					}
+				}
+			}
+
+			every_state = {
+				limit = {
+					is_controlled_by = SOV
+					region = 12
+					infrastructure > 3
+				}
+				THIS = {
+					remove_building = {
+						type = infrastructure
+						level = 2
+					}
+				}
+			}
+		}
+	}
+
+	SOV_scorched_north_front = {
+		icon = GFX_decision_generic_ignite_civil_war
+		available = {
+			any_owned_state = {
+				has_state_flag = SOV_north_front
+				NOT = {
+					is_controlled_by = SOV
+				}
+			}
+		}
+		visible = {
+			any_owned_state = {
+				has_state_flag = SOV_north_front
+				is_controlled_by = SOV
+			}
+		}
+
+		cancel_if_not_visible = yes
+
+		highlight_states = {
+			state = 195
+		}
+
+		days_remove = 45
+		days_re_enable = 555
+
+		custom_cost_trigger = {
+			command_power > 14
+			has_political_power > 49
+		}
+		custom_cost_text = decision_cost_CP_15_pp_50
+
+		ai_will_do = {
+			factor = 25
+			modifier = {
+				factor = 2
+				SOV = {
+					owns_state = 195
+					NOT = {
+						controls_state = 195
+					}
+				}
+			}
+			modifier = {
+				factor = 2
+				SOV = {
+					surrender_progress > 0.25
+				}
+			}
+			modifier = {
+				factor = 2
+				enemies_strength_ratio > 1
+			}
+			modifier = {
+				factor = 2
+				SOV = {
+					has_defensive_war = yes
+				}
+			}
+		}
+
+		fixed_random_seed = no
+
+		complete_effect = {
+			hidden_effect = {
+				random_list = {
+					20 = {
+						SOV = {
+							country_event = {
+								id = sovietscorched.21
+								days = 30
+							}
+						}
+					}
+					20 = {
+						SOV = {
+							country_event = {
+								id = sovietscorched.22
+								days = 30
+							}
+						}
+					}
+					20 = {
+						SOV = {
+							country_event = {
+								id = sovietscorched.23
+								days = 30
+							}
+						}
+					}
+					40 = {
+					}
+				}
+				SOV = {
+					country_event = { # Removes state modifiers
+						id = sovietscorched.7
+						days = 600
+					}
+				}
+			}
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SOV_scorched_north_front"
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 132
+					industrial_complex > 0
+				}
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 132
+					}
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 132
+					arms_factory > 0
+				}
+				remove_building = {
+					type = arms_factory
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 132
+					}
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 132
+					industrial_complex > 0
+				}
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 132
+					}
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 132
+					arms_factory > 0
+				}
+				remove_building = {
+					type = arms_factory
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 132
+					}
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 132
+					industrial_complex > 0
+				}
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 132
+					arms_factory > 0
+				}
+				remove_building = {
+					type = arms_factory
+					level = 1
+				}
+			}
+
+			every_state = {
+				limit = {
+					is_controlled_by = SOV
+					region = 132
+				}
+				THIS = {
+					set_state_flag = SOV_scorched_north_front
+					add_state_modifier = {
+						modifier = {
+							local_org_regain = -0.5
+							local_intel_to_enemies = -0.5
+							local_supplies = -0.5
+							local_building_slots_factor = -0.5
+							local_non_core_manpower = -1.0
+							local_manpower = -0.5
+							local_resources_factor = -0.5
+						}
+					}
+				}
+			}
+
+			every_state = {
+				limit = {
+					is_controlled_by = SOV
+					region = 132
+					infrastructure > 3
+				}
+				THIS = {
+					remove_building = {
+						type = infrastructure
+						level = 2
+					}
+				}
+			}
+		}
+	}
+
+	SOV_scorched_arctic = {
+		icon = GFX_decision_generic_ignite_civil_war
+		available = {
+			any_owned_state = {
+				has_state_flag = SOV_arctic
+				NOT = {
+					is_controlled_by = SOV
+				}
+			}
+		}
+		visible = {
+			any_owned_state = {
+				has_state_flag = SOV_arctic
+				is_controlled_by = SOV
+			}
+		}
+
+		cancel_if_not_visible = yes
+
+		highlight_states = {
+			state = 214
+		}
+
+		days_remove = 45
+		days_re_enable = 555
+
+		custom_cost_trigger = {
+			command_power > 14
+			has_political_power > 49
+		}
+		custom_cost_text = decision_cost_CP_15_pp_50
+
+		ai_will_do = {
+			factor = 25
+			modifier = {
+				factor = 2
+				SOV = {
+					owns_state = 214
+					NOT = {
+						controls_state = 214
+					}
+				}
+			}
+			modifier = {
+				factor = 2
+				SOV = {
+					surrender_progress > 0.5
+				}
+			}
+			modifier = {
+				factor = 2
+				enemies_strength_ratio > 1
+			}
+			modifier = {
+				factor = 2
+				SOV = {
+					has_defensive_war = yes
+				}
+			}
+		}
+
+		fixed_random_seed = no
+
+		complete_effect = {
+			hidden_effect = {
+				random_list = {
+					20 = {
+						SOV = {
+							country_event = {
+								id = sovietscorched.21
+								days = 30
+							}
+						}
+					}
+					20 = {
+						SOV = {
+							country_event = {
+								id = sovietscorched.22
+								days = 30
+							}
+						}
+					}
+					20 = {
+						SOV = {
+							country_event = {
+								id = sovietscorched.23
+								days = 30
+							}
+						}
+					}
+					40 = {
+					}
+				}
+				SOV = {
+					country_event = { # Removes state modifiers
+						id = sovietscorched.8
+						days = 600
+					}
+				}
+			}
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SOV_scorched_arctic"
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 150
+					industrial_complex > 0
+				}
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 150
+					}
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 150
+					arms_factory > 0
+				}
+				remove_building = {
+					type = arms_factory
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 150
+					}
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 150
+					industrial_complex > 0
+				}
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 150
+					}
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 150
+					arms_factory > 0
+				}
+				remove_building = {
+					type = arms_factory
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 150
+					}
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 150
+					industrial_complex > 0
+				}
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 150
+					arms_factory > 0
+				}
+				remove_building = {
+					type = arms_factory
+					level = 1
+				}
+			}
+
+			every_state = {
+				limit = {
+					is_controlled_by = SOV
+					region = 150
+				}
+				THIS = {
+					set_state_flag = SOV_scorched_arctic
+					add_state_modifier = {
+						modifier = {
+							local_org_regain = -0.5
+							local_intel_to_enemies = -0.5
+							local_supplies = -0.5
+							local_building_slots_factor = -0.5
+							local_non_core_manpower = -1.0
+							local_manpower = -0.5
+							local_resources_factor = -0.5
+						}
+					}
+				}
+			}
+
+			every_state = {
+				limit = {
+					is_controlled_by = SOV
+					region = 150
+					infrastructure > 3
+				}
+				THIS = {
+					remove_building = {
+						type = infrastructure
+						level = 2
+					}
+				}
+			}
+		}
+	}
+
+	SOV_scorched_central_russia = {
+		icon = GFX_decision_generic_ignite_civil_war
+		available = {
+			any_owned_state = {
+				has_state_flag = SOV_central_russia
+				NOT = {
+					is_controlled_by = SOV
+				}
+			}
+		}
+		visible = {
+			any_owned_state = {
+				has_state_flag = SOV_central_russia
+				is_controlled_by = SOV
+			}
+		}
+
+		cancel_if_not_visible = yes
+
+		highlight_states = {
+			state = 219
+		}
+
+		days_remove = 45
+		days_re_enable = 555
+
+		custom_cost_trigger = {
+			command_power > 14
+			has_political_power > 49
+		}
+		custom_cost_text = decision_cost_CP_15_pp_50
+
+		ai_will_do = {
+			factor = 25
+			modifier = {
+				factor = 2
+				SOV = {
+					owns_state = 219
+					NOT = {
+						controls_state = 219
+					}
+				}
+			}
+			modifier = {
+				factor = 2
+				SOV = {
+					surrender_progress > 0.25
+				}
+			}
+			modifier = {
+				factor = 2
+				enemies_strength_ratio > 1
+			}
+			modifier = {
+				factor = 2
+				SOV = {
+					has_defensive_war = yes
+				}
+			}
+		}
+
+		fixed_random_seed = no
+
+		complete_effect = {
+			hidden_effect = {
+				random_list = {
+					20 = {
+						SOV = {
+							country_event = {
+								id = sovietscorched.21
+								days = 30
+							}
+						}
+					}
+					20 = {
+						SOV = {
+							country_event = {
+								id = sovietscorched.22
+								days = 30
+							}
+						}
+					}
+					20 = {
+						SOV = {
+							country_event = {
+								id = sovietscorched.23
+								days = 30
+							}
+						}
+					}
+					40 = {
+					}
+				}
+				SOV = {
+					country_event = { # Removes state modifiers
+						id = sovietscorched.9
+						days = 600
+					}
+				}
+			}
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SOV_scorched_central_russia"
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 133
+					industrial_complex > 0
+				}
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 133
+					}
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 133
+					arms_factory > 0
+				}
+				remove_building = {
+					type = arms_factory
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 133
+					}
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 133
+					industrial_complex > 0
+				}
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 133
+					}
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 133
+					arms_factory > 0
+				}
+				remove_building = {
+					type = arms_factory
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 133
+					}
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 133
+					industrial_complex > 0
+				}
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 133
+					arms_factory > 0
+				}
+				remove_building = {
+					type = arms_factory
+					level = 1
+				}
+			}
+
+			every_state = {
+				limit = {
+					is_controlled_by = SOV
+					region = 133
+				}
+				THIS = {
+					set_state_flag = SOV_scorched_central_russia
+					add_state_modifier = {
+						modifier = {
+							local_org_regain = -0.5
+							local_intel_to_enemies = -0.5
+							local_supplies = -0.5
+							local_building_slots_factor = -0.5
+							local_non_core_manpower = -1.0
+							local_manpower = -0.5
+							local_resources_factor = -0.5
+						}
+					}
+				}
+			}
+
+			every_state = {
+				limit = {
+					is_controlled_by = SOV
+					region = 133
+					infrastructure > 3
+				}
+				THIS = {
+					remove_building = {
+						type = infrastructure
+						level = 2
+					}
+				}
+			}
+		}
+	}
+
+	SOV_scorched_west_steppe = {
+		icon = GFX_decision_generic_ignite_civil_war
+		available = {
+			any_owned_state = {
+				has_state_flag = SOV_west_steppe
+				NOT = {
+					is_controlled_by = SOV
+				}
+			}
+		}
+		visible = {
+			any_owned_state = {
+				has_state_flag = SOV_west_steppe
+				is_controlled_by = SOV
+			}
+		}
+
+		cancel_if_not_visible = yes
+
+		highlight_states = {
+			state = 239
+		}
+
+		days_remove = 45
+		days_re_enable = 555
+
+		custom_cost_trigger = {
+			command_power > 14
+			has_political_power > 49
+		}
+		custom_cost_text = decision_cost_CP_15_pp_50
+
+		ai_will_do = {
+			factor = 25
+			modifier = {
+				factor = 2
+				SOV = {
+					owns_state = 239
+					NOT = {
+						controls_state = 239
+					}
+				}
+			}
+			modifier = {
+				factor = 2
+				SOV = {
+					surrender_progress > 0.25
+				}
+			}
+			modifier = {
+				factor = 2
+				enemies_strength_ratio > 1
+			}
+			modifier = {
+				factor = 2
+				SOV = {
+					has_defensive_war = yes
+				}
+			}
+		}
+
+		fixed_random_seed = no
+
+		complete_effect = {
+			hidden_effect = {
+				random_list = {
+					20 = {
+						SOV = {
+							country_event = {
+								id = sovietscorched.21
+								days = 30
+							}
+						}
+					}
+					20 = {
+						SOV = {
+							country_event = {
+								id = sovietscorched.22
+								days = 30
+							}
+						}
+					}
+					20 = {
+						SOV = {
+							country_event = {
+								id = sovietscorched.23
+								days = 30
+							}
+						}
+					}
+					40 = {
+					}
+				}
+				SOV = {
+					country_event = { # Removes state modifiers
+						id = sovietscorched.10
+						days = 600
+					}
+				}
+			}
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SOV_scorched_west_steppe"
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 137
+					industrial_complex > 0
+				}
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 137
+					}
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 137
+					arms_factory > 0
+				}
+				remove_building = {
+					type = arms_factory
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 137
+					}
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 137
+					industrial_complex > 0
+				}
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 137
+					}
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 137
+					arms_factory > 0
+				}
+				remove_building = {
+					type = arms_factory
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 137
+					}
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 137
+					industrial_complex > 0
+				}
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 137
+					arms_factory > 0
+				}
+				remove_building = {
+					type = arms_factory
+					level = 1
+				}
+			}
+
+			every_state = {
+				limit = {
+					is_controlled_by = SOV
+					region = 137
+				}
+				THIS = {
+					set_state_flag = SOV_scorched_west_steppe
+					add_state_modifier = {
+						modifier = {
+							local_org_regain = -0.5
+							local_intel_to_enemies = -0.5
+							local_supplies = -0.5
+							local_building_slots_factor = -0.5
+							local_non_core_manpower = -1.0
+							local_manpower = -0.5
+							local_resources_factor = -0.5
+						}
+					}
+				}
+			}
+
+			every_state = {
+				limit = {
+					is_controlled_by = SOV
+					region = 137
+					infrastructure > 3
+				}
+				THIS = {
+					remove_building = {
+						type = infrastructure
+						level = 2
+					}
+				}
+			}
+		}
+	}
+
+	SOV_scorched_transvolga = {
+		icon = GFX_decision_generic_ignite_civil_war
+		available = {
+			any_owned_state = {
+				has_state_flag = SOV_transvolga
+				NOT = {
+					is_controlled_by = SOV
+				}
+			}
+		}
+		visible = {
+			any_owned_state = {
+				has_state_flag = SOV_transvolga
+				is_controlled_by = SOV
+			}
+		}
+
+		cancel_if_not_visible = yes
+
+		highlight_states = {
+			state = 249
+		}
+
+		days_remove = 45
+		days_re_enable = 555
+
+		custom_cost_trigger = {
+			command_power > 14
+			has_political_power > 49
+		}
+		custom_cost_text = decision_cost_CP_15_pp_50
+
+		ai_will_do = {
+			factor = 25
+			modifier = {
+				factor = 2
+				SOV = {
+					owns_state = 249
+					NOT = {
+						controls_state = 249
+					}
+				}
+			}
+			modifier = {
+				factor = 2
+				SOV = {
+					surrender_progress > 0.5
+				}
+			}
+			modifier = {
+				factor = 2
+				enemies_strength_ratio > 1
+			}
+			modifier = {
+				factor = 2
+				SOV = {
+					has_defensive_war = yes
+				}
+			}
+		}
+
+		fixed_random_seed = no
+
+		complete_effect = {
+			hidden_effect = {
+				random_list = {
+					20 = {
+						SOV = {
+							country_event = {
+								id = sovietscorched.21
+								days = 30
+							}
+						}
+					}
+					20 = {
+						SOV = {
+							country_event = {
+								id = sovietscorched.22
+								days = 30
+							}
+						}
+					}
+					20 = {
+						SOV = {
+							country_event = {
+								id = sovietscorched.23
+								days = 30
+							}
+						}
+					}
+					40 = {
+					}
+				}
+				SOV = {
+					country_event = { # Removes state modifiers
+						id = sovietscorched.11
+						days = 600
+					}
+				}
+			}
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SOV_scorched_transvolga"
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 40
+					industrial_complex > 0
+				}
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 40
+					}
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 40
+					arms_factory > 0
+				}
+				remove_building = {
+					type = arms_factory
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 40
+					}
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 40
+					industrial_complex > 0
+				}
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 40
+					}
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 40
+					arms_factory > 0
+				}
+				remove_building = {
+					type = arms_factory
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 40
+					}
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 40
+					industrial_complex > 0
+				}
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 40
+					arms_factory > 0
+				}
+				remove_building = {
+					type = arms_factory
+					level = 1
+				}
+			}
+
+			every_state = {
+				limit = {
+					is_controlled_by = SOV
+					region = 40
+				}
+				THIS = {
+					set_state_flag = SOV_scorched_transvolga
+					add_state_modifier = {
+						modifier = {
+							local_org_regain = -0.5
+							local_intel_to_enemies = -0.5
+							local_supplies = -0.5
+							local_building_slots_factor = -0.5
+							local_non_core_manpower = -1.0
+							local_manpower = -0.5
+							local_resources_factor = -0.5
+						}
+					}
+				}
+			}
+
+			every_state = {
+				limit = {
+					is_controlled_by = SOV
+					region = 40
+					infrastructure > 3
+				}
+				THIS = {
+					remove_building = {
+						type = infrastructure
+						level = 2
+					}
+				}
+			}
+		}
+	}
+
+	SOV_scorched_kuban = {
+		icon = GFX_decision_generic_ignite_civil_war
+		available = {
+			any_owned_state = {
+				has_state_flag = SOV_kuban
+				NOT = {
+					is_controlled_by = SOV
+				}
+			}
+		}
+		visible = {
+			any_owned_state = {
+				has_state_flag = SOV_kuban
+				is_controlled_by = SOV
+			}
+		}
+
+		cancel_if_not_visible = yes
+
+		highlight_states = {
+			state = 234
+		}
+
+		days_remove = 45
+		days_re_enable = 555
+
+		custom_cost_trigger = {
+			command_power > 14
+			has_political_power > 49
+		}
+		custom_cost_text = decision_cost_CP_15_pp_50
+
+		ai_will_do = {
+			factor = 25
+			modifier = {
+				factor = 2
+				SOV = {
+					owns_state = 234
+					NOT = {
+						controls_state = 234
+					}
+				}
+			}
+			modifier = {
+				factor = 2
+				SOV = {
+					surrender_progress > 0.25
+				}
+			}
+			modifier = {
+				factor = 2
+				enemies_strength_ratio > 1
+			}
+			modifier = {
+				factor = 2
+				SOV = {
+					has_defensive_war = yes
+				}
+			}
+		}
+		fixed_random_seed = no
+
+		complete_effect = {
+			hidden_effect = {
+				random_list = {
+					20 = {
+						SOV = {
+							country_event = {
+								id = sovietscorched.21
+								days = 30
+							}
+						}
+					}
+					20 = {
+						SOV = {
+							country_event = {
+								id = sovietscorched.22
+								days = 30
+							}
+						}
+					}
+					20 = {
+						SOV = {
+							country_event = {
+								id = sovietscorched.23
+								days = 30
+							}
+						}
+					}
+					40 = {
+					}
+				}
+				SOV = {
+					country_event = { # Removes state modifiers
+						id = sovietscorched.12
+						days = 600
+					}
+				}
+			}
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SOV_scorched_kuban"
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 135
+					industrial_complex > 0
+				}
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 135
+					}
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 135
+					arms_factory > 0
+				}
+				remove_building = {
+					type = arms_factory
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 135
+					}
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 135
+					industrial_complex > 0
+				}
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 135
+					}
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 135
+					arms_factory > 0
+				}
+				remove_building = {
+					type = arms_factory
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 135
+					}
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 135
+					industrial_complex > 0
+				}
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 135
+					arms_factory > 0
+				}
+				remove_building = {
+					type = arms_factory
+					level = 1
+				}
+			}
+
+			every_state = {
+				limit = {
+					is_controlled_by = SOV
+					region = 135
+				}
+				THIS = {
+					set_state_flag = SOV_scorched_kuban
+					add_state_modifier = {
+						modifier = {
+							local_org_regain = -0.5
+							local_intel_to_enemies = -0.5
+							local_supplies = -0.5
+							local_building_slots_factor = -0.5
+							local_non_core_manpower = -1.0
+							local_manpower = -0.5
+							local_resources_factor = -0.5
+						}
+					}
+				}
+			}
+
+			every_state = {
+				limit = {
+					is_controlled_by = SOV
+					region = 135
+					infrastructure > 3
+				}
+				THIS = {
+					remove_building = {
+						type = infrastructure
+						level = 2
+					}
+				}
+			}
+		}
+	}
+
+	SOV_scorched_caucasus = {
+		icon = GFX_decision_generic_ignite_civil_war
+		available = {
+			any_owned_state = {
+				has_state_flag = SOV_caucasus
+				NOT = {
+					is_controlled_by = SOV
+				}
+			}
+		}
+		visible = {
+			any_owned_state = {
+				has_state_flag = SOV_caucasus
+				is_controlled_by = SOV
+			}
+		}
+
+		cancel_if_not_visible = yes
+
+		highlight_states = {
+			state = 231
+		}
+
+		days_remove = 45
+		days_re_enable = 555
+
+		custom_cost_trigger = {
+			command_power > 14
+			has_political_power > 49
+		}
+		custom_cost_text = decision_cost_CP_15_pp_50
+
+		ai_will_do = {
+			factor = 25
+			modifier = {
+				factor = 2
+				SOV = {
+					owns_state = 231
+					NOT = {
+						controls_state = 231
+					}
+				}
+			}
+			modifier = {
+				factor = 2
+				SOV = {
+					surrender_progress > 0.2
+				}
+			}
+			modifier = {
+				factor = 2
+				enemies_strength_ratio > 1
+			}
+			modifier = {
+				factor = 2
+				SOV = {
+					has_defensive_war = yes
+				}
+			}
+		}
+
+		fixed_random_seed = no
+
+		complete_effect = {
+			hidden_effect = {
+				random_list = {
+					20 = {
+						SOV = {
+							country_event = {
+								id = sovietscorched.21
+								days = 30
+							}
+						}
+					}
+					20 = {
+						SOV = {
+							country_event = {
+								id = sovietscorched.22
+								days = 30
+							}
+						}
+					}
+					20 = {
+						SOV = {
+							country_event = {
+								id = sovietscorched.23
+								days = 30
+							}
+						}
+					}
+					40 = {
+					}
+				}
+				SOV = {
+					country_event = { # Removes state modifiers
+						id = sovietscorched.13
+						days = 600
+					}
+				}
+			}
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SOV_scorched_caucasus"
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 134
+					industrial_complex > 0
+				}
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 134
+					}
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 134
+					arms_factory > 0
+				}
+				remove_building = {
+					type = arms_factory
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 134
+					}
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 134
+					industrial_complex > 0
+				}
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 134
+					}
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 134
+					arms_factory > 0
+				}
+				remove_building = {
+					type = arms_factory
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 134
+					}
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 134
+					industrial_complex > 0
+				}
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 134
+					arms_factory > 0
+				}
+				remove_building = {
+					type = arms_factory
+					level = 1
+				}
+			}
+
+			every_state = {
+				limit = {
+					is_controlled_by = SOV
+					region = 134
+				}
+				THIS = {
+					set_state_flag = SOV_scorched_caucasus
+					add_state_modifier = {
+						modifier = {
+							local_org_regain = -0.5
+							local_intel_to_enemies = -0.5
+							local_supplies = -0.5
+							local_building_slots_factor = -0.5
+							local_non_core_manpower = -1.0
+							local_manpower = -0.5
+							local_resources_factor = -0.5
+						}
+					}
+				}
+			}
+
+			every_state = {
+				limit = {
+					is_controlled_by = SOV
+					region = 134
+					infrastructure > 3
+				}
+				THIS = {
+					remove_building = {
+						type = infrastructure
+						level = 2
+					}
+				}
+			}
+		}
+	}
+
+	SOV_scorched_ural = {
+		icon = GFX_decision_generic_ignite_civil_war
+		available = {
+			any_owned_state = {
+				has_state_flag = SOV_ural
+				NOT = {
+					is_controlled_by = SOV
+				}
+			}
+		}
+		visible = {
+			any_owned_state = {
+				has_state_flag = SOV_ural
+				is_controlled_by = SOV
+			}
+		}
+
+		cancel_if_not_visible = yes
+
+		highlight_states = {
+			state = 582
+		}
+
+		days_remove = 45
+		days_re_enable = 555
+
+		custom_cost_trigger = {
+			command_power > 14
+			has_political_power > 49
+		}
+		custom_cost_text = decision_cost_CP_15_pp_50
+
+		ai_will_do = {
+			factor = 25
+			modifier = {
+				factor = 2
+				SOV = {
+					owns_state = 582
+					NOT = {
+						controls_state = 582
+					}
+				}
+			}
+			modifier = {
+				factor = 2
+				SOV = {
+					surrender_progress > 0.5
+				}
+			}
+			modifier = {
+				factor = 2
+				enemies_strength_ratio > 1
+			}
+			modifier = {
+				factor = 2
+				SOV = {
+					has_defensive_war = yes
+				}
+			}
+		}
+
+		fixed_random_seed = no
+
+		complete_effect = {
+			hidden_effect = {
+				random_list = {
+					20 = {
+						SOV = {
+							country_event = {
+								id = sovietscorched.21
+								days = 30
+							}
+						}
+					}
+					20 = {
+						SOV = {
+							country_event = {
+								id = sovietscorched.22
+								days = 30
+							}
+						}
+					}
+					20 = {
+						SOV = {
+							country_event = {
+								id = sovietscorched.23
+								days = 30
+							}
+						}
+					}
+					40 = {
+					}
+				}
+				SOV = {
+					country_event = { # Removes state modifiers
+						id = sovietscorched.14
+						days = 600
+					}
+				}
+			}
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SOV_scorched_ural"
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 138
+					industrial_complex > 0
+				}
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 138
+					}
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 138
+					arms_factory > 0
+				}
+				remove_building = {
+					type = arms_factory
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 138
+					}
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 138
+					industrial_complex > 0
+				}
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 138
+					}
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 138
+					arms_factory > 0
+				}
+				remove_building = {
+					type = arms_factory
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 138
+					}
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 138
+					industrial_complex > 0
+				}
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 138
+					arms_factory > 0
+				}
+				remove_building = {
+					type = arms_factory
+					level = 1
+				}
+			}
+
+			every_state = {
+				limit = {
+					is_controlled_by = SOV
+					region = 138
+				}
+				THIS = {
+					set_state_flag = SOV_scorched_ural
+					add_state_modifier = {
+						modifier = {
+							local_org_regain = -0.5
+							local_intel_to_enemies = -0.5
+							local_supplies = -0.5
+							local_building_slots_factor = -0.5
+							local_non_core_manpower = -1.0
+							local_manpower = -0.5
+							local_resources_factor = -0.5
+						}
+					}
+				}
+			}
+
+			every_state = {
+				limit = {
+					is_controlled_by = SOV
+					region = 138
+					infrastructure > 3
+				}
+				THIS = {
+					remove_building = {
+						type = infrastructure
+						level = 2
+					}
+				}
+			}
+		}
+	}
+
+	SOV_scorched_great_steppe = {
+		icon = GFX_decision_generic_ignite_civil_war
+		available = {
+			any_owned_state = {
+				has_state_flag = SOV_great_steppe
+				NOT = {
+					is_controlled_by = SOV
+				}
+			}
+		}
+		visible = {
+			any_owned_state = {
+				has_state_flag = SOV_great_steppe
+				is_controlled_by = SOV
+			}
+		}
+
+		cancel_if_not_visible = yes
+
+		highlight_states = {
+			state = 590
+		}
+
+		days_remove = 45
+		days_re_enable = 555
+
+		custom_cost_trigger = {
+			command_power > 14
+			has_political_power > 49
+		}
+		custom_cost_text = decision_cost_CP_15_pp_50
+
+		ai_will_do = {
+			factor = 25
+			modifier = {
+				factor = 2
+				SOV = {
+					owns_state = 590
+					NOT = {
+						controls_state = 590
+					}
+				}
+			}
+			modifier = {
+				factor = 2
+				SOV = {
+					surrender_progress > 0.5
+				}
+			}
+			modifier = {
+				factor = 2
+				enemies_strength_ratio > 1
+			}
+			modifier = {
+				factor = 2
+				SOV = {
+					has_defensive_war = yes
+				}
+			}
+		}
+
+		fixed_random_seed = no
+
+		complete_effect = {
+			hidden_effect = {
+				random_list = {
+					20 = {
+						SOV = {
+							country_event = {
+								id = sovietscorched.21
+								days = 30
+							}
+						}
+					}
+					20 = {
+						SOV = {
+							country_event = {
+								id = sovietscorched.22
+								days = 30
+							}
+						}
+					}
+					20 = {
+						SOV = {
+							country_event = {
+								id = sovietscorched.23
+								days = 30
+							}
+						}
+					}
+					40 = {
+					}
+				}
+				SOV = {
+					country_event = { # Removes state modifiers
+						id = sovietscorched.15
+						days = 600
+					}
+				}
+			}
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SOV_scorched_great_steppe"
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 136
+					industrial_complex > 0
+				}
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 136
+					}
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 136
+					arms_factory > 0
+				}
+				remove_building = {
+					type = arms_factory
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 136
+					}
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 136
+					industrial_complex > 0
+				}
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 136
+					}
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 136
+					arms_factory > 0
+				}
+				remove_building = {
+					type = arms_factory
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 136
+					}
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 136
+					industrial_complex > 0
+				}
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 136
+					arms_factory > 0
+				}
+				remove_building = {
+					type = arms_factory
+					level = 1
+				}
+			}
+
+			every_state = {
+				limit = {
+					is_controlled_by = SOV
+					region = 136
+				}
+				THIS = {
+					set_state_flag = SOV_scorched_great_steppe
+					add_state_modifier = {
+						modifier = {
+							local_org_regain = -0.5
+							local_intel_to_enemies = -0.5
+							local_supplies = -0.5
+							local_building_slots_factor = -0.5
+							local_non_core_manpower = -1.0
+							local_manpower = -0.5
+							local_resources_factor = -0.5
+						}
+					}
+				}
+			}
+
+			every_state = {
+				limit = {
+					is_controlled_by = SOV
+					region = 136
+					infrastructure > 3
+				}
+				THIS = {
+					remove_building = {
+						type = infrastructure
+						level = 2
+					}
+				}
+			}
+		}
+	}
+
+	SOV_scorched_trans_urals = {
+		icon = GFX_decision_generic_ignite_civil_war
+		available = {
+			any_owned_state = {
+				has_state_flag = SOV_trans_urals
+				NOT = {
+					is_controlled_by = SOV
+				}
+			}
+		}
+		visible = {
+			any_owned_state = {
+				has_state_flag = SOV_trans_urals
+				is_controlled_by = SOV
+			}
+		}
+
+		cancel_if_not_visible = yes
+
+		highlight_states = {
+			state = 653
+		}
+
+		days_remove = 45
+		days_re_enable = 555
+
+		custom_cost_trigger = {
+			command_power > 14
+			has_political_power > 49
+		}
+		custom_cost_text = decision_cost_CP_15_pp_50
+
+		ai_will_do = {
+			factor = 25
+			modifier = {
+				factor = 2
+				SOV = {
+					owns_state = 653
+					NOT = {
+						controls_state = 653
+					}
+				}
+			}
+			modifier = {
+				factor = 2
+				SOV = {
+					surrender_progress > 0.5
+				}
+			}
+			modifier = {
+				factor = 2
+				enemies_strength_ratio > 1
+			}
+			modifier = {
+				factor = 2
+				SOV = {
+					has_defensive_war = yes
+				}
+			}
+		}
+
+		fixed_random_seed = no
+
+		complete_effect = {
+			hidden_effect = {
+				random_list = {
+					20 = {
+						SOV = {
+							country_event = {
+								id = sovietscorched.21
+								days = 30
+							}
+						}
+					}
+					20 = {
+						SOV = {
+							country_event = {
+								id = sovietscorched.22
+								days = 30
+							}
+						}
+					}
+					20 = {
+						SOV = {
+							country_event = {
+								id = sovietscorched.23
+								days = 30
+							}
+						}
+					}
+					40 = {
+					}
+				}
+				SOV = {
+					country_event = { # Removes state modifiers
+						id = sovietscorched.16
+						days = 600
+					}
+				}
+			}
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SOV_scorched_trans_urals"
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 14
+					industrial_complex > 0
+				}
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 14
+					}
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 14
+					arms_factory > 0
+				}
+				remove_building = {
+					type = arms_factory
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 14
+					}
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 14
+					industrial_complex > 0
+				}
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 14
+					}
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 14
+					arms_factory > 0
+				}
+				remove_building = {
+					type = arms_factory
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 14
+					}
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 14
+					industrial_complex > 0
+				}
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 14
+					arms_factory > 0
+				}
+				remove_building = {
+					type = arms_factory
+					level = 1
+				}
+			}
+
+			every_state = {
+				limit = {
+					is_controlled_by = SOV
+					region = 14
+				}
+				THIS = {
+					set_state_flag = SOV_scorched_trans_urals
+					add_state_modifier = {
+						modifier = {
+							local_org_regain = -0.5
+							local_intel_to_enemies = -0.5
+							local_supplies = -0.5
+							local_building_slots_factor = -0.5
+							local_non_core_manpower = -1.0
+							local_manpower = -0.5
+							local_resources_factor = -0.5
+						}
+					}
+				}
+			}
+
+			every_state = {
+				limit = {
+					is_controlled_by = SOV
+					region = 14
+					infrastructure > 3
+				}
+				THIS = {
+					remove_building = {
+						type = infrastructure
+						level = 2
+					}
+				}
+			}
+		}
+	}
+
+	SOV_scorched_east_siberia = {
+		icon = GFX_decision_generic_ignite_civil_war
+		available = {
+			any_owned_state = {
+				has_state_flag = SOV_east_siberia
+				NOT = {
+					is_controlled_by = SOV
+				}
+			}
+		}
+		visible = {
+			any_owned_state = {
+				has_state_flag = SOV_east_siberia
+				is_controlled_by = SOV
+			}
+		}
+
+		cancel_if_not_visible = yes
+
+		highlight_states = {
+			state = 563
+		}
+
+		days_remove = 45
+		days_re_enable = 555
+
+		custom_cost_trigger = {
+			command_power > 14
+			has_political_power > 49
+		}
+		custom_cost_text = decision_cost_CP_15_pp_50
+
+		ai_will_do = {
+			factor = 25
+			modifier = {
+				factor = 2
+				SOV = {
+					owns_state = 563
+					NOT = {
+						controls_state = 563
+					}
+				}
+			}
+			modifier = {
+				factor = 2
+				SOV = {
+					surrender_progress > 0.15
+				}
+			}
+			modifier = {
+				factor = 2
+				enemies_strength_ratio > 1
+			}
+			modifier = {
+				factor = 2
+				SOV = {
+					has_defensive_war = yes
+				}
+			}
+		}
+
+		fixed_random_seed = no
+
+		complete_effect = {
+			hidden_effect = {
+				random_list = {
+					20 = {
+						SOV = {
+							country_event = {
+								id = sovietscorched.21
+								days = 30
+							}
+						}
+					}
+					20 = {
+						SOV = {
+							country_event = {
+								id = sovietscorched.22
+								days = 30
+							}
+						}
+					}
+					20 = {
+						SOV = {
+							country_event = {
+								id = sovietscorched.23
+								days = 30
+							}
+						}
+					}
+					40 = {
+					}
+				}
+				SOV = {
+					country_event = { # Removes state modifiers
+						id = sovietscorched.17
+						days = 600
+					}
+				}
+			}
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SOV_scorched_east_siberia"
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 149
+					industrial_complex > 0
+				}
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 149
+					}
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 149
+					arms_factory > 0
+				}
+				remove_building = {
+					type = arms_factory
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 149
+					}
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 149
+					industrial_complex > 0
+				}
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 149
+					}
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 149
+					arms_factory > 0
+				}
+				remove_building = {
+					type = arms_factory
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 149
+					}
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 149
+					industrial_complex > 0
+				}
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 149
+					arms_factory > 0
+				}
+				remove_building = {
+					type = arms_factory
+					level = 1
+				}
+			}
+
+			every_state = {
+				limit = {
+					is_controlled_by = SOV
+					region = 149
+				}
+				THIS = {
+					set_state_flag = SOV_scorched_east_siberia
+					add_state_modifier = {
+						modifier = {
+							local_org_regain = -0.5
+							local_intel_to_enemies = -0.5
+							local_supplies = -0.5
+							local_building_slots_factor = -0.5
+							local_non_core_manpower = -1.0
+							local_manpower = -0.5
+							local_resources_factor = -0.5
+						}
+					}
+				}
+			}
+
+			every_state = {
+				limit = {
+					is_controlled_by = SOV
+					region = 149
+					infrastructure > 3
+				}
+				THIS = {
+					remove_building = {
+						type = infrastructure
+						level = 2
+					}
+				}
+			}
+		}
+	}
+
+	SOV_scorched_far_east = {
+		icon = GFX_decision_generic_ignite_civil_war
+		available = {
+			any_owned_state = {
+				has_state_flag = SOV_far_east
+				NOT = {
+					is_controlled_by = SOV
+				}
+			}
+		}
+
+		visible = {
+			any_owned_state = {
+				has_state_flag = SOV_far_east
+				is_controlled_by = SOV
+			}
+		}
+
+		cancel_if_not_visible = yes
+
+		highlight_states = {
+			state = 408
+		}
+
+		days_remove = 45
+		days_re_enable = 555
+
+		custom_cost_trigger = {
+			command_power > 14
+			has_political_power > 49
+		}
+		custom_cost_text = decision_cost_CP_15_pp_50
+
+		ai_will_do = {
+			factor = 25
+			modifier = {
+				factor = 2
+				SOV = {
+					owns_state = 408
+					NOT = {
+						controls_state = 408
+					}
+				}
+			}
+			modifier = {
+				factor = 2
+				SOV = {
+					surrender_progress > 0.1
+				}
+			}
+			modifier = {
+				factor = 2
+				enemies_strength_ratio > 1
+			}
+			modifier = {
+				factor = 2
+				SOV = {
+					has_defensive_war = yes
+				}
+			}
+		}
+
+		fixed_random_seed = no
+
+		complete_effect = {
+			hidden_effect = {
+				random_list = {
+					20 = {
+						SOV = {
+							country_event = {
+								id = sovietscorched.21
+								days = 30
+							}
+						}
+					}
+					20 = {
+						SOV = {
+							country_event = {
+								id = sovietscorched.22
+								days = 30
+							}
+						}
+					}
+					20 = {
+						SOV = {
+							country_event = {
+								id = sovietscorched.23
+								days = 30
+							}
+						}
+					}
+					40 = {
+					}
+				}
+				SOV = {
+					country_event = { # Removes state modifiers
+						id = sovietscorched.18
+						days = 600
+					}
+				}
+			}
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SOV_scorched_far_east"
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 148
+					industrial_complex > 0
+				}
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 148
+					}
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 148
+					arms_factory > 0
+				}
+				remove_building = {
+					type = arms_factory
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 148
+					}
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 148
+					industrial_complex > 0
+				}
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 148
+					}
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 148
+					arms_factory > 0
+				}
+				remove_building = {
+					type = arms_factory
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 148
+					}
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 148
+					industrial_complex > 0
+				}
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 148
+					arms_factory > 0
+				}
+				remove_building = {
+					type = arms_factory
+					level = 1
+				}
+			}
+
+			every_state = {
+				limit = {
+					is_controlled_by = SOV
+					region = 148
+				}
+				PREV = {
+					set_state_flag = SOV_scorched_far_east
+					add_state_modifier = {
+						modifier = {
+							local_org_regain = -0.5
+							local_intel_to_enemies = -0.5
+							local_supplies = -0.5
+							local_building_slots_factor = -0.5
+							local_non_core_manpower = -1.0
+							local_manpower = -0.5
+							local_resources_factor = -0.5
+						}
+					}
+				}
+			}
+
+			every_state = {
+				limit = {
+					is_controlled_by = SOV
+					region = 148
+					infrastructure > 3
+				}
+				THIS = {
+					remove_building = {
+						type = infrastructure
+						level = 2
+					}
+				}
+			}
+		}
+	}
+
+	SOV_scorched_west_siberia = {
+		icon = GFX_decision_generic_ignite_civil_war
+		available = {
+			any_owned_state = {
+				has_state_flag = SOV_west_siberia
+				OR = {
+					is_controlled_by = GER
+					is_controlled_by = ENG
+					is_controlled_by = FRA
+					is_controlled_by = JAP
+					is_controlled_by = ITA
+					is_controlled_by = USA
+					is_controlled_by = POL
+					is_controlled_by = RUS
+				}
+			}
+		}
+
+		visible = {
+			any_owned_state = {
+				has_state_flag = SOV_west_siberia
+				is_controlled_by = SOV
+			}
+		}
+
+		cancel_if_not_visible = yes
+
+		highlight_states = {
+			state = 570
+		}
+
+		days_remove = 45
+		days_re_enable = 555
+
+		custom_cost_trigger = {
+			command_power > 14
+			has_political_power > 49
+		}
+		custom_cost_text = decision_cost_CP_15_pp_50
+
+		ai_will_do = {
+			factor = 25
+			modifier = {
+				factor = 2
+				SOV = {
+					owns_state = 570
+					NOT = {
+						controls_state = 570
+					}
+				}
+			}
+			modifier = {
+				factor = 2
+				SOV = {
+					surrender_progress > 0.5
+				}
+			}
+			modifier = {
+				factor = 2
+				enemies_strength_ratio > 1
+			}
+			modifier = {
+				factor = 2
+				SOV = {
+					has_defensive_war = yes
+				}
+			}
+		}
+
+		fixed_random_seed = no
+
+		complete_effect = {
+			hidden_effect = {
+				random_list = {
+					20 = {
+						SOV = {
+							country_event = {
+								id = sovietscorched.21
+								days = 30
+							}
+						}
+					}
+					20 = {
+						SOV = {
+							country_event = {
+								id = sovietscorched.22
+								days = 30
+							}
+						}
+					}
+					20 = {
+						SOV = {
+							country_event = {
+								id = sovietscorched.23
+								days = 30
+							}
+						}
+					}
+					40 = {
+					}
+				}
+				SOV = {
+					country_event = { # Removes state modifiers
+						id = sovietscorched.19
+						days = 600
+					}
+				}
+			}
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SOV_scorched_west_siberia"
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 151
+					industrial_complex > 0
+				}
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 151
+					}
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 151
+					arms_factory > 0
+				}
+				remove_building = {
+					type = arms_factory
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 151
+					}
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 151
+					industrial_complex > 0
+				}
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 151
+					}
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 151
+					arms_factory > 0
+				}
+				remove_building = {
+					type = arms_factory
+					level = 1
+				}
+			}
+
+			random_state = { # put it somewhere else
+				limit = {
+					is_controlled_by = SOV
+					NOT = {
+						region = 151
+					}
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+					}
+				}
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 151
+					industrial_complex > 0
+				}
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+
+			random_state = { # remove building
+				limit = {
+					is_controlled_by = SOV
+					region = 151
+					arms_factory > 0
+				}
+				remove_building = {
+					type = arms_factory
+					level = 1
+				}
+			}
+
+			every_state = {
+				limit = {
+					is_controlled_by = SOV
+					region = 151
+				}
+				THIS = {
+					set_state_flag = SOV_scorched_west_siberia
+					add_state_modifier = {
+						modifier = {
+							local_org_regain = -0.5
+							local_intel_to_enemies = -0.5
+							local_supplies = -0.5
+							local_building_slots_factor = -0.5
+							local_non_core_manpower = -1.0
+							local_manpower = -0.5
+							local_resources_factor = -0.5
+						}
+					}
+				}
+			}
+
+			every_state = {
+				limit = {
+					is_controlled_by = SOV
+					region = 151
+					infrastructure > 3
+				}
+				THIS = {
+					remove_building = {
+						type = infrastructure
+						level = 2
+					}
+				}
+			}
+		}
+	}
+
+}

@@ -1,0 +1,864 @@
+
+DEN_domestic_affairs_decisions = {
+
+	DEN_anti_republican_propaganda = {
+
+		icon = generic_form_nation
+		available = {
+			NOT = {
+				has_government = vanguardist
+				has_government = collectivist
+				has_government = libertarian_socialist
+				is_in_array = { ROOT.coalition_partners = token:libertarian_socialist }
+			}
+		}
+		visible = {
+			NOT = {
+				has_government = libertarian_socialist
+			}
+		}
+		ai_will_do = {
+			factor = 1
+		}
+		fire_only_once = no
+
+		days_re_enable = 50
+		cost = 50
+		days_remove = 75
+
+		modifier = {
+			political_power_gain = -0.10
+			libertarian_socialist_drift = -0.01
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision DEN_anti_republican_propaganda"
+		}
+
+		remove_effect = {
+			add_political_power = 5
+		}
+	}
+
+	DEN_clamp_down_valkist_gangs = {
+
+		icon = generic_form_nation
+		available = {
+			controls_state = 784
+			has_country_flag = DEN_flensburg_decision_flag
+		}
+		visible = {
+			has_country_flag = DEN_flensburg_decision_flag
+		}
+		ai_will_do = {
+			factor = 1
+		}
+		fire_only_once = no
+
+		days_re_enable = 50
+		cost = 50
+		days_remove = 75
+
+		modifier = {
+			political_power_gain = -0.10
+			weekly_manpower = -150
+			valkist_drift = -0.01
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision DEN_anti_republican_propaganda"
+		}
+
+		remove_effect = {
+			784 = {
+				if = {
+					limit = {
+						has_resistance = yes
+					}
+					add_resistance_target = -5
+					else = {
+						start_resistance = yes
+						force_enable_resistance = yes
+					}
+				}
+				add_compliance = -5
+			}
+		}
+	}
+
+	DEN_invite_rheinlander_politicians_flensburg = {
+
+		icon = generic_form_nation
+		available = {
+			controls_state = 784
+			has_country_flag = DEN_flensburg_decision_flag
+			RHI = {
+				exists = yes
+			}
+		}
+		visible = {
+			has_country_flag = DEN_flensburg_decision_flag
+		}
+		ai_will_do = {
+			factor = 1
+		}
+		fire_only_once = yes
+
+		cost = 65
+		days_remove = 50
+
+		modifier = {
+			political_power_gain = -0.15
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision DEN_invite_rheinlander_politicians_flensburg"
+		}
+
+		remove_effect = {
+			784 = {
+				if = {
+					limit = {
+						has_resistance = yes
+					}
+					add_resistance_target = -5
+					else = {
+						start_resistance = yes
+						force_enable_resistance = yes
+					}
+				}
+				add_compliance = 5
+			}
+			add_popularity = { ideology = valkist popularity = -0.01 }
+		}
+	}
+
+	DEN_end_army_rule_flensburg = {
+
+		icon = generic_form_nation
+		available = {
+			controls_state = 784
+			has_country_flag = DEN_flensburg_decision_flag
+			784 = {
+				compliance > 60
+				resistance < 15
+			}
+			OR = {
+				has_completed_focus = DEN_and_against_extremism
+				has_completed_focus = DEN_empower_unions
+				has_completed_focus = DEN_anti_extremism
+				has_completed_focus = DEN_red_scare
+			}
+		}
+		visible = {
+			has_country_flag = DEN_flensburg_decision_flag
+		}
+		ai_will_do = {
+			factor = 1
+		}
+		fire_only_once = yes
+
+		cost = 60
+		days_remove = 25
+
+		modifier = {
+			political_power_gain = -0.10
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision DEN_end_army_rule_flensburg"
+		}
+
+		remove_effect = {
+			784 = {
+				if = {
+					limit = {
+						has_resistance = yes
+					}
+					add_resistance_target = -10
+					else = {
+						start_resistance = yes
+						force_enable_resistance = yes
+					}
+				}
+				add_compliance = -5
+			}
+			country_event = { id = denmark.62 days = 6 }
+		}
+	}
+
+	DEN_ready_for_plebiscite = {
+
+		icon = generic_form_nation
+		available = {
+			controls_state = 784
+			has_country_flag = DEN_flensburg_decision2_flag
+			784 = {
+				compliance > 70
+				resistance < 10
+			}
+		}
+		visible = {
+			has_country_flag = DEN_flensburg_decision_flag
+		}
+		ai_will_do = {
+			factor = 1
+		}
+		fire_only_once = yes
+
+		cost = 40
+		days_remove = 10
+
+		modifier = {
+			political_power_gain = -0.15
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision DEN_ready_for_plebiscite"
+		}
+
+		remove_effect = {
+			country_event = { id = denmark.63 days = 5 }
+		}
+	}
+
+	DEN_pro_denmark_propaganda = {
+
+		icon = generic_form_nation
+		available = {
+			controls_state = 784
+			has_country_flag = DEN_flensburg_plebiscite_flag
+			NOT = {
+				has_country_flag = DEN_ongoing_flensburg_plebiscite_decision_flag
+			}
+		}
+		visible = {
+			has_country_flag = DEN_flensburg_plebiscite_flag
+		}
+		ai_will_do = {
+			factor = 1
+		}
+		fire_only_once = no
+
+		days_re_enable = 35
+		cost = 25
+		days_remove = 30
+
+		modifier = {
+			political_power_gain = -0.10
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision DEN_find_corruption_charges_communists"
+			set_country_flag = DEN_ongoing_flensburg_plebiscite_decision_flag
+		}
+
+		remove_effect = {
+			add_to_variable = {
+				var = DEN_remain_var
+				value = 1
+			}
+			clr_country_flag = DEN_ongoing_flensburg_plebiscite_decision_flag
+		}
+	}
+
+	DEN_discredit_german_valkism = {
+
+		icon = generic_form_nation
+		available = {
+			controls_state = 784
+			has_country_flag = DEN_flensburg_plebiscite_flag
+			NOT = {
+				has_country_flag = DEN_ongoing_flensburg_plebiscite_decision_flag
+			}
+		}
+		visible = {
+			has_country_flag = DEN_flensburg_plebiscite_flag
+		}
+		ai_will_do = {
+			factor = 1
+		}
+		fire_only_once = no
+
+		days_re_enable = 35
+		cost = 25
+		days_remove = 30
+
+		modifier = {
+			political_power_gain = -0.10
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision DEN_find_corruption_charges_communists"
+			set_country_flag = DEN_ongoing_flensburg_plebiscite_decision_flag
+		}
+
+		remove_effect = {
+			add_to_variable = {
+				var = DEN_leave_var
+				value = -1
+			}
+			clr_country_flag = DEN_ongoing_flensburg_plebiscite_decision_flag
+		}
+	}
+
+	DEN_fund_anti_valkist_german_groups = {
+
+		icon = generic_form_nation
+		available = {
+			controls_state = 784
+			has_country_flag = DEN_flensburg_plebiscite_flag
+			NOT = {
+				has_country_flag = DEN_ongoing_flensburg_plebiscite_decision_flag
+			}
+		}
+		visible = {
+			has_country_flag = DEN_flensburg_plebiscite_flag
+		}
+		ai_will_do = {
+			factor = 1
+		}
+		fire_only_once = yes
+
+		cost = 35
+		days_remove = 35
+
+		modifier = {
+			political_power_gain = -0.15
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision DEN_fund_anti_valkist_german_groups"
+			set_country_flag = DEN_ongoing_flensburg_plebiscite_decision_flag
+		}
+
+		remove_effect = {
+			add_to_variable = {
+				var = DEN_leave_var
+				value = -2
+			}
+			clr_country_flag = DEN_ongoing_flensburg_plebiscite_decision_flag
+		}
+	}
+
+	DEN_promise_dano_german_bilingualism = {
+
+		icon = generic_form_nation
+		available = {
+			controls_state = 784
+			has_country_flag = DEN_flensburg_plebiscite_flag
+			NOT = {
+				has_country_flag = DEN_ongoing_flensburg_plebiscite_decision_flag
+			}
+		}
+		visible = {
+			has_country_flag = DEN_flensburg_plebiscite_flag
+		}
+		ai_will_do = {
+			factor = 1
+		}
+		fire_only_once = yes
+
+		cost = 35
+		days_remove = 35
+
+		modifier = {
+			political_power_gain = -0.15
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision DEN_promise_dano_german_bilingualism"
+			set_country_flag = DEN_ongoing_flensburg_plebiscite_decision_flag
+		}
+
+		remove_effect = {
+			add_to_variable = {
+				var = DEN_remain_var
+				value = 2
+			}
+			clr_country_flag = DEN_ongoing_flensburg_plebiscite_decision_flag
+		}
+	}
+
+	DEN_flensburg_plebiscite_mission = {
+
+		allowed = {
+			original_tag = DEN
+		}
+		available = {
+			hidden_trigger = { always = no }
+		}
+		activation = {
+			controls_state = 784
+			has_country_flag = DEN_flensburg_plebiscite_flag
+		}
+
+		fire_only_once = yes
+		cancel_if_not_visible = yes
+		is_good = yes
+
+		days_mission_timeout = 130
+
+		timeout_effect = {
+			hidden_effect = {
+				if = {
+					limit = {
+						check_variable = {
+							var = DEN_remain_var
+							value = DEN_leave_var
+							compare = less_than
+						}
+					}
+					DEN = {
+						country_event = { id = denmark.64 }
+					}
+				}
+				else_if = {
+					limit = {
+						check_variable = {
+							var = DEN_remain_var
+							value = DEN_leave_var
+							compare = equals
+						}
+					}
+					DEN = {
+						country_event = { id = denmark.66 }
+					}
+				}
+				else_if = {
+					limit = {
+						check_variable = {
+							var = DEN_remain_var
+							value = DEN_leave_var
+							compare = greater_than
+						}
+					}
+					DEN = {
+						country_event = { id = denmark.68 }
+					}
+				}
+			}
+		}
+	}
+}
+
+DEN_republican_communist_decisions = {
+
+	DEN_find_corruption_charges_communists = {
+
+		icon = generic_form_nation
+		available = {
+			has_country_flag = DEN_republican_communist_decision_flag
+			has_country_flag = DEN_republican_side_flag
+			NOT = {
+				has_country_flag = DEN_ongoing_power_struggle_decision_flag
+			}
+		}
+		visible = {
+			has_country_flag = DEN_republican_communist_decision_flag
+		}
+		ai_will_do = {
+			factor = 1
+		}
+		fire_only_once = no
+
+		days_re_enable = 35
+		cost = 25
+		days_remove = 50
+
+		modifier = {
+			political_power_gain = -0.10
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision DEN_find_corruption_charges_communists"
+			set_country_flag = DEN_ongoing_power_struggle_decision_flag
+		}
+
+		remove_effect = {
+			add_to_variable = {
+				var = DEN_communist_var
+				value = -1
+			}
+			clr_country_flag = DEN_ongoing_power_struggle_decision_flag
+		}
+	}
+
+	DEN_find_corruption_charges_republicans = {
+
+		icon = generic_form_nation
+		available = {
+			has_country_flag = DEN_republican_communist_decision_flag
+			has_country_flag = DEN_communist_side_flag
+			NOT = {
+				has_country_flag = DEN_ongoing_power_struggle_decision_flag
+			}
+		}
+		visible = {
+			has_country_flag = DEN_republican_communist_decision_flag
+		}
+		ai_will_do = {
+			factor = 1
+		}
+		fire_only_once = no
+
+		days_re_enable = 35
+		cost = 25
+		days_remove = 50
+
+		modifier = {
+			political_power_gain = -0.10
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision DEN_find_corruption_charges_republicans"
+			set_country_flag = DEN_ongoing_power_struggle_decision_flag
+		}
+
+		remove_effect = {
+			add_to_variable = {
+				var = DEN_republican_var
+				value = -1
+			}
+			clr_country_flag = DEN_ongoing_power_struggle_decision_flag
+		}
+	}
+
+	DEN_republican_propaganda_campaign = {
+
+		icon = generic_form_nation
+		available = {
+			has_country_flag = DEN_republican_communist_decision_flag
+			has_country_flag = DEN_republican_side_flag
+			NOT = {
+				has_country_flag = DEN_ongoing_power_struggle_decision_flag
+			}
+		}
+		visible = {
+			has_country_flag = DEN_republican_communist_decision_flag
+		}
+		ai_will_do = {
+			factor = 1
+		}
+		fire_only_once = no
+
+		days_re_enable = 35
+		cost = 25
+		days_remove = 50
+
+		modifier = {
+			political_power_gain = -0.10
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision DEN_find_corruption_charges_communists"
+			set_country_flag = DEN_ongoing_power_struggle_decision_flag
+		}
+
+		remove_effect = {
+			add_to_variable = {
+				var = DEN_republican_var
+				value = 1
+			}
+			clr_country_flag = DEN_ongoing_power_struggle_decision_flag
+		}
+	}
+
+	DEN_communist_propaganda_campaign = {
+
+		icon = generic_form_nation
+		available = {
+			has_country_flag = DEN_republican_communist_decision_flag
+			has_country_flag = DEN_communist_side_flag
+			NOT = {
+				has_country_flag = DEN_ongoing_power_struggle_decision_flag
+			}
+		}
+		visible = {
+			has_country_flag = DEN_republican_communist_decision_flag
+		}
+		ai_will_do = {
+			factor = 1
+		}
+		fire_only_once = no
+
+		days_re_enable = 35
+		cost = 25
+		days_remove = 50
+
+		modifier = {
+			political_power_gain = -0.10
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision DEN_find_corruption_charges_republicans"
+			set_country_flag = DEN_ongoing_power_struggle_decision_flag
+		}
+
+		remove_effect = {
+			add_to_variable = {
+				var = DEN_communist_var
+				value = 1
+			}
+			clr_country_flag = DEN_ongoing_power_struggle_decision_flag
+		}
+	}
+
+	DEN_power_struggle_mission = {
+
+		allowed = {
+			original_tag = DEN
+		}
+		available = {
+			hidden_trigger = { always = no }
+		}
+		activation = {
+			has_country_flag = DEN_republican_communist_decision_flag
+		}
+
+		fire_only_once = yes
+		cancel_if_not_visible = yes
+		is_good = yes
+
+		days_mission_timeout = 110
+
+		timeout_effect = {
+			hidden_effect = {
+				if = {
+					limit = {
+						check_variable = {
+							var = DEN_republican_var
+							value = DEN_communist_var
+							compare = less_than
+						}
+					}
+					DEN = {
+						country_event = { id = denmark.41 }
+					}
+				}
+				else_if = {
+					limit = {
+						check_variable = {
+							var = DEN_republican_var
+							value = DEN_communist_var
+							compare = equals
+						}
+					}
+					DEN = {
+						country_event = { id = denmark.42 }
+					}
+				}
+				else_if = {
+					limit = {
+						check_variable = {
+							var = DEN_republican_var
+							value = DEN_communist_var
+							compare = greater_than
+						}
+					}
+					DEN = {
+						country_event = { id = denmark.43 }
+					}
+				}
+			}
+		}
+	}
+}
+
+DEN_foreign_affairs_decisions = {
+
+	DEN_join_stahlpakt = {
+
+		icon = generic_nationalism
+		target_trigger = {
+			FROM = {
+				tag = GER
+			}
+		}
+		allowed = {
+			original_tag = DEN
+		}
+		available = {
+			OR = {
+				has_country_flag = DEN_aftermath_kanslergade_meeting_flag
+				has_country_flag = DEN_snap_elections_flag
+				has_country_flag = DEN_lyksborg_coup_flag
+				has_country_flag = DEN_march_on_kobenhavn_flag
+			}
+			is_in_faction = no
+			GER = {
+				exists = yes
+				is_faction_leader = yes
+			}
+			NOT = {
+				any_enemy_country = {
+					is_in_faction_with = FROM
+				}
+			}
+			ENG = {
+				has_stability < 0.4
+			}
+			FRA = {
+				has_stability < 0.4
+			}
+			threat > 0.65
+		}
+		visible = {
+			NOT = {
+				is_in_faction_with = GER
+			}
+		}
+		ai_will_do = {
+			factor = 1
+		}
+		fire_only_once = yes
+		cost = 20
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision DEN_join_stahlpakt"
+			GER = {
+				country_event = { id = denmark.50 }
+			}
+		}
+	}
+
+	DEN_join_ipa = {
+
+		icon = generic_nationalism
+		target_trigger = {
+			FROM = {
+				tag = ENG
+			}
+		}
+		allowed = {
+			original_tag = DEN
+		}
+		available = {
+			OR = {
+				has_country_flag = DEN_aftermath_kanslergade_meeting_flag
+				has_country_flag = DEN_snap_elections_flag
+				has_country_flag = DEN_lyksborg_coup_flag
+			}
+			is_in_faction = no
+			ENG = {
+				exists = yes
+				is_faction_leader = yes
+			}
+			NOT = {
+				any_enemy_country = {
+					is_in_faction_with = FROM
+				}
+			}
+			threat > 0.4
+		}
+		visible = {
+			NOT = {
+				is_in_faction_with = ENG
+			}
+		}
+		ai_will_do = {
+			factor = 1
+		}
+		fire_only_once = yes
+		cost = 20
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision DEN_join_stahlpakt"
+			ENG = {
+				country_event = { id = denmark.53 }
+			}
+		}
+	}
+
+	DEN_join_entante = {
+
+		icon = generic_nationalism
+		target_trigger = {
+			FROM = {
+				tag = FRA
+			}
+		}
+		allowed = {
+			original_tag = DEN
+		}
+		available = {
+			OR = {
+				has_country_flag = DEN_aftermath_kanslergade_meeting_flag
+				has_country_flag = DEN_snap_elections_flag
+				has_country_flag = DEN_republican_dominance_flag
+			}
+			is_in_faction = no
+			FRA = {
+				exists = yes
+				is_faction_leader = yes
+			}
+			NOT = {
+				any_enemy_country = {
+					is_in_faction_with = FROM
+				}
+			}
+			threat > 0.4
+		}
+		visible = {
+			NOT = {
+				is_in_faction_with = FRA
+			}
+		}
+		ai_will_do = {
+			factor = 1
+		}
+		fire_only_once = yes
+		cost = 20
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision DEN_join_stahlpakt"
+			FRA = {
+				country_event = { id = denmark.56 }
+			}
+		}
+	}
+
+	DEN_join_internationale = {
+
+		icon = generic_nationalism
+		target_trigger = {
+			FROM = {
+				tag = SOV
+			}
+		}
+		allowed = {
+			original_tag = DEN
+		}
+		available = {
+			has_country_flag = DEN_communist_dominance_flag
+			is_in_faction = no
+			SOV = {
+				exists = yes
+				is_faction_leader = yes
+			}
+			NOT = {
+				any_enemy_country = {
+					is_in_faction_with = FROM
+				}
+			}
+			threat > 0.4
+		}
+		visible = {
+			NOT = {
+				is_in_faction_with = SOV
+			}
+		}
+		ai_will_do = {
+			factor = 1
+		}
+		fire_only_once = yes
+		cost = 20
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision DEN_join_stahlpakt"
+			SOV = {
+				country_event = { id = denmark.59 }
+			}
+		}
+	}
+}

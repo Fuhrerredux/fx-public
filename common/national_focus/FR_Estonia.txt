@@ -1,0 +1,1836 @@
+focus_tree = {
+	id = FR_Estonia
+	country = {
+		factor = 0
+		modifier = {
+			add = 10
+			tag = EST
+		}
+	}
+	default = no
+	focus = {
+		id = EST_military_rule
+		icon = GFX_focus_generic_military_dictatorship
+		cost = 4.30
+		x = 2
+		y = 0
+
+		available = {
+			has_country_flag = EST_military_rule_flag
+			has_government = paternal_autocrat
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus EST_military_rule"
+			add_political_power = 25
+			add_stability = 0.02
+			add_popularity = { ideology = paternal_autocrat popularity = 0.03 }
+		}
+
+	}
+	focus = {
+		id = EST_state_elders_power
+		icon = GFX_focus_EST_era_of_silence
+		cost = 4.30
+		x = 6
+		y = 0
+
+		available = {
+			date > 1936.03.01
+			has_government = authoritarian_democrat
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus EST_state_elders_power"
+			add_political_power = 25
+			add_stability = 0.02
+			add_popularity = { ideology = authoritarian_democrat popularity = 0.03 }
+		}
+
+	}
+	focus = {
+		id = EST_vaps_movement_siezes_power
+		icon = GFX_focus_EST_rally_the_nation
+		cost = 4.30
+		x = 10
+		y = 0
+
+		available = {
+			has_country_flag = EST_vaps_movement_siezes_power_flag
+			has_government = national_populist
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus EST_vaps_movement_siezes_power"
+			add_political_power = 25
+			add_stability = 0.02
+			add_popularity = { ideology = national_populist popularity = 0.03 }
+		}
+
+	}
+	focus = {
+		id = EST_military_with_state
+		icon = GFX_focus_generic_military_mission
+		cost = 5.00
+		prerequisite = {
+			focus = EST_military_rule
+		}
+		x = 1
+		y = 1
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus EST_military_with_state"
+			add_stability = -0.03
+			add_war_support = 0.03
+			add_ideas = EST_military_with_state_idea
+		}
+
+	}
+	focus = {
+		id = EST_strengthen_estonian_army
+		icon = GFX_goal_conscription
+		cost = 8.00
+		prerequisite = {
+			focus = EST_military_with_state
+		}
+		x = 1
+		y = 3
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus EST_strengthen_estonian_army"
+			add_popularity = { ideology = paternal_autocrat popularity = 0.05 }
+			swap_ideas = {
+				remove_idea = EST_military_with_state_idea
+				add_idea = EST_strengthen_estonian_army_idea
+			}
+		}
+
+	}
+	focus = {
+		id = EST_militarize_country
+		icon = GFX_focus_generic_tank_production
+		cost = 8.00
+		prerequisite = {
+			focus = EST_strengthen_estonian_army
+		}
+		x = 1
+		y = 4
+
+		available = {
+			controls_state = 13
+			has_country_flag = EST_effect_london_crash_flag
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus EST_militarize_country"
+			13 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			if = {
+				limit = {
+					has_idea = EST_effect_london_crash1_idea
+				}
+				swap_ideas = {
+					remove_idea = EST_effect_london_crash1_idea
+					add_idea = EST_effect_london_crash2_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = EST_effect_london_crash2_idea
+				}
+				remove_ideas = EST_effect_london_crash2_idea
+				add_timed_idea = {
+					idea = EST_effect_london_crash3_idea
+					days = 300
+				}
+			}
+			else = {
+				swap_ideas = {
+					remove_idea = EST_effect_london_crash_idea
+					add_idea = EST_effect_london_crash1_idea
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = EST_meet_with_generals
+		icon = GFX_goal_officers
+		cost = 5.00
+		prerequisite = {
+			focus = EST_military_rule
+		}
+		x = 3
+		y = 1
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus EST_meet_with_generals"
+			add_political_power = -40
+			add_stability = 0.02
+			add_war_support = 0.01
+			add_popularity = { ideology = paternal_autocrat popularity = 0.03 }
+			country_event = { id = estonia.100 days = 1 }
+		}
+
+	}
+	focus = {
+		id = EST_trial_pats_loyalists
+		icon = GFX_focus_generic_court
+		cost = 8.00
+		prerequisite = {
+			focus = EST_military_with_state
+		}
+		prerequisite = {
+			focus = EST_meet_with_generals
+		}
+		x = 2
+		y = 2
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus EST_trial_pats_loyalists"
+			add_political_power = -25
+			add_stability = -0.02
+			add_popularity = { ideology = authoritarian_democrat popularity = -0.05 }
+			add_popularity = { ideology = social_conservative popularity = -0.03 }
+			country_event = { id = estonia.101 days = 1 }
+		}
+
+	}
+	focus = {
+		id = EST_control_people
+		icon = GFX_goal_conspiracy
+		cost = 5.00
+		prerequisite = {
+			focus = EST_state_elders_power
+		}
+		x = 5
+		y = 1
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus EST_control_people"
+			add_political_power = -25
+			add_stability = 0.02
+			add_popularity = { ideology = authoritarian_democrat popularity = 0.03 }
+		}
+
+	}
+	focus = {
+		id = EST_crush_vaps
+		icon = GFX_focus_EST_fight_the_vaps
+		cost = 8.00
+		prerequisite = {
+			focus = EST_meet_with_generals
+			focus = EST_control_people
+		}
+		x = 4
+		y = 2
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus EST_trial_pats_loyalists"
+			add_political_power = -25
+			add_stability = -0.02
+			add_popularity = { ideology = national_populist popularity = -0.08 }
+			remove_ideas = EST_ineffective_government_and_unrest1_idea
+			country_event = { id = estonia.104 days = 1 }
+		}
+
+	}
+	focus = {
+		id = EST_dominance_patriotic_league
+		icon = GFX_goal_COS_Ferrer_Coup
+		cost = 5.00
+		prerequisite = {
+			focus = EST_state_elders_power
+		}
+		x = 7
+		y = 1
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus EST_control_people"
+			add_political_power = -25
+			add_stability = 0.02
+			add_war_support = 0.02
+			add_ideas = EST_dominance_patriotic_league_idea
+		}
+
+	}
+	focus = {
+		id = EST_secure_army_loyalty
+		icon = GFX_focus_generic_little_entente
+		cost = 8.00
+		prerequisite = {
+			focus = EST_dominance_patriotic_league
+		}
+		prerequisite = {
+			focus = EST_control_people
+		}
+		x = 6
+		y = 2
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus EST_secure_army_loyalty"
+			add_political_power = -25
+			add_war_support = 0.02
+			swap_ideas = {
+				remove_idea = EST_dominance_patriotic_league_idea
+				add_idea = EST_secure_army_loyalty_idea
+			}
+			add_popularity = { ideology = paternal_autocrat popularity = -0.01 }
+			add_popularity = { ideology = authoritarian_democrat popularity = 0.01 }
+		}
+
+	}
+	focus = {
+		id = EST_rebuild_private_sector
+		icon = GFX_goal_capitalist_system
+		cost = 8.00
+		prerequisite = {
+			focus = EST_trial_pats_loyalists
+			focus = EST_secure_army_loyalty
+		}
+		prerequisite = {
+			focus = EST_crush_vaps
+		}
+		x = 3
+		y = 3
+
+		available = {
+			controls_state = 13
+			has_country_flag = EST_effect_london_crash_flag
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus EST_rebuild_private_sector"
+			add_political_power = -30
+			add_stability = 0.03
+			13 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			if = {
+				limit = {
+					has_idea = EST_effect_london_crash1_idea
+				}
+				swap_ideas = {
+					remove_idea = EST_effect_london_crash1_idea
+					add_idea = EST_effect_london_crash2_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = EST_effect_london_crash2_idea
+				}
+				remove_ideas = EST_effect_london_crash2_idea
+				add_timed_idea = {
+					idea = EST_effect_london_crash3_idea
+					days = 300
+				}
+			}
+			else = {
+				swap_ideas = {
+					remove_idea = EST_effect_london_crash_idea
+					add_idea = EST_effect_london_crash1_idea
+				}
+			}
+			country_event = { id = estonia.102 days = 5 }
+		}
+
+	}
+	focus = {
+		id = EST_support_farmers
+		icon = GFX_focus_AUS_agriculture
+		cost = 8.00
+		prerequisite = {
+			focus = EST_trial_pats_loyalists
+			focus = EST_secure_army_loyalty
+		}
+		prerequisite = {
+			focus = EST_crush_vaps
+		}
+		x = 5
+		y = 3
+
+		available = {
+			controls_state = 13
+			has_country_flag = EST_effect_london_crash_flag
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus EST_support_farmers"
+			add_political_power = -30
+			add_stability = 0.03
+			13 = {
+				add_extra_state_shared_building_slots = 1
+			}
+			if = {
+				limit = {
+					has_idea = EST_effect_london_crash1_idea
+				}
+				swap_ideas = {
+					remove_idea = EST_effect_london_crash1_idea
+					add_idea = EST_effect_london_crash2_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = EST_effect_london_crash2_idea
+				}
+				remove_ideas = EST_effect_london_crash2_idea
+				add_timed_idea = {
+					idea = EST_effect_london_crash3_idea
+					days = 300
+				}
+			}
+			else = {
+				swap_ideas = {
+					remove_idea = EST_effect_london_crash_idea
+					add_idea = EST_effect_london_crash1_idea
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = EST_corporatist_reforms
+		icon = GFX_goal_production
+		cost = 8.00
+		prerequisite = {
+			focus = EST_support_farmers
+		}
+		x = 5
+		y = 4
+
+		available = {
+			controls_state = 13
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus EST_corporatist_reforms"
+			add_political_power = -30
+			add_stability = 0.02
+			add_war_support = 0.02
+			13 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = EST_subsidise_private_industries
+		icon = GFX_goal_generic_production2
+		cost = 8.00
+		prerequisite = {
+			focus = EST_defence_against_reds
+			focus = EST_corporatist_reforms
+		}
+		x = 4
+		y = 5
+
+		available = {
+			controls_state = 13
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus EST_subsidise_private_industries"
+			add_political_power = -50
+			add_stability = 0.05
+			13 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = EST_rely_popular_support
+		icon = GFX_goal_volunteer_alliance
+		cost = 5.00
+		prerequisite = {
+			focus = EST_vaps_movement_siezes_power
+		}
+		x = 9
+		y = 1
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus EST_rely_popular_support"
+			add_political_power = -25
+			add_stability = 0.02
+			add_popularity = { ideology = national_populist popularity = 0.03 }
+		}
+
+	}
+	focus = {
+		id = EST_estonian_patriotism
+		icon = GFX_goal_national_populism
+		cost = 8.00
+		prerequisite = {
+			focus = EST_dominance_patriotic_league
+			focus = EST_rely_popular_support
+		}
+		x = 8
+		y = 2
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus EST_estonian_patriotism"
+			add_ideas = EST_estonian_patriotism_idea
+		}
+
+	}
+	focus = {
+		id = EST_support_resource_industries
+		icon = GFX_focus_generic_aluminum
+		cost = 8.00
+		prerequisite = {
+			focus = EST_secure_army_loyalty
+		}
+		prerequisite = {
+			focus = EST_estonian_patriotism
+		}
+		x = 7
+		y = 3
+
+		available = {
+			controls_state = 13
+			has_country_flag = EST_effect_london_crash_flag
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus EST_support_farmers"
+			add_political_power = -40
+			add_resource = {
+				type = steel
+				amount = 5
+				state = 13
+			}
+			add_resource = {
+				type = aluminium
+				amount = 4
+				state = 13
+			}
+			if = {
+				limit = {
+					has_idea = EST_effect_london_crash1_idea
+				}
+				swap_ideas = {
+					remove_idea = EST_effect_london_crash1_idea
+					add_idea = EST_effect_london_crash2_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = EST_effect_london_crash2_idea
+				}
+				remove_ideas = EST_effect_london_crash2_idea
+				add_timed_idea = {
+					idea = EST_effect_london_crash3_idea
+					days = 300
+				}
+			}
+			else = {
+				swap_ideas = {
+					remove_idea = EST_effect_london_crash_idea
+					add_idea = EST_effect_london_crash1_idea
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = EST_third_constitution
+		icon = GFX_focus_generic_treaty
+		cost = 8.00
+		prerequisite = {
+			focus = EST_corporatist_reforms
+		}
+		prerequisite = {
+			focus = EST_support_resource_industries
+		}
+		x = 6
+		y = 5
+
+		available = {
+			date > 1938.01.01
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus EST_third_constitution"
+			add_political_power = -20
+			add_stability = 0.05
+			swap_ideas = {
+				remove_idea = EST_secure_army_loyalty_idea
+				add_idea = EST_third_constitution_idea
+			}
+			add_popularity = { ideology = authoritarian_democrat popularity = 0.10 }
+			country_event = { id = estonia.103 days = 1 }
+		}
+
+	}
+	focus = {
+		id = EST_less_silent_silence
+		icon = GFX_goal_DOM_End_Judicial_Corruption
+		cost = 8.00
+		prerequisite = {
+			focus = EST_third_constitution
+		}
+		x = 6
+		y = 6
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus EST_third_constitution"
+			add_political_power = 20
+			add_stability = 0.05
+			add_popularity = { ideology = social_liberal popularity = 0.02 }
+			add_popularity = { ideology = market_liberal popularity = 0.02 }
+			add_popularity = { ideology = social_conservative popularity = 0.02 }
+			add_popularity = { ideology = national_populist popularity = 0.01 }
+			country_event = { id = estonia.105 days = 1 }
+		}
+
+	}
+	focus = {
+		id = EST_empower_movement_figures
+		icon = GFX_goal_Centralised_Government
+		cost = 5.00
+		prerequisite = {
+			focus = EST_vaps_movement_siezes_power
+		}
+		x = 11
+		y = 1
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus EST_empower_movement_figures"
+			add_political_power = -25
+			add_stability = 0.02
+			add_war_support = 0.02
+			add_ideas = EST_empower_movement_figures_idea
+		}
+
+	}
+	focus = {
+		id = EST_purge_pats_cronies
+		icon = GFX_goal_purge_opposition
+		cost = 8.00
+		prerequisite = {
+			focus = EST_rely_popular_support
+		}
+		prerequisite = {
+			focus = EST_empower_movement_figures
+		}
+		x = 10
+		y = 2
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus EST_purge_pats_cronies"
+			add_political_power = -25
+			add_stability = -0.02
+			add_popularity = { ideology = authoritarian_democrat popularity = -0.06 }
+			add_popularity = { ideology = social_conservative popularity = -0.02 }
+			remove_ideas = EST_ineffective_government_and_unrest1_idea
+			country_event = { id = estonia.101 days = 1 }
+		}
+
+	}
+	focus = {
+		id = EST_strengthen_presidential_power
+		icon = GFX_goal_authority
+		cost = 8.00
+		prerequisite = {
+			focus = EST_estonian_patriotism
+		}
+		prerequisite = {
+			focus = EST_purge_pats_cronies
+		}
+		x = 9
+		y = 3
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus EST_strengthen_presidential_power"
+			add_political_power = -25
+			add_stability = -0.02
+			add_popularity = { ideology = national_populist popularity = 0.02 }
+			swap_ideas = {
+				remove_idea = EST_empower_movement_figures_idea
+				add_idea = EST_strengthen_presidential_power_idea
+			}
+		}
+
+	}
+	focus = {
+		id = EST_our_finnish_brothers
+		icon = GFX_goal_Finland_Flag
+		cost = 8.00
+		prerequisite = {
+			focus = EST_strengthen_presidential_power
+		}
+		x = 8
+		y = 4
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus EST_our_finnish_brothers"
+			add_stability = 0.03
+			add_opinion_modifier = { target = FIN modifier = medium_increase }
+			FIN = {
+				add_opinion_modifier = { target = EST modifier = medium_increase }
+			}
+		}
+
+	}
+	focus = {
+		id = EST_veterans_cause
+		icon = GFX_goal_army_guy_2
+		cost = 8.00
+		prerequisite = {
+			focus = EST_strengthen_presidential_power
+		}
+		x = 10
+		y = 4
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus EST_veterans_cause"
+			add_stability = 0.03
+			add_war_support = 0.02
+			add_popularity = { ideology = national_populist popularity = 0.02 }
+			swap_ideas = {
+				remove_idea = EST_strengthen_presidential_power_idea
+				add_idea = EST_veterans_cause_idea
+			}
+		}
+
+	}
+	focus = {
+		id = EST_redistribute_nobles_land
+		icon = GFX_goal_OTT_Land_Reform
+		cost = 8.00
+		prerequisite = {
+			focus = EST_purge_pats_cronies
+		}
+		x = 11
+		y = 3
+
+		available = {
+			controls_state = 13
+			has_country_flag = EST_effect_london_crash_flag
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus EST_redistribute_nobles_land"
+			add_political_power = -30
+			add_stability = 0.03
+			13 = {
+				add_extra_state_shared_building_slots = 1
+			}
+			if = {
+				limit = {
+					has_idea = EST_effect_london_crash1_idea
+				}
+				swap_ideas = {
+					remove_idea = EST_effect_london_crash1_idea
+					add_idea = EST_effect_london_crash2_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = EST_effect_london_crash2_idea
+				}
+				remove_ideas = EST_effect_london_crash2_idea
+				add_timed_idea = {
+					idea = EST_effect_london_crash3_idea
+					days = 300
+				}
+			}
+			else = {
+				swap_ideas = {
+					remove_idea = EST_effect_london_crash_idea
+					add_idea = EST_effect_london_crash1_idea
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = EST_estonian_corporatism
+		icon = GFX_goal_manage_industries
+		cost = 8.00
+		prerequisite = {
+			focus = EST_redistribute_nobles_land
+		}
+		x = 12
+		y = 4
+
+		available = {
+			controls_state = 13
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus EST_estonian_corporatism"
+			add_political_power = -30
+			add_stability = 0.02
+			add_war_support = 0.02
+			13 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			if = {
+				limit = {
+					has_idea = EST_effect_london_crash1_idea
+				}
+				swap_ideas = {
+					remove_idea = EST_effect_london_crash1_idea
+					add_idea = EST_effect_london_crash2_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = EST_effect_london_crash2_idea
+				}
+				remove_ideas = EST_effect_london_crash2_idea
+				add_timed_idea = {
+					idea = EST_effect_london_crash3_idea
+					days = 300
+				}
+			}
+			else = {
+				swap_ideas = {
+					remove_idea = EST_effect_london_crash_idea
+					add_idea = EST_effect_london_crash1_idea
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = EST_national_projects
+		icon = GFX_focus_generic_hydroelectric_energy
+		cost = 8.00
+		prerequisite = {
+			focus = EST_estonian_corporatism
+		}
+		x = 12
+		y = 6
+
+		available = {
+			controls_state = 13
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus EST_national_projects"
+			add_political_power = -50
+			add_stability = 0.04
+			13 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			if = {
+				limit = {
+					has_idea = EST_effect_london_crash1_idea
+				}
+				swap_ideas = {
+					remove_idea = EST_effect_london_crash1_idea
+					add_idea = EST_effect_london_crash2_idea
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = EST_effect_london_crash2_idea
+				}
+				remove_ideas = EST_effect_london_crash2_idea
+				add_timed_idea = {
+					idea = EST_effect_london_crash3_idea
+					days = 300
+				}
+			}
+			else = {
+				swap_ideas = {
+					remove_idea = EST_effect_london_crash_idea
+					add_idea = EST_effect_london_crash1_idea
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = EST_increase_veteran_pensions
+		icon = GFX_goal_bag_of_money
+		cost = 8.00
+		prerequisite = {
+			focus = EST_veterans_cause
+		}
+		prerequisite = {
+			focus = EST_estonian_corporatism
+		}
+		x = 11
+		y = 5
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus EST_increase_veteran_pensions"
+			add_political_power = -30
+			add_stability = 0.05
+			swap_ideas = {
+				remove_idea = EST_veterans_cause_idea
+				add_idea = EST_increase_veteran_pensions_idea
+			}
+		}
+
+	}
+	focus = {
+		id = EST_defence_against_reds
+		icon = GFX_goal_anti_comintern_pact
+		cost = 8.00
+		prerequisite = {
+			focus = EST_strengthen_estonian_army
+			focus = EST_rebuild_private_sector
+		}
+		x = 3
+		y = 4
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus EST_defence_against_reds"
+			add_popularity = { ideology = vanguardist popularity = -0.03 }
+			add_popularity = { ideology = collectivist popularity = -0.03 }
+			add_popularity = { ideology = libertarian_socialist popularity = -0.03 }
+			add_popularity = { ideology = social_democrat popularity = -0.03 }
+			add_popularity = { ideology = social_liberal popularity = -0.03 }
+			add_war_support = 0.05
+			swap_ideas = {
+				remove_idea = EST_memories_communist_uprising_idea
+				add_idea = EST_defence_against_reds_idea
+			}
+		}
+
+	}
+	focus = {
+		id = EST_for_stable_and_secure_country
+		icon = GFX_goal_HOL_amend_wapenwet
+		cost = 8.00
+		prerequisite = {
+			focus = EST_strengthen_presidential_power
+		}
+		x = 9
+		y = 5
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus EST_for_stable_and_secure_country"
+			add_popularity = { ideology = vanguardist popularity = -0.03 }
+			add_popularity = { ideology = collectivist popularity = -0.03 }
+			add_popularity = { ideology = libertarian_socialist popularity = -0.03 }
+			add_popularity = { ideology = social_democrat popularity = -0.03 }
+			add_popularity = { ideology = social_liberal popularity = -0.03 }
+			add_war_support = 0.05
+			swap_ideas = {
+				remove_idea = EST_memories_communist_uprising_idea
+				add_idea = EST_defence_against_reds_idea
+			}
+		}
+
+	}
+	focus = {
+		id = EST_national_readiness
+		icon = GFX_goal_generic_fortify_city
+		cost = 8.00
+		prerequisite = {
+			focus = EST_militarize_country
+		}
+		prerequisite = {
+			focus = EST_defence_against_reds
+		}
+		x = 2
+		y = 5
+
+		available = {
+			controls_state = 13
+			date > 1938.01.01
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus EST_national_readiness"
+			add_popularity = { ideology = paternal_autocrat popularity = 0.02 }
+			13 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			swap_ideas = {
+				remove_idea = EST_strengthen_estonian_army_idea
+				add_idea = EST_militarize_country_idea
+			}
+		}
+
+	}
+	focus = {
+		id = EST_future_military_government
+		icon = GFX_goal_COS_War
+		cost = 8.00
+		prerequisite = {
+			focus = EST_national_readiness
+		}
+		x = 2
+		y = 6
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus EST_future_military_government"
+			add_political_power = -20
+			add_stability = 0.05
+			add_popularity = { ideology = paternal_autocrat popularity = 0.10 }
+			country_event = { id = estonia.106 days = 1 }
+		}
+
+	}
+	focus = {
+		id = EST_one_party_democracy
+		icon = GFX_focus_usa_voter_registration_act
+		cost = 8.00
+		prerequisite = {
+			focus = EST_for_stable_and_secure_country
+		}
+		prerequisite = {
+			focus = EST_veterans_cause
+		}
+		x = 10
+		y = 6
+
+		available = {
+			date > 1938.06.01
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus EST_future_military_government"
+			add_political_power = -20
+			add_stability = 0.08
+			add_popularity = { ideology = national_populist popularity = 0.08 }
+			add_popularity = { ideology = social_liberal popularity = 0.02 }
+			add_popularity = { ideology = market_liberal popularity = 0.02 }
+			add_popularity = { ideology = social_conservative popularity = 0.02 }
+			country_event = { id = estonia.107 days = 1 }
+		}
+
+	}
+	focus = {
+		id = EST_estonian_army
+		icon = GFX_goal_EST_army
+		cost = 5.00
+		x = 16
+		y = 0
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus EST_estonian_army"
+			add_political_power = 10
+			army_experience = 25
+		}
+
+	}
+	focus = {
+		id = EST_estonian_navy
+		icon = GFX_goal_EST_navy
+		cost = 5.00
+		x = 20
+		y = 0
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus EST_estonian_navy"
+			add_political_power = 10
+			navy_experience = 25
+		}
+
+	}
+	focus = {
+		id = EST_estonian_air_force
+		icon = GFX_goal_EST_air_force
+		cost = 5.00
+		x = 24
+		y = 0
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus EST_estonian_air_force"
+			add_political_power = 10
+			air_experience = 25
+		}
+
+	}
+	focus = {
+		id = EST_modernize_equipment
+		icon = GFX_goal_generic_small_arms
+		cost = 10.00
+		prerequisite = {
+			focus = EST_estonian_army
+		}
+		x = 15
+		y = 1
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus EST_modernize_equipment"
+			add_tech_bonus = {
+				name = infantry_bonus
+				bonus = 0.5
+				uses = 2
+				category = infantry_weapons
+			}
+		}
+
+	}
+	focus = {
+		id = EST_artillary_focus
+		icon = GFX_goal_generic_army_artillery2
+		cost = 10.00
+		prerequisite = {
+			focus = EST_estonian_army
+		}
+		x = 17
+		y = 1
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus EST_artillary_focus"
+			add_tech_bonus = {
+				name = artillery_bonus
+				bonus = 0.5
+				uses = 2
+				category = artillery
+			}
+		}
+
+	}
+	focus = {
+		id = EST_learning_from_independence_war
+		icon = GFX_goal_generic_army_doctrines
+		cost = 10.00
+		prerequisite = {
+			focus = EST_modernize_equipment
+		}
+		prerequisite = {
+			focus = EST_artillary_focus
+		}
+		x = 16
+		y = 2
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus EST_learning_from_independence_war"
+			add_doctrine_cost_reduction = {
+				name = EST_learning_from_independence_war
+				cost_reduction = 0.5
+				uses = 1
+				category = land_doctrine
+			}
+		}
+
+	}
+	focus = {
+		id = EST_motorize_army
+		icon = GFX_goal_generic_army_motorized
+		cost = 10.00
+		prerequisite = {
+			focus = EST_learning_from_independence_war
+		}
+		x = 15
+		y = 3
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus EST_motorize_army"
+			add_tech_bonus = {
+				name = motor_bonus
+				bonus = 0.5
+				uses = 2
+				category = motorized_equipment
+			}
+		}
+
+	}
+	focus = {
+		id = EST_foster_military_loyalty
+		icon = GFX_focus_generic_manpower
+		cost = 10.00
+		prerequisite = {
+			focus = EST_learning_from_independence_war
+		}
+		x = 16
+		y = 4
+
+		available = {
+			OR = {
+				has_completed_focus = EST_trial_pats_loyalists
+				has_completed_focus = EST_secure_army_loyalty
+				has_completed_focus = EST_purge_pats_cronies
+			}
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus EST_foster_military_loyalty"
+			add_ideas = EST_foster_military_loyalty_idea
+		}
+
+	}
+	focus = {
+		id = EST_special_forces_units
+		icon = GFX_goal_generic_special_forces
+		cost = 10.00
+		prerequisite = {
+			focus = EST_learning_from_independence_war
+		}
+		x = 17
+		y = 3
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus EST_special_forces_units"
+			add_tech_bonus = {
+				name = special_forces_bonus
+				bonus = 0.5
+				uses = 2
+				category = mountaineers_tech
+				category = marine_tech
+				category = para_tech
+			}
+		}
+
+	}
+	focus = {
+		id = EST_defend_baltic_coast
+		icon = GFX_focus_generic_coastal_fort
+		cost = 10.00
+		prerequisite = {
+			focus = EST_motorize_army
+		}
+		prerequisite = {
+			focus = EST_foster_military_loyalty
+		}
+		x = 15
+		y = 5
+
+		available = {
+			controls_state = 13
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus EST_defend_baltic_coast"
+			13 = {
+				add_building_construction = {
+					type = coastal_bunker
+					level = 2
+					instant_build = yes
+					province = 185
+				}
+				add_building_construction = {
+					type = coastal_bunker
+					level = 2
+					instant_build = yes
+					province = 6201
+				}
+				add_building_construction = {
+					type = coastal_bunker
+					level = 2
+					instant_build = yes
+					province = 567
+				}
+				add_building_construction = {
+					type = coastal_bunker
+					level = 2
+					instant_build = yes
+					province = 3174
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = EST_our_border_with_bear
+		icon = GFX_goal_generic_construct_military
+		cost = 10.00
+		prerequisite = {
+			focus = EST_foster_military_loyalty
+		}
+		prerequisite = {
+			focus = EST_special_forces_units
+		}
+		x = 17
+		y = 5
+
+		available = {
+			controls_state = 191
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus EST_our_border_with_bear"
+			191 = {
+				add_building_construction = {
+					type = bunker
+					level = 3
+					instant_build = yes
+					province = 4640
+				}
+				add_building_construction = {
+					type = bunker
+					level = 3
+					instant_build = yes
+					province = 9221
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					instant_build = yes
+					province = 592
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = EST_naval_protection
+		icon = GFX_goal_generic_navy_cruiser
+		cost = 10.00
+		prerequisite = {
+			focus = EST_estonian_navy
+		}
+		x = 19
+		y = 1
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus EST_naval_protection"
+			add_tech_bonus = {
+				name = dd_bonus
+				bonus = 0.5
+				uses = 2
+				category = dd_tech
+			}
+		}
+
+	}
+	focus = {
+		id = EST_expand_dockyards
+		icon = GFX_goal_generic_construct_naval_dockyard
+		cost = 10.00
+		prerequisite = {
+			focus = EST_estonian_navy
+		}
+		x = 21
+		y = 1
+
+		available = {
+			controls_state = 13
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus EST_expand_dockyards"
+			navy_experience = 10
+			13 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = dockyard
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = EST_focus_submarine_fleet
+		icon = GFX_goal_generic_navy_submarine
+		cost = 10.00
+		prerequisite = {
+			focus = EST_naval_protection
+		}
+		prerequisite = {
+			focus = EST_expand_dockyards
+		}
+		mutually_exclusive = {
+			focus = EST_grand_ship_project
+		}
+		x = 19
+		y = 2
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus EST_focus_submarine_fleet"
+			add_tech_bonus = {
+				name = ss_bonus
+				bonus = 0.5
+				uses = 2
+				category = ss_tech
+			}
+		}
+
+	}
+	focus = {
+		id = EST_grand_ship_project
+		icon = GFX_goal_generic_navy_battleship
+		cost = 10.00
+		prerequisite = {
+			focus = EST_naval_protection
+		}
+		prerequisite = {
+			focus = EST_expand_dockyards
+		}
+		mutually_exclusive = {
+			focus = EST_focus_submarine_fleet
+		}
+		x = 21
+		y = 2
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus EST_grand_ship_project"
+			add_tech_bonus = {
+				name = cr_bonus
+				bonus = 0.5
+				uses = 1
+				category = ca_tech
+			}
+			add_timed_idea = {
+				idea = EST_grand_ship_project_idea
+				days = 300
+			}
+		}
+
+	}
+	focus = {
+		id = EST_estonian_naval_academy
+		icon = GFX_goal_generic_navy_doctrines_tactics
+		cost = 10.00
+		prerequisite = {
+			focus = EST_focus_submarine_fleet
+			focus = EST_grand_ship_project
+		}
+		x = 20
+		y = 3
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus EST_estonian_naval_academy"
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.5
+				uses = 1
+				category = naval_doctrine
+			}
+		}
+
+	}
+	focus = {
+		id = EST_establish_marine_units
+		icon = GFX_goal_generic_amphibious_assault
+		cost = 10.00
+		prerequisite = {
+			focus = EST_special_forces_units
+		}
+		prerequisite = {
+			focus = EST_estonian_naval_academy
+		}
+		x = 20
+		y = 4
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus EST_establish_marine_units"
+			army_experience = 10
+			navy_experience = 5
+			add_tech_bonus = {
+				name = special_forces_bonus
+				bonus = 0.75
+				uses = 1
+				category = marine_tech
+			}
+		}
+
+	}
+	focus = {
+		id = EST_merge_land_navy_air_units
+		icon = GFX_goal_generic_air_fighter2
+		cost = 10.00
+		prerequisite = {
+			focus = EST_estonian_air_force
+		}
+		x = 24
+		y = 1
+
+		available = {
+			controls_state = 13
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus EST_merge_land_navy_air_units"
+			air_experience = 10
+			army_experience = 5
+			navy_experience = 5
+			13 = {
+				add_building_construction = {
+					type = air_base
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+
+	}
+	focus = {
+		id = EST_defensive_air_focus
+		icon = GFX_goal_generic_air_fighter
+		cost = 10.00
+		prerequisite = {
+			focus = EST_merge_land_navy_air_units
+		}
+		mutually_exclusive = {
+			focus = EST_offensive_air_focus
+		}
+		x = 23
+		y = 2
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus EST_defensive_air_focus"
+			add_tech_bonus = {
+				name = fighter_bonus
+				bonus = 0.5
+				uses = 2
+				category = light_fighter
+				category = cas_bomber
+			}
+		}
+
+	}
+	focus = {
+		id = EST_offensive_air_focus
+		icon = GFX_goal_generic_air_bomber
+		cost = 10.00
+		prerequisite = {
+			focus = EST_merge_land_navy_air_units
+		}
+		mutually_exclusive = {
+			focus = EST_defensive_air_focus
+		}
+		x = 25
+		y = 2
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus EST_offensive_air_focus"
+			add_tech_bonus = {
+				name = bomber_bonus
+				bonus = 0.5
+				uses = 2
+				category = tactical_bomber
+				category = cat_strategic_bomber
+			}
+		}
+
+	}
+	focus = {
+		id = EST_expand_naval_air_capabilities
+		icon = GFX_goal_generic_air_naval_bomber
+		cost = 10.00
+		prerequisite = {
+			focus = EST_defensive_air_focus
+			focus = EST_offensive_air_focus
+		}
+		x = 23
+		y = 3
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus EST_expand_naval_air_capabilities"
+			add_tech_bonus = {
+				name = nav_bomber_bonus
+				bonus = 0.5
+				uses = 2
+				category = naval_bomber
+			}
+		}
+
+	}
+	focus = {
+		id = EST_import_heavy_air_designs
+		icon = GFX_goal_EST_Aviotehas_PN3_1
+		cost = 10.00
+		prerequisite = {
+			focus = EST_defensive_air_focus
+			focus = EST_offensive_air_focus
+		}
+		x = 25
+		y = 3
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus EST_import_heavy_air_designs"
+			add_tech_bonus = {
+				name = fighter_bonus
+				bonus = 0.5
+				uses = 2
+				category = cat_heavy_fighter
+			}
+		}
+
+	}
+	focus = {
+		id = EST_expand_flying_schools
+		icon = GFX_goal_generic_air_doctrine
+		cost = 10.00
+		prerequisite = {
+			focus = EST_expand_naval_air_capabilities
+		}
+		prerequisite = {
+			focus = EST_import_heavy_air_designs
+		}
+		x = 24
+		y = 4
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus EST_expand_flying_schools"
+			add_doctrine_cost_reduction = {
+				name = air_doc_bonus
+				cost_reduction = 0.5
+				uses = 2
+				category = air_doctrine
+			}
+		}
+
+	}
+}

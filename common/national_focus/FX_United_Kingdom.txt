@@ -1,0 +1,8375 @@
+# United Kingdom Focus Tree
+# Retouched by dax0102
+# Created by OG Führerreich Team
+
+focus_tree = {
+	id = british_focus
+
+	country = {
+		factor = 0
+		modifier = {
+			add = 10
+			tag = ENG
+		}
+	}
+
+	continuous_focus_position = { x = 50 y = 2200 }
+
+	######################################################
+	#                                                    #
+	#                DEMOCRATIC VICTORY                  #
+	#                                                    #
+	######################################################
+
+	# A Democratic Victory
+	focus = {
+		id = ENG_dem_victory
+		icon = GFX_goal_liberty
+		available = {
+			hidden_trigger = { always = no }
+		}
+		allow_branch = {
+			NOT = {
+				has_country_flag = mosley_in_power
+				has_country_flag = ENG_admiralty_has_control
+			}
+		}
+		bypass = {
+			OR = {
+				has_country_flag = tory_maj
+				has_country_flag = tory_coal
+				has_country_flag = labour_ilp
+			}
+		}
+		x = 6
+		y = 0
+		cost = 1
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_dem_victory"
+			custom_effect_tooltip = ENG_dem_victory_tt
+		}
+	}
+
+	focus = {
+		id = ENG_con_maj
+		icon = GFX_goal_ideology_social_conservative
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_has_torymaj
+				has_country_flag = tory_maj
+			}
+		}
+		relative_position_id = ENG_dem_victory
+		prerequisite = { focus = ENG_dem_victory }
+		mutually_exclusive = { focus = ENG_tory_coalition }
+		mutually_exclusive = { focus = ENG_socialist_coalition }
+		x = -4
+		y = 1
+		cost = 1
+		ai_will_do = {
+			factor = 2
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_con_maj"
+			add_political_power = 50
+		}
+	}
+
+	focus = {
+		id = ENG_tory_coalition
+		icon = GFX_goal_ideology_market_liberal
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_has_torycoal
+				has_country_flag = tory_coal
+			}
+		}
+		relative_position_id = ENG_dem_victory
+		prerequisite = { focus = ENG_dem_victory }
+		mutually_exclusive = { focus = ENG_con_maj }
+		mutually_exclusive = { focus = ENG_socialist_coalition }
+		x = 0
+		y = 1
+		cost = 1
+		ai_will_do = {
+			factor = 2
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_tory_coalition"
+			add_political_power = 50
+		}
+	}
+
+	focus = {
+		id = ENG_fund_royal_society
+		icon = GFX_goal_brain
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_con_maj
+		prerequisite = { focus = ENG_con_maj }
+		x = 0
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 2
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_fund_royal_society"
+			add_ideas = ENG_royal_society
+		}
+		search_filters = { FOCUS_FILTER_RESEARCH }
+	}
+
+	focus = {
+		id = ENG_royal_charter_companies
+		icon = GFX_goal_GBR_british_money
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_fund_royal_society
+		prerequisite = { focus = ENG_fund_royal_society }
+		x = 0
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 2
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_royal_charter_companies"
+			add_ideas = ENG_royal_charters_idea
+		}
+		search_filters = { FOCUS_FILTER_PRODUCTION }
+	}
+
+	focus = {
+		id = ENG_five_eyes_programme
+		icon = GFX_goal_GBR_five_eyes
+		available = {
+			has_capitulated = no
+		}
+		prerequisite = { focus = ENG_fund_royal_society }
+		relative_position_id = ENG_fund_royal_society
+		x = -2
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 2
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_five_eyes_programme"
+			if = {
+				limit = { has_dlc_lar = yes }
+				add_ideas = ENG_five_eyes_idea_lar
+			}
+			else = {
+				add_ideas = ENG_five_eyes_idea
+			}
+		}
+		search_filters = { FOCUS_FILTER_RESISTANCE FOCUS_FILTER_POLITICAL }
+	}
+
+	focus = {
+		id = ENG_tory_nation
+		icon = GFX_goal_generic_authoritarian_government
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_royal_charter_companies
+		prerequisite = { focus = ENG_five_eyes_programme }
+		prerequisite = { focus = ENG_royal_charter_companies }
+		prerequisite = { focus = ENG_fund_mi6 }
+		x = 0
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 2
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_tory_nation"
+			add_ideas = ENG_conser_nation
+		}
+		search_filters = { FOCUS_FILTER_STABILITY }
+	}
+
+	# - Tory Maj/Tory+LibNat Coalition Middle Branch
+
+	focus = {
+		id = ENG_court_corp
+		icon = GFX_goal_generic_construct_civ_factory
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_con_maj
+		prerequisite = {
+			focus = ENG_con_maj
+			focus = ENG_tory_coalition
+		}
+		x = 2
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 2
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_court_corp"
+			random_owned_state = {
+				limit = {
+					is_core_of = ENG
+					is_on_continent = europe
+				}
+				add_extra_state_shared_building_slots = 1
+			}
+			random_owned_state = {
+				limit = {
+					is_core_of = ENG
+					is_on_continent = europe
+				}
+				add_extra_state_shared_building_slots = 1
+			}
+			random_owned_state = {
+				limit = {
+					is_core_of = ENG
+					is_on_continent = europe
+				}
+				add_extra_state_shared_building_slots = 1
+			}
+		}
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+	}
+
+	focus = {
+		id = ENG_fund_mi6
+		icon = GFX_goal_secret_agents
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_court_corp
+		prerequisite = { focus = ENG_court_corp }
+		x = 0
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 2
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_fund_mi6"
+			if = {
+				limit = { has_dlc_lar = yes }
+				create_intelligence_agency = yes
+				upgrade_intelligence_agency = upgrade_form_department
+				add_ideas = ENG_MI6_lar_idea
+			}
+			else = {
+				add_ideas = ENG_MI6_idea
+				add_tech_bonus = {
+					name = ENG_fund_mi6
+					bonus = 1
+					uses = 2
+					category = decryption_tech
+					category = encryption_tech
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_RESISTANCE FOCUS_FILTER_RESEARCH }
+	}
+
+	# - Tory-LibNat Coalition
+
+	focus = {
+		id = ENG_rely_foreign_investment
+		icon = GFX_goal_generic_loans
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_tory_coalition
+		prerequisite = { focus = ENG_tory_coalition }
+		x = 0
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 2
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_rely_foreign_investment"
+			add_ideas = ENG_foreign_investment_idea
+		}
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_PRODUCTION }
+	}
+
+	focus = {
+		id = ENG_national_arms_deal
+		icon = GFX_goal_generic_construct_mil_factory
+		available = {
+			has_capitulated = no
+		}
+		prerequisite = { focus = ENG_rely_foreign_investment }
+		x = 0
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 2
+		}
+		relative_position_id = ENG_rely_foreign_investment
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_national_arms_deal"
+			random_owned_controlled_state = {
+				prioritize = { 126 }
+				if = {
+					limit = {
+						is_core_of = ROOT
+						free_building_slots = {
+							building = arms_factory
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = arms_factory
+						level = 2
+						instant_build = yes
+					}
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_PRODUCTION }
+	}
+
+	focus = {
+		id = ENG_unify_gov
+		icon = GFX_goal_generic_parliament
+		available = {
+			has_capitulated = no
+		}
+		prerequisite = { focus = ENG_national_arms_deal }
+		prerequisite = { focus = ENG_imperial_chemical }
+		prerequisite = { focus = ENG_fund_mi6 }
+		x = 0
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 2
+		}
+		relative_position_id = ENG_national_arms_deal
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_unify_gov"
+			add_ideas = ENG_unified_gov
+		}
+		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_POLITICAL }
+	}
+
+	# - Tory+LibNat/Labour+ILP branch
+
+	focus = {
+		id = ENG_socialist_coalition
+		icon = GFX_goal_ideology_social_democrat
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_has_labourilp
+				has_country_flag = labour_ilp
+			}
+		}
+		prerequisite = { focus = ENG_dem_victory }
+		mutually_exclusive = { focus = ENG_con_maj }
+		mutually_exclusive = { focus = ENG_tory_coalition }
+		x = 10
+		y = 1
+		cost = 1
+		ai_will_do = {
+			factor = 2
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_socialist_coalition"
+			add_political_power = 50
+		}
+	}
+
+	focus = {
+		id = ENG_bbc
+		icon = GFX_goal_GBR_bbc
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_socialist_coalition
+		prerequisite = {
+			focus = ENG_tory_coalition
+			focus = ENG_socialist_coalition
+		}
+		x = -2
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 2
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_bbc"
+			add_ideas = ENG_bbc_idea
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_MANPOWER }
+	}
+
+	focus = {
+		id = ENG_imperial_chemical
+		icon = GFX_goal_GBR_imperial_chemical
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_bbc
+		prerequisite = { focus = ENG_bbc }
+		x = 0
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 2
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_imperial_chemical"
+			add_tech_bonus = {
+				name = ENG_imperial_chemical
+				bonus = 1
+				uses = 2
+				category = synth_resources
+			}
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT
+					free_building_slots = {
+						building = synthetic_refinery
+						size > 1
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = synthetic_refinery
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_RESEARCH }
+	}
+
+	# - Labour-ILP
+
+	focus = {
+		id = ENG_regulate_industrial_growth
+		icon = GFX_goal_manage_industries
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_socialist_coalition
+		prerequisite = { focus = ENG_socialist_coalition }
+		x = 0
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 2
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_regulate_industrial_growth"
+			add_ideas = ENG_regulate_growth_idea
+		}
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+	}
+
+	focus = {
+		id = ENG_public_works
+		icon = GFX_goal_production
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_regulate_industrial_growth
+		prerequisite = { focus = ENG_regulate_industrial_growth }
+		x = 0
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 2
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_public_works"
+			add_ideas = ENG_public_works_idea
+		}
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+	}
+
+	focus = {
+		id = ENG_small_business_subsidies
+		icon = GFX_goal_KTG_Certificate_Focus
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_regulate_industrial_growth
+		prerequisite = { focus = ENG_regulate_industrial_growth }
+		x = 2
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 2
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_small_business_subsidies"
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT
+					free_building_slots = {
+						building = industrial_complex
+						size > 1
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+	}
+
+	focus = {
+		id = ENG_united_socialist
+		icon = GFX_goal_generic_workers_democracy
+		available = {
+			has_capitulated = no
+		}
+		prerequisite = { focus = ENG_small_business_subsidies }
+		prerequisite = { focus = ENG_public_works }
+		prerequisite = { focus = ENG_imperial_chemical }
+		x = 0
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 2
+		}
+		relative_position_id = ENG_public_works
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_united_socialist"
+			add_ideas = ENG_socialist_front
+		}
+		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_POLITICAL }
+	}
+
+	# - DIRECT RULE
+
+	focus = {
+		id = ENG_absolutism
+		icon = GFX_goal_ENG_restoration
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_has_directrule
+				has_country_flag = direct_rule_from_buckingham
+			}
+		}
+		allow_branch = {
+			NOT = {
+				has_country_flag = mosley_in_power
+				has_country_flag = ENG_admiralty_has_control
+			}
+		}
+		mutually_exclusive = { focus = ENG_junta }
+		x = 2
+		y = 6
+		cost = 1
+		ai_will_do = {
+			factor = 2
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_absolutism"
+			add_political_power = 50
+			add_stability = 0.05
+		}
+	}
+
+	focus = {
+		id = ENG_fate_unions
+		icon = GFX_goal_GBR_fate_of_unions
+		available = {
+			has_capitulated = no
+			has_government = paternal_autocrat
+		}
+		prerequisite = { focus = ENG_absolutism }
+		relative_position_id = ENG_absolutism
+		x = -1
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 2
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_fate_unions"
+			country_event = { id = uk.100 }
+		}
+	}
+
+	focus = {
+		id = ENG_aristocracy
+		icon = GFX_goal_collaborate_local_elites
+		available = {
+			has_capitulated = no
+			has_government = paternal_autocrat
+		}
+		prerequisite = { focus = ENG_absolutism }
+		relative_position_id = ENG_absolutism
+		x = 1
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 2
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_aristocracy"
+			country_event = { id = uk.101 }
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL }
+	}
+
+	focus = {
+		id = ENG_faith_nation
+		icon = GFX_focus_eng_god_save_the_king
+		available = {
+			has_capitulated = no
+			has_government = paternal_autocrat
+		}
+		prerequisite = { focus = ENG_fate_unions }
+		relative_position_id = ENG_fate_unions
+		x = -1
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 2
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_faith_nation"
+			country_event = { id = uk.102 }
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL }
+	}
+
+	focus = {
+		id = ENG_household_guard
+		icon = GFX_goal_conscription
+		available = {
+			has_capitulated = no
+			has_government = paternal_autocrat
+		}
+		prerequisite = {
+			focus = ENG_fate_unions
+			focus = ENG_aristocracy
+		}
+		relative_position_id = ENG_fate_unions
+		x = 1
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 2
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_household_guard"
+			country_event = { id = uk.103 }
+		}
+		search_filters = { FOCUS_FILTER_ARMY_BONUS FOCUS_FILTER_RESISTANCE }
+	}
+
+	focus = {
+		id = ENG_expand_privy
+		icon = GFX_focus_eng_the_kings_party
+		available = {
+			has_capitulated = no
+			has_government = paternal_autocrat
+		}
+		prerequisite = { focus = ENG_aristocracy }
+		relative_position_id = ENG_aristocracy
+		x = 1
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 2
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_expand_privy"
+			country_event = { id = uk.104 }
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL }
+	}
+
+	focus = {
+		id = ENG_destiny
+		icon = GFX_goal_british_monarchy
+		available = {
+			has_capitulated = no
+			has_government = paternal_autocrat
+		}
+		prerequisite = { focus = ENG_faith_nation }
+		prerequisite = { focus = ENG_household_guard }
+		prerequisite = { focus = ENG_expand_privy }
+		relative_position_id = ENG_household_guard
+		x = 0
+		y = 1
+		cost = 10
+		ai_will_do = {
+			factor = 2
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_destiny"
+			add_stability = 0.05
+			country_event = { id = uk.105 }
+			hidden_effect = {
+				country_event = { id = uk.107 months = 6 }
+			}
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL }
+	}
+
+	# - Prime Minister Mad Jack
+
+	focus = {
+		id = ENG_junta
+		icon = GFX_goal_ENG_jack_junta
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_has_madjack
+				has_country_flag = military_control
+			}
+		}
+		allow_branch = {
+			NOT = {
+				has_country_flag = mosley_in_power
+				has_country_flag = ENG_admiralty_has_control
+			}
+		}
+		mutually_exclusive = { focus = ENG_absolutism }
+		x = 8
+		y = 6
+		cost = 1
+		ai_will_do = {
+			factor = 2
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_junta"
+			add_political_power = 50
+			add_stability = 0.05
+		}
+	}
+
+	focus = {
+		id = ENG_establish_barb
+		icon = GFX_goal_ENG_barb
+		available = {
+			has_capitulated = no
+			has_government = authoritarian_democrat
+		}
+		prerequisite = { focus = ENG_junta }
+		relative_position_id = ENG_junta
+		x = -1
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 2
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_establish_barb"
+			country_event = { id = uk.111 }
+		}
+		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_RESISTANCE }
+	}
+
+	focus = {
+		id = ENG_purge_opposition
+		icon = GFX_goal_ENG_purge_opposition
+		available = {
+			has_capitulated = no
+			has_government = authoritarian_democrat
+		}
+		prerequisite = { focus = ENG_junta }
+		relative_position_id = ENG_junta
+		x = 1
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 2
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_purge_opposition"
+			add_popularity = { ideology = social_conservative popularity = -0.05 }
+			add_popularity = { ideology = social_democrat popularity = -0.05 }
+			add_popularity = { ideology = social_liberal popularity = -0.05 }
+			add_popularity = { ideology = market_liberal popularity = -0.05 }
+			add_stability = 0.05
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL }
+	}
+
+	focus = {
+		id = ENG_soldier_education
+		icon = GFX_goal_ENG_soldier_education
+		available = {
+			has_capitulated = no
+			has_government = authoritarian_democrat
+		}
+		prerequisite = { focus = ENG_establish_barb }
+		relative_position_id = ENG_establish_barb
+		x = -1
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 2
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_soldier_education"
+			country_event = { id = uk.112 }
+		}
+		search_filters = { FOCUS_FILTER_ARMY_BONUS }
+	}
+
+	focus = {
+		id = ENG_royal_army_reforms
+		icon = GFX_goal_ENG_royal_army_reforms
+		available = {
+			has_capitulated = no
+			has_government = authoritarian_democrat
+		}
+		prerequisite = {
+			focus = ENG_establish_barb
+			focus = ENG_purge_opposition
+		}
+		relative_position_id = ENG_establish_barb
+		x = 1
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 2
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_royal_army_reforms"
+			country_event = { id = uk.113 }
+		}
+		search_filters = { FOCUS_FILTER_ARMY_BONUS }
+	}
+
+	focus = {
+		id = ENG_mil_ind_complex
+		icon = GFX_goal_ENG_plan_j
+		available = {
+			has_capitulated = no
+			has_government = authoritarian_democrat
+		}
+		prerequisite = { focus = ENG_purge_opposition }
+		relative_position_id = ENG_purge_opposition
+		x = 1
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 2
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_mil_ind_complex"
+			country_event = { id = uk.114 }
+		}
+		search_filters = { FOCUS_FILTER_PRODUCTION FOCUS_FILTER_ARMY_BONUS }
+	}
+
+	focus = {
+		id = ENG_future_britain
+		icon = GFX_goal_ENG_future_britain
+		available = {
+			has_capitulated = no
+			has_government = authoritarian_democrat
+		}
+		prerequisite = { focus = ENG_soldier_education }
+		prerequisite = { focus = ENG_royal_army_reforms }
+		prerequisite = { focus = ENG_mil_ind_complex }
+		relative_position_id = ENG_royal_army_reforms
+		x = 0
+		y = 1
+		cost = 10
+		ai_will_do = {
+			factor = 2
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_future_britain"
+			add_stability = 0.05
+			country_event = { id = uk.115 }
+			hidden_effect = {
+				country_event = { id = uk.116 months = 6 }
+			}
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL }
+	}
+
+	######################################################
+	#                                                    #
+	#                       MOSLEY                       #
+	#                                                    #
+	######################################################
+
+	focus = {
+		id = ENG_england_lives
+		icon = GFX_goal_GBR_westerminster_dec
+		allow_branch = {
+			has_country_flag = mosley_in_power
+		}
+		available = {
+			has_capitulated = no
+			has_government = libertarian_socialist
+		}
+		x = 2
+		y = 0
+		cost = 5
+		ai_will_do = {
+			factor = 2
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_england_lives"
+			add_political_power = 50
+		}
+	}
+
+	focus = {
+		id = ENG_subjugate_labour
+		icon = GFX_goal_GBR_labour_party
+		available = {
+			has_capitulated = no
+			has_government = libertarian_socialist
+		}
+		prerequisite = { focus = ENG_england_lives }
+		x = 1
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 2
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_subjugate_labour"
+			country_event = { id = uk.152 }
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL }
+	}
+
+	focus = {
+		id = ENG_overcome_lords
+		icon = GFX_focus_rom_parties_end
+		available = {
+			has_capitulated = no
+			has_government = libertarian_socialist
+		}
+		prerequisite = { focus = ENG_england_lives }
+		x = 3
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 2
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_overcome_lords"
+			country_event = { id = uk.150 }
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL }
+	}
+
+	focus = {
+		id = ENG_meet_mil
+		icon = GFX_focus_generic_military_mission
+		available = {
+			has_capitulated = no
+			has_government = libertarian_socialist
+		}
+		prerequisite = { focus = ENG_overcome_lords }
+		prerequisite = { focus = ENG_subjugate_labour }
+		x = 0
+		y = 2
+		cost = 5
+		ai_will_do = {
+			factor = 2
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_meet_mil"
+			country_event = { id = uk.153 }
+		}
+		search_filters = { FOCUS_FILTER_STABILITY }
+	}
+
+	focus = {
+		id = ENG_national_program
+		icon = GFX_focus_generic_industry_2
+		available = {
+			has_capitulated = no
+			has_government = libertarian_socialist
+		}
+		prerequisite = { focus = ENG_overcome_lords }
+		prerequisite = { focus = ENG_subjugate_labour }
+		x = 2
+		y = 2
+		cost = 5
+		ai_will_do = {
+			factor = 2
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_national_program"
+			country_event = { id = uk.155 }
+		}
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_PRODUCTION }
+	}
+
+	focus = {
+		id = ENG_brit_spirit
+		icon = GFX_goal_generic_propaganda
+		available = {
+			has_capitulated = no
+			has_government = libertarian_socialist
+		}
+		prerequisite = { focus = ENG_overcome_lords }
+		prerequisite = { focus = ENG_subjugate_labour }
+		x = 4
+		y = 2
+		cost = 5
+		ai_will_do = {
+			factor = 2
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_brit_spirit"
+			country_event = { id = uk.156 }
+		}
+		search_filters = { FOCUS_FILTER_STABILITY }
+	}
+
+	focus = {
+		id = ENG_marches_on
+		icon = GFX_focus_eng_the_sun_never_sets
+		available = {
+			has_capitulated = no
+			has_government = libertarian_socialist
+		}
+		prerequisite = { focus = ENG_meet_mil }
+		prerequisite = { focus = ENG_national_program }
+		prerequisite = { focus = ENG_brit_spirit }
+		x = 2
+		y = 3
+		cost = 5
+		ai_will_do = {
+			factor = 2
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_marches_on"
+			add_ideas = ENG_mos_power
+		}
+		search_filters = { FOCUS_FILTER_ARMY_BONUS FOCUS_FILTER_MANPOWER }
+	}
+
+	######################################################
+	#                                                    #
+	#                 NAVY WITH A STATE                  #
+	#                                                    #
+	######################################################
+
+	focus = {
+		id = ENG_navy_state
+		icon = GFX_goal_GBR_royal_navy
+		available = {
+			has_country_flag = ENG_admiralty_has_control
+		}
+		allow_branch = {
+			has_country_flag = ENG_admiralty_has_control
+		}
+		x = 6
+		y = 0
+		cost = 6
+		ai_will_do = {
+			factor = 2
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_navy_state"
+			add_ideas = ENG_navy_with_state
+			hidden_effect = {
+				country_event = { id = ukadm.15 days = 30 }
+			}
+		}
+	}
+
+	focus = {
+		id = ENG_cement_rule
+		icon = GFX_goal_generic_council
+		available = {
+			has_capitulated = no
+			has_government = social_conservative
+		}
+		prerequisite = { focus = ENG_navy_state }
+		x = 2
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 2
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_cement_rule"
+			add_popularity = { ideology = social_conservative popularity = 0.1 }
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL }
+	}
+
+	focus = {
+		id = ENG_naval_lords
+		icon = GFX_goal_generic_naval_command
+		available = {
+			has_capitulated = no
+			has_government = social_conservative
+		}
+		prerequisite = { focus = ENG_cement_rule }
+		x = 0
+		y = 2
+		cost = 5
+		ai_will_do = {
+			factor = 2
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_naval_lords"
+			add_political_power = 200
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL }
+	}
+
+	focus = {
+		id = ENG_custodians
+		icon = GFX_goal_tfv_strengthen_commonwealth_ties
+		available = {
+			has_capitulated = no
+			has_government = social_conservative
+		}
+		prerequisite = { focus = ENG_cement_rule }
+		x = 2
+		y = 2
+		cost = 5
+		ai_will_do = {
+			factor = 2
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_custodians"
+			add_stability = 0.1
+		}
+		search_filters = { FOCUS_FILTER_STABILITY }
+	}
+
+	focus = {
+		id = ENG_defender_demo
+		icon = GFX_goal_generic_parliament
+		available = {
+			has_capitulated = no
+			has_government = social_conservative
+		}
+		prerequisite = {
+			focus = ENG_naval_lords
+			focus = ENG_custodians
+		}
+		x = 2
+		y = 3
+		cost = 5
+		ai_will_do = {
+			factor = 2
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_defender_demo"
+			add_war_support = 0.1
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL }
+	}
+
+	focus = {
+		id = ENG_repeal_naval_cuts
+		icon = GFX_focus_generic_treaty
+		available = {
+			has_capitulated = no
+			has_government = social_conservative
+		}
+		prerequisite = { focus = ENG_navy_state }
+		x = 6
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 2
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_repeal_naval_cuts"
+			add_political_power = -100
+			navy_experience = 50
+		}
+		search_filters = { FOCUS_FILTER_NAVY_BONUS }
+	}
+
+	focus = {
+		id = ENG_navy_guns
+		icon = GFX_goal_generic_trade_interdiction
+		available = {
+			has_capitulated = no
+			has_government = social_conservative
+		}
+		prerequisite = { focus = ENG_repeal_naval_cuts }
+		x = 4
+		y = 2
+		cost = 5
+		ai_will_do = {
+			factor = 2
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_navy_guns"
+			add_tech_bonus = { bonus = 0.25 uses = 1 category = ca_tech }
+			add_tech_bonus = { bonus = 0.25 uses = 1 category = bc_tech }
+		}
+		search_filters = { FOCUS_FILTER_NAVY_BONUS FOCUS_FILTER_RESEARCH }
+	}
+
+	focus = {
+		id = ENG_first_rate_industry
+		icon = GFX_goal_generic_construct_naval_dockyard
+		available = {
+			has_capitulated = no
+			has_government = social_conservative
+		}
+		prerequisite = { focus = ENG_navy_guns }
+		x = 4
+		y = 3
+		cost = 5
+		ai_will_do = {
+			factor = 2
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_first_rate_industry"
+			random_owned_state = {
+				limit = {
+					AND = {
+						is_core_of = ENG
+						is_on_continent = europe
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = dockyard
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_state = {
+				limit = {
+					AND = {
+						is_core_of = ENG
+						is_on_continent = europe
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = dockyard
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_state = {
+				limit = {
+					AND = {
+						is_core_of = ENG
+						is_on_continent = europe
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = dockyard
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_PRODUCTION }
+	}
+
+	focus = {
+		id = ENG_navy_engine
+		icon = GFX_goal_generic_naval_light_carrier2
+		available = {
+			has_capitulated = no
+			has_government = social_conservative
+		}
+		prerequisite = { focus = ENG_repeal_naval_cuts }
+		bypass = {
+		}
+		x = 6
+		y = 2
+		cost = 5
+		ai_will_do = {
+			factor = 2
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_navy_engine"
+			add_tech_bonus = { bonus = 0.25 uses = 1 category = dd_tech }
+			add_tech_bonus = { bonus = 0.25 uses = 1 category = cl_tech }
+		}
+		search_filters = { FOCUS_FILTER_RESEARCH }
+	}
+
+	focus = {
+		id = ENG_sons_waves
+		icon = GFX_goal_generic_transports
+		available = {
+			has_capitulated = no
+			has_government = social_conservative
+		}
+		prerequisite = { focus = ENG_navy_engine }
+		x = 6
+		y = 3
+		cost = 5
+		ai_will_do = {
+			factor = 2
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_sons_waves"
+			add_tech_bonus = { bonus = 0.5 uses = 1 category = marine_tech }
+		}
+		search_filters = { FOCUS_FILTER_ARMY_BONUS }
+	}
+
+	focus = {
+		id = ENG_navy_armour
+		icon = GFX_goal_generic_naval_cruiser2
+		available = {
+			has_capitulated = no
+			has_government = social_conservative
+		}
+		prerequisite = { focus = ENG_repeal_naval_cuts }
+		x = 8
+		y = 2
+		cost = 5
+		ai_will_do = {
+			factor = 2
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_navy_armour"
+			add_tech_bonus = { bonus = 0.25 uses = 1 category = shbb_tech }
+			add_tech_bonus = { bonus = 0.25 uses = 1 category = bb_tech }
+		}
+		search_filters = { FOCUS_FILTER_RESEARCH }
+	}
+
+	focus = {
+		id = ENG_naval_impressment
+		icon = GFX_goal_generic_naval_fleet_in_being
+		available = {
+			has_capitulated = no
+			has_government = social_conservative
+		}
+		prerequisite = { focus = ENG_navy_armour }
+		x = 8
+		y = 3
+		cost = 5
+		ai_will_do = {
+			factor = 2
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_naval_impressment"
+			add_ideas = ENG_naval_impress
+		}
+		search_filters = { FOCUS_FILTER_NAVY_BONUS }
+	}
+
+	focus = {
+		id = ENG_sword_shield
+		icon = GFX_goal_generic_navy_battleship
+		available = {
+			has_capitulated = no
+			has_government = social_conservative
+		}
+		prerequisite = { focus = ENG_defender_demo }
+		prerequisite = { focus = ENG_tighten_grip }
+		prerequisite = { focus = ENG_first_rate_industry }
+		prerequisite = { focus = ENG_sons_waves }
+		prerequisite = { focus = ENG_naval_impressment }
+		x = 6
+		y = 4
+		cost = 5
+		ai_will_do = {
+			factor = 2
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_sword_shield"
+			swap_ideas = { remove_idea = ENG_navy_with_state add_idea = ENG_sword_and_shield }
+			hidden_effect = {
+				country_event = { id = ukadm.16 days = 30 }
+			}
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL }
+	}
+
+	focus = {
+		id = ENG_tempest
+		icon = GFX_focus_generic_navy_battleship2
+		available = {
+			has_capitulated = no
+			has_government = social_conservative
+		}
+		prerequisite = { focus = ENG_navy_state }
+		bypass = {
+		}
+		x = 10
+		y = 1
+		cost = 10
+		ai_will_do = {
+			factor = 2
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_tempest"
+			custom_effect_tooltip = ENG_tempest_tooltip
+			hidden_effect = {
+				if = {
+					limit = {
+						has_dlc = "Man the Guns"
+					}
+					load_OOB = ENG_tempest_mtg
+				}
+				if = {
+					limit = {
+						NOT = { has_dlc = "Man the Guns" }
+					}
+					load_OOB = ENG_tempest_legacy
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_NAVY_BONUS }
+	}
+
+	focus = {
+		id = ENG_eclipse_rivals
+		icon = GFX_goal_generic_carrier_aircraft
+		available = {
+			has_capitulated = no
+			has_government = social_conservative
+		}
+		prerequisite = { focus = ENG_tempest }
+		x = 10
+		y = 2
+		cost = 10
+		ai_will_do = {
+			factor = 2
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_eclipse_rivals"
+			custom_effect_tooltip = ENG_eclipse_tooltip
+			hidden_effect = {
+				if = {
+					limit = {
+						has_dlc = "Man the Guns"
+					}
+					load_OOB = ENG_eclipse_mtg
+				}
+				if = {
+					limit = {
+						NOT = { has_dlc = "Man the Guns" }
+					}
+					load_OOB = ENG_eclipse_legacy
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_NAVY_BONUS }
+	}
+
+	focus = {
+		id = ENG_steel_shield
+		icon = GFX_focus_secret_rearmament
+		available = {
+			has_capitulated = no
+			has_government = social_conservative
+		}
+		prerequisite = { focus = ENG_tempest }
+		x = 12
+		y = 2
+		cost = 10
+		ai_will_do = {
+			factor = 2
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_steel_shield"
+			custom_effect_tooltip = ENG_steelshield_tooltip
+			hidden_effect = {
+				if = {
+					limit = {
+						has_dlc = "Man the Guns"
+					}
+					load_OOB = ENG_steelshield_mtg
+				}
+				if = {
+					limit = {
+						NOT = { has_dlc = "Man the Guns" }
+					}
+					load_OOB = ENG_steelshield_legacy
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_NAVY_BONUS }
+	}
+
+	focus = {
+		id = ENG_tighten_grip
+		icon = GFX_goal_generic_naval_cruiser2
+		available = {
+			has_capitulated = no
+			has_government = social_conservative
+		}
+		prerequisite = {
+			focus = ENG_eclipse_rivals
+			focus = ENG_steel_shield
+		}
+		x = 10
+		y = 3
+		cost = 10
+		ai_will_do = {
+			factor = 2
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_tighten_grip"
+			custom_effect_tooltip = ENG_grip_tooltip
+			hidden_effect = {
+				if = {
+					limit = {
+						has_dlc = "Man the Guns"
+					}
+					load_OOB = ENG_grip_mtg
+				}
+				if = {
+					limit = {
+						NOT = { has_dlc = "Man the Guns" }
+					}
+					load_OOB = ENG_grip_legacy
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_NAVY_BONUS }
+	}
+
+	######################################################
+	#                                                    #
+	#                  BLACK WEDNESDAY                   #
+	#                                                    #
+	######################################################
+
+	### London Stock Market Crash
+	focus = {
+		id = ENG_black_wed
+		icon = GFX_goal_ENG_london_crash
+		available = {
+			hidden_trigger = {
+				always = no
+			}
+		}
+		bypass = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_has_crash
+				has_country_flag = ENG_stock_crash
+			}
+		}
+		offset = {
+			x = -8
+			y = 0
+			trigger = {
+				has_country_flag = mosley_in_power
+			}
+		}
+		x = 17
+		y = 0
+		cost = 5
+		ai_will_do = {
+			factor = 800
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_black_wed"
+			custom_effect_tooltip = ENG_black_wed_tt
+		}
+	}
+
+	focus = {
+		id = ENG_austerity
+		icon = GFX_goal_generic_austerity_measures
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_mobilised_economy
+				NOT = { has_country_flag = ENG_eco_mobil }
+			}
+		}
+		cancel = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_mobilised_economy
+				has_country_flag = ENG_eco_mobil
+			}
+		}
+		relative_position_id = ENG_black_wed
+		prerequisite = { focus = ENG_black_wed }
+		mutually_exclusive = { focus = ENG_stimulus }
+		x = -2
+		y = 1
+		cost = 10
+		ai_will_do = {
+			factor = 800
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_austerity"
+			add_timed_idea = {
+				idea = ENG_austerity_idea
+				days = 365
+			}
+		}
+	}
+
+	focus = {
+		id = ENG_redu_budget
+		icon = GFX_goal_generic_small_arms
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_mobilised_economy
+				NOT = { has_country_flag = ENG_eco_mobil }
+			}
+		}
+		cancel = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_mobilised_economy
+				has_country_flag = ENG_eco_mobil
+			}
+		}
+		relative_position_id = ENG_austerity
+		prerequisite = { focus = ENG_austerity }
+		x = -1
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 800
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_redu_budget"
+			ENG_decrease_black_wednesday_austerity_effects = yes
+		}
+	}
+
+	focus = {
+		id = ENG_cut_invest
+		icon = GFX_goal_generic_seize_investments
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_mobilised_economy
+				NOT = { has_country_flag = ENG_eco_mobil }
+			}
+		}
+		cancel = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_mobilised_economy
+				has_country_flag = ENG_eco_mobil
+			}
+		}
+		relative_position_id = ENG_redu_budget
+		prerequisite = { focus = ENG_redu_budget }
+		x = 0
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 800
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_cut_invest"
+			ENG_decrease_black_wednesday_austerity_effects = yes
+		}
+	}
+
+	focus = {
+		id = ENG_unprofit
+		icon = GFX_goal_generic_privatization
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_mobilised_economy
+				NOT = { has_country_flag = ENG_eco_mobil }
+			}
+		}
+		cancel = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_mobilised_economy
+				has_country_flag = ENG_eco_mobil
+			}
+		}
+		relative_position_id = ENG_austerity
+		prerequisite = { focus = ENG_austerity }
+		x = 1
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 800
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_unprofit"
+			random_owned_state = {
+				limit = {
+					is_core_of = ENG
+					is_on_continent = europe
+				}
+				remove_building = { type = industrial_complex level = 1 }
+			}
+			random_owned_state = {
+				limit = {
+					is_core_of = ENG
+					is_on_continent = europe
+				}
+				remove_building = { type = industrial_complex level = 1 }
+			}
+			random_owned_state = {
+				limit = {
+					is_core_of = ENG
+					is_on_continent = europe
+				}
+				remove_building = { type = industrial_complex level = 1 }
+			}
+			random_owned_state = {
+				limit = {
+					is_core_of = ENG
+					is_on_continent = europe
+				}
+				remove_building = { type = industrial_complex level = 1 }
+			}
+			random_owned_state = {
+				limit = {
+					is_core_of = ENG
+					is_on_continent = europe
+				}
+				remove_building = { type = industrial_complex level = 1 }
+			}
+		}
+	}
+
+	focus = {
+		id = ENG_new_taxes
+		icon = GFX_goal_generic_propaganda
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_mobilised_economy
+				NOT = { has_country_flag = ENG_eco_mobil }
+			}
+		}
+		cancel = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_mobilised_economy
+				has_country_flag = ENG_eco_mobil
+			}
+		}
+		relative_position_id = ENG_unprofit
+		prerequisite = { focus = ENG_unprofit }
+		x = 0
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 800
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_new_taxes"
+			ENG_decrease_black_wednesday_austerity_effects = yes
+		}
+	}
+
+	focus = {
+		id = ENG_sector_cuts
+		icon = GFX_DAH_Topke
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_mobilised_economy
+				NOT = { has_country_flag = ENG_eco_mobil }
+			}
+		}
+		cancel = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_mobilised_economy
+				has_country_flag = ENG_eco_mobil
+			}
+		}
+		relative_position_id = ENG_cut_invest
+		prerequisite = { focus = ENG_cut_invest }
+		prerequisite = { focus = ENG_new_taxes }
+		x = 1
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 800
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_sector_cuts"
+			ENG_decrease_black_wednesday_austerity_effects = yes
+		}
+	}
+
+	focus = {
+		id = ENG_stimulus
+		icon = GFX_goal_ENG_economic_stimulus
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_mobilised_economy
+				NOT = { has_country_flag = ENG_eco_mobil }
+			}
+		}
+		cancel = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_mobilised_economy
+				has_country_flag = ENG_eco_mobil
+			}
+		}
+		relative_position_id = ENG_black_wed
+		prerequisite = { focus = ENG_black_wed }
+		mutually_exclusive = { focus = ENG_austerity }
+		x = 2
+		y = 1
+		cost = 10
+		ai_will_do = {
+			factor = 800
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_stimulus"
+			add_timed_idea = {
+				idea = ENG_stimulus
+				days = 365
+			}
+		}
+	}
+
+	focus = {
+		id = ENG_produ_quota
+		icon = GFX_goal_workers_for_business
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_mobilised_economy
+				NOT = { has_country_flag = ENG_eco_mobil }
+			}
+		}
+		cancel = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_mobilised_economy
+				has_country_flag = ENG_eco_mobil
+			}
+		}
+		relative_position_id = ENG_stimulus
+		prerequisite = { focus = ENG_stimulus }
+		x = -1
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 800
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_produ_quota"
+			ENG_decrease_black_wednesday_stimulus_effects = yes
+		}
+	}
+
+	focus = {
+		id = ENG_inflation
+		icon = GFX_goal_generic_financial_markets
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_mobilised_economy
+				NOT = { has_country_flag = ENG_eco_mobil }
+			}
+		}
+		cancel = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_mobilised_economy
+				has_country_flag = ENG_eco_mobil
+			}
+		}
+		relative_position_id = ENG_produ_quota
+		prerequisite = { focus = ENG_produ_quota }
+		x = 0
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 800
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_inflation"
+			ENG_decrease_black_wednesday_stimulus_effects = yes
+		}
+	}
+
+	focus = {
+		id = ENG_subsidies
+		icon = GFX_goal_generic_enforce_labor_regulation
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_mobilised_economy
+				NOT = { has_country_flag = ENG_eco_mobil }
+			}
+		}
+		cancel = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_mobilised_economy
+				has_country_flag = ENG_eco_mobil
+			}
+		}
+		relative_position_id = ENG_stimulus
+		prerequisite = { focus = ENG_stimulus }
+		x = 1
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 800
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_subsidies"
+			ENG_decrease_black_wednesday_stimulus_effects = yes
+		}
+	}
+
+	focus = {
+		id = ENG_target_tax
+		icon = GFX_goal_bag_of_money
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_mobilised_economy
+				NOT = { has_country_flag = ENG_eco_mobil }
+			}
+		}
+		cancel = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_mobilised_economy
+				has_country_flag = ENG_eco_mobil
+			}
+		}
+		relative_position_id = ENG_subsidies
+		prerequisite = { focus = ENG_subsidies }
+		x = 0
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 800
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_target_tax"
+			ENG_decrease_black_wednesday_stimulus_effects = yes
+		}
+	}
+
+	focus = {
+		id = ENG_tariffs
+		icon = GFX_goal_generic_trade
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_mobilised_economy
+				NOT = { has_country_flag = ENG_eco_mobil }
+			}
+		}
+		cancel = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_mobilised_economy
+				has_country_flag = ENG_eco_mobil
+			}
+		}
+		relative_position_id = ENG_inflation
+		prerequisite = { focus = ENG_target_tax }
+		prerequisite = { focus = ENG_inflation }
+		x = 1
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 800
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_tariffs"
+			ENG_decrease_black_wednesday_stimulus_effects = yes
+		}
+	}
+
+	######################################################
+	#                                                    #
+	#                 ECONOMIC POLICIES                  #
+	#                                                    #
+	######################################################
+
+	focus = {
+		id = ENG_mosleys_plan
+		icon = GFX_goal_generic_production
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_mobilised_economy
+				NOT = { has_country_flag = ENG_eco_mobil }
+			}
+			custom_trigger_tooltip = {
+				tooltip = ENG_has_mosley_politics
+				OR = {
+					has_government = social_democrat
+					has_government = libertarian_socialist
+				}
+			}
+		}
+		mutually_exclusive = { focus = ENG_continue_austerity }
+		mutually_exclusive = { focus = ENG_lfaire }
+		prerequisite = { focus = ENG_tariffs focus = ENG_sector_cuts }
+		relative_position_id = ENG_sector_cuts
+		x = -2
+		y = 1
+		cost = 1
+		ai_will_do = {
+			factor = 800
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_mosleys_plan"
+			add_political_power = 100
+		}
+	}
+
+	focus = {
+		id = ENG_pub_works
+		icon = GFX_goal_generic_construct_civ_factory
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_mobilised_economy
+				NOT = { has_country_flag = ENG_eco_mobil }
+			}
+		}
+		cancel = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_mobilised_economy
+				has_country_flag = ENG_eco_mobil
+			}
+		}
+		relative_position_id = ENG_mosleys_plan
+		prerequisite = { focus = ENG_mosleys_plan }
+		x = -2
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 200
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_pub_works"
+			ENG_modify_or_decrease_mosley_plan_effects = yes
+		}
+	}
+
+	focus = {
+		id = ENG_pensions
+		icon = GFX_goal_generic_national_unity
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_mobilised_economy
+				NOT = { has_country_flag = ENG_eco_mobil }
+			}
+		}
+		cancel = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_mobilised_economy
+				has_country_flag = ENG_eco_mobil
+			}
+		}
+		relative_position_id = ENG_mosleys_plan
+		prerequisite = { focus = ENG_mosleys_plan }
+		x = 0
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 200
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_pensions"
+			ENG_modify_or_decrease_mosley_plan_effects = yes
+		}
+	}
+
+	focus = {
+		id = ENG_infra_projects
+		icon = GFX_goal_generic_railway_construction
+		mutually_exclusive = { focus = ENG_lfaire }
+		mutually_exclusive = { focus = ENG_continue_austerity }
+		relative_position_id = ENG_mosleys_plan
+		prerequisite = { focus = ENG_mosleys_plan }
+		x = 2
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 200
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_infra_projects"
+			random_owned_state = {
+				limit = {
+					is_core_of = ENG
+					is_on_continent = europe
+					is_controlled_by = ENG
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_state = {
+				limit = {
+					is_core_of = ENG
+					is_on_continent = europe
+					is_controlled_by = ENG
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_state = {
+				limit = {
+					is_core_of = ENG
+					is_on_continent = europe
+					is_controlled_by = ENG
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ENG_home_market
+		icon = GFX_goal_generic_consumer_goods
+		prerequisite = { focus = ENG_pensions }
+		prerequisite = { focus = ENG_pub_works }
+		prerequisite = { focus = ENG_infra_projects }
+		relative_position_id = ENG_pensions
+		x = 0
+		y = 1
+		cost = 10
+		ai_will_do = {
+			factor = 200
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_home_market"
+			ENG_modify_or_decrease_mosley_plan_effects = yes
+		}
+	}
+
+	focus = {
+		id = ENG_national_effort
+		icon = GFX_goal_production
+		relative_position_id = ENG_home_market
+		prerequisite = { focus = ENG_home_market }
+		x = 0
+		y = 1
+		cost = 10
+		ai_will_do = {
+			factor = 200
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_national_effort"
+			add_political_power = 150
+			add_stability = 0.05
+			ENG_modify_or_decrease_mosley_plan_effects = yes
+			add_ideas = ENG_mos_plan
+
+			if = {
+				limit = { has_idea = isolation }
+				swap_ideas = { remove_idea = isolation add_idea = civilian_economy }
+			}
+			if = {
+				limit = { has_idea = undisturbed_isolation }
+				swap_ideas = { remove_idea = undisturbed_isolation add_idea = isolation }
+			}
+		}
+	}
+
+	focus = {
+		id = ENG_continue_austerity
+		icon = GFX_goal_generic_political_pressure
+		mutually_exclusive = { focus = ENG_infra_projects}
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_has_austerity_politics
+				OR = {
+					has_government = paternal_autocrat
+					has_government = authoritarian_democrat
+					AND = {
+						has_government = social_conservative
+						OR = {
+							has_country_flag = tory_maj
+							has_country_flag = tory_coal
+						}
+					}
+				}
+			}
+			custom_trigger_tooltip = {
+				tooltip = ENG_mobilised_economy
+				NOT = { has_country_flag = ENG_eco_mobil }
+			}
+		}
+		cancel = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_mobilised_economy
+				has_country_flag = ENG_eco_mobil
+			}
+		}
+		mutually_exclusive = { focus = ENG_mosleys_plan }
+		mutually_exclusive = { focus = ENG_lfaire }
+		relative_position_id = ENG_sector_cuts
+		prerequisite = { focus = ENG_tariffs focus = ENG_sector_cuts }
+		x = 2
+		y = 1
+		cost = 1
+		ai_will_do = {
+			factor = 800
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_continue_austerity"
+			add_political_power = 100
+		}
+	}
+
+	focus = {
+		id = ENG_devalue
+		icon = GFX_focus_generic_support_the_left_right
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_mobilised_economy
+				NOT = { has_country_flag = ENG_eco_mobil }
+			}
+		}
+		cancel = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_mobilised_economy
+				has_country_flag = ENG_eco_mobil
+			}
+		}
+		relative_position_id = ENG_continue_austerity
+		prerequisite = { focus = ENG_continue_austerity }
+		x = 0
+		y = 1
+		cost = 10
+		ai_will_do = {
+			factor = 800
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_devalue"
+			ENG_modify_or_decrease_continued_austerity_effects = yes
+		}
+	}
+
+	focus = {
+		id = ENG_interest
+		icon = GFX_goal_gold_up
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_mobilised_economy
+				NOT = { has_country_flag = ENG_eco_mobil }
+			}
+		}
+		cancel = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_mobilised_economy
+				has_country_flag = ENG_eco_mobil
+			}
+		}
+		relative_position_id = ENG_devalue
+		prerequisite = { focus = ENG_devalue }
+		x = 0
+		y = 2
+		cost = 5
+		ai_will_do = {
+			factor = 800
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_interest"
+			ENG_modify_or_decrease_continued_austerity_effects = yes
+		}
+	}
+
+	focus = {
+		id = ENG_further_cuts
+		icon = GFX_goal_generic_propaganda
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_mobilised_economy
+				NOT = { has_country_flag = ENG_eco_mobil }
+			}
+		}
+		cancel = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_mobilised_economy
+				has_country_flag = ENG_eco_mobil
+			}
+		}
+		relative_position_id = ENG_devalue
+		prerequisite = { focus = ENG_devalue }
+		x = -1
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 800
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_further_cuts"
+			ENG_modify_or_decrease_continued_austerity_effects = yes
+		}
+	}
+
+	focus = {
+		id = ENG_mil_cuts
+		icon = GFX_goal_generic_navy_doctrines_tactics
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_mobilised_economy
+				NOT = { has_country_flag = ENG_eco_mobil }
+			}
+		}
+		cancel = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_mobilised_economy
+				has_country_flag = ENG_eco_mobil
+			}
+		}
+		relative_position_id = ENG_further_cuts
+		prerequisite = { focus = ENG_further_cuts }
+		x = -1
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 800
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_mil_cuts"
+			ENG_modify_or_decrease_continued_austerity_effects = yes
+		}
+	}
+
+	focus = {
+		id = ENG_cut_benefits
+		icon = GFX_goal_generic_consumer_goods
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_mobilised_economy
+				NOT = { has_country_flag = ENG_eco_mobil }
+			}
+		}
+		cancel = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_mobilised_economy
+				has_country_flag = ENG_eco_mobil
+			}
+		}
+		relative_position_id = ENG_devalue
+		prerequisite = { focus = ENG_devalue }
+		x = 1
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 800
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_cut_benefits"
+			ENG_modify_or_decrease_continued_austerity_effects = yes
+		}
+	}
+
+	focus = {
+		id = ENG_cut_invest2
+		icon = GFX_goal_tfv_sever_ties_with_uk
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_mobilised_economy
+				NOT = { has_country_flag = ENG_eco_mobil }
+			}
+		}
+		cancel = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_mobilised_economy
+				has_country_flag = ENG_eco_mobil
+			}
+		}
+		relative_position_id = ENG_cut_benefits
+		prerequisite = { focus = ENG_cut_benefits }
+		x = 1
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 800
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_cut_invest2"
+			ENG_modify_or_decrease_continued_austerity_effects = yes
+		}
+	}
+
+	focus = {
+		id = ENG_end_austerity
+		icon = GFX_goal_tfv_sever_ties_with_uk
+		prerequisite = { focus = ENG_cut_invest2 }
+		prerequisite = { focus = ENG_mil_cuts }
+		prerequisite = { focus = ENG_interest }
+		x = 0
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+		relative_position_id = ENG_interest
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_end_austerity"
+			add_political_power = 500
+			add_stability = 0.1
+			increase_ruling_party_popularity_by_5 = yes
+			ENG_modify_or_decrease_continued_austerity_effects = yes
+
+			if = {
+				limit = { has_idea = isolation }
+				swap_ideas = { remove_idea = isolation add_idea = civilian_economy }
+			}
+			if = {
+				limit = { has_idea = undisturbed_isolation }
+				swap_ideas = { remove_idea = undisturbed_isolation add_idea = isolation }
+			}
+		}
+	}
+
+	focus = {
+		id = ENG_lfaire
+		icon = GFX_goal_generic_seize_investments
+		mutually_exclusive = { focus = ENG_infra_projects}
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_has_lfaire_politics
+				OR = {
+					has_government = paternal_autocrat
+					has_government = authoritarian_democrat
+					AND = {
+						has_government = social_conservative
+						has_country_flag = tory_coal
+					}
+				}
+			}
+			custom_trigger_tooltip = {
+				tooltip = ENG_mobilised_economy
+				NOT = { has_country_flag = ENG_eco_mobil }
+			}
+		}
+		cancel = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_mobilised_economy
+				has_country_flag = ENG_eco_mobil
+			}
+		}
+		mutually_exclusive = { focus = ENG_mosleys_plan }
+		mutually_exclusive = { focus = ENG_continue_austerity }
+		relative_position_id = ENG_tariffs
+		prerequisite = { focus = ENG_tariffs focus = ENG_sector_cuts }
+		x = 2
+		y = 1
+		cost = 1
+		ai_will_do = {
+			factor = 800
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_lfaire"
+			add_political_power = 100
+		}
+	}
+
+	focus = {
+		id = ENG_end_subs
+		icon = GFX_goal_generic_construct_mil_factory
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_mobilised_economy
+				NOT = { has_country_flag = ENG_eco_mobil }
+			}
+		}
+		cancel = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_mobilised_economy
+				has_country_flag = ENG_eco_mobil
+			}
+		}
+		relative_position_id = ENG_lfaire
+		prerequisite = { focus = ENG_lfaire }
+		x = -1
+		y = 1
+		cost = 20
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_end_subs"
+			ENG_modify_or_decrease_laissez_faire_effects = yes
+		}
+	}
+
+	focus = {
+		id = ENG_lift_caps
+		icon = GFX_goal_generic_banking_legislation
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_mobilised_economy
+				NOT = { has_country_flag = ENG_eco_mobil }
+			}
+		}
+		cancel = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_mobilised_economy
+				has_country_flag = ENG_eco_mobil
+			}
+		}
+		relative_position_id = ENG_lfaire
+		prerequisite = { focus = ENG_lfaire }
+		x = 1
+		y = 1
+		cost = 20
+		ai_will_do = {
+			factor = 800
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_lift_caps"
+			ENG_modify_or_decrease_laissez_faire_effects = yes
+		}
+	}
+
+	focus = {
+		id = ENG_liberate_markets
+		icon = GFX_goal_ENG_liberate_the_market
+		relative_position_id = ENG_end_subs
+		prerequisite = { focus = ENG_lift_caps }
+		prerequisite = { focus = ENG_end_subs }
+		x = 1
+		y = 1
+		cost = 15
+		ai_will_do = {
+			factor = 800
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_liberate_markets"
+			add_political_power = 300
+			add_stability = 0.05
+
+			add_ideas = ENG_lf_success
+			ENG_modify_or_decrease_laissez_faire_effects = yes
+			if = {
+				limit = { has_idea = isolation }
+				swap_ideas = { remove_idea = isolation add_idea = civilian_economy }
+			}
+			if = {
+				limit = { has_idea = undisturbed_isolation }
+				swap_ideas = { remove_idea = undisturbed_isolation add_idea = isolation }
+			}
+		}
+	}
+
+	######################################################
+	#                                                    #
+	#                  FATE OF IRELAND                   #
+	#                                                    #
+	######################################################
+
+	focus = {	# - TRIGGERED BY EVENT
+		id = ENG_ire_homerule
+		icon = GFX_goal_IRE_irish_flag
+		available = {
+			hidden_trigger = {
+				always = no
+			}
+		}
+		bypass = {
+			OR = {
+				has_country_flag = integration
+				has_country_flag = freedom
+			}
+		}
+		x = 23
+		y = 8
+		cost = 10
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_ire_homerule"
+			custom_effect_tooltip = ENG_ire_homerule_tt
+		}
+	}
+
+	focus = {
+		id = ENG_towards_integration
+		icon = GFX_focus_generic_home_defense
+		available = {
+			NOT = { country_exists = IRE }
+			custom_trigger_tooltip = {
+				tooltip = ENG_controls_irish_states
+				controls_state = 119
+				controls_state = 113
+				controls_state = 135
+				controls_state = 134
+				controls_state = 815
+				controls_state = 816
+			}
+			custom_trigger_tooltip = {
+				tooltip = ENG_has_ireinteg
+				has_country_flag = integration
+			}
+		}
+		relative_position_id = ENG_ire_homerule
+		prerequisite = { focus = ENG_ire_homerule }
+		mutually_exclusive = { focus = ENG_towards_independence }
+		cancel = {
+			country_exists = IRE
+		}
+		x = -2
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 800
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_towards_integration"
+			add_ideas = ENG_IRE_integration_efforts
+			swap_ideas = { remove_idea = ENG_irb add_idea = ENG_irb1 }
+		}
+	}
+
+	focus = {
+		id = ENG_expand_control
+		icon = GFX_goal_generic_political_pressure
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_controls_irish_states
+				controls_state = 119
+				controls_state = 113
+				controls_state = 135
+				controls_state = 134
+				controls_state = 815
+				controls_state = 816
+			}
+		}
+		relative_position_id = ENG_towards_integration
+		prerequisite = { focus = ENG_towards_integration }
+		cancel = {
+			country_exists = IRE
+		}
+		x = -1
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_expand_control"
+			swap_ideas = { remove_idea = ENG_IRE_integration_efforts add_idea = ENG_integ2 }
+		}
+	}
+
+	focus = {
+		id = ENG_ire_invest
+		icon = GFX_goal_generic_construct_infrastructure
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_controls_irish_states
+				controls_state = 119
+				controls_state = 113
+				controls_state = 135
+				controls_state = 134
+				controls_state = 815
+				controls_state = 816
+			}
+		}
+		relative_position_id = ENG_towards_integration
+		prerequisite = { focus = ENG_towards_integration }
+		cancel = {
+			country_exists = IRE
+		}
+		x = 1
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_ire_invest"
+			113 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			119 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			135 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			134 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ENG_ire_endreligdiscr
+		icon = GFX_goal_generic_national_unity
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_controls_irish_states
+				controls_state = 119
+				controls_state = 113
+				controls_state = 135
+				controls_state = 134
+				controls_state = 815
+				controls_state = 816
+			}
+		}
+		relative_position_id = ENG_expand_control
+		prerequisite = { focus = ENG_expand_control }
+		cancel = {
+			country_exists = IRE
+		}
+		x = 0
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_ire_endreligdiscr"
+			add_stability = 0.05
+		}
+	}
+
+	focus = {
+		id = ENG_ire_reinforce_constab
+		icon = GFX_goal_generic_demand_territory
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_controls_irish_states
+				controls_state = 119
+				controls_state = 113
+				controls_state = 135
+				controls_state = 134
+				controls_state = 815
+				controls_state = 816
+			}
+		}
+		relative_position_id = ENG_ire_invest
+		prerequisite = { focus = ENG_ire_invest }
+		cancel = {
+			country_exists = IRE
+		}
+		x = 0
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_ire_reinforce_constab"
+			swap_ideas = { remove_idea = ENG_irb1 add_idea = ENG_irb3 }
+		}
+	}
+
+	focus = {
+		id = ENG_crush_brotherhood
+		icon = GFX_goal_ENG_crush_brotherhood
+		available = {
+			has_full_control_of_state = 119
+		}
+		relative_position_id = ENG_ire_endreligdiscr
+		prerequisite = { focus = ENG_ire_endreligdiscr }
+		prerequisite = { focus = ENG_ire_reinforce_constab }
+		cancel = {
+			country_exists = IRE
+		}
+		x = 1
+		y = 1
+		cost = 10
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_crush_brotherhood"
+			country_event = { id = uk.60 }
+		}
+	}
+
+	focus = {
+		id = ENG_towards_independence
+		icon = GFX_goal_tfv_strengthen_commonwealth_ties
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_controls_irish_states
+				controls_state = 119
+				controls_state = 113
+				controls_state = 135
+				controls_state = 134
+				controls_state = 815
+				controls_state = 816
+			}
+			custom_trigger_tooltip = {
+				tooltip = ENG_has_irefreedom
+				has_country_flag = freedom
+			}
+		}
+		relative_position_id = ENG_ire_homerule
+		prerequisite = { focus = ENG_ire_homerule }
+		mutually_exclusive = { focus = ENG_towards_integration }
+		cancel = {
+			country_exists = IRE
+		}
+		x = 2
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_towards_independence"
+			swap_ideas = { remove_idea = ENG_irb add_idea = ENG_irb2 }
+		}
+	}
+
+	focus = {
+		id = ENG_ire_discussion
+		icon = GFX_goal_generic_position_armies
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_controls_irish_states
+				controls_state = 119
+				controls_state = 113
+				controls_state = 135
+				controls_state = 134
+				controls_state = 815
+				controls_state = 816
+			}
+		}
+		relative_position_id = ENG_towards_independence
+		prerequisite = { focus = ENG_towards_independence }
+		cancel = {
+			country_exists = IRE
+		}
+		x = -1
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_ire_discussion"
+			add_political_power = 100
+		}
+	}
+
+	focus = {
+		id = ENG_ire_create_parliament
+		icon = GFX_focus_generic_self_management
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_controls_irish_states
+				controls_state = 119
+				controls_state = 113
+				controls_state = 135
+				controls_state = 134
+				controls_state = 815
+				controls_state = 816
+			}
+		}
+		relative_position_id = ENG_towards_independence
+		prerequisite = { focus = ENG_towards_independence }
+		cancel = {
+			country_exists = IRE
+		}
+		x = 1
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_ire_create_parliament"
+			add_stability = 0.05
+		}
+	}
+
+	focus = {
+		id = ENG_ire_united
+		icon = GFX_focus_generic_diplomatic_treaty
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_controls_irish_states
+				controls_state = 119
+				controls_state = 113
+				controls_state = 135
+				controls_state = 134
+				controls_state = 815
+				controls_state = 816
+			}
+		}
+		relative_position_id = ENG_ire_discussion
+		prerequisite = { focus = ENG_ire_discussion }
+		mutually_exclusive = { focus = ENG_ire_divided }
+		cancel = {
+			country_exists = IRE
+		}
+		x = 0
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_ire_united"
+			add_stability = -0.05
+			add_political_power = 100
+		}
+	}
+
+	focus = {
+		id = ENG_ire_divided
+		icon = GFX_goal_molotov_ribbentrop_pact
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_controls_irish_states
+				controls_state = 119
+				controls_state = 113
+				controls_state = 135
+				controls_state = 134
+				controls_state = 815
+				controls_state = 816
+			}
+		}
+		relative_position_id = ENG_ire_create_parliament
+		prerequisite = { focus = ENG_ire_create_parliament }
+		mutually_exclusive = { focus = ENG_ire_united }
+		cancel = {
+			country_exists = IRE
+		}
+		x = 0
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_ire_divided"
+			add_political_power = -100
+			add_stability = 0.05
+		}
+	}
+
+	focus = {
+		id = ENG_ire_pass_homerule
+		icon = GFX_goal_tfv_sever_ties_with_uk
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_controls_irish_states
+				controls_state = 119
+				controls_state = 113
+				controls_state = 135
+				controls_state = 134
+				controls_state = 815
+				controls_state = 816
+			}
+		}
+		relative_position_id = ENG_ire_united
+		prerequisite = {
+			focus = ENG_ire_united
+			focus = ENG_ire_divided
+		}
+		cancel = {
+			country_exists = IRE
+		}
+		x = 1
+		y = 1
+		cost = 10
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_ire_pass_homerule"
+			country_event = { id = uk.67 }
+		}
+	}
+
+	######################################################
+	#                                                    #
+	#                     THE EMPIRE                     #
+	#                                                    #
+	######################################################
+
+	focus = {
+		id = ENG_statute_westminster
+		icon = GFX_focus_generic_home_defense
+		available = {
+			hidden_trigger = { always = no }
+		}
+		bypass = {
+			OR = {
+				has_country_flag = autonomy
+				has_country_flag = status_quo
+				has_country_flag = federation
+			}
+		}
+		x = 11
+		y = 10
+		cost = 6
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_statute_westminster"
+			custom_effect_tooltip = unlock_focuses
+		}
+	}
+
+	# - FEDERATION
+
+	focus = {
+		id = ENG_imp_fed
+		icon = GFX_goal_tfv_strengthen_commonwealth_ties
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_has_fed
+				has_country_flag = federation
+			}
+		}
+		relative_position_id = ENG_statute_westminster
+		prerequisite = { focus = ENG_statute_westminster }
+		mutually_exclusive = { focus = ENG_status_quo }
+		mutually_exclusive = { focus = ENG_decentralise }
+		x = -6
+		y = 1
+		cost = 1
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_imp_fed"
+			add_political_power = 100
+			every_subject_country = {
+				limit = {
+					is_in_faction_with = ROOT
+				}
+				add_opinion_modifier = {
+					target = ENG
+					modifier = IMP_fed
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ENG_ris
+		icon = GFX_focus_generic_monarchy_1
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_imp_fed
+		prerequisite = { focus = ENG_imp_fed }
+		x = -2
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_ris"
+			add_ideas = IMP_royal_soc
+			every_subject_country = {
+				limit = {
+					is_in_faction_with = ROOT
+				}
+				add_ideas = IMP_royal_soc
+			}
+		}
+	}
+
+	focus = {
+		id = ENG_sup_loyal
+		icon = GFX_focus_eng_bring_the_dominions_back_into_the_fold
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_imp_fed
+		prerequisite = { focus = ENG_imp_fed }
+		x = 0
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_sup_loyal"
+			every_subject_country = {
+				limit = {
+					is_in_faction_with = ROOT
+				}
+				add_opinion_modifier = {
+					target = ENG
+					modifier = IMP_loyalists
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ENG_rej_imp_conf
+		icon = GFX_focus_generic_monarchy_2
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_imp_fed
+		prerequisite = { focus = ENG_imp_fed }
+		x = 2
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_rej_imp_conf"
+			swap_ideas = { remove_idea = ENG_imp_upheaval add_idea = ENG_imp_upheaval1 }
+		}
+	}
+
+	focus = {
+		id = ENG_imp_parl
+		icon = GFX_goal_ENG_parliament
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_sup_loyal
+		prerequisite = { focus = ENG_sup_loyal }
+		prerequisite = { focus = ENG_rej_imp_conf }
+		prerequisite = { focus = ENG_ris }
+		x = 0
+		y = 1
+		cost = 10
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_imp_parl"
+			country_event = { id = emp.21 }
+			custom_effect_tooltip = tooltip_white_line
+			every_subject_country = {
+				limit = {
+					OR = {
+						tag = CAN
+						tag = AST
+						tag = NZL
+						tag = SAF
+					}
+				}
+				country_event = { id = emp.21 }
+			}
+		}
+	}
+
+	focus = {
+		id = ENG_dom_integ
+		icon = GFX_goal_tfv_strengthen_commonwealth_ties
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_imp_parl
+		prerequisite = { focus = ENG_imp_parl }
+		x = -2
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_dom_integ"
+			country_event = { id = emp.22 }
+		}
+	}
+
+	focus = {
+		id = ENG_common_eco
+		icon = GFX_goal_generic_trade
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_imp_parl
+		prerequisite = { focus = ENG_imp_parl }
+		x = 0
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_common_eco"
+			country_event = { id = emp.23 }
+			swap_ideas = { remove_idea = ENG_imp_upheaval1 add_idea = ENG_imp_upheaval2 }
+		}
+	}
+
+	focus = {
+		id = ENG_imp_command
+		icon = GFX_focus_generic_military_mission
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_imp_parl
+		prerequisite = { focus = ENG_imp_parl }
+		x = 2
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_imp_command"
+			country_event = { id = emp.24 }
+			army_experience = 50
+			navy_experience = 50
+			air_experience = 50
+		}
+	}
+
+	focus = {
+		id = ENG_diss_parl
+		icon = GFX_focus_eng_imperial_federation
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_prep_finished
+				has_country_flag = imp_prep_rdy
+			}
+			has_war = no
+		}
+		relative_position_id = ENG_common_eco
+		prerequisite = { focus = ENG_common_eco }
+		prerequisite = { focus = ENG_imp_command }
+		prerequisite = { focus = ENG_dom_integ }
+		x = 0
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_diss_parl"
+			set_cosmetic_tag = IMP_ENG
+			if = {
+				limit = {
+					has_idea = ENG_imp_upheaval
+				}
+				remove_ideas = ENG_imp_upheaval
+			}
+			if = {
+				limit = {
+					has_idea = ENG_imp_upheaval1
+				}
+				remove_ideas = ENG_imp_upheaval1
+			}
+			if = {
+				limit = {
+					has_idea = ENG_imp_upheaval2
+				}
+				remove_ideas = ENG_imp_upheaval2
+			}
+			add_timed_idea = {
+				idea = ENG_imp_instability
+				days = 365
+			}
+			custom_effect_tooltip = tooltip_white_line
+			every_other_country = {
+				limit = {
+					OR = {
+						tag = CAN
+						tag = AST
+						tag = NZL
+						tag = SAF
+						tag = NFL
+					}
+					is_subject_of = ROOT
+				}
+				country_event = { id = emp.50 }
+			}
+			custom_effect_tooltip = tooltip_white_line
+			every_country = {
+				limit = {
+					is_subject_of = ROOT
+					OR = {
+						tag = EGY
+						tag = NGA
+						tag = KEN
+						tag = RHO
+					}
+				}
+				transfer_navy = {
+					target = ROOT
+				}
+				ROOT = {
+					annex_country = {
+						target = PREV
+						transfer_troops = yes
+					}
+				}
+			}
+			custom_effect_tooltip = tooltip_white_line
+			unlock_decision_tooltip = ENG_impfed_annex
+		}
+	}
+
+	### Status Quo
+
+	focus = {
+		id = ENG_status_quo
+		icon = GFX_focus_SWI_establish_pro_helvetia
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_has_sq
+				has_country_flag = status_quo
+			}
+		}
+		relative_position_id = ENG_statute_westminster
+		prerequisite = { focus = ENG_statute_westminster }
+		mutually_exclusive = { focus = ENG_imp_fed }
+		mutually_exclusive = { focus = ENG_decentralise }
+		x = 0
+		y = 1
+		cost = 1
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_status_quo"
+			add_political_power = 100
+		}
+	}
+
+	focus = {
+		id = ENG_bonds
+		icon = GFX_focus_generic_league_of_nations
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_status_quo
+		prerequisite = { focus = ENG_status_quo }
+		x = -2
+		y = 1
+		cost = 10
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_bonds"
+			every_subject_country = {
+				limit = {
+					is_british_dominion_tag = yes
+				}
+				add_opinion_modifier = {
+					target = ENG
+					modifier = IMP_bonds
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ENG_promote_trade
+		icon = GFX_goal_AST_new_markets
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_status_quo
+		prerequisite = { focus = ENG_status_quo }
+		x = 2
+		y = 1
+		cost = 10
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_promote_trade"
+			add_political_power = 150
+			custom_effect_tooltip = tooltip_white_line
+			every_subject_country = {
+				limit = {
+					is_british_dominion_tag = yes
+				}
+				send_equipment = {
+					target = PREV
+					type = convoy_1
+					amount = 50
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ENG_mil_coord
+		icon = GFX_goal_generic_army_doctrines
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_bonds
+		prerequisite = { focus = ENG_bonds }
+		x = 1
+		y = 1
+		cost = 10
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_mil_coord"
+			add_ideas = IMP_coordination
+			custom_effect_tooltip = tooltip_white_line
+			every_subject_country = {
+				limit = {
+					is_british_dominion_tag = yes
+				}
+				add_ideas = IMP_coordination
+			}
+		}
+	}
+
+	focus = {
+		id = ENG_imp_science
+		icon = GFX_goal_generic_scientific_exchange
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_promote_trade
+		prerequisite = { focus = ENG_promote_trade }
+		x = -1
+		y = 1
+		cost = 10
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_imp_science"
+			add_ideas = IMP_science
+			custom_effect_tooltip = tooltip_white_line
+			every_subject_country = {
+				limit = {
+					is_british_dominion_tag = yes
+				}
+				add_ideas = IMP_science
+			}
+		}
+	}
+
+	focus = {
+		id = ENG_empire_unity
+		icon = GFX_goal_ENG_empire_of_unity
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_status_quo
+		prerequisite = { focus = ENG_imp_science }
+		prerequisite = { focus = ENG_mil_coord }
+		x = 0
+		y = 3
+		cost = 10
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_empire_unity"
+			hidden_effect = {
+				remove_ideas = IMP_coordination
+				remove_ideas = IMP_science
+				every_subject_country = {
+					limit = {
+						is_british_dominion_tag = yes
+					}
+					remove_ideas = IMP_coordination
+					remove_ideas = IMP_science
+					remove_ideas = ENG_imp_sq2
+				}
+			}
+			swap_ideas = {
+				remove_idea = ENG_imp_sq1
+				add_idea = IMP_unity
+			}
+
+			every_subject_country = {
+				limit = {
+					is_british_dominion_tag = yes
+				}
+				add_ideas = IMP_unity
+			}
+		}
+	}
+
+	# - DECENTRALISATION
+
+	focus = {
+		id = ENG_decentralise
+		icon = GFX_goal_ENG_freedom_for_the_dominions
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_has_decen
+				has_country_flag = autonomy
+			}
+		}
+		relative_position_id = ENG_statute_westminster
+		prerequisite = { focus = ENG_statute_westminster }
+		mutually_exclusive = { focus = ENG_status_quo }
+		mutually_exclusive = { focus = ENG_imp_fed }
+		x = 5
+		y = 1
+		cost = 1
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_decentralise"
+			every_subject_country = {
+				limit = {
+					OR = {
+						tag = CAN
+						tag = AST
+						tag = NZL
+						tag = SAF
+						tag = RAJ
+					}
+				}
+				add_opinion_modifier = {
+					target = ENG
+					modifier = IMP_autonomy
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ENG_red_gg
+		icon = GFX_goal_tfv_sever_ties_with_uk
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_decentralise
+		prerequisite = { focus = ENG_decentralise }
+		x = -1
+		y = 1
+		cost = 10
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_red_gg"
+			add_political_power = 100
+			CAN = { add_political_power = 100 }
+			AST = { add_political_power = 100 }
+			NZL = { add_political_power = 100 }
+			SAF = { add_political_power = 100 }
+			RAJ = { add_political_power = 100 }
+		}
+	}
+
+	focus = {
+		id = ENG_autono_fp
+		icon = GFX_goal_tripartite_pact
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_decentralise
+		prerequisite = { focus = ENG_decentralise }
+		x = 1
+		y = 1
+		cost = 10
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_autono_fp"
+			CAN = { add_ideas = IMP_auto_fp }
+			AST = { add_ideas = IMP_auto_fp }
+			NZL = { add_ideas = IMP_auto_fp }
+			RAJ = { add_ideas = IMP_auto_fp }
+			SAF = { add_ideas = IMP_auto_fp }
+		}
+	}
+
+	focus = {
+		id = ENG_estab_con
+		icon = GFX_focus_generic_home_defense
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_red_gg
+		prerequisite = { focus = ENG_red_gg }
+		prerequisite = { focus = ENG_autono_fp }
+		x = 1
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_estab_con"
+			add_ideas = IMP_con
+			CAN = { add_ideas = IMP_con }
+			AST = { add_ideas = IMP_con }
+			NZL = { add_ideas = IMP_con }
+			RAJ = { add_ideas = IMP_con }
+			SAF = { add_ideas = IMP_con }
+		}
+	}
+
+	focus = {
+		id = ENG_affirm_sow
+		icon = GFX_goal_MAF_Support_Anglos
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_estab_con
+		prerequisite = { focus = ENG_estab_con }
+		x = 0
+		y = 1
+		cost = 1
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_affirm_sow"
+			add_political_power = 200
+			end_puppet = CAN
+			end_puppet = AST
+			end_puppet = NZL
+			end_puppet = SAF
+			end_puppet = RAJ
+			CAN = {
+				add_opinion_modifier = {
+					target = ENG
+					modifier = IMP_sow
+				}
+			}
+			AST = {
+				add_opinion_modifier = {
+					target = ENG
+					modifier = IMP_sow
+				}
+			}
+			SAF = {
+				add_opinion_modifier = {
+					target = ENG
+					modifier = IMP_sow
+				}
+			}
+			NZL = {
+				add_opinion_modifier = {
+					target = ENG
+					modifier = IMP_sow
+				}
+			}
+			RAJ = {
+				add_opinion_modifier = {
+					target = ENG
+					modifier = IMP_sow
+				}
+			}
+			if = {
+				limit = {
+					has_idea = ENG_imp_decent1
+				}
+				remove_ideas = ENG_imp_decent1
+			}
+			if = {
+				limit = {
+					has_idea = ENG_imp_decent2
+				}
+				remove_ideas = ENG_imp_decent2
+			}
+			if = {
+				limit = {
+					has_idea = ENG_imp_decent3
+				}
+				remove_ideas = ENG_imp_decent3
+			}
+			hidden_effect = {
+				if = {
+					limit = {
+						CAN = { has_idea = ENG_imp_decent4 }
+					}
+					CAN = { remove_ideas = ENG_imp_decent4 }
+				}
+				if = {
+					limit = {
+						NFL = { has_idea = ENG_imp_decent4 }
+					}
+					NFL = { remove_ideas = ENG_imp_decent4 }
+				}
+				if = {
+					limit = {
+						SAF = { has_idea = ENG_imp_decent4 }
+					}
+					SAF = { remove_ideas = ENG_imp_decent4 }
+				}
+				if = {
+					limit = {
+						AST = { has_idea = ENG_imp_decent4 }
+					}
+					AST = { remove_ideas = ENG_imp_decent4 }
+				}
+				if = {
+					limit = {
+						NZL = { has_idea = ENG_imp_decent4 }
+					}
+					NZL = { remove_ideas = ENG_imp_decent4 }
+				}
+				if = {
+					limit = {
+						RAJ = { has_idea = ENG_imp_decent4 }
+					}
+					RAJ = { remove_ideas = ENG_imp_decent4 }
+				}
+			}
+		}
+	}
+
+	######################################################
+	#                                                    #
+	#                      MILITARY                      #
+	#                                                    #
+	######################################################
+
+	focus = {
+		id = ENG_mil_review
+		icon = GFX_focus_eng_chiefs_of_staff_committee
+		available = {
+			has_capitulated = no
+		}
+		x = 38
+		y = 0
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+		offset = {
+			x = -8
+			y = 0
+			trigger = {
+				has_country_flag = mosley_in_power
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_mil_review"
+			army_experience = 10
+			air_experience = 10
+			navy_experience = 10
+		}
+	}
+
+	######################################################
+	#                                                    #
+	#                     ROYAL ARMY                     #
+	#                                                    #
+	######################################################
+
+	focus = {
+		id = ENG_recon_army
+		icon = GFX_goal_GBR_royal_army
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_mil_review
+		prerequisite = { focus = ENG_mil_review }
+		x = -10
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 320
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_recon_army"
+			army_experience = 15
+			add_equipment_to_stockpile = { type = infantry_equipment_0 amount = 5000 producer = ENG }
+		}
+		search_filters = { FOCUS_FILTER_ARMY_BONUS }
+	}
+
+	focus = {
+		id = ENG_massingberd
+		icon = GFX_goal_ENG_tanks
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_recon_army
+		prerequisite = { focus = ENG_recon_army }
+		mutually_exclusive = { focus = ENG_ironside }
+		mutually_exclusive = { focus = ENG_haig }
+		x = -4
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 320
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_massingberd"
+			add_doctrine_cost_reduction = { cost_reduction = 0.25 uses = 1 category = cat_mechanized_equipment }
+			add_doctrine_cost_reduction = { cost_reduction = 0.5 uses = 2 category = cat_mobile_warfare }
+		}
+		search_filters = { FOCUS_FILTER_ARMY_BONUS }
+	}
+
+	focus = {
+		id = ENG_moto_efforts
+		icon = GFX_goal_generic_army_motorized
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_massingberd
+		prerequisite = { focus = ENG_massingberd }
+		x = -1
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 320
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_moto_efforts"
+			set_technology = { motorised_infantry = 1 }
+			if = {
+				limit = {
+					has_template_containing_unit = motorized
+				}
+				add_tech_bonus = { bonus = 0.25 uses = 1 category = motorized_equipment }
+				else = {
+					division_template = {
+						name = "Royal Motorised-Infantry Division"
+						regiments = {
+							motorized = { x = 0 y = 0 }
+							motorized = { x = 0 y = 1 }
+							motorized = { x = 0 y = 2 }
+							motorized = { x = 0 y = 3 }
+							motorized = { x = 0 y = 4 }
+						}
+					}
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_ARMY_BONUS }
+	}
+
+	focus = {
+		id = ENG_lighttanks
+		icon = GFX_goal_generic_army_tanks
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_massingberd
+		prerequisite = { focus = ENG_massingberd }
+		x = 1
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 320
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_lighttanks"
+			add_tech_bonus = { bonus = 0.5 uses = 1 category = cat_light_armor }
+		}
+		search_filters = { FOCUS_FILTER_ARMY_BONUS }
+	}
+
+	focus = {
+		id = ENG_introcruisers
+		icon = GFX_goal_generic_army_tanks2
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_moto_efforts
+		prerequisite = { focus = ENG_lighttanks }
+		prerequisite = { focus = ENG_moto_efforts }
+		x = 1
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 320
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_introcruisers"
+			add_tech_bonus = { bonus = 0.25 uses = 2 category = cat_medium_armor }
+		}
+		search_filters = { FOCUS_FILTER_ARMY_BONUS }
+	}
+
+	focus = {
+		id = ENG_deploy_ra
+		icon = GFX_goal_generic_army_tanks3
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_introcruisers
+		prerequisite = { focus = ENG_introcruisers }
+		x = 0
+		y = 1
+		cost = 10
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 320
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_deploy_ra"
+			custom_effect_tooltip = ENG_ra
+			hidden_effect = {
+				division_template = {
+					name = "Royal Armoured Division"
+					regiments = {
+						light_armor = { x = 0 y = 0 }
+						light_armor = { x = 0 y = 1 }
+						light_armor = { x = 0 y = 2 }
+						motorized = { x = 1 y = 0 }
+						motorized = { x = 1 y = 1 }
+						motorized = { x = 1 y = 2 }
+					}
+					support = {
+						engineer = { x = 0 y = 0 }
+						recon = { x = 0 y = 1 }
+					}
+				}
+				load_oob = ENG_deploy
+			}
+		}
+		search_filters = { FOCUS_FILTER_ARMY_BONUS }
+	}
+
+	focus = {
+		id = ENG_ironside
+		icon = GFX_goal_generic_army_artillery
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_recon_army
+		prerequisite = { focus = ENG_recon_army }
+		mutually_exclusive = { focus = ENG_massingberd }
+		mutually_exclusive = { focus = ENG_haig }
+		x = 0
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 320
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_ironside"
+			add_tech_bonus = { bonus = 0.5 uses = 1 category = artillery }
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.5
+				uses = 1
+				category = land_doctrine
+			}
+		}
+		search_filters = { FOCUS_FILTER_ARMY_BONUS }
+	}
+
+	focus = {
+		id = ENG_expand_ra
+		icon = GFX_goal_generic_army_artillery2
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_ironside
+		prerequisite = { focus = ENG_ironside }
+		x = -1
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 320
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_expand_ra"
+			add_equipment_to_stockpile = { type = artillery_equipment_1 amount = 500 producer = ENG }
+			add_tech_bonus = { bonus = 0.5 uses = 1 category = artillery }
+		}
+		search_filters = { FOCUS_FILTER_ARMY_BONUS }
+	}
+
+	focus = {
+		id = ENG_incorp_aa
+		icon = GFX_focus_generic_air_defense
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_expand_ra
+		prerequisite = { focus = ENG_expand_ra }
+		x = 0
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 320
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_incorp_aa"
+			if = {
+				limit = {
+					can_research = interwar_antiair
+				}
+				set_technology = { interwar_antiair = 1 }
+			}
+			add_equipment_to_stockpile = { type = anti_air_equipment_1 amount = 250 producer = ENG }
+			add_tech_bonus = { bonus = 0.25 uses = 1 category = artillery }
+		}
+		search_filters = { FOCUS_FILTER_ARMY_BONUS }
+	}
+
+	focus = {
+		id = ENG_art_produ1
+		icon = GFX_goal_munitions_factories
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_ironside
+		prerequisite = { focus = ENG_ironside }
+		x = 1
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 320
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_art_produ1"
+			add_ideas = ENG_art_produ1
+		}
+		search_filters = { FOCUS_FILTER_ARMY_BONUS }
+	}
+
+	focus = {
+		id = ENG_art_produ2
+		icon = GFX_goal_generic_army_artillery
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_art_produ1
+		prerequisite = { focus = ENG_art_produ1 }
+		x = 0
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 320
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_art_produ2"
+			swap_ideas = { remove_idea = ENG_art_produ1 add_idea = ENG_art_produ2 }
+		}
+		search_filters = { FOCUS_FILTER_ARMY_BONUS }
+	}
+
+	focus = {
+		id = ENG_haig
+		icon = GFX_goal_generic_army_doctrines
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_recon_army
+		prerequisite = { focus = ENG_recon_army }
+		mutually_exclusive = { focus = ENG_ironside }
+		mutually_exclusive = { focus = ENG_massingberd }
+		x = 4
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 320
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_haig"
+			add_tech_bonus = { bonus = 0.5 uses = 1 category = infantry_weapons }
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.5
+				uses = 1
+				category = land_doctrine
+			}
+		}
+		search_filters = { FOCUS_FILTER_ARMY_BONUS }
+	}
+
+	focus = {
+		id = ENG_battleplan
+		icon = GFX_goal_generic_position_armies
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_haig
+		prerequisite = { focus = ENG_haig }
+		x = -1
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 320
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_battleplan"
+			add_ideas = ENG_battleplanning
+		}
+		search_filters = { FOCUS_FILTER_ARMY_BONUS }
+	}
+
+	focus = {
+		id = ENG_supporttanks
+		icon = GFX_goal_generic_army_tanks
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_haig
+		prerequisite = { focus = ENG_haig }
+		x = 1
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 320
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_supporttanks"
+			add_tech_bonus = { bonus = 0.25 uses = 1 category = armor }
+		}
+		search_filters = { FOCUS_FILTER_ARMY_BONUS }
+	}
+
+	focus = {
+		id = ENG_entrenchment
+		icon = GFX_goal_generic_construction2
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_battleplan
+		prerequisite = { focus = ENG_battleplan }
+		prerequisite = { focus = ENG_supporttanks }
+		x = 1
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 320
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_entrenchment"
+			add_tech_bonus = { bonus = 0.5 uses = 2 category = support_tech }
+		}
+		search_filters = { FOCUS_FILTER_ARMY_BONUS }
+	}
+
+	focus = {
+		id = ENG_landship
+		icon = GFX_goal_generic_construct_military
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_entrenchment
+		prerequisite = { focus = ENG_entrenchment }
+		x = 0
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 320
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_landship"
+			add_tech_bonus = { bonus = 0.5 uses = 1 category = cat_heavy_armor }
+		}
+		search_filters = { FOCUS_FILTER_ARMY_BONUS }
+	}
+
+	focus = {
+		id = ENG_rmarines
+		icon = GFX_goal_generic_amphibious_assault
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_incorp_aa
+		prerequisite = { focus = ENG_deploy_ra focus = ENG_incorp_aa focus = ENG_art_produ2 focus = ENG_landship }
+		x = 0
+		y = 2
+		cost = 5
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 320
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_rmarines"
+			add_tech_bonus = { bonus = 0.5 uses = 1 category = marine_tech }
+		}
+		search_filters = { FOCUS_FILTER_ARMY_BONUS }
+	}
+
+	focus = {
+		id = ENG_renew_mil
+		icon = GFX_goal_generic_drafted_army
+		available = {
+			has_capitulated = no
+			OR = {
+				has_completed_focus = ENG_national_effort
+				has_completed_focus = ENG_end_austerity
+				has_completed_focus = ENG_liberate_markets
+			}
+		}
+		relative_position_id = ENG_rmarines
+		prerequisite = { focus = ENG_deploy_ra focus = ENG_incorp_aa focus = ENG_art_produ2 focus = ENG_landship }
+		x = 1
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 320
+			modifier = {
+				has_war = yes
+				factor = 4000
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_renew_mil"
+			remove_ideas = ENG_war_fatigue
+		}
+		search_filters = { FOCUS_FILTER_ARMY_BONUS }
+	}
+
+	focus = {
+		id = ENG_rparas
+		icon = GFX_focus_generic_paratrooper
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_art_produ2
+		prerequisite = { focus = ENG_deploy_ra	focus = ENG_incorp_aa focus = ENG_art_produ2 focus = ENG_landship }
+		x = 0
+		y = 2
+		cost = 5
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 320
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_rparas"
+			add_tech_bonus = { bonus = 0.5 uses = 1 category = para_tech }
+		}
+		search_filters = { FOCUS_FILTER_ARMY_BONUS }
+	}
+
+	######################################################
+	#                                                    #
+	#                   ROYAL AIRFORCE                   #
+	#                                                    #
+	######################################################
+
+	focus = {
+		id = ENG_theraf
+		icon = GFX_goal_GBR_royal_air_force
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_mil_review
+		prerequisite = { focus = ENG_mil_review }
+		x = 0
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 320
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_theraf"
+			air_experience = 25
+		}
+		search_filters = { FOCUS_FILTER_AIRFORCE_BONUS }
+	}
+
+	focus = {
+		id = ENG_harris
+		icon = GFX_goal_generic_air_bomber
+		mutually_exclusive = { focus = ENG_portal }
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_theraf
+		prerequisite = { focus = ENG_theraf }
+		x = -3
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 320
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_harris"
+			air_experience = 20
+			add_doctrine_cost_reduction = { cost_reduction = 0.5 uses = 1 category = cat_strategic_destruction }
+		}
+		search_filters = { FOCUS_FILTER_AIRFORCE_BONUS }
+	}
+
+	focus = {
+		id = ENG_strat_destruct
+		icon = GFX_goal_generic_build_airforce
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_harris
+		prerequisite = { focus = ENG_harris }
+		x = 0
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 320
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_strat_destruct"
+			add_doctrine_cost_reduction = { cost_reduction = 0.5 uses = 1 category = cat_strategic_bomber }
+			add_doctrine_cost_reduction = { cost_reduction = 0.5 uses = 1 category = cat_strategic_destruction }
+		}
+		search_filters = { FOCUS_FILTER_AIRFORCE_BONUS }
+	}
+
+	focus = {
+		id = ENG_lrange_escorts
+		icon = GFX_goal_generic_air_fighter
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_strat_destruct
+		prerequisite = { focus = ENG_strat_destruct }
+		x = 0
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 320
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_lrange_escorts"
+			add_tech_bonus = { bonus = 0.25 uses = 2 category = cat_heavy_fighter }
+		}
+		search_filters = { FOCUS_FILTER_AIRFORCE_BONUS }
+	}
+
+	focus = {
+		id = ENG_future_invest
+		icon = GFX_goal_generic_air_fighter2_new
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_lrange_escorts
+		prerequisite = { focus = ENG_lrange_escorts }
+		x = 0
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 320
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_future_invest"
+			add_ideas = ENG_air_invest
+		}
+		search_filters = { FOCUS_FILTER_AIRFORCE_BONUS }
+	}
+
+	focus = {
+		id = ENG_ccommand
+		icon = GFX_goal_generic_air_command
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_harris
+		prerequisite = {
+			focus = ENG_harris
+			focus = ENG_portal
+		}
+		x = 2
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 320
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_ccommand"
+			add_tech_bonus = { bonus = 0.25 uses = 1 category = naval_bomber }
+		}
+		search_filters = { FOCUS_FILTER_AIRFORCE_BONUS }
+	}
+
+	focus = {
+		id = ENG_assist_rn
+		icon = GFX_goal_generic_navy_carrier
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_ccommand
+		prerequisite = { focus = ENG_ccommand }
+		x = 0
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 320
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_assist_rn"
+			add_tech_bonus = { bonus = 0.25 uses = 1 category = naval_bomber }
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.5
+				uses = 1
+				category = naval_doctrine
+			}
+		}
+		search_filters = { FOCUS_FILTER_AIRFORCE_BONUS }
+	}
+
+	focus = {
+		id = ENG_defend_coast
+		icon = GFX_goal_generic_navy_cruiser
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_assist_rn
+		prerequisite = { focus = ENG_assist_rn }
+		x = 0
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 320
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_defend_coast"
+			127 = {
+				add_building_construction = {
+					type = anti_air_building
+					level = 2
+					instant_build = yes
+				}
+			}
+			123 = {
+				add_building_construction = {
+					type = anti_air_building
+					level = 2
+					instant_build = yes
+				}
+			}
+			131 = {
+				add_building_construction = {
+					type = anti_air_building
+					level = 2
+					instant_build = yes
+				}
+			}
+			125 = {
+				add_building_construction = {
+					type = anti_air_building
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_AIRFORCE_BONUS }
+	}
+
+	focus = {
+		id = ENG_portal
+		icon = GFX_goal_generic_air_fighter
+		mutually_exclusive = { focus = ENG_harris }
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_theraf
+		prerequisite = { focus = ENG_theraf }
+		x = 3
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 320
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_portal"
+			air_experience = 20
+			add_doctrine_cost_reduction = { cost_reduction = 0.5 uses = 1 category = cat_battlefield_support }
+		}
+		search_filters = { FOCUS_FILTER_AIRFORCE_BONUS }
+	}
+
+	focus = {
+		id = ENG_support_army
+		icon = GFX_focus_generic_little_entente
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_portal
+		prerequisite = { focus = ENG_portal }
+		x = 0
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 320
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_support_army"
+			add_tech_bonus = { bonus = 0.5 uses = 1 category = cas_bomber }
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.5
+				uses = 1
+				category = land_doctrine
+			}
+		}
+		search_filters = { FOCUS_FILTER_AIRFORCE_BONUS }
+	}
+
+	focus = {
+		id = ENG_control_skies
+		icon = GFX_goal_generic_air_fighter2
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_support_army
+		prerequisite = { focus = ENG_support_army }
+		x = 0
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 320
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_control_skies"
+			add_tech_bonus = { bonus = 0.25 uses = 1 category = light_fighter }
+		}
+		search_filters = { FOCUS_FILTER_AIRFORCE_BONUS }
+	}
+
+	focus = {
+		id = ENG_develop_fighters
+		icon = GFX_goal_generic_air_production
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_control_skies
+		prerequisite = { focus = ENG_control_skies }
+		x = 0
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 320
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_develop_fighters"
+			add_tech_bonus = { bonus = 0.25 uses = 2 category = light_fighter }
+		}
+		search_filters = { FOCUS_FILTER_AIRFORCE_BONUS }
+	}
+
+	focus = {
+		id = ENG_radar_concept
+		icon = GFX_goal_generic_radar
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_portal
+		prerequisite = {
+			focus = ENG_harris
+			focus = ENG_portal
+		}
+		x = -2
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 320
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_radar_concept"
+			add_tech_bonus = { bonus = 0.5 uses = 1 category = radar_tech }
+		}
+		search_filters = { FOCUS_FILTER_AIRFORCE_BONUS }
+	}
+
+	focus = {
+		id = ENG_controlled_intercept
+		icon = GFX_goal_generic_airports
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_radar_concept
+		prerequisite = { focus = ENG_radar_concept }
+		x = 0
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 320
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_controlled_intercept"
+			add_tech_bonus = { bonus = 0.25 uses = 1 category = radar_tech }
+		}
+		search_filters = { FOCUS_FILTER_AIRFORCE_BONUS }
+	}
+
+	focus = {
+		id = ENG_future_warfare
+		icon = GFX_focus_rocketry
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_controlled_intercept
+		prerequisite = { focus = ENG_controlled_intercept }
+		x = 0
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 320
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_future_warfare"
+			add_tech_bonus = { bonus = 0.5 uses = 1 category = rocketry }
+		}
+		search_filters = { FOCUS_FILTER_AIRFORCE_BONUS }
+	}
+
+	focus = {
+		id = ENG_nott_project
+		icon = GFX_goal_nuclear
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_defend_coast
+		prerequisite = {
+			focus = ENG_future_warfare
+			focus = ENG_defend_coast
+			focus = ENG_future_invest
+			focus = ENG_develop_fighters
+		}
+		x = 1
+		y = 1
+		cost = 10
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 320
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_nott_project"
+			add_tech_bonus = { bonus = 1 uses = 2 category = nuclear }
+		}
+		search_filters = { FOCUS_FILTER_AIRFORCE_BONUS }
+	}
+
+	######################################################
+	#                                                    #
+	#                      ROYAL NAVY                    #
+	#                                                    #
+	######################################################
+
+	focus = {
+		id = ENG_thern
+		icon = GFX_goal_GBR_royal_navy
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_mil_review
+		prerequisite = { focus = ENG_mil_review }
+		x = 9
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 320
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_thern"
+			navy_experience = 20
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.5
+				uses = 1
+				category = naval_doctrine
+			}
+		}
+		search_filters = { FOCUS_FILTER_NAVY_BONUS }
+	}
+
+	focus = {
+		id = ENG_faa
+		icon = GFX_goal_generic_navy_carrier
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_thern
+		prerequisite = { focus = ENG_thern }
+		mutually_exclusive = { focus = ENG_grandfleet }
+		x = -3
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 320
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_faa"
+			add_tech_bonus = { bonus = 0.25 uses = 1 category = cv_tech }
+		}
+		search_filters = { FOCUS_FILTER_NAVY_BONUS }
+	}
+
+	focus = {
+		id = ENG_exercises
+		icon = GFX_goal_generic_navy_doctrines_tactics
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_faa
+		prerequisite = { focus = ENG_faa }
+		x = 0
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 320
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_exercises"
+			add_doctrine_cost_reduction = {
+				name = ENG_exercises
+				cost_reduction = 0.5
+				uses = 1
+				category = naval_doctrine
+			}
+		}
+		search_filters = { FOCUS_FILTER_NAVY_BONUS }
+	}
+
+	focus = {
+		id = ENG_protocv
+		icon = GFX_goal_generic_navy_carrier
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_exercises
+		prerequisite = { focus = ENG_exercises }
+		x = -1
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 320
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_protocv"
+			add_tech_bonus = { bonus = 0.25 uses = 1 category = cv_tech }
+		}
+		search_filters = { FOCUS_FILTER_NAVY_BONUS }
+	}
+
+	focus = {
+		id = ENG_gwlessons
+		icon = GFX_goal_generic_navy_doctrines_tactics
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_protocv
+		prerequisite = { focus = ENG_protocv }
+		x = 0
+		y = 2
+		cost = 5
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 320
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_gwlessons"
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.5
+				uses = 1
+				category = naval_doctrine
+			}
+		}
+		search_filters = { FOCUS_FILTER_NAVY_BONUS }
+	}
+
+	focus = {
+		id = ENG_escort_vessels
+		icon = GFX_goal_generic_navy_anti_submarine
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_protocv
+		prerequisite = { focus = ENG_protocv focus = ENG_exp_shipyards1 }
+		x = 1
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 320
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_escort_vessels"
+			add_tech_bonus = { bonus = 0.25 uses = 1 category = cl_tech }
+		}
+		search_filters = { FOCUS_FILTER_NAVY_BONUS }
+	}
+
+	focus = {
+		id = ENG_exp_shipyards1
+		icon = GFX_goal_generic_naval_industry
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_exercises
+		prerequisite = { focus = ENG_exercises }
+		x = 1
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 320
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_exp_shipyards1"
+			random_owned_controlled_state = {
+				if = {
+					limit = {
+						AND = {
+							is_core_of = ENG
+							is_controlled_by = ENG
+							is_on_continent = europe
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = dockyard
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			random_owned_controlled_state = {
+				if = {
+					limit = {
+						AND = {
+							is_core_of = ENG
+							is_controlled_by = ENG
+							is_on_continent = europe
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = dockyard
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			random_owned_controlled_state = {
+				if = {
+					limit = {
+						AND = {
+							is_core_of = ENG
+							is_controlled_by = ENG
+							is_on_continent = europe
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = dockyard
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			random_owned_controlled_state = {
+				if = {
+					limit = {
+						AND = {
+							is_core_of = ENG
+							is_controlled_by = ENG
+							is_on_continent = europe
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = dockyard
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			random_owned_controlled_state = {
+				if = {
+					limit = {
+						AND = {
+							is_core_of = ENG
+							is_controlled_by = ENG
+							is_on_continent = europe
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = dockyard
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_NAVY_BONUS }
+	}
+
+	focus = {
+		id = ENG_reorg_admiralty
+		icon = GFX_goal_generic_naval_academy
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_exp_shipyards1
+		prerequisite = { focus = ENG_exp_shipyards1 }
+		x = 0
+		y = 2
+		cost = 5
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 320
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_reorg_admiralty"
+			navy_experience = 100
+		}
+		search_filters = { FOCUS_FILTER_NAVY_BONUS }
+	}
+
+	focus = {
+		id = ENG_csg
+		icon = GFX_goal_generic_navy_carrier
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_gwlessons
+		prerequisite = { focus = ENG_escort_vessels }
+		prerequisite = { focus = ENG_gwlessons }
+		prerequisite = { focus = ENG_reorg_admiralty }
+		x = 1
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 320
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_csg"
+			add_ideas = ENG_csg_idea
+		}
+		search_filters = { FOCUS_FILTER_NAVY_BONUS }
+	}
+
+	focus = {
+		id = ENG_grandfleet
+		icon = GFX_goal_generic_navy_battleship
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_thern
+		prerequisite = { focus = ENG_thern }
+		mutually_exclusive = { focus = ENG_faa }
+		x = 4
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 320
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_grandfleet"
+			add_doctrine_cost_reduction = {
+				name = ENG_grandfleet
+				cost_reduction = 0.5
+				uses = 1
+				category = naval_doctrine
+			}
+		}
+		search_filters = { FOCUS_FILTER_NAVY_BONUS }
+	}
+
+	focus = {
+		id = ENG_learn_jutland
+		icon = GFX_goal_generic_naval_fleet_in_being
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_grandfleet
+		prerequisite = { focus = ENG_grandfleet }
+		mutually_exclusive = { focus = ENG_mobile_squad }
+		x = -3
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 320
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_learn_jutland"
+			add_tech_bonus = { bonus = 0.25 uses = 1 category = bb_tech }
+		}
+		search_filters = { FOCUS_FILTER_NAVY_BONUS }
+	}
+
+	focus = {
+		id = ENG_mod_bb
+		icon = GFX_focus_generic_navy_battleship2
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_learn_jutland
+		prerequisite = { focus = ENG_learn_jutland }
+		x = 1
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 320
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_mod_bb"
+			add_tech_bonus = { bonus = 0.25 uses = 1 category = shbb_tech }
+		}
+		search_filters = { FOCUS_FILTER_NAVY_BONUS }
+	}
+
+	focus = {
+		id = ENG_battlefleet
+		icon = GFX_goal_battleship
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_mod_bb
+		prerequisite = { focus = ENG_mod_bb }
+		x = 0
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 320
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_battlefleet"
+			add_tech_bonus = { bonus = 0.25 uses = 1 category = bb_tech }
+		}
+		search_filters = { FOCUS_FILTER_NAVY_BONUS }
+	}
+
+	focus = {
+		id = ENG_dd_screens
+		icon = GFX_goal_generic_navy_anti_submarine
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_learn_jutland
+		prerequisite = { focus = ENG_learn_jutland }
+		x = -1
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 320
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_dd_screens"
+			add_tech_bonus = { bonus = 0.25 uses = 1 category = dd_tech }
+		}
+		search_filters = { FOCUS_FILTER_NAVY_BONUS }
+	}
+
+	focus = {
+		id = ENG_convoy_escort
+		icon = GFX_goal_generic_navy_battleship3alt
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_dd_screens
+		prerequisite = { focus = ENG_dd_screens }
+		x = 0
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 320
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_convoy_escort"
+			add_tech_bonus = { bonus = 0.25 uses = 1 category = cl_tech }
+		}
+		search_filters = { FOCUS_FILTER_NAVY_BONUS }
+	}
+
+	focus = {
+		id = ENG_mobile_squad
+		icon = GFX_goal_generic_navy_battleship
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_grandfleet
+		prerequisite = { focus = ENG_grandfleet }
+		mutually_exclusive = { focus = ENG_learn_jutland }
+		x = 3
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 320
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_mobile_squad"
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.5
+				uses = 1
+				category = naval_doctrine
+			}
+		}
+		search_filters = { FOCUS_FILTER_NAVY_BONUS }
+	}
+
+	focus = {
+		id = ENG_nav_course
+		icon = GFX_goal_generic_naval_base
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_learn_jutland
+		prerequisite = { focus = ENG_learn_jutland focus = ENG_mobile_squad }
+		x = 3
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 4000
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_nav_course"
+			if = {
+				limit = { has_dlc_mtg = yes }
+				add_ideas = ENG_shipyards1_mtg
+			}
+			if = {
+				limit = { has_dlc_mtg = no }
+				add_ideas = ENG_shipyards1
+			}
+		}
+		search_filters = { FOCUS_FILTER_NAVY_BONUS }
+	}
+
+	focus = {
+		id = ENG_mod_nav_cons
+		icon = GFX_goal_generic_shipyard
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_nav_course
+		prerequisite = { focus = ENG_nav_course }
+		x = 0
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 4000
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_mod_nav_cons"
+			if = {
+				limit = { has_dlc_mtg = yes }
+				swap_ideas = { remove_idea = ENG_shipyards1_mtg add_idea = ENG_shipyards2_mtg }
+			}
+			if = {
+				limit = { has_dlc_mtg = no }
+				swap_ideas = { remove_idea = ENG_shipyards1 add_idea = ENG_shipyards2 }
+			}
+		}
+		search_filters = { FOCUS_FILTER_NAVY_BONUS }
+	}
+
+	focus = {
+		id = ENG_fast_bb
+		icon = GFX_goal_generic_navy_battleship
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_mobile_squad
+		prerequisite = { focus = ENG_mobile_squad }
+		x = -1
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 320
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_fast_bb"
+			add_tech_bonus = { bonus = 0.25 uses = 1 category = bc_tech }
+		}
+		search_filters = { FOCUS_FILTER_NAVY_BONUS }
+	}
+
+	focus = {
+		id = ENG_bc_refit
+		icon = GFX_goal_generic_sea_focused_navy2
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_fast_bb
+		prerequisite = { focus = ENG_fast_bb }
+		x = 0
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 320
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_bc_refit"
+			add_tech_bonus = { bonus = 0.25 uses = 1 category = bc_tech }
+		}
+		search_filters = { FOCUS_FILTER_NAVY_BONUS }
+	}
+
+	focus = {
+		id = ENG_escort_killers
+		icon = GFX_goal_generic_coastal_navy2
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_mobile_squad
+		prerequisite = { focus = ENG_mobile_squad }
+		x = 1
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 320
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_escort_killers"
+			add_tech_bonus = { bonus = 0.25 uses = 1 category = ca_tech }
+		}
+		search_filters = { FOCUS_FILTER_NAVY_BONUS }
+	}
+
+	focus = {
+		id = ENG_inter_tactics
+		icon = GFX_goal_generic_navy_cruiser
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_escort_killers
+		prerequisite = { focus = ENG_escort_killers }
+		x = 0
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 320
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_inter_tactics"
+			add_tech_bonus = { bonus = 0.25 uses = 1 category = ca_tech }
+		}
+		search_filters = { FOCUS_FILTER_NAVY_BONUS }
+	}
+
+	focus = {
+		id = ENG_cls
+		icon = GFX_focus_generic_cruiser2
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_convoy_escort
+		prerequisite = { focus = ENG_convoy_escort focus = ENG_battlefleet focus = ENG_inter_tactics focus = ENG_bc_refit }
+		prerequisite = { focus = ENG_mod_nav_cons }
+		x = 1
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 320
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_cls"
+			add_tech_bonus = { bonus = 0.25 uses = 1 category = cl_tech }
+		}
+		search_filters = { FOCUS_FILTER_NAVY_BONUS }
+	}
+
+	focus = {
+		id = ENG_subs
+		icon = GFX_goal_generic_navy_submarine
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_bc_refit
+		prerequisite = { focus = ENG_convoy_escort focus = ENG_battlefleet focus = ENG_inter_tactics focus = ENG_bc_refit }
+		prerequisite = { focus = ENG_mod_nav_cons }
+		x = 1
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 320
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_subs"
+			add_tech_bonus = { bonus = 0.25 uses = 1 category = ss_tech }
+		}
+		search_filters = { FOCUS_FILTER_NAVY_BONUS }
+	}
+
+	focus = {
+		id = ENG_rbritannia
+		icon = GFX_goal_GBR_royal_navy
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_mod_nav_cons
+		prerequisite = { focus = ENG_cls }
+		prerequisite = { focus = ENG_subs }
+		x = 0
+		y = 2
+		cost = 5
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 320
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_rbritannia"
+			add_ideas = ENG_rule_britannia
+		}
+		search_filters = { FOCUS_FILTER_NAVY_BONUS }
+	}
+
+	######################################################
+	#                                                    #
+	#              IMPERIAL FOREIGN POLICY               #
+	#                                                    #
+	######################################################
+
+	focus = {
+		id = ENG_impfp
+		icon = GFX_focus_eng_the_sun_never_sets
+		available = {
+			hidden_trigger = { always = no }
+		}
+		bypass = {
+			OR = {
+				custom_trigger_tooltip = {
+					tooltip = ENG_has_iso
+					has_country_flag = ENG_c_isol
+				}
+				custom_trigger_tooltip = {
+					tooltip = ENG_has_imperialism
+					has_country_flag = ENG_c_imperial
+				}
+			}
+		}
+		x = 41
+		y = 9
+		cost = 6
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_impfp"
+			custom_effect_tooltip = ENG_impfp_tt
+		}
+	}
+
+	######################################################
+	#                                                    #
+	#                  IMPERIAL ISOLATION                #
+	#                                                    #
+	######################################################
+
+	focus = {
+		id = ENG_standsalone
+		icon = GFX_focus_generic_home_defense
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_has_iso
+				has_country_flag = ENG_c_isol
+			}
+			OR = {
+				has_completed_focus = ENG_national_effort
+				has_completed_focus = ENG_end_austerity
+				has_completed_focus = ENG_liberate_markets
+				has_idea = ENG_war_mobil
+			}
+		}
+		relative_position_id = ENG_impfp
+		prerequisite = { focus = ENG_impfp }
+		mutually_exclusive = { focus = ENG_imperialism_focus }
+		x = -7
+		y = 1
+		cost = 1
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_standsalone"
+			add_ideas = ENG_splendid
+			if = {
+				limit = { has_idea = isolation }
+				swap_ideas = { remove_idea = isolation add_idea = civilian_economy }
+			}
+			if = {
+				limit = {  has_idea = undisturbed_isolation }
+				swap_ideas = { remove_idea = undisturbed_isolation add_idea = civilian_economy }
+			}
+		}
+	}
+
+	focus = {
+		id = ENG_med_def
+		icon = GFX_focus_generic_mediterranean_sea_focus
+		available = {
+			OR = {
+				owns_state = 118
+				owns_state = 116
+				owns_state = 183
+			}
+		}
+		bypass = {
+			NOT = {
+				AND = {
+					owns_state = 118
+					owns_state = 116
+					owns_state = 183
+				}
+			}
+		}
+		relative_position_id = ENG_standsalone
+		prerequisite = { focus = ENG_standsalone }
+		x = -4
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_med_def"
+			118 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+			116 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+			183 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ENG_gib_fort
+		icon = GFX_goal_generic_fortify_city
+		available = {
+			owns_state = 118
+		}
+		bypass = {
+			NOT = { owns_state = 118 }
+		}
+		relative_position_id = ENG_med_def
+		prerequisite = { focus = ENG_med_def }
+		x = -2
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_gib_fort"
+			118 = {
+				add_building_construction = {
+					type = coastal_bunker
+					level = 5
+					province = 13215
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 5
+					province = 13215
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ENG_sky_control
+		icon = GFX_goal_generic_air_doctrine
+		available = {
+			OR = {
+				owns_state = 118
+				owns_state = 116
+				owns_state = 183
+			}
+		}
+		bypass = {
+			NOT = {
+				AND = {
+					owns_state = 118
+					owns_state = 116
+					owns_state = 183
+				}
+			}
+		}
+		relative_position_id = ENG_med_def
+		prerequisite = { focus = ENG_med_def }
+		x = 0
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_sky_control"
+			118 = {
+				add_building_construction = {
+					type = anti_air_building
+					level = 2
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = air_base
+					level = 3
+					instant_build = yes
+				}
+			}
+			116 = {
+				add_building_construction = {
+					type = anti_air_building
+					level = 2
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = air_base
+					level = 3
+					instant_build = yes
+				}
+			}
+			183 = {
+				add_building_construction = {
+					type = anti_air_building
+					level = 2
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = air_base
+					level = 3
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ENG_adv_warning
+		icon = GFX_goal_generic_radar
+		available = {
+			OR = {
+				owns_state = 118
+				owns_state = 116
+				owns_state = 183
+			}
+		}
+		bypass = {
+			NOT = {
+				AND = {
+					owns_state = 118
+					owns_state = 116
+					owns_state = 183
+				}
+			}
+		}
+		relative_position_id = ENG_sky_control
+		prerequisite = { focus = ENG_sky_control }
+		x = 0
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_adv_warning"
+			118 = {
+				add_building_construction = {
+					type = radar_station
+					level = 2
+					instant_build = yes
+				}
+			}
+			116 = {
+				add_building_construction = {
+					type = radar_station
+					level = 2
+					instant_build = yes
+				}
+			}
+			183 = {
+				add_building_construction = {
+					type = radar_station
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ENG_lifeline
+		icon = GFX_goal_generic_trade
+		available = {
+			owns_state = 813
+		}
+		relative_position_id = ENG_med_def
+		prerequisite = { focus = ENG_med_def }
+		x = 2
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_lifeline"
+			813 = {
+				add_building_construction = {
+					type = coastal_bunker
+					level = 2
+					province = 1155
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 1155
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 12049
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 4073
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 9947
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = naval_base
+					level = 3
+					province = 1155
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = anti_air_building
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ENG_hi_def
+		icon = GFX_goal_generic_construct_military
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_standsalone
+		prerequisite = { focus = ENG_standsalone }
+		x = 0
+		y = 3
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_hi_def"
+			random_owned_state = {
+				limit = {
+					is_core_of = ENG
+					is_on_continent = europe
+				}
+				add_building_construction = {
+					type = anti_air_building
+					level = 2
+					instant_build = yes
+				}
+			}
+			random_owned_state = {
+				limit = {
+					is_core_of = ENG
+					is_on_continent = europe
+				}
+				add_building_construction = {
+					type = anti_air_building
+					level = 2
+					instant_build = yes
+				}
+			}
+			random_owned_state = {
+				limit = {
+					is_core_of = ENG
+					is_on_continent = europe
+				}
+				add_building_construction = {
+					type = anti_air_building
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ENG_reinf_scapa
+		icon = GFX_goal_generic_navy_doctrines_tactics
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_hi_def
+		prerequisite = { focus = ENG_hi_def }
+		x = -2
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_reinf_scapa"
+			120 = {
+				add_building_construction = {
+					type = anti_air_building
+					level = 2
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = radar_station
+					level = 2
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = naval_base
+					level = 2
+					province = 11064
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = coastal_bunker
+					level = 2
+					province = 1155
+					instant_build = yes
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_NAVY_BONUS }
+	}
+
+	focus = {
+		id = ENG_remember_1066
+		icon = GFX_focus_generic_coastal_fort
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_hi_def
+		prerequisite = { focus = ENG_hi_def }
+		x = 0
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_remember_1066"
+			127 = {
+				add_building_construction = {
+					type = coastal_bunker
+					level = 2
+					province = 3501
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = coastal_bunker
+					level = 2
+					province = 9458
+					instant_build = yes
+				}
+			}
+			123 = {
+				add_building_construction = {
+					type = coastal_bunker
+					level = 2
+					province = 540
+					instant_build = yes
+				}
+			}
+			131 = {
+				add_building_construction = {
+					type = coastal_bunker
+					level = 2
+					province = 11374
+					instant_build = yes
+				}
+			}
+			125 = {
+				add_building_construction = {
+					type = coastal_bunker
+					level = 2
+					province = 271
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ENG_decen_command
+		icon = GFX_goal_generic_british_officers
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_remember_1066
+		prerequisite = { focus = ENG_remember_1066 }
+		x = 0
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_decen_command"
+			add_ideas = ENG_decent_comm
+		}
+		search_filters = { FOCUS_FILTER_ARMY_BONUS }
+	}
+
+	focus = {
+		id = ENG_renew_territorials
+		icon = GFX_goal_generic_small_arms
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_decen_command
+		prerequisite = { focus = ENG_decen_command }
+		x = -1
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_renew_territorials"
+			custom_effect_tooltip = ENG_dep_terr
+			hidden_effect = {
+				load_oob = ENG_territorials
+			}
+		}
+		search_filters = { FOCUS_FILTER_ARMY_BONUS }
+	}
+
+	focus = {
+		id = ENG_home_guard
+		icon = GFX_focus_generic_commonwealth_build_infantry
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_decen_command
+		prerequisite = { focus = ENG_decen_command }
+		x = 1
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_home_guard"
+			swap_ideas = { remove_idea = ENG_decent_comm add_idea = ENG_hguard }
+		}
+		search_filters = { FOCUS_FILTER_ARMY_BONUS }
+	}
+
+	focus = {
+		id = ENG_invictus
+		icon = GFX_goal_generic_propaganda
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_renew_territorials
+		prerequisite = { focus = ENG_renew_territorials focus = ENG_home_guard }
+		x = 1
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_invictus"
+			add_ideas = ENG_invict
+		}
+		search_filters = { FOCUS_FILTER_ARMY_BONUS }
+	}
+
+	focus = {
+		id = ENG_air_supr
+		icon = GFX_goal_generic_air_fighter
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_hi_def
+		prerequisite = { focus = ENG_hi_def }
+		x = 2
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_air_supr"
+			random_owned_state = {
+				limit = {
+					is_core_of = ENG
+					is_on_continent = europe
+				}
+				add_building_construction = {
+					type = air_base
+					level = 3
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = anti_air_building
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_state = {
+				limit = {
+					is_core_of = ENG
+					is_on_continent = europe
+				}
+				add_building_construction = {
+					type = air_base
+					level = 3
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = anti_air_building
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_state = {
+				limit = {
+					is_core_of = ENG
+					is_on_continent = europe
+				}
+				add_building_construction = {
+					type = air_base
+					level = 3
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = anti_air_building
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_AIRFORCE_BONUS }
+	}
+
+	focus = {
+		id = ENG_east_flank
+		icon = GFX_goal_jap_right
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_standsalone
+		prerequisite = { focus = ENG_standsalone }
+		x = 4
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_east_flank"
+			422 = {
+				add_building_construction = {
+					type = anti_air_building
+					level = 1
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			819 = {
+				add_building_construction = {
+					type = anti_air_building
+					level = 1
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			326 = {
+				add_building_construction = {
+					type = anti_air_building
+					level = 1
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ENG_ceylon_factor
+		icon = GFX_goal_generic_navy_cruiser
+		available = {
+			has_capitulated = no
+			422 = { is_owned_by_ROOT_or_ally = yes }
+		}
+		relative_position_id = ENG_east_flank
+		prerequisite = { focus = ENG_east_flank }
+		x = -2
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_ceylon_factor"
+			422 = {
+				add_building_construction = {
+					type = anti_air_building
+					level = 1
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = coastal_bunker
+					level = 2
+					province = 10201
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = naval_base
+					level = 2
+					province = 10201
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = coastal_bunker
+					level = 2
+					province = 7260
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = naval_base
+					level = 2
+					province = 7260
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ENG_singa_strong
+		icon = GFX_goal_generic_fortify_city
+		available = {
+			has_capitulated = no
+			336 = { is_owned_by_ROOT_or_ally = yes }
+		}
+		relative_position_id = ENG_east_flank
+		prerequisite = { focus = ENG_east_flank }
+		x = 0
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_singa_strong"
+			336 = {
+				add_building_construction = {
+					type = coastal_bunker
+					level = 2
+					province = 7260
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = naval_base
+					level = 2
+					province = 7260
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 5
+					province = 7260
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = anti_air_building
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ENG_austral_def
+		icon = GFX_goal_AST_state_of_army
+		available = {
+			has_capitulated = no
+			country_exists = AST
+			AST = { is_in_faction_with = ENG }
+		}
+		relative_position_id = ENG_singa_strong
+		prerequisite = { focus = ENG_singa_strong }
+		x = 0
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_austral_def"
+			285 = {
+				add_building_construction = {
+					type = anti_air_building
+					level = 1
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = coastal_bunker
+					level = 2
+					province = 12406
+					instant_build = yes
+				}
+			}
+			521 = {
+				add_building_construction = {
+					type = anti_air_building
+					level = 1
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = coastal_bunker
+					level = 2
+					province = 7564
+					instant_build = yes
+				}
+			}
+			522 = {
+				add_building_construction = {
+					type = anti_air_building
+					level = 1
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = coastal_bunker
+					level = 2
+					province = 1652
+					instant_build = yes
+				}
+			}
+			520 = {
+				add_building_construction = {
+					type = anti_air_building
+					level = 1
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = coastal_bunker
+					level = 2
+					province = 7669
+					instant_build = yes
+				}
+			}
+			284 = {
+				add_building_construction = {
+					type = anti_air_building
+					level = 1
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = coastal_bunker
+					level = 2
+					province = 4543
+					instant_build = yes
+				}
+			}
+			723 = {
+				add_building_construction = {
+					type = anti_air_building
+					level = 1
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = coastal_bunker
+					level = 2
+					province = 2197
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ENG_hk_command
+		icon = GFX_focus_generic_military_mission
+		available = {
+			has_capitulated = no
+			326 = { is_owned_by_ROOT_or_ally = yes }
+		}
+		relative_position_id = ENG_east_flank
+		prerequisite = { focus = ENG_east_flank }
+		x = 2
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_hk_command"
+			326 = {
+				add_building_construction = {
+					type = coastal_bunker
+					level = 2
+					province = 7260
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = naval_base
+					level = 2
+					province = 7260
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 5
+					province = 7260
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = anti_air_building
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	######################################################
+	#                                                    #
+	#                    IMPERIALISM                     #
+	#                                                    #
+	######################################################
+
+	focus = {
+		id = ENG_imperialism_focus
+		icon = GFX_goal_GBR_britannia
+		available = {
+			AND = {
+				custom_trigger_tooltip = {
+					tooltip = ENG_has_imperialism
+					has_country_flag = ENG_c_imperial
+				}
+				OR = {
+					has_completed_focus = ENG_national_effort
+					has_completed_focus = ENG_end_austerity
+					has_completed_focus = ENG_liberate_markets
+					has_idea = ENG_war_mobil
+				}
+			}
+		}
+		prerequisite = { focus = ENG_impfp }
+		mutually_exclusive = { focus = ENG_standsalone }
+		x = 50
+		y = 10
+		cost = 1
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_imperialism_focus"
+			if = {
+				limit = { has_idea = isolation }
+				swap_ideas = { remove_idea = isolation add_idea = civilian_economy }
+			}
+			if = {
+				limit = { has_idea = undisturbed_isolation }
+				swap_ideas = { remove_idea = undisturbed_isolation add_idea = civilian_economy }
+			}
+			add_ideas = ENG_impe
+		}
+	}
+
+	# - American no longer sick man of the Americas, probably not so wise to launch one of the largest land invasions known to mankind. Still an option for players though.
+
+	focus = {
+		id = ENG_dip_panama
+		icon = GFX_goal_generic_positive_trade_relations
+		available = {
+			country_exists = USA
+			can_declare_war_on = USA
+			USA = { controls_state = 685 }
+		}
+		relative_position_id = ENG_imperialism_focus
+		prerequisite = { focus = ENG_imperialism_focus }
+		bypass = {
+			USA = {
+				NOT = { owns_state = 685 }
+			}
+		}
+		x = 5
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 0
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_dip_panama"
+			country_event = { id = ukf.35 }
+		}
+	}
+
+	focus = {
+		id = ENG_reinforce_canada
+		icon = GFX_goal_generic_fortify_city
+		available = {
+			country_exists = CAN
+			CAN = { is_in_faction_with = ENG }
+		}
+		relative_position_id = ENG_dip_panama
+		prerequisite = { focus = ENG_dip_panama }
+		bypass = {
+			OR = {
+				CAN = { exists = no }
+				AND = {
+					NOT = { CAN = { is_puppet_of = ENG } }
+					NOT = { CAN = { is_in_faction_with = ENG } }
+				}
+				AND = {
+					CAN = {
+						NOT = { controls_state = 276 }
+						NOT = { controls_state = 468 }
+						NOT = { controls_state = 465 }
+					}
+				}
+			}
+		}
+		x = -1
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_reinforce_canada"
+			276 = {
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 9667
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 9711
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 749
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 3605
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 6625
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 4270
+					instant_build = yes
+				}
+			}
+			468 = {
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 7345
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 7289
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 10230
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 10174
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 1284
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 12291
+					instant_build = yes
+				}
+			}
+			465 = {
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 4362
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 634
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 4342
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ENG_monroe
+		icon = GFX_goal_tfv_strengthen_commonwealth_ties
+		available = {
+			country_exists = USA
+			NOT = { is_in_faction_with = USA }
+		}
+		relative_position_id = ENG_dip_panama
+		prerequisite = { focus = ENG_dip_panama }
+		bypass = {
+			OR = {
+				NOT = { country_exists = USA }
+				has_war_with = USA
+			}
+		}
+		x = 1
+		y = 1
+		cost = 1
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 0
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_monroe"
+			every_country = {
+				limit = { is_guaranteed_by = USA  }
+				add_opinion_modifier = {
+					target = ENG
+					modifier = ENG_repudiate_monroe
+				}
+			}
+			USA = {
+				add_opinion_modifier = {
+					target = ENG
+					modifier = ENG_repudiate_monroe2
+				}
+				country_event = { id = ukf.210 }
+			}
+			add_named_threat = { threat = 10 name = ENG_t_monroe }
+		}
+	}
+
+	focus = {
+		id = ENG_take_alaska
+		icon = GFX_goal_generic_territory_or_war
+		available = {
+			country_exists = USA
+			USA = { owns_state = 463 }
+			NOT = { has_war_with = USA }
+		}
+		relative_position_id = ENG_reinforce_canada
+		prerequisite = { focus = ENG_reinforce_canada }
+		prerequisite = { focus = ENG_monroe }
+		bypass = {
+			OR = {
+				NOT = { USA = { controls_state = 463 } }
+				has_war_with = USA
+			}
+		}
+		x = 1
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 0
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_take_alaska"
+			USA = { country_event = { id = ukf.110 } }
+		}
+	}
+
+	focus = {
+		id = ENG_dip_usa
+		icon = GFX_goal_generic_attack_usa
+		available = {
+			country_exists = USA
+			NOT = { has_war_with = USA }
+		}
+		relative_position_id = ENG_take_alaska
+		prerequisite = { focus = ENG_take_alaska }
+		bypass = {
+			OR = {
+				USA = { exists = no }
+				has_war_with = USA
+			}
+		}
+		will_lead_to_war_with = USA
+		x = 0
+		y = 1
+		cost = 1
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 0
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_dip_usa"
+			declare_war_on = {
+				type = annex_everything
+				target = USA
+			}
+		}
+	}
+
+	# - What do you mean we can't conquer nations just to build a giant railway running from Cape Town to Singapore?
+
+	focus = {
+		id = ENG_cape_cairo
+		icon = GFX_goal_ENG_cape_to_cairo
+		available = {
+			has_war = no
+		}
+		relative_position_id = ENG_imperialism_focus
+		prerequisite = { focus = ENG_imperialism_focus }
+		x = 0
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_cape_cairo"
+			country_event = { id = ukf.150 }
+		}
+	}
+
+	focus = {
+		id = ENG_dip_arabia
+		icon = GFX_goal_generic_attack_arabia
+		available = {
+			country_exists = ARB
+			NOT = { is_in_faction_with = ARB }
+			can_declare_war_on = ARB
+		}
+		relative_position_id = ENG_cape_cairo
+		prerequisite = { focus = ENG_cape_cairo }
+		bypass = {
+			OR = {
+				ARB = {
+					exists = no
+					is_subject_of = ROOT
+					is_in_faction_with = ROOT
+				}
+				has_war_with = ARB
+			}
+		}
+		x = -2
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 0
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_dip_arabia"
+			country_event = { id = ukf.1 }
+			add_named_threat = { threat = 5 name = ENG_t_arab }
+		}
+	}
+
+	focus = {
+		id = ENG_dip_iraq
+		icon = GFX_goal_generic_attack_iraq
+		available = {
+			country_exists = IRQ
+			IRQ = {
+				NOT = { is_puppet_of = ENG }
+				NOT = { is_in_faction_with = ENG }
+			}
+			NOT = { has_war_with = IRQ }
+		}
+		relative_position_id = ENG_cape_cairo
+		prerequisite = { focus = ENG_cape_cairo }
+		bypass = {
+			OR = {
+				IRQ = {
+					exists = no
+					is_in_faction_with = ROOT
+					is_subject_of = ROOT
+				}
+				has_war_with = IRQ
+			}
+		}
+		x = 0
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 0
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_dip_iraq"
+			country_event = { id = ukf.160 }
+			add_named_threat = { threat = 2 name = ENG_t_irq }
+		}
+	}
+
+	focus = {
+		id = ENG_dip_persia
+		icon = GFX_goal_generic_oil_refinery
+		available = {
+			country_exists = PER
+			PER = {
+				NOT = { is_puppet_of = ENG }
+				NOT = { is_in_faction_with = ENG }
+			}
+			NOT = { has_war_with = PER }
+		}
+		relative_position_id = ENG_cape_cairo
+		prerequisite = { focus = ENG_cape_cairo }
+		bypass = {
+			OR = {
+				PER = {
+					exists = no
+					is_subject_of = ROOT
+					is_in_faction_with = ROOT
+				}
+				has_war_with = PER
+			}
+		}
+		x = 2
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 0
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_dip_persia"
+			country_event = { id = ukf.165 }
+			add_named_threat = { threat = 5 name = ENG_t_per }
+		}
+	}
+
+	focus = {
+		id = ENG_cape_calcutta
+		icon = GFX_goal_generic_railroad
+		available = {
+			has_war = no
+			291 = { is_owned_by_ROOT_or_ally = yes }
+			410 = { is_owned_by_ROOT_or_ally = yes }
+			412 = { is_owned_by_ROOT_or_ally = yes }
+			413 = { is_owned_by_ROOT_or_ally = yes }
+			426 = { is_owned_by_ROOT_or_ally = yes }
+			431 = { is_owned_by_ROOT_or_ally = yes }
+			433 = { is_owned_by_ROOT_or_ally = yes }
+			436 = { is_owned_by_ROOT_or_ally = yes }
+			437 = { is_owned_by_ROOT_or_ally = yes }
+			443 = { is_owned_by_ROOT_or_ally = yes }
+			444 = { is_owned_by_ROOT_or_ally = yes }
+			454 = { is_owned_by_ROOT_or_ally = yes }
+			554 = { is_owned_by_ROOT_or_ally = yes }
+			676 = { is_owned_by_ROOT_or_ally = yes }
+			680 = { is_owned_by_ROOT_or_ally = yes }
+			814 = { is_owned_by_ROOT_or_ally = yes }
+		}
+		prerequisite = {
+			focus = ENG_dip_persia
+			focus = ENG_dip_iraq
+			focus = ENG_dip_arabia
+		}
+		relative_position_id = ENG_dip_iraq
+		x = 0
+		y = 1
+		cost = 10
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_cape_calcutta"
+			813 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+			453 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+			454 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+			455 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+			675 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+			291 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+			413 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+			412 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+			410 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+			444 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+			443 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+			433 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+			437 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+			814 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+			436 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+			426 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+			431 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ENG_defend_singapore
+		icon = GFX_goal_generic_construct_military
+		available = {
+			controls_state = 819
+		}
+		prerequisite = { focus = ENG_cape_calcutta }
+		bypass = {
+			NOT = { 819 = { is_owned_by = ENG } }
+		}
+		relative_position_id = ENG_cape_calcutta
+		x = -1
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_defend_singapore"
+			819 = {
+				add_building_construction = {
+					type = bunker
+					level = 3
+					province = 12299
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = coastal_bunker
+					level = 3
+					province = 12299
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = anti_air_building
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ENG_mountain_pass
+		icon = GFX_focus_RAJ_british_investors
+		available = {
+			country_exists = RAJ
+			RAJ = {
+				is_puppet_of = ENG
+				NOT = { has_war_with = IND }
+			}
+		}
+		bypass = {
+			AND = {
+				IND = { exists = yes }
+				NOT = { IND = { has_war_with = ENG } }
+			}
+		}
+		relative_position_id = ENG_cape_calcutta
+		prerequisite = { focus = ENG_cape_calcutta }
+		x = 1
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 0
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_mountain_pass"
+			country_event = { id = ukf.130 }
+			add_named_threat = { threat = 2 name = ENG_t_nep }
+		}
+	}
+
+	focus = {
+		id = ENG_dip_siam
+		icon = GFX_goal_generic_attack_siam
+		available = {
+			country_exists = SIA
+			NOT = { has_war_with = SIA }
+			SIA = {
+				NOT = { is_subject_of = ENG }
+			}
+		}
+		relative_position_id = ENG_defend_singapore
+		prerequisite = {
+			focus = ENG_defend_singapore
+			focus = ENG_mountain_pass
+		}
+		bypass = {
+			OR = {
+				country_exists = SIA
+				SIA = {
+					is_subject_of = ROOT
+					is_in_faction_with = ROOT
+				}
+				has_war_with = SIA
+			}
+		}
+		x = 1
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 0
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_dip_siam"
+			country_event = { id = ukf.350 }
+			add_named_threat = { threat = 5 name = ENG_t_sia }
+		}
+	}
+
+	focus = {
+		id = ENG_cape_singapore
+		icon = GFX_goal_generic_construct_infrastructure
+		available = {
+			has_war = no
+			288 = { is_owned_by_ROOT_or_ally = yes }
+			430 = { is_owned_by_ROOT_or_ally = yes }
+			724 = { is_owned_by_ROOT_or_ally = yes }
+			805 = { is_owned_by_ROOT_or_ally = yes }
+			819 = { is_owned_by_ROOT_or_ally = yes }
+			821 = { is_owned_by_ROOT_or_ally = yes }
+			822 = { is_owned_by_ROOT_or_ally = yes }
+			813 = { is_owned_by_ROOT_or_ally = yes }
+		}
+		relative_position_id = ENG_dip_siam
+		prerequisite = { focus = ENG_dip_siam }
+		x = -1
+		y = 1
+		cost = 10
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_cape_singapore"
+			819 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+			823 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+			822 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+			821 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+			724 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+			805 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+			288 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+			430 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ENG_dip_afghanistan
+		icon = GFX_goal_afghanistan
+		available = {
+			country_exists = AFG
+			AFG = {
+				NOT = { is_subject_of = ENG }
+			}
+			NOT = { has_war_with = AFG }
+		}
+		relative_position_id = ENG_dip_siam
+		prerequisite = { focus = ENG_dip_siam }
+		bypass = {
+			OR = {
+				AFG = {
+					exists = no
+					is_subject_of = ROOT
+					is_in_faction_with = ROOT
+				}
+				has_war_with = AFG
+			}
+		}
+		x = 1
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 0
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_dip_afghanistan"
+			country_event = { id = ukf.180 }
+		}
+	}
+
+	focus = {
+		id = ENG_dip_ussr
+		icon = GFX_focus_attack_soviet
+		available = {
+			country_exists = SOV
+			NOT = { has_war_with = SOV }
+		}
+		relative_position_id = ENG_cape_singapore
+		prerequisite = { focus = ENG_dip_afghanistan }
+		prerequisite = { focus = ENG_cape_singapore }
+		bypass = {
+			OR = {
+				SOV = {
+					exists = no
+					is_subject_of = ROOT
+					is_in_faction_with = ROOT
+				}
+				has_war_with = SOV
+			}
+		}
+		x = 1
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 0
+			}
+			modifier = {
+				has_country_flag = avenging1776
+				OR = {
+					TRK = { is_puppet_of = ENG }
+					AND = {
+						585 = { is_controlled_by = ENG }
+						584 = { is_controlled_by = ENG }
+						742 = { is_controlled_by = ENG }
+						405 = { is_controlled_by = ENG }
+					}
+					AND = {
+						TRK = { exists = no }
+						585 = { is_controlled_by = SOV }
+						584 = { is_controlled_by = SOV }
+						742 = { is_controlled_by = SOV }
+						405 = { is_controlled_by = SOV }
+						OR = {
+							AFG = { is_puppet_of = ENG }
+							AND = {
+								267 = { is_controlled_by = ENG }
+								415 = { is_controlled_by = ENG }
+							}
+						}
+					}
+				}
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_dip_ussr"
+			declare_war_on = {
+				type = annex_everything
+				target = SOV
+			}
+		}
+	}
+
+	# - When your Great War isn't Great enough so you declare war on both Germany and France
+
+	focus = {
+		id = ENG_london_conf
+		icon = GFX_goal_ENG_naval_conference
+		available = {
+			OR = {
+				AND = {
+					country_exists = POR
+					NOT = { has_war_with = POR }
+				}
+				AND = {
+					country_exists = GRE
+					NOT = { has_war_with = GRE }
+				}
+			}
+		}
+		bypass = {
+			AND = {
+				NOT = { country_exists = POR }
+				NOT = { country_exists = GRE }
+			}
+		}
+		prerequisite = { focus = ENG_imperialism_focus }
+		x = 44
+		y = 11
+		cost = 4
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_london_conf"
+			country_event = { id = ukf.2000 }
+		}
+	}
+
+	focus = {
+		id = ENG_dip_japan
+		icon = GFX_goal_japan
+		available = {
+			country_exists = JAP
+			JAP = {
+				NOT = { is_puppet_of = ENG }
+				is_in_faction = no
+			}
+			NOT = { has_war_with = JAP }
+			NOT = { is_in_faction_with = JAP }
+		}
+		prerequisite = { focus = ENG_london_conf }
+		bypass = {
+			OR = {
+				JAP = {
+					exists = no
+					is_subject_of = ROOT
+					is_in_faction_with = ROOT
+				}
+				has_war_with = JAP
+			}
+		}
+		x = 42
+		y = 12
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_dip_japan"
+			country_event = { id = ukf.120 }
+		}
+	}
+
+	focus = {
+		id = ENG_dip_portugal
+		icon = GFX_goal_generic_improve_relations
+		available = {
+			country_exists = POR
+			POR = {
+				NOT = { is_puppet_of = ENG }
+				is_in_faction = no
+				NOT = { has_war_with = PRR }
+			}
+			NOT = { has_war_with = POR }
+		}
+		prerequisite = { focus = ENG_london_conf }
+		bypass = {
+			OR = {
+				POR = {
+					exists = no
+					is_subject_of = ROOT
+					is_in_faction_with = ROOT
+				}
+				has_war_with = POR
+			}
+		}
+		x = 44
+		y = 12
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_dip_portugal"
+			country_event = { id = ukf.90 }
+		}
+	}
+
+	focus = {
+		id = ENG_dip_belgium
+		icon = GFX_goal_tripartite_pact
+		available = {
+			country_exists = BEL
+			BEL = {
+				has_capitulated = no
+				NOT = { is_puppet_of = ENG }
+			}
+			NOT = { has_war_with = BEL }
+		}
+		prerequisite = { focus = ENG_london_conf }
+		bypass = {
+			OR = {
+				BEL = {
+					exists = no
+					is_subject_of = ROOT
+					is_in_faction_with = ROOT
+				}
+				has_war_with = BEL
+			}
+		}
+		x = 46
+		y = 12
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_dip_belgium"
+			country_event = { id = ukf.93 }
+		}
+	}
+
+	focus = {
+		id = ENG_dip_hellas
+		icon = GFX_goal_tfv_can_compromise_with_quebec
+		available = {
+			country_exists = GRE
+			GRE = {
+				NOT = { is_puppet_of = ENG }
+				is_in_faction = no
+			}
+			NOT = { has_war_with = GRE }
+		}
+		prerequisite = {
+			focus = ENG_dip_japan
+			focus = ENG_dip_portugal
+			focus = ENG_dip_belgium
+		}
+		bypass = {
+			OR = {
+				GRE = {
+					exists = no
+					is_subject_of = ROOT
+					is_in_faction_with = ROOT
+				}
+				has_war_with = GRE
+			}
+		}
+		x = 44
+		y = 13
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_dip_hellas"
+			GRE = { country_event = { id = ukf.100 } }
+		}
+	}
+
+	focus = {
+		id = ENG_final_struggle
+		icon = GFX_focus_attack_france
+		available = {
+			country_exists = FRA
+			FRA = {
+				NOT = { has_idea = ENG_dovpact }
+				has_capitulated = no
+				NOT = { has_war_with = ENG }
+			}
+		}
+		cancel = {
+			FRA = { has_idea = ENG_dovpact }
+		}
+		prerequisite = {
+			focus = ENG_dip_hellas
+			focus = ENG_dip_japan
+			focus = ENG_dip_portugal
+			focus = ENG_dip_belgium
+		}
+		bypass = {
+			OR = {
+				country_exists = FRA
+				has_war_with = FRA
+			}
+		}
+		will_lead_to_war_with = FRA
+		x = 43
+		y = 14
+		cost = 1
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 0
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_final_struggle"
+			declare_war_on = {
+				type = annex_everything
+				target = FRA
+			}
+		}
+	}
+
+	focus = {
+		id = ENG_attack_germany
+		icon = GFX_goal_generic_attack_german_reich
+		available = {
+			country_exists = GER
+			GER = {
+				has_capitulated = no
+				NOT = { has_idea = ENG_jutpact }
+				NOT = { has_war_with = ENG }
+			}
+		}
+		cancel = {
+			GER = { has_idea = ENG_jutpact }
+		}
+		will_lead_to_war_with = GER
+		prerequisite = {
+			focus = ENG_dip_hellas
+			focus = ENG_dip_japan
+			focus = ENG_dip_portugal
+			focus = ENG_dip_belgium
+		}
+		bypass = {
+			OR = {
+				country_exists = GER
+				has_war_with = GER
+			}
+		}
+		x = -1
+		y = 2
+		relative_position_id = ENG_dip_belgium
+		cost = 1
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war = yes
+				factor = 0
+			}
+			modifier = {
+				factor = 0
+				GER = {
+					NOT = {
+						OR = {
+							has_war_with = FRA
+							has_war_with = SOV
+						}
+					}
+				}
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_attack_germany"
+			declare_war_on = {
+				type = annex_everything
+				target = GER
+			}
+		}
+	}
+
+	######################################################
+	#                                                    #
+	#                 IMPERIAL DEVELOPMENT               #
+	#                                                    #
+	######################################################
+
+	focus = {
+		id = ENG_imperial_development
+		icon = GFX_focus_generic_the_giant_wakes
+		available = {
+			has_capitulated = no
+		}
+		x = 23
+		y = 13
+		cost = 1
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_imperial_development"
+			CAN = {
+				add_opinion_modifier = {
+					modifier = IMP_start_dev
+					target = ENG
+				}
+			}
+			AST = {
+				add_opinion_modifier = {
+					modifier = IMP_start_dev
+					target = ENG
+				}
+			}
+			NZL = {
+				add_opinion_modifier = {
+					modifier = IMP_start_dev
+					target = ENG
+				}
+			}
+			SAF = {
+				add_opinion_modifier = {
+					modifier = IMP_start_dev
+					target = ENG
+				}
+			}
+			RAJ = {
+				add_opinion_modifier = {
+					modifier = IMP_start_dev
+					target = ENG
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ENG_assist_canada
+		icon = GFX_goal_tfv_strengthen_commonwealth_ties
+		available = {
+			country_exists = CAN
+			OR = {
+				CAN = { is_puppet_of = ENG }
+				CAN = { is_in_faction_with = ENG }
+			}
+		}
+		bypass = {
+			NOT = { CAN = { is_puppet_of = ENG } }
+		}
+		relative_position_id = ENG_imperial_development
+		prerequisite = { focus = ENG_imperial_development }
+		x = -3
+		y = 1
+		cost = 10
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_assist_canada"
+			country_event = { id = emp.40 }
+			CAN = {
+				add_opinion_modifier = {
+					modifier = ENG_developed
+					target = ENG
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ENG_saf_diamonds
+		icon = GFX_goal_generic_construction2
+		available = {
+			country_exists = SAF
+			OR = {
+				SAF = { is_puppet_of = ENG }
+				SAF = { is_in_faction_with = ENG }
+			}
+		}
+		bypass = {
+			NOT = { SAF = { is_puppet_of = ENG } }
+		}
+		relative_position_id = ENG_imperial_development
+		prerequisite = { focus = ENG_imperial_development }
+		x = -1
+		y = 1
+		cost = 10
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_saf_diamonds"
+			country_event = { id = emp.41 }
+			SAF = {
+				add_opinion_modifier = {
+					modifier = ENG_developed
+					target = ENG
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ENG_india_dev
+		icon = GFX_focus_RAJ_british_investors
+		available = {
+			country_exists = RAJ
+			RAJ = { is_puppet_of = ENG }
+		}
+		relative_position_id = ENG_imperial_development
+		bypass = {
+			NOT = {
+				country_exists = RAJ
+				RAJ = { is_puppet_of = ENG }
+			}
+		}
+		prerequisite = { focus = ENG_imperial_development }
+		x = 1
+		y = 1
+		cost = 10
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_india_dev"
+			country_event = { id = emp.43 }
+			RAJ = {
+				add_opinion_modifier = {
+					modifier = ENG_developed
+					target = ENG
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ENG_australasia_dev
+		icon = GFX_goal_generic_intelligence_exchange
+		available = {
+			OR = {
+				country_exists = AST
+				AND = {
+					AST = { is_puppet_of = ENG }
+					AST = { is_in_faction_with = ENG }
+				}
+				country_exists = NZL
+				AND = {
+					NZL = { is_puppet_of = ENG }
+					NZL = { is_in_faction_with = ENG }
+				}
+			}
+		}
+		bypass = {
+			NOT = { AST = { is_puppet_of = ENG } }
+		}
+		relative_position_id = ENG_imperial_development
+		prerequisite = { focus = ENG_imperial_development }
+		x = 3
+		y = 1
+		cost = 10
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_australasia_dev"
+			country_event = { id = emp.42 }
+			AST = {
+				add_opinion_modifier = {
+					modifier = ENG_developed
+					target = ENG
+				}
+			}
+			NZL = {
+				add_opinion_modifier = {
+					modifier = ENG_developed
+					target = ENG
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ENG_est_iedc
+		icon = GFX_goal_CAN_iedc
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_assist_canada
+		prerequisite = { focus = ENG_assist_canada }
+		prerequisite = { focus = ENG_saf_diamonds }
+		prerequisite = { focus = ENG_india_dev }
+		prerequisite = { focus = ENG_australasia_dev }
+		x = 1
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_est_iedc"
+			add_ideas = IMP_iedc
+			if = {
+				limit = {
+					OR = {
+						CAN = { is_puppet_of = ENG }
+						CAN = { is_in_faction_with = ENG }
+					}
+				}
+				CAN = {
+					add_opinion_modifier = {
+						modifier = IMP_est_iedc
+						target = ENG
+					}
+					add_ideas = IMP_iedc
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						AST = { is_puppet_of = ENG }
+						AST = { is_in_faction_with = ENG }
+					}
+				}
+				AST = {
+					add_opinion_modifier = {
+						modifier = IMP_est_iedc
+						target = ENG
+					}
+					add_ideas = IMP_iedc
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						NZL = { is_puppet_of = ENG }
+						NZL = { is_in_faction_with = ENG }
+					}
+				}
+				NZL = {
+					add_opinion_modifier = {
+						modifier = IMP_est_iedc
+						target = ENG
+					}
+					add_ideas = IMP_iedc
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						SAF = { is_puppet_of = ENG }
+						SAF = { is_in_faction_with = ENG }
+					}
+				}
+				SAF = {
+					add_opinion_modifier = {
+						modifier = IMP_est_iedc
+						target = ENG
+					}
+					add_ideas = IMP_iedc
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						RAJ = { is_puppet_of = ENG }
+						RAJ = { is_in_faction_with = ENG }
+					}
+				}
+				RAJ = {
+					add_opinion_modifier = {
+						modifier = IMP_est_iedc
+						target = ENG
+					}
+					add_ideas = IMP_iedc
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ENG_fund_ito
+		icon = GFX_focus_generic_british_trade
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_saf_diamonds
+		prerequisite = { focus = ENG_assist_canada }
+		prerequisite = { focus = ENG_saf_diamonds }
+		prerequisite = { focus = ENG_india_dev }
+		prerequisite = { focus = ENG_australasia_dev }
+		x = 1
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_fund_ito"
+			add_ideas = IMP_ito
+			if = {
+				limit = {
+					OR = {
+						CAN = { is_puppet_of = ENG }
+						CAN = { is_in_faction_with = ENG }
+					}
+				}
+				CAN = {
+					add_opinion_modifier = {
+						modifier = IMP_fund_ito
+						target = ENG
+					}
+					add_ideas = IMP_ito
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						AST = { is_puppet_of = ENG }
+						AST = { is_in_faction_with = ENG }
+					}
+				}
+				AST = {
+					add_opinion_modifier = {
+						modifier = IMP_fund_ito
+						target = ENG
+					}
+					add_ideas = IMP_ito
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						NZL = { is_puppet_of = ENG }
+						NZL = { is_in_faction_with = ENG }
+					}
+				}
+				NZL = {
+					add_opinion_modifier = {
+						modifier = IMP_fund_ito
+						target = ENG
+					}
+					add_ideas = IMP_ito
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						SAF = { is_puppet_of = ENG }
+						SAF = { is_in_faction_with = ENG }
+					}
+				}
+				SAF = {
+					add_opinion_modifier = {
+						modifier = IMP_fund_ito
+						target = ENG
+					}
+					add_ideas = IMP_ito
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						RAJ = { is_puppet_of = ENG }
+						RAJ = { is_in_faction_with = ENG }
+					}
+				}
+				RAJ = {
+					add_opinion_modifier = {
+						modifier = IMP_fund_ito
+						target = ENG
+					}
+					add_ideas = IMP_ito
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = ENG_create_isaac
+		icon = GFX_goal_CAN_isac
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_india_dev
+		prerequisite = { focus = ENG_assist_canada }
+		prerequisite = { focus = ENG_saf_diamonds }
+		prerequisite = { focus = ENG_india_dev }
+		prerequisite = { focus = ENG_australasia_dev }
+		x = 1
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_create_isaac"
+			add_ideas = IMP_isaac
+			if = {
+				limit = {
+					OR = {
+						CAN = { is_puppet_of = ENG }
+						CAN = { is_in_faction_with = ENG }
+					}
+				}
+				CAN = {
+					add_opinion_modifier = {
+						modifier = IMP_create_isaac
+						target = ENG
+					}
+					add_ideas = IMP_isaac
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						AST = { is_puppet_of = ENG }
+						AST = { is_in_faction_with = ENG }
+					}
+				}
+				AST = {
+					add_opinion_modifier = {
+						modifier = IMP_create_isaac
+						target = ENG
+					}
+					add_ideas = IMP_isaac
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						NZL = { is_puppet_of = ENG }
+						NZL = { is_in_faction_with = ENG }
+					}
+				}
+				NZL = {
+					add_opinion_modifier = {
+						modifier = IMP_create_isaac
+						target = ENG
+					}
+					add_ideas = IMP_isaac
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						SAF = { is_puppet_of = ENG }
+						SAF = { is_in_faction_with = ENG }
+					}
+				}
+				SAF = {
+					add_opinion_modifier = {
+						modifier = IMP_create_isaac
+						target = ENG
+					}
+					add_ideas = IMP_isaac
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						RAJ = { is_puppet_of = ENG }
+						RAJ = { is_in_faction_with = ENG }
+					}
+				}
+				RAJ = {
+					add_opinion_modifier = {
+						modifier = IMP_create_isaac
+						target = ENG
+					}
+					add_ideas = IMP_isaac
+				}
+			}
+		}
+	}
+
+
+	focus = {
+		id = ENG_imp_council
+		icon = GFX_goal_tfv_generic_tech_sharing
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = ENG_fund_ito
+		prerequisite = { focus = ENG_est_iedc }
+		prerequisite = { focus = ENG_fund_ito }
+		prerequisite = { focus = ENG_create_isaac }
+		x = 0
+		y = 1
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus ENG_imp_council"
+			add_research_slot = 1
+			add_to_tech_sharing_group = imperial_research
+			every_country = {
+				limit = {
+					OR = {
+						is_in_faction_with = ENG
+						is_puppet_of = ENG
+					}
+				}
+				add_to_tech_sharing_group = imperial_research
+			}
+		}
+	}
+}

@@ -1,0 +1,491 @@
+﻿#######################
+# Spanish Civil War
+#######################
+# By Beelzebub
+#######################
+
+add_namespace = scw
+
+country_event = { #Republic in Tangiers
+	id = scw.1
+	immediate = {log = "[GetDateText]: [Root.GetName]: event scw.1"}
+	title = scw.1.t
+	desc = scw.1.d
+	trigger = {
+		tag = FRA
+		OR = {
+			SPA = {
+				OR = {
+					owns_state = 897
+					owns_state = 290
+				}
+			}
+			SPF = {
+				OR = {
+					owns_state = 897
+					owns_state = 290
+				}
+			}
+			SPM = {
+				OR = {
+					owns_state = 897
+					owns_state = 290
+				}
+			}
+		}
+		SPR = {
+			exists = no
+		}
+	}
+	fire_only_once = yes
+	mean_time_to_happen = { days = 5 }
+
+	option = {
+		name = "Install the Occupation of Spanish Morocco!"
+		ai_chance = {
+			factor = 100
+		}
+		if = {
+			limit = {
+				OR = {
+					SPA = {
+						owns_state = 897
+					}
+					SPF = {
+						owns_state = 897
+					}
+					SPM = {
+						owns_state = 897
+					}
+				}
+			}
+			FRA = {
+				transfer_state = 897
+			}
+		}
+		if = {
+			limit = {
+				OR = {
+					SPA = {
+						owns_state = 290
+					}
+					SPF = {
+						owns_state = 290
+					}
+					SPM = {
+						owns_state = 290
+					}
+				}
+			}
+			FRA = {
+				transfer_state = 290
+			}
+		}
+	}
+
+	option = {
+		name = "We must respect the victor"
+		ai_chance = {
+			factor = 0
+		}
+	}
+}
+
+country_event = { #Republic wins the war
+	id = scw.2
+	immediate = {log = "[GetDateText]: [Root.GetName]: event scw.2"}
+	title = scw.2.t
+	desc = scw.2.d
+	trigger = {
+		tag = SPR
+		SPF = {
+			exists = no
+		}
+		SPA = {
+			exists = no
+		}
+		SPM = {
+			exists = no
+		}
+		has_idea = SCW_idea
+	}
+	fire_only_once = yes
+	mean_time_to_happen = { days = 5 }
+
+	option = { #Declare the Spanish Republic
+		name = "Viva la República Española!"
+		add_stability = -0.3
+		add_war_support = -0.4
+		if = {
+			limit = {
+				has_idea = SCW_idea
+			}
+			remove_ideas = SCW_idea
+		}
+		every_state = {
+			limit = {
+				is_core_of = SPM
+				is_owned_by = ROOT
+				NOT = {
+					is_core_of = ROOT
+				}
+			}
+			add_core_of = ROOT
+		}
+		every_state = {
+			limit = {
+				is_core_of = SPF
+				is_owned_by = ROOT
+				NOT = {
+					is_core_of = ROOT
+				}
+			}
+			add_core_of = ROOT
+		}
+		every_state = {
+			limit = {
+				is_core_of = SPA
+				is_owned_by = ROOT
+				NOT = {
+					is_core_of = ROOT
+				}
+			}
+		}
+		set_cosmetic_tag = SPR_republic
+		if = {
+			limit = {
+				has_idea = SCW_idea
+			}
+			remove_ideas = SCW_idea
+		}
+		if = {
+			limit = {
+				owns_state = 41
+			}
+			set_capital = { state =  41 }
+		}
+		set_global_flag = SPR_SCW_victory
+	}
+}
+
+country_event = { #Falangists win the war
+	id = scw.3
+	immediate = {log = "[GetDateText]: [Root.GetName]: event scw.3"}
+	title = scw.3.t
+	desc = scw.3.d
+	trigger = {
+		tag = SPF
+		OR = {
+			SPR = {
+				exists = no
+			}
+			AND = {
+				SPR = {
+					owns_state = 897
+					owns_state = 290
+				}
+			}
+		}
+		SPA = {
+			exists = no
+		}
+		SPM = {
+			exists = no
+		}
+		has_idea = SCW_idea
+	}
+	fire_only_once = yes
+	mean_time_to_happen = { days = 5 }
+
+	option = { #Declare Spanish State
+		name = "Viva el Falangismo!"
+		add_political_power = -500
+		if = {
+			limit = {
+				has_idea = SCW_idea
+			}
+			remove_ideas = SCW_idea
+		}
+		every_state = {
+			limit = {
+				is_core_of = SPM
+				is_owned_by = ROOT
+				NOT = {
+					is_core_of = ROOT
+				}
+			}
+			add_core_of = ROOT
+		}
+		every_state = {
+			limit = {
+				is_core_of = SPR
+				is_owned_by = ROOT
+				NOT = {
+					is_core_of = ROOT
+				}
+			}
+			add_core_of = ROOT
+		}
+		every_state = {
+			limit = {
+				is_core_of = SPA
+				is_owned_by = ROOT
+				NOT = {
+					is_core_of = ROOT
+				}
+			}
+			add_core_of = ROOT
+		}
+		set_cosmetic_tag = SPF_state
+		if = {
+			limit = {
+				has_idea = SCW_idea
+			}
+			remove_ideas = SCW_idea
+		}
+		if = {
+			limit = {
+				owns_state = 41
+			}
+			set_capital = { state =  41 }
+		}
+	}
+}
+
+country_event = { #Socialists win the war
+	id = scw.4
+	immediate = {log = "[GetDateText]: [Root.GetName]: event scw.4"}
+	title = scw.4.t
+	desc = scw.4.d
+	trigger = {
+		tag = SPA
+		OR = {
+			SPR = {
+				exists = no
+			}
+			AND = {
+				SPR = {
+					owns_state = 897
+					owns_state = 290
+				}
+			}
+		}
+		SPF = {
+			exists = no
+		}
+		SPM = {
+			exists = no
+		}
+		has_idea = SCW_idea
+	}
+	fire_only_once = yes
+	mean_time_to_happen = { days = 5 }
+
+	option = { #Declare Spanish State
+		name = "Viva el Frente Popular!"
+		add_political_power = -500
+		if = {
+			limit = {
+				has_idea = SCW_idea
+			}
+			remove_ideas = SCW_idea
+		}
+		every_state = {
+			limit = {
+				is_core_of = SPM
+				is_owned_by = ROOT
+				NOT = {
+					is_core_of = ROOT
+				}
+			}
+			add_core_of = ROOT
+		}
+		every_state = {
+			limit = {
+				is_core_of = SPR
+				is_owned_by = ROOT
+				NOT = {
+					is_core_of = ROOT
+				}
+			}
+			add_core_of = ROOT
+		}
+		every_state = {
+			limit = {
+				is_core_of = SPF
+				is_owned_by = ROOT
+				NOT = {
+					is_core_of = ROOT
+				}
+			}
+			add_core_of = ROOT
+		}
+		set_cosmetic_tag = SPA_republic
+		if = {
+			limit = {
+				has_idea = SCW_idea
+			}
+			remove_ideas = SCW_idea
+		}
+		if = {
+			limit = {
+				owns_state = 41
+			}
+			set_capital = { state =  41 }
+		}
+	}
+}
+
+country_event = { #Kingdom wins the war
+	id = scw.5
+	immediate = {log = "[GetDateText]: [Root.GetName]: event scw.5"}
+	title = scw.5.t
+	desc = scw.5.d
+	trigger = {
+		tag = SPM
+		OR = {
+			SPR = {
+				exists = no
+			}
+			AND = {
+				SPR = {
+					owns_state = 897
+					owns_state = 290
+				}
+			}
+		}
+		SPF = {
+			exists = no
+		}
+		SPA = {
+			exists = no
+		}
+		has_idea = SCW_idea
+	}
+	fire_only_once = yes
+	mean_time_to_happen = { days = 5 }
+
+	option = { #Declare Kingdom of Spain
+		name = "Viva el Reino de España!"
+		add_political_power = -500
+		if = {
+			limit = {
+				has_idea = SCW_idea
+			}
+			remove_ideas = SCW_idea
+		}
+		every_state = {
+			limit = {
+				is_core_of = SPA
+				is_owned_by = ROOT
+				NOT = {
+					is_core_of = ROOT
+				}
+			}
+			add_core_of = ROOT
+		}
+		every_state = {
+			limit = {
+				is_core_of = SPR
+				is_owned_by = ROOT
+				NOT = {
+					is_core_of = ROOT
+				}
+			}
+			add_core_of = ROOT
+		}
+		every_state = {
+			limit = {
+				is_core_of = SPF
+				is_owned_by = ROOT
+				NOT = {
+					is_core_of = ROOT
+				}
+			}
+			add_core_of = ROOT
+		}
+		set_cosmetic_tag = SPM_kingdom
+		if = {
+			limit = {
+				has_idea = SCW_idea
+			}
+			remove_ideas = SCW_idea
+		}
+		if = {
+			limit = {
+				has_idea = SCW_SPM_no_support
+			}
+			remove_ideas = SCW_SPM_no_support
+		}
+		if = {
+			limit = {
+				has_idea = SCW_SPM_support_regained
+			}
+			remove_ideas = SCW_SPM_support_regained
+		}
+		if = {
+			limit = {
+				has_idea = SCW_SPM_no_support_2
+			}
+			remove_ideas = SCW_SPM_no_support_2
+		}
+		if = {
+			limit = {
+				owns_state = 41
+			}
+			set_capital = { state =  41 }
+		}
+	}
+}
+
+country_event = { #Support for SPM cut off... again
+	id = scw.6
+	immediate = {log = "[GetDateText]: [Root.GetName]: event scw.6"}
+	title = scw.6.t
+	desc = scw.6.d
+	trigger = {
+		tag = SPM
+		OR = {
+			AND = {
+				has_country_flag = SPM_ENG_support
+				ENG = {
+					has_country_flag = ENG_stock_crash
+				}
+			}
+			ENG = {
+				has_country_flag = ENG_stock_crash
+			}
+		}
+		OR = {
+			has_war_with = SPF
+			has_war_with = SPA
+			has_war_with = SPR
+		}
+	}
+	fire_only_once = yes
+	mean_time_to_happen = { days = 5 }
+
+	option = { #Fuck
+		name = scw.6.a
+		if = {
+			limit = {
+				has_idea = SCW_SPM_no_support
+			}
+			swap_ideas = {
+				add_idea = SCW_SPM_no_support_2
+				remove_idea = SCW_SPM_no_support
+			}
+		}
+		if = {
+			limit = {
+				has_idea = SCW_SPM_support_regained
+			}
+			swap_ideas = {
+				add_idea = SCW_SPM_no_support_2
+				remove_idea = SCW_SPM_support_regained
+			}
+		}
+		add_war_support = -0.25
+		add_stability = -0.10
+	}
+}

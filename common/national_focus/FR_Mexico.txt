@@ -1,0 +1,2139 @@
+######################################################
+################ MEXICO FOCUS TREE ###################
+######################################################
+### made by CIA and Alde "Books and a marriage are legimitate news events" Baran ###
+######################################################
+
+focus_tree = {
+	id = mexico_focus
+
+	country = {
+		factor = 0
+
+		modifier = {
+			add = 10
+			tag = MEX
+		}
+	}
+
+	default = no
+
+	continuous_focus_position = { x = 50 y = 1600 }
+
+	###POLITICAL###
+
+	focus = {
+		id = MEX_final_election
+		icon = GFX_goal_MEX_flag
+		x = 4
+		y = 0
+		cost = 5
+
+
+
+		ai_will_do = {
+			factor = 500
+		}
+
+		available = {
+			NOT = {
+				is_puppet_of = USA
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_final_election"
+			country_event = { id = mex.5 }
+			remove_ideas = MEX_nationalist_strife
+		}
+	}
+
+	focus = {
+		id = MEX_royalists
+		icon = GFX_goal_MEX_calles
+		prerequisite = { focus = MEX_final_election }
+		mutually_exclusive = { focus = MEX_valkists focus = MEX_national_synarchist_union }
+		x = 2
+		y = 1
+		cost = 5
+
+
+
+		available = {
+			NOT = {
+				is_puppet_of = USA
+			}
+			has_global_flag = MEX_ROYALISTS
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_royalists"
+			add_political_power = 100
+		}
+	}
+
+	focus = {
+		id = MEX_the_peoples_king
+		icon = GFX_goal_generic_major_alliance
+		prerequisite = { focus = MEX_royalists }
+		x = 2
+		y = 2
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_the_peoples_king"
+			add_ideas = MEX_authority_of_the_people
+		}
+	}
+
+	focus = {
+		id = MEX_some_things_cannot_be_reversed
+		icon = GFX_goal_generic_neutrality_focus
+		prerequisite = { focus = MEX_the_peoples_king }
+		x = 2
+		y = 3
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_some_things_cannot_be_reversed"
+			swap_ideas = {
+				add_idea = MEX_the_new_authority
+				remove_idea = MEX_authority_of_the_people
+			}
+		}
+	}
+
+	focus = {
+		id = MEX_the_kings_cabinent
+		icon = GFX_goal_generic_propaganda
+		prerequisite = { focus = MEX_some_things_cannot_be_reversed }
+		x = 2
+		y = 4
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_the_kings_cabinent"
+			country_event = { id = mex.6 }
+		}
+	}
+
+	#focus = {
+		#	id = MEX_constitutional_monarchy
+		#	icon = GFX_goal_support_democracy
+		#	prerequisite = { focus = MEX_the_kings_cabinent }
+		#	mutually_exclusive = { focus = MEX_never_compromise }
+		#	x = 0
+		#	y = 5
+		#	cost = 5
+		#	available_if_capitulated = yes
+		#
+		#	available = {
+			#		has_global_flag = MEX_DEMOCRATIC_CABINENT
+			#	}
+		#
+		#	completion_reward = {
+			#		log = "[GetDateText]: [Root.GetName]: Focus MEX_constitutional_monarchy"
+			#       custom_effect_tooltip = 4_MEX_tt
+			#    }
+		#			}
+	#
+	#focus = {
+		#	id = MEX_the_brief_reign
+		#	icon = GFX_goal_tfv_sever_ties_with_uk
+		#	prerequisite = { focus = MEX_constitutional_monarchy }
+		#	x = 0
+		#	y = 6
+		#	cost = 5
+		#
+		#	available_if_capitulated = yes
+		#
+		#	completion_reward = {
+			#		log = "[GetDateText]: [Root.GetName]: Focus MEX_the_brief_reign"
+			#		add_political_power = 5
+			#	}
+		#}
+
+	#focus = {
+		#	id = MEX_compromise_with_the_north
+		#	icon = GFX_goal_tripartite_pact
+		#	prerequisite = { focus = MEX_the_brief_reign }
+		#	x = 0
+		#	y = 7
+		#	cost = 5
+		#
+		#	available_if_capitulated = yes
+		#
+		#	completion_reward = {
+			#		log = "[GetDateText]: [Root.GetName]: Focus MEX_compromise_with_the_north"
+			#		add_political_power = 5
+			#	}
+		#}
+
+	#focus = {
+		#	id = MEX_settling_anti_american_sentiments
+		#	icon = GFX_goal_usa
+		#	prerequisite = { focus = MEX_compromise_with_the_north }
+		#	x = 0
+		#	y = 8
+		#	cost = 5
+		#
+		#	available_if_capitulated = yes
+		#
+		#	completion_reward = {
+			#		log = "[GetDateText]: [Root.GetName]: Focus MEX_settling_anti_american_sentiments"
+			#		add_political_power = 5
+			#	}
+		#}
+
+	#focus = {
+		#	id = MEX_finalizing_the_regency
+		#	icon = GFX_goal_tfv_strengthen_commonwealth_ties
+		#	prerequisite = { focus = MEX_settling_anti_american_sentiments }
+		#	x = 0
+		#	y = 9
+		#	cost = 5
+		#
+		#	available_if_capitulated = yes
+		#
+		#	completion_reward = {
+			#		log = "[GetDateText]: [Root.GetName]: Focus MEX_finalizing_the_regency"
+			#		add_political_power = 5
+			#	}
+		#}
+
+	focus = {
+		id = MEX_never_compromise
+		icon = GFX_focus_rom_royal_dictatorship
+		prerequisite = { focus = MEX_the_kings_cabinent }
+		#mutually_exclusive = { focus = MEX_constitutional_monarchy }
+		x = 2
+		y = 5
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_never_compromise"
+			add_stability = -0.05
+			add_political_power = 150
+		}
+	}
+
+	focus = {
+		id = MEX_ban_the_goldshirts
+		icon = GFX_goal_generic_forceful_treaty
+		prerequisite = { focus = MEX_never_compromise }
+		x = 2
+		y = 6
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_ban_the_goldshirts"
+			add_ideas = MEX_meritocratic_army
+			add_political_power = 25
+		}
+	}
+
+	focus = {
+		id = MEX_for_the_king_and_country
+		icon = GFX_goal_ideology_paternal_autocrat
+		prerequisite = { focus = MEX_ban_the_goldshirts }
+		x = 2
+		y = 7
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_for_the_king_and_country"
+			add_ideas = MEX_for_the_king_and_country
+			add_political_power = 25
+		}
+	}
+
+	focus = {
+		id = MEX_national_synarchist_union
+		icon = GFX_goal_ideology_national_populist
+		prerequisite = { focus = MEX_final_election }
+		mutually_exclusive = { focus = MEX_royalists focus = MEX_valkists }
+		x = 4
+		y = 1
+		cost = 5
+
+
+
+		available = {
+			NOT = {
+				is_puppet_of = USA
+			}
+			has_global_flag = MEX_SYNARCHISTS
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_national_synarchist_union"
+			add_political_power = 100
+		}
+	}
+
+	focus = {
+		id = MEX_crackdown_on_socialist_elements
+		icon = GFX_focus_generic_join_comintern
+		prerequisite = { focus = MEX_national_synarchist_union }
+		x = 4
+		y = 2
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_crackdown_on_socialist_elements"
+			add_popularity = { ideology = libertarian_socialist popularity = -0.05 }
+			add_popularity = { ideology = collectivist popularity = -0.05 }
+			add_popularity = { ideology = vanguardist popularity = -0.05 }
+			add_political_power = 25
+		}
+	}
+
+	focus = {
+		id = MEX_crackdown_on_democratic_elements
+		icon = GFX_focus_rom_parties_end
+		prerequisite = { focus = MEX_crackdown_on_socialist_elements }
+		x = 4
+		y = 3
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_crackdown_on_democratic_elements"
+			add_popularity = { ideology = social_conservative popularity = -0.05 }
+			add_popularity = { ideology = market_liberal popularity = -0.05 }
+			add_popularity = { ideology = social_liberal popularity = -0.05 }
+			add_popularity = { ideology = social_democrat popularity = -0.05 }
+			add_political_power = 25
+		}
+	}
+
+	focus = {
+		id = MEX_crackdown_on_the_regency
+		icon = GFX_goal_authoritarian
+		prerequisite = { focus = MEX_crackdown_on_democratic_elements }
+		x = 4
+		y = 4
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_crackdown_on_the_regency"
+			add_popularity = { ideology = paternal_autocrat popularity = -0.15 }
+			add_popularity = { ideology = authoritarian_democrat popularity = -0.05 }
+			add_political_power = 25
+		}
+	}
+
+	focus = {
+		id = MEX_the_union_question
+		icon = GFX_goal_anti_comintern_pact
+		prerequisite = { focus = MEX_crackdown_on_the_regency }
+		x = 4
+		y = 5
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_the_union_question"
+			create_wargoal = {
+				type = annex_everything
+				target = CRU
+			}
+			add_manpower = 40000
+		}
+	}
+
+	focus = {
+		id = MEX_radicals_to_centrists
+		icon = GFX_goal_generic_neutrality_focus
+		prerequisite = { focus = MEX_the_union_question }
+		x = 4
+		y = 6
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_radicals_to_centrists"
+			add_popularity = { ideology = valkist popularity = -0.1 } #Hey aldebaran, know you want this focus to do something else. This is just temporary so it 'looks' finished.
+			add_political_power = 25
+		}
+	}
+
+	focus = {
+		id = MEX_valkists
+		icon = GFX_goal_ideology_valkist
+		prerequisite = { focus = MEX_final_election }
+		mutually_exclusive = { focus = MEX_royalists focus = MEX_national_synarchist_union }
+		x = 6
+		y = 1
+		cost = 5
+
+
+
+		available = {
+			NOT = {
+				is_puppet_of = USA
+			}
+			has_global_flag = MEX_VALKISTS
+		}
+
+
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_valkists"
+			add_political_power = 100
+		}
+	}
+
+	focus = {
+		id = MEX_un_enemigo_comun
+		icon = GFX_goal_generic_political_pressure
+		prerequisite = { focus = MEX_valkists }
+		x = 6
+		y = 2
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_un_enemigo_comun"
+			country_event = { id = mex.10 }
+		}
+	}
+
+	focus = {
+		id = MEX_pequena_venganza
+		icon = GFX_goal_generic_attack_allies
+		prerequisite = { focus = MEX_un_enemigo_comun focus = MEX_mission_for_professionalism }
+		x = 8
+		y = 3
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_pequena_venganza"
+			add_ideas = MEX_pequena_venganza
+		}
+	}
+
+	focus = {
+		id = MEX_voluntad_de_las_personas
+		icon = GFX_goal_generic_national_unity
+		prerequisite = { focus = MEX_un_enemigo_comun }
+		x = 6
+		y = 3
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_voluntad_de_las_personas"
+			increase_conscription = yes
+		}
+	}
+
+	focus = {
+		id = MEX_review_of_synarchism
+		icon = GFX_goal_generic_production
+		prerequisite = { focus = MEX_voluntad_de_las_personas }
+		x = 6
+		y = 4
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_review_of_synarchism"
+			country_event = { id = mex.17 }
+		}
+	}
+
+	focus = {
+		id = MEX_empower_the_goldshirts
+		icon = GFX_goal_generic_secret_weapon
+		prerequisite = { focus = MEX_radicals_to_centrists }
+		x = 4
+		y = 7
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_empower_the_goldshirts"
+			add_ideas = MEX_army_of_reclamation
+		}
+	}
+
+	focus = {
+		id = MEX_the_quetzacoatl
+		icon = GFX_goal_shadow_government
+		prerequisite = { focus = MEX_review_of_synarchism }
+		x = 6
+		y = 5
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_the_quetzacoatl"
+			add_ideas = MEX_the_quetzacoatl_rises
+		}
+	}
+
+	focus = {
+		id = MEX_empower_the_greenshirts
+		icon = GFX_goal_secret_police
+		prerequisite = { focus = MEX_the_quetzacoatl }
+		x = 6
+		y = 6
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_empower_the_greenshirts"
+			add_ideas = MEX_army_of_the_greenshirts
+		}
+	}
+
+	focus = {
+		id = MEX_la_gran_revancha
+		icon = GFX_focus_generic_support_the_left_right
+		prerequisite = { focus = MEX_empower_the_greenshirts }
+		x = 6
+		y = 7
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_la_gran_revancha"
+			add_ideas = MEX_la_gran_revancha
+		}
+	}
+
+	focus = {
+		id = MEX_la_issurection_temprana
+		icon = GFX_goal_continuous_suppression
+		prerequisite = { focus = MEX_la_gran_revancha }
+		x = 6
+		y = 8
+		cost = 5
+
+
+
+		available = {
+			NOT = {
+				is_puppet_of = USA
+			}
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_la_issurection_temprana"
+			add_ideas = MEX_war_now_and_always
+		}
+	}
+
+	focus = {
+		id = MEX_the_san_diego_incident
+		icon = GFX_goal_generic_small_arms
+		prerequisite = { focus = MEX_la_gran_revancha focus = MEX_empower_the_goldshirts focus = MEX_for_the_king_and_country }
+		x = 4
+		y = 8
+		cost = 5
+
+		available = {
+			is_subject = no
+			custom_trigger_tooltip = {
+				tooltip = unlocked_later
+				has_country_flag = USA_border_city_attacked
+			}
+		}
+		completion_reward = {
+
+		}
+	}
+
+	focus = {
+		id = MEX_california_arizona_new_mexico
+		icon = GFX_goal_generic_demand_territory
+		prerequisite = { focus = MEX_the_san_diego_incident }
+		x = 3
+		y = 9
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_california_arizona_new_mexico"
+			custom_effect_tooltip = 5_MEX_tt
+		}
+	}
+
+	focus = {
+		id = MEX_the_bronze_sun
+		icon = GFX_goal_generic_demand_territory
+		prerequisite = { focus = MEX_the_san_diego_incident }
+		x = 5
+		y = 9
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_the_bronze_sun"
+			custom_effect_tooltip = 6_MEX_tt
+		}
+	}
+
+	###ARMY###
+
+	focus = {
+		id = MEX_ejercito_mexicano
+		icon = GFX_goal_MEX_army
+		x = 12
+		y = 0
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_ejercito_mexicano"
+			army_experience = 10
+		}
+	}
+
+	focus = {
+		id = MEX_mission_for_professionalism
+		icon = GFX_goal_generic_more_territorial_claims
+		prerequisite = { focus = MEX_ejercito_mexicano }
+		x = 9
+		y = 1
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_mission_for_professionalism"
+			add_political_power = -50
+			remove_ideas = MEX_militias
+		}
+	}
+
+	focus = {
+		id = MEX_restructure_the_army
+		icon = GFX_goal_generic_cavalry
+		prerequisite = { focus = MEX_ejercito_mexicano }
+		x = 12
+		y = 1
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_restructure_the_army"
+			army_experience = 5
+			add_ideas = MEX_military_restructuring
+		}
+	}
+
+	focus = {
+		id = MEX_purging_corruption
+		icon = GFX_goal_generic_forceful_treaty
+		prerequisite = { focus = MEX_ejercito_mexicano }
+		x = 15
+		y = 1
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_purging_corruption"
+			add_political_power = -50
+			remove_ideas = MEX_military_corruption
+		}
+	}
+
+	focus = {
+		id = MEX_reopen_the_colegio_militar
+		icon = GFX_goal_conscription
+		prerequisite = { focus = MEX_restructure_the_army focus = MEX_mission_for_professionalism }
+		x = 10
+		y = 2
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_reopen_the_colegio_militar"
+			add_ideas = MEX_colegio_militar
+		}
+	}
+
+	focus = {
+		id = MEX_arms_modernization
+		icon = GFX_goal_national_arsenal
+		prerequisite = { focus = MEX_restructure_the_army focus = MEX_purging_corruption }
+		x = 14
+		y = 2
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_arms_modernization"
+			add_tech_bonus = {
+				name = MEX_arms_modernization_bonus
+				bonus = 0.75
+				uses = 1
+				category = infantry_weapons
+			}
+		}
+	}
+
+	focus = {
+		id = MEX_the_question_of_doctrine
+		icon = GFX_goal_generic_army_doctrines
+		prerequisite = { focus = MEX_reopen_the_colegio_militar }
+		prerequisite = { focus = MEX_arms_modernization }
+		x = 12
+		y = 3
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_the_question_of_doctrine"
+			country_event = { id = mex.2 }
+		}
+	}
+
+	focus = {
+		id = MEX_mobility_priority
+		icon = GFX_goal_generic_army_tanks2
+		prerequisite = { focus = MEX_the_question_of_doctrine }
+		mutually_exclusive = { focus = MEX_firepower_priority focus = MEX_planning_priority }
+		x = 10
+		y = 4
+		cost = 5
+
+		available = {
+			has_country_flag = MEX_mobile_warfare_tt
+		}
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_mobility_priority"
+			add_doctrine_cost_reduction = {
+				name = MEX_mobility_priority_doctrine
+				cost_reduction = 0.5
+				uses = 2
+				category = cat_mobile_warfare
+			}
+		}
+	}
+
+	focus = {
+		id = MEX_firepower_priority
+		icon = GFX_goal_artillery
+		prerequisite = { focus = MEX_the_question_of_doctrine }
+		mutually_exclusive = { focus = MEX_mobility_priority focus = MEX_planning_priority }
+		x = 12
+		y = 4
+		cost = 5
+
+		available = {
+			has_country_flag = MEX_superior_firepower_tt
+		}
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_firepower_priority"
+			add_doctrine_cost_reduction = {
+				name = MEX_firepower_priority_doctrine
+				cost_reduction = 0.5
+				uses = 2
+				category = cat_superior_firepower
+			}
+		}
+	}
+
+	focus = {
+		id = MEX_planning_priority
+		icon = GFX_goal_generic_position_armies
+		prerequisite = { focus = MEX_the_question_of_doctrine }
+		mutually_exclusive = { focus = MEX_firepower_priority focus = MEX_mobility_priority }
+		x = 14
+		y = 4
+		cost = 5
+
+		available = {
+			has_country_flag = MEX_grand_battleplan_tt
+		}
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_planning_priority"
+			add_doctrine_cost_reduction  = {
+				name = MEX_planning_priority_bonus
+				cost_reduction = 0.5
+				uses = 2
+				category = cat_grand_battle_plan
+			}
+		}
+	}
+
+	focus = {
+		id = MEX_wargames
+		icon = GFX_goal_generic_demand_territory
+		prerequisite = { focus = MEX_mobility_priority focus = MEX_firepower_priority focus = MEX_planning_priority }
+		x = 13
+		y = 5
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_wargames"
+			add_doctrine_cost_reduction = {
+				name = MEX_wargames_doctrine
+				cost_reduction = 0.5
+				uses = 2
+				category = land_doctrine
+			}
+		}
+	}
+
+	focus = {
+		id = MEX_mobilization
+		icon = GFX_goal_generic_forceful_treaty
+		prerequisite = { focus = MEX_mobility_priority focus = MEX_firepower_priority focus = MEX_planning_priority }
+		x = 11
+		y = 5
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_mobilization"
+			increase_mobilization = yes
+		}
+	}
+
+	focus = {
+		id = MEX_neo_mexican_militarism
+		icon = GFX_goal_generic_political_pressure
+		prerequisite = { focus = MEX_mission_for_professionalism }
+		x = 9
+		y = 5
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_neo_mexican_militarism"
+			add_ideas = MEX_militarism
+		}
+	}
+
+	focus = {
+		id = MEX_siempre_leales
+		icon = GFX_focus_generic_little_entente
+		prerequisite = { focus = MEX_purging_corruption }
+		x = 15
+		y = 5
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_siempre_leales"
+			add_stability = 0.1
+		}
+	}
+
+	focus = {
+		id = MEX_revanchism
+		icon = GFX_goal_generic_occupy_states_ongoing_war
+		prerequisite = { focus = MEX_wargames }
+		prerequisite = { focus = MEX_mobilization }
+		prerequisite = { focus = MEX_siempre_leales }
+		prerequisite = { focus = MEX_neo_mexican_militarism }
+		x = 12
+		y = 6
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_revanchism"
+			add_ideas = MEX_revanchism
+		}
+	}
+
+	###NAVY###
+
+	focus = {
+		id = MEX_armada_de_mexico
+		icon = GFX_goal_MEX_navy
+		x = 19
+		y = 0
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_armada_de_mexico"
+			navy_experience = 20
+		}
+	}
+
+	focus = {
+		id = MEX_kickstart_dockyard_construction
+		icon = GFX_goal_generic_construct_naval_dockyard
+		prerequisite = { focus = MEX_armada_de_mexico }
+		x = 17
+		y = 1
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_kickstart_dockyard_construction"
+			if = {
+				limit = {    477 = { is_owned_and_controlled_by = ROOT } }
+				477 = {
+					add_extra_state_shared_building_slots = 3
+					add_building_construction = {
+						type = dockyard
+						level = 3
+						instant_build = yes
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = MEX_escort_our_exports
+		icon = GFX_goal_generic_navy_cruiser
+		prerequisite = { focus = MEX_armada_de_mexico }
+		x = 19
+		y = 2
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_escort_our_exports"
+			add_tech_bonus = {
+				name = MEX_escort_our_exports_bonus
+				bonus = 0.5
+				uses = 1
+				category = dd_tech
+			}
+		}
+	}
+
+	focus = {
+		id = MEX_coastal_protection_strategies
+		icon = GFX_goal_generic_fortify_city
+		prerequisite = { focus = MEX_armada_de_mexico }
+		x = 21
+		y = 1
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_coastal_protection_strategies"
+			477 = {
+				add_building_construction = {
+					type = coastal_bunker
+					level = 4
+					province = 12810
+					instant_build = yes
+				}
+			}
+			476 = {
+				add_building_construction = {
+					type = coastal_bunker
+					level = 4
+					province = 10889
+					instant_build = yes
+				}
+			}
+			474 = {
+				add_building_construction = {
+					type = coastal_bunker
+					level = 4
+					province = 4904
+					instant_build = yes
+				}
+			}
+			483 = {
+				add_building_construction = {
+					type = coastal_bunker
+					level = 4
+					province = 4908
+					instant_build = yes
+				}
+			}
+			481 = {
+				add_building_construction = {
+					type = coastal_bunker
+					level = 4
+					province = 8057
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = MEX_drilling_the_admirals
+		icon = GFX_goal_generic_navy_doctrines_tactics
+		prerequisite = { focus = MEX_coastal_protection_strategies }
+		x = 21
+		y = 5
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_drilling_the_admirals"
+			add_doctrine_cost_reduction = {
+				name = MEX_drilling_the_admirals_doctrine
+				cost_reduction = 0.5
+				uses = 2
+				category = naval_doctrine
+			}
+		}
+	}
+
+	focus = {
+		id = MEX_conscript_civilian_convoys
+		icon = GFX_goal_USA_liberty_ships
+		prerequisite = { focus = MEX_kickstart_dockyard_construction }
+		x = 17
+		y = 5
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_conscript_civilian_convoys"
+			add_stability = -0.025
+			add_equipment_to_stockpile = { type = convoy_1 amount = 100 producer = MEX }
+		}
+	}
+
+	focus = {
+		id = MEX_the_invisible_menace
+		icon = GFX_goal_generic_navy_anti_submarine
+		prerequisite = { focus = MEX_escort_our_exports }
+		prerequisite = { focus = MEX_modernize_naval_infantry_force }
+		prerequisite = { focus = MEX_native_naval_designs }
+		x = 19
+		y = 4
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_the_invisible_menace"
+			add_tech_bonus = {
+				name = MEX_the_invisible_menace_bonus
+				bonus = 0.5
+				uses = 2
+				category = ss_tech
+			}
+		}
+	}
+
+	focus = {
+		id = MEX_modernize_naval_infantry_force
+		icon = GFX_goal_generic_amphibious_assault
+		prerequisite = { focus = MEX_kickstart_dockyard_construction focus = MEX_coastal_protection_strategies }
+		x = 20
+		y = 3
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_modernize_naval_infantry_force"
+			add_tech_bonus = {
+				name = MEX_modernize_naval_infantry_force_bonus
+				bonus = 0.5
+				uses = 1
+				category = marine_tech
+			}
+		}
+	}
+
+	focus = {
+		id = MEX_native_naval_designs
+		icon = GFX_goal_generic_navy_doctrines_tactics
+		prerequisite = { focus = MEX_kickstart_dockyard_construction focus = MEX_coastal_protection_strategies }
+		x = 18
+		y = 3
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_native_naval_designs"
+			navy_experience = 50
+		}
+	}
+
+	focus = {
+		id = MEX_battleship_effort
+		icon = GFX_goal_generic_navy_battleship
+		prerequisite = { focus = MEX_the_invisible_menace }
+		prerequisite = { focus = MEX_drilling_the_admirals }
+		prerequisite = { focus = MEX_conscript_civilian_convoys }
+		x = 19
+		y = 6
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_battleship_effort"
+			add_tech_bonus = {
+				name = MEX_battleship_effort_bonus
+				bonus = 0.5
+				uses = 1
+				category = bb_tech
+			}
+		}
+	}
+
+	###AIRFORCE###
+
+	focus = {
+		id = MEX_fuerza_aerea_mexicana
+		icon = GFX_goal_MEX_air_force
+		x = 25
+		y = 0
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_fuerza_aerea_mexicana"
+			air_experience = 20
+		}
+	}
+
+	focus = {
+		id = MEX_modernize_the_fighters
+		icon = GFX_goal_generic_air_fighter
+		prerequisite = { focus = MEX_fuerza_aerea_mexicana }
+		x = 23
+		y = 1
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_modernize_the_fighters"
+			add_tech_bonus = {
+				name = MEX_modernize_the_fighters_bonus
+				bonus = 0.5
+				uses = 1
+				category = light_fighter
+			}
+		}
+	}
+
+	focus = {
+		id = MEX_long_range_engagements #heavy fighters
+		icon = GFX_goal_generic_air_bomber
+		prerequisite = { focus = MEX_fuerza_aerea_mexicana }
+		x = 27
+		y = 1
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_long_range_engagements"
+			add_tech_bonus = {
+				name = MEX_long_range_engagements_bonus
+				bonus = 0.5
+				uses = 1
+				category = cat_heavy_fighter
+			}
+		}
+	}
+
+	focus = {
+		id = MEX_review_pilot_training
+		icon = GFX_focus_generic_military_mission
+		prerequisite = { focus = MEX_fuerza_aerea_mexicana }
+		x = 25
+		y = 1
+		cost = 1
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_review_pilot_training"
+			country_event = { id = mex.3 }
+		}
+	}
+
+	focus = {
+		id = MEX_assemble_las_viboras #Professional standards
+		icon = GFX_goal_generic_CAS
+		prerequisite = { focus = MEX_review_pilot_training }
+		mutually_exclusive = { focus = MEX_mass_aerial_production }
+		x = 24
+		y = 2
+		cost = 5
+
+		available_if_capitulated = yes
+
+		available = {
+			has_global_flag = MEX_ELABORATE_PILOT_TRAINING
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_assemble_las_viboras"
+			add_ideas = MEX_las_viboras
+		}
+	}
+
+	focus = {
+		id = MEX_mass_aerial_production #Low standards
+		icon = GFX_goal_generic_construct_mil_factory
+		prerequisite = { focus = MEX_review_pilot_training }
+		mutually_exclusive = { focus = MEX_assemble_las_viboras }
+		x = 26
+		y = 2
+		cost = 5
+
+		available_if_capitulated = yes
+
+		available = {
+			has_global_flag = MEX_LOW_STANDARD_PILOTS
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_mass_aerial_production"
+			if = {
+				limit = { 277 = { is_owned_and_controlled_by = ROOT } }
+				277 = {
+					add_extra_state_shared_building_slots = 3
+					add_building_construction = {
+						type = arms_factory
+						level = 3
+						instant_build = yes
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = MEX_review_air_support
+		icon = GFX_goal_generic_occupy_start_war
+		prerequisite = { focus = MEX_assemble_las_viboras focus = MEX_mass_aerial_production }
+		x = 25
+		y = 3
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_review_air_support"
+			country_event = { id = mex.4 }
+		}
+	}
+
+	focus = {
+		id = MEX_in_combat_assistance #CAS research
+		icon = GFX_goal_continuous_air_production
+		prerequisite = { focus = MEX_review_air_support }
+		mutually_exclusive = { focus = MEX_strategic_hinderence }
+		x = 24
+		y = 4
+		cost = 5
+
+		available_if_capitulated = yes
+
+		available = {
+			has_global_flag = MEX_CAS_SUPPORT
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_in_combat_assistance"
+			add_tech_bonus = {
+				name = MEX_in_combat_assistance_bonus
+				bonus = 0.5
+				uses = 1
+				category = cas_bomber
+			}
+		}
+	}
+
+	focus = {
+		id = MEX_strategic_hinderence #Strat Bomber research
+		icon = GFX_goal_generic_air_naval_bomber
+		prerequisite = { focus = MEX_review_air_support }
+		mutually_exclusive = { focus = MEX_in_combat_assistance }
+		x = 26
+		y = 4
+		cost = 5
+
+		available_if_capitulated = yes
+
+		available = {
+			has_global_flag = MEX_TAC_BOMBER_SUPPORT
+		}
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_strategic_hinderence"
+			add_tech_bonus = {
+				name = MEX_strategic_hinderence_bonus
+				bonus = 0.5
+				uses = 1
+				category = tactical_bomber
+			}
+		}
+	}
+
+	focus = {
+		id = MEX_new_planes_new_airforce
+		icon = GFX_goal_generic_air_production
+		prerequisite = { focus = MEX_modernize_the_fighters }
+		x = 23
+		y = 5
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_new_planes_new_airforce"
+			add_tech_bonus = {
+				name = fighter_bonus
+				ahead_reduction = 1
+				uses = 1
+				category = light_fighter
+				category = cat_heavy_fighter
+				category = tactical_bomber
+				category = cat_strategic_bomber
+				category = naval_bomber
+				category = cas_bomber
+			}
+		}
+	}
+
+	focus = {
+		id = MEX_we_will_reach_new_york
+		icon = GFX_focus_generic_strike_at_democracy3
+		prerequisite = { focus = MEX_long_range_engagements }
+		x = 27
+		y = 5
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_we_will_reach_new_york"
+			add_ideas = MEX_we_will_reach_new_york
+		}
+	}
+
+	focus = {
+		id = MEX_reorganized_airforce
+		icon = GFX_goal_generic_air_doctrine
+		prerequisite = { focus = MEX_in_combat_assistance focus = MEX_strategic_hinderence }
+		x = 25
+		y = 5
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_reorganized_airforce"
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.5
+				uses = 2
+				category = air_doctrine
+			}
+		}
+	}
+
+	focus = {
+		id = MEX_the_skies_belong_to_us
+		icon = GFX_goal_generic_air_fighter2
+		prerequisite = { focus = MEX_reorganized_airforce }
+		prerequisite = { focus = MEX_new_planes_new_airforce }
+		prerequisite = { focus = MEX_we_will_reach_new_york }
+		x = 25
+		y = 6
+		cost = 5
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_the_skies_belong_to_us"
+			add_war_support = 0.1
+		}
+	}
+
+	#### E C O N O M I C  S E C T I O N ####
+
+	focus = {
+		id = MEX_review_the_economy
+		icon = GFX_goal_generic_propaganda
+		x = 16
+		y = 7
+		cost = 5
+		ai_will_do = {
+			factor = 5
+		}
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_review_the_economy"
+			country_event = { id = mex.16 }
+		}
+	}
+
+	#INDUSTRIALIZATION
+
+	focus = {
+		id = MEX_continued_industrialization
+		icon = GFX_goal_generic_production
+		prerequisite = { focus = MEX_review_the_economy }
+		mutually_exclusive = { focus = MEX_domestic_development }
+		x = 13
+		y = 8
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		bypass = {
+			has_country_flag = MEX_CONTINUE_INDUSTRIALIZATION
+		}
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_continued_industrialization"
+			add_political_power = 25
+		}
+	}
+
+	focus = {
+		id = MEX_lower_monetary_rates
+		icon = GFX_goal_generic_consumer_goods
+		prerequisite = { focus = MEX_continued_industrialization }
+		x = 13
+		y = 9
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_lower_monetary_rates"
+			add_timed_idea = {
+				idea = MEX_lower_monetary_rates
+				days = 365
+			}
+		}
+	}
+
+	focus = {
+		id = MEX_proyecto_unidad
+		icon = GFX_IRE_heavy_industry
+		prerequisite = { focus = MEX_lower_monetary_rates }
+		mutually_exclusive = { focus = MEX_proyecto_esperanza }
+		x = 12
+		y = 10
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_proyecto_unidad"
+			add_timed_idea = {
+				idea = MEX_proyecto_unidad
+				days = 365
+			}
+		}
+	}
+
+	focus = {
+		id = MEX_proyecto_esperanza
+		icon = GFX_IRE_medium_industry
+		prerequisite = { focus = MEX_lower_monetary_rates }
+		mutually_exclusive = { focus = MEX_proyecto_unidad }
+		x = 14
+		y = 10
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_proyecto_esperanza"
+			add_timed_idea = {
+				idea = MEX_proyecto_esperanza
+				days = 365
+			}
+		}
+	}
+
+	focus = {
+		id = MEX_new_research_institutes
+		icon = GFX_focus_research
+		prerequisite = { focus = MEX_proyecto_unidad focus = MEX_proyecto_esperanza }
+		x = 13
+		y = 11
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_new_research_institutes"
+			add_ideas = MEX_research_primacy
+		}
+	}
+
+	focus = {
+		id = MEX_urban_industrial_development
+		icon = GFX_goal_generic_construction
+		prerequisite = { focus = MEX_continued_industrialization }
+		x = 11
+		y = 9
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_urban_industrial_development"
+			if = {
+				limit = {    277 = { is_owned_and_controlled_by = ROOT } }
+				277 = {
+					add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = industrial_complex
+						level = 2
+						instant_build = yes
+					}
+				}
+			}
+			if = {
+				limit = {    478 = { is_owned_and_controlled_by = ROOT } }
+				478 = {
+					add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = industrial_complex
+						level = 2
+						instant_build = yes
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = MEX_industrialize_rural_mexico
+		icon = GFX_goal_generic_construct_civ_factory
+		prerequisite = { focus = MEX_urban_industrial_development }
+		x = 11
+		y = 11
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_industrialize_rural_mexico"
+			if = {
+				limit = {    482 = { is_owned_and_controlled_by = ROOT } }
+				482 = {
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			if = {
+				limit = {    480 = { is_owned_and_controlled_by = ROOT } }
+				480 = {
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			if = {
+				limit = {    483 = { is_owned_and_controlled_by = ROOT } }
+				483 = {
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			if = {
+				limit = {    485 = { is_owned_and_controlled_by = ROOT } }
+				485 = {
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = MEX_militarization_of_industries
+		icon = GFX_goal_generic_small_arms
+		prerequisite = { focus = MEX_continued_industrialization }
+		x = 15
+		y = 9
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_militarization_of_industries"
+			random_owned_state = {
+				limit = {
+					is_core_of = ROOT
+					is_owned_and_controlled_by = ROOT
+					is_on_continent = north_america
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_state = {
+				limit = {
+					is_core_of = ROOT
+					is_owned_and_controlled_by = ROOT
+					is_on_continent = north_america
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_state = {
+				limit = {
+					is_core_of = ROOT
+					is_owned_and_controlled_by = ROOT
+					is_on_continent = north_america
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = MEX_local_arms_manufacturies
+		icon = GFX_goal_generic_construct_mil_factory
+		prerequisite = { focus = MEX_militarization_of_industries }
+		x = 15
+		y = 11
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_local_arms_manufacturies"
+			random_owned_state = {
+				limit = {
+					is_core_of = ROOT
+					is_owned_and_controlled_by = ROOT
+					is_on_continent = north_america
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_state = {
+				limit = {
+					is_core_of = ROOT
+					is_owned_and_controlled_by = ROOT
+					is_on_continent = north_america
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_state = {
+				limit = {
+					is_core_of = ROOT
+					is_owned_and_controlled_by = ROOT
+					is_on_continent = north_america
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = MEX_a_rising_economic_power
+		icon = GFX_goal_generic_trade
+		prerequisite = { focus = MEX_local_arms_manufacturies }
+		prerequisite = { focus = MEX_industrialize_rural_mexico }
+		prerequisite = { focus = MEX_new_research_institutes }
+		x = 13
+		y = 12
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_a_rising_economic_power"
+			add_stability = 0.1
+		}
+	}
+
+	#DOMESTIC
+
+	focus = {
+		id = MEX_domestic_development
+		icon = GFX_goal_generic_production2
+		prerequisite = { focus = MEX_review_the_economy }
+		mutually_exclusive = { focus = MEX_continued_industrialization }
+		x = 19
+		y = 8
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		bypass = {
+			has_country_flag = MEX_DOMESTIC_DEVELOPMENT
+		}
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_domestic_development"
+			add_political_power = 25
+		}
+	}
+
+	focus = {
+		id = MEX_develop_the_north
+		icon = GFX_goal_generic_construct_infrastructure
+		prerequisite = { focus = MEX_domestic_development }
+		x = 17
+		y = 9
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_develop_the_north"
+			if = {
+				limit = {    483 = { is_owned_and_controlled_by = ROOT } }
+				483 = {
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = infrastructure
+						level = 2
+						instant_build = yes
+					}
+				}
+			}
+			if = {
+				limit = {    482 = { is_owned_and_controlled_by = ROOT } }
+				482 = {
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = infrastructure
+						level = 2
+						instant_build = yes
+					}
+				}
+			}
+			if = {
+				limit = {    480 = { is_owned_and_controlled_by = ROOT } }
+				480 = {
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = infrastructure
+						level = 2
+						instant_build = yes
+					}
+				}
+			}
+			if = {
+				limit = {    481 = { is_owned_and_controlled_by = ROOT } }
+				481 = {
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = infrastructure
+						level = 2
+						instant_build = yes
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = MEX_develop_the_south
+		icon = GFX_goal_generic_construct_infrastructure
+		prerequisite = { focus = MEX_develop_the_north }
+		x = 17
+		y = 11
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_develop_the_south"
+			if = {
+				limit = {    474 = { is_owned_and_controlled_by = ROOT } }
+				474 = {
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = infrastructure
+						level = 2
+						instant_build = yes
+					}
+				}
+			}
+			if = {
+				limit = {    475 = { is_owned_and_controlled_by = ROOT } }
+				475 = {
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = infrastructure
+						level = 2
+						instant_build = yes
+					}
+				}
+			}
+			if = {
+				limit = {    476 = { is_owned_and_controlled_by = ROOT } }
+				476 = {
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = infrastructure
+						level = 2
+						instant_build = yes
+					}
+				}
+			}
+			if = {
+				limit = {    485 = { is_owned_and_controlled_by = ROOT } }
+				485 = {
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = infrastructure
+						level = 2
+						instant_build = yes
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = MEX_invest_in_agriculture
+		icon = GFX_focus_AUS_agriculture
+		prerequisite = { focus = MEX_develop_the_north focus = MEX_build_new_steel_refineries }
+		mutually_exclusive = { focus = MEX_create_jobs_for_the_people }
+		x = 18
+		y = 10
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_invest_in_agriculture"
+			add_ideas = MEX_supporting_the_agricultural_sector
+		}
+	}
+
+	focus = {
+		id = MEX_build_new_steel_refineries
+		icon = GFX_focus_generic_steel
+		prerequisite = { focus = MEX_domestic_development }
+		x = 19
+		y = 9
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_build_new_steel_refineries"
+			add_resource = {
+				type = steel
+				amount = 24
+				state = 277
+			}
+		}
+	}
+
+	focus = {
+		id = MEX_prospects_for_resources
+		icon = GFX_goal_generic_construction2
+		prerequisite = { focus = MEX_domestic_development }
+		x = 21
+		y = 9
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_prospects_for_resources"
+			add_resource = {
+				type = steel
+				amount = 8
+				state = 481
+			}
+			add_resource = {
+				type = tungsten
+				amount = 8
+				state = 478
+			}
+			add_resource = {
+				type = oil
+				amount = 8
+				state = 480
+			}
+		}
+	}
+
+	focus = {
+		id = MEX_create_jobs_for_the_people
+		icon = GFX_focus_generic_concessions #GFX_goal_generic_construct_civ_factory
+		prerequisite = { focus = MEX_prospects_for_resources focus = MEX_build_new_steel_refineries }
+		mutually_exclusive = { focus = MEX_invest_in_agriculture }
+		x = 20
+		y = 10
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_create_jobs_for_the_people"
+			add_ideas = MEX_curbed_unemployment
+		}
+	}
+
+	focus = {
+		id = MEX_search_for_new_oil_deposits
+		icon = GFX_goal_generic_oil_refinery #GFX_goal_oil
+		prerequisite = { focus = MEX_prospects_for_resources }
+		x = 21
+		y = 11
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_search_for_new_oil_deposits"
+			add_resource = {
+				type = oil
+				amount = 24
+				state = 483
+			}
+		}
+	}
+
+	focus = {
+		id = MEX_bringing_it_all_together
+		icon = GFX_goal_generic_major_alliance
+		prerequisite = { focus = MEX_invest_in_agriculture focus = MEX_create_jobs_for_the_people }
+		x = 19
+		y = 11
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_bringing_it_all_together"
+			random_owned_state = {
+				limit = {
+					is_core_of = ROOT
+					is_owned_and_controlled_by = ROOT
+					is_on_continent = north_america
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_state = {
+				limit = {
+					is_core_of = ROOT
+					is_owned_and_controlled_by = ROOT
+					is_on_continent = north_america
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_state = {
+				limit = {
+					is_core_of = ROOT
+					is_owned_and_controlled_by = ROOT
+					is_on_continent = north_america
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_state = {
+				limit = {
+					is_core_of = ROOT
+					is_owned_and_controlled_by = ROOT
+					is_on_continent = north_america
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = MEX_a_promising_future
+		icon = GFX_goal_generic_national_unity
+		prerequisite = { focus = MEX_search_for_new_oil_deposits }
+		prerequisite = { focus = MEX_develop_the_south }
+		prerequisite = { focus = MEX_bringing_it_all_together }
+		x = 19
+		y = 12
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus MEX_a_promising_future"
+			add_stability = 0.1
+		}
+	}
+}

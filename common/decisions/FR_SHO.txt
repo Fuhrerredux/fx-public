@@ -1,0 +1,373 @@
+foreign_politics = {
+
+	SHO_fortify_the_elbe = {
+
+		icon = generic_operation
+
+		available = {
+			TAG = SHO
+			has_country_flag = SHO_has_become_germany
+		}
+
+		visible = {
+			TAG = SHO
+			has_country_flag = SHO_has_become_germany
+		}
+
+		cost = 50
+
+		fire_only_once = yes
+
+		days_remove = 90
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		modifier = {
+			consumer_goods_factor = 0.25
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SHO_fortify_the_elbe"
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SHO_fortify_the_elbe"
+			58 = {
+				add_building_construction = {
+					type = bunker
+					level = 5
+					province = 11331
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 5
+					province = 9320
+					instant_build = yes
+				}
+			}
+			915 = {
+				add_building_construction = {
+					type = bunker
+					level = 5
+					province = 9347
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	SHO_join_soviets = {
+
+		icon = generic_scorched_earth
+
+		available = {
+			TAG = SHO
+			has_country_flag = SHO_has_become_germany
+		}
+
+		visible = {
+			TAG = SHO
+			has_country_flag = SHO_has_become_germany
+		}
+
+		cost = 100
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		modifier = {
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SHO_join_soviets"
+			SOV = {
+				country_event = { days = 1 id = denmark.109 }
+			}
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SHO_join_soviets"
+		}
+	}
+
+	SHO_invade_denmark = {
+
+		icon = generic_tank
+
+		available = {
+			TAG = SHO
+			DEN = { exists = yes }
+			date > 1938.1.1
+		}
+
+		visible = {
+			TAG = SHO
+			is_subject = no
+			DEN = { is_subject = no }
+			DEN = { exists = yes }
+			date > 1938.1.1
+		}
+
+		cost = 25
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 0 #Generally not something the AI should take
+		}
+
+		modifier = {
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SHO_invade_denmark"
+			declare_war_on = {
+				type = annex_everything
+				target = DEN
+			}
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SHO_invade_denmark"
+		}
+	}
+
+	SHO_puppet_denmark = {
+
+		icon = generic_operation
+
+		available = {
+			TAG = SHO
+			SHO = { has_full_control_of_state = 37 }
+			DEN = { exists = no }
+			NOT = { has_country_flag = SHO_integrated_denmark_flag }
+		}
+
+		visible = {
+			TAG = SHO
+			SHO = { has_full_control_of_state = 37 }
+			DEN = { exists = no }
+			NOT = { has_country_flag = SHO_integrated_denmark_flag }
+		}
+
+		cost = 25
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		modifier = {
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SHO_puppet_denmark"
+			if = {
+				limit = {    58 = { is_owned_and_controlled_by = SHO } }
+				58 = {
+					add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = arms_factory
+						level = 2
+						instant_build = yes
+					}
+				}
+			}
+			if = {
+				limit = {    915 = { is_owned_and_controlled_by = SHO } }
+				915 = {
+					add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = industrial_complex
+						level = 2
+						instant_build = yes
+					}
+				}
+			}
+			every_state = {
+				limit = {
+					is_core_of = DEN
+					NOT = { is_core_of = ROOT }
+				}
+				DEN = { transfer_state = PREV }
+			}
+			puppet = DEN
+			DEN = {
+				add_timed_idea = {
+					idea = SHO_industrial_burdens
+					days = 365
+				}
+			}
+			hidden_effect = {
+				DEN = {
+					set_politics = {
+						ruling_party = vanguardist
+						elections_allowed = no
+					}
+
+					set_popularities = {
+						vanguardist = 46
+						collectivist = 19
+						libertarian_socialist = 7
+						social_democrat = 9
+						social_liberal = 6
+						market_liberal = 3
+						social_conservative = 0
+						authoritarian_democrat = 0
+						paternal_autocrat = 10
+						national_populist = 0
+						valkist = 0
+					}
+				}
+			}
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SHO_puppet_denmark"
+		}
+	}
+
+	SHO_invade_germany = {
+
+		icon = generic_tank
+
+		available = {
+			TAG = SHO
+			has_country_flag = SHO_has_become_germany
+			GER = { exists = yes }
+			GER = {
+				OR = {
+					has_war_with = ENG
+					has_war_with = FRA
+					has_war_with = ITA
+					has_war_with = USA
+					has_war_with = SOV
+					has_war_with = UOB
+				}
+			}
+		}
+
+		visible = {
+			TAG = SHO
+			has_country_flag = SHO_has_become_germany
+		}
+
+		cost = 25
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		modifier = {
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SHO_invade_germany"
+			every_state = {
+				limit = {
+					is_core_of = GER
+					NOT = { is_core_of = ROOT }
+				}
+				add_core_of = ROOT
+			}
+			every_state = {
+				limit = {
+					is_claimed_by = GER
+					NOT = { is_claimed_by = ROOT }
+				}
+				add_claim_by = ROOT
+			}
+			declare_war_on = {
+				type = annex_everything
+				target = GER
+			}
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SHO_invade_germany"
+		}
+	}
+
+	SHO_Peace_with_Honour = {
+
+		icon = generic_operation
+
+		available = {
+			TAG = SHO
+			SHO = { has_full_control_of_state = 99 } #Jutland
+		}
+
+		visible = {
+			TAG = SHO
+			has_war_with = DEN
+			NOT = { has_country_flag = SHO_sued_for_peace }
+		}
+
+		cost = 25
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 4000 #Please take this decision you fucking tit
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SHO_Peace_with_Honour"
+			DEN = {
+				# country_event = { days = 1 id = denmark.113 }
+			}
+			set_country_flag = SHO_sued_for_peace
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SHO_Peace_with_Honour"
+		}
+	}
+
+	SHO_Peace_and_Vengeance = {
+
+		icon = generic_scorched_earth
+
+		available = {
+			TAG = SHO
+			SHO = { has_full_control_of_state = 99 } #Jutland
+		}
+
+		visible = {
+			TAG = SHO
+			has_war_with = DEN
+			NOT = { has_country_flag = SHO_sued_for_peace }
+		}
+
+		cost = 25
+
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 60 #should probably take this
+		}
+
+		modifier = {
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SHO_Peace_and_Vengeance"
+			DEN = {
+				country_event = { days = 1 id = denmark.114 }
+			}
+			set_country_flag = SHO_sued_for_peace
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SHO_Peace_and_Vengeance"
+		}
+	}
+}

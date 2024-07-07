@@ -1,0 +1,207 @@
+﻿#####################
+#  Portugal Events  #
+#####################
+#   Started by CIA  #
+#####################
+
+#Personal note: Mean time to happen has been absolutely fucked for me. I railroaded the dates and just set mtth to 0.
+
+add_namespace = portugal
+
+# Introduction
+country_event = {
+	id = portugal.1
+	immediate = {log = "[GetDateText]: [Root.GetName]: event portugal.1"}
+	title = "The Status of the Kingdom"
+	desc = portugal.1.d
+	picture = report_event_generic_conference
+
+	fire_only_once = yes
+
+	trigger = {
+		tag = POR
+	}
+
+	mean_time_to_happen = {
+		days = 0
+	}
+
+	option = {
+		name = "We must reclaim the Colonies!"
+	}
+}
+
+country_event = { #some capital ship idk man
+	id = portugal.2
+	immediate = {log = "[GetDateText]: [Root.GetName]: event portugal.2"}
+	title = "The Retaliação"
+	desc = portugal.2.d
+	picture = report_event_generic_conference
+
+	fire_only_once = yes
+
+	trigger = {
+		tag = POR
+		date > 1936.3.1
+	}
+
+	mean_time_to_happen = {
+		days = 0
+	}
+
+	option = {
+		name = "This is how we will destroy the Republican dogs!"
+		add_political_power = 75
+		hidden_effect = {
+			if = {
+				limit = { has_dlc_mtg = yes }
+				load_oob = "POR_RETALIACAO_mtg"
+
+				else = {
+					load_oob = "POR_RETALIACAO_legacy"
+				}
+			}
+		}
+		ai_chance = { factor = 100 }
+	}
+}
+
+country_event = { #Renewing the Civil war
+	id = portugal.3
+	immediate = {log = "[GetDateText]: [Root.GetName]: event portugal.3"}
+	title = "Reconquest of the Colonies"
+	desc = portugal.3.d
+	picture = report_event_generic_conference
+
+	fire_only_once = yes
+
+	trigger = {
+		tag = POR
+		date > 1936.5.1
+	}
+
+	mean_time_to_happen = {
+		days = 0
+	}
+
+	option = {
+		name = "To arms!"
+		add_named_threat = { threat = 5 name = POR_renewed_civil_war_threat }
+		ENG = {
+			diplomatic_relation = { country = POR relation = guarantee active = no }
+		}
+		add_stability = 0.4
+		add_political_power = 75
+		#add_war_support = 0.1
+		set_global_flag = POR_RENEWED_CIVIL_WAR
+		declare_war_on = {
+			type = annex_everything
+			target = PRR
+		}
+		ai_chance = { factor = 100 }
+	}
+}
+
+country_event = { #Republican Countercoup Warning
+	id = portugal.4
+	immediate = {log = "[GetDateText]: [Root.GetName]: event portugal.4"}
+	title = "Growing Republican movements"
+	desc = portugal.4.d
+	picture = report_event_generic_conference
+
+	fire_only_once = yes
+
+	trigger = {
+		date > 1936.11.1
+		tag = POR
+		has_global_flag = POR_RENEWED_CIVIL_WAR
+		PRR = {
+			has_full_control_of_state = 540
+			has_full_control_of_state = 544
+		}
+	}
+
+	mean_time_to_happen = {
+		days = 0
+	}
+
+	option = {
+		name = "Worrying."
+		custom_effect_tooltip = POR_first_warning_tt
+		ai_chance = { factor = 100 }
+	}
+}
+
+country_event = { #Republican Countercoup
+	id = portugal.5
+	immediate = {log = "[GetDateText]: [Root.GetName]: event portugal.5"}
+	title = "Republican coup in the mainland!"
+	desc = portugal.5.d
+	picture = report_event_generic_conference
+
+	fire_only_once = yes
+
+	trigger = {
+		date > 1937.5.1
+		tag = POR
+		has_global_flag = POR_RENEWED_CIVIL_WAR
+		PRR = {
+			has_full_control_of_state = 540
+			has_full_control_of_state = 544
+		}
+	}
+
+	mean_time_to_happen = {
+		days = 0
+	}
+
+	option = {
+		name = "Oh man oh god oh man oh god oh man oh god oh man oh god oh man oh god oh man oh god"
+		PRR = { country_event = { days = 0 id = portugal.6 } }
+		every_state = {
+			limit = {
+				is_core_of = PRR
+			}
+			remove_core_of = PRR
+		}
+		every_state = {
+			limit = {
+				is_core_of = POR
+			}
+			add_core_of = PRR
+		}
+		ai_chance = { factor = 100 }
+	}
+}
+
+country_event = { #Republican Countercoup
+	id = portugal.6
+	immediate = {log = "[GetDateText]: [Root.GetName]: event portugal.6"}
+	title = "Mainland uprising successful!"
+	desc = portugal.6.d
+	picture = report_event_generic_conference
+
+	fire_only_once = yes
+
+	is_triggered_only = yes
+
+	option = {
+		name = "We will finish what they started!"
+		set_province_controller = 6924
+		set_province_controller = 11805
+		set_province_controller = 924
+		set_province_controller = 799
+		set_province_controller = 889
+		set_province_controller = 3790
+		add_stability = 0.35
+		add_war_support = 0.45
+		add_political_power = 200
+		transfer_state = 179
+		#transfer_state = 112
+		transfer_state = 181
+		hidden_effect = {
+			load_OOB = PRR_countercoup
+		}
+		ai_chance = { factor = 100 }
+	}
+}

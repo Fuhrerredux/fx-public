@@ -1,0 +1,3940 @@
+###########################
+# Czechia Focus Tree
+###########################
+# By yours, truly
+###########################
+
+focus_tree = {
+	id = czech_focus
+
+	country = {
+		factor = 0
+		modifier = {
+			add = 10
+			tag = CZE
+		}
+	}
+	default = no
+
+	continuous_focus_position = { x = 16 y = 2800 }
+
+	focus = {
+		id = CZE_state_of_the_czechs
+		icon = GFX_goal_czech_flag
+
+		ai_will_do = { factor = 50 }
+
+		x =10
+		y =0
+		cost = 10
+		available = {
+			hidden_trigger = { always = no }
+		}
+		bypass = {
+			has_country_flag = CZE_startevent
+		}
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_state_of_the_czechs"
+			custom_effect_tooltip = unlock_focuses
+		}
+	}
+	focus = {
+		id = CZE_appease_dissidents
+		icon = GFX_goal_support_democracy
+
+		ai_will_do = { factor = 50 }
+
+		x =9
+		y =1
+		cost = 5
+		prerequisite = { focus = CZE_state_of_the_czechs }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_appease_dissidents"
+			add_stability = 0.05
+		}
+	}
+	focus = {
+		id = CZE_defensive_posture
+		icon = GFX_goal_generic_defence
+
+		ai_will_do = { factor = 50 }
+
+		x =8
+		y =2
+		cost = 5
+		prerequisite = { focus = CZE_appease_dissidents }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_defensive_posture"
+			add_tech_bonus = {
+				name = infantry_bonus
+				bonus = 0.5
+				uses = 1
+				category = infantry_weapons
+			}
+		}
+	}
+	focus = {
+		id = CZE_propaganda_campaigns
+		icon = GFX_goal_generic_propaganda
+
+		ai_will_do = { factor = 50 }
+
+		x =11
+		y =1
+		cost = 5
+		prerequisite = { focus = CZE_state_of_the_czechs }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_propaganda_campaigns"
+			add_popularity = {
+				popularity = 0.05
+				ideology = paternal_autocrat
+			}
+		}
+	}
+	focus = {
+		id = CZE_economic_readjustments
+		icon = GFX_goal_generic_production
+
+		ai_will_do = { factor = 50 }
+
+		x =12
+		y =2
+		cost = 5
+		prerequisite = { focus = CZE_propaganda_campaigns }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_economic_readjustments"
+			add_tech_bonus = {
+				name = industrial_bonus
+				bonus = 0.5
+				uses = 1
+				category = industry
+			}
+		}
+	}
+	focus = {
+		id = CZE_revolution_leftovers
+		icon = GFX_focus_generic_self_management
+
+		ai_will_do = { factor = 50 }
+
+		x =10
+		y =2
+		cost = 5
+		prerequisite = { focus = CZE_appease_dissidents }
+		prerequisite = { focus = CZE_propaganda_campaigns }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_revolution_leftovers"
+			swap_ideas = {
+				add_idea = CZE_memories_of_the_revolution1
+				remove_idea = CZE_memories_of_the_revolution
+			}
+		}
+	}
+	focus = {
+		id = CZE_the_sudeten_issue
+		icon = GFX_goal_sudeten_crisis
+
+		ai_will_do = { factor = 50 }
+
+		x =4
+		y =3
+		cost = 10
+		prerequisite = { focus = CZE_economic_readjustments }
+		prerequisite = { focus = CZE_defensive_posture }
+		prerequisite = { focus = CZE_revolution_leftovers }
+		available = {
+			hidden_trigger = { always = no }
+		}
+		bypass = {
+			has_country_flag = sudeten_issues_damn
+		}
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_the_sudeten_issue"
+			custom_effect_tooltip = unlock_focuses
+		}
+	}
+	focus = {
+		id = CZE_introduce_autonomies
+		icon = GFX_focus_generic_treaty
+
+		ai_will_do = { factor = 50 }
+
+		x =2
+		y =4
+		cost = 5
+		prerequisite = { focus = CZE_the_sudeten_issue }
+		mutually_exclusive = { focus = CZE_nationalist_policies }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_introduce_autonomies"
+			add_stability = 0.05
+		}
+	}
+	focus = {
+		id = CZE_work_with_german_politicians
+		icon = GFX_goal_tripartite_pact
+
+		ai_will_do = { factor = 50 }
+
+		x =3
+		y =6
+		cost = 5
+		prerequisite = { focus = CZE_introduce_autonomies }
+		prerequisite = { focus = CZE_negotiate_with_the_leaders }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_work_with_german_politicians"
+			if = {
+				limit = {
+					has_idea = CZE_ethnic_tensions2b
+				}
+				swap_ideas = {
+					add_idea = CZE_ethnic_tensions3b
+					remove_idea = CZE_ethnic_tensions2b
+				}
+			}
+			if = {
+				limit = {
+					has_idea = CZE_ethnic_tensions2a
+				}
+				swap_ideas = {
+					add_idea = CZE_ethnic_tensions3a
+					remove_idea = CZE_ethnic_tensions2a
+				}
+			}
+			if = {
+				limit = {
+					NOT = {
+						has_idea = CZE_ethnic_tensions2a
+						has_idea = CZE_ethnic_tensions2b
+					}
+				}
+				custom_effect_tooltip = CZE_ethnic_tensions_work
+			}
+			hidden_effect = { country_event = { id = cze.53 days = 14 } }
+		}
+	}
+	focus = {
+		id = CZE_crush_valkist_groups
+		icon = GFX_goal_CZE_crush_volksfront
+
+		ai_will_do = { factor = 50 }
+
+		x =3
+		y =7
+		cost = 5
+		prerequisite = { focus = CZE_work_with_german_politicians }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_crush_valkist_groups"
+			add_stability = 0.025
+			add_war_support = 0.025
+		}
+	}
+	focus = {
+		id = CZE_negotiate_with_the_leaders
+		icon = GFX_goal_generic_intelligence_exchange
+
+		ai_will_do = { factor = 50 }
+
+		x =4
+		y =5
+		cost = 5
+		prerequisite = { focus = CZE_introduce_autonomies focus = CZE_nationalist_policies }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_negotiate_with_the_leaders"
+			country_event = { id = cze.51 }
+			hidden_effect = { country_event = { id = cze.52 days = 14} }
+		}
+	}
+	focus = {
+		id = CZE_nationalist_policies
+		icon = GFX_goal_generic_political_pressure
+
+		ai_will_do = { factor = 50 }
+
+		x =6
+		y =4
+		cost = 5
+		prerequisite = { focus = CZE_the_sudeten_issue }
+		mutually_exclusive = { focus = CZE_introduce_autonomies }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_nationalist_policies"
+			add_political_power = 100
+		}
+	}
+	focus = {
+		id = CZE_prohibit_political_movements
+		icon = GFX_goal_generic_defence
+		ai_will_do = { factor = 50 }
+
+		x =5
+		y =6
+		cost = 5
+		prerequisite = { focus = CZE_nationalist_policies }
+		prerequisite = { focus = CZE_negotiate_with_the_leaders }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_prohibit_political_movements"
+			if = {
+				limit = {
+					has_idea = CZE_ethnic_tensions2b
+				}
+				swap_ideas = {
+					add_idea = CZE_ethnic_tensions3b
+					remove_idea = CZE_ethnic_tensions2b
+				}
+			}
+			if = {
+				limit = {
+					has_idea = CZE_ethnic_tensions2a
+				}
+				swap_ideas = {
+					add_idea = CZE_ethnic_tensions3a
+					remove_idea = CZE_ethnic_tensions2a
+				}
+			}
+			if = {
+				limit = {
+					NOT = {
+						has_idea = CZE_ethnic_tensions2a
+						has_idea = CZE_ethnic_tensions2b
+					}
+				}
+				custom_effect_tooltip = CZE_ethnic_tensions_work
+			}
+			hidden_effect = { country_event = { id = cze.54 } }
+		}
+	}
+	focus = {
+		id = CZE_send_our_men_in
+		icon = GFX_goal_gun_shackles
+
+		ai_will_do = { factor = 50 }
+
+		x =5
+		y =7
+		cost = 5
+		prerequisite = { focus = CZE_prohibit_political_movements }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_send_our_men_in"
+			add_manpower = -5000
+			add_stability = 0.05
+			hidden_effect = { country_event = { id = cze.70 days = 7 } }
+		}
+	}
+	focus = {
+		id = CZE_the_language_status
+		icon = GFX_goal_generic_forceful_treaty
+
+		ai_will_do = { factor = 50 }
+
+		x =4
+		y =8
+		cost = 5
+		prerequisite = { focus = CZE_send_our_men_in focus = CZE_crush_valkist_groups }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_the_language_status"
+			if = {
+				limit = {
+					has_completed_focus = CZE_nationalist_policies
+				}
+				country_event = { id = cze.68 }
+			}
+			if = {
+				limit = {
+					has_completed_focus = CZE_introduce_autonomies
+				}
+				country_event = { id = cze.55 }
+			}
+			if = {
+				limit = {
+					NOT = {
+						has_completed_focus = CZE_nationalist_policies
+						has_completed_focus = CZE_introduce_autonomies
+					}
+				}
+				country_event = { id = cze.55 }
+			}
+		}
+	}
+	focus = {
+		id = CZE_multinational_policies
+		icon = GFX_goal_generic_national_unity
+
+		ai_will_do = { factor = 50 }
+
+		x =3
+		y =9
+		cost = 5
+		prerequisite = { focus = CZE_the_language_status }
+		prerequisite = { focus = CZE_crush_valkist_groups }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_multinational_policies"
+			if = {
+				limit = {
+					has_country_flag = CZE_germofficial
+				}
+				country_event = { id = cze.56 }
+			}
+			if = {
+				limit = {
+					has_country_flag = CZE_uncucked
+				}
+				country_event = { id = cze.57 }
+			}
+			if = {
+				limit = {
+					NOT = {
+						has_country_flag = CZE_germofficial
+						has_country_flag = CZE_uncucked
+					}
+				}
+				custom_effect_tooltip = CZE_integrate
+			}
+		}
+	}
+	focus = {
+		id = CZE_czechification_measures
+		icon = GFX_goal_CZE_czechization_matters
+
+		ai_will_do = { factor = 50 }
+
+		x =5
+		y =9
+		cost = 5
+		prerequisite = { focus = CZE_the_language_status }
+		prerequisite = { focus = CZE_send_our_men_in }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_czechification_measures"
+			custom_effect_tooltip = CZE_consequences
+			add_political_power = 50
+			hidden_effect = { country_event = cze.71 }
+		}
+	}
+	focus = {
+		id = CZE_our_national_path
+		icon = GFX_goal_government_icon
+
+		ai_will_do = { factor = 50 }
+
+		x =14
+		y =3
+		cost = 5
+		prerequisite = { focus = CZE_economic_readjustments }
+		prerequisite = { focus = CZE_defensive_posture }
+		prerequisite = { focus = CZE_revolution_leftovers }
+		available = {
+			hidden_trigger = { always = no }
+		}
+		bypass = {
+			OR = {
+				has_country_flag = CZE_germanwar
+				has_country_flag = CZE_keptsudeten
+				has_country_flag = CZE_lost_sudeten
+			}
+		}
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_our_national_path"
+			custom_effect_tooltip = unlock_focuses
+		}
+	}
+	focus = {
+		id = CZE_diplomatic_efforts
+		icon = GFX_goal_government_icon
+
+		ai_will_do = { factor = 50 }
+
+		x =9
+		y =4
+		cost = 5
+		prerequisite = { focus = CZE_our_national_path }
+		available = {
+			hidden_trigger = { always = no }
+		}
+		bypass = {
+			OR = {
+				has_country_flag = CZE_germanwar
+				has_country_flag = CZE_keptsudeten
+				has_country_flag = CZE_lost_sudeten
+			}
+		}
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_diplomatic_efforts"
+			custom_effect_tooltip = unlock_focuses
+		}
+	}
+	focus = {
+		id = CZE_ties_with_the_french
+		icon = GFX_goal_FRA_paris
+
+		ai_will_do = { factor = 50 }
+
+		x =8
+		y =5
+		cost = 5
+		prerequisite = { focus = CZE_diplomatic_efforts }
+		available = {
+			has_socialist_government = no
+		}
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_ties_with_the_french"
+			FRA = { add_opinion_modifier = { target = CZE modifier = CZE_french_ties } }
+		}
+	}
+	focus = {
+		id = CZE_join_the_entente
+		icon = GFX_focus_chi_reach_out_to_france
+
+		ai_will_do = { factor = 50 }
+
+		x =8
+		y =6
+		cost = 5
+		prerequisite = { focus = CZE_ties_with_the_french }
+		available = {
+			has_socialist_government = no
+		}
+
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_join_the_entente"
+			FRA = { country_event = { id = cze.80 } }
+		}
+	}
+	focus = {
+		id = CZE_ties_with_the_soviets
+		icon = GFX_focus_SOV_the_path_of_marxism_leninism
+
+		ai_will_do = { factor = 50 }
+
+		x =10
+		y =5
+		cost = 5
+		prerequisite = { focus = CZE_diplomatic_efforts }
+		available = {
+			has_socialist_government = yes
+		}
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_ties_with_the_soviets"
+			SOV = { add_opinion_modifier = { target = CZE modifier = CZE_soviet_ties } }
+		}
+	}
+	focus = {
+		id = CZE_join_the_internationale
+		icon = GFX_focus_SOV_proclaim_soviet_hegemony
+
+		ai_will_do = { factor = 50 }
+
+		x =10
+		y =6
+		cost = 5
+		prerequisite = { focus = CZE_ties_with_the_soviets }
+		available = {
+			has_socialist_government = yes
+			has_war = no
+		}
+
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_join_the_internationale"
+			SOV = { country_event = { id = cze.83 } }
+		}
+	}
+	focus = {
+		id = CZE_economic_matters
+		icon = GFX_goal_economic_control
+
+		ai_will_do = { factor = 50 }
+
+		x =15
+		y =4
+		cost = 5
+		prerequisite = { focus = CZE_our_national_path }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_economic_matters"
+			add_tech_bonus = {
+				name = industry_bonus
+				bonus = 0.5
+				uses = 1
+				category = industry
+			}
+		}
+	}
+	focus = {
+		id = CZE_civilian_expansion
+		icon = GFX_goal_generic_production2
+
+		ai_will_do = { factor = 50 }
+
+		x =13
+		y =5
+		cost = 5
+		prerequisite = { focus = CZE_economic_matters }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_civilian_expansion"
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = {
+		id = CZE_sudeten_investments
+		icon = GFX_focus_generic_industry_2
+
+		ai_will_do = { factor = 50 }
+
+		x =12
+		y =6
+		cost = 5
+		prerequisite = { focus = CZE_civilian_expansion }
+		mutually_exclusive = { focus = CZE_bohemian_industrial_zone }
+		available = {
+			owns_state = 69
+			owns_state = 74
+			owns_state = 775
+		}
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_sudeten_investments"
+			69 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = {
+		id = CZE_bohemian_industrial_zone
+		icon = GFX_goal_generic_construct_civ_factory
+
+		ai_will_do = { factor = 50 }
+
+		x =14
+		y =6
+		cost = 5
+		mutually_exclusive = { focus = CZE_sudeten_investments }
+		prerequisite = { focus = CZE_civilian_expansion }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_bohemian_industrial_zone"
+			9 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = {
+		id = CZE_moravian_industry
+		icon = GFX_goal_generic_construct_civilian
+
+		ai_will_do = { factor = 50 }
+
+		x =13
+		y =7
+		cost = 5
+		prerequisite = { focus = CZE_sudeten_investments focus = CZE_bohemian_industrial_zone }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_moravian_industry"
+			75 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = {
+		id = CZE_further_expansion
+		icon = GFX_focus_generic_industry_3
+
+		ai_will_do = { factor = 50 }
+
+		x =17
+		y =8
+		cost = 8
+		prerequisite = { focus = CZE_science_emphasis }
+		prerequisite = { focus = CZE_interczech_infrastructural_plan }
+		prerequisite = { focus = CZE_moravian_industry }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_further_expansion"
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = {
+		id = CZE_rural_incentives
+		icon = GFX_goal_agriculture
+
+		ai_will_do = { factor = 50 }
+
+		x =14
+		y =8
+		cost = 6
+		prerequisite = { focus = CZE_science_emphasis }
+		prerequisite = { focus = CZE_interczech_infrastructural_plan }
+		prerequisite = { focus = CZE_moravian_industry }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_rural_incentives"
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = {
+		id = CZE_support_skoda
+		icon = GFX_goal_generic_army_motorized
+
+		ai_will_do = { factor = 50 }
+
+		x =12
+		y =8
+		cost = 8
+		prerequisite = { focus = CZE_science_emphasis }
+		prerequisite = { focus = CZE_interczech_infrastructural_plan }
+		prerequisite = { focus = CZE_moravian_industry }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_support_skoda"
+			add_tech_bonus = {
+				name = motorised_bonus
+				bonus = 0.5
+				uses = 1
+				technology = motorised_infantry
+			}
+			add_equipment_to_stockpile = {
+				type = motorized_equipment_1 amount = 500 producer = CZE
+			}
+		}
+	}
+	focus = {
+		id = CZE_interczech_infrastructural_plan
+		icon = GFX_goal_Fix_Shitty_Rails
+
+		ai_will_do = { factor = 50 }
+
+		x =15
+		y =7
+		cost = 8
+		prerequisite = { focus = CZE_sudeten_investments focus = CZE_bohemian_industrial_zone }
+		prerequisite = { focus = CZE_czech_arms_industry }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_interczech_infrastructural_plan"
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = {
+		id = CZE_preparatory_mobilization
+		icon = GFX_focus_generic_license_production
+
+		ai_will_do = { factor = 50 }
+
+		x =16
+		y =5
+		cost = 8
+		prerequisite = { focus = CZE_economic_matters }
+		bypass = {
+			has_idea = partial_economic_mobilisation
+		}
+		available_if_capitulated = yes
+		ai_will_do = { factor = 15 }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_preparatory_mobilization"
+			add_ideas = partial_economic_mobilisation
+		}
+	}
+	focus = {
+		id = CZE_czech_arms_industry
+		icon = GFX_goal_generic_construct_mil_factory
+
+		ai_will_do = { factor = 50 }
+
+		x =16
+		y =6
+		cost = 5
+		prerequisite = { focus = CZE_preparatory_mobilization }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_czech_arms_industry"
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+
+		}
+	}
+	focus = {
+		id = CZE_technical_innovation
+		icon = GFX_goal_generic_production
+
+		ai_will_do = { factor = 50 }
+
+		x =19
+		y =5
+		cost = 5
+		prerequisite = { focus = CZE_economic_matters }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_technical_innovation"
+			add_tech_bonus = {
+				name = industry_bonus
+				bonus = 0.5
+				uses = 1
+				category = industry
+			}
+		}
+	}
+	focus = {
+		id = CZE_construction_investments
+		icon = GFX_goal_generic_construction
+
+		ai_will_do = { factor = 50 }
+
+		x =18
+		y =6
+		cost = 5
+		prerequisite = { focus = CZE_technical_innovation }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_construction_investments"
+			add_tech_bonus = {
+				name = construction_bonus
+				bonus = 0.5
+				uses = 1
+				technology = construction1
+				technology = construction2
+				technology = construction3
+				technology = construction4
+				technology = construction5
+			}
+		}
+	}
+	focus = {
+		id = CZE_science_emphasis
+		icon = GFX_focus_research
+
+		ai_will_do = { factor = 50 }
+
+		x =18
+		y =7
+		cost = 5
+		prerequisite = { focus = CZE_construction_investments }
+		prerequisite = { focus = CZE_resource_prospecting }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_science_emphasis"
+			add_research_slot = 1
+		}
+	}
+	focus = {
+		id = CZE_resource_prospecting
+		icon = GFX_goal_generic_oil_refinery
+
+		ai_will_do = { factor = 50 }
+
+		x =20
+		y =6
+		cost = 5
+		prerequisite = { focus = CZE_technical_innovation }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_resource_prospecting"
+			add_tech_bonus = {
+				name = excavation_bonus
+				bonus = 0.5
+				uses = 1
+				technology = excavation1
+				technology = excavation2
+				technology = excavation3
+				technology = excavation4
+				technology = excavation5
+			}
+		}
+	}
+	focus = {
+		id = CZE_electronic_updates
+		icon = GFX_goal_generic_radar
+
+		ai_will_do = { factor = 50 }
+
+		x =20
+		y =7
+		cost = 5
+		prerequisite = { focus = CZE_resource_prospecting }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_electronic_updates"
+			add_tech_bonus = {
+				name = electric_bonus
+				bonus = 0.5
+				uses = 1
+				category = electronics
+			}
+		}
+	}
+	focus = {
+		id = CZE_the_czech_army
+		icon = GFX_goal_CZE_army
+
+		ai_will_do = { factor = 50 }
+
+		x =25
+		y =4
+		cost = 5
+		prerequisite = { focus = CZE_our_national_path }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_the_czech_army"
+			army_experience = 50
+		}
+	}
+	focus = {
+		id = CZE_the_sudeten_line
+		icon = GFX_goal_generic_fortify_city
+
+		ai_will_do = { factor = 50 }
+
+		x =30
+		y =5
+		cost = 10
+		prerequisite = { focus = CZE_the_czech_army }
+		available = {
+			owns_state = 69
+		}
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_the_sudeten_line"
+			69 = {
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 6470
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 3585
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 424
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 445
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 3418
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 11432
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = {
+		id = CZE_northern_forts
+		icon = GFX_goal_generic_fortify_city
+
+		ai_will_do = { factor = 50 }
+
+		x =30
+		y =6
+		cost = 10
+		prerequisite = { focus = CZE_the_sudeten_line }
+		available = {
+			owns_state = 69
+			owns_state = 74
+		}
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_northern_forts"
+			69 = {
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 469
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 11401
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 11414
+					instant_build = yes
+				}
+			}
+			74 = {
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 6485
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 3414
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 3583
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = {
+		id = CZE_southern_forts
+		icon = GFX_goal_generic_fortify_city
+
+		ai_will_do = { factor = 50 }
+
+		x =30
+		y =7
+		cost = 6
+		prerequisite = { focus = CZE_northern_forts }
+		available = {
+			owns_state = 775
+		}
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_southern_forts"
+			775 = {
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 5283
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 543
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 11525
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					province = 557
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = {
+		id = CZE_updating_our_arms
+		icon = GFX_focus_secret_rearmament
+
+		ai_will_do = { factor = 50 }
+
+		x =22
+		y =5
+		cost = 5
+		prerequisite = { focus = CZE_the_czech_army }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_updating_our_arms"
+			add_tech_bonus = {
+				name = infantry_bonus
+				bonus = 0.5
+				uses = 1
+				category = infantry_weapons
+			}
+		}
+	}
+	focus = {
+		id = CZE_the_new_artillery
+		icon = GFX_goal_generic_army_artillery
+
+		ai_will_do = { factor = 50 }
+
+		x =22
+		y =6
+		cost = 5
+		prerequisite = { focus = CZE_updating_our_arms }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_the_new_artillery"
+			add_tech_bonus = {
+				name = infantry_bonus
+				bonus = 0.5
+				uses = 1
+				category = artillery
+			}
+		}
+	}
+	focus = {
+		id = CZE_engineering_corps
+		icon = GFX_goal_engineers
+
+		ai_will_do = { factor = 50 }
+
+		x =24
+		y =6
+		cost = 5
+		prerequisite = { focus = CZE_the_czech_army }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_engineering_corps"
+			add_tech_bonus = {
+				name = engineers_bonus
+				bonus = 0.5
+				uses = 1
+				category = engineers_tech
+			}
+		}
+	}
+	focus = {
+		id = CZE_motorized_technologies
+		icon = GFX_goal_generic_army_motorized
+
+		ai_will_do = { factor = 50 }
+
+		x =27
+		y =5
+		cost = 5
+		prerequisite = { focus = CZE_the_czech_army }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_motorized_technologies"
+			add_tech_bonus = {
+				name = infantry_bonus
+				bonus = 0.5
+				uses = 1
+				category = infantry_weapons
+			}
+		}
+	}
+	focus = {
+		id = CZE_our_armored_designs
+		icon = GFX_goal_generic_army_tanks
+
+		ai_will_do = { factor = 50 }
+
+		x =26
+		y =6
+		cost = 5
+		prerequisite = { focus = CZE_motorized_technologies }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_our_armored_designs"
+			add_tech_bonus = {
+				name = tank_bonus
+				bonus = 0.5
+				uses = 1
+				category = armor
+			}
+		}
+	}
+	focus = {
+		id = CZE_mechanization_of_vehicles
+		icon = GFX_goal_generic_build_tank
+
+		ai_will_do = { factor = 50 }
+
+		x =28
+		y =6
+		cost = 5
+		prerequisite = { focus = CZE_motorized_technologies }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_mechanization_of_vehicles"
+			add_tech_bonus = {
+				name = mech_bonus
+				bonus = 0.5
+				uses = 1
+				category = cat_mechanized_equipment
+			}
+		}
+	}
+	focus = {
+		id = CZE_planning_strategy
+		icon = GFX_goal_planning_bonus
+
+		ai_will_do = { factor = 50 }
+
+		x =22
+		y =7
+		cost = 5
+		prerequisite = { focus = CZE_our_armored_designs focus = CZE_mechanization_of_vehicles }
+		prerequisite = { focus = CZE_engineering_corps }
+		prerequisite = { focus = CZE_the_new_artillery }
+
+		mutually_exclusive = { focus = CZE_mobile_warfare }
+		mutually_exclusive = { focus = CZE_bullet_rain }
+		mutually_exclusive = { focus = CZE_everyone_on_board }
+
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_planning_strategy"
+			add_doctrine_cost_reduction  = {
+				name = doctrine_bonus
+				cost_reduction = 0.5
+				uses = 1
+				category = cat_grand_battle_plan
+			}
+		}
+	}
+	focus = {
+		id = CZE_mobile_warfare
+		icon = GFX_goal_RUS_Markov_plan
+
+		ai_will_do = { factor = 50 }
+
+		x =24
+		y =7
+		cost = 5
+		prerequisite = { focus = CZE_our_armored_designs focus = CZE_mechanization_of_vehicles }
+		prerequisite = { focus = CZE_engineering_corps }
+		prerequisite = { focus = CZE_the_new_artillery }
+		mutually_exclusive = { focus = CZE_planning_strategy }
+		mutually_exclusive = { focus = CZE_bullet_rain }
+		mutually_exclusive = { focus = CZE_everyone_on_board }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_mobile_warfare"
+			add_doctrine_cost_reduction = {
+				name = doctrine_bonus
+				cost_reduction = 0.5
+				uses = 1
+				category = cat_mobile_warfare
+			}
+		}
+	}
+	focus = {
+		id = CZE_bullet_rain
+		icon = GFX_goal_doctrine_fire_superiority
+
+		ai_will_do = { factor = 50 }
+
+		x =26
+		y =7
+		cost = 5
+		prerequisite = { focus = CZE_our_armored_designs focus = CZE_mechanization_of_vehicles }
+		prerequisite = { focus = CZE_engineering_corps }
+		prerequisite = { focus = CZE_the_new_artillery }
+		mutually_exclusive = { focus = CZE_planning_strategy }
+		mutually_exclusive = { focus = CZE_mobile_warfare }
+		mutually_exclusive = { focus = CZE_everyone_on_board }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_bullet_rain"
+			add_doctrine_cost_reduction = {
+				name = doctrine_bonus
+				cost_reduction = 0.5
+				uses = 1
+				category = cat_superior_firepower
+			}
+		}
+	}
+	focus = {
+		id = CZE_everyone_on_board
+		icon = GFX_goal_conscription
+
+		ai_will_do = { factor = 50 }
+
+		x =28
+		y =7
+		cost = 5
+		prerequisite = { focus = CZE_our_armored_designs focus = CZE_mechanization_of_vehicles }
+		prerequisite = { focus = CZE_engineering_corps }
+		prerequisite = { focus = CZE_the_new_artillery }
+		mutually_exclusive = { focus = CZE_planning_strategy }
+		mutually_exclusive = { focus = CZE_mobile_warfare }
+		mutually_exclusive = { focus = CZE_bullet_rain }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_everyone_on_board"
+			add_doctrine_cost_reduction = {
+				name = doctrine_bonus
+				cost_reduction = 0.5
+				uses = 1
+				category = cat_mass_assault
+			}
+		}
+	}
+	focus = {
+		id = CZE_medical_support
+		icon = GFX_goal_generic_medical
+
+		ai_will_do = { factor = 50 }
+
+		x =23
+		y =8
+		cost = 5
+		prerequisite = { focus = CZE_everyone_on_board focus = CZE_planning_strategy focus = CZE_mobile_warfare focus = CZE_bullet_rain }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_medical_support"
+			add_tech_bonus = {
+				name = hospital_bonus
+				bonus = 0.5
+				uses = 1
+				category = hospital_tech
+			}
+		}
+	}
+	focus = {
+		id = CZE_training_the_elite
+		icon = GFX_goal_generic_special_forces
+
+		ai_will_do = { factor = 50 }
+
+		x =27
+		y =8
+		cost = 9
+		prerequisite = { focus = CZE_everyone_on_board focus = CZE_planning_strategy focus = CZE_mobile_warfare focus = CZE_bullet_rain }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_training_the_elite"
+			add_tech_bonus = {
+				name = special_forces_bonus
+				bonus = 0.5
+				uses = 2
+				category = para_tech
+				category = marine_tech
+				technology = tech_mountaineers
+				technology = tech_mountaineers2
+				technology = tech_mountaineers3
+			}
+		}
+	}
+	focus = {
+		id = CZE_the_latest_tactics
+		icon = GFX_goal_generic_position_armies
+
+		ai_will_do = { factor = 50 }
+
+		x =26
+		y =9
+		cost = 5
+		prerequisite = { focus = CZE_training_the_elite }
+		prerequisite = { focus = CZE_medical_support }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_the_latest_tactics"
+			add_doctrine_cost_reduction = {
+				name = doctrine_bonus
+				cost_reduction = 0.5
+				uses = 1
+				category = cat_grand_battle_plan
+				category = cat_superior_firepower
+				category = cat_mass_assault
+				category = cat_mobile_warfare
+			}
+		}
+	}
+	focus = {
+		id = CZE_the_latest_weapons
+		icon = GFX_goal_generic_small_arms
+
+		ai_will_do = { factor = 50 }
+
+		x =24
+		y =9
+		cost = 5
+		prerequisite = { focus = CZE_training_the_elite }
+		prerequisite = { focus = CZE_medical_support }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_the_latest_weapons"
+			add_tech_bonus = {
+				name = infantry_bonus
+				bonus = 0.5
+				uses = 1
+				category = infantry_weapons
+			}
+		}
+	}
+	focus = {
+		id = CZE_defending_czechia
+		icon = GFX_goal_generic_defence
+
+		ai_will_do = { factor = 50 }
+
+		x =25
+		y =10
+		cost = 9
+		prerequisite = { focus = CZE_the_latest_weapons }
+		prerequisite = { focus = CZE_the_latest_tactics }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_defending_czechia"
+			army_experience = 50
+			add_manpower = 10000
+		}
+	}
+	focus = {
+		id = CZE_the_czech_airs
+		icon = GFX_goal_CZE_airforce
+
+		ai_will_do = { factor = 50 }
+
+		x =36
+		y =4
+		cost = 5
+		prerequisite = { focus = CZE_our_national_path }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_the_czech_airs"
+			air_experience = 50
+		}
+	}
+	focus = {
+		id = CZE_expand_the_bases
+		icon = GFX_goal_generic_build_airforce
+
+		ai_will_do = { factor = 50 }
+
+		x =34
+		y =5
+		cost = 5
+		prerequisite = { focus = CZE_the_czech_airs }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_expand_the_bases"
+			random_owned_state = {
+				add_building_construction = {
+					type = air_base
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = {
+		id = CZE_improve_the_production
+		icon = GFX_goal_generic_air_production
+
+		ai_will_do = { factor = 50 }
+
+		x =38
+		y =5
+		cost = 5
+		prerequisite = { focus = CZE_the_czech_airs }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_improve_the_production"
+			add_ideas = ARG_plane_production
+		}
+	}
+	focus = {
+		id = CZE_superiority_in_the_winds
+		icon = GFX_goal_generic_air_fighter2
+
+		ai_will_do = { factor = 50 }
+
+		x =36
+		y =6
+		cost = 5
+		prerequisite = { focus = CZE_the_czech_airs }
+		prerequisite = { focus = CZE_improve_the_production }
+		prerequisite = { focus = CZE_expand_the_bases }
+		mutually_exclusive = { focus = CZE_destructive_operations }
+		mutually_exclusive = { focus = CZE_working_with_the_land }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_superiority_in_the_winds"
+			add_tech_bonus = {
+				name = airdoctrine_bonus
+				bonus = 0.5
+				uses = 1
+				category = operational_integrity_tree
+			}
+		}
+	}
+	focus = {
+		id = CZE_working_with_the_land
+		icon = GFX_goal_close_air_support
+
+		ai_will_do = { factor = 50 }
+
+		x =33
+		y =6
+		cost = 5
+		prerequisite = { focus = CZE_the_czech_airs }
+		prerequisite = { focus = CZE_improve_the_production }
+		prerequisite = { focus = CZE_expand_the_bases }
+		mutually_exclusive = { focus = CZE_destructive_operations }
+		mutually_exclusive = { focus = CZE_superiority_in_the_winds }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_working_with_the_land"
+			add_tech_bonus = {
+				name = airdoctrine_bonus
+				bonus = 0.5
+				uses = 1
+				category = battlefield_support_tree
+			}
+		}
+	}
+	focus = {
+		id = CZE_destructive_operations
+		icon = GFX_goal_generic_air_bomber
+
+		ai_will_do = { factor = 50 }
+
+		x =39
+		y =6
+		cost = 5
+		prerequisite = { focus = CZE_the_czech_airs }
+		prerequisite = { focus = CZE_improve_the_production }
+		prerequisite = { focus = CZE_expand_the_bases }
+		mutually_exclusive = { focus = CZE_working_with_the_land }
+		mutually_exclusive = { focus = CZE_superiority_in_the_winds }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_destructive_operations"
+			add_tech_bonus = {
+				name = airdoctrine_bonus
+				bonus = 0.5
+				uses = 1
+				category = strategic_destruction_tree
+			}
+		}
+	}
+	focus = {
+		id = CZE_fighter_planes
+		icon = GFX_goal_generic_air_fighter
+
+		ai_will_do = { factor = 50 }
+
+		x =35
+		y =7
+		cost = 5
+		prerequisite = { focus = CZE_working_with_the_land focus = CZE_destructive_operations focus = CZE_superiority_in_the_winds }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_fighter_planes"
+			add_tech_bonus = {
+				name = fighter_bonus
+				bonus = 0.5
+				uses = 1
+				category = light_fighter
+				category = cat_heavy_fighter
+			}
+		}
+	}
+	focus = {
+		id = CZE_seashore_strikes
+		icon = GFX_goal_generic_air_naval_bomber
+
+		ai_will_do = { factor = 50 }
+
+		x =37
+		y =7
+		cost = 5
+		prerequisite = { focus = CZE_working_with_the_land focus = CZE_destructive_operations focus = CZE_superiority_in_the_winds }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_seashore_strikes"
+			add_tech_bonus = {
+				name = naval_bomber_bonus
+				bonus = 0.5
+				uses = 1
+				category = naval_bomber
+			}
+		}
+	}
+	focus = {
+		id = CZE_defending_our_skies
+		icon = GFX_focus_generic_air_defense
+
+		ai_will_do = { factor = 50 }
+
+		x =34
+		y =8
+		cost = 5
+		prerequisite = { focus = CZE_seashore_strikes }
+		prerequisite = { focus = CZE_fighter_planes }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_defending_our_skies"
+			9 = {
+				add_building_construction = {
+					type = anti_air_building
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = {
+		id = CZE_bomber_designs
+		icon = GFX_goal_generic_air_bomber
+
+		ai_will_do = { factor = 50 }
+
+		x =36
+		y =8
+		cost = 5
+		prerequisite = { focus = CZE_seashore_strikes }
+		prerequisite = { focus = CZE_fighter_planes }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_bomber_designs"
+			add_tech_bonus = {
+				name = bomber_bonus
+				bonus = 0.5
+				uses = 1
+				category = tactical_bomber
+				category = cat_strategic_bomber
+			}
+		}
+	}
+	focus = {
+		id = CZE_skyward_warriors
+		icon = GFX_focus_generic_paratrooper
+
+		ai_will_do = { factor = 50 }
+
+		x =38
+		y =8
+		cost = 5
+		prerequisite = { focus = CZE_seashore_strikes }
+		prerequisite = { focus = CZE_fighter_planes }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_skyward_warriors"
+			add_tech_bonus = {
+				name = para_tech_bonus
+				bonus = 0.5
+				uses = 1
+				category = para_tech
+			}
+		}
+	}
+	focus = {
+		id = CZE_czechia_rule_the_skies
+		icon = GFX_goal_air_superiority
+
+		ai_will_do = { factor = 50 }
+
+		x =36
+		y =9
+		cost = 10
+		prerequisite = { focus = CZE_skyward_warriors }
+		prerequisite = { focus = CZE_defending_our_skies }
+		prerequisite = { focus = CZE_bomber_designs }
+
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_czechia_rule_the_skies"
+			air_experience = 50
+			add_tech_bonus = {
+				name = airdoctrine_bonus
+				bonus = 0.5
+				uses = 1
+				category = strategic_destruction_tree
+				category = battlefield_support_tree
+				category = operational_integrity_tree
+			}
+		}
+	}
+
+	focus = {
+		id = CZE_elections_at_last
+		icon = GFX_goal_generic_elections
+
+		ai_will_do = { factor = 50 }
+
+		x =53
+		y =4
+		cost = 5
+		prerequisite = { focus = CZE_our_national_path }
+		available = {
+			hidden_trigger = { always = no }
+		}
+		bypass = {
+			has_country_flag = CZE_elections_happened
+		}
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_elections_at_last"
+
+		}
+	}
+	focus = {
+		id = CZE_standing_for_democracy
+		icon = GFX_goal_support_democracy
+
+		ai_will_do = { factor = 50 }
+
+		x =52
+		y =5
+		cost = 5
+		prerequisite = { focus = CZE_elections_at_last }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_standing_for_democracy"
+			add_popularity = {
+				ideology = social_democrat
+				popularity = 0.05
+			}
+			add_popularity = {
+				ideology = social_liberal
+				popularity = 0.05
+			}
+			add_popularity = {
+				ideology = market_liberal
+				popularity = 0.05
+			}
+			add_popularity = {
+				ideology = social_conservative
+				popularity = 0.05
+			}
+		}
+	}
+	focus = {
+		id = CZE_standing_for_progress
+		icon = GFX_focus_research
+
+		ai_will_do = { factor = 50 }
+
+		x =52
+		y =6
+		cost = 5
+		prerequisite = { focus = CZE_standing_for_democracy }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_standing_for_progress"
+			add_research_slot = 1
+		}
+	}
+	focus = {
+		id = CZE_crush_extremists
+		icon = GFX_goal_generic_espionage
+
+		ai_will_do = { factor = 50 }
+
+		x =54
+		y =5
+		cost = 5
+		prerequisite = { focus = CZE_elections_at_last }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_crush_extremists"
+			add_popularity = {
+				ideology = national_populist
+				popularity = -0.05
+			}
+			add_popularity = {
+				ideology = collectivist
+				popularity = -0.05
+			}
+		}
+	}
+	focus = {
+		id = CZE_disloyalties_in_the_army
+		icon = GFX_HOL_crackdown_natpop
+
+		ai_will_do = { factor = 50 }
+
+		x =54
+		y =6
+		cost = 5
+		prerequisite = { focus = CZE_crush_extremists }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_disloyalties_in_the_army"
+			add_command_power = -25
+			add_stability = 0.05
+		}
+	}
+	focus = {
+		id = CZE_truth_prevails
+		icon = GFX_goal_liberty
+
+		ai_will_do = { factor = 50 }
+
+		x =53
+		y =7
+		cost = 5
+		prerequisite = { focus = CZE_disloyalties_in_the_army }
+		prerequisite = { focus = CZE_standing_for_progress }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_truth_prevails"
+			add_political_power = 100
+		}
+	}
+	focus = {
+		id = CZE_social_democracy_victory
+		icon = GFX_goal_ideology_social_democrat
+
+		ai_will_do = { factor = 50 }
+
+		x =43
+		y =5
+		cost = 5
+		prerequisite = { focus = CZE_elections_at_last }
+		available = {
+			hidden_trigger = { always = no }
+		}
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_social_democracy_victory"
+			custom_effect_tooltip = unlock_focuses
+		}
+	}
+	focus = {
+		id = CZE_a_cure_for_collectivism
+		icon = GFX_goal_social_labour
+
+		ai_will_do = { factor = 50 }
+
+		x =42
+		y =6
+		cost = 5
+		prerequisite = { focus = CZE_social_democracy_victory }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_a_cure_for_collectivism"
+			remove_ideas = CZE_memories_of_the_revolution1
+		}
+	}
+	focus = {
+		id = CZE_greater_agrarian_reform
+		icon = GFX_goal_agrarian_reform
+
+		ai_will_do = { factor = 50 }
+
+		x =42
+		y =7
+		cost = 5
+		prerequisite = { focus = CZE_a_cure_for_collectivism }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_greater_agrarian_reform"
+			add_ideas = CZE_land_reform
+		}
+	}
+	focus = {
+		id = CZE_extensive_welfare_reform
+		icon = GFX_focus_generic_self_management
+
+		ai_will_do = { factor = 50 }
+
+		x =44
+		y =6
+		cost = 5
+		prerequisite = { focus = CZE_social_democracy_victory }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_extensive_welfare_reform"
+			add_ideas = CZE_welfare_reform
+		}
+	}
+	focus = {
+		id = CZE_stimulate_czech_industry
+		icon = GFX_focus_generic_industry_2
+
+		ai_will_do = { factor = 50 }
+
+		x =44
+		y =7
+		cost = 5
+		prerequisite = { focus = CZE_extensive_welfare_reform }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_stimulate_czech_industry"
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = {
+		id = CZE_an_inclusive_society
+		icon = GFX_goal_generic_national_unity
+
+		ai_will_do = { factor = 50 }
+
+		x =43
+		y =8
+		cost = 5
+		prerequisite = { focus = CZE_stimulate_czech_industry }
+		prerequisite = { focus = CZE_greater_agrarian_reform }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_an_inclusive_society"
+			random_owned_state = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = {
+		id = CZE_women_in_our_society
+		icon = GFX_IRE_women_industry
+
+		ai_will_do = { factor = 50 }
+
+		x =45
+		y =8
+		cost = 5
+		prerequisite = { focus = CZE_stimulate_czech_industry }
+		prerequisite = { focus = CZE_greater_agrarian_reform }
+
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_women_in_our_society"
+			add_stability = 0.05
+		}
+	}
+	focus = {
+		id = CZE_solidarity_with_the_poor
+		icon = GFX_goal_generic_consumer_goods
+
+		ai_will_do = { factor = 50 }
+
+		x =41
+		y =8
+		cost = 5
+		prerequisite = { focus = CZE_stimulate_czech_industry }
+		prerequisite = { focus = CZE_greater_agrarian_reform }
+
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_solidarity_with_the_poor"
+			swap_ideas = {
+				add_idea = CZE_welfare_reform1
+				remove_idea = CZE_welfare_reform
+			}
+		}
+	}
+	focus = {
+		id = CZE_agrarian_victory
+		icon = GFX_goal_CZE_agrarians
+
+		ai_will_do = { factor = 50 }
+
+		x =49
+		y =5
+		cost = 5
+		prerequisite = { focus = CZE_elections_at_last }
+		available = {
+			hidden_trigger = { always = no }
+		}
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_agrarian_victory"
+			custom_effect_tooltip = unlock_focuses
+		}
+	}
+	focus = {
+		id = CZE_supporting_the_farmers
+		icon = GFX_goal_agriculture
+
+		ai_will_do = { factor = 50 }
+
+		x =48
+		y =6
+		cost = 5
+		prerequisite = { focus = CZE_agrarian_victory }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_supporting_the_farmers"
+			random_owned_state = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = {
+		id = CZE_breadwinners_of_the_nation
+		icon = GFX_focus_generic_support_the_left_right
+
+		ai_will_do = { factor = 50 }
+
+		x =48
+		y =7
+		cost = 5
+		prerequisite = { focus = CZE_supporting_the_farmers }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_breadwinners_of_the_nation"
+			add_ideas = CZE_agrarian_focus
+		}
+	}
+	focus = {
+		id = CZE_redistribution_to_the_peasants
+		icon = GFX_goal_generic_production2
+
+		ai_will_do = { factor = 50 }
+
+		x =50
+		y =6
+		cost = 5
+		prerequisite = { focus = CZE_agrarian_victory }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_redistribution_to_the_peasants"
+			add_stability = 0.05
+		}
+	}
+	focus = {
+		id = CZE_market_protectionism
+		icon = GFX_goal_generic_trade
+
+		ai_will_do = { factor = 50 }
+
+		x =50
+		y =7
+		cost = 5
+		prerequisite = { focus = CZE_redistribution_to_the_peasants }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_market_protectionism"
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = {
+		id = CZE_stand_for_the_middle_class
+		icon = GFX_goal_generic_positive_trade_relations
+
+		ai_will_do = { factor = 50 }
+
+		x =47
+		y =8
+		cost = 5
+		prerequisite = { focus = CZE_market_protectionism }
+		prerequisite = { focus = CZE_breadwinners_of_the_nation }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_stand_for_the_middle_class"
+			swap_ideas = {
+				add_idea = CZE_agrarian_focus1
+				remove_idea = CZE_agrarian_focus
+			}
+		}
+	}
+	focus = {
+		id = CZE_recreate_the_petka
+		icon = GFX_goal_tripartite_pact
+
+		ai_will_do = { factor = 50 }
+
+		x =49
+		y =8
+		cost = 5
+		prerequisite = { focus = CZE_market_protectionism }
+		prerequisite = { focus = CZE_breadwinners_of_the_nation }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_recreate_the_petka"
+			add_popularity = {
+				ideology = social_liberal
+				popularity = 0.1
+			}
+		}
+	}
+	focus = {
+		id = CZE_integral_society
+		icon = GFX_goal_listen_unions
+
+		ai_will_do = { factor = 50 }
+
+		x =51
+		y =8
+		cost = 5
+		prerequisite = { focus = CZE_market_protectionism }
+		prerequisite = { focus = CZE_breadwinners_of_the_nation }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_integral_society"
+			remove_ideas = CZE_memories_of_the_revolution1
+		}
+	}
+	focus = {
+		id = CZE_national_social_victory
+		icon = GFX_goal_ideology_market_liberal
+
+		ai_will_do = { factor = 50 }
+
+		x =57
+		y =5
+		cost = 5
+		prerequisite = { focus = CZE_elections_at_last }
+		available = {
+			hidden_trigger = { always = no }
+		}
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_national_social_victory"
+			custom_effect_tooltip = unlock_focuses
+		}
+	}
+	focus = {
+		id = CZE_our_own_kind_of_socialism
+		icon = GFX_focus_generic_concessions
+
+		ai_will_do = { factor = 50 }
+
+		x =56
+		y =6
+		cost = 5
+		prerequisite = { focus = CZE_national_social_victory }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_our_own_kind_of_socialism"
+			remove_ideas = CZE_memories_of_the_revolution1
+
+		}
+	}
+	focus = {
+		id = CZE_a_nation_of_opportunities
+		icon = GFX_goal_generic_intelligence_exchange
+
+		ai_will_do = { factor = 50 }
+
+		x =56
+		y =7
+		cost = 5
+		prerequisite = { focus = CZE_our_own_kind_of_socialism }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_a_nation_of_opportunities"
+			add_political_power = 75
+		}
+	}
+	focus = {
+		id = CZE_collective_development
+		icon = GFX_goal_generic_consumer_goods
+
+		ai_will_do = { factor = 50 }
+
+		x =58
+		y =6
+		cost = 5
+		prerequisite = { focus = CZE_national_social_victory }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_collective_development"
+			add_ideas = CZE_dev_program
+		}
+	}
+	focus = {
+		id = CZE_national_investments
+		icon = GFX_focus_generic_industry_3
+
+		ai_will_do = { factor = 50 }
+
+		x =58
+		y =7
+		cost = 5
+		prerequisite = { focus = CZE_collective_development }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_national_investments"
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = {
+		id = CZE_freedom_and_democracy
+		icon = GFX_focus_generic_the_giant_wakes
+
+		ai_will_do = { factor = 50 }
+
+		x =55
+		y =8
+		cost = 5
+		prerequisite = { focus = CZE_national_investments }
+		prerequisite = { focus = CZE_a_nation_of_opportunities }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_freedom_and_democracy"
+			swap_ideas = {
+				add_idea = CZE_dev_program1
+				remove_idea = CZE_dev_program
+			}
+		}
+	}
+	focus = {
+		id = CZE_cooperate_with_opposition
+		icon = GFX_focus_generic_treaty
+
+		ai_will_do = { factor = 50 }
+
+		x =57
+		y =8
+		cost = 5
+		prerequisite = { focus = CZE_national_investments }
+		prerequisite = { focus = CZE_a_nation_of_opportunities }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_cooperate_with_opposition"
+
+			add_popularity = {
+				ideology = social_democrat
+				popularity = -0.025
+			}
+			add_popularity = {
+				ideology = social_liberal
+				popularity = -0.025
+			}
+			add_popularity = {
+				ideology = social_conservative
+				popularity = -0.025
+			}
+		}
+	}
+	focus = {
+		id = CZE_strength_in_morality
+		icon = GFX_goal_demand_sudetenland
+
+		ai_will_do = { factor = 50 }
+
+		x =59
+		y =8
+		cost = 5
+		prerequisite = { focus = CZE_national_investments }
+		prerequisite = { focus = CZE_a_nation_of_opportunities }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_strength_in_morality"
+			add_stability = 0.05
+		}
+	}
+	focus = {
+		id = CZE_national_democracy_victory
+		icon = GFX_goal_ideology_social_conservative
+
+		ai_will_do = { factor = 50 }
+
+		x =63
+		y =5
+		cost = 5
+		prerequisite = { focus = CZE_elections_at_last }
+		available = {
+			hidden_trigger = { always = no }
+		}
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_national_democracy_victory"
+			custom_effect_tooltip = unlock_focuses
+		}
+	}
+	focus = {
+		id = CZE_a_national_government
+		icon = GFX_goal_government_icon
+
+		ai_will_do = { factor = 50 }
+
+		x =62
+		y =6
+		cost = 5
+		prerequisite = { focus = CZE_national_democracy_victory }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_a_national_government"
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = {
+		id = CZE_strengthen_the_administration
+		icon = GFX_goal_generic_political_pressure
+
+		ai_will_do = { factor = 50 }
+
+		x =62
+		y =7
+		cost = 5
+		prerequisite = { focus = CZE_a_national_government }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_strengthen_the_administration"
+			add_stability = 0.05
+		}
+	}
+	focus = {
+		id = CZE_promote_social_justice
+		icon = GFX_goal_generic_neutrality_focus
+
+		ai_will_do = { factor = 50 }
+
+		x =64
+		y =6
+		cost = 5
+		prerequisite = { focus = CZE_national_democracy_victory }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_promote_social_justice"
+			add_ideas = CZE_soc_justice
+
+		}
+	}
+	focus = {
+		id = CZE_a_society_with_values
+		icon = GFX_focus_RAJ_lions_of_the_great_war
+
+		ai_will_do = { factor = 50 }
+
+		x =64
+		y =7
+		cost = 5
+		prerequisite = { focus = CZE_promote_social_justice }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_a_society_with_values"
+			add_popularity = {
+				ideology = social_conservative
+				popularity = 0.05
+			}
+		}
+	}
+	focus = {
+		id = CZE_expanded_state_police
+		icon = GFX_goal_gun_shackles
+
+		ai_will_do = { factor = 50 }
+
+		x =61
+		y =8
+		cost = 5
+		prerequisite = { focus = CZE_a_society_with_values }
+		prerequisite = { focus = CZE_strengthen_the_administration }
+
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_expanded_state_police"
+			add_ideas = CZE_expanded_police
+		}
+	}
+	focus = {
+		id = CZE_make_czechia_great_again
+		icon = GFX_focus_generic_support_the_left_right
+
+		ai_will_do = { factor = 50 }
+
+		x =63
+		y =8
+		cost = 5
+		prerequisite = { focus = CZE_a_society_with_values }
+		prerequisite = { focus = CZE_strengthen_the_administration }
+
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_make_czechia_great_again"
+			swap_ideas = {
+				add_idea = CZE_soc_justice1
+				remove_idea = CZE_soc_justice
+			}
+		}
+	}
+	focus = {
+		id = CZE_conservative_solidarity
+		icon = GFX_goal_economic_control
+		ai_will_do = { factor = 50 }
+
+		x =65
+		y =8
+		cost = 5
+		prerequisite = { focus = CZE_a_society_with_values }
+		prerequisite = { focus = CZE_strengthen_the_administration }
+
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_conservative_solidarity"
+			remove_ideas = CZE_memories_of_the_revolution1
+
+		}
+	}
+	focus = {
+		id = CZE_czech_revolution
+		icon = GFX_goal_red_star
+
+		ai_will_do = { factor = 50 }
+
+		x =70
+		y =4
+		cost = 5
+		prerequisite = { focus = CZE_our_national_path }
+		available = {
+			hidden_trigger = { always = no }
+		}
+		bypass = {
+			OR = {
+				has_government = libertarian_socialist
+				has_government = collectivist
+				has_government = vanguardist
+			}
+		}
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_czech_revolution"
+			custom_effect_tooltip = unlock_focuses
+		}
+	}
+	focus = {
+		id = CZE_push_against_reactionaries
+		icon = GFX_goal_generic_espionage
+
+		ai_will_do = { factor = 50 }
+
+		x =69
+		y =5
+		cost = 5
+		prerequisite = { focus = CZE_czech_revolution }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_push_against_reactionaries"
+			add_popularity = {
+				ideology = paternal_autocrat
+				popularity = -0.05
+			}
+			add_popularity = {
+				ideology = national_populist
+				popularity = -0.05
+			}
+			hidden_effect = {
+				country_event = { days = 7 id = cze.129 }
+			}
+		}
+	}
+	focus = {
+		id = CZE_secure_our_territory
+		icon = GFX_focus_generic_support_the_left
+
+		ai_will_do = { factor = 50 }
+
+		x =71
+		y =5
+		cost = 5
+		prerequisite = { focus = CZE_czech_revolution }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_secure_our_territory"
+			add_stability = 0.05
+		}
+	}
+	focus = {
+		id = CZE_revolutionary_spirit
+		icon = GFX_goal_red_star_green_wreath
+
+		ai_will_do = { factor = 50 }
+
+		x =68
+		y =6
+		cost = 5
+		prerequisite = { focus = CZE_push_against_reactionaries }
+		prerequisite = { focus = CZE_secure_our_territory }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_revolutionary_spirit"
+			add_war_support = 0.05
+		}
+	}
+	focus = {
+		id = CZE_collective_councils
+		icon = GFX_goal_commune_politics
+
+		ai_will_do = { factor = 50 }
+
+		x =70
+		y =6
+		cost = 5
+		prerequisite = { focus = CZE_push_against_reactionaries }
+		prerequisite = { focus = CZE_secure_our_territory }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_collective_councils"
+			add_popularity = {
+				ideology = collectivist
+				popularity = 0.05
+			}
+		}
+	}
+	focus = {
+		id = CZE_peoples_militias
+		icon = GFX_goal_red_star_guard
+
+		ai_will_do = { factor = 50 }
+
+		x =72
+		y =6
+		cost = 5
+		prerequisite = { focus = CZE_push_against_reactionaries }
+		prerequisite = { focus = CZE_secure_our_territory }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_peoples_militias"
+			add_ideas = CZE_red_militia
+		}
+	}
+	focus = {
+		id = CZE_age_of_collectivism
+		icon = GFX_goal_ideology_collectivist
+
+		ai_will_do = { factor = 50 }
+
+		x =70
+		y =7
+		cost = 5
+		prerequisite = { focus = CZE_peoples_militias }
+		prerequisite = { focus = CZE_collective_councils }
+		prerequisite = { focus = CZE_revolutionary_spirit }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_age_of_collectivism"
+			add_ideas = CZE_revolution_collectivist
+			hidden_effect = {
+				country_event = { days = 15 id = cze.130 }
+			}
+		}
+	}
+	focus = {
+		id = CZE_the_working_women
+		icon = GFX_IRE_women_industry
+
+		ai_will_do = { factor = 50 }
+
+		x =73
+		y =7
+		cost = 5
+		prerequisite = { focus = CZE_peoples_militias }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_the_working_women"
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = {
+		id = CZE_beyond_nationalism
+		icon = GFX_goal_generic_national_unity
+
+		ai_will_do = { factor = 50 }
+
+		x =67
+		y =7
+		cost = 5
+		prerequisite = { focus = CZE_revolutionary_spirit }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_beyond_nationalism"
+			add_stability = 0.05
+		}
+	}
+	focus = {
+		id = CZE_political_commisaries
+		icon = GFX_goal_syndicalist_lenin
+
+		ai_will_do = { factor = 50 }
+
+		x =69
+		y =8
+		cost = 5
+		prerequisite = { focus = CZE_age_of_collectivism }
+		prerequisite = { focus = CZE_beyond_nationalism }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_political_commisaries"
+			if = {
+				limit = {
+					has_government = collectivist
+				}
+				add_popularity = {
+					ideology = collectivist
+					popularity = 0.05
+				}
+			}
+			if = {
+				limit = {
+					has_government = vanguardist
+				}
+				add_popularity = {
+					ideology = vanguardist
+					popularity = 0.05
+				}
+			}
+		}
+	}
+	focus = {
+		id = CZE_democratic_centralism
+		icon = GFX_goal_red_star_central
+
+		ai_will_do = { factor = 50 }
+
+		x =71
+		y =8
+		cost = 5
+		prerequisite = { focus = CZE_the_working_women }
+		prerequisite = { focus = CZE_age_of_collectivism }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_democratic_centralism"
+			add_popularity = {
+				ideology = libertarian_socialist
+				popularity = -0.025
+			}
+			if = {
+				limit = {
+					has_government = collectivist
+				}
+				add_popularity = {
+					ideology = vanguardist
+					popularity = -0.025
+				}
+			}
+			if = {
+				limit = {
+					has_government = vanguardist
+				}
+				add_popularity = {
+					ideology = collectivist
+					popularity = -0.025
+				}
+			}
+		}
+	}
+	focus = {
+		id = CZE_socialist_research
+		icon = GFX_focus_generic_socialist_science
+
+		ai_will_do = { factor = 50 }
+
+		x =70
+		y =9
+		cost = 5
+		prerequisite = { focus = CZE_democratic_centralism }
+		prerequisite = { focus = CZE_political_commisaries }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_socialist_research"
+			add_research_slot = 1
+		}
+	}
+	focus = {
+		id = CZE_collectivize_agriculture
+		icon = GFX_focus_AUS_agriculture
+
+		ai_will_do = { factor = 50 }
+
+		x =68
+		y =9
+		cost = 5
+		prerequisite = { focus = CZE_political_commisaries }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_collectivize_agriculture"
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = {
+		id = CZE_state_economy
+		icon = GFX_goal_socialist_industry
+
+		ai_will_do = { factor = 50 }
+
+		x =72
+		y =9
+		cost = 5
+		prerequisite = { focus = CZE_democratic_centralism }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_state_economy"
+			add_ideas = CZE_rev_industry
+		}
+	}
+	focus = {
+		id = CZE_organize_intelligence
+		icon = GFX_goal_red_star_gold_wreath
+
+		ai_will_do = { factor = 50 }
+
+		x =69
+		y =10
+		cost = 5
+		prerequisite = { focus = CZE_collectivize_agriculture }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_organize_intelligence"
+			add_ideas = CZE_socialist_intelligence
+		}
+	}
+	focus = {
+		id = CZE_revolutionary_industry
+		icon = GFX_goal_production
+
+		ai_will_do = { factor = 50 }
+
+		x =71
+		y =10
+		cost = 5
+		prerequisite = { focus = CZE_state_economy }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_revolutionary_industry"
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = {
+		id = CZE_czechia_then_the_world
+		icon = GFX_goal_ideology_internationalist
+
+		ai_will_do = { factor = 50 }
+
+		x =70
+		y =11
+		cost = 6
+		prerequisite = { focus = CZE_organize_intelligence }
+		prerequisite = { focus = CZE_revolutionary_industry }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_czechia_then_the_world"
+			add_political_power = 100
+		}
+	}
+	focus = {
+		id = CZE_completing_the_revolution
+		icon = GFX_goal_kill_slo_socialist
+
+		ai_will_do = { factor = 50 }
+
+		x =70
+		y =12
+		cost = 6
+		prerequisite = { focus = CZE_czechia_then_the_world }
+		available = {
+			has_war = no
+			SLO = {
+				NOT = {
+					has_government = libertarian_socialist
+					has_government = collectivist
+					has_government = vanguardist
+				}
+			}
+		}
+		bypass = {
+			OR = {
+				has_war_with = SLO
+				AND = {
+					owns_state = 71
+					owns_state = 70
+				}
+			}
+		}
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_completing_the_revolution"
+			create_wargoal = {
+				type = annex_everything target = SLO
+			}
+		}
+	}
+	focus = {
+		id = CZE_found_the_uscsr
+		icon = GFX_goal_form_czunion
+
+		ai_will_do = { factor = 50 }
+
+		x =70
+		y =13
+		cost = 6
+		prerequisite = { focus = CZE_completing_the_revolution }
+		available = {
+			owns_state = 71
+			owns_state = 70
+		}
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_found_the_uscsr"
+			country_event = { id = cze.140 }
+		}
+	}
+	focus = {
+		id = CZE_peace_with_our_brothers
+		icon = GFX_goal_friend_slo_socialist
+
+		ai_will_do = { factor = 50 }
+
+		x =69
+		y =14
+		cost = 6
+		prerequisite = { focus = CZE_found_the_uscsr }
+		available = {
+			owns_state = 71
+			owns_state = 70
+		}
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_peace_with_our_brothers"
+			71 = {
+				add_core_of = CZE
+			}
+			70 = {
+				add_core_of = CZE
+			}
+		}
+	}
+	focus = {
+		id = CZE_socialism_for_the_minorities
+		icon = GFX_goal_generic_national_unity_red
+
+		ai_will_do = { factor = 50 }
+
+		x =71
+		y =14
+		cost = 6
+		prerequisite = { focus = CZE_found_the_uscsr }
+		available = {
+			owns_state = 664
+			owns_state = 73
+		}
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_socialism_for_the_minorities"
+			664 = {
+				add_core_of = CZE
+			}
+			73 = {
+				add_core_of = CZE
+			}
+		}
+	}
+	focus = {
+		id = CZE_nationalist_coup
+		icon = GFX_goal_ideology_national_populist
+
+		ai_will_do = { factor = 50 }
+
+		x =78
+		y =4
+		cost = 5
+		prerequisite = { focus = CZE_our_national_path }
+		available = {
+			hidden_trigger = { always = no }
+		}
+		bypass = {
+			has_government = national_populist
+		}
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_nationalist_coup"
+			custom_effect_tooltip = unlock_focuses
+		}
+	}
+	focus = {
+		id = CZE_erase_the_opposition
+		icon = GFX_goal_generic_secret_weapon
+
+		ai_will_do = { factor = 50 }
+
+		x =76
+		y =5
+		cost = 5
+		prerequisite = { focus = CZE_nationalist_coup }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_erase_the_opposition"
+			add_popularity = {
+				ideology = social_conservative
+				popularity = -0.025
+			}
+			add_popularity = {
+				ideology = social_liberal
+				popularity = -0.025
+			}
+			add_popularity = {
+				ideology = social_democrat
+				popularity = -0.025
+			}
+			add_popularity = {
+				ideology = market_liberal
+				popularity = -0.025
+			}
+			add_popularity = {
+				ideology = collectivist
+				popularity = -0.025
+			}
+			add_popularity = {
+				ideology = paternal_autocrat
+				popularity = -0.025
+			}
+		}
+	}
+	focus = {
+		id = CZE_claim_our_legacy
+		icon = GFX_goal_generic_demand_territory
+
+		ai_will_do = { factor = 50 }
+
+		x =78
+		y =5
+		cost = 5
+		prerequisite = { focus = CZE_nationalist_coup }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_claim_our_legacy"
+			70 = {
+				add_claim_by = CZE
+			}
+			71 = {
+				add_claim_by = CZE
+			}
+			664 = {
+				add_claim_by = CZE
+			}
+			73 = {
+				add_claim_by = CZE
+			}
+		}
+	}
+	focus = {
+		id = CZE_expand_the_legions
+		icon = GFX_goal_generic_small_arms
+
+		ai_will_do = { factor = 50 }
+
+		x =80
+		y =5
+		cost = 5
+		prerequisite = { focus = CZE_nationalist_coup }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_expand_the_legions"
+			add_ideas = CZE_czech_legions
+		}
+	}
+	focus = {
+		id = CZE_eliminate_the_old_structure
+		icon = GFX_goal_generic_forceful_treaty
+
+		ai_will_do = { factor = 50 }
+
+		x =77
+		y =6
+		cost = 5
+		prerequisite = { focus = CZE_erase_the_opposition }
+		prerequisite = { focus = CZE_claim_our_legacy }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_eliminate_the_old_structure"
+			add_political_power = 75
+		}
+	}
+	focus = {
+		id = CZE_strengthen_the_national_regime
+		icon = GFX_goal_generic_political_pressure
+
+		ai_will_do = { factor = 50 }
+
+		x =79
+		y =6
+		cost = 5
+		prerequisite = { focus = CZE_expand_the_legions }
+		prerequisite = { focus = CZE_claim_our_legacy }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_strengthen_the_national_regime"
+			remove_ideas = CZE_memories_of_the_revolution1
+		}
+	}
+	focus = {
+		id = CZE_total_national_state
+		icon = GFX_focus_generic_support_the_left_right
+
+		ai_will_do = { factor = 50 }
+
+		x =76
+		y =7
+		cost = 5
+		prerequisite = { focus = CZE_eliminate_the_old_structure }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_total_national_state"
+			add_stability = 0.025
+
+		}
+	}
+	focus = {
+		id = CZE_loyalty_to_the_vudce
+		icon = GFX_focus_generic_military_mission
+
+		ai_will_do = { factor = 50 }
+
+		x =78
+		y =7
+		cost = 5
+		prerequisite = { focus = CZE_eliminate_the_old_structure }
+		prerequisite = { focus = CZE_strengthen_the_national_regime }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_loyalty_to_the_vudce"
+			if = {
+				limit = {
+					has_government = national_populist
+				}
+				add_popularity = {
+					ideology = national_populist
+					popularity = 0.05
+				}
+			}
+			if = {
+				limit = {
+					has_government = valkist
+				}
+				add_popularity = {
+					ideology = valkist
+					popularity = 0.05
+				}
+			}
+		}
+	}
+	focus = {
+		id = CZE_fervent_panslavism
+		icon = GFX_goal_czech_fist
+
+		ai_will_do = { factor = 50 }
+
+		x =80
+		y =7
+		cost = 5
+		prerequisite = { focus = CZE_strengthen_the_national_regime }
+
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_fervent_panslavism"
+			add_war_support = 0.05
+		}
+	}
+	focus = {
+		id = CZE_nationalizing_measures
+		icon = GFX_focus_generic_industry_2
+
+		ai_will_do = { factor = 50 }
+
+		x =77
+		y =8
+		cost = 5
+		prerequisite = { focus = CZE_loyalty_to_the_vudce }
+		prerequisite = { focus = CZE_total_national_state }
+
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_nationalizing_measures"
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = {
+		id = CZE_czech_corporatism
+		icon = GFX_goal_state_economy
+
+		ai_will_do = { factor = 50 }
+
+		x =79
+		y =8
+		cost = 5
+		prerequisite = { focus = CZE_loyalty_to_the_vudce }
+		prerequisite = { focus = CZE_fervent_panslavism }
+
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_czech_corporatism"
+			add_ideas = CZE_corporatism
+		}
+	}
+
+	focus = {
+		id = CZE_new_national_research_program
+		icon = GFX_focus_research4
+
+		ai_will_do = { factor = 50 }
+
+		x =78
+		y =9
+		cost = 5
+		prerequisite = { focus = CZE_nationalizing_measures }
+		prerequisite = { focus = CZE_czech_corporatism }
+
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_new_national_research_program"
+			add_research_slot = 1
+		}
+	}
+	focus = {
+		id = CZE_assimilation_policies
+		icon = GFX_goal_generic_dangerous_deal
+
+		ai_will_do = { factor = 50 }
+
+		x =76
+		y =10
+		cost = 5
+		prerequisite = { focus = CZE_nationalizing_measures }
+		prerequisite = { focus = CZE_czech_corporatism }
+
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_assimilation_policies"
+			add_manpower = 10000
+		}
+	}
+	focus = {
+		id = CZE_czech_way_to_revanchism
+		icon = GFX_goal_generic_attack_allies
+
+		ai_will_do = { factor = 50 }
+
+		x =77
+		y =11
+		cost = 5
+		prerequisite = { focus = CZE_assimilation_policies }
+
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_czech_way_to_revanchism"
+			add_war_support = 0.05
+		}
+	}
+	focus = {
+		id = CZE_i_am_for_the_czech_man
+		icon = GFX_goal_generic_production
+
+		ai_will_do = { factor = 50 }
+
+		x =80
+		y =10
+		cost = 5
+		prerequisite = { focus = CZE_nationalizing_measures }
+		prerequisite = { focus = CZE_czech_corporatism }
+
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_i_am_for_the_czech_man"
+			random_owned_state = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = {
+		id = CZE_our_national_rebirth
+		icon = GFX_goal_authority
+
+		ai_will_do = { factor = 50 }
+
+		x =79
+		y =11
+		cost = 5
+		prerequisite = { focus = CZE_i_am_for_the_czech_man }
+
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_our_national_rebirth"
+			add_political_power = 75
+		}
+	}
+	focus = {
+		id = CZE_war_of_unification
+		icon = GFX_goal_CZE_war_reunification
+
+		ai_will_do = { factor = 50 }
+
+		x =78
+		y =12
+		cost = 5
+		prerequisite = { focus = CZE_our_national_rebirth }
+		prerequisite = { focus = CZE_czech_way_to_revanchism }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_war_of_unification"
+			create_wargoal = {
+				type = annex_everything target = SLO
+			}
+		}
+	}
+	focus = {
+		id = CZE_czechoslovakia_reborn
+		icon = GFX_goal_CZE_czeslo_reborn
+
+		ai_will_do = { factor = 50 }
+
+		x =78
+		y =13
+		cost = 5
+		prerequisite = { focus = CZE_war_of_unification }
+		available = {
+			owns_state = 71
+			owns_state = 70
+		}
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_czechoslovakia_reborn"
+			country_event = { id = cze.143 }
+		}
+	}
+	focus = {
+		id = CZE_welcome_back_the_slovaks
+		icon = GFX_goal_slo_soldiers
+
+		ai_will_do = { factor = 50 }
+
+		x =77
+		y =14
+		cost = 6
+		prerequisite = { focus = CZE_czechoslovakia_reborn }
+		available = {
+			owns_state = 71
+			owns_state = 70
+		}
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_welcome_back_the_slovaks"
+			71 = {
+				add_core_of = CZE
+			}
+			70 = {
+				add_core_of = CZE
+			}
+		}
+	}
+	focus = {
+		id = CZE_czechoslovakization
+		icon = GFX_goal_generic_national_unity
+
+		ai_will_do = { factor = 50 }
+
+		x =79
+		y =14
+		cost = 6
+		prerequisite = { focus = CZE_czechoslovakia_reborn }
+		available = {
+			owns_state = 664
+			owns_state = 73
+		}
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_czechoslovakization"
+			664 = {
+				add_core_of = CZE
+			}
+			73 = {
+				add_core_of = CZE
+			}
+		}
+	}
+	focus = {
+		id = CZE_junta_persists
+		icon = GFX_goal_ideology_paternal_autocrat
+
+		ai_will_do = { factor = 50 }
+
+		x =85
+		y =4
+		cost = 5
+		prerequisite = { focus = CZE_our_national_path }
+		available = {
+			hidden_trigger = { always = no }
+		}
+		bypass = {
+			OR = {
+				has_country_flag = CZE_juntakept
+				has_country_flag = CZE_germanwar
+			}
+		}
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_junta_persists"
+			custom_effect_tooltip = unlock_focuses
+		}
+	}
+	focus = {
+		id = CZE_no_room_for_chaos
+		icon = GFX_goal_demand_sudetenland
+
+		ai_will_do = { factor = 50 }
+
+		x =84
+		y =5
+		cost = 5
+		prerequisite = { focus = CZE_junta_persists }
+
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_no_room_for_chaos"
+			add_stability = 0.05
+		}
+	}
+	focus = {
+		id = CZE_establish_the_front_for_czechia
+		icon = GFX_goal_generic_propaganda
+
+		ai_will_do = { factor = 50 }
+
+		x =86
+		y =5
+		cost = 5
+		prerequisite = { focus = CZE_junta_persists }
+
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_establish_the_front_for_czechia"
+			country_event = { id = cze.148 }
+		}
+	}
+	focus = {
+		id = CZE_a_man_for_its_fatherland
+		icon = GFX_focus_generic_little_entente
+
+		ai_will_do = { factor = 50 }
+
+		x =85
+		y =6
+		cost = 5
+		prerequisite = { focus = CZE_establish_the_front_for_czechia }
+		prerequisite = { focus = CZE_no_room_for_chaos }
+
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_a_man_for_its_fatherland"
+			add_war_support = 0.05
+		}
+	}
+	focus = {
+		id = CZE_cooperation_with_the_old_establishment
+		icon = GFX_goal_generic_intelligence_exchange
+
+		ai_will_do = { factor = 50 }
+
+		x =83
+		y =6
+		cost = 5
+		prerequisite = { focus = CZE_establish_the_front_for_czechia }
+		prerequisite = { focus = CZE_no_room_for_chaos }
+
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_cooperation_with_the_old_establishment"
+			add_popularity = {
+				ideology = social_conservative
+				popularity = -0.025
+			}
+			add_popularity = {
+				ideology = social_liberal
+				popularity = -0.025
+			}
+			add_popularity = {
+				ideology = market_liberal
+				popularity = -0.025
+			}
+		}
+	}
+	focus = {
+		id = CZE_what_czechia_needs
+		icon = GFX_goal_generic_defence
+
+		ai_will_do = { factor = 50 }
+
+		x =87
+		y =6
+		cost = 5
+		prerequisite = { focus = CZE_establish_the_front_for_czechia }
+		prerequisite = { focus = CZE_no_room_for_chaos }
+
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_what_czechia_needs"
+			if = {
+				limit = { has_idea = CZE_suspended_democracyz }
+				swap_ideas = {
+					add_idea = CZE_suspended_democracyb
+					remove_idea = CZE_suspended_democracyz
+				}
+			}
+			if = {
+				limit = { has_idea = CZE_suspended_democracy1 }
+				swap_ideas = {
+					add_idea = CZE_suspended_democracyb
+					remove_idea =  CZE_suspended_democracy1
+				}
+			}
+		}
+	}
+	focus = {
+		id = CZE_remake_the_administration
+		icon = GFX_goal_government_icon
+
+		ai_will_do = { factor = 50 }
+
+		x =84
+		y =7
+		cost = 5
+		prerequisite = { focus = CZE_what_czechia_needs }
+		prerequisite = { focus = CZE_cooperation_with_the_old_establishment }
+		prerequisite = { focus = CZE_a_man_for_its_fatherland }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_remake_the_administration"
+			add_political_power = 75
+		}
+	}
+	focus = {
+		id = CZE_the_new_compromise
+		icon = GFX_goal_new_treaty
+
+		ai_will_do = { factor = 50 }
+
+		x =86
+		y =7
+		cost = 5
+		prerequisite = { focus = CZE_what_czechia_needs }
+		prerequisite = { focus = CZE_cooperation_with_the_old_establishment }
+		prerequisite = { focus = CZE_a_man_for_its_fatherland }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_the_new_compromise"
+			swap_ideas = {
+				add_idea = CZE_suspended_democracyc
+				remove_idea = CZE_suspended_democracyb
+			}
+		}
+	}
+	focus = {
+		id = CZE_rein_in_the_nationalists
+		icon = GFX_HOL_crackdown_natpop
+
+		ai_will_do = { factor = 50 }
+
+		x =83
+		y =8
+		cost = 5
+		prerequisite = { focus = CZE_the_new_compromise }
+		prerequisite = { focus = CZE_remake_the_administration }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_rein_in_the_nationalists"
+			add_popularity = {
+				ideology = national_populist
+				popularity = -0.05
+			}
+			hidden_effect = {
+				CZE_Radola_Gajda = { set_nationality = XXB }
+			}
+			effect_tooltip = {
+				CZE_Radola_Gajda = { remove_unit_leader_role = yes }
+			}
+		}
+	}
+	focus = {
+		id = CZE_honor_in_service
+		icon = GFX_goal_conscription
+
+		ai_will_do = { factor = 50 }
+
+		x =85
+		y =8
+		cost = 5
+		prerequisite = { focus = CZE_the_new_compromise }
+		prerequisite = { focus = CZE_remake_the_administration }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_honor_in_service"
+			add_ideas = CZE_honor_service
+		}
+	}
+	focus = {
+		id = CZE_economical_adjustments
+		icon = GFX_goal_economic_stuff
+
+		ai_will_do = { factor = 50 }
+
+		x =87
+		y =8
+		cost = 5
+		prerequisite = { focus = CZE_the_new_compromise }
+		prerequisite = { focus = CZE_remake_the_administration }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_economical_adjustments"
+			add_ideas = CZE_new_policies
+		}
+	}
+	focus = {
+		id = CZE_research_investments
+		icon = GFX_goal_military_research
+
+		ai_will_do = { factor = 50 }
+
+		x =85
+		y =9
+		cost = 5
+		prerequisite = { focus = CZE_honor_in_service }
+		prerequisite = { focus = CZE_economical_adjustments focus = CZE_rein_in_the_nationalists }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_research_investments"
+			add_research_slot = 1
+		}
+	}
+	focus = {
+		id = CZE_strength_in_arms
+		icon = GFX_goal_generic_construct_mil_factory
+
+		ai_will_do = { factor = 50 }
+
+		x =84
+		y =10
+		cost = 5
+		prerequisite = { focus = CZE_rein_in_the_nationalists }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_strength_in_arms"
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = {
+		id = CZE_industrial_reforms
+		icon = GFX_focus_generic_industry_3
+
+		ai_will_do = { factor = 50 }
+
+		x =86
+		y =10
+		cost = 5
+		prerequisite = { focus = CZE_economical_adjustments }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_industrial_reforms"
+			add_tech_bonus = {
+				name = industrial_bonus
+				bonus = 0.5
+				uses = 1
+				category = industry
+			}
+		}
+	}
+	focus = {
+		id = CZE_in_defense_of_our_nation
+		icon = GFX_goal_shield_bird
+
+		ai_will_do = { factor = 50 }
+
+		x =85
+		y =11
+		cost = 5
+		prerequisite = { focus = CZE_industrial_reforms }
+		prerequisite = { focus = CZE_strength_in_arms }
+
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_in_defense_of_our_nation"
+			add_war_support = 0.05
+		}
+	}
+	focus = {
+		id = CZE_the_new_czechoslovakia
+		icon = GFX_goal_czechoslovakia_reborn
+
+		ai_will_do = { factor = 50 }
+
+		x =8
+		y =8
+		cost = 5
+		available = {
+			always = no
+		}
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_the_new_czechoslovakia"
+
+		}
+	}
+	focus = {
+		id = CZE_a_different_union
+		icon = GFX_goal_slo_friend
+
+		ai_will_do = { factor = 50 }
+
+		x =7
+		y =9
+		cost = 6
+		prerequisite = { focus = CZE_the_new_czechoslovakia }
+		available = {
+			owns_state = 71
+			owns_state = 70
+		}
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_a_different_union"
+			71 = {
+				add_core_of = CZE
+			}
+			70 = {
+				add_core_of = CZE
+			}
+		}
+	}
+	focus = {
+		id = CZE_representation_for_all
+		icon = GFX_goal_czech_fist
+
+		ai_will_do = { factor = 50 }
+
+		x =9
+		y =9
+		cost = 6
+		prerequisite = { focus = CZE_the_new_czechoslovakia }
+		available = {
+			owns_state = 664
+			owns_state = 73
+			owns_state = 1042
+			owns_state = 1043
+		}
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_representation_for_all"
+			664 = {
+				add_core_of = CZE
+			}
+			73 = {
+				add_core_of = CZE
+			}
+			1042 = { add_core_of = CZE }
+			1043 = { add_core_of = CZE }
+		}
+	}
+	focus = {
+		id = CZE_pan_slavic_dream
+		icon = GFX_focus_zapadoslavia_panslavic
+
+		ai_will_do = { factor = 0 }
+
+		x =8
+		y =10
+		cost = 6
+		prerequisite = { focus = CZE_representation_for_all }
+		prerequisite = { focus = CZE_a_different_union }
+		available = {
+		}
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_pan_slavic_dream"
+			add_war_support = 0.1
+			66 = {
+				add_claim_by = CZE
+			}
+			794 = {
+				add_claim_by = CZE
+			}
+			67 = {
+				add_claim_by = CZE
+			}
+			799 = {
+				add_claim_by = CZE
+			}
+		}
+	}
+	focus = {
+		id = CZE_dab_on_poland
+		icon = GFX_focus_zapadoslavia_poland
+
+		ai_will_do = { factor = 0 }
+
+		x =9
+		y =11
+		cost = 5
+		prerequisite = { focus = CZE_pan_slavic_dream }
+		available = {
+		}
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_dab_on_poland"
+			add_manpower = 1500
+			add_command_power = 75
+			create_wargoal = {
+				type = annex_everything
+				target = POL
+			}
+		}
+	}
+	focus = {
+		id = CZE_minorities_in_silesia
+		icon = GFX_focus_zapadoslavia_silesia
+
+		ai_will_do = { factor = 0 }
+
+		x =7
+		y =11
+		cost = 5
+		prerequisite = { focus = CZE_pan_slavic_dream }
+		available = {
+		}
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus cze_minorities_in_silesia"
+			add_manpower = 2500
+			add_equipment_to_stockpile = {
+				type = infantry_equipment
+				amount = 1500
+				producer = GER
+			}
+			create_wargoal = {
+				type = annex_everything
+				target = GER
+			}
+		}
+	}
+	focus = {
+		id = CZE_zapadoslavia_rises
+		icon = GFX_focus_zapadoslavia
+
+		ai_will_do = { factor = 0 }
+
+		x =8
+		y =12
+		cost = 6
+		prerequisite = { focus = CZE_minorities_in_silesia }
+		prerequisite = { focus = CZE_dab_on_poland }
+		available = {
+			OR = {
+				controls_state = 66
+				controls_state = 799
+			}
+		}
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus CZE_zapadoslavia_rises"
+			add_stability = 0.1
+			add_political_power = 150
+			set_cosmetic_tag = CZE_zapadoslavia
+			66 = {
+				add_core_of = CZE
+			}
+			794 = {
+				add_core_of = CZE
+			}
+			67 = {
+				add_core_of = CZE
+			}
+			799 = {
+				add_core_of = CZE
+			}
+		}
+	}
+	focus = {
+		id = CZE_unite_western_slavs
+		icon = GFX_focus_unite_west_slavs
+		ai_will_do = { factor = 0 }
+		x =8
+		y =13
+		cost = 6
+		prerequisite = { focus = CZE_zapadoslavia_rises }
+		available_if_capitulated = yes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus cze_unite_western_slavs"
+			create_wargoal = {
+				type = annex_everything
+				target = POL
+			}
+			85 = {
+				add_claim_by = CZE
+			}
+			5 = {
+				add_claim_by = CZE
+			}
+			752 = {
+				add_claim_by = CZE
+			}
+			98 = {
+				add_claim_by = CZE
+			}
+			86 = {
+				add_claim_by = CZE
+			}
+			87 = {
+				add_claim_by = CZE
+			}
+			10 = {
+				add_claim_by = CZE
+			}
+			92 = {
+				add_claim_by = CZE
+			}
+			90 = {
+				add_claim_by = CZE
+			}
+			88 = {
+				add_claim_by = CZE
+			}
+			91 = {
+				add_claim_by = CZE
+			}
+			89 = {
+				add_claim_by = CZE
+			}
+			1065 = { add_claim_by = CZE }
+		}
+	}
+}

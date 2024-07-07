@@ -1,0 +1,127 @@
+﻿#######################
+# Introduction events #
+#     Made by CIA     #
+#######################
+
+add_namespace = intro
+
+country_event = {
+	id = intro.1
+	title = intro.1.t
+	desc = intro.1.d
+	picture = GFX_report_event_aid_pact
+
+	trigger = {
+		NOT = { has_country_flag = INTRO_FIRED }
+		is_ai = no
+	}
+	immediate = { set_country_flag = INTRO_FIRED }
+	mean_time_to_happen = { days = 2 }
+
+	# is_triggered_only = yes
+
+	option = { #thx
+		name = intro.1.a
+		ai_chance = { factor = 100 }
+		country_event = { id = intro.5 days = 2 }
+	}
+
+	# option = { # whatsup with Party Pop?
+	# 	name = intro.1.b
+	# 	ai_chance = { factor = 0 }
+	# 	add_political_power = 5
+	# 	country_event = { id = intro.3 }
+	# }
+
+	option = { # where faq?
+		name = intro.1.c
+		ai_chance = { factor = 0 }
+		add_political_power = 10
+		country_event = { id = intro.2 }
+	}
+}
+
+country_event = {
+	id = intro.2
+	immediate = {log = "[GetDateText]: [Root.GetName]: event intro.2"}
+	title = intro.2.t
+	desc = intro.2.d
+	picture = GFX_report_event_generic_rally
+
+	is_triggered_only = yes
+
+	option = { # why can't I keep that pp?
+		name = intro.2.a
+		add_political_power = -10
+		country_event = { id = intro.5 days = 2 }
+	}
+}
+
+country_event = {
+	id = intro.3
+	immediate = {log = "[GetDateText]: [Root.GetName]: event intro.3"}
+	title = intro.3.t
+	desc = intro.3.d
+	picture = GFX_report_event_election_vote
+
+	is_triggered_only = yes
+
+	option = { #so nothing has changed?
+		name = intro.3.a
+		add_political_power = -5
+		country_event = { id = intro.5 days = 2 }
+	}
+}
+
+country_event = { #Currently not in-use since we're so close to release. Can be implemented later. - Note from future me, fuck you. It's going in for release.
+	id = intro.4
+	immediate = {log = "[GetDateText]: [Root.GetName]: event intro.4"}
+	title = intro.4.t
+	desc = intro.4.d
+	picture = GFX_report_event_generic_read_write
+
+	is_triggered_only = yes
+
+	option = { #all
+		name = intro.4.a
+		ai_chance = { factor = 100 }
+		set_global_flag = All_News_Events
+		set_country_flag = All_News_Events
+		hidden_effect = {
+			country_event =  { id = intro.5 days = 2 }
+		}
+	}
+
+	option = { #major
+		name = intro.4.b
+		ai_chance = { factor = 0 }
+		set_global_flag = Important_News_Events
+		set_country_flag = Important_News_Events
+		hidden_effect = {
+			country_event =  { id = intro.5 days = 2 }
+		}
+	}
+
+	option = { #none
+		name = intro.4.c
+		ai_chance = { factor = 0 }
+		#No flags, as the events should require the flags listed above.
+		hidden_effect = {
+			country_event =  { id = intro.5 days = 2 }
+		}
+	}
+}
+
+
+country_event = {
+	id = intro.5
+	immediate = { log = "[GetDateText]: [Root.GetName]: event intro.5 FROM = [FROM.GetName]"}
+	title = intro.5.t
+	desc = intro.5.d
+	picture = GFX_dumb_fucks_who_cant_read
+	is_triggered_only = yes
+
+	option = { # OH MY GAD!! THANK YOU SO MUCH! IM VERY GRATEFUL
+		name = intro.5.a
+	}
+}
