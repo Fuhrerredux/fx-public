@@ -30,8 +30,10 @@ country_event = { # Independence At Last
 		name = philippines.1.a
 		drop_cosmetic_tag = yes
 		USA = {
-			diplomatic_relation = { country = PHI relation = non_aggression_pact }
+			diplomatic_relation = { country = ROOT relation = non_aggression_pact }
+			diplomatic_relation = { country = ROOT relation = docking_rights active = yes }
 		}
+		give_military_access = USA
 		hidden_effect = {
 			if = {
 				limit = { has_character = USA_Douglas_MacArthur }
@@ -1538,7 +1540,6 @@ country_event = { # Aguinaldo Retires from Politics
 
 country_event = { # 1941 Presidential Elections
 	id = philippines.56
-	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.56"}
 	title = philippines.56.t
 	desc = {
 		text = philippines.56.d
@@ -1562,26 +1563,33 @@ country_event = { # 1941 Presidential Elections
 		NOT = { has_country_flag = PHI_has_1941_elections }
 	}
 
-	option = { # Sergio Osmena
-		log = "[GetDateText]: [Root.GetName]: event philippines.56 option philippines.56.a"
-		name = philippines.56.a
-		if = {
-			limit = {
-				NOT = { has_country_flag = PHI_quezon_in_the_usa }
-			}
-			remove_country_leader_role = {
-				character = PHI_Manuel_Luis_Quezon
-				ideology = filipino_nationalism_subtype
-			}
-			add_country_leader_role = {
-				character = PHI_Sergio_P_Osmena
-				promote_leader = yes
-				country_leader = {
-					ideology = christian_democracy_subtype
-					traits = {}
+	immediate = {
+		log = "[GetDateText]: [Root.GetName]: event philippines.56"
+		hidden_effect = {
+			if = {
+				limit = {
+					NOT = { has_country_flag = PHI_quezon_in_the_usa }
+				}
+				remove_country_leader_role = {
+					character = PHI_Manuel_Luis_Quezon
+					ideology = filipino_nationalism_subtype
+				}
+				add_country_leader_role = {
+					character = PHI_Sergio_P_Osmena
+					promote_leader = yes
+					country_leader = {
+						ideology = christian_democracy_subtype
+						traits = {}
+					}
 				}
 			}
 		}
+	}
+
+	option = { # Sergio Osmena
+		log = "[GetDateText]: [Root.GetName]: event philippines.56 option philippines.56.a"
+		name = philippines.56.a
+		
 		set_politics = {
 			ruling_party = social_conservative
 			elections_allowed = yes
@@ -1643,7 +1651,6 @@ country_event = { # 1941 Presidential Elections
 
 country_event = { # 1945 Presidential Elections
 	id = philippines.57
-	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.57"}
 	title = philippines.57.t
 	desc = {
 		text = philippines.57.d
@@ -1667,9 +1674,34 @@ country_event = { # 1945 Presidential Elections
 		NOT = { has_country_flag = PHI_has_1945_elections }
 	}
 
+	immediate = {
+		log = "[GetDateText]: [Root.GetName]: event philippines.57"
+		hidden_effect = {
+			set_party_name = {
+				ideology = social_democrat
+				name = PHI_democrata_party
+				long_name = PHI_democrata_party_long
+			}
+
+			PHI_Juan_Sumulong = {
+				if = {
+					limit = { can_be_country_leader = no }
+					add_country_leader_role = {
+						promote_leader = yes
+						country_leader = {
+							ideology = social_democrat_subtype
+							traits = {}
+						}
+					}
+				}
+			}
+		}
+	}
+
 	option = { # Sergio Osmena
 		log = "[GetDateText]: [Root.GetName]: event philippines.57 option philippines.57.a"
 		name = philippines.57.a
+		
 		set_politics = {
 			ruling_party = social_conservative
 			elections_allowed = yes
@@ -1710,6 +1742,7 @@ country_event = { # 1945 Presidential Elections
 	option = { # Juan Sumulong
 		log = "[GetDateText]: [Root.GetName]: event philippines.57 option philippines.57.c"
 		name = philippines.57.c
+		
 		set_politics = {
 			ruling_party = social_democrat
 			elections_allowed = yes
@@ -1730,7 +1763,6 @@ country_event = { # 1945 Presidential Elections
 
 country_event = { # 1949 Presidential Elections
 	id = philippines.58
-	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.58"}
 	title = philippines.58.t
 	desc = philippines.58.d
 	picture = GFX_report_event_election_vote
@@ -1741,6 +1773,37 @@ country_event = { # 1949 Presidential Elections
 		date > 1949.1.1
 		date < 1950.1.1
 		NOT = { has_country_flag = PHI_has_1949_elections }
+	}
+
+	immediate = {
+		log = "[GetDateText]: [Root.GetName]: event philippines.58"
+		hidden_effect = {
+			remove_country_leader_role = {
+				character = PHI_Sergio_P_Osmena
+				ideology = national_conservative_subtype
+			}
+			add_country_leader_role = {
+				character = PHI_Eulogio_Rodriguez_Sr
+				promote_leader = yes
+				country_leader = {
+					ideology = christian_democracy_subtype
+					traits = { }
+				}
+			}
+
+			remove_country_leader_role = {
+				character = PHI_Juan_Sumulong
+				ideology = socdem_christian_socialism_subtype
+			}
+			add_country_leader_role = {
+				character = PHI_Claro_M_Recto
+				promote_leader = yes
+				country_leader = {
+					ideology = socdem_left_nationalism_subtype
+					traits = { }
+				}
+			}
+		}
 	}
 
 	option = { # Eulogio Rodriguez Sr
@@ -1760,18 +1823,6 @@ country_event = { # 1949 Presidential Elections
 
 		hidden_effect = {
 			set_country_flag = PHI_has_1949_elections
-			remove_country_leader_role = {
-				character = PHI_Sergio_P_Osmena
-				ideology = national_conservative_subtype
-			}
-			add_country_leader_role = {
-				character = PHI_Eulogio_Rodriguez_Sr
-				promote_leader = yes
-				country_leader = {
-					ideology = christian_democracy_subtype
-					traits = { }
-				}
-			}
 		}
 	}
 
@@ -1812,25 +1863,12 @@ country_event = { # 1949 Presidential Elections
 
 		hidden_effect = {
 			set_country_flag = PHI_has_1949_elections
-			remove_country_leader_role = {
-				character = PHI_Juan_Sumulong
-				ideology = socdem_christian_socialism_subtype
-			}
-			add_country_leader_role = {
-				character = PHI_Claro_M_Recto
-				promote_leader = yes
-				country_leader = {
-					ideology = socdem_left_nationalism_subtype
-					traits = { }
-				}
-			}
 		}
 	}
 }
 
 country_event = { # 1953 Presidential Elections
 	id = philippines.59
-	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.59"}
 	title = philippines.59.t
 	desc = philippines.59.d
 	picture = GFX_report_event_election_vote
@@ -1841,6 +1879,24 @@ country_event = { # 1953 Presidential Elections
 		date > 1953.1.1
 		date < 1954.1.1
 		NOT = { has_country_flag = PHI_has_1953_elections }
+	}
+
+	immediate = {
+		log = "[GetDateText]: [Root.GetName]: event philippines.59"
+		hidden_effect = {
+			remove_country_leader_role = {
+				character = PHI_Manuel_Roxas
+				ideology = marlib_classical_liberalism_subtype
+			}
+			add_country_leader_role = {
+				character = PHI_J_Antonio_Araneta
+				promote_leader = yes
+				country_leader = {
+					ideology = liberal_conservative_subtype
+					traits = { }
+				}
+			}
+		}
 	}
 
 	option = { # Eulogio Rodriguez Sr
@@ -1880,18 +1936,6 @@ country_event = { # 1953 Presidential Elections
 
 		hidden_effect = {
 			set_country_flag = PHI_has_1953_elections
-			remove_country_leader_role = {
-				character = PHI_Manuel_Roxas
-				ideology = marlib_classical_liberalism_subtype
-			}
-			add_country_leader_role = {
-				character = PHI_J_Antonio_Araneta
-				promote_leader = yes
-				country_leader = {
-					ideology = liberal_conservative_subtype
-					traits = { }
-				}
-			}
 		}
 	}
 
@@ -1918,7 +1962,6 @@ country_event = { # 1953 Presidential Elections
 
 country_event = { # 1957 Presidential Elections
 	id = philippines.60
-	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.60"}
 	title = philippines.60.t
 	desc = philippines.60.d
 	picture = GFX_report_event_election_vote
@@ -1929,6 +1972,37 @@ country_event = { # 1957 Presidential Elections
 		date > 1957.1.1
 		date < 1958.1.1
 		NOT = { has_country_flag = PHI_has_1957_elections }
+	}
+
+	immediate = {
+		log = "[GetDateText]: [Root.GetName]: event philippines.60"
+		hidden_effect = {
+			remove_country_leader_role = {
+				character = PHI_Eulogio_Rodriguez_Sr
+				ideology = christian_democracy_subtype
+			}
+			add_country_leader_role = {
+				character = PHI_Camilio_Osias
+				promote_leader = yes
+				country_leader = {
+					ideology = christian_democracy_subtype
+					traits = { }
+				}
+			}
+
+			remove_country_leader_role = {
+				character = PHI_Claro_M_Recto
+				ideology = socdem_left_nationalism_subtype
+			}
+			add_country_leader_role = {
+				character = PHI_Lope_K_Santos
+				promote_leader = yes
+				country_leader = {
+					ideology = socdem_democratic_socialism_subtype
+					traits = { }
+				}
+			}
+		}
 	}
 
 	option = { # Camilio Osias
@@ -1948,18 +2022,6 @@ country_event = { # 1957 Presidential Elections
 
 		hidden_effect = {
 			set_country_flag = PHI_has_1953_elections
-			remove_country_leader_role = {
-				character = PHI_Eulogio_Rodriguez_Sr
-				ideology = christian_democracy_subtype
-			}
-			add_country_leader_role = {
-				character = PHI_Camilio_Osias
-				promote_leader = yes
-				country_leader = {
-					ideology = christian_democracy_subtype
-					traits = { }
-				}
-			}
 		}
 	}
 
@@ -2000,18 +2062,6 @@ country_event = { # 1957 Presidential Elections
 
 		hidden_effect = {
 			set_country_flag = PHI_has_1957_elections
-			remove_country_leader_role = {
-				character = PHI_Claro_M_Recto
-				ideology = socdem_left_nationalism_subtype
-			}
-			add_country_leader_role = {
-				character = PHI_Lope_K_Santos
-				promote_leader = yes
-				country_leader = {
-					ideology = socdem_democratic_socialism_subtype
-					traits = { }
-				}
-			}
 		}
 	}
 }

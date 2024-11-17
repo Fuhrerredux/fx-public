@@ -361,7 +361,7 @@ focus_tree = {
 
 	focus = {
 		id = SAF_Imperial_Reliance
-		icon = GFX_goal_SAF_dominion
+		icon = GFX_goal_GBR_royal_navy
 		mutually_exclusive = { focus = SAF_Reliance_on_Ourselves }
 		prerequisite = { focus = SAF_Union_Navy }
 		x = 5
@@ -453,13 +453,14 @@ focus_tree = {
 	focus = {
 		id = SAF_Dockyard_Construction
 		icon = GFX_goal_generic_construct_naval_dockyard
-		prerequisite = { focus = SAF_Union_Navy }
+		prerequisite = { 
+			focus = SAF_Imperial_Reliance
+			focus = SAF_Reliance_on_Ourselves 
+		}
 		x = 7
 		y = 2
 		cost = 5
-
 		available_if_capitulated = yes
-
 		completion_reward = {
 			log = "[GetDateText]: [Root.GetName]: Focus SAF_Dockyard_Construction"
 			719 = {
@@ -973,7 +974,7 @@ focus_tree = {
 
 	focus = { #Government Intervention
 		id = SAF_Govt_Intervention
-		icon = GFX_goal_continuous_def_against_influence
+		icon = GFX_focus_DEN_heavy_regulations
 		mutually_exclusive = { focus = SAF_Austerity }
 		prerequisite = { focus = SAF_Black_Wednesday_focus }
 		x = 17
@@ -1134,16 +1135,17 @@ focus_tree = {
 		id = SAF_Prioritize_Cape
 		icon = GFX_goal_generic_construct_civ_factory
 		mutually_exclusive = { focus = SAF_Prioritize_Transvaal }
-		prerequisite = { focus = SAF_Black_Wednesday_focus }
+		prerequisite = { 
+			focus = SAF_Govt_Intervention 
+			focus = SAF_Austerity
+		}
 		x = 19
 		y = 2
 		cost = 5
 		ai_will_do = {
 			factor = 5
 		}
-
 		available_if_capitulated = yes
-
 		ai_will_do = {
 			factor = 1
 			modifier = {
@@ -1200,16 +1202,17 @@ focus_tree = {
 		id = SAF_Prioritize_Transvaal
 		icon = GFX_focus_generic_steel
 		mutually_exclusive = { focus = SAF_Prioritize_Cape }
-		prerequisite = { focus = SAF_Black_Wednesday_focus }
+		prerequisite = { 
+			focus = SAF_Govt_Intervention 
+			focus = SAF_Austerity
+		}
 		x = 21
 		y = 2
 		cost = 5
 		ai_will_do = {
 			factor = 5
 		}
-
 		available_if_capitulated = yes
-
 		ai_will_do = {
 			factor = 1
 			modifier = {
@@ -2889,28 +2892,24 @@ focus_tree = {
 
 	focus = {
 		id = SAF_Imperial_Cooperation
-		icon = GFX_goal_MAF_Support_Anglos
+		icon = GFX_focus_eng_imperial_federation
 		#		mutually_exclusive = { focus = SAF_Challenge_London }
 		prerequisite = { focus = SAF_Imperial_Concerns }
 		x = 13
 		y = 9
 		cost = 5
-
 		available = {
+			is_in_faction_with = ENG
 			has_authoritarian_government = no
 			OR = {
 				has_country_flag = SAF_ELECTION
 				has_country_flag = SAF_Boer_Victory
 			}
 		}
-
 		available_if_capitulated = yes
-
-
 		ai_will_do = {
 			factor = 3
 		}
-
 		completion_reward = {
 			log = "[GetDateText]: [Root.GetName]: Focus SAF_Imperial_Cooperation"
 			add_stability = 0.05
@@ -2919,44 +2918,31 @@ focus_tree = {
 
 	focus = {
 		id = SAF_Improve_Dominions
-		icon = GFX_goal_generic_national_unity
+		icon = GFX_goal_ENG_freedom_for_the_dominions
 		prerequisite = { focus = SAF_Imperial_Cooperation }
 		x = 11
 		y = 10
 		cost = 5
-
 		available = {
+			is_in_faction_with = ENG
 			has_authoritarian_government = no
 		}
-
 		ai_will_do = {
 			factor = 3
 		}
-
 		available_if_capitulated = yes
-
-
 		completion_reward = {
 			log = "[GetDateText]: [Root.GetName]: Focus SAF_Improve_Dominions"
-			CAN = {
-				add_opinion_modifier = {
-					target = SAF
-					modifier = IMP_bonds
+			every_other_country = {
+				limit = {
+					OR = {
+						tag = CAN
+						tag = AST
+						tag = NZL
+						tag = RAJ
+					}
+					is_in_faction_with = ENG
 				}
-			}
-			AST = {
-				add_opinion_modifier = {
-					target = SAF
-					modifier = IMP_bonds
-				}
-			}
-			NZL = {
-				add_opinion_modifier = {
-					target = SAF
-					modifier = IMP_bonds
-				}
-			}
-			RAJ = {
 				add_opinion_modifier = {
 					target = SAF
 					modifier = IMP_bonds
@@ -2972,18 +2958,17 @@ focus_tree = {
 		x = 11
 		y = 11
 		cost = 5
-
 		available = {
+			is_in_faction_with = ENG
 			has_authoritarian_government = no
 		}
-
+		bypass = {
+			NOT = { country_exists = ENG }
+		}
 		ai_will_do = {
 			factor = 3
 		}
-
 		available_if_capitulated = yes
-
-
 		completion_reward = {
 			log = "[GetDateText]: [Root.GetName]: Focus SAF_Our_Image"
 			ENG = {
@@ -3002,18 +2987,14 @@ focus_tree = {
 		x = 15
 		y = 10
 		cost = 5
-
 		available = {
+			is_in_faction_with = ENG
 			has_authoritarian_government = no
 		}
-
 		ai_will_do = {
 			factor = 3
 		}
-
 		available_if_capitulated = yes
-
-
 		completion_reward = {
 			log = "[GetDateText]: [Root.GetName]: Focus SAF_Our_Place_Empire"
 			add_political_power = 50
@@ -3024,23 +3005,25 @@ focus_tree = {
 
 	focus = {
 		id = SAF_Seek_Guarantees_Autonomy
-		icon = GFX_focus_generic_home_defense
+		icon = GFX_focus_chi_british_cooperation
 		prerequisite = { focus = SAF_Our_Place_Empire }
 		x = 15
 		y = 11
 		cost = 5
-
 		available = {
+			is_in_faction_with = ENG
 			has_authoritarian_government = no
 		}
-
+		bypass = {
+			NOT = {
+				country_exists = ENG
+				has_idea = ENG_statute_autonomy
+			}
+		}
 		ai_will_do = {
 			factor = 3
 		}
-
 		available_if_capitulated = yes
-
-
 		completion_reward = {
 			log = "[GetDateText]: [Root.GetName]: Focus SAF_Seek_Guarantees_Autonomy"
 			remove_ideas = ENG_statute_autonomy
@@ -3055,18 +3038,14 @@ focus_tree = {
 		x = 13
 		y = 12
 		cost = 5
-
 		available = {
+			is_in_faction_with = ENG
 			has_authoritarian_government = no
 		}
-
 		ai_will_do = {
 			factor = 3
 		}
-
 		available_if_capitulated = yes
-
-
 		completion_reward = {
 			log = "[GetDateText]: [Root.GetName]: Focus SAF_Imperial_Commitment"
 			add_ideas = SAF_British_Friendship
@@ -3075,23 +3054,19 @@ focus_tree = {
 
 	focus = {
 		id = SAF_Question_Expansion
-		icon = GFX_goal_generic_position_armies
+		icon = GFX_focus_eng_the_sun_never_sets
 		prerequisite = { focus = SAF_Imperial_Commitment }
 		x = 13
 		y = 13
 		cost = 5
-
 		available = {
+			is_in_faction_with = ENG
 			has_authoritarian_government = no
 		}
-
 		ai_will_do = {
 			factor = 3
 		}
-
 		available_if_capitulated = yes
-
-
 		completion_reward = {
 			log = "[GetDateText]: [Root.GetName]: Focus SAF_Question_Expansion"
 			if = {
@@ -3117,22 +3092,17 @@ focus_tree = {
 		x = 11
 		y = 14
 		cost = 5
-
 		available = {
+			is_in_faction_with = ENG
 			has_authoritarian_government = no
 		}
-
 		bypass = {
 			has_country_flag = SAF_No_Expand
 		}
-
 		available_if_capitulated = yes
-
-
 		ai_will_do = {
 			factor = 3
 		}
-
 		completion_reward = {
 			log = "[GetDateText]: [Root.GetName]: Focus SAF_Relinquish_Claims"
 			add_stability = 0.05
@@ -3141,23 +3111,23 @@ focus_tree = {
 
 	focus = {
 		id = SAF_Reassure_Portuguese
-		icon = GFX_goal_generic_improve_relations
+		icon = GFX_focus_generic_befriend_portugal
 		prerequisite = { focus = SAF_Relinquish_Claims }
 		x = 10
 		y = 16
 		cost = 5
-
 		available = {
+			is_in_faction_with = ENG
+			country_exists = POR
 			has_authoritarian_government = no
 		}
-
+		bypass = {
+			NOT = { country_exists = POR }
+		}
 		available_if_capitulated = yes
-
-
 		ai_will_do = {
 			factor = 3
 		}
-
 		completion_reward = {
 			log = "[GetDateText]: [Root.GetName]: Focus SAF_Reassure_Portuguese"
 			POR = {
@@ -3177,26 +3147,18 @@ focus_tree = {
 		x = 12
 		y = 15
 		cost = 5
-
 		available = {
+			is_in_faction_with = ENG
 			has_authoritarian_government = no
 		}
-
 		available_if_capitulated = yes
-
-
 		ai_will_do = {
 			factor = 3
 		}
-
 		completion_reward = {
 			log = "[GetDateText]: [Root.GetName]: Focus SAF_Leave_HCT"
-			863 = {
-				remove_claim_by = SAF
-			}
-			864 = {
-				remove_claim_by = SAF
-			}
+			863 = { remove_claim_by = SAF }
+			864 = { remove_claim_by = SAF }
 			add_political_power = 50
 			add_stability = 0.05
 		}
@@ -3209,23 +3171,17 @@ focus_tree = {
 		x = 12
 		y = 16
 		cost = 5
-
 		available = {
+			is_in_faction_with = ENG
 			has_authoritarian_government = no
 		}
-
 		available_if_capitulated = yes
-
-
 		ai_will_do = {
 			factor = 3
 		}
-
 		completion_reward = {
 			log = "[GetDateText]: [Root.GetName]: Focus SAF_New_Treaties"
-			545 = {
-				remove_claim_by = SAF
-			}
+			545 = { remove_claim_by = SAF }
 			add_political_power = 75
 			add_stability = 0.02
 		}
@@ -3239,18 +3195,14 @@ focus_tree = {
 		x = 11
 		y = 17
 		cost = 5
-
 		available = {
+			is_in_faction_with = ENG
 			has_authoritarian_government = no
 		}
-
 		available_if_capitulated = yes
-
-
 		ai_will_do = {
 			factor = 3
 		}
-
 		completion_reward = {
 			log = "[GetDateText]: [Root.GetName]: Focus SAF_New_Beginning"
 			country_event = { id = southafrica.45 days = 1 }
@@ -3265,22 +3217,17 @@ focus_tree = {
 		x = 15
 		y = 14
 		cost = 5
-
 		available = {
+			is_in_faction_with = ENG
 			has_authoritarian_government = no
 		}
-
 		bypass = {
 			has_country_flag = SAF_Expand
 		}
-
 		available_if_capitulated = yes
-
-
 		ai_will_do = {
 			factor = 3
 		}
-
 		completion_reward = {
 			log = "[GetDateText]: [Root.GetName]: Focus SAF_Pursue_Claims"
 			add_stability = -0.05
@@ -3289,32 +3236,28 @@ focus_tree = {
 
 	focus = {
 		id = SAF_Show_London_Worth
-		icon = GFX_goal_generic_propaganda
+		icon = GFX_goal_GBR_big_ben
 		prerequisite = { focus = SAF_Pursue_Claims }
 		x = 14
 		y = 15
 		cost = 5
-
 		available = {
+			is_in_faction_with = ENG
 			has_authoritarian_government = no
 		}
-
 		available_if_capitulated = yes
-
-
 		ai_will_do = {
 			factor = 3
 		}
-
 		completion_reward = {
 			log = "[GetDateText]: [Root.GetName]: Focus SAF_Show_London_Worth"
+			add_political_power = -50
 			ENG = {
 				add_opinion_modifier = {
 					target = SAF
 					modifier = SAF_worthy
 				}
 			}
-			add_political_power = -50
 		}
 	}
 
@@ -3325,18 +3268,14 @@ focus_tree = {
 		x = 14
 		y = 16
 		cost = 5
-
 		available = {
+			is_in_faction_with = ENG
 			has_authoritarian_government = no
 		}
-
 		available_if_capitulated = yes
-
-
 		ai_will_do = {
 			factor = 3
 		}
-
 		completion_reward = {
 			log = "[GetDateText]: [Root.GetName]: Focus SAF_Request_HCT"
 			ENG = {
@@ -3352,22 +3291,15 @@ focus_tree = {
 		x = 16
 		y = 16
 		cost = 5
-
 		available = {
+			is_in_faction_with = ENG
 			has_authoritarian_government = no
-		}
-
-		available = {
 			has_country_flag = SAF_UNITED
 		}
-
 		available_if_capitulated = yes
-
-
 		ai_will_do = {
 			factor = 3
 		}
-
 		completion_reward = {
 			log = "[GetDateText]: [Root.GetName]: Focus SAF_Mozambique_Offer"
 			544 = { controller = { country_event = { id = southafrica.34 days = 1 } } }
@@ -3382,22 +3314,15 @@ focus_tree = {
 		x = 15
 		y = 17
 		cost = 5
-
 		available = {
+			is_in_faction_with = ENG
 			has_authoritarian_government = no
-		}
-
-		available = {
 			has_country_flag = SAF_UNITED
 		}
-
 		available_if_capitulated = yes
-
-
 		ai_will_do = {
 			factor = 3
 		}
-
 		completion_reward = {
 			log = "[GetDateText]: [Root.GetName]: Focus SAF_Request_NRhodesia"
 			ENG = {
@@ -3416,18 +3341,14 @@ focus_tree = {
 		x = 13
 		y = 18
 		cost = 5
-
 		available = {
+			is_in_faction_with = ENG
 			has_authoritarian_government = no
 		}
-
 		available_if_capitulated = yes
-
-
 		ai_will_do = {
 			factor = 3
 		}
-
 		completion_reward = {
 			log = "[GetDateText]: [Root.GetName]: Focus SAF_Greater_South_Africa"
 			country_event = { id = southafrica.70 days = 1 }
@@ -3470,22 +3391,17 @@ focus_tree = {
 		x = 21
 		y = 9
 		cost = 5
-
 		available = {
 			has_authoritarian_government = yes
+			NOT = { is_in_faction_with = ENG }
 		}
-
 		ai_will_do = {
 			factor = 3
 		}
-
 		bypass = {
 			has_country_flag = SAF_Boer_Victory
 		}
-
 		available_if_capitulated = yes
-
-
 		completion_reward = {
 			log = "[GetDateText]: [Root.GetName]: Focus SAF_Leave_IPA"
 			add_war_support = 0.05
@@ -3499,22 +3415,17 @@ focus_tree = {
 		x = 19
 		y = 10
 		cost = 5
-
 		available = {
 			has_authoritarian_government = yes
+			NOT = { is_in_faction_with = ENG }
 		}
-
 		ai_will_do = {
 			factor = 3
 		}
-
 		bypass = {
 			has_country_flag = SAF_Boer_Victory
 		}
-
 		available_if_capitulated = yes
-
-
 		completion_reward = {
 			log = "[GetDateText]: [Root.GetName]: Focus SAF_Summon_House"
 			add_popularity = { ideology = national_populist popularity = 0.05 }
@@ -3529,22 +3440,17 @@ focus_tree = {
 		x = 19
 		y = 11
 		cost = 5
-
 		available = {
 			has_authoritarian_government = yes
+			NOT = { is_in_faction_with = ENG }
 		}
-
 		ai_will_do = {
 			factor = 3
 		}
-
 		bypass = {
 			has_country_flag = SAF_Boer_Victory
 		}
-
 		available_if_capitulated = yes
-
-
 		completion_reward = {
 			log = "[GetDateText]: [Root.GetName]: Focus SAF_Arrest_Dissenters"
 			add_popularity = { ideology = social_democrat popularity = -0.05 }
@@ -3559,22 +3465,17 @@ focus_tree = {
 		x = 23
 		y = 10
 		cost = 5
-
 		available = {
 			has_authoritarian_government = yes
+			NOT = { is_in_faction_with = ENG }
 		}
-
 		ai_will_do = {
 			factor = 3
 		}
-
 		bypass = {
 			has_country_flag = SAF_Boer_Victory
 		}
-
 		available_if_capitulated = yes
-
-
 		completion_reward = {
 			log = "[GetDateText]: [Root.GetName]: Focus SAF_Prepare_Declaration"
 			add_political_power = 100
@@ -3588,22 +3489,17 @@ focus_tree = {
 		x = 23
 		y = 11
 		cost = 5
-
 		available = {
 			has_authoritarian_government = yes
+			NOT = { is_in_faction_with = ENG }
 		}
-
 		ai_will_do = {
 			factor = 3
 		}
-
 		bypass = {
 			has_country_flag = SAF_Boer_Victory
 		}
-
 		available_if_capitulated = yes
-
-
 		completion_reward = {
 			log = "[GetDateText]: [Root.GetName]: Focus SAF_Leave_IPA"
 			leave_faction = yes
@@ -3618,23 +3514,18 @@ focus_tree = {
 		x = 21
 		y = 12
 		cost = 10
-
 		available = {
 			has_autonomy_state = autonomy_colony
 			has_authoritarian_government = yes
+			NOT = { is_in_faction_with = ENG }
 		}
-
 		ai_will_do = {
 			factor = 3
 		}
-
 		bypass = {
 			has_country_flag = SAF_Boer_Victory
 		}
-
 		available_if_capitulated = yes
-
-
 		completion_reward = {
 			log = "[GetDateText]: [Root.GetName]: Focus SAF_Leave_Empire"
 			remove_ideas = ENG_statute_autonomy
@@ -3655,19 +3546,14 @@ focus_tree = {
 		x = 21
 		y = 13
 		cost = 5
-
 		available = {
-			is_subject = no
 			has_authoritarian_government = yes
+			NOT = { is_in_faction_with = ENG }
 		}
-
 		ai_will_do = {
 			factor = 3
 		}
-
 		available_if_capitulated = yes
-
-
 		completion_reward = {
 			log = "[GetDateText]: [Root.GetName]: Focus SAF_Dismantle_Imperial_Africa"
 			country_event = { id = southafrica.55 days = 1 }
@@ -3676,54 +3562,70 @@ focus_tree = {
 
 	focus = {
 		id = SAF_End_European_Rule
-		icon = GFX_goal_purge_opposition
+		icon = GFX_focus_por_luso_tropicalism
 		prerequisite = { focus = SAF_Dismantle_Imperial_Africa }
 		x = 19
 		y = 14
 		cost = 5
-
 		available = {
-			is_subject = no
 			has_authoritarian_government = yes
+			NOT = { is_in_faction_with = ENG }
+			is_subject = no
+			any_state = {
+				is_on_continent = africa
+				owner = {
+					OR = {
+						tag = ENG
+						tag = FRA
+						tag = ITA
+						tag = PRR
+						tag = POR
+						tag = BEL
+						is_subject_of = ENG
+						is_subject_of = FRA
+						is_subject_of = ITA
+						is_subject_of = PRR
+						is_subject_of = POR
+						is_subject_of = BEL
+					}
+				}
+			}
 		}
-
 		ai_will_do = {
 			factor = 3
 		}
-
 		available_if_capitulated = yes
-
-
 		completion_reward = {
 			log = "[GetDateText]: [Root.GetName]: Focus SAF_End_European_Rule"
-			ENG = {
-				add_opinion_modifier = {
-					target = SAF
-					modifier = SAF_end
+			every_other_country = {
+				limit = {
+					OR = {
+						tag = ENG
+						tag = FRA
+						tag = ITA
+						tag = PRR
+						tag = POR
+						tag = BEL
+						AND = {
+							OR = {
+								is_subject_of = ENG
+								is_subject_of = FRA
+								is_subject_of = ITA
+								is_subject_of = PRR
+								is_subject_of = POR
+								is_subject_of = BEL
+							}
+							capital_scope = { is_on_continent = africa }
+						}
+					}
 				}
-			}
-			FRA = {
+
+				embargo_ROOT = yes
+				ROOT = { embargo_PREV = yes }
+				custom_effect_tooltip = tooltip_white_line
 				add_opinion_modifier = {
-					target = SAF
-					modifier = SAF_end
-				}
-			}
-			ITA = {
-				add_opinion_modifier = {
-					target = SAF
-					modifier = SAF_end
-				}
-			}
-			POR = {
-				add_opinion_modifier = {
-					target = SAF
-					modifier = SAF_end
-				}
-			}
-			BEL = {
-				add_opinion_modifier = {
-					target = SAF
-					modifier = SAF_end
+					modifier = ITA_outraged
+					target = ROOT
 				}
 			}
 		}
@@ -3736,19 +3638,14 @@ focus_tree = {
 		x = 19
 		y = 15
 		cost = 5
-
 		available = {
-			is_subject = no
 			has_authoritarian_government = yes
+			NOT = { is_in_faction_with = ENG }
 		}
-
 		ai_will_do = {
 			factor = 3
 		}
-
 		available_if_capitulated = yes
-
-
 		completion_reward = {
 			log = "[GetDateText]: [Root.GetName]: Focus SAF_Sponsor_Rebels"
 			country_event = { id = southafrica.60 days = 1 }
@@ -3763,19 +3660,15 @@ focus_tree = {
 		x = 18
 		y = 16
 		cost = 5
-
 		available = {
 			is_subject = no
 			has_authoritarian_government = yes
+			NOT = { is_in_faction_with = ENG }
 		}
-
 		ai_will_do = {
 			factor = 1
 		}
-
 		available_if_capitulated = yes
-
-
 		completion_reward = {
 			log = "[GetDateText]: [Root.GetName]: Focus SAF_On_Our_Own"
 			add_political_power = 100
@@ -3792,19 +3685,15 @@ focus_tree = {
 		x = 20
 		y = 16
 		cost = 5
-
 		available = {
 			is_subject = no
 			has_authoritarian_government = yes
+			NOT = { is_in_faction_with = ENG }
 		}
-
 		ai_will_do = {
 			factor = 5
 		}
-
 		available_if_capitulated = yes
-
-
 		completion_reward = {
 			log = "[GetDateText]: [Root.GetName]: Focus SAF_Join_Stahlpakt"
 			GER = {
@@ -3820,10 +3709,9 @@ focus_tree = {
 		x = 23
 		y = 14
 		cost = 5
-
 		available = {
-			has_authoritarian_government = yes
 			is_subject = no
+			has_authoritarian_government = yes
 			ENG = {
 				OR = {
 					has_war_with = GER
@@ -3832,14 +3720,10 @@ focus_tree = {
 				}
 			}
 		}
-
 		ai_will_do = {
 			factor = 3
 		}
-
 		available_if_capitulated = yes
-
-
 		completion_reward = {
 			log = "[GetDateText]: [Root.GetName]: Focus SAF_Our_Old_Claims"
 			add_war_support = 0.05
@@ -3854,24 +3738,18 @@ focus_tree = {
 		x = 22
 		y = 15
 		cost = 5
-
 		available = {
-			has_authoritarian_government = yes
 			is_subject = no
+			has_authoritarian_government = yes
 		}
-
 		ai_will_do = {
 			factor = 3
 		}
-
 		available_if_capitulated = yes
-
-
 		bypass = {
 			has_war_with = ENG
 			has_country_flag = SAF_Boer_Victory
 		}
-
 		completion_reward = {
 			log = "[GetDateText]: [Root.GetName]: Focus SAF_Occupy_HCT"
 
@@ -3888,23 +3766,17 @@ focus_tree = {
 		x = 22
 		y = 16
 		cost = 5
-
 		available = {
 			is_subject = no
 			has_authoritarian_government = yes
 		}
-
 		ai_will_do = {
 			factor = 3
 		}
-
 		available_if_capitulated = yes
-
-
 		bypass = {
 			has_war_with = ENG
 		}
-
 		completion_reward = {
 			log = "[GetDateText]: [Root.GetName]: Focus SAF_Seize_NRhodesia"
 
@@ -3917,24 +3789,19 @@ focus_tree = {
 
 	focus = {
 		id = SAF_Demand_Mozambique
-		icon = GFX_goal_generic_territory_or_war
+		icon = GFX_focus_generic_attack_portugal
 		prerequisite = { focus = SAF_Our_Old_Claims }
 		x = 24
 		y = 16
 		cost = 5
-
 		available = {
 			is_subject = no
 			has_authoritarian_government = yes
 		}
-
 		ai_will_do = {
 			factor = 3
 		}
-
 		available_if_capitulated = yes
-
-
 		completion_reward = {
 			log = "[GetDateText]: [Root.GetName]: Focus SAF_Demand_Mozambique"
 			544 = { controller = { country_event = { id = southafrica.42 days = 1 } } }
@@ -3953,19 +3820,14 @@ focus_tree = {
 		x = 21
 		y = 17
 		cost = 5
-
 		available = {
 			has_authoritarian_government = yes
 			is_subject = no
 		}
-
 		ai_will_do = {
 			factor = 3
 		}
-
 		available_if_capitulated = yes
-
-
 		completion_reward = {
 			log = "[GetDateText]: [Root.GetName]: Focus SAF_Independence_At_Last"
 			country_event = { id = southafrica.71 days = 1 }

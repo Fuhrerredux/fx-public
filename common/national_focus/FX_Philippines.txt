@@ -2269,10 +2269,23 @@ focus_tree = {
 		prerequisite = { focus = PHI_central_luzon_state_university }
 		relative_position_id = PHI_resource_excavation
 		completion_reward = {
-			add_tech_bonus = {
-				category = nuclear
-				bonus = 1.0
-				uses = 1
+			if = {
+				limit = {
+					NOT = { has_tech = atomic_research }
+					NOT = { is_researching_technology = atomic_research }
+				}
+				add_tech_bonus = {
+					name = PHI_philippine_atomic_energy_program
+					technology = atomic_research
+					bonus = 1.0
+					uses = 1
+				}
+			}
+			else = {
+				add_breakthrough_progress = {
+					specialization = specialization_nuclear
+					value = 1
+				}
 			}
 		}
 		search_filters = {
@@ -2977,11 +2990,11 @@ focus_tree = {
 		}
 		bypass = {
 			OR = {
-				has_war_with = FIC
-				is_in_faction_with = FIC
-				FIC = { is_subject_of = ROOT }
+				has_war_with = ICR
+				is_in_faction_with = ICR
+				ICR = { is_subject_of = ROOT }
 				any_allied_country = {
-					has_war_with = FIC
+					has_war_with = ICR
 				}
 			}
 		}
@@ -3261,9 +3274,7 @@ focus_tree = {
 		cost = 6
 		will_lead_to_war_with = SIA
 		available = {
-			SIA = {
-				exists = yes
-			}
+			country_exists = SIA
 		}
 		bypass = {
 			OR = {
@@ -3908,10 +3919,36 @@ focus_tree = {
 		x = -2
 		y = 2
 		cost = 6
+		available = {
+			has_capitulated = no
+		}
 		prerequisite = { focus = PHI_learning_from_the_great_war }
 		relative_position_id = PHI_expand_the_constabulary_officers_school
 		completion_reward = {
 			add_research_slot = 1
+			custom_effect_tooltip = tooltip_white_line
+			if = {
+				limit = { NOT = { has_facility_specialization = specialization_land } }
+				random_owned_controlled_state = {
+					prioritize = { 1033 327 }
+					limit = {
+						is_core_of = ROOT
+						can_construct_building = land_facility
+					}
+					construct_building_in_random_province = { land_facility = 1 }
+				}
+				custom_effect_tooltip = tooltip_white_line
+				add_breakthrough_progress = {
+					specialization = specialization_land
+					value = 0.5
+				}
+			}
+			else = {
+				add_breakthrough_progress = {
+					specialization = specialization_land
+					value = 1
+				}
+			}
 		}
 		search_filters = {
 			FOCUS_FILTER_RESEARCH
@@ -4020,10 +4057,22 @@ focus_tree = {
 				factor = -0.8
 			}
 		}
+		available = {
+			has_capitulated = no
+		}
 		relative_position_id = PHI_fortress_philippines
 		completion_reward = {
 			add_ideas = PHI_naval_devotion
 			navy_experience = 25
+			custom_effect_tooltip = tooltip_white_line
+			random_owned_controlled_state = {
+				prioritize = { 1033 327 }
+				limit = {
+					is_core_of = ROOT
+					can_construct_building = naval_facility
+				}
+				construct_building_in_random_province = { naval_facility = 1 }
+			}
 		}
 		search_filters = {
 			FOCUS_FILTER_NAVY_BONUS
