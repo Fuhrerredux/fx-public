@@ -1,4 +1,4 @@
-name="Fuhrerredux - Dev Build"
+name="Führerreich"
 version="0.14.0"
 tags={
 	"Alternative History"

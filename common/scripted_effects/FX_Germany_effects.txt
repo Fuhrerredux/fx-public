@@ -5,7 +5,7 @@ GRP_democratic_setup = {
 	GER = { 
 		every_character = { 
 			limit = { has_character_flag = GRP_dem }
-			set_nationality = var:tag_to_release
+			set_nationality = GRP
 		}
 	}
 }
@@ -119,10 +119,11 @@ GRP_autocratic_setup = {
 generate_new_german_puppet = {
 	if = {
 		limit = { NOT = { country_exists = GRP } }
+		log = "GRP DOESNT EXIST (1ST OPTION)"
 		set_temp_variable = { tag_to_release = GRP }
 		every_state = {
 			limit = { is_germany = yes }
-			add_claim_by = var:tag_to_release
+			add_core_of = var:tag_to_release #mb not intended but im out of options
 		}
 		release_targeted_tag = yes
 		var:tag_to_release = { 
@@ -135,12 +136,14 @@ generate_new_german_puppet = {
 			country_exists = GRP 
 			ROOT = { is_in_faction_with	= GRP }
 		}
+		log = "GRP DOES EXIST (2ND OPTION)"
 		every_state = {
 			limit = { is_claimed_by = GRP }
 			transfer_state_to = GRP
 		}
 	}
 	else = {
+		log = "3RD OPTION"
 		create_dynamic_country = {
 			original_tag = GRP
 			set_temp_variable = { tag_to_release = THIS }
