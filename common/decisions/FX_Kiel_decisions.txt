@@ -1,0 +1,560 @@
+@SHO_fight_resistance = 180
+@SHO_state_integration = 120
+@SHO_state_integration_cost = 50
+
+SHO_devalkification = {
+	SHO_integrate_state = {
+		icon = generic_nationalism
+		cost = @SHO_state_integration_cost
+		days_remove = @SHO_state_integration
+		state_target = yes
+		on_map_mode = map_only
+		target_array = GER.core_states
+		target_trigger = {
+			FROM = { 
+				is_owned_by = ROOT
+				NOT = { is_core_of = ROOT }
+			}
+		}
+		available = {
+			FROM = { SHO_has_wehrwolf_activity = no }
+		}
+		visible = {
+			controls_state = FROM
+			FROM = { SHO_has_wehrwolf_activity = no }
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SHO_crush_wehrwolf_cells_in_state target: [From.GetName]"
+			add_state_core = FROM
+		}
+	}
+	SHO_crush_wehrwolf_cells_in_state = {
+		icon = generic_police_action
+		days_remove = var:SHO_resistance_cost
+		days_re_enable = @SHO_fight_resistance
+		state_target = yes
+		on_map_mode = map_only
+		target_array = GER.core_states
+		target_trigger = {
+			FROM = { 
+				is_owned_by = ROOT
+				NOT = { is_core_of = ROOT }
+			}
+		}
+		available = {
+			FROM = {
+				SHO_has_wehrwolf_activity = yes
+			}
+		}
+		custom_cost_trigger = {
+			has_equipment = { infantry_equipment > 1999 }
+		}
+		custom_cost_text = 2000_guns
+		visible = {
+			controls_state = FROM
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete SHO_crush_wehrwolf_cells_in_state target: [From.GetName]"
+			FROM = {
+				add_dynamic_modifier = { modifier = GRP_crushing_valkist_cells }
+			}
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SHO_crush_wehrwolf_cells_in_state target: [From.GetName]"
+			FROM = {
+				remove_dynamic_modifier = { modifier = GRP_crushing_valkist_cells }
+				SHO_lessen_valkist_resistance = yes
+			}
+		}
+	}
+}
+
+foreign_politics = {
+	SHO_request_equipment = {
+		icon = ger_military_buildup
+		days_re_enable = 180
+		priority = 20
+		target_root_trigger = {
+			has_completed_focus = SHO_foreign_policy
+		}
+		targets = { SOV ENG }
+		available = {
+			if = {
+				limit = {
+					FROM = { tag = SOV }
+				}
+				has_socialist_government = yes
+			}
+			else = {
+				has_socialist_government = no
+			}
+			has_capitulated = no
+			is_subject = no
+			has_war = yes
+			country_exists = FROM
+		}
+		visible = {
+			if = {
+				limit = { FROM = { tag = ENG } }
+				has_completed_focus = SHO_Brit_deal
+				OR = {
+					NOT = { has_country_flag = SHO_no_british_aid }
+					AND = {
+						has_country_flag = SHO_no_british_aid
+						surrender_progress > 0.5
+					}
+				}
+			}
+			else_if = {
+			limit = { FROM = { tag = SOV } }
+			has_completed_focus = SHO_soviet_deal
+			}
+		}
+		complete_effect = {
+			FROM = {
+				country_event = { id = kiel.26 days = 1 }
+			}
+
+			custom_effect_tooltip = if_they_accept_tt
+			effect_tooltip = {
+				add_equipment_to_stockpile = {
+					producer = FROM
+					type = infantry_equipment
+					amount = 5000
+				}
+				add_equipment_to_stockpile = {
+					producer = FROM
+					type = support_equipment
+					amount = 1000
+				}
+				add_equipment_to_stockpile = {
+					producer = FROM
+					type = artillery_equipment
+					amount = 1000
+				}
+			}
+		}
+	}
+	SHO_join_entente = {
+		icon = generic_civil_support
+		priority = 20
+		target_root_trigger = { 
+			OR = {
+				has_completed_focus = SHO_foreign_policy 
+				any_enemy_country = { is_german_tag = yes }
+			}
+			tag = SHO
+		}
+		targets = { ENT }
+		target_trigger = {
+			NOT = { has_war_with = FROM }
+		}
+		available = {
+			has_socialist_government = no
+			is_subject = no
+			country_exists = FROM
+			FROM = { is_faction_leader = yes }
+		}
+		visible = {
+			is_in_faction = no
+			has_socialist_government = no
+		}
+		complete_effect = {
+			FROM = {
+				country_event = { id = kiel.21 days = 1 }
+			}
+		}
+	}
+	SHO_join_internationale = {
+		icon = generic_civil_support
+		priority = 20
+		target_root_trigger = { 
+			OR = {
+				has_completed_focus = SHO_foreign_policy 
+				has_completed_focus = SHO_stick_with_moskau
+				any_enemy_country = { is_german_tag = yes }
+			}
+			tag = SHO
+		}
+		targets = { SOV }
+		target_trigger = {
+			NOT = { has_war_with = FROM }
+		}
+		available = {
+			has_socialist_government = yes
+			is_subject = no
+			country_exists = FROM
+			FROM = { is_faction_leader = yes }
+		}
+		visible = {
+			is_in_faction = no
+			has_socialist_government = yes
+		}
+		complete_effect = {
+			FROM = {
+				country_event = { id = kiel.21 days = 1 }
+			}
+		}
+	}
+	SHO_contact_german_resistance = {
+		icon = SWI_expand_covert_operations
+		fire_only_once = yes
+		cost = 0
+		priority = 9
+		target_root_trigger = { has_completed_focus = SHO_support_KDP }
+		targets = { GER }
+		target_trigger = {
+			FROM = { has_dictatorship_government = yes }
+		}
+		allowed = { original_tag = SHO }
+		available = {
+			has_war_with = FROM
+			NOT = { has_capitulated = yes }
+			any_owned_state = {
+				is_core_of = FROM
+				is_controlled_by = ROOT
+			}
+		}
+		visible = {
+			FROM = {
+				exists = yes
+				has_dictatorship_government = yes
+			}
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete SHO_contact_german_resistance target: [From.GetName]"
+			add_manpower = 125000
+			country_event = { id = kiel.24 days = 2 }
+		}
+		ai_will_do = { factor = 100 }
+	}
+	SHO_fortify_the_elbe = {
+		icon = generic_operation
+		cost = 50
+		fire_only_once = yes
+		days_remove = 90
+		allowed = { original_tag = SHO }
+		available = {
+			controls_state = 58
+			controls_state = 915
+		}
+		visible = {
+			tag = SHO
+			has_country_flag = SHO_has_become_germany
+		}
+		modifier = {
+			consumer_goods_factor = 0.25
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SHO_fortify_the_elbe"
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove SHO_fortify_the_elbe"
+			58 = {
+				add_building_construction = {
+					type = bunker
+					level = 5
+					province = 11331
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 5
+					province = 9320
+					instant_build = yes
+				}
+			}
+			915 = {
+				add_building_construction = {
+					type = bunker
+					level = 5
+					province = 9347
+					instant_build = yes
+				}
+			}
+		}
+		ai_will_do = { factor = 100 }
+	}
+	SHO_invade_denmark = {
+		icon = generic_tank
+		cost = 25
+		target_root_trigger = { is_subject = no }
+		targets = { DEN }
+		target_trigger = {
+			country_exists = FROM
+		}
+		allowed = { original_tag = SHO }
+		available = {
+			country_exists = FROM
+			is_subject = no
+		}
+		visible = { 
+			date > 1938.1.1
+			FROM = {
+				NOT = {
+					is_subject_of = ROOT
+					is_in_faction_with = ROOT
+				}
+			}
+		}
+		fire_only_once = yes
+		ai_will_do = {
+			factor = 0.5 #Generally not something the AI should take
+			modifier = {
+				factor = 0 # No suicide thanks
+				DEN = { 
+					is_in_faction = yes 
+					is_faction_leader = no
+				}
+			} 
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SHO_invade_denmark"
+			declare_war_on = {
+				type = annex_everything
+				target = FROM
+			}
+		}
+	}
+	SHO_invade_germany = {
+		icon = generic_tank
+		cost = 25
+		target_root_trigger = { is_subject = no }
+		targets = { GER }
+		target_trigger = {
+			FROM = { 
+				exists = yes
+				NOT = { has_war_with = ROOT }
+			}
+		}
+		fire_only_once = yes
+		allowed = { always = no }
+		available = {
+			country_exists = FROM
+			is_subject = no
+		}
+		ai_will_do = {
+			base = 0 #Generally not something the AI should take
+			modifier = {
+				add = 20
+				has_war_with = SOV
+			}
+			modifier = {
+				add = 10
+				has_war_with = ENT
+			}
+			modifier = {
+				add = 10
+				has_war_with = ENG
+			}
+			modifier = {
+				factor = 0.2
+				controls_state = 219 # Moscow
+			}
+			modifier = {
+				factor = 0.2
+				controls_state = 19 # Paris
+			}
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SHO_invade_germany"
+			declare_war_on = {
+				type = annex_everything
+				target = GER
+			}
+		}
+	}
+	SHO_peace_out_denmark = {
+		icon = generic_civil_support
+		cost = 25
+		fire_only_once = yes
+		target_root_trigger = { is_subject = no }
+		targets = { DEN }
+		target_trigger = {
+			country_exists = FROM
+			FROM = {
+				has_war_with = ROOT
+			}
+		}
+		allowed = { original_tag = SHO }
+		available = {
+			country_exists = FROM
+			FROM = { has_war_with = ROOT }
+			controls_state = 99 # Jutland
+		}
+		visible = {
+			has_war_with = FROM
+			NOT = { has_country_flag = SHO_sued_for_peace }
+		}
+		ai_will_do = {
+			factor = 2000 #should probably take this
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision SHO_Peace_and_Vengeance"
+			FROM = {
+				if = {
+					limit = { 
+						is_in_faction = yes 
+						is_faction_leader = no
+					}
+					faction_leader = { 
+						country_event = { days = 1 id = kiel.33 } 
+					}
+				}
+				else = { 
+					country_event = { days = 1 id = kiel.33 }
+				}
+			}
+			set_country_flag = SHO_sued_for_peace
+			custom_effect_tooltip = if_they_accept_tt
+			effect_tooltip = {
+				white_peace = FROM
+			}
+		}
+	}
+}
+
+SHO_flood_canal = {
+	SHO_flood_kiel_canal = { 
+		icon = GFX_decision_hol_inundate_water_lines
+		fire_only_once = yes
+		cost = 20
+		available = {
+			controls_state = 58
+			controls_state = 1071
+			has_war_with_major = yes
+			OR = {
+				NOT = { controls_state = 915 }
+			}
+		}
+		highlight_states = {
+			highlight_state_targets = {
+				state = 58
+				state = 1071
+			} 
+		}
+		ai_will_do = {
+			base = 0
+			#Pretty damn important
+			modifier = {
+				add = 25
+				any_other_country = {
+					is_major = yes
+					has_war_with = ROOT
+					controls_state = 915
+				}
+			}
+		}
+		complete_effect = {
+			add_war_support = -0.05
+			every_owned_state = {
+				limit = {
+					OR = {
+						state = 58
+						state = 1071
+					}
+				}
+				add_dynamic_modifier = {
+					modifier = SHO_canal_flooded
+					days = 1000
+				}
+			}
+			hidden_effect = { 
+				news_event = { id = kiel.20 } 
+				set_global_flag = SHO_Flooded_canal
+			}
+		}
+	}
+}
+
+political_actions = {
+	SHO_proclaim_germany = {
+		icon = generic_form_nation
+		priority = 20
+		fire_only_once = yes
+		allowed = { original_tag = SHO }
+		available = {
+			owns_state = 64
+			is_subject = no
+			has_capitulated = no
+		}
+		visible = {
+			OR = {
+				has_completed_focus = SHO_father_modern_germany
+				has_completed_focus = SHO_german_revolution
+				has_completed_focus = SHO_German_rebirth
+				has_completed_focus = SHO_Socialist_republic
+				has_completed_focus = SHO_bastion_of_german_democracy
+				AND = {
+					GER = { exists = no }
+					OR = {
+						AND = {
+							NOT = { has_country_flag = SPD_locked }
+							has_completed_focus = SHO_SDPSH_victory
+						}
+						has_completed_focus = SHO_Peoples_revolution
+						has_completed_focus = SHO_Natpop_republicans
+					}
+				}
+			}
+		}
+		complete_effect = {
+			add_political_power = 200
+			set_cosmetic_tag = SHO_germany
+			set_capital = { state = 64 }
+			SHO_germany_setup = yes
+			set_global_flag = SHO_united_germany
+		}
+		ai_will_do = { base = 200 }
+	}
+	SHO_core_hamburg = {
+		icon = generic_nationalism
+		cost = 20
+		days_remove = 7
+		fire_only_once = yes
+		state_target = yes
+		on_map_mode = map_and_decisions_view
+		allowed = { original_tag = SHO }
+		targets = { 915 991 }
+		target_trigger = { 
+			owns_state = FROM
+			tag = SHO
+		}
+		remove_effect = {
+			add_state_core = FROM
+			custom_effect_tooltip = tooltip_white_line
+			FROM = {
+				remove_core_of = GER
+				add_claim_by = GER
+			}
+		}
+		ai_will_do = { factor = 200 }
+	}
+	SHO_seize_hamburg = {
+		icon = generic_tank
+		days_remove = 7
+		fire_only_once = yes
+		allowed = { original_tag = SHO }
+		available = {
+			is_subject = no
+			has_capitulated = no
+			NOT = {
+				owns_state = 915
+				owns_state = 991
+			}
+			hidden_trigger = { tag = SHO }
+		}
+		visible = {
+			has_global_flag = german_civil_war
+		}
+		remove_effect = {
+			915 = {
+				owner = { country_event = { id = kiel.43 days = 1 } }
+			}
+			custom_effect_tooltip = tooltip_white_line
+			transfer_state = 915
+			transfer_state = 991
+		}
+		ai_will_do = { factor = 200 }
+	}
+}

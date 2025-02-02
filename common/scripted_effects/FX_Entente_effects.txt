@@ -1,0 +1,339 @@
+entente_faction_merging = {
+	if = {
+		limit = { is_in_faction_with = ENT }
+		set_country_flag = ENT_former_faction_member
+		every_subject_country = { set_country_flag = ENT_former_faction_member }
+	}
+	else_if = {
+		limit = { is_in_faction_with = IPA }
+		set_country_flag = IPA_former_faction_member
+		every_subject_country = { set_country_flag = IPA_former_faction_member }
+	}
+	else = {
+		set_country_flag = USA_former_faction_member
+		every_subject_country = { set_country_flag = USA_former_faction_member }
+	}
+}
+
+ENT_peace_out = {
+	# European factions w/o overseas allies
+	if = {
+		limit = {
+			NOT = {
+				any_allied_country = { is_in_europe = no }
+			}
+			is_faction_leader = yes
+			is_in_europe = yes
+		}
+		every_enemy_country = {
+			limit = {
+				has_country_flag = ENT_former_member
+				has_capitulated = no
+				OR = {
+					is_faction_leader = yes
+					is_in_faction = no
+				}
+				OR = {
+					is_subject = no
+					overlord = { has_capitulated = yes }
+				}
+				is_in_europe = no
+				NOT = {
+					tag = FRA
+					is_actual_neighbor_of_ROOT_or_ally = yes
+					any_owned_state = {
+						is_coastal = yes
+						is_controlled_by_ROOT_or_ally = yes
+					}
+					any_subject_country = {
+						is_in_europe = yes
+						OR = {
+							is_actual_neighbor_of_ROOT_or_ally = yes
+							any_owned_state = {
+								is_coastal = yes
+								is_controlled_by_ROOT_or_ally = yes
+							}
+						}
+					}
+					any_subject_country = {
+						is_in_europe = no
+						any_owned_state = {
+							is_controlled_by_ROOT_or_ally = yes
+						}
+					}
+					AND = {
+						is_in_faction = yes
+						any_allied_country = {
+							is_valid_peace_target = no
+							OR = {
+								is_actual_neighbor_of_ROOT_or_ally = yes
+								any_owned_state = {
+									is_coastal = yes
+									is_controlled_by_ROOT_or_ally = yes
+								}
+							}
+						}
+					}
+				}
+			}
+			if = {
+				limit = { is_subject = yes }
+				overlord = { set_autonomy = { target = PREV autonomy_state = autonomy_free } }
+			}
+			white_peace_with_PREV = yes
+		}
+	}
+	# European factions with overseas allies
+	else_if = {
+		limit = {
+			any_allied_country = { is_in_europe = no }
+			is_faction_leader = yes
+			is_in_europe = yes
+		}
+		every_enemy_country = {
+			limit = {
+				has_country_flag = ENT_former_member
+				OR = {
+					is_faction_leader = yes
+					is_in_faction = no
+				}
+				OR = {
+					is_subject = no
+					overlord = { has_capitulated = yes }
+				}
+				has_capitulated = no
+				NOT = { is_owner_neighbor_of = ROOT }
+				any_neighbor_country = {
+					OR = {
+						is_ally_with = ROOT
+						tag = ROOT
+					}
+				}
+				NOT = {
+					tag = FRA
+					any_owned_state = {
+						is_coastal = yes
+						is_controlled_by_ROOT_or_ally = yes
+					}
+					any_neighbor_country = {
+						has_capitulated = yes
+						any_owned_state = {
+							is_controlled_by_ROOT_or_ally = yes
+						}
+					}
+					any_subject_country = {
+						OR = {
+							is_actual_neighbor_of_ROOT_or_ally = yes
+							any_owned_state = {
+								is_coastal = yes
+								is_controlled_by_ROOT_or_ally = yes
+							}
+						}
+					}
+					AND = {
+						is_in_faction = yes
+						any_allied_country = {
+							is_valid_peace_target = no
+							OR = {
+								is_actual_neighbor_of_ROOT_or_ally = yes
+								any_owned_state = {
+									is_coastal = yes
+									is_controlled_by_ROOT_or_ally = yes
+								}
+							}
+						}
+					}
+				}
+			}
+			if = {
+				limit = { is_subject = yes }
+				overlord = { set_autonomy = { target = PREV autonomy_state = autonomy_free } }
+			}
+			country_event = FRA.council.29
+		}
+	}
+	# Then Asian faction leaders peace out with any non-neighbours outside of Asia
+	else_if = {
+		limit = {
+			is_in_asia = yes
+			is_faction_leader = yes
+		}
+		every_enemy_country = {
+			limit = {
+				has_country_flag = ENT_former_member
+				OR = {
+					is_faction_leader = yes
+					is_in_faction = no
+				}
+				OR = {
+					is_subject = no
+					overlord = { has_capitulated = yes }
+				}
+				has_capitulated = no
+				is_in_asia = no
+				NOT = {
+					tag = FRA
+					tag = FIC
+					is_actual_neighbor_of_ROOT_or_ally = yes
+					any_owned_state = {
+						is_coastal = yes
+						is_controlled_by_ROOT_or_ally = yes
+					}
+					any_subject_country = {
+						is_in_asia = yes
+						OR = {
+							is_actual_neighbor_of_ROOT_or_ally = yes
+							any_owned_state = {
+								is_coastal = yes
+								is_controlled_by_ROOT_or_ally = yes
+							}
+						}
+					}
+					AND = {
+						is_in_faction = yes
+						any_allied_country = {
+							is_valid_peace_target = no
+							OR = {
+								is_actual_neighbor_of_ROOT_or_ally = yes
+								any_owned_state = {
+									is_coastal = yes
+									is_controlled_by_ROOT_or_ally = yes
+								}
+							}
+						}
+					}
+				}
+			}
+			if = {
+				limit = { is_subject = yes }
+				overlord = { set_autonomy = { target = PREV autonomy_state = autonomy_free } }
+			}
+			white_peace_with_PREV = yes
+		}
+	}
+	# Then everyone else peaces out with any non-neighbours
+	else = {
+		every_enemy_country = {
+			limit = {
+				has_country_flag = ENT_former_member
+				OR = {
+					is_faction_leader = yes
+					is_in_faction = no
+				}
+				OR = {
+					is_subject = no
+					overlord = { has_capitulated = yes }
+				}
+				has_capitulated = no
+				NOT = {
+					civilwar_target = ROOT #do not peace out civil wars
+					tag = GER
+					AND = {
+						tag = HOL
+						ROOT = { tag = INS }
+					}
+					AND = {
+						tag = AUS
+						ROOT = {
+							OR = {
+								tag = SER
+								tag = ROM
+								tag = POL
+								tag = ITA
+							}
+						}
+					}
+					AND = {
+						tag = HAW
+						ROOT = { is_american_tag = yes }
+					}
+					is_actual_neighbor_of_ROOT_or_ally = yes
+					any_owned_state = {
+						is_coastal = yes
+						is_controlled_by_ROOT_or_ally = yes
+					}
+					any_subject_country = {
+						OR = {
+							is_actual_neighbor_of_ROOT_or_ally = yes
+							any_owned_state = {
+								is_coastal = yes
+								is_controlled_by_ROOT_or_ally = yes
+							}
+						}
+					}
+					AND = {
+						is_in_faction = yes
+						any_allied_country = {
+							is_valid_peace_target = no
+							OR = {
+								is_actual_neighbor_of_ROOT_or_ally = yes
+								any_owned_state = {
+									is_coastal = yes
+									is_controlled_by_ROOT_or_ally = yes
+								}
+							}
+						}
+					}
+				}
+			}
+			if = {
+				limit = { is_subject = yes }
+				overlord = { set_autonomy = { target = PREV autonomy_state = autonomy_free } }
+			}
+			white_peace_with_PREV = yes
+		}
+	}
+}
+
+ENT_collapse_effect = {
+	# free all remaining puppets
+	ENT = {
+		every_subject_country = {
+			overlord = {
+				set_autonomy = { target = PREV autonomy_state = autonomy_free }
+			}
+		}
+	}
+
+	# dissolve the Entente
+	ENT = {
+		every_allied_country = {
+			if = {
+				limit = { has_capitulated = no }
+				set_country_flag = ENT_former_member
+				add_to_temp_array = { global.former_entente_members = THIS }
+			}
+		}
+		faction_leader = { dismantle_faction = yes }
+		clear_global_event_target = entente_leader
+	}
+
+	# give Entente members military access to each other
+	for_each_scope_loop = {
+		array = global.former_entente_members
+		for_each_scope_loop = {
+			array = global.former_entente_members
+			if = {
+				limit = { NOT = { tag = PREV } }
+				give_military_access = PREV
+			}
+		}
+	}
+	
+	# peace out with remaining Entente members
+	every_country = {
+		limit = {
+			has_war = yes
+			is_subject = no
+			OR = {
+				is_in_faction = no
+				is_faction_leader = yes
+			}
+			NOT = { has_country_flag = ENT_former_member }
+			any_enemy_country = { has_country_flag = ENT_former_member }
+		}
+		ENT_peace_out = yes
+	}
+
+	# can fire postwar here
+}

@@ -1,0 +1,540 @@
+on_actions = {
+  on_startup = {
+    effect = {
+			GER = { 
+				GER_compute_gauge_position = yes 
+				set_country_flag = GER_state_gui_open
+				set_temp_variable = { coalition_partner_var = token:paternal_autocrat }
+				add_to_coalition = yes
+				set_temp_variable = { coalition_partner_var = token:national_populist }
+				add_to_coalition = yes
+			}
+		}
+	}
+	on_daily_GER = {
+		effect = {
+			# I did not want to use an on_daily but i have no other choice
+
+
+			if = { # runs in O(1) (constant time) so shouldn't be as bad technically
+				limit = {
+					GER = { has_country_flag = GER_propaganda_mechanic_active }
+				}
+				add_to_variable = { GER_propaganda_dirty = 1 }
+
+				if = {
+					limit = { has_variable = GER_propaganda_slot_0 }
+					subtract_from_variable = { GER_propaganda_slot_0 = 1 }
+					add_to_variable = { GER_days_since_modified_0 = 1 }
+				} if = {
+					limit = { has_variable = GER_propaganda_slot_1 }
+					subtract_from_variable = { GER_propaganda_slot_1 = 1 }
+					add_to_variable = { GER_days_since_modified_1 = 1 }
+				} if = {
+					limit = { has_variable = GER_propaganda_slot_2 }
+					subtract_from_variable = { GER_propaganda_slot_2 = 1 }
+					add_to_variable = { GER_days_since_modified_2 = 1 }
+				}
+
+				if = {
+					limit = { check_variable = { var = GER_days_since_modified_0 value = 45 compare = greater_than_or_equals } }
+					add_to_variable = { age@0 = 1 }
+					set_variable = { GER_days_since_modified_0 = 0 }
+				} if = {
+					limit = { check_variable = { var = GER_days_since_modified_1 value = 45 compare = greater_than_or_equals } }
+					add_to_variable = { age@1 = 1 }
+					set_variable = { GER_days_since_modified_1 = 0 }
+				} if = {
+					limit = { check_variable = { var = GER_days_since_modified_2 value = 45 compare = greater_than_or_equals } }
+					add_to_variable = { age@2 = 1 }
+					set_variable = { GER_days_since_modified_2 = 0 }
+				}
+	
+				if = {
+					limit = { check_variable = { GER_propaganda_slot_0 = 0 } }
+					clear_variable = GER_propaganda_slot_0
+				} if = {
+					limit = { check_variable = { GER_propaganda_slot_1 = 0 } }
+					clear_variable = GER_propaganda_slot_1
+				} if = {
+					limit = { check_variable = { GER_propaganda_slot_2 = 0 } }
+					clear_variable = GER_propaganda_slot_2
+				}
+			}
+		}
+	}
+	on_war_relation_added = {
+		effect = {
+			if = {
+				limit = {
+					OR = {
+						tag = GER
+						FROM = { tag = GER }
+					}
+				}
+				GER = {
+					country_event = { id = gerexp.4 days = 1 hours = 12 }
+					country_event = { id = gerexp.43 days = 1 hours = 12 }
+					country_event = { id = gerexp.94 days = 1 hours = 12 }
+					country_event = { id = gerexp.134 days = 15 random_days = 30 }
+					country_event = { id = gerexp.81 days = 3 }
+					country_event = { id = gerexp.82 days = 7 }
+					country_event = { id = gerhidden.7 hours = 6 }
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						tag = GER
+						tag = SHO
+						tag = RHI
+						tag = AUS
+						FROM = { 
+							OR = {
+								tag = GER
+								tag = SHO
+								tag = RHI
+								tag = AUS
+							}
+						}
+					}
+				}
+				FROM = { save_event_target_as = GER_attacked_this_one }
+				if = {
+					limit = { RHI = { is_in_faction = no is_subject = no } }
+					RHI = { country_event = { id = gerexp.147 days = 2 } }
+				}
+				else_if = {
+					limit = { AUS = { is_in_faction = no is_subject = no } }
+					AUS = { country_event = { id = gerexp.147 days = 2 } }
+				}
+				else_if = {
+					limit = { SHO = { is_in_faction = no is_subject = no } }
+					SHO = { country_event = { id = gerexp.147 days = 2 } }
+				}
+			}
+		}
+	}
+
+
+	on_peaceconference_ended = {
+		effect = {
+			if = {
+				limit = {
+					ENG = {
+						has_country_flag = GEN_GER_former_faction_leader
+						is_in_faction_with = GER
+						has_war = no
+					}
+				}
+				ENG = { country_event = { id = gerexp.49 days = 1 } }
+				GER = { country_event = { id = gerexp.49 days = 1 } }
+			}
+			if = {
+				limit = {
+					ROOT = { tag = GER }
+				}
+				GER = {
+					country_event = { id = gerexp.95 days = 1 }
+					country_event = { id = gerexp.100 days = 1 }
+					country_event = { id = gerexp.138 days = 1 }
+				}
+			}
+		}
+	}
+
+	# ROOT is capitulated country, FROM is winner
+	on_capitulation_immediate = {
+		effect = {
+			if = {
+				limit = { FROM = { original_tag = GER GER_is_cultural_revolution_started = yes } }
+				ROOT = { save_event_target_as = defeated_country }
+				GER = { GER_victory_fever_effect = yes }
+			}
+			if = {
+				limit = { 
+					OR = {
+						tag = VAL
+						is_ally_with = VAL
+					}
+					FROM = { original_tag = GER has_active_mission = GER_war_central_europe }
+				}
+				GER = {
+					add_days_mission_timeout = {
+						mission = GER_war_central_europe
+						days = 60
+					}
+				}
+			}
+			if = {
+				limit = { 
+					original_tag = GER
+					has_civil_war = yes
+					FROM = { original_tag = GER }
+				}
+				ROOT = { # this should work - right?
+					every_character = { 
+						set_nationality = FROM
+						retire = yes
+					}
+				}
+			}
+		}
+	}
+
+	on_monthly_GER = {
+		effect = {
+			GER = {
+				if = {
+					limit = { GER_is_cultural_revolution_started = yes }
+					GER_compute_regional_progress = yes
+					GER_compute_monthly_cultural_revolution = yes
+					GER_compute_gauge_position = yes
+				}
+				if = {
+					limit = { has_country_flag = GER_started_kirchenkampf }
+					GER_calculate_kk_intensity_monthly = yes
+				}
+			}
+		}
+	}
+
+	on_state_control_changed = {
+		effect = {
+			# Fervour is calculated
+			if = {
+				limit = {
+					original_tag = GER
+					has_civil_war = yes
+				}
+				GER_calculate_fervor_effects = yes
+				FROM = { GER_calculate_fervor_effects = yes }
+			}
+			# renames 
+			if = {
+				limit = {
+					has_global_flag = GER_renamed_east
+					FROM = { GER_rl_control_check = yes }
+					FROM.FROM = { GER_gpo_rename_check = yes }
+				}
+				GER_unrename_east = yes
+			}
+			# renames 2
+			if = {
+				limit = {
+					GER_rl_control_check = yes
+					has_global_flag = GER_renamed_east
+					FROM.FROM = { GER_gpo_rename_check = yes }
+				}
+				GER_rename_east = yes
+			}
+			# if Cultural Revolution is ongoing... pt.1
+			if = {
+				limit = {
+					FROM = { original_tag = GER GER_is_cultural_revolution_started = yes }
+					FROM.FROM = { is_core_of = FROM }
+				}
+				FROM.FROM = { save_event_target_as = GER_lost_core }
+				FROM = { GER_reduce_morale_invasion = yes }
+			}
+			# if Cultural Revolution is ongoing... pt.2
+			if = {
+				limit = {
+					ROOT = { original_tag = GER GER_is_cultural_revolution_started = yes }
+					FROM = { is_major = yes }
+					FROM.FROM = { is_core_of = FROM state_population_k > 1000 }
+				}
+				FROM.FROM = { save_event_target_as = GER_gained_core }
+				ROOT = { GER_increase_morale_invasion = yes }
+			}
+			# Austrian Legion
+			if = {
+				 limit = {
+					FROM.FROM = { state = 803 }
+					ROOT = { 
+						controls_province = 11666 
+						has_template = "Österreichische Legion"
+					}
+				}
+				ROOT = { country_event = gerhidden.8 }
+			}
+			# Accords leadership jumps to another member
+			if = {
+				limit = {
+					FROM = {
+						tag = VAL
+						surrender_progress > 0.85
+					}
+				}
+				random_country = {
+					limit = {
+						is_in_faction_with = VAL
+						is_subject = no
+						NOT = { surrender_progress > 0.85 }
+					}
+					set_faction_leader = yes
+				}
+			}
+			# French decision to jump
+			if = {
+				limit = {
+					FROM = {
+						tag = FRA
+					}
+					ROOT = { tag = GER }
+				}
+				FRA = { country_event = { id = fra.24 days = 1 } }
+			}
+			# Reichslander lose core
+			if = {
+				limit = { is_in_array = { global.GER_reichslander = THIS } }
+				every_core_state = {
+					remove_core_of = ROOT
+				}
+			}
+			# GERMANY
+			if = {
+				limit = {
+					ROOT = { tag = GER }
+					GER = { has_completed_focus = GER_support_transeconomic_projects }
+				}
+				every_state = {
+					limit = {
+						owner = {
+							NOT = { tag = GER }
+							is_ally_with = GER
+							is_in_array = { global.european_tags_array = THIS }
+						}
+						NOT = { has_state_flag = GER_currently_devving_it }
+						OR = {
+							has_resources_amount = {
+								resource = oil
+								amount > 25
+							}
+							has_resources_amount = {
+								resource = aluminium
+								amount > 30
+							}
+							has_resources_amount = {
+								resource = chromium
+								amount > 50
+							}
+							has_resources_amount = {
+								resource = tungsten
+								amount > 50
+							}
+							has_resources_amount = {
+								resource = steel
+								amount > 250
+							}
+						}
+					}
+					ROOT = { activate_targeted_decision = { decision = GER_resource_extraction_efforts_generic target = PREV } }
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						has_country_flag = GER_is_reichslander
+						AND = {
+							original_tag = GER
+							has_completed_focus = GER_expansion_towards_the_east
+						}
+					}
+					FROM = {
+						OR = {
+							original_tag = SOV
+							original_tag = RUS
+							original_tag = POL
+							original_tag = LIT
+							original_tag = LAT
+							original_tag = EST
+							original_tag = BLR
+							original_tag = UKR
+							original_tag = GEO
+							original_tag = GOR
+							original_tag = SLV
+							original_tag = VRS
+							original_tag = ARM
+							original_tag = AZR
+						}
+					}
+				}
+				ROOT = {
+					every_country = {
+						limit = {
+							OR = {
+								original_tag = SOV
+								original_tag = RUS
+								original_tag = POL
+								original_tag = LIT
+								original_tag = LAT
+								original_tag = EST
+								original_tag = BLR
+								original_tag = UKR
+								original_tag = GEO
+								original_tag = GOR
+								original_tag = SLV
+								original_tag = VRS
+								original_tag = ARM
+								original_tag = AZR
+							}
+							NOT = {
+								PREV = {
+									ROOT = { occupation_law = lebensraum }
+								}
+							}
+						}
+						set_occupation_law_where_available = lebensraum
+						every_core_state = {
+							limit = { is_controlled_by = ROOT }
+							start_resistance = yes
+						}
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_country_flag = GER_is_reichslander
+					FROM = { original_tag = GER }
+				}
+				ROOT = {
+					every_owned_state = {
+						limit = { has_resistance = yes NOT = { has_dynamic_modifier = { modifier = GER_rl_oppression } } }
+						FROM = { activate_targeted_decision = { target = PREV decision = GER_crush_local_resistance_rl } }
+					}
+				}
+			}		
+		}
+	}
+
+  # ROOT is winner, FROM is loser
+  on_civil_war_end = {
+    effect = {
+      if = {
+        limit = { 
+          tag = GER
+          has_war = no
+        }
+        
+        ROOT = { GER_post_civil_war = yes }
+      }
+    }
+  }
+  
+  on_activated_active_decryption_bonuses = {
+		effect = {
+			if = {
+				limit = { has_idea = GER_enigma }
+				remove_ideas = GER_enigma # might add an event
+			}
+		}
+	}
+	# FROM is owner country, ROOT is the unit leader; why is paradox so funni, I'd rather die in the ether
+	on_army_leader_won_combat = {
+		effect = {
+			if = { # Regular Officers
+				limit = { 
+					FROM = {
+						GER_can_be_germany = yes
+						num_divisions > 125 # need some divisions 
+						NOT = { has_country_flag = GER_promotion_cooldown }
+					}
+					GER_promotion_boost = yes
+				}
+				GER_promotion_base = yes
+			}
+			if = { # Staff Officers
+				limit = { 
+					FROM = {
+						tag = GER 
+						NOT = { has_country_flag = GER_promotion_cooldown }
+						has_completed_focus = GER_expand_war_academies
+					}
+					GER_promotion_boost = yes
+				}
+				GER_promotion_staff = yes
+			}
+			if = { # TST
+				limit = { 
+					FROM = {
+						tag = GER 
+						NOT = { has_country_flag = GER_promotion_cooldown }
+						OR = {
+							has_completed_focus = GER_tst_valkist_compromise_army
+							has_government = national_populist
+						}
+					}
+					GER_promotion_boost = yes
+				}
+				GER_promotion_tst = yes
+			}
+		}
+	}
+	
+	#ROOT is winner #FROM gets annexed - For civil wars on_civil_war_end is also fired
+	on_annex = {
+		effect = {
+			if = {
+				limit = {
+					original_tag = GER
+					FROM = { tag = AUS }
+				}
+				ROOT = { country_event = { id = gerflavor.0 hours = 6 } }
+			}
+		}
+	}
+	
+	on_unit_leader_level_up = {
+		effect = {
+			if = { # Regular Officers
+				limit = { 
+					FROM = {
+						GER_can_be_germany = yes
+						num_divisions > 100 # need some divisions 
+					}
+					GER_promotion_boost = yes
+				}
+				set_temp_variable = { GER_promotion_level_up = 1 }
+				GER_promotion_base = yes
+			}
+			if = { # Staff Officers
+				limit = { 
+					FROM = {
+						tag = GER 
+						has_completed_focus = GER_expand_war_academies
+					}
+					GER_promotion_boost = yes
+				}
+				set_temp_variable = { GER_promotion_level_up = 1 }
+				GER_promotion_staff = yes
+			}
+			if = { # TST
+				limit = { 
+					FROM = {
+						tag = GER 
+						OR = {
+							has_completed_focus = GER_tst_valkist_compromise_army
+							has_government = national_populist
+						}
+					}
+					GER_promotion_boost = yes
+				}
+				set_temp_variable = { GER_promotion_level_up = 1 }
+				GER_promotion_tst = yes
+			}
+			if = { # tst_better_commander
+				limit = { has_trait = tst_commander }
+				GER_tst_training = yes
+			}
+			if = { # tst_better_commander
+				limit = { 
+					has_trait = tst_better_commander
+					skill > 6
+				}
+				set_temp_variable = { GER_promotion_level_up = 1 }
+				GER_tst_training = yes
+			}
+		}
+	}
+}

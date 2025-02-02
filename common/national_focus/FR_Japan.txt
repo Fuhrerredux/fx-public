@@ -1,5 +1,6 @@
 # Japan focus tree
 # made by Su1phur and Teuty!
+#!gfx:interface/FX_goals.gfx
 
 focus_tree = {
 	id = japanese_focus
@@ -501,6 +502,7 @@ focus_tree = {
 				}
 			}
 			JAP_interservice_rivalry_towards_navy = yes
+			custom_effect_tooltip = JAP_unlock_army_tree
 			set_country_flag = JAP_army_first
 		}
 	}
@@ -705,6 +707,7 @@ focus_tree = {
 				uses = 1
 				category = cv_tech #_lvl3
 			}
+			custom_effect_tooltip = JAP_unlock_army_tree
 			set_country_flag = JAP_army_first
 			JAP_interservice_rivalry_towards_navy = yes
 		}
@@ -873,8 +876,65 @@ focus_tree = {
 
 		completion_reward = {
 			log = "[GetDateText]: [Root.GetName]: Focus jap_the_zero"
-			set_technology = { cv_fighter2 = 1 }
-			custom_effect_tooltip = JAP_the_zero_tt
+			if = {
+				limit = { has_dlc_bba = yes }
+				if = {
+					limit = { has_tech = improved_small_airframe }
+					add_tech_bonus = {
+						name = JAP_the_zero
+						bonus = 1
+						uses = 1
+						category = cat_air_engine
+					}
+					custom_effect_tooltip = tooltip_white_line
+					create_equipment_variant = {
+						name = "Mitsubishi A6M Rei-sen Model 11"
+						type = cv_small_plane_airframe_2
+						modules = {
+							fixed_main_weapon_slot = aircraft_cannon_1_2x
+							fixed_auxiliary_weapon_slot_1 = heavy_mg_2x
+							fixed_auxiliary_weapon_slot_2 = bomb_locks
+							engine_type_slot = engine_3_1x
+							special_type_slot_1 = self_sealing_fuel_tanks_small
+							special_type_slot_2 = fuel_tanks_small
+						}
+					}
+				}
+				else = {
+					add_tech_bonus = {
+						name = JAP_the_zero
+						ahead_reduction = 1
+						uses = 1
+						technology = improved_small_airframe
+					}
+					custom_effect_tooltip = tooltip_white_line
+					custom_effect_tooltip = JAP_the_zero_tt
+				}
+			}
+			else_if = {
+				limit = { has_tech = cv_fighter2 }
+				create_equipment_variant = {
+					name = "Mitsubishi A6M Rei-sen Model 11"
+					type = cv_fighter_equipment_2
+					parent_version = 0
+					upgrades = {
+						plane_reliability_upgrade = 2
+						plane_engine_upgrade = 3
+						plane_range_upgrade = 3
+					}
+				}
+			}
+			else = {
+				add_tech_bonus = {
+					name = JAP_the_zero
+					ahead_reduction = 1
+					uses = 1
+					technology = fighter2
+					technology = cv_fighter2
+				}
+				custom_effect_tooltip = tooltip_white_line
+				custom_effect_tooltip = JAP_the_zero_tt
+			}
 		}
 	}
 
@@ -1590,6 +1650,8 @@ focus_tree = {
 				remove_idea = jap_armor_training_program
 				add_idea = jap_training_war_games
 			}
+			custom_effect_tooltip = JAP_unlock_navy_tree
+			set_country_flag = JAP_navy_first
 			JAP_interservice_rivalry_towards_army = yes
 		}
 	}
@@ -1812,6 +1874,8 @@ focus_tree = {
 		completion_reward = {
 			log = "[GetDateText]: [Root.GetName]: Focus jap_cohesion_between_companies"
 			add_ideas = jap_cohesion_between_companies
+			custom_effect_tooltip = JAP_unlock_navy_tree
+			set_country_flag = JAP_navy_first
 			JAP_interservice_rivalry_towards_army = yes
 		}
 	}
@@ -1906,7 +1970,7 @@ focus_tree = {
 			modifier = {
 				factor = 100
 				GER = {
-					has_completed_focus = GER_pangerman
+					has_completed_focus = GER_german_rebirth
 				}
 			}
 			modifier = { # Japan already joined a different Faction
@@ -1919,7 +1983,10 @@ focus_tree = {
 		}
 		available = {
 			has_authoritarian_government = yes
-			is_in_faction = no
+			OR = {
+				is_in_faction = no
+				is_faction_leader = yes 
+			}
 			country_exists = GER
 			NOT = { has_war_with = GER }
 		}
@@ -1962,6 +2029,7 @@ focus_tree = {
 			has_authoritarian_government = yes
 			country_exists = GER
 			NOT = { has_war_with = GER }
+			hidden_trigger = { NOT = { has_country_flag = JAP_no_tripartite_pact } }
 		}
 		bypass = {
 			has_war_with = GER
@@ -1997,6 +2065,7 @@ focus_tree = {
 			has_authoritarian_government = yes
 			country_exists = GER
 			NOT = { has_war_with = GER }
+			hidden_trigger = { NOT = { has_country_flag = JAP_no_tripartite_pact } }
 		}
 		bypass = {
 			has_war_with = GER
@@ -2040,6 +2109,7 @@ focus_tree = {
 			has_authoritarian_government = yes
 			country_exists = GER
 			NOT = { has_war_with = GER }
+			hidden_trigger = { NOT = { has_country_flag = JAP_no_tripartite_pact } }
 		}
 
 		completion_reward = {
@@ -2082,11 +2152,12 @@ focus_tree = {
 			has_authoritarian_government = yes
 			country_exists = HOL
 			HOL = { is_in_faction_with = GER }
+			hidden_trigger = { NOT = { has_country_flag = JAP_no_tripartite_pact } }
 		}
 		bypass = {
-			NOT = {
-				country_exists = HOL
-				GER = { is_in_faction_with = HOL }
+			OR = {
+				NOT = { country_exists = HOL }
+				NOT = { GER = { is_in_faction_with = HOL } }
 			}
 		}
 		completion_reward = {
@@ -2126,8 +2197,8 @@ focus_tree = {
 					}
 				}
 			}
-			modifier = { # Japan already joined a different Faction
-				factor = 0
+			modifier = { # Japan is already in a faction
+				factor = 0.1
 				JAP = {
 					is_in_faction = yes
 					is_faction_leader = no
@@ -2179,13 +2250,9 @@ focus_tree = {
 		}
 		completion_reward = {
 			log = "[GetDateText]: [Root.GetName]: Focus jap_suggest_tripartite"
-			random_other_country = {
-				limit = {
-					is_in_faction_with = GER
-					is_faction_leader = yes
-				}
+			GER = {
 				country_event = {
-					id = jap.hol.friends.of.our.friends.are.our.friends
+					id = jap.58
 					days = 1
 					random_hours = 1
 				}
@@ -2202,7 +2269,11 @@ focus_tree = {
 		relative_position_id = jap_suggest_tripartite
 		available = {
 			has_capitulated = no
-			is_in_faction_with = GER
+			custom_trigger_tooltip = {
+				tooltip = JAP_GER_tripartite
+				has_global_flag = JAP_tripartite_pact
+			}
+			hidden_trigger = { NOT = { has_country_flag = JAP_no_tripartite_pact } }
 		}
 		prerequisite = {
 			focus = jap_suggest_tripartite
@@ -2212,7 +2283,7 @@ focus_tree = {
 		}
 		completion_reward = {
 			log = "[GetDateText]: [Root.GetName]: Focus jap_joint_tripartite_research"
-			add_research_slot = 1
+			add_research_slot_until_five = yes
 		}
 	}
 
@@ -2248,6 +2319,7 @@ focus_tree = {
 			has_authoritarian_government = yes
 			country_exists = GER
 			NOT = { has_war_with = GER }
+			hidden_trigger = { NOT = { has_country_flag = JAP_no_tripartite_pact } }
 		}
 		completion_reward = {
 			log = "[GetDateText]: [Root.GetName]: Focus jap_operations"
@@ -2721,7 +2793,7 @@ focus_tree = {
 
 	focus = {
 		id = jap_trade_from_isles
-		icon = GFX_focus_chi_british_cooperation
+		icon = GFX_focus_generic_british_trade
 		cost = 5
 
 		x = 0
@@ -3085,7 +3157,7 @@ focus_tree = {
 
 	focus = {
 		id = jap_iraa
-		icon = GFX_goal_japanese_imperialism
+		icon = GFX_goal_JAP_IRAA
 		cost = 5
 		x = 1
 		y = 1
@@ -3099,6 +3171,16 @@ focus_tree = {
 		completion_reward = {
 			log = "[GetDateText]: [Root.GetName]: Focus jap_iraa"
 			add_ideas = jap_iraa
+			set_party_name = {
+				ideology = paternal_autocrat
+				long_name = JAP_iraa_long
+				name = JAP_iraa
+			}
+			set_party_name = {
+				ideology = national_populist
+				long_name = JAP_iraa_long
+				name = JAP_iraa
+			}
 		}
 	}
 
@@ -3120,7 +3202,7 @@ focus_tree = {
 		}
 		completion_reward = {
 			log = "[GetDateText]: [Root.GetName]: Focus jap_ally_the_military"
-			set_cosmetic_tag = JAP_military
+			hidden_effect = { set_cosmetic_tag = JAP_military }
 			add_popularity = {
 				ideology = authoritarian_democrat
 				popularity = 0.05
@@ -3663,19 +3745,19 @@ focus_tree = {
 	}
 
 	focus = {
-		id = jap_balanced_doctrine
+		id = jap_research_for_allies
 		icon = GFX_goal_generic_army_high_command
 		cost = 5
 
 		x = 0
-		y = 1
+		y = 2
 		relative_position_id =  jap_begin_subjugation
 		prerequisite = {
 			focus = jap_begin_subjugation
 		}
-		mutually_exclusive = {
-			focus = jap_nanshinron
-			focus = jap_hokushinron
+		
+		available = {
+			num_faction_members > 3
 		}
 
 		ai_will_do = {
@@ -3696,8 +3778,8 @@ focus_tree = {
 		}
 
 		completion_reward = {
-			log = "[GetDateText]: [Root.GetName]: Focus jap_balanced_doctrine"
-			add_ideas = jap_balanced_doctrine
+			log = "[GetDateText]: [Root.GetName]: Focus jap_research_for_allies"
+			add_research_slot_until_five = yes
 		}
 	}
 
@@ -3713,7 +3795,6 @@ focus_tree = {
 			focus = jap_begin_subjugation
 		}
 		mutually_exclusive = {
-			focus = jap_balanced_doctrine
 			focus = jap_hokushinron
 		}
 
@@ -3783,7 +3864,6 @@ focus_tree = {
 			focus = jap_begin_subjugation
 		}
 		mutually_exclusive = {
-			focus = jap_balanced_doctrine
 			focus = jap_nanshinron
 		}
 
@@ -3854,7 +3934,7 @@ focus_tree = {
 		relative_position_id =  jap_nanshinron
 		prerequisite = {
 			focus = jap_hokushinron
-			focus = jap_balanced_doctrine
+			focus = jap_nanshinron
 		}
 		ai_will_do = {
 			factor = 40
@@ -3934,7 +4014,7 @@ focus_tree = {
 		relative_position_id =  jap_hokushinron
 		prerequisite = {
 			focus = jap_nanshinron
-			focus = jap_balanced_doctrine
+			focus = jap_hokushinron
 		}
 		ai_will_do = {
 			factor = 40
@@ -5360,19 +5440,8 @@ focus_tree = {
 		relative_position_id = jap_defeat_cliques
 		available = {
 			OR = {
-				KMT = {
-					is_puppet_of = JAP
-				}
-				AND = {
-					JAP = {
-						any_owned_state = {
-							is_core_of = KMT
-						}
-					}
-					KMT = {
-						exists = no
-					}
-				}
+				ZHI = { is_subject_of = JAP }
+				ZHI = { is_in_faction_with = JAP }
 			}
 		}
 		prerequisite = {
@@ -5383,22 +5452,11 @@ focus_tree = {
 		}
 		completion_reward = {
 			log = "[GetDateText]: [Root.GetName]: Focus jap_chinese_project"
-			if = {
-				limit = {
-					KMT = {
-						exists = no
-					}
-				}
-				JAP = {
-					release = KMT
-					puppet = KMT
-				}
-			}
-			KMT = { add_ideas = jap_chi_project }
+			ZHI = { add_ideas = jap_chi_project }
 			hidden_effect = {
 				if = {
 					limit = {
-						KMT = {
+						ZHI = {
 							is_puppet_of = JAP
 							owns_state = 524
 						}
@@ -5495,19 +5553,8 @@ focus_tree = {
 
 		available = {
 			OR = {
-				KMT = {
-					is_puppet_of = JAP
-				}
-				AND = {
-					JAP = {
-						any_owned_state = {
-							is_core_of = KMT
-						}
-					}
-					KMT = {
-						exists = no
-					}
-				}
+				ZHI = { is_subject_of = JAP }
+				ZHI = { is_in_faction_with = JAP }
 			}
 		}
 
@@ -5518,24 +5565,25 @@ focus_tree = {
 		}
 		completion_reward = {
 			log = "[GetDateText]: [Root.GetName]: Focus jap_chinese_air"
-			# KMT = { # Drowse - This should be inside the limit statement
-			# LIMIT = { is_puppet_of = JAP } # Drowse - limit = { statements need to be preceded by and if = { statement
+			# KMT = { # Drowse - This should be inside the limit statement }
+			# LIMIT = { is_puppet_of = JAP } # Drowse - limit = { statements need to be preceded by and if = { statement } }
 				# add_ideas = jap_air_companies
-				# 892 = {
+				# 892 = { }
 							# add_building_construction = {
 								# type = airfield
 								# level = 3
 								# instant_build = yes
 								# }
-							# }
-						# }
-			if = { # Drowse - Correct syntax for this code
-				limit = {
-					KMT = {
-						is_puppet_of = JAP
-					}
-				}
-				KMT = {
+							# 
+						#
+			# if = { # Drowse - Correct syntax for this code
+			#limit = {
+			#	ZHI = {
+			#		is_subject_of = JAP
+			#	}
+			#}
+			#}
+				ZHI = {
 					add_ideas = jap_air_companies
 					892 = {
 						add_building_construction = {
@@ -5545,9 +5593,8 @@ focus_tree = {
 						}
 					}
 				}
-			}
 		}
-	}
+	} # yes I know the formatting sucks, but so does Japan ~ retiredlt24
 	focus = {
 		id = jap_three_race_coprosperity
 		icon = GFX_goal_COS_Peace
@@ -5589,19 +5636,8 @@ focus_tree = {
 
 		available = {
 			OR = {
-				KMT = {
-					is_puppet_of = JAP
-				}
-				AND = {
-					JAP = {
-						any_owned_state = {
-							is_core_of = KMT
-						}
-					}
-					KMT = {
-						exists = no
-					}
-				}
+				ZHI = { is_subject_of = JAP }
+				ZHI = { is_in_faction_with = JAP }
 			}
 		}
 
@@ -5689,7 +5725,7 @@ focus_tree = {
 		}
 		completion_reward = {
 			log = "[GetDateText]: [Root.GetName]: Focus jap_join_the_ISC"
-			add_research_slot = 1
+			add_research_slot_until_five = yes
 			JAP = {
 				add_to_tech_sharing_group = imperial_research
 			}
@@ -5796,7 +5832,7 @@ focus_tree = {
 			NOT = { is_in_faction_with = USA }
 			OR = {
 				has_completed_focus = jap_for_the_empire
-				has_completed_focus = jap_operations
+				has_authoritarian_government = yes
 			}
 		}
 		bypass = {
@@ -6214,7 +6250,7 @@ focus_tree = {
 			NOT = { is_in_faction_with = ENG }
 			OR = {
 				has_completed_focus = jap_coop_americans
-				has_completed_focus = jap_operations
+				has_authoritarian_government = yes
 			}
 		}
 		prerequisite = {

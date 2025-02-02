@@ -297,7 +297,7 @@ country_event = { # Germany takes aggressive foreign policy
 	trigger = {
 		original_tag = FRA
 		GER = {
-			has_completed_focus = GER_pangerman
+			has_completed_focus = GER_german_rebirth
 		}
 	}
 
@@ -329,7 +329,7 @@ country_event = { # Germany - anti entente propaganda
 	trigger = {
 		original_tag = FRA
 		GER = {
-			has_completed_focus = GER_anti_entente
+			has_completed_focus = GER_anti_entente_propaganda
 		}
 	}
 
@@ -1277,5 +1277,781 @@ country_event = { # ANY - We are removed from the entente council
 		effect_tooltip = {
 			remove_ideas = GEN_entente_member
 		}
+	}
+}
+
+country_event = { # United Nations Alliance
+	id = FRA.council.23
+	immediate = {log = "[GetDateText]: [Root.GetName]: event FRA.council.23"}
+	title = FRA.council.23.t
+	desc = FRA.council.23.d
+	picture = GFX_report_event_FRA_Entente_Conference
+
+	is_triggered_only = yes
+	
+	trigger = {
+		ROOT = { is_faction_leader = yes }
+	}
+
+	option = {
+		name = FRA.council.23.a # woop woop
+		FROM = {
+			country_event = { id = FRA.council.25 days = 1 }
+			hidden_effect = { activate_targeted_decision = { target = THIS decision = GEN_reform_faction } }
+			set_country_flag = GEN_former_faction_leader
+		}
+		add_war_support = 0.25
+		set_faction_name = entente
+		custom_effect_tooltip = form_united_nations_alliance
+		hidden_effect = {
+			every_other_country = {
+				limit = {
+					is_in_faction_with = FROM
+					is_subject = no
+				}
+				entente_faction_merging = yes
+				ROOT = { add_to_faction = PREV }
+			}
+			FROM = { dismantle_faction = yes }
+		}
+		ROOT = { add_to_faction = FROM }
+	}
+
+	option = {
+		name = FRA.council.23.b # how about no
+		ai_chance = {
+			base = 0
+		}
+		add_political_power = -50
+		add_war_support = -0.1
+		FROM = {
+			country_event = { id = FRA.council.24 days = 1 }
+		}
+	}
+}
+
+country_event = { # no UN?
+	id = FRA.council.24
+	immediate = {log = "[GetDateText]: [Root.GetName]: event FRA.council.24"}
+	title = FRA.council.24.t
+	desc = FRA.council.24.d
+	picture = GFX_report_event_generic_diplomacy2
+
+	is_triggered_only = yes
+
+	option = {
+		name = FRA.council.24.a # sad
+		add_war_support = -0.05
+		add_opinion_modifier = {
+			target = FROM
+			modifier = FX_disapproves_of_govt
+		}
+		reverse_add_opinion_modifier = {
+			target = FROM
+			modifier = FX_disapproves_of_govt
+		}
+	}
+}
+
+country_event = { # yay
+	id = FRA.council.25
+	immediate = {log = "[GetDateText]: [Root.GetName]: event FRA.council.25"}
+	title = FRA.council.25.t
+	desc = FRA.council.25.d
+	picture = GFX_report_event_ENG_happy_soldiers
+
+	is_triggered_only = yes
+
+	option = {
+		name = "[ENT_reform_response]"
+		add_war_support = 0.25
+		hidden_effect = {
+			news_event = { id = fxnews.52 days = 1 }
+			faction_leader = {
+				if = {
+					limit = {
+						FRA = {
+							OR = {
+								exists = no 
+								has_idea = FRA_govt_in_exile
+							}
+						}
+					}
+					country_event = { id = FRA.council.28 days = 7 }
+				}
+			}
+		}
+	}
+}
+
+country_event = { # awwww
+	id = FRA.council.26
+	immediate = {log = "[GetDateText]: [Root.GetName]: event FRA.council.26"}
+	title = FRA.council.26.t
+	desc = FRA.council.26.d
+	picture = GFX_report_event_communists_cheer
+
+	is_triggered_only = yes
+
+	option = {
+		name = FRA.council.26.a # their loss
+		if = {
+			limit = { 
+				count_triggers = {
+					amount = 2
+					ENT = { is_faction_leader = yes }
+					IPA = { is_faction_leader = yes }
+					USA = { is_faction_leader = yes }
+				}
+			}   
+			if = {
+				limit = { tag = USA }
+				set_faction_name = washington_accord
+				clr_country_flag = GEN_former_faction_leader
+				every_country = {
+					limit = { has_country_flag = USA_former_faction_member }
+					clr_country_flag = USA_former_faction_member
+				}
+			}
+			else_if = {
+				limit = { 
+					OR = {
+						tag = ENG
+						tag = CAN
+					}
+				}
+				set_faction_name = imperial_protection_alliance
+				clr_country_flag = GEN_former_faction_leader
+				every_country = {
+					limit = { has_country_flag = IPA_former_faction_member }
+					clr_country_flag = IPA_former_faction_member
+				}
+			}
+			else = {
+				set_faction_name = continental_entente
+				clr_country_flag = GEN_former_faction_leader
+				every_country = {
+					limit = { has_country_flag = ENT_former_faction_member }
+					clr_country_flag = ENT_former_faction_member
+				}
+			}
+		}       
+	}
+}
+
+country_event = {
+	id = FRA.council.27
+	immediate = {log = "[GetDateText]: [Root.GetName]: event FRA.council.27"}
+	title = FRA.council.27.t
+	desc = FRA.council.27.d
+	picture = GFX_report_event_generic_diplomacy2
+
+	is_triggered_only = yes
+	
+	trigger = {
+		is_faction_leader = no
+	}
+
+	option = {
+		log = "[GetLogInfo]: event FRA.council.27 option FRA.council.27.a"
+		name = FRA.council.27.a #Of course!
+		if = {
+			limit = { has_country_flag = USA_former_faction_member }
+			USA = { add_to_faction = ROOT }
+		}
+		else_if = {
+			limit = { has_country_flag = IPA_former_faction_member }
+			IPA = { add_to_faction = ROOT }
+		}
+		else = {
+			ENT = { add_to_faction = ROOT }
+		}
+	}
+	option = {
+		log = "[GetLogInfo]: event FRA.council.27 option FRA.council.27.b"
+		name = FRA.council.27.b #No way!
+		trigger = {
+			is_ai = no
+			is_subject = no
+		}
+		clr_country_flag = USA_former_faction_member
+		clr_country_flag = IPA_former_faction_member
+		clr_country_flag = ENT_former_faction_member
+		if = {
+			limit = { 
+				OR = {
+					is_in_faction_with = USA
+					is_in_faction_with = FRA
+					is_in_faction_with = ENG
+					is_in_faction_with = ITA
+					is_in_faction_with = CAN
+				}
+			}
+			leave_faction = yes
+		}
+	}
+}
+
+country_event = { # the United Nations???
+	id = FRA.council.28
+	immediate = {log = "[GetDateText]: [Root.GetName]: event FRA.council.28"}
+	title = FRA.council.28.t
+	desc = FRA.council.28.d
+	picture = GFX_report_event_generic_diplomacy2
+
+	is_triggered_only = yes
+	
+	trigger = {
+		is_faction_leader = yes
+	}
+
+	option = {
+		log = "[GetLogInfo]: event FRA.council.28 option FRA.council.28.a"
+		name = FRA.council.28.a # OTL moment
+		set_faction_name = united_nations_alliance
+	}
+	option = {
+		log = "[GetLogInfo]: event FRA.council.28 option FRA.council.28.b"
+		name = FRA.council.28.b # click this if you are FRENCH
+		trigger = {
+			is_ai = no
+			is_subject = no
+		}
+	}
+}
+
+country_event = { # we get screwed...
+	id = FRA.council.29
+	immediate = {log = "[GetDateText]: [Root.GetName]: event FRA.council.29"}
+	title = FRA.council.29.t
+	desc = FRA.council.29.d
+	picture = GFX_report_event_generic_diplomacy2
+
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetLogInfo]: event FRA.council.29 option FRA.council.29.a"
+		name = FRA.council.29.a # ...
+		ai_chance = { base = 0 }
+		add_political_power = -25
+	}
+	option = {
+		log = "[GetLogInfo]: event FRA.council.29 option FRA.council.29.b"
+		name = FRA.council.29.b # maybe this can be changed??????????
+		ai_chance = { base = 1000 }
+		trigger = {
+			NOT = {
+				all_country = {
+					if = {
+						limit = { has_war_with = ROOT }
+						ROOT = { any_state = { is_claimed_by = PREV } }
+					}
+				}
+			}
+		}
+		every_country = {
+			limit = {
+				has_war_with = ROOT
+				OR = {
+					is_faction_leader = yes
+					is_in_faction = no
+				}
+			}
+			country_event = { id = FRA.council.30 days = 1 }
+		}
+	}
+}
+
+country_event = { # peace!!!
+	id = FRA.council.30
+	immediate = {log = "[GetDateText]: [Root.GetName]: event FRA.council.30"}
+	title = FRA.council.30.t
+	desc = FRA.council.30.d
+	picture = GFX_report_event_generic_diplomacy2
+
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetLogInfo]: event FRA.council.30 option FRA.council.30.a"
+		name = FRA.council.30.a # ...
+		FROM = { white_peace_with_ROOT = yes }
+	}
+	option = {
+		log = "[GetLogInfo]: event FRA.council.30 option FRA.council.30.b"
+		name = FRA.council.30.b # maybe this can be changed??????????
+		ai_chance = { base = 0 }
+		add_political_power = -25
+	}
+}
+
+country_event = { # ENT collapse
+	id = FRA.council.31
+
+	hidden = yes
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	immediate = {
+		log = "[GetLogInfo]: Entente Collapses"
+		ENT_collapse_effect = yes
+	}
+}
+
+country_event = { # Germany Vote
+	id = FRA.council.32
+	immediate = {log = "[GetDateText]: [Root.GetName]: event FRA.council.32"}
+	title = FRA.council.32.t
+	desc = FRA.council.32.d
+	picture = ger_march
+
+	is_triggered_only = yes
+	
+	immediate = {
+		FRA = {
+			set_variable = { entente_german_vote_yes = 0 }
+			set_variable = { entente_german_vote_no = 0 }
+		}
+	}
+
+	option = {
+		name = FRA.council.32.a
+		FRA = {
+			add_to_variable = { var = entente_german_vote_yes value = 1 }
+		}
+	}
+
+	option = {
+		name = FRA.council.32.b
+		FRA = {
+			add_to_variable = { var = entente_german_vote_no value = 1 }
+		}
+	}
+}
+
+country_event = { # Germany decision
+	id = FRA.council.33
+	immediate = {log = "[GetDateText]: [Root.GetName]: event FRA.council.33"}
+	title = FRA.council.33.t
+	desc = FRA.council.33.d
+	picture = ger_march
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		trigger = {
+			FRA = {
+				check_variable = { entente_german_vote_no > entente_german_vote_yes }
+			}
+		}
+		name = FRA.council.33.a
+		set_country_flag = FRA_ger_issue_done
+		custom_effect_tooltip = FRA_council_sub5
+		FRA = {
+			subtract_from_variable = {
+				var = entente_faith
+				value = 5
+			}
+		}
+		every_country = {
+			limit = {
+				has_idea = GEN_entente_member
+			}
+			country_event = FRA.council.34
+		}
+	}
+
+	option = {
+		trigger = {
+			FRA = {
+				check_variable = { entente_german_vote_no < entente_german_vote_yes }
+			}
+		}
+		name = FRA.council.33.b
+		set_country_flag = FRA_ger_issue_done
+		custom_effect_tooltip = FRA_council_add5
+		FRA = {
+			add_to_variable = {
+				var = entente_faith
+				value = 5
+			}
+		}
+		every_country = {
+			limit = {
+				has_idea = GEN_entente_member
+			}
+			country_event = FRA.council.35
+		}
+			
+		GER = {
+			country_event = FRA.council.36
+		}
+
+		FRA = {
+			add_timed_idea = {
+				idea = FRA_german_sanctions
+				days = 730
+			}
+		}
+	}
+}
+
+country_event = { # Germany result - fail
+	id = FRA.council.34
+	immediate = {log = "[GetDateText]: [Root.GetName]: event FRA.council.34"}
+	title = FRA.council.34.t
+	desc = FRA.council.34.d
+	picture = diplomacy4
+
+	is_triggered_only = yes
+
+	option = {
+		name = FRA.council.34.a 
+	}
+}
+
+country_event = { # Germany result - pass
+	id = FRA.council.35
+	immediate = {log = "[GetDateText]: [Root.GetName]: event FRA.council.35"}
+	title = FRA.council.35.t 
+	desc = FRA.council.35.d
+	picture = diplomacy4
+
+	is_triggered_only = yes
+
+	option = {
+		name = FRA.council.35.a
+			if = {
+				limit = {
+					has_country_flag = FRA_german_vote_yes
+				}
+				add_timed_idea = {
+					idea = FRA_german_sanctions
+					days = 730
+				}
+			}
+	}
+}
+
+country_event = { # Germany sanctioned
+	id = FRA.council.36
+	immediate = {log = "[GetDateText]: [Root.GetName]: event FRA.council.36"}
+	title = FRA.council.36.t
+	desc = FRA.council.36.d
+	picture = GER_schleicher
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		name = FRA.council.36.a
+		add_timed_idea = {
+			idea = GER_german_sanctions1
+			days = 730
+		}
+		if = { limit = { has_dlc_bba = yes } send_embargo = GER }
+	}
+}
+
+### Council Eco vote
+country_event = { # Austerity Vote
+	id = FRA.council.37
+	immediate = {log = "[GetDateText]: [Root.GetName]: event FRA.council.37"}
+	title = FRA.council.37.t
+	desc = FRA.council.37.d
+	picture = economy_growth
+
+	is_triggered_only = yes
+	
+	immediate = {
+		FRA = {
+			set_variable = { entente_economy_vote_yes = 0 }
+			set_variable = { entente_economy_vote_no = 0 }
+		}
+	}
+
+	option = {
+		name = FRA.council.37.a
+			set_country_flag = FRA_eco_vote_yes
+		FRA = {
+			add_to_variable = { var = entente_economy_vote_yes value = 1 }
+		}
+	}
+
+	option = {
+		name = FRA.council.37.b 
+		FRA = {
+			add_to_variable = { var = entente_economy_vote_no value = 1 }
+		}
+		add_political_power = 25
+	}
+}
+
+country_event = { # Economic decision
+	id = FRA.council.38
+	immediate = {log = "[GetDateText]: [Root.GetName]: event FRA.council.38"}
+	title = FRA.council.38.t
+	desc = FRA.council.38.d
+	picture = economy_growth
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		trigger = {
+			FRA = {
+				check_variable = { entente_economy_vote_no > entente_economy_vote_yes }
+			}
+		}
+		name = FRA.council.38.a
+		custom_effect_tooltip = FRA_council_sub5
+		FRA = {
+			subtract_from_variable = {
+				var = entente_faith
+				value = 5
+			}
+		}
+		set_country_flag = FRA_eco_issue_done
+		every_country = {
+			limit = {
+				has_idea = GEN_entente_member
+			}
+			country_event = FRA.council.39
+		}
+	}
+
+	option = {
+		trigger = {
+			FRA = {
+				check_variable = { entente_economy_vote_no < entente_economy_vote_yes }
+			}
+		}
+		name = FRA.council.38.b
+		custom_effect_tooltip = FRA_council_add5
+		FRA = {
+			add_to_variable = {
+				var = entente_faith
+				value = 5
+			}
+		}
+		set_country_flag = FRA_eco_issue_done
+		every_country = {
+			limit = {
+				has_idea = GEN_entente_member
+			}
+			country_event = FRA.council.40
+		}
+
+		FRA = {
+			add_timed_idea = {
+				idea = FRA_austerity_measures
+				days = 730
+			}
+		}
+	}
+}
+
+country_event = { # Economic result - fail
+	id = FRA.council.39
+	immediate = {log = "[GetDateText]: [Root.GetName]: event FRA.council.39"}
+	title = FRA.council.39.t
+	desc = FRA.council.39.d
+	picture = diplomacy4
+
+	is_triggered_only = yes
+
+	option = {
+		name = FRA.council.39.a
+	}
+}
+
+country_event = { # Economic result - pass
+	id = FRA.council.40
+	immediate = {log = "[GetDateText]: [Root.GetName]: event FRA.council.40"}
+	title = FRA.council.40.t
+	desc = FRA.council.40.d
+	picture = diplomacy4
+
+	is_triggered_only = yes
+
+	option = {
+		name = FRA.council.40.a
+			if = {
+				limit = {
+					has_country_flag = FRA_eco_vote_yes
+				}
+				add_timed_idea = {
+					idea = FRA_austerity_measures
+					days = 730
+				}
+			}
+	}
+}
+
+### Council Soviet vote
+country_event = { # Soviet Vote
+	id = FRA.council.41
+	immediate = {log = "[GetDateText]: [Root.GetName]: event FRA.council.41"}
+	title = FRA.council.41.t
+	desc = FRA.council.41.d
+	picture = GFX_report_event_generic_sign_treaty2
+
+	is_triggered_only = yes
+	
+	immediate = {
+		FRA = {
+			set_variable = { entente_soviet_vote_yes = 0 }
+			set_variable = { entente_soviet_vote_no = 0 }
+		}
+	}
+	
+
+	option = {
+		name = FRA.council.41.a
+			set_country_flag = FRA_sov_vote_yes
+		FRA = {
+			add_to_variable = {
+				var = entente_soviet_vote_yes
+				value = 1
+			}
+		}
+	}
+
+	option = {
+		name = FRA.council.41.b
+		FRA = {
+			add_to_variable = {
+				var = entente_soviet_vote_no
+				value = 1
+			}
+		}
+	}
+}
+
+country_event = { # Soviet decision
+	id = FRA.council.42
+	immediate = {log = "[GetDateText]: [Root.GetName]: event FRA.council.42"}
+	title = FRA.council.42.t
+	desc = FRA.council.42.d
+	picture = GFX_report_event_generic_sign_treaty2
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		trigger = {
+			FRA = {
+				OR = {
+					check_variable = { entente_soviet_vote_no > entente_soviet_vote_yes }
+					NOT = {
+						has_variable = entente_soviet_vote_no
+						has_variable = entente_soviet_vote_yes
+					}
+				}
+			}
+		}
+		name = FRA.council.42.a
+		custom_effect_tooltip = FRA_council_sub5
+		FRA = {
+			subtract_from_variable = {
+				var = entente_faith
+				value = 5
+			}
+		}
+		set_country_flag = FRA_sov_issue_done
+		every_country = {
+			limit = {
+				has_idea = GEN_entente_member
+			}
+			country_event = FRA.council.43
+		}
+	}
+
+	option = {
+		trigger = {
+			FRA = {
+				check_variable = { entente_soviet_vote_no <	 entente_soviet_vote_yes }
+			}
+		}
+		name = FRA.council.42.b
+		custom_effect_tooltip = FRA_council_add5
+		FRA = {
+			add_to_variable = {
+				var = entente_faith
+				value = 5
+			}
+		}
+		set_country_flag = FRA_sov_issue_done
+		every_country = {
+			limit = {
+				has_idea = GEN_entente_member
+			}
+			country_event = FRA.council.44
+		}
+		
+		SOV = {
+			country_event = { id = FRA.council.45 hours = 12 }
+		}
+	}
+}
+
+country_event = { # soviet result - fail
+	id = FRA.council.43
+	immediate = {log = "[GetDateText]: [Root.GetName]: event FRA.council.43"}
+	title = FRA.council.43.t
+	desc = FRA.council.43.d
+	picture = GFX_report_event_generic_sign_treaty2
+
+	is_triggered_only = yes
+
+	option = {
+		name = FRA.council.43.a
+	}
+}
+
+country_event = { # soviet result - pass
+	id = FRA.council.44
+	immediate = {log = "[GetDateText]: [Root.GetName]: event FRA.council.44"}
+	title = FRA.council.44.t
+	desc = FRA.council.44.d
+	picture = GFX_report_event_generic_sign_treaty2
+
+	is_triggered_only = yes
+
+	option = {
+		name = FRA.council.44.a
+			every_country = {
+				limit = {
+					has_country_flag = FRA_sov_vote_yes
+				}
+			add_opinion_modifier = { target = SOV modifier = FRA_sov_recognize }
+		}
+	}
+}
+
+country_event = { # Soviet event
+	id = FRA.council.45
+	immediate = {log = "[GetDateText]: [Root.GetName]: event FRA.council.45"}
+	title = FRA.council.45.t
+	desc = FRA.council.45.d
+	picture = GFX_report_event_generic_sign_treaty2
+
+	is_triggered_only = yes
+
+	fire_only_once = yes
+
+	option = {
+		name = FRA.council.45.a
+			add_opinion_modifier = { target = FRA modifier = FRA_sov_recognize }
+			every_country = {
+				limit = {
+					has_country_flag = FRA_sov_vote_yes
+				}
+				add_opinion_modifier = { target = PREV modifier = FRA_sov_recognize }
+			}
 	}
 }

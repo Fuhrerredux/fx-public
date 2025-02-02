@@ -62,7 +62,10 @@ country_event = {
 			IRQ = { country_event = { id = irq.10 } }
 			EGY = { country_event = { id = egypt.1 } }
 			ENG = { country_event = { id = cyp.1 } }
-			MLT = { country_event = mlt.1 }
+			MLT = { country_event = { id = mlt.1 days = 2 } }
+			SHO = { country_event = { id = kiel.22 days = 1 } }
+			RHI = { country_event = { id = rhein.7 days = 1 } }
+			AUS = { country_event = { id = AUSperfecteconomy.1 days = 1 random_days = 6 } }
 			add_to_array = { ENG_IMP_BLACK_WED = RAJ }
 			add_to_array = { ENG_IMP_BLACK_WED = NZL }
 			add_to_array = { ENG_IMP_BLACK_WED = NFL }
@@ -1952,6 +1955,12 @@ country_event = { # The Second IRB Rising
 		set_country_flag = ire_rising
 		set_global_flag = second_irb_rising
 		news_event = { id = fxnews.54 }
+		hidden_effect = {
+			if = {
+				limit = { GER = { NOT = { has_completed_focus = GER_diplomatically_approach_british } } }
+				GER = { activate_targeted_decision = { target = IRE decision = GER_supply_imperial_rebellion } }
+			}
+		}
 	}
 }
 
@@ -10385,13 +10394,8 @@ country_event = {
 				country_event = { id = emp.501 days = 7 }
 			}
 			if = {
-				limit = {
-					AND = {
-						tag = GER
-						has_capitulated = no
-					}
-				}
-				country_event = { id = emp.511 days = 7 }
+				limit = { GER = { NOT = { has_completed_focus = GER_diplomatically_approach_british } } }
+				GER = { activate_targeted_decision = { target = ZAF decision = GER_supply_imperial_rebellion } }
 			}
 			if = {
 				limit = {
@@ -10945,7 +10949,24 @@ country_event = { # First Lord of the Admiralty
 			base = 0
 		}
 		hidden_effect = { set_country_flag = ENG_chose_churchill }
-		activate_advisor = ENG_Winston_Churchill_cnav
+		navy_experience = 25
+		add_political_power = -50
+		custom_effect_tooltip = ENG_churchill_admiralty
+		hidden_effect = {
+			ENG_Louis_Mountbatten = {
+				remove_advisor_role = { slot = navy_chief }
+				add_advisor_role = {
+					advisor = {
+						cost = 50
+						slot = navy_chief
+						idea_token = ENG_Louis_Mountbatten_cnav_pau_cheaper
+						traits = {
+							FX_navy_chief_commerce_raiding_2
+						}
+					}
+				}
+			}
+		}
 	}
 
 	option = { # Leo Amery has proven himself before
@@ -10958,7 +10979,9 @@ country_event = { # First Lord of the Admiralty
 			}
 		}
 		hidden_effect = { set_country_flag = ENG_chose_amery }
-		activate_advisor = ENG_Leo_Amery_cnav
+		add_political_power = 50
+		add_stability = 0.05
+		navy_experience = 25
 	}
 
 	option = { # Cooper is the man for the job
@@ -10971,7 +10994,7 @@ country_event = { # First Lord of the Admiralty
 			}
 		}
 		hidden_effect = { set_country_flag = ENG_chose_cooper }
-		activate_advisor = ENG_Duff_Cooper_cnav
+		navy_experience = 35
 	}
 }
 
@@ -10991,7 +11014,7 @@ country_event = { # Opposition to Naval Cuts
 		tag = ENG
 		has_government = social_conservative
 		has_country_flag = tory_maj
-		has_idea = ENG_Duff_Cooper_cnav
+		has_country_flag = ENG_chose_cooper
 		date > 1938.1.1
 		date < 1938.12.30
 		has_completed_focus = ENG_reorg_admiralty

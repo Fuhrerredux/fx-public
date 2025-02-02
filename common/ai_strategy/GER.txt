@@ -23,7 +23,7 @@ GER_unit_production = {
 	ai_strategy = {
 		type = role_ratio
 		id = garrison
-		value = 0
+		value = 1
 	}
 
 	ai_strategy = {
@@ -41,13 +41,13 @@ GER_unit_production = {
 	ai_strategy = {
 		type = role_ratio
 		id = mountaineers
-		value = 0
+		value = 1
 	}
 
 	ai_strategy = {
 		type = role_ratio
 		id = marines
-		value = 2
+		value = 1
 	}
 
 	ai_strategy = {
@@ -146,7 +146,7 @@ GER_unit_production = {
 	ai_strategy = {
 		type = equipment_production_factor
 		id = fighter
-		value = 20
+		value = 30 # 20 to 30 -thanlan
 	}
 	
 	ai_strategy = {
@@ -186,19 +186,19 @@ GER_area_priority = {
 	ai_strategy = {
 		type = area_priority
 		id = north_america
-		value = 50
+		value = 20
 	}
 	
 	ai_strategy = {
 		type = area_priority
 		id = south_america
-		value = 50
+		value = 20
 	}
 	
 	ai_strategy = {
 		type = area_priority
 		id = asia
-		value = 75
+		value = 50
 	}
 	
 	ai_strategy = {
@@ -263,44 +263,44 @@ GER_anti_armor = {
 	}
 }
 
-GER_artillery_production = {
-    enable = {
-        has_country_flag = GER_ill_be_bock
-        original_tag = GER
-    }
-	abort_when_not_enabled = yes
+# GER_artillery_production = {
+#     enable = {
+#         has_country_flag = GER_ill_be_bock
+#         original_tag = GER
+#     }
+# 	abort_when_not_enabled = yes
 
 
-    ai_strategy = {
-        type = role_ratio
-        id = artillery
-        value = 5
-    }
+#     ai_strategy = {
+#         type = role_ratio
+#         id = artillery
+#         value = 5
+#     }
 
-    ai_strategy = {
-        type = equipment_production_factor
-        id = artillery
-        value = 5
-    }
-}
+#     ai_strategy = {
+#         type = equipment_production_factor
+#         id = artillery
+#         value = 5
+#     }
+# }
 
-GER_armored_production = {
-	enable = {
-		date > 1938.6.1
-		#has_country_flag = GER_im_gud
-		original_tag = GER
-		ai_wants_divisions > 24 #Decreasing the amount of tanks the AI wants
-	}
-	abort = {
-		ai_wants_divisions < 25 #Decreasing the amount of tanks the AI wants
-	}
+# GER_armored_production = {
+# 	enable = {
+# 		date > 1938.6.1
+# 		#has_country_flag = GER_im_gud
+# 		original_tag = GER
+# 		ai_wants_divisions > 24 #Decreasing the amount of tanks the AI wants
+# 	}
+# 	abort = {
+# 		ai_wants_divisions < 25 #Decreasing the amount of tanks the AI wants
+# 	}
 
-	ai_strategy = {
-		type = role_ratio
-		id = armor
-		value = 5
-	}
-}
+# 	ai_strategy = {
+# 		type = role_ratio
+# 		id = armor
+# 		value = 5
+# 	}
+# }
 
 GER_halt_light_armor_production_in_transitioning = {
 	enable = {
@@ -479,6 +479,84 @@ GER_template_design = {
 	}
 }
 
+GER_prioritize_TST_low = {
+	enable = { 
+		set_temp_variable = { tst_temp = tst_army }
+		check_variable = { var = tst_temp value = 0.5 compare = greater_than_or_equals } 
+	}
+
+	abort = { 
+		set_temp_variable = { tst_temp = tst_army }
+		check_variable = { var = tst_temp value = 0.5 compare = less_than_or_equals }
+	}
+
+	# ai_strategy = { # this is only for custom equipment 
+	# 	type = template_prio
+	# 	id = trutzbundischestosstruppe
+	# 	value = 70
+	# }
+	
+	# ai_strategy = {
+	# 	type = unit_ratio
+	# 	id = trutzbundischestosstruppe
+	# 	value = 0
+	# }
+}
+
+GER_prioritize_TST_high = {
+	enable = { 
+		set_temp_variable = { tst_temp = tst_army }
+		check_variable = { var = tst_temp value = 0.5 compare = less_than_or_equals } 
+	}
+
+	abort = { 
+		set_temp_variable = { tst_temp = tst_army }
+		check_variable = { var = tst_temp value = 0.5 compare = greater_than_or_equals }
+	}
+
+	# ai_strategy = { # this is only for custom equipment 
+	# 	type = template_prio
+	# 	id = trutzbundischestosstruppe
+	# 	value = 95
+	# }
+
+	# ai_strategy = {
+	# 	type = unit_ratio
+	# 	id = trutzbundischestosstruppe
+	# 	value = 10
+	# }
+}
+
+GER_mountaineers = {
+	enable = {
+		original_tag = GER
+		GER = { has_war_with = ITA }
+		FRA = {
+			OR = {
+				has_country_flag = GER_french_escapes 
+				exists = no
+				NOT = { has_war_with = GER }
+			}
+		}
+	}
+
+	abort_when_not_enabled = yes
+
+	ai_strategy = {
+		type = template_prio
+		id = mountaineers
+		value = 80
+	}
+
+	
+	ai_strategy = {
+		type = role_ratio
+		id = mountaineers
+		value = 5
+	}
+
+}
+
 #######################################
 ##### Production AI by SuperMarks #####
 #######################################
@@ -518,947 +596,1124 @@ min_factory_tanks1 = {		# Five factories base requirement for any production lin
 }
 
 
-###############################################################
-##### Strategy AI by SuperMarks and Drowse too mothafucka #####
-###############################################################
+# TO WHOM IT MAY CONCERN
+# THE FOLLOWING ARE COMMENTED FOR THE GRAVE REASON THAT THE WAR NEEDS TO BE REWORKED
+# WARNING: BETTER BLEACH YOUR EYES THAN SEE FR IMPLEMENTATION OF THIS AI
 
-prepare_case_white = {
+# ###############################################################
+# ##### Strategy AI by SuperMarks and Drowse too mothafucka #####
+# ###############################################################
+
+# befriend
+# conquer
+# antagonize
+# build_ship
+# build_army
+# unit_ratio
+# build_building
+# research_tech
+# garrison
+# protect
+# influence
+# contain
+# area_priority
+
+GER_pangermanism = { # SHO -> AUS -> CZE -> RHI
 	enable = {
 		original_tag = GER
-		OR = {
-			has_completed_focus = GER_polish_ultimatum
-			has_completed_focus = GER_demand_silesia
-		}
+		has_completed_focus = GER_pan_germanism
 	}
-	
-	abort = {
-		OR = {
-			has_war_with = POL
-			OR = {
-				NOT = {
-					has_completed_focus = GER_polish_ultimatum
-				}
-				NOT = {
-					has_completed_focus = GER_demand_silesia
-				}
-			}
-		}
-	}
-	
+
+	abort = { OR = { GER = { exists = no } has_country_flag = GER_stop_expansion_ai } }
+
+	# Antagonize causes the ai to not accept diplomatic actions
 	ai_strategy = {
-		type = conquer
-		id = "POL"
+		type = antagonize
+		id = "SHO"
 		value = 100
 	}
-}
-
-case_white_france_involved = {
-	enable = {
-		original_tag = GER
-		OR = {
-			has_completed_focus = GER_polish_ultimatum
-			has_completed_focus = GER_demand_silesia
-		}
-		FRA = { has_guaranteed = POL }
-	}
-	
-	abort = {
-		OR = {
-			has_war_with = FRA
-			OR = {
-				NOT = {
-					has_completed_focus = GER_polish_ultimatum
-				}
-				NOT = {
-					has_completed_focus = GER_demand_silesia
-				}
-			}
-		}
-	}
-	
 	ai_strategy = {
-		type = conquer
-		id = "FRA"
-		value = 100
-	}
-}
-
-case_white_rhine_involved = {
-	enable = {
-		original_tag = GER
-		OR = {
-			has_completed_focus = GER_polish_ultimatum
-			has_completed_focus = GER_demand_silesia
-		}
-		FRA = { has_guaranteed = POL }
-		RHI = { is_puppet_of = FRA }
-	}
-	
-	abort = {
-		OR = {
-			has_war_with = FRA
-			OR = {
-				NOT = {
-					has_completed_focus = GER_polish_ultimatum
-				}
-				NOT = {
-					has_completed_focus = GER_demand_silesia
-				}
-			}
-		}
-	}
-	
-	ai_strategy = {
-		type = conquer
-		id = "RHI"
-		value = 100
-	}
-}
-
-case_white_italy_involved = {
-	enable = {
-		original_tag = GER
-		OR = {
-			has_completed_focus = GER_polish_ultimatum
-			has_completed_focus = GER_demand_silesia
-		}
-		FRA = { has_guaranteed = POL }
-		ITA = { is_in_faction_with = FRA }
-		controls_state = 4 
-		controls_state = 912
-		controls_state = 913
-		controls_state = 153
-	}
-	
-	abort = {
-		OR = {
-			has_war_with = FRA
-			OR = {
-				NOT = {
-					has_completed_focus = GER_polish_ultimatum
-				}
-				NOT = {
-					has_completed_focus = GER_demand_silesia
-				}
-			}
-		}
-	}
-	
-	ai_strategy = {
-		type = conquer
-		id = "ITA"
-		value = 100
-	}
-}
-
-rhine_ref = {
-	enable = {
-		tag = GER
-		focus_progress = {
-			focus = GER_rhineland_referendum
-			progress > 0.01
-		}
-		NOT = {
-			has_completed_focus = GER_rhineland_referendum
-		}
-		country_exists = RHI
-	}
-	
-	abort = {
-		OR = {
-			NOT = { country_exists = RHI }
-			RHI = { is_in_faction_with = GER }
-			AND = {
-				has_completed_focus = GER_rhineland_referendum
-				GER = { has_war_with = RHI }
-			}
-			GER = { has_country_flag = referendum_denied }
-		}
-	}
-	
-	ai_strategy = {
-		type = conquer
-		id = "RHI"
-		value = 100
-	}
-	
-	ai_strategy = {
-		type = conquer
-		id = "FRA"
-		value = 100
-	}
-}
-
-rhine_ref_italy = {
-	enable = {
-		tag = GER
-		focus_progress = {
-			focus = GER_rhineland_referendum
-			progress > 0.01
-		}
-		NOT = {
-			has_completed_focus = GER_rhineland_referendum
-		}
-		country_exists = RHI
-		ITA = { is_in_faction_with = FRA }
-	}
-	
-	abort = {
-		OR = {
-			NOT = { country_exists = RHI }
-			RHI = { is_in_faction_with = GER }
-			AND = {
-				has_completed_focus = GER_rhineland_referendum
-				GER = { has_war_with = RHI }
-			}
-			GER = { has_country_flag = referendum_denied }
-			NOT = { ITA = { is_in_faction_with = FRA } }
-		}
-	}
-	
-	ai_strategy = {
-		type = conquer
-		id = "ITA"
-		value = 100
-	}
-}
-
-
-alsace_demand = {
-	enable = {
-		tag = GER
-		focus_progress = {
-			focus = GER_demand_alsace
-			progress > 0.01
-		}
-		NOT = {
-			has_completed_focus = GER_demand_alsace
-		}
-		country_exists = FRA
-	}
-	
-	abort = {
-		OR = {
-			NOT = { country_exists = FRA }
-			AND = {
-				has_completed_focus = GER_demand_alsace
-				GER = { has_war_with = FRA }
-			}
-			controls_state = 28
-		}
-	}
-	
-	ai_strategy = {
-		type = conquer
-		id = "FRA"
-		value = 100
-	}
-}
-
-alsace_demand_italy = {
-	enable = {
-		tag = GER
-		focus_progress = {
-			focus = GER_demand_alsace
-			progress > 0.01
-		}
-		NOT = {
-			has_completed_focus = GER_demand_alsace
-		}
-		country_exists = FRA
-		ITA = { is_in_faction_with = FRA }
-	}
-	
-	abort = {
-		OR = {
-			NOT = { country_exists = FRA }
-			AND = {
-				has_completed_focus = GER_demand_alsace
-				GER = { has_war_with = FRA }
-			}
-			controls_state = 28
-			NOT = { ITA = { is_in_faction_with = FRA } }
-		}
-	}
-	
-	ai_strategy = {
-		type = conquer
-		id = "ITA"
-		value = 100
-	}
-}
-
-alsace_demand_rhine = {
-	enable = {
-		tag = GER
-		focus_progress = {
-			focus = GER_demand_alsace
-			progress > 0.01
-		}
-		NOT = {
-			has_completed_focus = GER_demand_alsace
-		}
-		country_exists = FRA
-		RHI = { is_in_faction_with = FRA }
-	}
-	
-	abort = {
-		OR = {
-			NOT = { country_exists = FRA }
-			AND = {
-				has_completed_focus = GER_demand_alsace
-				GER = { has_war_with = FRA }
-			}
-			controls_state = 28
-			NOT = { RHI = { is_in_faction_with = FRA } }
-		}
-	}
-	
-	ai_strategy = {
-		type = conquer
-		id = "RHI"
-		value = 100
-	}
-}
-
-tirol_demand = {
-	enable = {
-		tag = GER
-		focus_progress = {
-			focus = GER_demand_tyrol
-			progress > 0.01
-		}
-		NOT = {
-			has_completed_focus = GER_demand_tyrol
-		}
-		country_exists = ITA
-	}
-	
-	abort = {
-		OR = {
-			NOT = { country_exists = ITA }
-			AND = {
-				has_completed_focus = GER_demand_tyrol
-				GER = { has_war_with = ITA }
-			}
-			controls_state = 39
-		}
-	}
-	
-	ai_strategy = {
-		type = conquer
-		id = "ITA"
-		value = 100
-	}
-}
-
-tirol_demand_france = {
-	enable = {
-		tag = GER
-		focus_progress = {
-			focus = GER_demand_tyrol
-			progress > 0.01
-		}
-		NOT = {
-			has_completed_focus = GER_demand_tyrol
-		}
-		country_exists = FRA
-		FRA = { is_in_faction_with = ITA }
-	}
-	
-	abort = {
-		OR = {
-			NOT = { country_exists = FRA }
-			AND = {
-				has_completed_focus = GER_demand_tyrol
-				GER = { has_war_with = FRA }
-			}
-			controls_state = 39
-			NOT = { FRA = { is_in_faction_with = ITA } }
-		}
-	}
-	
-	ai_strategy = {
-		type = conquer
-		id = "FRA"
-		value = 100
-	}
-}
-
-tirol_demand_rhine = {
-	enable = {
-		tag = GER
-		focus_progress = {
-			focus = GER_demand_tyrol
-			progress > 0.01
-		}
-		NOT = {
-			has_completed_focus = GER_demand_tyrol
-		}
-		country_exists = RHI
-		RHI = { is_in_faction_with = ITA }
-	}
-	
-	abort = {
-		OR = {
-			NOT = { country_exists = RHI }
-			AND = {
-				has_completed_focus = GER_demand_tyrol
-				GER = { has_war_with = RHI }
-			}
-			controls_state = 39
-			NOT = { RHI = { is_in_faction_with = ITA } }
-		}
-	}
-	
-	ai_strategy = {
-		type = conquer
-		id = "FRA"
-		value = 100
-	}
-}
-
-strike_sov = {
-	enable = {
-		tag = GER
-		focus_progress = {
-			focus = GER_soviet_war
-			progress > 0.01
-		}
-		NOT = {
-			has_completed_focus = GER_soviet_war
-		}
-		country_exists = SOV
-	}
-	
-	abort = {
-		OR = {
-			NOT = { country_exists = SOV }
-			AND = {
-				has_completed_focus = GER_soviet_war
-				GER = { has_war_with = SOV }
-			}
-		}
-	}
-	
-	ai_strategy = {
-		type = conquer
-		id = "SOV"
-		value = 100
-	}
-}
-
-strike_austria = {
-	enable = {
-		tag = GER
-		focus_progress = {
-			focus = GER_austrian_coup
-			progress > 0.01
-		}
-		NOT = {
-			has_completed_focus = GER_austrian_coup
-		}
-		country_exists = AUS
-	}
-	
-	abort = {
-		OR = {
-			NOT = { country_exists = AUS }
-			AND = {
-				has_completed_focus = GER_austrian_coup
-				GER = { has_war_with = AUS }
-			}
-		}
-	}
-	
-	ai_strategy = {
-		type = conquer
+		type = antagonize
 		id = "AUS"
 		value = 100
 	}
-}
-
-strike_austria_france = {
-	enable = {
-		tag = GER
-		focus_progress = {
-			focus = GER_austrian_coup
-			progress > 0.01
-		}
-		AUS = {
-			is_in_faction_with = FRA
-		}
-		NOT = {
-			has_completed_focus = GER_austrian_coup
-		}
-	}
-	
-	abort = {
-		OR = {
-			NOT = { country_exists = FRA }
-			AND = {
-				has_completed_focus = GER_austrian_coup
-				GER = { has_war_with = FRA }
-			}
-		}
-	}
-	
 	ai_strategy = {
-		type = conquer
-		id = "FRA"
-		value = 100
-	}
-}
-
-strike_austria_rhine = {
-	enable = {
-		tag = GER
-		focus_progress = {
-			focus = GER_austrian_coup
-			progress > 0.01
-		}
-		AUS = {
-			is_in_faction_with = RHI
-		}
-		NOT = {
-			has_completed_focus = GER_austrian_coup
-		}
-	}
-	
-	abort = {
-		OR = {
-			NOT = { country_exists = RHI }
-			AND = {
-				has_completed_focus = GER_austrian_coup
-				GER = { has_war_with = RHI }
-			}
-		}
-	}
-	
-	ai_strategy = {
-		type = conquer
-		id = "RHI"
-		value = 100
-	}
-}
-
-strike_czech = {
-	enable = {
-		tag = GER
-		focus_progress = {
-			focus = GER_invade_bohemia
-			progress > 0.01
-		}
-		NOT = {
-			has_completed_focus = GER_invade_bohemia
-		}
-		country_exists = CZE
-	}
-	
-	abort = {
-		OR = {
-			NOT = { country_exists = CZE }
-			AND = {
-				has_completed_focus = GER_invade_bohemia
-				GER = { has_war_with = CZE }
-			}
-		}
-	}
-	
-	ai_strategy = {
-		type = conquer
+		type = antagonize
 		id = "CZE"
 		value = 100
 	}
-}
 
-strike_czech_france = {
-	enable = {
-		tag = GER
-		focus_progress = {
-			focus = GER_invade_bohemia
-			progress > 0.01
-		}
-		CZE = {
-			is_in_faction_with = FRA
-		}
-		NOT = {
-			has_completed_focus = GER_invade_bohemia
-		}
-	}
-	
-	abort = {
-		OR = {
-			NOT = { country_exists = FRA }
-			AND = {
-				has_completed_focus = GER_invade_bohemia
-				GER = { has_war_with = FRA }
-			}
-		}
-	}
-	
+	# declare war declares war as soon as possible, taking decisions that might give wargoals etc, but does not justify. 
+	# Conquer does the same but additionally allows the ai to justify.
 	ai_strategy = {
-		type = conquer
-		id = "FRA"
+		type = declare_war
+		id = "SHO"
 		value = 100
 	}
-}
-
-strike_czech_rhine = {
-	enable = {
-		tag = GER
-		focus_progress = {
-			focus = GER_invade_bohemia
-			progress > 0.01
-		}
-		CZE = {
-			is_in_faction_with = RHI
-		}
-		NOT = {
-			has_completed_focus = GER_invade_bohemia
-		}
-	}
-	
-	abort = {
-		OR = {
-			NOT = { country_exists = RHI }
-			AND = {
-				has_completed_focus = GER_invade_bohemia
-				GER = { has_war_with = RHI }
-			}
-		}
-	}
-	
 	ai_strategy = {
-		type = conquer
-		id = "RHI"
+		type = declare_war
+		id = "AUS"
 		value = 100
 	}
-}
-
-strike_czech_italy = {
-	enable = {
-		tag = GER
-		focus_progress = {
-			focus = GER_invade_bohemia
-			progress > 0.01
-		}
-		CZE = {
-			is_in_faction_with = ITA
-		}
-		NOT = {
-			has_completed_focus = GER_invade_bohemia
-		}
-	}
-	
-	abort = {
-		OR = {
-			NOT = { country_exists = ITA }
-			AND = {
-				has_completed_focus = GER_invade_bohemia
-				GER = { has_war_with = ITA }
-			}
-		}
-	}
-	
-	ai_strategy = {
-		type = conquer
-		id = "ITA"
+	ai_strategy = { # technically we only need sudetenland so we need to see how this goes..
+		type = declare_war
+		id = "CZE"
 		value = 100
 	}
+
+	
 }
 
-strike_denmark = {
+GER_pangermanism_RHI = {
 	enable = {
-		tag = GER
-		focus_progress = {
-			focus = GER_holstein_situation
-			progress > 0.01
-		}
-		NOT = {
-			has_completed_focus = GER_holstein_situation
-		}
-		country_exists = DEN
+		original_tag = GER
+		has_completed_focus = GER_anti_entente_propaganda
 	}
-	
-	abort = {
-		OR = {
-			NOT = { country_exists = DEN }
-			AND = {
-				has_completed_focus = GER_holstein_situation
-				GER = { has_war_with = DEN }
-			}
-		}
-	}
-	
-	ai_strategy = {
-		type = conquer
-		id = "DEN"
-		value = 100
-	}
-}
 
-strike_denmark_france = {
-	enable = {
-		tag = GER
-		focus_progress = {
-			focus = GER_holstein_situation
-			progress > 0.01
-		}
-		DEN = {
-			is_in_faction_with = FRA
-		}
-		NOT = {
-			has_completed_focus = GER_holstein_situation
-		}
-	}
-	
-	abort = {
-		OR = {
-			NOT = { country_exists = FRA }
-			AND = {
-				has_completed_focus = GER_holstein_situation
-				GER = { has_war_with = FRA }
-			}
-		}
-	}
-	
-	ai_strategy = {
-		type = conquer
-		id = "FRA"
-		value = 100
-	}
-}
+	abort = { OR = { GER = { exists = no } has_country_flag = GER_stop_expansion_ai } }
 
-strike_denmark_rhine = {
-	enable = {
-		tag = GER
-		focus_progress = {
-			focus = GER_holstein_situation
-			progress > 0.01
-		}
-		DEN = {
-			is_in_faction_with = RHI
-		}
-		NOT = {
-			has_completed_focus = GER_holstein_situation
-		}
-	}
-	
-	abort = {
-		OR = {
-			NOT = { country_exists = RHI }
-			AND = {
-				has_completed_focus = GER_holstein_situation
-				GER = { has_war_with = RHI }
-			}
-		}
-	}
-	
-	ai_strategy = {
-		type = conquer
-		id = "RHI"
-		value = 100
-	}
-}
-
-strike_denmark_italy = {
-	enable = {
-		tag = GER
-		focus_progress = {
-			focus = GER_holstein_situation
-			progress > 0.01
-		}
-		DEN = {
-			is_in_faction_with = ITA
-		}
-		NOT = {
-			has_completed_focus = GER_holstein_situation
-		}
-	}
-	
-	abort = {
-		OR = {
-			NOT = { country_exists = ITA }
-			AND = {
-				has_completed_focus = GER_holstein_situation
-				GER = { has_war_with = ITA }
-			}
-		}
-	}
-	
-	ai_strategy = {
-		type = conquer
-		id = "ITA"
-		value = 100
-	}
-}
-
-anti_britian = {
-	enable = {
-		tag = GER
-		has_completed_focus = GER_anti_british
-		country_exists = ENG
-	}
-	
-	abort = {
-		OR = {
-			NOT = { country_exists = ENG }
-			GER = { has_war_with = ENG }
-		}
-	}
-	
 	ai_strategy = {
 		type = antagonize
-		id = "ENG"
-		value = 50
+		id = "RHI"
+		value = 100
 	}
-}
-
-pro_britian = {
-	enable = {
-		tag = GER
-		has_completed_focus = GER_british_alliance 
-		country_exists = ENG
-	}
-	
-	abort = {
-		OR = {
-			NOT = { country_exists = ENG }
-			NOT = { has_completed_focus = GER_anti_british }
-			GER = { has_war_with = ENG }
-		}
-	}
-	
 	ai_strategy = {
-		type = ignore
-		id = "ENG"
-		value = 50
+		type = declare_war
+		id = "RHI"
+		value = 100
 	}
-}
-
-strike_belgium = {
-	enable = {
-		tag = GER
-		focus_progress = {
-			focus = GER_invade_benelux
-			progress > 0.01
-		}
-		NOT = {
-			has_completed_focus = GER_invade_benelux
-		}
-		country_exists = BEL
+	ai_strategy = { # not needed for the above because they are easy targets, but this may cause france to join so just to be safe...
+		type = prepare_for_war
+		id = "RHI"
+		value = 100
 	}
-	
-	abort = {
-		OR = {
-			NOT = { country_exists = BEL }
-			AND = {
-				has_completed_focus = GER_invade_benelux
-				GER = { has_war_with = BEL }
-			}
-		}
-	}
-	
 	ai_strategy = {
-		type = conquer
-		id = "BEL"
-		value = 200
+		type = front_control
+		tag = RHI
+		ratio = 0.2 # should be good enough
+		priority = 1
 	}
 }
 
-protect_holland = {
+GER_world_war_two_eastern = { # CZE -> EASTERN LANDS -> POL -> LIT -> ... 
 	enable = {
-		tag = GER
-		HOL = {
-			is_in_faction_with = GER
-		}
-		GER = {
-			has_war_with = ENG
-		}
-		country_exists = HOL
-	}
-	
-	abort = {
-		OR = {
-			NOT = { country_exists = HOL }
-			NOT = { country_exists = ENG }
-			AND = {
-				GER = { has_war_with = HOL }
-			}
-		}
-	}
-	
-	ai_strategy = {
-		type = protect
-		id = "HOL"
-		value = 50
-	}
-}
-
-GER_naval_role_ratios_historical = {
-	enable = {
-		has_dlc = "Man the Guns"
 		original_tag = GER
-	}
-	abort = { always = no }
-
-	ai_strategy = {
-		type = role_ratio
-		id = naval_capital_bb
-		value = -25
+		has_completed_focus = GER_eastern_claims
 	}
 
-	ai_strategy = {
-		type = role_ratio
-		id = naval_capital_bc
-		value = -100
-	}
+	abort = { OR = { GER = { exists = no } has_country_flag = GER_stop_expansion_ai } }
 
 	ai_strategy = {
-		type = role_ratio
-		id = naval_carrier
-		value = -50
-	}
-
-	ai_strategy = {
-		type = role_ratio
-		id = naval_submarine
-		value = 200
-	}
-	ai_strategy = {
-		type = role_ratio
-		id = submarine
-		value = 200
-	}
-
-	ai_strategy = {
-		type = role_ratio
-		id = naval_screen
+		type = antagonize
+		id = "POL"
 		value = 100
 	}
 
 	ai_strategy = {
-		type = role_ratio
-		id = naval_cruiser_light
-		value = 50
+		type = antagonize
+		id = "CZE"
+		value = 100
+	}
+	ai_strategy = {
+		type = declare_war
+		id = "POL"
+		value = 100
+	}
+	ai_strategy = {
+		type = prepare_for_war
+		id = "POL"
+		value = 100
+	}
+	ai_strategy = {
+		type = front_control
+		tag = POL
+		ratio = 0.2 # should be good enough
+		priority = 1
+	}
+
+}
+
+GER_actual_world_war = { # FRA
+	enable = {
+		original_tag = GER
+		has_completed_focus = GER_eastern_claims
+		has_completed_focus = GER_western_claims
+		has_global_flag = FX_WW2_HAS_STARTED
+	}
+
+	abort = { OR = { GER = { exists = no } has_country_flag = GER_stop_expansion_ai } }
+
+	ai_strategy = {
+		type = antagonize
+		id = "FRA"
+		value = 100
 	}
 
 	ai_strategy = {
-		type = role_ratio
-		id = naval_cruiser_heavy
-		value = 5
+		type = conquer
+		id = "FRA"
+		value = 100
 	}
-
 	ai_strategy = {
-		type = role_ratio
-		id = naval_mine_sweeper
-		value = 15
+		type = declare_war
+		id = "FRA"
+		value = 100
 	}
-
 	ai_strategy = {
-		type = role_ratio
-		id = naval_mine_layer
-		value = 10
+		type = prepare_for_war
+		id = "FRA"
+		value = 100
+	}
+	ai_strategy = {
+		type = front_control
+		tag = FRA
+		ratio = 0.5 # should be good enough
+		priority = 1
+	}
+	ai_strategy = {
+		type = contain
+		id = "FRA"
+		value = 100
 	}
 }
+
+# prepare_case_white = {
+# 	enable = {
+# 		original_tag = GER
+# 		OR = {
+# 			has_completed_focus = GER_polish_ultimatum
+# 			has_completed_focus = GER_demand_silesia
+# 		}
+# 	}
+	
+# 	abort = {
+# 		OR = {
+# 			has_war_with = POL
+# 			OR = {
+# 				NOT = {
+# 					has_completed_focus = GER_polish_ultimatum
+# 				}
+# 				NOT = {
+# 					has_completed_focus = GER_demand_silesia
+# 				}
+# 			}
+# 		}
+# 	}
+	
+# 	ai_strategy = {
+# 		type = conquer
+# 		id = "POL"
+# 		value = 100
+# 	}
+# }
+
+# case_white_france_involved = {
+# 	enable = {
+# 		original_tag = GER
+# 		OR = {
+# 			has_completed_focus = GER_polish_ultimatum
+# 			has_completed_focus = GER_demand_silesia
+# 		}
+# 		FRA = { has_guaranteed = POL }
+# 	}
+	
+# 	abort = {
+# 		OR = {
+# 			has_war_with = FRA
+# 			OR = {
+# 				NOT = {
+# 					has_completed_focus = GER_polish_ultimatum
+# 				}
+# 				NOT = {
+# 					has_completed_focus = GER_demand_silesia
+# 				}
+# 			}
+# 		}
+# 	}
+	
+# 	ai_strategy = {
+# 		type = conquer
+# 		id = "FRA"
+# 		value = 100
+# 	}
+# }
+
+# case_white_rhine_involved = {
+# 	enable = {
+# 		original_tag = GER
+# 		OR = {
+# 			has_completed_focus = GER_polish_ultimatum
+# 			has_completed_focus = GER_demand_silesia
+# 		}
+# 		FRA = { has_guaranteed = POL }
+# 		RHI = { is_puppet_of = FRA }
+# 	}
+	
+# 	abort = {
+# 		OR = {
+# 			has_war_with = FRA
+# 			OR = {
+# 				NOT = {
+# 					has_completed_focus = GER_polish_ultimatum
+# 				}
+# 				NOT = {
+# 					has_completed_focus = GER_demand_silesia
+# 				}
+# 			}
+# 		}
+# 	}
+	
+# 	ai_strategy = {
+# 		type = conquer
+# 		id = "RHI"
+# 		value = 100
+# 	}
+# }
+
+# case_white_italy_involved = {
+# 	enable = {
+# 		original_tag = GER
+# 		OR = {
+# 			has_completed_focus = GER_polish_ultimatum
+# 			has_completed_focus = GER_demand_silesia
+# 		}
+# 		FRA = { has_guaranteed = POL }
+# 		ITA = { is_in_faction_with = FRA }
+# 		controls_state = 4 
+# 		controls_state = 912
+# 		controls_state = 913
+# 		controls_state = 153
+# 	}
+	
+# 	abort = {
+# 		OR = {
+# 			has_war_with = FRA
+# 			OR = {
+# 				NOT = {
+# 					has_completed_focus = GER_polish_ultimatum
+# 				}
+# 				NOT = {
+# 					has_completed_focus = GER_demand_silesia
+# 				}
+# 			}
+# 		}
+# 	}
+	
+# 	ai_strategy = {
+# 		type = conquer
+# 		id = "ITA"
+# 		value = 100
+# 	}
+# }
+
+# rhine_ref = {
+# 	enable = {
+# 		tag = GER
+# 		focus_progress = {
+# 			focus = GER_rhineland_referendum
+# 			progress > 0.01
+# 		}
+# 		NOT = {
+# 			has_completed_focus = GER_rhineland_referendum
+# 		}
+# 		country_exists = RHI
+# 	}
+	
+# 	abort = {
+# 		OR = {
+# 			NOT = { country_exists = RHI }
+# 			RHI = { is_in_faction_with = GER }
+# 			AND = {
+# 				has_completed_focus = GER_rhineland_referendum
+# 				GER = { has_war_with = RHI }
+# 			}
+# 			GER = { has_country_flag = referendum_denied }
+# 		}
+# 	}
+	
+# 	ai_strategy = {
+# 		type = conquer
+# 		id = "RHI"
+# 		value = 100
+# 	}
+	
+# 	ai_strategy = {
+# 		type = conquer
+# 		id = "FRA"
+# 		value = 100
+# 	}
+# }
+
+# rhine_ref_italy = {
+# 	enable = {
+# 		tag = GER
+# 		focus_progress = {
+# 			focus = GER_rhineland_referendum
+# 			progress > 0.01
+# 		}
+# 		NOT = {
+# 			has_completed_focus = GER_rhineland_referendum
+# 		}
+# 		country_exists = RHI
+# 		ITA = { is_in_faction_with = FRA }
+# 	}
+	
+# 	abort = {
+# 		OR = {
+# 			NOT = { country_exists = RHI }
+# 			RHI = { is_in_faction_with = GER }
+# 			AND = {
+# 				has_completed_focus = GER_rhineland_referendum
+# 				GER = { has_war_with = RHI }
+# 			}
+# 			GER = { has_country_flag = referendum_denied }
+# 			NOT = { ITA = { is_in_faction_with = FRA } }
+# 		}
+# 	}
+	
+# 	ai_strategy = {
+# 		type = conquer
+# 		id = "ITA"
+# 		value = 100
+# 	}
+# }
+
+
+# alsace_demand = {
+# 	enable = {
+# 		tag = GER
+# 		focus_progress = {
+# 			focus = GER_demand_alsace
+# 			progress > 0.01
+# 		}
+# 		NOT = {
+# 			has_completed_focus = GER_demand_alsace
+# 		}
+# 		country_exists = FRA
+# 	}
+	
+# 	abort = {
+# 		OR = {
+# 			NOT = { country_exists = FRA }
+# 			AND = {
+# 				has_completed_focus = GER_demand_alsace
+# 				GER = { has_war_with = FRA }
+# 			}
+# 			controls_state = 28
+# 		}
+# 	}
+	
+# 	ai_strategy = {
+# 		type = conquer
+# 		id = "FRA"
+# 		value = 100
+# 	}
+# }
+
+# alsace_demand_italy = {
+# 	enable = {
+# 		tag = GER
+# 		focus_progress = {
+# 			focus = GER_demand_alsace
+# 			progress > 0.01
+# 		}
+# 		NOT = {
+# 			has_completed_focus = GER_demand_alsace
+# 		}
+# 		country_exists = FRA
+# 		ITA = { is_in_faction_with = FRA }
+# 	}
+	
+# 	abort = {
+# 		OR = {
+# 			NOT = { country_exists = FRA }
+# 			AND = {
+# 				has_completed_focus = GER_demand_alsace
+# 				GER = { has_war_with = FRA }
+# 			}
+# 			controls_state = 28
+# 			NOT = { ITA = { is_in_faction_with = FRA } }
+# 		}
+# 	}
+	
+# 	ai_strategy = {
+# 		type = conquer
+# 		id = "ITA"
+# 		value = 100
+# 	}
+# }
+
+# alsace_demand_rhine = {
+# 	enable = {
+# 		tag = GER
+# 		focus_progress = {
+# 			focus = GER_demand_alsace
+# 			progress > 0.01
+# 		}
+# 		NOT = {
+# 			has_completed_focus = GER_demand_alsace
+# 		}
+# 		country_exists = FRA
+# 		RHI = { is_in_faction_with = FRA }
+# 	}
+	
+# 	abort = {
+# 		OR = {
+# 			NOT = { country_exists = FRA }
+# 			AND = {
+# 				has_completed_focus = GER_demand_alsace
+# 				GER = { has_war_with = FRA }
+# 			}
+# 			controls_state = 28
+# 			NOT = { RHI = { is_in_faction_with = FRA } }
+# 		}
+# 	}
+	
+# 	ai_strategy = {
+# 		type = conquer
+# 		id = "RHI"
+# 		value = 100
+# 	}
+# }
+
+# tirol_demand = {
+# 	enable = {
+# 		tag = GER
+# 		focus_progress = {
+# 			focus = GER_demand_tyrol
+# 			progress > 0.01
+# 		}
+# 		NOT = {
+# 			has_completed_focus = GER_demand_tyrol
+# 		}
+# 		country_exists = ITA
+# 	}
+	
+# 	abort = {
+# 		OR = {
+# 			NOT = { country_exists = ITA }
+# 			AND = {
+# 				has_completed_focus = GER_demand_tyrol
+# 				GER = { has_war_with = ITA }
+# 			}
+# 			controls_state = 39
+# 		}
+# 	}
+	
+# 	ai_strategy = {
+# 		type = conquer
+# 		id = "ITA"
+# 		value = 100
+# 	}
+# }
+
+# tirol_demand_france = {
+# 	enable = {
+# 		tag = GER
+# 		focus_progress = {
+# 			focus = GER_demand_tyrol
+# 			progress > 0.01
+# 		}
+# 		NOT = {
+# 			has_completed_focus = GER_demand_tyrol
+# 		}
+# 		country_exists = FRA
+# 		FRA = { is_in_faction_with = ITA }
+# 	}
+	
+# 	abort = {
+# 		OR = {
+# 			NOT = { country_exists = FRA }
+# 			AND = {
+# 				has_completed_focus = GER_demand_tyrol
+# 				GER = { has_war_with = FRA }
+# 			}
+# 			controls_state = 39
+# 			NOT = { FRA = { is_in_faction_with = ITA } }
+# 		}
+# 	}
+	
+# 	ai_strategy = {
+# 		type = conquer
+# 		id = "FRA"
+# 		value = 100
+# 	}
+# }
+
+# tirol_demand_rhine = {
+# 	enable = {
+# 		tag = GER
+# 		focus_progress = {
+# 			focus = GER_demand_tyrol
+# 			progress > 0.01
+# 		}
+# 		NOT = {
+# 			has_completed_focus = GER_demand_tyrol
+# 		}
+# 		country_exists = RHI
+# 		RHI = { is_in_faction_with = ITA }
+# 	}
+	
+# 	abort = {
+# 		OR = {
+# 			NOT = { country_exists = RHI }
+# 			AND = {
+# 				has_completed_focus = GER_demand_tyrol
+# 				GER = { has_war_with = RHI }
+# 			}
+# 			controls_state = 39
+# 			NOT = { RHI = { is_in_faction_with = ITA } }
+# 		}
+# 	}
+	
+# 	ai_strategy = {
+# 		type = conquer
+# 		id = "FRA"
+# 		value = 100
+# 	}
+# }
+
+# strike_sov = {
+# 	enable = {
+# 		tag = GER
+# 		focus_progress = {
+# 			focus = GER_soviet_war
+# 			progress > 0.01
+# 		}
+# 		NOT = {
+# 			has_completed_focus = GER_soviet_war
+# 		}
+# 		country_exists = SOV
+# 	}
+	
+# 	abort = {
+# 		OR = {
+# 			NOT = { country_exists = SOV }
+# 			AND = {
+# 				has_completed_focus = GER_soviet_war
+# 				GER = { has_war_with = SOV }
+# 			}
+# 		}
+# 	}
+	
+# 	ai_strategy = {
+# 		type = conquer
+# 		id = "SOV"
+# 		value = 100
+# 	}
+# }
+
+# strike_austria = {
+# 	enable = {
+# 		tag = GER
+# 		focus_progress = {
+# 			focus = GER_austrian_coup
+# 			progress > 0.01
+# 		}
+# 		NOT = {
+# 			has_completed_focus = GER_austrian_coup
+# 		}
+# 		country_exists = AUS
+# 	}
+	
+# 	abort = {
+# 		OR = {
+# 			NOT = { country_exists = AUS }
+# 			AND = {
+# 				has_completed_focus = GER_austrian_coup
+# 				GER = { has_war_with = AUS }
+# 			}
+# 		}
+# 	}
+	
+# 	ai_strategy = {
+# 		type = conquer
+# 		id = "AUS"
+# 		value = 100
+# 	}
+# }
+
+# strike_austria_france = {
+# 	enable = {
+# 		tag = GER
+# 		focus_progress = {
+# 			focus = GER_austrian_coup
+# 			progress > 0.01
+# 		}
+# 		AUS = {
+# 			is_in_faction_with = FRA
+# 		}
+# 		NOT = {
+# 			has_completed_focus = GER_austrian_coup
+# 		}
+# 	}
+	
+# 	abort = {
+# 		OR = {
+# 			NOT = { country_exists = FRA }
+# 			AND = {
+# 				has_completed_focus = GER_austrian_coup
+# 				GER = { has_war_with = FRA }
+# 			}
+# 		}
+# 	}
+	
+# 	ai_strategy = {
+# 		type = conquer
+# 		id = "FRA"
+# 		value = 100
+# 	}
+# }
+
+# strike_austria_rhine = {
+# 	enable = {
+# 		tag = GER
+# 		focus_progress = {
+# 			focus = GER_austrian_coup
+# 			progress > 0.01
+# 		}
+# 		AUS = {
+# 			is_in_faction_with = RHI
+# 		}
+# 		NOT = {
+# 			has_completed_focus = GER_austrian_coup
+# 		}
+# 	}
+	
+# 	abort = {
+# 		OR = {
+# 			NOT = { country_exists = RHI }
+# 			AND = {
+# 				has_completed_focus = GER_austrian_coup
+# 				GER = { has_war_with = RHI }
+# 			}
+# 		}
+# 	}
+	
+# 	ai_strategy = {
+# 		type = conquer
+# 		id = "RHI"
+# 		value = 100
+# 	}
+# }
+
+# strike_czech = {
+# 	enable = {
+# 		tag = GER
+# 		focus_progress = {
+# 			focus = GER_invade_bohemia
+# 			progress > 0.01
+# 		}
+# 		NOT = {
+# 			has_completed_focus = GER_invade_bohemia
+# 		}
+# 		country_exists = CZE
+# 	}
+	
+# 	abort = {
+# 		OR = {
+# 			NOT = { country_exists = CZE }
+# 			AND = {
+# 				has_completed_focus = GER_invade_bohemia
+# 				GER = { has_war_with = CZE }
+# 			}
+# 		}
+# 	}
+	
+# 	ai_strategy = {
+# 		type = conquer
+# 		id = "CZE"
+# 		value = 100
+# 	}
+# }
+
+# strike_czech_france = {
+# 	enable = {
+# 		tag = GER
+# 		focus_progress = {
+# 			focus = GER_invade_bohemia
+# 			progress > 0.01
+# 		}
+# 		CZE = {
+# 			is_in_faction_with = FRA
+# 		}
+# 		NOT = {
+# 			has_completed_focus = GER_invade_bohemia
+# 		}
+# 	}
+	
+# 	abort = {
+# 		OR = {
+# 			NOT = { country_exists = FRA }
+# 			AND = {
+# 				has_completed_focus = GER_invade_bohemia
+# 				GER = { has_war_with = FRA }
+# 			}
+# 		}
+# 	}
+	
+# 	ai_strategy = {
+# 		type = conquer
+# 		id = "FRA"
+# 		value = 100
+# 	}
+# }
+
+# strike_czech_rhine = {
+# 	enable = {
+# 		tag = GER
+# 		focus_progress = {
+# 			focus = GER_invade_bohemia
+# 			progress > 0.01
+# 		}
+# 		CZE = {
+# 			is_in_faction_with = RHI
+# 		}
+# 		NOT = {
+# 			has_completed_focus = GER_invade_bohemia
+# 		}
+# 	}
+	
+# 	abort = {
+# 		OR = {
+# 			NOT = { country_exists = RHI }
+# 			AND = {
+# 				has_completed_focus = GER_invade_bohemia
+# 				GER = { has_war_with = RHI }
+# 			}
+# 		}
+# 	}
+	
+# 	ai_strategy = {
+# 		type = conquer
+# 		id = "RHI"
+# 		value = 100
+# 	}
+# }
+
+# strike_czech_italy = {
+# 	enable = {
+# 		tag = GER
+# 		focus_progress = {
+# 			focus = GER_invade_bohemia
+# 			progress > 0.01
+# 		}
+# 		CZE = {
+# 			is_in_faction_with = ITA
+# 		}
+# 		NOT = {
+# 			has_completed_focus = GER_invade_bohemia
+# 		}
+# 	}
+	
+# 	abort = {
+# 		OR = {
+# 			NOT = { country_exists = ITA }
+# 			AND = {
+# 				has_completed_focus = GER_invade_bohemia
+# 				GER = { has_war_with = ITA }
+# 			}
+# 		}
+# 	}
+	
+# 	ai_strategy = {
+# 		type = conquer
+# 		id = "ITA"
+# 		value = 100
+# 	}
+# }
+
+# strike_denmark = {
+# 	enable = {
+# 		tag = GER
+# 		focus_progress = {
+# 			focus = GER_holstein_situation
+# 			progress > 0.01
+# 		}
+# 		NOT = {
+# 			has_completed_focus = GER_holstein_situation
+# 		}
+# 		country_exists = DEN
+# 	}
+	
+# 	abort = {
+# 		OR = {
+# 			NOT = { country_exists = DEN }
+# 			AND = {
+# 				has_completed_focus = GER_holstein_situation
+# 				GER = { has_war_with = DEN }
+# 			}
+# 		}
+# 	}
+	
+# 	ai_strategy = {
+# 		type = conquer
+# 		id = "DEN"
+# 		value = 100
+# 	}
+# }
+
+# strike_denmark_france = {
+# 	enable = {
+# 		tag = GER
+# 		focus_progress = {
+# 			focus = GER_holstein_situation
+# 			progress > 0.01
+# 		}
+# 		DEN = {
+# 			is_in_faction_with = FRA
+# 		}
+# 		NOT = {
+# 			has_completed_focus = GER_holstein_situation
+# 		}
+# 	}
+	
+# 	abort = {
+# 		OR = {
+# 			NOT = { country_exists = FRA }
+# 			AND = {
+# 				has_completed_focus = GER_holstein_situation
+# 				GER = { has_war_with = FRA }
+# 			}
+# 		}
+# 	}
+	
+# 	ai_strategy = {
+# 		type = conquer
+# 		id = "FRA"
+# 		value = 100
+# 	}
+# }
+
+# strike_denmark_rhine = {
+# 	enable = {
+# 		tag = GER
+# 		focus_progress = {
+# 			focus = GER_holstein_situation
+# 			progress > 0.01
+# 		}
+# 		DEN = {
+# 			is_in_faction_with = RHI
+# 		}
+# 		NOT = {
+# 			has_completed_focus = GER_holstein_situation
+# 		}
+# 	}
+	
+# 	abort = {
+# 		OR = {
+# 			NOT = { country_exists = RHI }
+# 			AND = {
+# 				has_completed_focus = GER_holstein_situation
+# 				GER = { has_war_with = RHI }
+# 			}
+# 		}
+# 	}
+	
+# 	ai_strategy = {
+# 		type = conquer
+# 		id = "RHI"
+# 		value = 100
+# 	}
+# }
+
+# strike_denmark_italy = {
+# 	enable = {
+# 		tag = GER
+# 		focus_progress = {
+# 			focus = GER_holstein_situation
+# 			progress > 0.01
+# 		}
+# 		DEN = {
+# 			is_in_faction_with = ITA
+# 		}
+# 		NOT = {
+# 			has_completed_focus = GER_holstein_situation
+# 		}
+# 	}
+	
+# 	abort = {
+# 		OR = {
+# 			NOT = { country_exists = ITA }
+# 			AND = {
+# 				has_completed_focus = GER_holstein_situation
+# 				GER = { has_war_with = ITA }
+# 			}
+# 		}
+# 	}
+	
+# 	ai_strategy = {
+# 		type = conquer
+# 		id = "ITA"
+# 		value = 100
+# 	}
+# }
+
+# anti_britian = {
+# 	enable = {
+# 		tag = GER
+# 		has_completed_focus = GER_anti_british
+# 		country_exists = ENG
+# 	}
+	
+# 	abort = {
+# 		OR = {
+# 			NOT = { country_exists = ENG }
+# 			GER = { has_war_with = ENG }
+# 		}
+# 	}
+	
+# 	ai_strategy = {
+# 		type = antagonize
+# 		id = "ENG"
+# 		value = 50
+# 	}
+# }
+
+# pro_britian = {
+# 	enable = {
+# 		tag = GER
+# 		has_completed_focus = GER_british_alliance 
+# 		country_exists = ENG
+# 	}
+	
+# 	abort = {
+# 		OR = {
+# 			NOT = { country_exists = ENG }
+# 			NOT = { has_completed_focus = GER_anti_british }
+# 			GER = { has_war_with = ENG }
+# 		}
+# 	}
+	
+# 	ai_strategy = {
+# 		type = ignore
+# 		id = "ENG"
+# 		value = 50
+# 	}
+# }
+
+# strike_belgium = {
+# 	enable = {
+# 		tag = GER
+# 		focus_progress = {
+# 			focus = GER_invade_benelux
+# 			progress > 0.01
+# 		}
+# 		NOT = {
+# 			has_completed_focus = GER_invade_benelux
+# 		}
+# 		country_exists = BEL
+# 	}
+	
+# 	abort = {
+# 		OR = {
+# 			NOT = { country_exists = BEL }
+# 			AND = {
+# 				has_completed_focus = GER_invade_benelux
+# 				GER = { has_war_with = BEL }
+# 			}
+# 		}
+# 	}
+	
+# 	ai_strategy = {
+# 		type = conquer
+# 		id = "BEL"
+# 		value = 200
+# 	}
+# }
+
+# protect_holland = {
+# 	enable = {
+# 		tag = GER
+# 		HOL = {
+# 			is_in_faction_with = GER
+# 		}
+# 		GER = {
+# 			has_war_with = ENG
+# 		}
+# 		country_exists = HOL
+# 	}
+	
+# 	abort = {
+# 		OR = {
+# 			NOT = { country_exists = HOL }
+# 			NOT = { country_exists = ENG }
+# 			AND = {
+# 				GER = { has_war_with = HOL }
+# 			}
+# 		}
+# 	}
+	
+# 	ai_strategy = {
+# 		type = protect
+# 		id = "HOL"
+# 		value = 50
+# 	}
+# }
+
+# GER_naval_role_ratios_historical = {
+# 	enable = {
+# 		has_dlc = "Man the Guns"
+# 		original_tag = GER
+# 	}
+# 	abort = { always = no }
+
+# 	ai_strategy = {
+# 		type = role_ratio
+# 		id = naval_capital_bb
+# 		value = -25
+# 	}
+
+# 	ai_strategy = {
+# 		type = role_ratio
+# 		id = naval_capital_bc
+# 		value = -100
+# 	}
+
+# 	ai_strategy = {
+# 		type = role_ratio
+# 		id = naval_carrier
+# 		value = -50
+# 	}
+
+# 	ai_strategy = {
+# 		type = role_ratio
+# 		id = naval_submarine
+# 		value = 200
+# 	}
+# 	ai_strategy = {
+# 		type = role_ratio
+# 		id = submarine
+# 		value = 200
+# 	}
+
+# 	ai_strategy = {
+# 		type = role_ratio
+# 		id = naval_screen
+# 		value = 100
+# 	}
+
+# 	ai_strategy = {
+# 		type = role_ratio
+# 		id = naval_cruiser_light
+# 		value = 50
+# 	}
+
+# 	ai_strategy = {
+# 		type = role_ratio
+# 		id = naval_cruiser_heavy
+# 		value = 5
+# 	}
+
+# 	ai_strategy = {
+# 		type = role_ratio
+# 		id = naval_mine_sweeper
+# 		value = 15
+# 	}
+
+# 	ai_strategy = {
+# 		type = role_ratio
+# 		id = naval_mine_layer
+# 		value = 10
+# 	}
+# }

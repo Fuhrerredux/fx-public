@@ -1,0 +1,169 @@
+GRP_puppet_existence = {
+
+	GRP_valkist_resistance = {
+		icon = GFX_decision_eng_blackshirt_speech	
+		allowed = { tag = GRP }
+		activation = {
+			has_capitulated = no
+		}
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = GRP_valkism_won_over
+				check_variable = { party_popularity_100@valkist < 1 }
+			}
+		}
+		cancel_trigger = {
+			hidden_trigger = {
+				OR = {
+					has_government = valkist
+				}
+			}
+		}
+		is_good = no
+		fixed_random_seed = no
+		selectable_mission = yes
+		fire_only_once = yes
+		days_mission_timeout = GRP_valkist_timer
+		ai_will_do = {
+			factor = 125
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete GRP_valkist_resistance"
+			custom_effect_tooltip = GRP_valkism_destroyed
+			hidden_effect = { 
+				set_country_flag = GRP_valkism_destroyed
+				clear_variable = GRP_valkist_timer
+			}		
+		}
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout GRP_valkist_resistance"
+			if = {
+				limit = { 
+					OR = {
+						valkist < 0.49
+						has_stability > 0.25
+					}
+				}
+				random_list = {
+					10 = {
+						add_stability = -0.02
+					}
+					10 = {
+						add_popularity = {
+							ideology = valkist
+							popularity = 0.02
+						}
+					}
+				}
+			}
+			else = {
+				ROOT = {
+					effect_tooltip = {
+						swap_ideas = {
+							remove_idea = GRP_valkist_resistance_dummy
+							add_idea = GRP_valkist_resistance_idea
+						}
+					}				
+					hidden_effect = {
+						add_to_variable = { GER_valkist_resistance = -0.02 }
+						add_to_variable = { GER_valkist_resistance_reverse = 0.02 }
+					}
+				}
+				add_popularity = {
+					ideology = valkist
+					popularity = 0.01
+				}
+			}
+			activate_mission_tooltip = GRP_valkist_resistance
+			hidden_effect = { activate_mission = GRP_valkist_resistance }		
+		}
+	}
+	
+	GRP_launch_antivalkist_operations = {
+		icon = GFX_decision_generic_operation
+
+		custom_cost_trigger = {
+			has_equipment = { infantry_equipment > 2000 }
+			has_equipment = { support_equipment > 500 }
+			has_equipment = { artillery_equipment > 250 }
+		}
+		custom_cost_text = decision_cost_army_equipment
+		days_remove = 30
+
+		ai_will_do = {
+			base = 100
+		}
+		
+		available = {
+			is_subject = yes
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete GRP_launch_antivalkist_operations"
+			ROOT = {
+				add_stability = -0.05
+				effect_tooltip = {
+					swap_ideas = {
+						remove_idea = GRP_valkist_resistance_dummy
+						add_idea = GRP_valkist_resistance_idea
+					}
+				}				
+				hidden_effect = {
+					add_to_variable = { GER_valkist_resistance = -0.02 }
+					add_to_variable = { GER_valkist_resistance_reverse = 0.02 }
+					add_equipment_to_stockpile = {
+						type = infantry_equipment
+						amount = -2000
+					}
+					add_equipment_to_stockpile = {
+						type = support_equipment
+						amount = -500
+					}
+					add_equipment_to_stockpile = {
+						type = artillery_equipment
+						amount = -250
+					}
+				}
+			}
+		}
+	}
+	
+	GRP_reduce_the_pressure = {
+		icon = GFX_decision_generic_operation
+
+		cost = 75
+		
+		days_remove = 90
+
+		ai_will_do = {
+			base = 100
+		}
+		
+		available = {
+			is_subject = yes
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete GRP_reduce_the_pressure"
+			ROOT = {
+				add_popularity = {
+					ideology = valkist
+					popularity = 0.05
+				}
+				add_stability = 0.05
+				effect_tooltip = {
+					swap_ideas = {
+						remove_idea = GRP_valkist_resistance_dummy
+						add_idea = GRP_valkist_resistance_idea
+					}
+				}				
+				hidden_effect = {
+					add_to_variable = { GER_valkist_resistance = -0.02 }
+					add_to_variable = { GER_valkist_resistance_reverse = 0.02 }
+				}
+			}
+		}
+	}
+}
+
+# Keep this here in mind! allowed = { always = no } #activated by effect

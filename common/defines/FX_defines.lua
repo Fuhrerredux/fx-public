@@ -1,4 +1,4 @@
--- Führerredux defines
+-- Führerredux (now Führerreich) defines
 -- from KR
 -- Commented out items are under re-evaluation
 

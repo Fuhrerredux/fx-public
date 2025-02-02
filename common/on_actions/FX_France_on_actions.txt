@@ -13,9 +13,33 @@ on_actions = {
       FRA = {
 				set_variable = { entente_faith = 65 }
 				set_variable = { entente_tension = 0 } # probably not going to be used
+				save_global_event_target_as = entente_leader
 			}
     }
   }
+  # ROOT is the new faction leader FROM is the old faction leader
+  on_assume_faction_leadership = {
+		effect = {
+			if = {
+				limit = { FROM = { tag = ENT } }
+				save_global_event_target_as = entente_leader
+				save_event_target_as = entente_transfer_to
+				event_target:entente_transfer_to = {
+					set_faction_leader = yes
+					save_global_event_target_as = entente_leader
+				}
+			}
+		}
+	}
+	# ROOT is capitulated country, FROM is winner
+	on_capitulation = {
+		effect = { 
+			if = {
+				limit = { ROOT = { tag = ENT } }
+				FRA_entente_fate = yes
+			}
+		}
+	}
   on_daily = {
     effect = {
 			FRA = {

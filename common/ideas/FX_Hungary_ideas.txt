@@ -7,34 +7,101 @@
 #############################
 
 ideas = {
+	hidden_ideas = {
+		hun_economic_recovery_hidden = {
+			on_add = { }
+			on_remove = {
+				log = "[GetDateText]: [Root.GetName]: remove idea hun_economic_recovery_hidden"
+				if = {
+					limit = { 
+						OR = {
+							NOT = { has_country_flag = hun_economic_recovery_hidden_time_to_wait }
+							has_completed_focus = hun_autarky
+							has_completed_focus = hun_balanced_budget
+						}
+					}
+					country_event = hun.44
+				}
+				if = {
+					limit = { 
+						OR = {
+							has_idea = hun_autarky_recovered
+							has_idea = hun_austerity_recovered
+						}
+					}
+				}
+				else = {
+					add_timed_idea = {
+						days = 500
+						idea = hun_economic_recovery_hidden
+					}
+				}
+			}
+		}
+	}
 	country = {
 		hun_trianon = {
-			on_add = {log = "[GetDateText]: [Root.GetName]: add idea hun_trianon"}
 			picture = HUN_treaty_of_triannon
+			on_add = {
+				log = "[GetLogIdeaInfo] hun_trianon"
+				set_country_flag = cannot_produce_armor
+				set_country_flag = cannot_produce_aircraft
+			}
+			on_remove = {
+				log = "[GetDateText]: [Root.GetName]: remove idea hun_trianon"
+				clr_country_flag = cannot_produce_armor
+				clr_country_flag = cannot_produce_aircraft
+			}
 			modifier = {
 				training_time_army_factor = 0.5
 				conscription_factor = -0.90
 				mobilization_speed = -1
+				custom_modifier_tooltip = cannot_enact_conscription_tt
+				hidden_modifier = {
+					mobilization_laws_cost_factor = 20
+				}
+				custom_modifier_tooltip = cannot_build_armor_aircraft_tt
+			}
+		}
+		hun_economic_ruin_worse = {
+			name = hun_economic_ruin
+			on_add = {log = "[GetDateText]: [Root.GetName]: add idea hun_economic_ruin_worse"}
+			picture = great_depression
+			modifier = {
+				production_factory_efficiency_gain_factor = -0.5
+				local_resources_factor = -0.15
+				consumer_goods_factor = 0.45
+				production_factory_max_efficiency_factor = -0.5
 			}
 		}
 		hun_economic_ruin = {
 			on_add = {log = "[GetDateText]: [Root.GetName]: add idea hun_economic_ruin"}
 			picture = great_depression
 			modifier = {
-				production_factory_efficiency_gain_factor = -0.5
-				local_resources_factor = -0.05
+				production_factory_efficiency_gain_factor = -0.4
+				local_resources_factor = -0.1
 				consumer_goods_factor = 0.3
-				production_factory_max_efficiency_factor = -0.5
+				production_factory_max_efficiency_factor = -0.4
 			}
 		}
-		hun_economic_ruin_1 = {
-			on_add = {log = "[GetDateText]: [Root.GetName]: add idea hun_economic_ruin_1"}
+		hun_economic_ruin_0 = {
+			on_add = {log = "[GetDateText]: [Root.GetName]: add idea hun_economic_ruin_0"}
 			picture = great_depression
 			modifier = {
 				production_factory_efficiency_gain_factor = -0.3
 				local_resources_factor = -0.05
 				consumer_goods_factor = 0.25
 				production_factory_max_efficiency_factor = -0.3
+			}
+		}
+		hun_economic_ruin_1 = {
+			on_add = {log = "[GetDateText]: [Root.GetName]: add idea hun_economic_ruin_1"}
+			picture = great_depression
+			modifier = {
+				production_factory_efficiency_gain_factor = -0.2
+				local_resources_factor = -0.05
+				consumer_goods_factor = 0.225
+				production_factory_max_efficiency_factor = -0.2
 			}
 		}
 		hun_economic_ruin_2 = {
@@ -47,20 +114,82 @@ ideas = {
 				production_factory_max_efficiency_factor = -0.1
 			}
 		}
-		hun_recovered_economy = {
-			on_add = {log = "[GetDateText]: [Root.GetName]: add idea hun_recovered_economy"}
+		hun_autarky_recovered = {
+			name = hun_recovered_economy
+			on_add = {log = "[GetDateText]: [Root.GetName]: add idea hun_autarky_recovered"}
 			picture = chi_hyper_inflation3
 			modifier = {
-				production_factory_efficiency_gain_factor = 0.05
-				consumer_goods_factor = -0.05
+				consumer_goods_factor = 0.1
+				production_factory_max_efficiency_factor = 0.075
+				industrial_capacity_factory = 0.15
+				local_resources_factor = 0.15
+			}
+		}
+		hun_austerity_recovered = {
+			name = hun_recovered_economy
+			on_add = {log = "[GetDateText]: [Root.GetName]: add idea hun_austerity_recovered"}
+			picture = chi_hyper_inflation3
+			modifier = {
+				political_power_cost = 0.1
+				consumer_goods_factor = -0.15
 				production_factory_max_efficiency_factor = 0.1
+				industrial_capacity_factory = 0.1
+			}
+		}
+		hun_austerity_measures = {
+			on_add = { log = "[GetDateText]: [Root.GetName]: add idea hun_austerity_measures" }
+			picture = chi_hyper_inflation3
+			modifier = {
+				stability_factor = -0.1
+				political_power_cost = 0.15
+				consumer_goods_factor = -0.25
+				industrial_capacity_factory = -0.1
+				custom_modifier_tooltip = hun_economic_recovery_measures
+			}
+		}
+		hun_austerity_measures_1 = {
+			name = hun_austerity_measures
+			on_add = {log = "[GetDateText]: [Root.GetName]: add idea hun_austerity_measures_1"}
+			picture = chi_hyper_inflation3
+			modifier = {
+				stability_factor = -0.15
+				political_power_cost = 0.2
+				consumer_goods_factor = -0.3
+				industrial_capacity_factory = -0.15
+				production_factory_efficiency_gain_factor = -0.1
+				custom_modifier_tooltip = hun_economic_recovery_measures
+			}
+		}
+		hun_nationalist_economics = {
+			on_add = { log = "[GetDateText]: [Root.GetName]: add idea hun_nationalist_economics" }
+			picture = chi_hyper_inflation3
+			modifier = {
+				political_power_cost = 0.2
+				production_factory_efficiency_gain_factor = -0.1
+				production_factory_max_efficiency_factor = -0.05
+				industrial_capacity_factory = -0.15
+				trade_opinion_factor = -0.5
+				custom_modifier_tooltip = hun_economic_recovery_measures
+			}
+		}
+		hun_nationalist_economics_1 = {
+			name = hun_nationalist_economics
+			on_add = {log = "[GetDateText]: [Root.GetName]: add idea hun_nationalist_economics_1"}
+			picture = chi_hyper_inflation3
+			modifier = {
+				political_power_cost = 0.25
+				production_factory_efficiency_gain_factor = -0.05
+				production_factory_max_efficiency_factor = -0.05
+				industrial_capacity_factory = -0.1
+				trade_opinion_factor = -0.75
+				custom_modifier_tooltip = hun_economic_recovery_measures
 			}
 		}
 		hun_secret_rearm = {
 			on_add = {log = "[GetDateText]: [Root.GetName]: add idea hun_secret_rearm"}
 			picture = ast_volunteer_defence_corps
 			modifier = {
-				production_factory_max_efficiency_factor = 0.1
+				production_factory_max_efficiency_factor = 0.025
 				industrial_capacity_factory = 0.075
 			}
 		}
@@ -68,9 +197,9 @@ ideas = {
 			on_add = {log = "[GetDateText]: [Root.GetName]: add idea hun_secret_rearm_2"}
 			picture = ast_volunteer_defence_corps
 			modifier = {
-				production_factory_max_efficiency_factor = 0.15
+				production_factory_max_efficiency_factor = 0.05
 				industrial_capacity_factory = 0.1
-				conscription = 0.05
+				conscription = 0.01
 			}
 		}
 		hun_secret_police = {
@@ -86,8 +215,307 @@ ideas = {
 			on_add = {log = "[GetDateText]: [Root.GetName]: add idea hun_vengeful"}
 			picture = vittoria_mutilata
 			modifier = {
-				conscription = 0.03
-				offence = 0.03
+				conscription = 0.015
+				stability_factor = -0.05
+				war_support_factor = 0.15
+			}
+			targeted_modifier = {
+				tag = ROM
+				attack_bonus_against = 0.15
+			}
+			targeted_modifier = {
+				tag = SLO
+				attack_bonus_against = 0.15
+			}
+			targeted_modifier = {
+				tag = CZE
+				attack_bonus_against = 0.15
+			}
+			targeted_modifier = {
+				tag = SER
+				attack_bonus_against = 0.1
+			}
+		}
+		hun_turanian_army_spirit = {
+			on_add = {log = "[GetDateText]: [Root.GetName]: add idea hun_turanian_army_spirit"}
+			picture = FRA_army_of_aggression_focus
+			modifier = {
+				army_speed_factor = 0.05
+				army_morale_factor = 0.05
+				experience_gain_army_factor = -0.25
+			}
+		}
+		hun_turanian_army_spirit_1 = {
+			name = hun_turanian_army_spirit
+			on_add = {log = "[GetDateText]: [Root.GetName]: add idea hun_turanian_army_spirit_1"}
+			picture = FRA_army_of_aggression_focus
+			modifier = {
+				army_speed_factor = 0.075
+				army_morale_factor = 0.075
+				army_org_regain = 0.05
+				experience_gain_army_factor = -0.2
+			}
+		}
+		hun_turanian_army_spirit_2 = {
+			name = hun_turanian_army_spirit
+			on_add = {log = "[GetDateText]: [Root.GetName]: add idea hun_turanian_army_spirit_2"}
+			picture = FRA_army_of_aggression_focus
+			modifier = {
+				army_speed_factor = 0.075
+				army_morale_factor = 0.075
+				army_org_regain = 0.05
+				initiative_factor = 0.05
+				experience_gain_army_factor = -0.15
+			}
+		}
+		hun_turanian_army_spirit_3 = {
+			name = hun_honved_reformed
+			on_add = {log = "[GetDateText]: [Root.GetName]: add idea hun_turanian_army_spirit_3"}
+			picture = FRA_army_of_aggression_focus
+			modifier = {
+				breakthrough_factor = 0.05
+				army_speed_factor = 0.15
+				army_morale_factor = 0.1
+				army_org_regain = 0.1
+				initiative_factor = 0.1
+			}
+		}
+		hun_clausewitzian_army_spirit = {
+			on_add = {log = "[GetDateText]: [Root.GetName]: add idea hun_clausewitzian_army_spirit"}
+			picture = FRA_scw_intervention_nationalists_focus
+			modifier = {
+				army_org_factor = 0.05
+				army_morale_factor = 0.05
+				command_power_gain_mult = -0.35
+			}
+		}
+		hun_clausewitzian_army_spirit_1 = {
+			name = hun_clausewitzian_army_spirit
+			on_add = {log = "[GetDateText]: [Root.GetName]: add idea hun_clausewitzian_army_spirit_1"}
+			picture = FRA_scw_intervention_nationalists_focus
+			modifier = {
+				army_org_factor = 0.05
+				army_morale_factor = 0.05
+				command_power_gain_mult = -0.5
+				training_time_factor = -0.1
+			}
+		}
+		hun_clausewitzian_army_spirit_2 = {
+			name = hun_clausewitzian_army_spirit
+			on_add = {log = "[GetDateText]: [Root.GetName]: add idea hun_clausewitzian_army_spirit_2"}
+			picture = FRA_scw_intervention_nationalists_focus
+			modifier = {
+				army_org_factor = 0.05
+				army_morale_factor = 0.15
+				command_power_gain_mult = -0.25
+				training_time_factor = -0.1
+				org_loss_at_low_org_factor = -0.15
+			}
+		}
+		hun_clausewitzian_army_spirit_3 = {
+			name = hun_honved_reformed
+			on_add = {log = "[GetDateText]: [Root.GetName]: add idea hun_clausewitzian_army_spirit_3"}
+			picture = FRA_scw_intervention_nationalists_focus
+			modifier = {
+				army_org_factor = 0.1
+				army_morale_factor = 0.15
+				army_defence_factor = 0.1
+				training_time_factor = -0.1
+				org_loss_at_low_org_factor = -0.15
+			}
+		}
+		hun_ongoing_land_reform = {
+			on_add = {log = "[GetDateText]: [Root.GetName]: add idea hun_ongoing_land_reform"}
+			on_remove = {
+				log = "[GetDateText]: [Root.GetName]: add idea hun_ongoing_land_reform"
+				if = {
+					limit = { has_completed_focus = hun_total_land_reform }
+					add_ideas = hun_arrow_cross_reform_upgraded
+				}
+				else = { add_ideas = hun_arrow_cross_reform }
+			}
+			picture = generic_agrarian_reform
+			modifier = {
+				political_power_cost = 0.15
+				consumer_goods_factor = 0.2
+				civilian_factory_use = 1
+				production_speed_buildings_factor = -0.075
+			}
+		}
+		hun_arrow_cross_reform = {
+			on_add = {log = "[GetDateText]: [Root.GetName]: add idea hun_arrow_cross_reform"}
+			picture = generic_agrarian_reform
+			modifier = {
+				monthly_population = 0.5
+				conscription_factor = 0.1
+				consumer_goods_factor = -0.15
+				production_speed_buildings_factor = 0.05
+				production_factory_max_efficiency_factor = 0.05
+				global_building_slots_factor = 0.25
+			}
+		}
+		hun_arrow_cross_reform_upgraded = {
+			name = hun_arrow_cross_reform
+			on_add = {log = "[GetDateText]: [Root.GetName]: add idea hun_arrow_cross_reform"}
+			picture = generic_agrarian_reform
+			modifier = {
+				monthly_population = 0.65
+				conscription_factor = 0.15
+				consumer_goods_factor = -0.2
+				production_speed_buildings_factor = 0.1
+				production_factory_max_efficiency_factor = 0.1
+				global_building_slots_factor = 0.25
+			}
+		}
+		hun_arrow_cross_state = {
+			on_add = {log = "[GetDateText]: [Root.GetName]: add idea hun_arrow_cross_state"}
+			picture = vittoria_mutilata
+			modifier = {
+				stability_factor = 0.1
+				political_power_factor = 0.1
+				line_change_production_efficiency_factor = 0.15
+				surrender_limit = 0.15
+			}
+		}
+		hun_reactionary_bulwark = {
+			on_add = {log = "[GetDateText]: [Root.GetName]: add idea hun_reactionary_bulwark"}
+			picture = vittoria_mutilata
+			modifier = {
+				stability_factor = 0.1
+				war_support_factor = 0.1
+				monthly_population = 0.15
+				army_core_defence_factor = 0.05
+			}
+		}
+		hun_arrow_cross_state_upgraded = {
+			name = hun_arrow_cross_state
+			on_add = {log = "[GetDateText]: [Root.GetName]: add idea hun_arrow_cross_state_upgraded"}
+			picture = vittoria_mutilata
+			modifier = {
+				stability_factor = 0.1
+				political_power_factor = 0.15
+				line_change_production_efficiency_factor = 0.2
+				surrender_limit = 0.25
+				national_populist_drift = 0.01
+				party_popularity_stability_factor = 0.25
+			}
+		}
+		hun_reactionary_bulwark_upgraded = {
+			name = hun_reactionary_bulwark
+			on_add = {log = "[GetDateText]: [Root.GetName]: add idea hun_reactionary_bulwark_upgraded"}
+			picture = vittoria_mutilata
+			modifier = {
+				stability_factor = 0.15
+				war_support_factor = 0.1
+				monthly_population = 0.2
+				paternal_autocrat_drift = 0.01
+				army_core_defence_factor = 0.05
+			}
+		}
+		hun_danubian_vanguard = {
+			on_add = {log = "[GetDateText]: [Root.GetName]: add idea hun_danubian_vanguard"}
+			picture = valkist_army
+			modifier = {
+				stability_factor = 0.05
+				war_support_factor = 0.15
+				monthly_population = 0.1
+				valkist_drift = 0.01
+				industrial_capacity_factory = 0.05
+				army_attack_factor = 0.05
+			}
+		}
+		hun_kingdom_spirit = {
+			on_add = {log = "[GetDateText]: [Root.GetName]: add idea hun_kingdom_spirit"}
+			picture = HUN_hungarian_monarchy
+			modifier = {
+				stability_factor = 0.1
+				war_support_factor = 0.1
+				monthly_population = 0.15
+				industrial_capacity_factory = 0.1
+				army_attack_factor = 0.05
+				army_defence_factor = 0.05
+			}
+		}
+		hun_republic_spirit = {
+			on_add = {log = "[GetDateText]: [Root.GetName]: add idea hun_danubian_vanguard"}
+			picture = generic_government
+			modifier = {
+				stability_factor = 0.05
+				political_power_factor = 0.15
+				monthly_population = 0.2
+				industrial_capacity_factory = 0.1
+			}
+		}
+		hun_anti_german_bulwark_spirit = {
+			name = hun_anti_german_bulwark
+			on_add = {log = "[GetDateText]: [Root.GetName]: add idea hun_anti_german_bulwark_spirit"}
+			picture = valkism_bad
+			modifier = {
+				political_power_cost = 0.1
+				command_power_gain_mult = -0.15
+				army_morale_factor = 0.1
+				valkist_drift = -0.01
+			}
+			targeted_modifier = {
+				tag = GER
+				attack_bonus_against = 0.05
+				attack_bonus_against_cores = 0.1
+				defense_bonus_against = 0.1
+			}
+		}
+		hun_seizure_private_property = {
+			on_add = {log = "[GetDateText]: [Root.GetName]: add idea hun_arrow_cross_state"}
+			picture = generic_goods_red_bonus
+			modifier = {
+				political_power_cost = 0.1
+				production_factory_max_efficiency_factor = 0.1
+				industrial_capacity_factory = 0.15
+				production_speed_industrial_complex_factor = 0.1
+				production_speed_arms_factory_factor = 0.1
+			}
+		}
+		hun_corporate_alliance_cap = {
+			name = hun_corporate_alliance_spirit
+			on_add = {log = "[GetDateText]: [Root.GetName]: add idea hun_corporate_alliance_cap"}
+			picture = generic_goods_red_bonus
+			modifier = {
+				production_speed_buildings_factor = 0.05
+				production_factory_max_efficiency_factor = 0.1
+				industrial_capacity_factory = 0.1
+				production_speed_industrial_complex_factor = 0.1
+				production_speed_arms_factory_factor = 0.1
+			}
+		}
+		hun_corporate_alliance_ret = {
+			name = hun_corporate_alliance_spirit
+			on_add = {log = "[GetDateText]: [Root.GetName]: add idea hun_corporate_alliance_ret"}
+			picture = generic_goods_red_bonus
+			modifier = {
+				local_resources_factor = 0.15
+				line_change_production_efficiency_factor = 0.2
+				production_factory_efficiency_gain_factor = 0.2
+				production_factory_max_efficiency_factor = 0.075
+				industrial_capacity_factory = 0.1
+			}
+		}
+		hun_arrow_cross_union = {
+			on_add = {log = "[GetDateText]: [Root.GetName]: add idea hun_arrow_cross_union"}
+			picture = union_cooperation
+			modifier = {
+				consumer_goods_factor = 0.1
+				production_factory_efficiency_gain_factor = 0.05
+				political_power_gain = 0.1
+				production_factory_max_efficiency_factor = 0.025
+			}
+		}
+		hun_magyarization_spirit = {
+			on_add = {log = "[GetDateText]: [Root.GetName]: add idea hun_magyarization_spirit"}
+			picture = union_cooperation
+			modifier = {
+				political_power_gain = 0.1
+				consumer_goods_factor = -0.15
+				production_factory_efficiency_gain_factor = -0.1
+				improve_relations_maintain_cost_factor = 0.25
 			}
 		}
 		hun_aircraft_boost = {
@@ -154,14 +582,19 @@ ideas = {
 			on_add = {log = "[GetDateText]: [Root.GetName]: add idea hun_youth_army_idea"}
 			picture = generic_infantry_bonus
 			modifier = {
-				conscription = 0.05
+				conscription_factor = 0.15
+				conscription = 0.015
+				research_speed_factor = -0.05
 			}
 		}
 		hun_factory_cap = {
 			on_add = {log = "[GetDateText]: [Root.GetName]: add idea hun_factory_cap"}
 			picture = generic_goods_red_bonus
 			modifier = {
-				production_factory_max_efficiency_factor = 0.15
+				production_factory_max_efficiency_factor = 0.075
+				industrial_capacity_factory = 0.1
+				production_speed_industrial_complex_factor = 0.05
+				production_speed_arms_factory_factor = 0.05
 			}
 		}
 		hun_factory_ret = {
@@ -169,15 +602,18 @@ ideas = {
 			picture = generic_goods_red_bonus
 			modifier = {
 				line_change_production_efficiency_factor = 0.15
+				production_factory_efficiency_gain_factor = 0.15
+				production_factory_max_efficiency_factor = 0.05
+				industrial_capacity_factory = 0.05
 			}
 		}
 		hun_rearmed = {
 			on_add = {log = "[GetDateText]: [Root.GetName]: add idea hun_rearmed"}
 			picture = ast_volunteer_defence_corps
 			modifier = {
-				production_factory_max_efficiency_factor = 0.05
-				industrial_capacity_factory = 0.10
-				conscription = 0.05
+				production_factory_max_efficiency_factor = 0.1
+				industrial_capacity_factory = 0.1
+				conscription = 0.01
 			}
 		}
 		hun_slovak_loyalty = {
@@ -242,6 +678,150 @@ ideas = {
 				political_power_factor = 0.10
 				production_factory_max_efficiency_factor = 0.10
 				consumer_goods_factor = -0.05
+			}
+		}
+	}
+
+	##############
+	# Companies
+	##############
+
+	#### General ####
+	industrial_concern = {
+
+		manfred_weiss_steel = {
+			on_add = { log = "[GetDateText]: [Root.GetName]: add idea manfred_weiss_steel" }
+			allowed = { tag = HUN }
+			visible = { owns_state = 43 }
+			traits = { industrial_manufacturer }
+			modifier = {
+				production_speed_arms_factory_factor = 0.1
+				production_speed_industrial_complex_factor = 0.1
+			}
+			research_bonus = {
+				industry = 0.1
+			}
+		}
+
+		apollo_refinery = {
+			on_add = { log = "[GetDateText]: [Root.GetName]: add idea apollo_refinery" }
+			allowed = { tag = HUN }
+			visible = { owns_state = 70 }
+			traits = { chemical_producer }
+			modifier = {
+				production_speed_synthetic_refinery_factor = 0.1
+			}
+			research_bonus = {
+				synth_resources = 0.1
+				industry = 0.1
+			}
+		}
+
+		orion_electronics = {
+			on_add = { log = "[GetDateText]: [Root.GetName]: add idea orion_electronics" }
+			allowed = { tag = HUN }
+			visible = { owns_state = 43 }
+			traits = { electronics_manufacturer }
+			modifier = {
+				production_speed_radar_station_factor = 0.1
+			}
+			research_bonus = {
+				electronics = 0.1
+				industry = 0.1
+			}
+		}
+	}
+
+#### Weapons Manufacturer ####
+	materiel_manufacturer = {
+		designer = yes
+
+		feg = {
+			on_add = { log = "[GetDateText]: [Root.GetName]: add idea feg" }
+			allowed = { tag = HUN }
+			visible = { owns_state = 43 }
+			traits = { infantry_equipment_producer_defense_1 }
+			research_bonus = {
+				infantry_weapons = 0.1
+			}
+		}
+
+		mavag = {
+			on_add = { log = "[GetDateText]: [Root.GetName]: add idea mavag" }
+			allowed = { tag = HUN }
+			visible = { owns_state = 43 }
+			traits = { artillery_producer_offense_1 }
+			research_bonus = {
+				artillery = 0.1
+			}
+		}
+
+		raba = {
+			on_add = { log = "[GetDateText]: [Root.GetName]: add idea raba" }
+			allowed = { tag = HUN }
+			visible = { owns_state = 155 }
+			traits = { motorised_equipment_producer_mass_1 }
+			research_bonus = {
+				motorized_equipment = 0.1
+			}
+		}
+	}
+
+#### Heavy Equipment Manufacturer ####
+	tank_manufacturer = {
+		designer = yes
+
+		ganz_mavag = {
+			on_add = { log = "[GetDateText]: [Root.GetName]: add idea ganz_mavag" }
+			allowed = { tag = HUN }
+			visible = { owns_state = 43 }
+			traits = { medium_tank_producer_offense_1 }
+			research_bonus = {
+				armor = 0.1
+			}
+		}
+
+		ganz = {
+			on_add = { log = "[GetDateText]: [Root.GetName]: add idea ganz" }
+			allowed = { tag = HUN }
+			visible = { owns_state = 43 }
+			traits = { small_tank_producer_defense_1 }
+			research_bonus = {
+				armor = 0.1
+			}
+		}
+	}
+
+#### Air and Naval Manufacturer ####
+	aircraft_manufacturer = {
+		designer = yes
+
+		feigl_rotter = {
+			on_add = { log = "[GetDateText]: [Root.GetName]: add idea feigl_rotter" }
+			allowed = { tag = HUN }
+			visible = { owns_state = 43 }
+			traits = { fighter_producer_mass_1 }
+			research_bonus = {
+				air_equipment = 0.1
+			}
+		}
+
+		magyar_lloyd = {
+			on_add = { log = "[GetDateText]: [Root.GetName]: add idea magyar_lloyd" }
+			allowed = { tag = HUN }
+			visible = { owns_state = 43 }
+			traits = { bomber_producer_defense_1 }
+			research_bonus = {
+				air_equipment = 0.1
+			}
+		}
+
+		danubian_aircraft_company = {
+			on_add = { log = "[GetDateText]: [Root.GetName]: add idea danubian_aircraft_company" }
+			allowed = { original_tag = HUN }
+			traits = { nav_cas_producer_offense_1 }
+			research_bonus = {
+				air_equipment = 0.1
 			}
 		}
 	}

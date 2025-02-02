@@ -1678,7 +1678,7 @@ focus_tree = {
 
 	focus = {
 		id = ARG_relampago_tactics
-		icon = GFX_goal_RUS_Markov_plan
+		icon = GFX_goal_RUS_Mobile_warfare
 		ai_will_do = { factor = 10 }
 		x = 1
 		y = 1
@@ -3043,25 +3043,36 @@ focus_tree = {
 		cost = 10
 		completion_reward = {
 			log = "[GetDateText]: [Root.GetName]: Focus ARG_international_research_pact"
-			add_to_tech_sharing_group = argsoc_research
-			every_country = {
-				limit = {
-					NOT = {
-						is_in_faction_with = ARG
-						is_subject_of = ARG
-						has_war_with = ARG
-						has_government = social_liberal
-						has_government = market_liberal
-						has_government = authoritarian_democrat
-						has_government = social_democrat
-						has_government = social_conservative
-						has_government = valkist
-						has_government = national_populist
-						has_government = paternal_autocrat
+			if = {
+				limit = { has_dlc_tfv = yes }
+				add_to_tech_sharing_group = argsoc_research
+				every_country = {
+					limit = {
+						NOT = {
+							is_in_faction_with = ARG
+							is_subject_of = ARG
+							has_war_with = ARG
+							has_government = social_liberal
+							has_government = market_liberal
+							has_government = authoritarian_democrat
+							has_government = social_democrat
+							has_government = social_conservative
+							has_government = valkist
+							has_government = national_populist
+							has_government = paternal_autocrat
+						}
+						any_neighbor_country = { tag = ARG }
 					}
-					any_neighbor_country = { tag = ARG }
+					country_event = { id = arg.200}
 				}
-				country_event = { id = arg.200}
+			}
+			else = {
+				add_tech_bonus = {
+					name = industry_bonus
+					bonus = 0.5
+					uses = 1
+					category = industry
+				}
 			}
 		}
 	}

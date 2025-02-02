@@ -84,6 +84,73 @@ decrease_mobilisation = {
 	}
 }
 
+clear_all_relations = {
+	if = {
+		limit = { is_subject = yes }
+		overlord = {
+			set_autonomy = {
+				target = PREV
+				autonomy_state = autonomy_free
+			}
+		}
+	}
+	else_if = {
+		limit = { num_subjects > 0 }
+		every_subject_country = {
+			overlord = {
+				set_autonomy = {
+					target = PREV
+					autonomy_state = autonomy_free
+				}
+			}
+		}
+	}
+	if = {
+		limit = { is_faction_leader = yes }
+		dismantle_faction = yes
+	}
+	else_if = {
+		limit = { is_in_faction = yes }
+		leave_faction = yes
+	}
+	separate_peace_all_wars = yes
+	every_other_country = {
+		diplomatic_relation = {
+			country = PREV
+			relation = guarantee
+			active = no
+		}
+		diplomatic_relation = {
+			country = PREV
+			relation = non_aggression_pact
+			active = no
+		}
+		diplomatic_relation = {
+			country = PREV
+			relation = military_access
+			active = no
+		}
+		diplomatic_relation = {
+			country = PREV
+			relation = market_access_rights
+			active = no
+		}
+		PREV = {
+			diplomatic_relation = {
+				country = PREV
+				relation = guarantee
+				active = no
+			}
+			diplomatic_relation = {
+				country = PREV
+				relation = military_access
+				active = no
+			}
+		}
+		clear_embargo_PREV = yes
+	}
+}
+
 # removes the country in scope from all wars (separately - it won't end the wars)
 separate_peace_all_wars = {
 	if = {
@@ -1057,7 +1124,7 @@ join_entente = { # ROOT
 				FRA = { is_faction_leader = yes has_idea = FRA_entente_leader }
 			}
 		}
-		add_to_faction = ROOT
+		ENT = { add_to_faction = ROOT }
 		add_ideas = GEN_entente_member
 	}
 }
@@ -1070,7 +1137,7 @@ join_entente_FROM = { # FROM
 				FRA = { is_faction_leader = yes has_idea = FRA_entente_leader }
 			}
 		}
-		add_to_faction = FROM
+		ENT = { add_to_faction = FROM }
 		add_ideas = GEN_entente_member
 	}
 }
@@ -1083,7 +1150,7 @@ join_entente_PREV = { # PREV
 				FRA = { is_faction_leader = yes has_idea = FRA_entente_leader }
 			}
 		}
-		add_to_faction = PREV
+		ENT = { add_to_faction = PREV }
 		add_ideas = GEN_entente_member
 	}
 }
@@ -1610,8 +1677,11 @@ decrease_ruling_party_popularity_by_50 = {
 
 # to use:
 #
-# set_temp_variable = { ruling_party_pop_to_decrease = 0.13 }
+# set_temp_variable = { ruling_party_pop_to_decrease = -0.13 }
 # decrease_ruling_party_pop_by_num = yes
+# or
+# set_temp_variable = { ruling_party_pop_to_increase = 0.13 }
+# increase_ruling_party_pop_by_num = yes
 
 decrease_ruling_party_pop_by_num = {
 	add_popularity = {
@@ -1627,414 +1697,243 @@ increase_ruling_party_pop_by_num = {
 	}
 }
 
-# Auto-Generated; use the tool
-
-remove_every_hog_trait = {
-	hidden_effect = {
-		remove_ideas_with_trait = hog_red_chairmen
-		remove_ideas_with_trait = hog_ambitious_union_boss
-		remove_ideas_with_trait = hog_backroom_backstabber
-		remove_ideas_with_trait = hog_charismatic_charmer
-		remove_ideas_with_trait = hog_corporate_suit
-		remove_ideas_with_trait = hog_flamboyant_tough_guy
-		remove_ideas_with_trait = hog_happy_amateur
-		remove_ideas_with_trait = hog_local_tyrant
-		remove_ideas_with_trait = hog_naive_optimist
-		remove_ideas_with_trait = hog_old_admiral
-		remove_ideas_with_trait = hog_old_air_marshal
-		remove_ideas_with_trait = hog_old_general
-		remove_ideas_with_trait = hog_political_protege
-		remove_ideas_with_trait = hog_pragmatic_statesman
-		remove_ideas_with_trait = hog_reformist_soldier
-		remove_ideas_with_trait = hog_respected_war_hero
-		remove_ideas_with_trait = hog_silent_workhorse
-		remove_ideas_with_trait = hog_smiling_oilman
-		remove_ideas_with_trait = hog_spiritual_leader
-		remove_ideas_with_trait = hog_underground_figurehead
-		remove_ideas_with_trait = hog_undergrounder_figurehead
-		remove_ideas_with_trait = hog_antiwar_veteran
-		remove_ideas_with_trait = hog_state_secularist
-		remove_ideas_with_trait = hog_determined_populist
-		remove_ideas_with_trait = hog_revanchist_conspirator
-		remove_ideas_with_trait = hog_old_compromiser
-		remove_ideas_with_trait = hog_iron_heel
-		remove_ideas_with_trait = hog_oligarchic_council
-		remove_ideas_with_trait = hog_generic_portrait
-		remove_ideas_with_trait = hog_freikorps_veteran
-		remove_ideas_with_trait = hog_lauriers_heir
-		remove_ideas_with_trait = hog_king_emperor
-		remove_ideas_with_trait = hog_mad_jack
-		remove_ideas_with_trait = hog_meme_man
-		remove_ideas_with_trait = hog_philosopher_general
-		remove_ideas_with_trait = hog_ruthless_warlord
-		remove_ideas_with_trait = hog_democratic_tyrant
-		remove_ideas_with_trait = hog_privileged_socialist
-		remove_ideas_with_trait = hog_sincere_internationalist
-		remove_ideas_with_trait = hog_accomplished_diplomat
-		remove_ideas_with_trait = hog_kingsmaker
-		remove_ideas_with_trait = hog_holy_vice_marshal
-		remove_ideas_with_trait = hog_nationalist_patriot
-	}
-}
-
-remove_every_eco_trait = {
-	hidden_effect = {
-		remove_ideas_with_trait = eco_administrative_genius
-		remove_ideas_with_trait = eco_balanced_budget_economy
-		remove_ideas_with_trait = eco_bank_president
-		remove_ideas_with_trait = eco_construction_magnate
-		remove_ideas_with_trait = eco_corrupt_kleptocrat
-		remove_ideas_with_trait = eco_industrial_chemist
-		remove_ideas_with_trait = eco_industrialiser
-		remove_ideas_with_trait = eco_keynesian_economy
-		remove_ideas_with_trait = eco_laissez_faire_capitalist
-		remove_ideas_with_trait = eco_military_entrepreneur
-		remove_ideas_with_trait = eco_mixed_economy
-		remove_ideas_with_trait = eco_oil_baron
-		remove_ideas_with_trait = eco_planned_economy_proponent
-		remove_ideas_with_trait = eco_reformer
-		remove_ideas_with_trait = eco_devoted_monopoly_buster
-		remove_ideas_with_trait = eco_resource_industrialist
-		remove_ideas_with_trait = eco_steel_magnate
-		remove_ideas_with_trait = eco_railway_magnate
-		remove_ideas_with_trait = eco_theoretical_scientist
-		remove_ideas_with_trait = eco_imbedded_unioneer
-		remove_ideas_with_trait = eco_national_liberal
-		remove_ideas_with_trait = eco_air_superiority_proponent
-		remove_ideas_with_trait = eco_battlefield_support_proponent
-		remove_ideas_with_trait = eco_battle_fleet_proponent
-		remove_ideas_with_trait = eco_carrier_proponent
-		remove_ideas_with_trait = eco_infantry_proponent
-		remove_ideas_with_trait = eco_naval_aviation_proponent
-		remove_ideas_with_trait = eco_u_boat_proponent
-		remove_ideas_with_trait = eco_tank_proponent
-		remove_ideas_with_trait = eco_trade_proponent
-		remove_ideas_with_trait = eco_strategic_destruction_proponent
-		remove_ideas_with_trait = eco_socred_economist
-		remove_ideas_with_trait = eco_vernacular_industrialiser
-		remove_ideas_with_trait = eco_Haushuhn_Herrenvolk
-	}
-}
-
-remove_every_for_trait = {
-	hidden_effect = {
-		remove_ideas_with_trait = eco_the_minister_for_everything
-		remove_ideas_with_trait = for_biased_intellectual
-		remove_ideas_with_trait = for_ideological_crusader
-		remove_ideas_with_trait = for_apologetic_clerk
-		remove_ideas_with_trait = for_iron_fisted_brute
-		remove_ideas_with_trait = for_hawkish_intervener
-		remove_ideas_with_trait = for_relations_expert
-		remove_ideas_with_trait = for_great_compromiser
-		remove_ideas_with_trait = for_general_staffer
-		remove_ideas_with_trait = for_the_cloak_n_dagger_schemer
-		remove_ideas_with_trait = for_foreign_sympathizer
-		remove_ideas_with_trait = for_world_patrician
-		remove_ideas_with_trait = for_moderate_among_radicals
-		remove_ideas_with_trait = for_radical_among_moderates
-	}
-}
-
-remove_every_sec_trait = {
-	hidden_effect = {
-		remove_ideas_with_trait = sec_back_stabber
-		remove_ideas_with_trait = sec_compassionate_gentleman
-		remove_ideas_with_trait = sec_crime_fighter
-		remove_ideas_with_trait = sec_crooked_kleptocrat
-		remove_ideas_with_trait = sec_efficient_sociopath
-		remove_ideas_with_trait = sec_great_soul
-		remove_ideas_with_trait = sec_health_and_safety
-		remove_ideas_with_trait = sec_man_of_the_people
-		remove_ideas_with_trait = sec_media_magnate
-		remove_ideas_with_trait = sec_prince_of_terror
-		remove_ideas_with_trait = sec_driven_recruiter
-		remove_ideas_with_trait = sec_regionalist
-		remove_ideas_with_trait = sec_secret_police_chief
-		remove_ideas_with_trait = sec_silent_lawyer
-		remove_ideas_with_trait = sec_preserver_of_culture
-	}
-}
-
-remove_every_cos_trait = {
-	hidden_effect = {
-		remove_ideas_with_trait = cos_school_of_manoeuvre
-		remove_ideas_with_trait = cos_school_of_fire_support
-		remove_ideas_with_trait = cos_school_of_mass_combat
-		remove_ideas_with_trait = cos_school_of_psychology
-		remove_ideas_with_trait = cos_school_of_defence
-		remove_ideas_with_trait = cos_school_of_commando_operations
-	}
-}
-
-remove_every_carm_trait = {
-	hidden_effect = {
-		remove_ideas_with_trait = carm_elastic_defence_doctrine
-		remove_ideas_with_trait = carm_static_defence_doctrine
-		remove_ideas_with_trait = carm_decisive_battle_doctrine
-		remove_ideas_with_trait = carm_armoured_spearhead_doctrine
-		remove_ideas_with_trait = carm_guns_and_butter_doctrine
-		remove_ideas_with_trait = carm_commando_doctrine
-		remove_ideas_with_trait = carm_doctrine_of_autonomy
-	}
-}
-
-remove_every_cnav_trait = {
-	hidden_effect = {
-		remove_ideas_with_trait = cnav_open_seas_doctrine
-		remove_ideas_with_trait = cnav_decisive_battle_doctrine
-		remove_ideas_with_trait = cnav_power_projection_doctrine
-		remove_ideas_with_trait = cnav_indirect_approach_doctrine
-		remove_ideas_with_trait = cnav_base_control_doctrine
-	}
-}
-
-remove_every_cair_trait = {
-	hidden_effect = {
-		remove_ideas_with_trait = cair_air_superiority_doctrine
-		remove_ideas_with_trait = cair_naval_aviation_doctrine
-		remove_ideas_with_trait = cair_battlefield_support_doctrine
-		remove_ideas_with_trait = cair_carpet_bombing_doctrine
-		remove_ideas_with_trait = cair_vertical_envelopment_doctrine
-		remove_ideas_with_trait = cair_the_red_baron
-	}
-}
-
-init_opinion_ideology_modifier_setup_for_tag = {
+civil_war_set_flag_to_restore_elections = {
 	if = {
-		limit = { has_government = PREV }
-		add_opinion_modifier = { target = PREV modifier = FX_same_ideology }
+		limit = { has_elections = yes }
+		set_country_flag = had_elections
+	}
+}
+
+add_research_slot_until_three = {
+	if = {
+		limit = { amount_research_slots < 3 }
+		add_research_slot = 1
 	}
 	else_if = {
-		limit = {
-			OR = {
-				AND = {
-					NOT = { has_government = PREV }
-					OR = {
-						has_government = social_conservative
-						has_government = authoritarian_democrat
-					}
-					PREV = {
-						OR = {
-							has_government = social_conservative
-							has_government = authoritarian_democrat
-						}
-					}
-				}
-				AND = {
-					NOT = { has_government = PREV }
-					OR = {
-						has_government = social_democrat
-						has_government = social_liberal
-					}
-					PREV = {
-						OR = {
-							has_government = social_democrat
-							has_government = social_liberal
-						}
-					}
-				}
-				AND = {
-					NOT = { has_government = PREV }
-					OR = {
-						has_government = valkist
-						has_government = national_populist
-					}
-					PREV = {
-						OR = {
-							has_government = valkist
-							has_government = national_populist
-						}
-					}
-				}
-			}
-		}
-		add_opinion_modifier = {
-			target = PREV
-			modifier = FX_similar_ideology_close
-		}
-	}
-	else_if = {
-		limit = {
-			OR = {
-				AND = {
-					has_government = social_democrat
-					PREV = {
-						OR = {
-							has_government = market_liberal
-							has_government = social_conservative
-							has_government = authoritarian_democrat
-						}
-					}
-				}
-				AND = {
-					OR = {
-						has_government = market_liberal
-						has_government = social_conservative
-						has_government = authoritarian_democrat
-					}
-					PREV = { has_government = social_democrat }
-				}
-				AND = {
-					has_government = vanguardist
-					PREV = { has_government = collectivist }
-				}
-				AND = {
-					has_government = collectivist
-					PREV = { has_government = vanguardist }
-				}
-			}
-		}
-		add_opinion_modifier = {
-			target = PREV
-			modifier = FX_similar_ideology_distant
-		}
-	}
-	else_if = {
-		limit = {
-			OR = {
-				AND = {
-					has_socialist_government = yes
-					PREV = { has_socialist_government = yes }
-				}
-				AND = {
-					has_democratic_government = yes
-					PREV = { has_democratic_government = yes }
-				}
-				AND = {
-					has_dictatorship_government = yes
-					PREV = { has_dictatorship_government = yes }
-				}
-				AND = {
-					OR = {
-						has_government = authoritarian_democrat
-						has_government = paternal_autocrat
-					}
-					PREV = {
-						OR = {
-							has_government = authoritarian_democrat
-							has_government = paternal_autocrat
-						}
-					}
-				}
-			}
-		}
-		add_opinion_modifier = {
-			target = PREV
-			modifier = FX_similar_ideology
-		}
-	}
-	else_if = {
-		limit = {
-			OR = {
-				AND = {
-					has_government = social_democrat
-					PREV = { has_government = collectivist }
-				}
-				AND = {
-					has_government = collectivist
-					PREV = { has_government = social_democrat }
-				}
-				AND = {
-					has_government = paternal_autocrat
-					PREV = { has_government = social_conservative }
-				}
-				AND = {
-					has_government = social_conservative
-					PREV = { has_government = paternal_autocrat }
-				}
-				AND = {
-					has_government = national_populist
-					PREV = {
-						OR = {
-							has_government = social_conservative
-							has_government = authoritarian_democrat
-						}
-					}
-				}
-				AND = {
-					OR = {
-						has_government = social_conservative
-						has_government = authoritarian_democrat
-					}
-					PREV = { has_government = national_populist }
-				}
-			}
-		}
-		add_opinion_modifier = {
-			target = PREV
-			modifier = FX_different_ideology_close
+		limit = { has_idea = generic_research_advances }
+		modify_timed_idea = {
+			idea = generic_research_advances
+			days = 730
 		}
 	}
 	else = {
-		add_opinion_modifier = {
-			target = PREV
-			modifier = FX_different_ideology
+		add_timed_idea = {
+			idea = generic_research_advances
+			days = 730
 		}
-	}
-	if = {
-		limit = {
-			has_government = vanguardist
-		}
-		set_country_flag = opinion_set_vanguardist
-	}
-	if = {
-		limit = {
-			has_government = collectivist
-		}
-		set_country_flag = opinion_set_collectivist
-	}
-	if = {
-		limit = {
-			has_government = libertarian_socialist
-		}
-		set_country_flag = opinion_set_libertarian_socialist
-	}
-	if = {
-		limit = {
-			has_government = social_democrat
-		}
-		set_country_flag = opinion_set_social_democrat
-	}
-	if = {
-		limit = {
-			has_government = social_liberal
-		}
-		set_country_flag = opinion_set_social_liberal
-	}
-	if = {
-		limit = {
-			has_government = market_liberal
-		}
-		set_country_flag = opinion_set_market_liberal
-	}
-	if = {
-		limit = {
-			has_government = social_conservative
-		}
-		set_country_flag = opinion_set_social_conservative
-	}
-	if = {
-		limit = {
-			has_government = authoritarian_democrat
-		}
-		set_country_flag = opinion_set_authoritarian_democrat
-	}
-	if = {
-		limit = {
-			has_government = paternal_autocrat
-		}
-		set_country_flag = opinion_set_paternal_autocrat
-	}
-	if = {
-		limit = {
-			has_government = national_populist
-		}
-		set_country_flag = opinion_set_national_populist
-	}
-	if = {
-		limit = {
-			has_government = valkist
-		}
-		set_country_flag = opinion_set_valkist
 	}
 }
+
+### adds research slots until four, then gives a temporary research speed bonus
+add_research_slot_until_four = {
+	if = {
+		limit = { amount_research_slots < 4 }
+		add_research_slot = 1
+	}
+	else_if = {
+		limit = { has_idea = generic_research_advances }
+		modify_timed_idea = {
+			idea = generic_research_advances
+			days = 730
+		}
+	}
+	else = {
+		add_timed_idea = {
+			idea = generic_research_advances
+			days = 730
+		}
+	}
+}
+
+### adds research slots until five, then gives a temporary research speed bonus
+add_research_slot_until_five = {
+	if = {
+		limit = { amount_research_slots < 5 }
+		add_research_slot = 1
+	}
+	else_if = {
+		limit = { has_idea = generic_research_advances }
+		modify_timed_idea = {
+			idea = generic_research_advances
+			days = 730
+		}
+	}
+	else = {
+		add_timed_idea = {
+			idea = generic_research_advances
+			days = 730
+		}
+	}
+}
+
+### adds research slots until six, then gives a temporary research speed bonus
+add_research_slot_until_six = {
+	if = {
+		limit = { amount_research_slots < 6 }
+		add_research_slot = 1
+	}
+	else_if = {
+		limit = { has_idea = generic_research_advances }
+		modify_timed_idea = {
+			idea = generic_research_advances
+			days = 730
+		}
+	}
+	else = {
+		add_timed_idea = {
+			idea = generic_research_advances
+			days = 730
+		}
+	}
+}
+
+# use in a state scope
+# has no effect for megalopoleis, enclaves, islands or wastelands
+increase_state_category_by_one_level = {
+	if = {
+		limit = { has_state_category = one }
+		set_state_category = two
+	}
+	else_if = {
+		limit = { has_state_category = two }
+		set_state_category = three
+	}
+	else_if = {
+		limit = { has_state_category = three }
+		set_state_category = four
+	}
+	else_if = {
+		limit = { has_state_category = four }
+		set_state_category = five
+	}
+	else_if = {
+		limit = { has_state_category = five }
+		set_state_category = six
+	}
+	else_if = {
+		limit = { has_state_category = six }
+		set_state_category = seven
+	}
+	else_if = {
+		limit = { has_state_category = seven }
+		set_state_category = eight
+	}
+	else_if = {
+		limit = { has_state_category = eight }
+		set_state_category = nine
+	}
+	else_if = {
+		limit = { has_state_category = nine }
+		set_state_category = ten
+	}
+	else_if = {
+		limit = { has_state_category = ten }
+		set_state_category = eleven
+	}
+	else_if = {
+		limit = { has_state_category = eleven }
+		set_state_category = twelve
+	}
+	else = { add_extra_state_shared_building_slots = 1 }
+	custom_effect_tooltip = increase_state_category_by_one_level_tt
+}
+increase_state_category_by_two_levels = {
+	if = {
+		limit = { has_state_category = one }
+		set_state_category = three
+	}
+	else_if = {
+		limit = { has_state_category = two }
+		set_state_category = four
+	}
+	else_if = {
+		limit = { has_state_category = three }
+		set_state_category = five
+	}
+	else_if = {
+		limit = { has_state_category = four }
+		set_state_category = six
+	}
+	else_if = {
+		limit = { has_state_category = five }
+		set_state_category = seven
+	}
+	else_if = {
+		limit = { has_state_category = six }
+		set_state_category = eight
+	}
+	else_if = {
+		limit = { has_state_category = seven }
+		set_state_category = nine
+	}
+	else_if = {
+		limit = { has_state_category = eight }
+		set_state_category = ten
+	}
+	else_if = {
+		limit = { has_state_category = nine }
+		set_state_category = eleven
+	}
+	else_if = {
+		limit = { has_state_category = ten }
+		set_state_category = twelve
+	}
+	else_if = {
+		limit = { has_state_category = eleven }
+		set_state_category = twelve
+		add_extra_state_shared_building_slots = 1
+	}
+	else = { add_extra_state_shared_building_slots = 2 }
+	custom_effect_tooltip = increase_state_category_by_two_levels_tt
+}
+decrease_state_category_by_one_level = {
+	if = {
+		limit = { has_state_category = twelve }
+		set_state_category = eleven
+	}
+	else_if = {
+		limit = { has_state_category = eleven }
+		set_state_category = ten
+	}
+	else_if = {
+		limit = { has_state_category = ten }
+		set_state_category = nine
+	}
+	else_if = {
+		limit = { has_state_category = nine }
+		set_state_category = eight
+	}
+	else_if = {
+		limit = { has_state_category = eight }
+		set_state_category = seven
+	}
+	else_if = {
+		limit = { has_state_category = seven }
+		set_state_category = six
+	}
+	else_if = {
+		limit = { has_state_category = six }
+		set_state_category = five
+	}
+	else_if = {
+		limit = { has_state_category = five }
+		set_state_category = four
+	}
+	else_if = {
+		limit = { has_state_category = four }
+		set_state_category = three
+	}
+	else_if = {
+		limit = { has_state_category = three }
+		set_state_category = two
+	}
+	else_if = {
+		limit = { has_state_category = two }
+		set_state_category = one
+	}
+	custom_effect_tooltip = decrease_state_category_by_one_level_tt
+}
+
+
+new_line = { custom_effect_tooltip = tooltip_white_line }
+white_line = { new_line = yes }

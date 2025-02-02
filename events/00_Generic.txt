@@ -716,7 +716,7 @@ add_namespace = generic
 		# if = {
 			# limit = {
 				# is_literally_china = yes
-				# has_dlc_wtt = yes
+				# has_DLC = "Waking the Tiger"
 				# }
 			# KMT_set_ally_strat_on_current_leader = yes #sets ally strategy to current Chinese leader
 			# }
@@ -1852,5 +1852,331 @@ country_event = {
 			target = FROM
 		}
 		hidden_effect = { clear_global_event_target = demanded_prov_target }
+	}
+}
+
+country_event = { # our enemy used gas attack!
+	id = generic.26
+	title = generic.26.t
+	desc = generic.26.d
+
+	picture = GFX_report_event_JAP_troops_gas
+
+	is_triggered_only = yes
+	
+	fire_only_once = yes
+
+	option = {
+		name = generic.26.a
+		ai_chance = {
+			factor = 90
+		}
+		add_war_support = 0.15
+		add_political_power = -50
+		every_enemy_country = {
+			limit = { any_unit_leader = { has_ability = gas_attack } }
+			country_event = { id = generic.27 days = 15 }
+		}	
+	}
+	
+	option = {
+		name = generic.26.b
+		ai_chance = {
+			factor = 5
+		}
+		add_political_power = -100
+		custom_effect_tooltip = tech_gas_warfare_effect
+		hidden_effect = { set_technology = { tech_gas_warfare = 1 } }
+	}
+}
+
+country_event = { # our enemy used gas attack!
+	id = generic.27
+	title = generic.27.t
+	desc = generic.27.d
+
+	picture = GFX_report_event_JAP_troops_gas
+
+	is_triggered_only = yes
+	
+	fire_only_once = yes
+
+	option = {
+		name = generic.27.a
+		ai_chance = {
+			factor = 90
+		}
+		add_political_power = -50
+		custom_effect_tooltip = tech_gas_warfare_diseffect
+		hidden_effect = { set_technology = { tech_gas_warfare = 0 } }
+	}
+	
+	option = {
+		name = generic.27.b
+		ai_chance = {
+			factor = 0
+		}
+		add_political_power = -100
+		custom_effect_tooltip = tech_gas_warfare_weak_effect
+		hidden_effect = {
+			set_technology = { tech_gas_warfare = 0 }
+			set_technology = { tech_gas_warfare_weak = 1 }	
+		}
+	}
+}
+
+country_event = { #Country requests to join faction
+	id = generic.30
+	title = generic.30.t
+	desc = generic.30.d
+	picture = GFX_report_event_generic_diplomacy1
+
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetLogInfo]: event generic.30 option generic.30.a"
+		name = generic.30.a
+		trigger = { is_faction_leader = yes }
+		effect_tooltip = { add_to_faction = FROM }
+		FROM = { country_event = generic.31 }
+	}
+
+	option = {
+		log = "[GetLogInfo]: event generic.30 option generic.30.b"
+		name = generic.30.b
+		trigger = { is_faction_leader = no }
+		save_event_target_as = negotiator
+		FROM = { save_event_target_as = potential_ally }
+		faction_leader = { country_event = generic.32 }
+	}
+
+	option = {
+		log = "[GetLogInfo]: event generic.30 option generic.30.c"
+		name = generic.30.c
+		ai_chance = { base = 0 }
+		FROM = { country_event = generic.37 }
+	}
+}
+
+country_event = { #FROM accepts
+	id = generic.31
+	title = generic.31.t
+	desc = generic.31.d
+	picture = GFX_report_event_generic_diplomacy1
+
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetLogInfo]: event generic.31 option generic.31.a"
+		name = generic.31.a
+		set_temp_variable = { new_faction_leader = FROM }
+		FROM = { add_to_faction = ROOT }
+	}
+}
+
+country_event = { #FROM negotiates alliance with FROM.FROM
+	id = generic.32
+	title = generic.32.t
+	desc = generic.32.d
+	picture = GFX_report_event_generic_diplomacy1
+
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetLogInfo]: event generic.32 option generic.32.a"
+		name = generic.32.a
+		effect_tooltip = { add_to_faction = event_target:potential_ally }
+		event_target:potential_ally = { country_event = generic.33 }
+		event_target:negotiator = { country_event = generic.34 }
+	}
+
+	option = {
+		log = "[GetLogInfo]: event generic.32 option generic.32.b"
+		name = generic.32.b
+		ai_chance = { base = 0 }
+		event_target:potential_ally = { country_event = generic.35 }
+		event_target:negotiator = { country_event = generic.36 }
+	}
+}
+
+country_event = { #Faction leader accepts (for new member)
+	id = generic.33
+	title = generic.33.t
+	desc = generic.33.d
+	picture = GFX_report_event_generic_diplomacy1
+
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetLogInfo]: event generic.33 option generic.33.a"
+		name = generic.33.a
+		set_temp_variable = { new_faction_leader = event_target:negotiator }
+		FROM = { add_to_faction = ROOT }
+		if = { 
+			limit = { FROM = { has_variable = to_join_entente } } 
+			join_entente_FROM = yes 
+			clear_variable = to_join_entente
+		}
+	}
+}
+
+country_event = { #Faction leader accepts (for negotiator)
+	id = generic.34
+	title = generic.34.t
+	desc = generic.34.d
+	picture = GFX_report_event_generic_diplomacy1
+
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetLogInfo]: event generic.34 option generic.34.a"
+		name = generic.34.a
+		effect_tooltip = { FROM = { add_to_faction = event_target:potential_ally } }
+	}
+}
+
+country_event = { #Faction leader refuses (for new member)
+	id = generic.35
+	title = generic.35.t
+	desc = generic.35.d
+	picture = GFX_report_event_generic_diplomacy1
+
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetLogInfo]: event generic.35 option generic.35.a"
+		name = generic.35.a
+		add_opinion_modifier = {
+			target = FROM
+			modifier = ITA_outraged
+		}
+	}
+}
+
+country_event = { #Faction leader refuses (for new member FROM.FROM)
+	id = generic.36
+	title = generic.36.t
+	desc = generic.36.d
+	picture = GFX_report_event_generic_diplomacy1
+
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetLogInfo]: event generic.36 option generic.36.a"
+		name = generic.36.a
+		add_opinion_modifier = {
+			target = FROM
+			modifier = FX_disapproves_of_govt
+		}
+	}
+}
+
+country_event = { #FROM refuses
+	id = generic.37
+	title = generic.37.t
+	desc = generic.37.d
+	picture = GFX_report_event_generic_diplomacy1
+
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetLogInfo]: event generic.37 option generic.37.a"
+		name = generic.37.a
+		add_opinion_modifier = {
+			target = FROM
+			modifier = ITA_outraged
+		}
+	}
+}
+
+country_event = { #Country is invited to faction
+	id = generic.38
+	title = generic.38.t
+	desc = generic.38.d
+	picture = GFX_report_event_generic_diplomacy1
+
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetLogInfo]: event generic.38 option generic.38.a"
+		name = generic.38.a
+		ai_chance = {
+			base = 99
+		}
+		effect_tooltip = {
+			if = {
+				limit = { is_faction_leader = yes }
+				dismantle_faction = yes
+				var:FROM.faction_leader = { add_to_faction = ROOT }
+				every_other_country = {
+					limit = {
+						is_in_faction_with = ROOT
+						is_subject = no
+					}
+					var:FROM.faction_leader = { add_to_faction = PREV }
+				}
+			}
+		}
+		FROM = { country_event = generic.39 }
+	}
+
+	option = {
+		log = "[GetLogInfo]: event generic.38 option generic.38.b"
+		name = generic.38.b
+		ai_chance = {
+			base = 1
+		}
+		FROM = { country_event = generic.40 }
+	}
+}
+
+country_event = { #FROM accepts
+	id = generic.39
+	title = generic.39.t
+	desc = generic.39.d
+	picture = GFX_report_event_generic_diplomacy1
+
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetLogInfo]: event generic.39 option generic.39.a"
+		name = generic.39.a
+		if = {
+			limit = { FROM = { is_faction_leader = yes } }
+			every_other_country = {
+				limit = {
+					is_in_faction_with = FROM
+					is_subject = no
+				}
+				if = { 
+					limit = { FROM = { has_variable = to_join_entente } } 
+					join_entente_PREV = yes 
+					clear_variable = to_join_entente
+				} else = { var:ROOT.faction_leader = { add_to_faction = PREV } }
+			}
+		}
+		if = { 
+			limit = { FROM = { has_variable = to_join_entente } } 
+			join_entente_FROM = yes 
+			clear_variable = to_join_entente
+		} else = { faction_leader = { add_to_faction = FROM } }
+	}
+}
+
+country_event = { #FROM refuses
+	id = generic.40
+	title = generic.40.t
+	desc = generic.40.d
+	picture = GFX_report_event_generic_diplomacy1
+
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetLogInfo]: event generic.40 option generic.40.a"
+		name = generic.40.a
+		add_opinion_modifier = {
+			target = FROM
+			modifier = FX_disapproves_of_govt
+		}
 	}
 }

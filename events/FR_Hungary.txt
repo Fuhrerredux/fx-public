@@ -1,7 +1,7 @@
 ##################
 # Hungary Events #
 #########################
-# Made by Darknight1342 #
+# Made by Darknight1342 and added on to by retiredlt24 #
 #########################
 
 ### NOTE: please contact me before touching this file.
@@ -73,8 +73,12 @@ country_event = { #German event, Hungary requests guns
 			factor = 10
 		}
 		add_political_power = 50
+		send_equipment = {
+			equipment = infantry_equipment_1 
+			amount = 5000 
+			target = HUN
+		}
 		HUN = {
-			add_equipment_to_stockpile = { type = infantry_equipment_1 amount = 5000 producer = GER }
 			country_event = {
 				id = hun.3
 				days = 2
@@ -87,8 +91,12 @@ country_event = { #German event, Hungary requests guns
 			factor = 50
 		}
 		add_political_power = 20
+		send_equipment = {
+			equipment = infantry_equipment_1 
+			amount = 1000 
+			target = HUN
+		}
 		HUN = {
-			add_equipment_to_stockpile = { type = infantry_equipment_1 amount = 1000 producer = GER }
 			country_event = {
 				id = hun.3
 				days = 2
@@ -162,7 +170,7 @@ country_event = { #Romanian event, Hungary demands Transylvania
 	option = {
 		name = hun.5.b
 		ai_chance = {
-			factor = 1
+			factor = 0
 		}
 		HUN = {
 			country_event = {
@@ -223,7 +231,7 @@ country_event = { #Romanian event, Hungary demands Alfold
 	option = {
 		name = hun.8.a
 		ai_chance = {
-			factor = 0
+			factor = 15
 		}
 		HUN = {
 			country_event = {
@@ -236,7 +244,15 @@ country_event = { #Romanian event, Hungary demands Alfold
 	option = {
 		name = hun.8.b
 		ai_chance = {
-			factor = 1
+			factor = 5
+			modifier = {
+				ROM = { has_government = valkist }
+				factor = 0
+			}
+			modifier = {
+				ROM = { has_socialist_government = yes }
+				factor = 0
+			}
 		}
 		HUN = {
 			country_event = {
@@ -342,7 +358,7 @@ news_event = { #Liberation Day
 	id = hun.13
 	title = hun.13.t
 	desc = hun.13.d
-	picture = GFX_news_event_006
+	picture = GFX_report_event_generic_happy_crowd
 
 	fire_only_once = yes
 
@@ -375,7 +391,7 @@ news_event = { #Subsiquent Liberation Days
 	id = hun.14
 	title = hun.13.t
 	desc = hun.13.d
-	picture = GFX_news_event_006
+	picture = GFX_report_event_generic_happy_crowd
 
 	fire_only_once = yes
 
@@ -951,6 +967,263 @@ country_event = { #the burthers tale 2
 	}
 }
 
+country_event = { # fuck we fight
+	id = hun.33
+	title = hun.33.t
+	desc = hun.33.d
+	is_triggered_only = yes
+
+	option = {
+		name = hun.33.a
+		log = "[GetLogInfo]: event hun.33 option hun.33.a"
+		set_politics = {
+			ruling_party = paternal_autocrat
+			elections_allowed = no
+		}
+		add_country_leader_role = {
+			character = HUN_Jeno_Ratz
+			promote_leader = yes
+			country_leader = {
+				ideology = paternal_autocrat_subtype
+			}
+		}
+		activate_advisor = HUN_Bela_Imredy_hog_pau
+		activate_advisor = HUN_Laszlo_Bardossy_for_pau
+		activate_advisor = HUN_Antal_Kunder_eco_pau
+		activate_advisor = HUN_Ferenc_Rajniss_sec_npo
+		set_country_flag = HUN_imredy_victory
+		unlock_national_focus = hun_mmp_takeover
+		hidden_effect = {
+			news_event = { id = fxnews.159 days = 1 }
+			set_party_name = {
+				ideology = national_populist
+				long_name = HUN_nazi_party_long
+				name = HUN_nazi_party
+			}
+			retire_character = HUN_Ferenc_Szalasi
+		}
+	}
+	
+	option = {
+		name = hun.33.b
+		log = "[GetLogInfo]: event hun.33 option hun.33.b"
+		set_politics = {
+			ruling_party = authoritarian_democrat
+			elections_allowed = no
+		}
+		activate_advisor = HUN_Istvan_Bethlen_hog_ade
+		activate_advisor = HUN_Lajos_Walko_for_ade
+		activate_advisor = HUN_Moric_Esterhazy_eco_ade
+		activate_advisor = HUN_Ferenc_Keresztes_Fischer_sec_ade
+		set_country_flag = HUN_neither
+		unlock_national_focus = hun_order_restored
+		hidden_effect = {
+			news_event = { id = fxnews.164 days = 1 }
+			set_party_name = {
+				ideology = national_populist
+				long_name = HUN_nazi_party_long
+				name = HUN_nazi_party
+			}
+			retire_character = HUN_Ferenc_Szalasi
+		}
+	}
+}
+
+country_event = { # elections...
+	id = hun.34
+	title = hun.34.t
+	desc = hun.34.d
+	is_triggered_only = yes
+
+	option = {
+		name = hun.34.a
+		ai_chance = {
+			base = 75
+			modifier = {
+				factor = 20
+				overlord = { has_government = social_democrat }
+			}
+		}
+		trigger = {
+			OR = {
+				is_neighbor_of = SOV
+				AND = {
+					GER = { exists = no }
+					any_neighbor_country = { is_ally_with = ENT }
+				}
+				social_democrat > 0.2
+				overlord = { has_government = social_democrat }
+			}
+			NOT = { is_in_faction_with = GER }
+		}
+		log = "[GetLogInfo]: event hun.34 option hun.34.a"
+		add_stability = -0.01
+		add_popularity = {
+			ideology = social_democrat
+			popularity = 0.1
+		}
+		set_politics = {
+			ruling_party = social_democrat
+			elections_allowed = yes
+		}
+		activate_advisor = HUN_Karoly_Peyer_hog_sde
+		activate_advisor = HUN_Mano_Buchinger_for_sde
+		activate_advisor = HUN_Sandor_Propper_eco_sde
+		activate_advisor = HUN_Karoly_Peyer_sec_sde
+	}
+	
+	option = {
+		name = hun.34.b
+		ai_chance = {
+			base = 75
+			modifier = {
+				factor = 20
+				overlord = { has_government = social_liberal }
+			}
+		}
+		trigger = {
+			OR = {
+				any_neighbor_country = { is_ally_with = ENT }
+				AND = {
+					GER = { exists = no }
+					any_neighbor_country = { is_ally_with = ENT }
+				}
+				social_liberal > 0.2
+				overlord = { has_government = social_liberal }
+			}
+			NOT = { is_in_faction_with = GER }
+		}
+		log = "[GetLogInfo]: event hun.34 option hun.34.b"
+		add_stability = -0.03
+		add_popularity = {
+			ideology = social_liberal
+			popularity = 0.1
+		}
+		set_politics = {
+			ruling_party = social_liberal
+			elections_allowed = yes
+		}
+		activate_advisor = HUN_Vince_Nagy_hog_sli
+		activate_advisor = HUN_Rusztem_Vambery_for_sli
+		activate_advisor = HUN_Antal_Rainprecht_eco_sli
+		activate_advisor = HUN_Zoltan_Horvath_sec_sli
+	}
+	
+	option = {
+		name = hun.34.c
+		ai_chance = {
+			base = 75
+			modifier = {
+				factor = 20
+				overlord = { has_government = market_liberal }
+			}
+		}
+		log = "[GetLogInfo]: event hun.34 option hun.34.c"
+		add_popularity = {
+			ideology = market_liberal
+			popularity = 0.1
+		}
+		set_politics = {
+			ruling_party = market_liberal
+			elections_allowed = yes
+		}
+		activate_advisor = HUN_Karoly_Rassay_hog_mli
+		activate_advisor = HUN_Rusztem_Vambery_for_sli
+		activate_advisor = HUN_Gusztav_Gratz_eco_mli
+		activate_advisor = HUN_Pal_Kiss_sec_mli
+	}
+	
+	option = {
+		name = hun.34.e
+		ai_chance = {
+			base = 75
+			modifier = {
+				factor = 20
+				overlord = { has_government = social_conservative }
+			}
+		}
+		log = "[GetLogInfo]: event hun.34 option hun.34.e"
+		add_popularity = {
+			ideology = social_conservative
+			popularity = 0.15
+		}
+		set_politics = {
+			ruling_party = social_conservative
+			elections_allowed = yes
+		}
+		activate_advisor = HUN_Endre_Bajcsy_Zsilinszky_hog_sco
+		activate_advisor = HUN_Zoltan_Tildy_for_sco
+		activate_advisor = HUN_Dezso_Sulyok_eco_sco
+		activate_advisor = HUN_Bela_Kovacs_sec_sco
+	}
+	
+	option = {
+		name = hun.34.f
+		ai_chance = {
+			base = 75
+			modifier = {
+				factor = 20
+				overlord = { has_government = authoritarian_democrat }
+			}
+		}
+		log = "[GetLogInfo]: event hun.34 option hun.34.f"
+		add_popularity = {
+			ideology = authoritarian_democrat
+			popularity = 0.15
+		}
+		set_politics = {
+			ruling_party = authoritarian_democrat
+			elections_allowed = yes
+		}
+		activate_advisor = HUN_Istvan_Bethlen_hog_ade
+		activate_advisor = HUN_Lajos_Walko_for_ade
+		activate_advisor = HUN_Moric_Esterhazy_eco_ade
+		activate_advisor = HUN_Ferenc_Keresztes_Fischer_sec_ade
+	}
+}
+
+country_event = { # le monarchy
+	id = hun.35
+	title = hun.35.t
+	desc = hun.35.d
+	is_triggered_only = yes
+
+	option = {
+		name = hun.35.a
+		trigger = {
+			AUS = {
+				AUS_Otto_von_Habsburg = {
+					NOT = {
+						is_head_of_government = yes			
+						is_country_leader = yes
+					}
+				}
+			}
+		}
+		log = "[GetLogInfo]: event hun.35 option hun.35.a"
+		custom_effect_tooltip = hun.35.a.tt
+		AUS = { AUS_Otto_von_Habsburg = { set_nationality = HUN } }
+		HUN = {
+			AUS_Otto_von_Habsburg = {
+				set_character_name = HUN_Otto_von_Habsburg
+				add_country_leader_role_to_all_non_socialist_ideologies = yes
+			}
+		}
+	}
+	
+	option = {
+		name = hun.35.b
+		log = "[GetLogInfo]: event hun.35 option hun.35.b"
+		custom_effect_tooltip = hun.35.b.tt
+		HUN = {
+			HUN_Albrecht_von_Habsburg_Teschen = {
+				set_character_name = HUN_Albrecht_von_Habsburg_Teschen_king
+				add_country_leader_role_to_all_non_socialist_ideologies = yes
+			}
+		}
+	}
+}
+
 country_event = { #German event, Hungary wants foreign investment
 	id = hun.40
 	title = hun.40.t
@@ -1017,6 +1290,432 @@ country_event = {
 				idea = hun_ger_industry
 			}
 		}
+	}
+}
+
+country_event = { # bop...
+	id = hun.42
+	immediate = { log = "[GetDateText]: [Root.GetName]: event hun.42" }
+	title = hun.42.t
+	desc = hun.42.d
+	picture = GFX_report_event_GER_lutze_2
+	is_triggered_only = yes
+	
+	option = {
+		name = hun.42.a # ...
+		log = "[GetLogInfo]: event hun.42 option hun.42.a"
+		set_power_balance = {
+			id = HUN_power_balance
+			left_side = HUN_arrow_cross_side
+			right_side = HUN_szeged_side
+		}
+		add_power_balance_value = {
+			id = HUN_power_balance
+			value = -0.25
+			tooltip_side = HUN_arrow_cross_side
+		}
+		custom_effect_tooltip = hun.42.tt
+	}
+}
+
+country_event = { # the economy!
+	id = hun.43
+	immediate = { log = "[GetDateText]: [Root.GetName]: event hun.43" }
+	title = hun.43.t
+	desc = hun.43.d
+	picture = GFX_report_event_GER_lutze_2
+	is_triggered_only = yes
+	
+	option = {
+		name = hun.43.a # ...
+		log = "[GetLogInfo]: event hun.43 option hun.43.a"
+		add_stability = -0.05
+		if = {
+			limit = { has_completed_focus = hun_deal_with_economy }
+			swap_ideas = {
+				remove_idea = hun_economic_ruin_1
+				add_idea = hun_economic_ruin
+			}
+		}
+		else = {
+			swap_ideas = {
+				remove_idea = hun_economic_ruin_1
+				add_idea = hun_economic_ruin_worse
+			}
+		}
+		hidden_effect = {
+			add_timed_idea = {
+				days = 250
+				idea = hun_economic_recovery_hidden
+			}
+		}
+	}
+}
+
+country_event = { # economic recovery
+	id = hun.44
+	immediate = { log = "[GetDateText]: [Root.GetName]: event hun.44" }
+	title = hun.44.t
+	desc = {
+		text = hun.44.d1
+		trigger = { has_idea = hun_economic_ruin_2 }
+	}
+	desc = {
+		text = hun.44.d
+	}
+	picture = GFX_report_event_GER_lutze_2
+	is_triggered_only = yes
+	
+	option = {
+		name = hun.44.a # nice?
+		trigger = { NOT = { has_idea = hun_economic_ruin_2  } NOT = { has_country_flag = hun_economic_recovery_hidden_time_to_do } }
+		log = "[GetLogInfo]: event hun.44 option hun.44.a"
+		if = {
+			limit = { has_idea = hun_economic_ruin_worse }
+			swap_ideas = {
+				remove_idea = hun_economic_ruin_worse
+				add_idea = hun_economic_ruin_0
+			}
+		}
+		else_if = {
+			limit = { has_idea = hun_economic_ruin }
+			swap_ideas = {
+				remove_idea = hun_economic_ruin
+				add_idea = hun_economic_ruin_0
+			}
+		}
+		else_if = {
+			limit = { has_idea = hun_economic_ruin_0 }
+			swap_ideas = {
+				remove_idea = hun_economic_ruin_0
+				add_idea = hun_economic_ruin_1
+			}
+		}
+		else_if = {
+			limit = { has_idea = hun_economic_ruin_1 }
+			swap_ideas = {
+				remove_idea = hun_economic_ruin_1
+				add_idea = hun_economic_ruin_2
+			}
+			if = {
+				limit = { 
+					OR = {
+						has_completed_focus = hun_balanced_budget
+						has_completed_focus = hun_autarky
+					}
+				}
+				set_country_flag = hun_economic_recovery_hidden_time_to_do
+			}
+			else = { 
+				custom_effect_tooltip = hun_economic_recovery_req
+				set_country_flag = hun_economic_recovery_hidden_time_to_wait
+			}
+		}
+	}
+	
+	option = {
+		name = hun.44.b # nice!
+		trigger = { 
+			has_idea = hun_economic_ruin_2 
+			OR = {
+				has_country_flag = hun_economic_recovery_hidden_time_to_do
+				has_country_flag = hun_economic_recovery_hidden_time_to_wait
+			}
+		}
+		log = "[GetLogInfo]: event hun.44 option hun.44.a"
+		if = {
+			limit = { has_completed_focus = hun_autarky }
+			add_popularity = {
+				ideology = national_populist
+				popularity = 0.1
+			}
+			swap_ideas = {
+				remove_idea = hun_economic_ruin_2
+				add_idea = hun_autarky_recovered
+			}
+			remove_ideas = hun_nationalist_economics
+			hidden_effect = { remove_ideas = hun_nationalist_economics_1 }
+		}
+		else_if = {
+			limit = { has_completed_focus = hun_balanced_budget }
+			add_stability = 0.02
+			swap_ideas = {
+				remove_idea = hun_economic_ruin_2
+				add_idea = hun_austerity_recovered
+			}
+			if = {
+				limit = { has_completed_focus = hun_repay_foreign_debts }
+				add_one_random_civilian_factory = yes
+				add_political_power = 75
+			}
+			remove_ideas = hun_austerity_measures
+			hidden_effect = { remove_ideas = hun_austerity_measures_1 }
+		}
+		clr_country_flag = hun_economic_recovery_hidden_time_to_wait
+		clr_country_flag = hun_economic_recovery_hidden_time_to_do
+	}
+}
+
+country_event = { # we are back!
+	id = hun.45
+	immediate = { log = "[GetDateText]: [Root.GetName]: event hun.45" }
+	title = hun.45.t
+	desc = hun.45.d
+	picture = GFX_report_event_GER_lutze_2
+	is_triggered_only = yes
+	
+	option = {
+		name = hun.45.a # woooo
+		log = "[GetLogInfo]: event hun.45 option hun.45.a"
+		add_war_support = -0.25
+		add_stability = 0.1
+		add_political_power = 100
+		762 = { enable_state_integration_80_compliance = yes }
+		84 = { enable_state_integration_80_compliance = yes }
+		76 = { enable_state_integration_80_compliance = yes }
+		1040 = { enable_state_integration_80_compliance = yes }
+		83 = { enable_state_integration_80_compliance = yes }
+		82 = { enable_state_integration_80_compliance = yes }
+		45 = { enable_state_integration_80_compliance = yes }
+		750 = { enable_state_integration_80_compliance = yes } 
+		remove_ideas = hun_vengeful
+		mark_focus_tree_layout_dirty = yes
+		hidden_effect = {
+			country_event = { id = hun.47 days = 7 }
+		}
+	}
+}
+
+country_event = { # valkist
+	id = hun.46
+	immediate = { log = "[GetDateText]: [Root.GetName]: event hun.46" }
+	title = hun.46.t
+	desc = hun.46.d
+	picture = GFX_report_event_GER_lutze_2
+	is_triggered_only = yes
+	
+	option = {
+		name = hun.46.a # woooo
+		log = "[GetLogInfo]: event hun.46 option hun.46.a"
+		add_political_power = 100
+		set_politics = {
+			ruling_party = valkist
+			elections_allowed = no
+			long_name = HUN_natfront_pataut_long
+			name = HUN_natfront_pataut
+		}
+		hidden_effect = {
+			set_temp_variable = { coalition_partner_var = token:paternal_autocrat }
+			add_to_coalition = yes
+		}
+		add_popularity = {
+			ideology = valkist
+			popularity = 0.15
+		}
+		add_popularity = {
+			ideology = paternal_autocrat
+			popularity = -0.15
+		}
+		set_country_flag = HUN_turning_valkist
+		add_country_leader_role = {
+			character = HUN_Jeno_Ratz
+			promote_leader = yes
+			country_leader = {
+				ideology = valkist_subtype
+			}
+		}
+	}
+	
+	option = {
+		name = hun.46.b # nah
+		log = "[GetLogInfo]: event hun.46 option hun.46.b"
+		add_stability = 0.1
+	}
+}
+
+country_event = { # end?
+	id = hun.47
+	immediate = { log = "[GetDateText]: [Root.GetName]: event hun.47" }
+	title = hun.47.t
+	desc = {
+		text = hun.47.d_arrow_cross
+		trigger = { 
+			power_balance_value = {
+				id = HUN_power_balance
+				value < -0.5
+			}
+		}
+	}
+	desc = {
+		text = hun.47.d
+	}
+	picture = GFX_report_event_GER_lutze_2
+	is_triggered_only = yes
+	
+	option = {
+		name = hun.47.a # shit
+		trigger = {
+			power_balance_value = {
+				id = HUN_power_balance
+				value < -0.5
+			}
+		}
+		log = "[GetLogInfo]: event hun.47 option hun.47.a"
+		add_political_power = -100
+		hidden_effect = {
+			if = {
+				limit = {
+					power_balance_value = {
+						id = HUN_power_balance
+						value > 0.5
+					}
+				}
+				country_event = { id = hun.50 days = 7 }
+			}
+			else = { country_event = { id = hun.49 days = 7 } }
+		}
+	}
+	
+	option = {
+		name = hun.47.b # nah
+		trigger = {
+			NOT = {
+				power_balance_value = {
+					id = HUN_power_balance
+					value < -0.5
+				}
+			}
+		}
+		log = "[GetLogInfo]: event hun.47 option hun.47.b"
+		remove_power_balance = { id = HUN_power_balance }
+		add_stability = 0.15
+		country_event = { id = hun.48 days = 7 }
+		set_cosmetic_tag = HUN_state 
+	}
+}
+
+country_event = { # we are back!
+	id = hun.48
+	immediate = { log = "[GetDateText]: [Root.GetName]: event hun.48" }
+	title = hun.48.t
+	desc = hun.48.d
+	picture = GFX_report_event_GER_lutze_2
+	is_triggered_only = yes
+	
+	option = {
+		name = hun.48.a # woooo
+		log = "[GetLogInfo]: event hun.48 option hun.48.a"
+		add_political_power = 75
+		activate_advisor = HUN_Kalman_Hubay_hog_npo
+		activate_advisor = HUN_Matolcsy_Matyas_eco_npo
+		activate_advisor = HUN_Rattkay_Radich_Kalman_for_npo
+		activate_advisor = HUN_Gabor_Vajna_sec_npo
+		set_country_flag = HUN_hungarist_victory
+		hidden_effect = { news_event = { id = fxnews.158 days = 1 } }
+	}
+}
+
+country_event = { # we are not back
+	id = hun.49
+	immediate = { log = "[GetDateText]: [Root.GetName]: event hun.49" }
+	title = hun.49.t
+	desc = hun.49.d
+	picture = GFX_report_event_GER_lutze_2
+	is_triggered_only = yes
+	
+	option = {
+		name = hun.49.a # ...
+		log = "[GetLogInfo]: event hun.49 option hun.49.a"
+		add_political_power = -100
+		end_coalition = yes
+		custom_effect_tooltip = hun.49.tt
+		hidden_effect = { country_event = { id = hun.51 days = 2 } }
+	}
+}
+
+country_event = { # imredy
+	id = hun.50
+	immediate = { log = "[GetDateText]: [Root.GetName]: event hun.50" }
+	title = hun.50.t
+	desc = hun.50.d
+	picture = GFX_report_event_GER_lutze_2
+	is_triggered_only = yes
+	
+	option = {
+		name = hun.50.a # takes power
+		log = "[GetLogInfo]: event hun.50 option hun.50.a"
+		remove_power_balance = { id = HUN_power_balance }
+		set_politics = {
+			ruling_party = paternal_autocrat
+			elections_allowed = no
+		}
+		add_country_leader_role = {
+			character = HUN_Jeno_Ratz
+			promote_leader = yes
+			country_leader = {
+				ideology = paternal_autocrat_subtype
+			}
+		}
+		activate_advisor = HUN_Bela_Imredy_hog_pau
+		activate_advisor = HUN_Laszlo_Bardossy_for_pau
+		activate_advisor = HUN_Antal_Kunder_eco_pau
+		activate_advisor = HUN_Ferenc_Rajniss_sec_npo
+		set_country_flag = HUN_imredy_victory
+		hidden_effect = {
+			news_event = { id = fxnews.159 days = 1 }
+			set_party_name = {
+				ideology = national_populist
+				long_name = HUN_nazi_party_long
+				name = HUN_nazi_party
+			}
+			retire_character = HUN_Ferenc_Szalasi
+		}
+	}
+}
+
+country_event = { # we are back!
+	id = hun.51
+	immediate = { log = "[GetDateText]: [Root.GetName]: event hun.51" }
+	title = hun.51.t
+	desc = hun.51.d
+	picture = GFX_report_event_GER_lutze_2
+	is_triggered_only = yes
+	
+	option = {
+		name = hun.51.a # arrows crossed
+		trigger = {
+			NOT = {
+				power_balance_value = {
+					id = HUN_power_balance
+					value > 0.4
+				}
+			}
+		}
+		log = "[GetLogInfo]: event hun.51 option hun.51.a"
+		remove_power_balance = { id = HUN_power_balance }
+		activate_advisor = HUN_Emil_Kovarcz_hog_npo
+		activate_advisor = HUN_Matolcsy_Matyas_eco_npo
+		activate_advisor = HUN_Rattkay_Radich_Kalman_for_npo
+		activate_advisor = HUN_Gabor_Vajna_sec_npo
+		set_country_flag = HUN_hungarist_victory
+		unlock_national_focus = hun_arrow_cross_dominance
+		hidden_effect = { news_event = { id = fxnews.158 days = 1 } }
+		set_cosmetic_tag = HUN_state 
+	}
+	
+	option = {
+		name = hun.51.b # im ready
+		trigger = {
+			NOT = {
+				power_balance_value = {
+					id = HUN_power_balance
+					value < -0.4
+				}
+			}
+		}
+		log = "[GetLogInfo]: event hun.51 option hun.51.b"
+		remove_power_balance = { id = HUN_power_balance }
+		country_event = { id = hun.33 hours = 2 }
 	}
 }
 

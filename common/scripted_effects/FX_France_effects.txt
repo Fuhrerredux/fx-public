@@ -90,6 +90,84 @@ FRA_decrease_legitimacy = {
 	}
 }
 
+FRA_entente_fate = {
+	if = {
+		limit = { is_in_faction_with = USA USA = { has_capitulated = no } } 
+		USA = { 
+			save_global_event_target_as = entente_leader
+			save_event_target_as = entente_transfer_to
+			event_target:entente_transfer_to = {
+				set_faction_leader = yes
+				save_global_event_target_as = entente_leader
+			}
+		}
+		ROOT = { leave_faction = yes }
+	}
+	else_if = {
+		limit = {
+			is_in_faction_with = ENG 
+			ENG = { 
+				has_capitulated = no 
+				NOT = { has_global_flag = england_in_canada }
+			}
+		} 
+		ENG = {
+			save_global_event_target_as = entente_leader
+			save_event_target_as = entente_transfer_to
+			event_target:entente_transfer_to = {
+				set_faction_leader = yes
+				save_global_event_target_as = entente_leader
+			}
+		}
+		ROOT = { leave_faction = yes }
+	}
+	else_if = {
+		limit = { 
+			is_in_faction_with = ITA
+			ITA = { 
+				has_capitulated = no 
+				NOT = { has_idea = ITA_government_in_exile }
+			}
+		} 
+		ITA = {
+			save_global_event_target_as = entente_leader
+			save_event_target_as = entente_transfer_to
+			event_target:entente_transfer_to = {
+				set_faction_leader = yes
+				save_global_event_target_as = entente_leader
+			}
+		}
+		ROOT = { leave_faction = yes }
+	}
+	else_if = {
+		limit = { 
+			any_allied_country = {
+				is_actual_major = yes
+				has_capitulated = no 
+				is_in_europe = yes
+			}
+		} 
+		random_country = {
+			limit = {
+				is_actual_major = yes
+				has_capitulated = no 
+				is_in_europe = yes
+				is_in_faction_with = PREV
+			}
+			save_global_event_target_as = entente_leader
+			save_event_target_as = entente_transfer_to
+			event_target:entente_transfer_to = {
+				set_faction_leader = yes
+				save_global_event_target_as = entente_leader
+			}
+		}
+		ROOT = { leave_faction = yes }
+	}
+	else = {
+		hidden_effect = { country_event = FRA.council.31 } # ENTENTE COLLAPSES!
+	}
+}
+
 FRA_add_armour_variants = {
 	if = {
 		limit = { has_dlc = "No Step Back" }

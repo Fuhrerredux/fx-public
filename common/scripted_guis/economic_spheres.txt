@@ -10,42 +10,65 @@ scripted_gui = {
 		}
 
 		triggers = {
-			FX_byzantine_commonwealth_button_visible = {
-				OR = {
-					AND = {
-						tag = GRE
-						has_cosmetic_tag = BYZ
-					}
-					is_in_tech_sharing_group = byzantine_commonwealth_research
-					is_in_array = { GRE.BYZ_commonwealth_members = THIS }
-				}
-				GRE = { has_country_flag = GRE_commonwealth_will_start }
+			economic_sphere_button_visible = {
+				has_variable = economic_sphere
 			}
-			FX_byzantine_commonwealth_button_click_enabled = {
-				NOT = {
-					ROOT = { has_country_flag = economic_sphere_list_open }
+			# FX_byzantine_commonwealth_button_visible = {
+			# 	OR = {
+			# 		AND = {
+			# 			tag = GRE
+			# 			has_cosmetic_tag = BYZ
+			# 		}
+			# 		is_in_tech_sharing_group = byzantine_commonwealth_research
+			# 		is_in_array = { GRE.BYZ_commonwealth_members = THIS }
+			# 	}
+			# 	GRE = { has_country_flag = GRE_commonwealth_will_start }
+			# }
+			# FX_byzantine_commonwealth_button_click_enabled = {
+			# 	NOT = {
+			# 		ROOT = { has_country_flag = economic_sphere_list_open }
+			# 	}
+			# }
+		}
+
+		effects = {
+			# FX_byzantine_commonwealth_button_click = {
+			# 	add_to_array = { ROOT.economic_sphere_list_array = GRE }
+			# 	for_each_loop = {
+			# 		array = GRE.BYZ_commonwealth_members
+			# 		if = {
+			# 			limit = {
+			# 				NOT = {
+			# 					is_in_array = { ROOT.economic_sphere_list_array = v }
+			# 				}
+			# 			}
+			# 			add_to_array = { ROOT.economic_sphere_list_array = v }
+			# 		}
+			# 	}
+			# 	ROOT = {
+			# 		set_variable = { economic_sphere_leader = GRE }
+			# 		set_country_flag = economic_sphere_list_open
+			# 	}
+			# }
+			economic_sphere_button_click = {
+				if = {
+					limit = { ROOT = { has_country_flag = economic_sphere_list_open } }
+					clear_array = ROOT.economic_sphere_list_array
+					ROOT = { clr_country_flag = economic_sphere_list_open }
+				}
+				else = {
+					for_each_loop = {
+						array = economic_sphere:members
+						add_to_array = { ROOT.economic_sphere_list_array = v }
+					}
+					ROOT = { set_country_flag = economic_sphere_list_open }
 				}
 			}
 		}
 
-		effects = {
-			FX_byzantine_commonwealth_button_click = {
-				add_to_array = { ROOT.economic_sphere_list_array = GRE }
-				for_each_loop = {
-					array = GRE.BYZ_commonwealth_members
-					if = {
-						limit = {
-							NOT = {
-								is_in_array = { ROOT.economic_sphere_list_array = v }
-							}
-						}
-						add_to_array = { ROOT.economic_sphere_list_array = v }
-					}
-				}
-				ROOT = {
-					set_variable = { economic_sphere_leader = GRE }
-					set_country_flag = economic_sphere_list_open
-				}
+		properties = {
+			economic_sphere_button = {
+				image = "[THIS.GetEconomicSphereIcon]"
 			}
 		}
 	}
@@ -53,7 +76,7 @@ scripted_gui = {
 	economic_sphere_list = {
 		context_type = player_context
 		window_name = "economic_sphere_list_window"
-		dirty = economic_sphere_list_variable
+		dirty = economic_sphere_list_array^num
 
 		ai_enabled = {
 			always = no
@@ -74,24 +97,20 @@ scripted_gui = {
 
 		triggers = {
 			major_country_overlay_visible = {
-				check_variable = { ROOT.economic_sphere_leader = THIS }
+				tag = ROOT.economic_sphere_list_array^0
 			}
 		}
 
 		effects = {
 			button_close_click = {
-				for_each_scope_loop = {
-					array = ROOT.economic_sphere_list_array
-				}
 				clear_array = ROOT.economic_sphere_list_array
-				clear_variable = ROOT.economic_sphere_leader
 				clr_country_flag = economic_sphere_list_open
 			}
 		}
 
 		properties = {
 			economic_sphere_icon = {
-				image = "[GetEconomicSphereIcon]"
+				image = "[?ROOT.economic_sphere_list_array^0.GetEconomicSphereIcon]"
 			}
 			country_flag = {
 				image = "[This.GetFlag]"
@@ -99,67 +118,67 @@ scripted_gui = {
 		}
 	}
 
-	FX_economic_sphere_owner_gui = {
-		context_type = player_context
-		parent_window_token = politics_tab
-		window_name = "economic_sphere_owner_button"
+	# FX_economic_sphere_owner_gui = {
+	# 	context_type = player_context
+	# 	parent_window_token = politics_tab
+	# 	window_name = "economic_sphere_owner_button"
 
-		ai_enabled = {
-			always = no
-		}
+	# 	ai_enabled = {
+	# 		always = no
+	# 	}
 
-		triggers = {
-			economic_sphere_byz_commonwealth_button_visible = {
-				OR = {
-					AND = {
-						tag = GRE
-						has_cosmetic_tag = BYZ
-					}
-					is_in_tech_sharing_group = byzantine_commonwealth_research
-					is_in_array = { GRE.BYZ_commonwealth_members = THIS }
-				}
-				GRE = { has_country_flag = GRE_commonwealth_will_start }
-			}
-			economic_sphere_byz_commonwealth_button_click_enabled = {
+	# 	triggers = {
+	# 		economic_sphere_byz_commonwealth_button_visible = {
+	# 			OR = {
+	# 				AND = {
+	# 					tag = GRE
+	# 					has_cosmetic_tag = BYZ
+	# 				}
+	# 				is_in_tech_sharing_group = byzantine_commonwealth_research
+	# 				is_in_array = { GRE.BYZ_commonwealth_members = THIS }
+	# 			}
+	# 			GRE = { has_country_flag = GRE_commonwealth_will_start }
+	# 		}
+	# 		economic_sphere_byz_commonwealth_button_click_enabled = {
 
-			}
-		}
+	# 		}
+	# 	}
 
-		effects = {
-			economic_sphere_byz_commonwealth_button_click = {
-				if = {
-					limit = {
-						NOT = {
-							ROOT = { has_country_flag = economic_sphere_list_open }
-						}
-					}
-					add_to_array = { ROOT.economic_sphere_list_array = GRE }
-					for_each_loop = {
-						array = GRE.BYZ_commonwealth_members
-						if = {
-							limit = {
-								NOT = {
-									is_in_array = { ROOT.economic_sphere_list_array = v }
-								}
-							}
-							add_to_array = { ROOT.economic_sphere_list_array = v }
-						}
-					}
-					ROOT = {
-						set_variable = { economic_sphere_leader = GRE }
-						set_country_flag = economic_sphere_list_open
-					}
-					else = {
-						for_each_scope_loop = {
-							array = ROOT.economic_sphere_list_array
-						}
-						clear_array = ROOT.economic_sphere_list_array
-						clear_variable = ROOT.economic_sphere_leader
-						clr_country_flag = economic_sphere_list_open
-					}
-				}
-			}
-		}
+	# 	effects = {
+	# 		economic_sphere_byz_commonwealth_button_click = {
+	# 			if = {
+	# 				limit = {
+	# 					NOT = {
+	# 						ROOT = { has_country_flag = economic_sphere_list_open }
+	# 					}
+	# 				}
+	# 				add_to_array = { ROOT.economic_sphere_list_array = GRE }
+	# 				for_each_loop = {
+	# 					array = GRE.BYZ_commonwealth_members
+	# 					if = {
+	# 						limit = {
+	# 							NOT = {
+	# 								is_in_array = { ROOT.economic_sphere_list_array = v }
+	# 							}
+	# 						}
+	# 						add_to_array = { ROOT.economic_sphere_list_array = v }
+	# 					}
+	# 				}
+	# 				ROOT = {
+	# 					set_variable = { economic_sphere_leader = GRE }
+	# 					set_country_flag = economic_sphere_list_open
+	# 				}
+	# 				else = {
+	# 					for_each_scope_loop = {
+	# 						array = ROOT.economic_sphere_list_array
+	# 					}
+	# 					clear_array = ROOT.economic_sphere_list_array
+	# 					clear_variable = ROOT.economic_sphere_leader
+	# 					clr_country_flag = economic_sphere_list_open
+	# 				}
+	# 			}
+	# 		}
+	# 	}
 		
-	}
+	# }
 }

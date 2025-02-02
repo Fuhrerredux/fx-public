@@ -1,5 +1,6 @@
 # Philippine Focus Tree
 # created by: dax0102
+#!gfx:interface/FX_goals.gfx
 
 focus_tree = {
 	id = filipino_focus
@@ -30,7 +31,6 @@ focus_tree = {
 		x = 6
 		y = 0
 		cost = 6
-		text_icon = joint_focus_style
 		available = {
 			hidden_trigger = {
 				always = no
@@ -51,7 +51,7 @@ focus_tree = {
 	# Partido Liberal
 	focus = {
 		id = PHI_partido_liberal
-		icon = GFX_goal_ideology_market_liberal
+		icon = GFX_goal_PHI_liberal
 		x = -4
 		y = 1
 		cost = 6
@@ -252,7 +252,7 @@ focus_tree = {
 	# Partido Nacionalista
 	focus = {
 		id = PHI_partido_nacionalista
-		icon = GFX_goal_ideology_social_conservative
+		icon = GFX_goal_PHI_nacionalista
 		x = -1
 		y = 1
 		cost = 6
@@ -558,7 +558,7 @@ focus_tree = {
 	# Partido Progressista
 	focus = {
 		id = PHI_partido_progressista
-		icon = GFX_goal_ideology_authoritarian_democrat
+		icon = GFX_goal_PHI_progressistas
 		x = 4
 		y = 1
 		cost = 6
@@ -760,7 +760,7 @@ focus_tree = {
 	# Lapiang Sakdalista
 	focus = {
 		id = PHI_lapiang_sakdalista
-		icon = GFX_goal_ideology_social_democrat
+		icon = GFX_goal_PHI_sakdalista
 		x = 4
 		y = 0
 		cost = 6
@@ -1542,7 +1542,7 @@ focus_tree = {
 					}
 				}
 
-				load_oob = "PHI_expand"
+				load_oob = PHI_expand
 			}
 		}
 	}
@@ -1567,7 +1567,7 @@ focus_tree = {
 	# Revolution by Ballot
 	focus = {
 		id = PHI_revolution_by_ballot
-		icon = GFX_goal_ideology_libertarian_socialism
+		icon = GFX_goal_PHI_repormistas
 		x = -1
 		y = 2
 		cost = 6
@@ -1955,7 +1955,6 @@ focus_tree = {
 		x = 21
 		y = 0
 		cost = 6
-		text_icon = joint_focus_style
 		ai_will_do = {
 			factor = 800
 		}
@@ -2015,10 +2014,25 @@ focus_tree = {
 		x = -3
 		y = 1
 		cost = 6
+		available = {
+			has_full_control_of_state = 1033
+			#has_full_control_of_state = 1073
+		}
 		prerequisite = { focus = PHI_farmer_subsidization_act }
 		relative_position_id = PHI_farmer_subsidization_act
 		completion_reward = {
-			custom_effect_tooltip = PHI_build_up_irrigation_systems_tt
+			1033 = {
+				add_building_construction = {
+					type = dam
+					level = 1
+					province = 7323
+					instant_build = yes
+				}
+			}
+			custom_effect_tooltip = {
+				localization_key = building_state_modifier|dam
+				INDENT = "    "
+			}
 		}
 		search_filters = {
 			FOCUS_FILTER_INDUSTRY
@@ -2399,6 +2413,7 @@ focus_tree = {
 					has_country_flag = PHI_junta_in_control
 					has_country_flag = PHI_socialists_in_control
 					has_country_flag = PHI_pope_in_control
+					has_country_flag = PHI_collaborators_in_control
 				}
 			}
 		}
@@ -3660,10 +3675,23 @@ focus_tree = {
 		prerequisite = { focus = PHI_armor_spearhead_doctrine }
 		relative_position_id = PHI_armor_spearhead_doctrine
 		completion_reward = {
+			add_breakthrough_progress = {
+				specialization = specialization_naval
+				value = 0.25
+			}
+			add_breakthrough_progress = {
+				specialization = specialization_air
+				value = 0.5
+			}
+			custom_effect_tooltip = tooltip_white_line
 			add_tech_bonus = {
-				category = signal_company_tech
-				bonus = 1.0
-				uses = 1
+				name = PHI_catching_up_with_communications
+				bonus = 0.75
+				uses = 2
+				technology = radio
+				technology = improved_radio
+				technology = advanced_radio
+				category = radar_tech
 			}
 		}
 		search_filters = {
@@ -5778,6 +5806,344 @@ focus_tree = {
 		relative_position_id = PHI_catholic_dominion
 		completion_reward = {
 			custom_effect_tooltip = PHI_the_holy_lands_tt
+		}
+	}
+
+	######################################################
+	#                                                    #
+	#                   COLLABORATORS                    #
+	#                                                    #
+	######################################################
+
+	focus = {
+		id = PHI_new_regime
+		icon = GFX_goal_Centralised_Government
+		x = 1
+		y = 2
+		cost = 6
+		available = {
+			hidden_trigger = {
+				always = no
+			}
+		}
+		bypass = {
+			custom_trigger_tooltip = {
+				tooltip = PHI_collaborators_has_control_tt
+				has_country_flag = PHI_collaborators_in_control
+			}
+		}
+		relative_position_id = PHI_crop_insurance
+		allow_branch = {
+			has_country_flag = PHI_collaborators_in_control
+		}
+		completion_reward = {
+			custom_effect_tooltip = PHI_collaborators_in_control_tt
+		}
+	}
+
+	focus = {
+		id = PHI_appoint_a_new_cabinet
+		icon = GFX_focus_POL_complete_april_constitution
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = authoritarian_democrat
+		}
+		relative_position_id = PHI_new_regime
+		prerequisite = { focus = PHI_new_regime }
+		completion_reward = {
+			set_party_name = {
+				ideology = authoritarian_democrat
+				name = PHI_pec_party
+				long_name = PHI_pec_party_long
+			}
+			custom_effect_tooltip = tooltip_white_line
+
+			activate_advisor = PHI_Pedro_Sabido_for_ade
+			custom_effect_tooltip = tooltip_white_line
+			activate_advisor = PHI_Emiliano_Tria_Tirona_eco_ade
+			custom_effect_tooltip = tooltip_white_line
+			activate_advisor = PHI_Benigno_Aquino_Sr_sec_ade
+
+			hidden_effect = {
+				if = {
+					limit = { has_character = JAP_Masaharu_Homma }
+					set_nationality = {
+						character = JAP_Masaharu_Homma
+						target_country = JAP
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = PHI_ally_with_the_oligarchs
+		icon = GFX_goal_collaborate_local_elites
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = authoritarian_democrat
+		}
+		relative_position_id = PHI_new_regime
+		prerequisite = { focus = PHI_new_regime }
+		completion_reward = {
+			add_stability = 0.1
+			add_political_power = 100
+		}
+	}
+
+	focus = {
+		id = PHI_state_corporatism
+		icon = GFX_focus_DEN_limited_regulations
+		x = 0
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = authoritarian_democrat
+		}
+		relative_position_id = PHI_ally_with_the_oligarchs
+		prerequisite = { focus = PHI_ally_with_the_oligarchs }
+		completion_reward = {
+			add_two_random_civilian_factories = yes
+			add_two_random_military_factories = yes
+		}
+	}
+
+	focus = {
+		id = PHI_bureaucratic_purge
+		icon = GFX_goal_generic_authoritarian_government
+		x = 1
+		y = 2
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = authoritarian_democrat
+		}
+		relative_position_id = PHI_appoint_a_new_cabinet
+		prerequisite = { focus = PHI_appoint_a_new_cabinet }
+		prerequisite = { focus = PHI_ally_with_the_oligarchs }
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = PHI_unrecognized_government
+				add_idea = PHI_unrecognized_government_1
+			}
+		}
+	}
+
+	focus = {
+		id = PHI_propaganda_campaigns
+		icon = GFX_goal_generic_propaganda_film
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = authoritarian_democrat
+		}
+		relative_position_id = PHI_appoint_a_new_cabinet
+		prerequisite = { focus = PHI_appoint_a_new_cabinet }
+		completion_reward = {
+			add_ideas = PHI_department_of_propaganda
+		}
+	}
+
+	focus = {
+		id = PHI_new_filipino_identity
+		icon = GFX_goal_PHI_democracy
+		x = 0
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = authoritarian_democrat
+		}
+		relative_position_id = PHI_propaganda_campaigns
+		prerequisite = { focus = PHI_propaganda_campaigns }
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = PHI_department_of_propaganda
+				add_idea = PHI_new_filipino_identity_idea
+			}
+		}
+	}
+
+	focus = {
+		id = PHI_media_controls
+		icon = GFX_goal_generic_media_controls
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = authoritarian_democrat
+		}
+		relative_position_id = PHI_bureaucratic_purge
+		prerequisite = { focus = PHI_bureaucratic_purge }
+		prerequisite = { focus = PHI_new_filipino_identity }
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = PHI_unrecognized_government_1
+				add_idea = PHI_unrecognized_government_2
+			}
+		}
+	}
+
+	focus = {
+		id = PHI_form_the_makapili
+		icon = GFX_goal_generic_paramilitary
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = authoritarian_democrat
+		}
+		relative_position_id = PHI_bureaucratic_purge
+		prerequisite = { focus = PHI_bureaucratic_purge }
+		prerequisite = { focus = PHI_new_filipino_identity }
+		completion_reward = {
+			add_manpower = 50000
+		}
+	}
+
+	focus = {
+		id = PHI_consolidate_the_security_services
+		icon = GFX_goal_generic_espionage
+		x = 3
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = authoritarian_democrat
+		}
+		relative_position_id = PHI_bureaucratic_purge
+		prerequisite = { focus = PHI_bureaucratic_purge }
+		prerequisite = { focus = PHI_new_filipino_identity }
+		completion_reward = {
+			if = {
+				limit = { has_intelligence_agency = no }
+				create_intelligence_agency = yes
+			}
+
+			if = {
+				limit = {
+					NOT = { has_done_agency_upgrade = upgrade_passive_defense }
+				}
+				upgrade_intelligence_agency = upgrade_passive_defense
+			}
+			if = {
+				limit = {
+					NOT = { has_done_agency_upgrade = upgrade_anti_partisan }
+				}
+				upgrade_intelligence_agency = upgrade_anti_partisan
+			}
+			if = {
+				limit = {
+					NOT = { has_done_agency_upgrade = upgrade_interrogation_techniques }
+				}
+				upgrade_intelligence_agency = upgrade_interrogation_techniques
+			}
+			if = {
+				limit = {
+					NOT = { has_done_agency_upgrade = upgrade_psycho_warfare }
+				}
+				upgrade_intelligence_agency = upgrade_psycho_warfare
+			}
+		}
+	}
+
+	focus = {
+		id = PHI_appeal_for_overlord_support
+		icon = {
+			trigger = { overlord = { tag = ENG } }
+			value = GFX_focus_chi_british_cooperation
+		}
+		icon = {
+			trigger = { overlord = { tag = JAP } }
+			value = GFX_focus_chi_collaboration_with_the_japanese
+		}
+		icon = {
+			trigger = { overlord = { tag = USA } }
+			value = GFX_focus_chi_mission_to_the_us
+		}
+		icon = {
+			trigger = { overlord = { tag = FRA } }
+			value = GFX_focus_chi_reach_out_to_france
+		}
+		icon = {
+			trigger = { overlord = { tag = KMT } }
+			value = GFX_focus_chi_cooperation_with_the_nationalists
+		}
+		icon = {
+			value = GFX_goal_generic_improve_relations
+		}
+		x = 0
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_war = no
+			has_government = authoritarian_democrat
+		}
+		relative_position_id = PHI_form_the_makapili
+		prerequisite = { focus = PHI_consolidate_the_security_services }
+		prerequisite = { focus = PHI_form_the_makapili }
+		prerequisite = { focus = PHI_media_controls }
+		completion_reward = {
+			overlord = {
+				country_event = { id = philippines.114 days = 2 }
+			}
+
+			custom_effect_tooltip = if_they_accept_tt
+			effect_tooltip = {
+				remove_ideas = PHI_war_reparations
+
+				if = {
+					limit = { overlord = { tag = JAP } }
+					add_ideas = PHI_japanese_advisors
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = PHI_crush_the_huks
+		icon = GFX_HOL_crackdown_syndie
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = authoritarian_democrat
+		}
+		relative_position_id = PHI_appeal_for_overlord_support
+		prerequisite = { focus = PHI_appeal_for_overlord_support }
+		completion_reward = {
+			remove_ideas = PHI_huk_raids
+		}
+	}
+
+	focus = {
+		id = PHI_mobilization_of_the_state
+		icon = GFX_goal_generic_join_faction
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			has_government = authoritarian_democrat
+		}
+		relative_position_id = PHI_appeal_for_overlord_support
+		prerequisite = { focus = PHI_appeal_for_overlord_support }
+		completion_reward = {
+			increase_conscription = yes
+			increase_mobilization = yes
 		}
 	}
 }

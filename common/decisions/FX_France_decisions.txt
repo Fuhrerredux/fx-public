@@ -892,7 +892,7 @@ FRA_tech_decisions = {
 		}
 	}
 }
-FRA_black_monday = {
+FRA_black_wednesday = {
 	FRA_black_protectionism = {
 		icon = GFX_decision_generic_nationalism
 		cancel_if_not_visible = yes
@@ -2857,6 +2857,68 @@ FRA_royal_decrees = {
 			add_to_variable = {
 				var = FrenchMonarchPower
 				value = 5
+			}
+		}
+	}
+}
+
+political_actions = {
+	FRA_reclaim_metropole = {
+		icon = generic_tank
+
+		allowed = { always = no }
+		available = {
+			OR = {
+				FRA = { can_declare_war_on = GER }
+				AND = {
+					GER = { surrender_progress > 0.65 }
+					is_subject = no
+					surrender_progress < 0.25
+				}
+			}
+		}
+		visible = {
+			GER = { exists = yes }
+			16 = { owner = { is_in_faction_with = GER } }
+		}
+		cancel_trigger = {
+			has_war_with = GER
+		}
+
+		targets = { GER }
+		target_trigger = {
+			can_declare_war_on = FROM
+		}
+
+		days_remove = 45
+		war_with_target_on_remove = yes
+		fire_only_once = yes
+
+		ai_will_do = { factor = 1000 }
+
+		cancel_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision cancel FRA_reclaim_metropole target: [From.GetName]"
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete FRA_reclaim_metropole target: [From.GetName]"
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove FRA_reclaim_metropole target: [From.GetName]"
+			if = {
+				limit = { 
+					ENT = { 
+						exists = yes
+						has_war_with = GER
+					}
+				}
+				ENT = { country_event = fra.5006 }
+			}
+			FRA = {
+				declare_war_on = {
+					target = GER
+					type = annex_everything
+				}
 			}
 		}
 	}

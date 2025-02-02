@@ -53,13 +53,9 @@ country_event = { # An Open Door Policy?
 	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.2"}
 	title = philippines.2.t
 	desc = philippines.2.d
-	picture = GFX_report_event_GER_konrad_henlein
+	picture = GFX_report_event_GER_dressler6
 	fire_only_once = yes
-
-	trigger = {
-		tag = PHI
-		GER = { has_completed_focus = GER_form_govt }
-	}
+	is_triggered_only = yes
 
 	option = { # Give them the entry visas
 		log = "[GetDateText]: [Root.GetName]: event philippines.2 option philippines.2.a"
@@ -3461,9 +3457,11 @@ unit_leader_event = {
 	option = {
 		log = "[GetDateText]: [Root.GetName]: event philippines.112 option philippines.112.a"
 		name = philippines.112.a
-		USA_Douglas_MacArthur = {
-			set_nationality = USA
-			unit_leader_event = { id = philippines.113 days = 1 }
+		hidden_effect = {
+			USA_Douglas_MacArthur = {
+				set_nationality = USA
+				unit_leader_event = { id = philippines.113 days = 1 }
+			}
 		}
 	}
 }
@@ -3483,5 +3481,61 @@ unit_leader_event = {
 				set_nationality = USA
 			}
 		}
+	}
+}
+
+country_event = { # Support from Overlord
+	id = philippines.114
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.114"}
+	title = philippines.114.t
+	desc = philippines.114.d
+	is_triggered_only = yes
+
+	option = {
+		name = philippines.114.a
+		ai_chance = { base = 100 }
+		FROM = { 
+			country_event = { id = philippines.115 days = 2 }
+		}
+	}
+
+	option = {
+		name = philippines.114.b
+		ai_chance = { base = 0 }
+		FROM = { 
+			country_event = { id = philippines.116 days = 2 }
+		}
+	}
+}
+
+country_event = { # Overlord agrees
+	id = philippines.115
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.115"}
+	title = philippines.115.t
+	desc = philippines.115.d
+	is_triggered_only = yes
+
+	option = {
+		name = philippines.115.a
+		remove_ideas = PHI_war_reparations
+		if = {
+			limit = { 
+				overlord = { tag = JAP } 
+			}
+			add_ideas = PHI_japanese_advisors
+		}
+	}
+}
+
+country_event = { # Overlord refuses
+	id = philippines.116
+	immediate = {log = "[GetDateText]: [Root.GetName]: event philippines.116"}
+	title = philippines.116.t
+	desc = philippines.116.d
+	is_triggered_only = yes
+
+	option = {
+		name = philippines.116.a
+		add_political_power = -100
 	}
 }

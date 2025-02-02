@@ -1857,6 +1857,13 @@ country_event = {
 		set_country_flag = GRE_warwithturkey
 		remove_ideas = GRE_golden_dawn
 		activate_mission = GRE_greek_turkish_war_timer
+		hidden_effect = {
+			news_event = { id = fxnews.90 days = 1 }
+			add_named_threat = {
+				threat = 5
+				name = threat_greco_turkish_war
+			}
+		}
 	}
 }
 
@@ -2005,9 +2012,17 @@ country_event = {
 		hidden_effect = {
 			set_country_flag = GRE_SOC_victory
 			white_peace = TUR
-			set_autonomy = {
-				target = TUR
-				autonomy_state = autonomy_puppet
+			if = {
+				limit = {
+					has_dlc_tfv = yes
+				}
+				set_autonomy = {
+					target = TUR
+					autonomy_state = autonomy_puppet
+				}
+				else = {
+					puppet = TUR
+				}
 			}
 			set_rule = {
 				can_join_factions = yes
@@ -2060,9 +2075,17 @@ country_event = {
 		effect_tooltip = {
 			set_country_flag = GRE_SOC_victory
 			white_peace = TUR
-			set_autonomy = {
-				target = TUR
-				autonomy_state = autonomy_puppet
+			if = {
+				limit = {
+					has_dlc_tfv = yes
+				}
+				set_autonomy = {
+					target = TUR
+					autonomy_state = autonomy_puppet
+				}
+				else = {
+					puppet = TUR
+				}
 			}
 			set_rule = {
 				can_join_factions = yes
@@ -2587,9 +2610,17 @@ country_event = { # TUR - Greece asks for peace
 			GRE = {
 				set_country_flag = GRE_SOC_victory
 				white_peace = TUR
-				set_autonomy = {
-					target = TUR
-					autonomy_state = autonomy_puppet
+				if = {
+					limit = {
+						has_dlc_tfv = yes
+					}
+					set_autonomy = {
+						target = TUR
+						autonomy_state = autonomy_puppet
+					}
+					else = {
+						puppet = TUR
+					}
 				}
 				set_rule = {
 					can_join_factions = yes
@@ -3758,10 +3789,15 @@ country_event = { # ARM - puppet or annex AZR?
 	picture = GFX_report_event_GRE_crowd2
 	option = { # puppet
 		name = gre.65.a
-		ARM = {
-			set_autonomy = {
-				target = AZR
-				autonomy_state = autonomy_puppet
+		if = {
+			limit = {
+				has_dlc_tfv = yes
+			}
+			ARM = {
+				set_autonomy = {
+					target = AZR
+					autonomy_state = autonomy_puppet
+				}
 			}
 		}
 		ai_chance = {
@@ -4333,15 +4369,23 @@ country_event = { # Generic events that demands a country gets annexed, OVERLORD
 								NOT = { has_cosmetic_tag = BYZ }
 							}
 						}
-						set_autonomy = {
-							target = ALB
-							autonomy_state = autonomy_free
-						}
-						FROM = {
+						if = {
+							limit = {
+								has_dlc_tfv = yes
+							}
 							set_autonomy = {
 								target = ALB
-								autonomy_state = autonomy_puppet
+								autonomy_state = autonomy_free
 							}
+							FROM = {
+								set_autonomy = {
+									target = ALB
+									autonomy_state = autonomy_puppet
+								}
+							}
+						} else = {
+							release_puppet = var:ALB
+							FROM = { puppet = var:ALB }
 						}
 					} else = {
 						# nothing
@@ -4478,9 +4522,17 @@ country_event = {
 			}
 		}
 		GRE = {
-			set_autonomy = {
-				target = ALB
-				autonomy_state = autonomy_thema
+			if = {
+				limit = {
+					has_dlc_tfv = yes
+				}
+				set_autonomy = {
+					target = ALB
+					autonomy_state = autonomy_thema
+				}
+				else = {
+					puppet = ALB
+				}
 			}
 			country_event = {
 				id = gre.84

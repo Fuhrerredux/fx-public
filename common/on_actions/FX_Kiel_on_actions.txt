@@ -1,0 +1,101 @@
+on_actions = {	
+	on_war_relation_added = {
+		effect = {
+			if = {
+				limit = {
+					OR = {
+						tag = GER
+						tag = SHO
+					}
+					FROM = {
+						OR = {
+							tag = GER
+							tag = SHO
+						}
+					}
+				}
+			}
+			SHO = { country_event = { id = kiel.49 days = 1 } }
+		}
+	}
+	
+	on_peaceconference_ended = { # Kiel postwar content
+		effect = {
+			if = {
+				limit = { 
+					ROOT = {
+						tag = SHO
+						OR = { 
+							has_government = social_conservative
+							has_government = national_populist
+						}
+					}
+					FROM = { tag = GER }
+				}
+				SHO = { country_event = { id = kiel.45 days = 3 } }
+			}
+			
+			if = {
+				limit = {
+					ROOT = {
+						tag = SHO
+						has_socialist_government = yes
+					}
+					FROM = { tag = GER }
+				}
+				SHO = { country_event = { id = kiel.70 days = 3 } }
+			}
+			
+			if = {
+				limit = { 
+					ROOT = { tag = DEN }
+					FROM = { tag = SHO }
+				}
+				DEN = { country_event = { id = gerexp.146 days = 1 } }
+			}
+		}
+	}
+	
+	on_new_term_election = {
+		effect = {
+			if = {
+				limit = {
+					tag = SHO
+					SHO = { has_country_flag = SHO_first_landtagswahl_done }
+				}
+				SHO = {	country_event = kiel.46 }
+			}
+		}
+	}
+	
+	on_capitulation = {
+		effect = {
+			if = {
+				limit = {
+					tag = SHO
+					FROM = {
+						tag = DEN
+						has_war_with = SHO
+					}
+					SHO = {
+						OR = {
+							is_in_faction_with = VAL 
+							tag = VAL
+						}
+					}
+				}
+				SHO = { 
+					every_allied_country = { set_country_flag = DEN_defeated_SHO }
+					leave_faction = yes
+				}
+				DEN = {
+					every_enemy_country = {
+						limit = { has_country_flag = DEN_defeated_SHO }
+						white_peace_with_PREV = yes
+						clr_country_flag = DEN_defeated_SHO
+					}
+				}
+			}
+		}
+	}
+}

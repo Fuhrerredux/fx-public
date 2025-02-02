@@ -1,0 +1,508 @@
+foreign_politics = {
+	HUN_join_faction = {
+		icon = GFX_decision_generic_civil_support
+		days_remove = 4
+		targets = { GER ENT VAL POL }
+		target_trigger = {
+			country_exists = FROM 
+			FROM = { 
+				is_faction_leader = yes
+				if = {
+					limit = { tag = VAL }
+					ROOT = {
+						OR = {
+							ROM = { is_in_faction_with = GER }
+							AND = {
+								has_completed_focus = hun_greater_hungary
+								is_in_faction = no 
+							}
+						}
+					}
+				}
+				if = {
+					limit = { tag = ENT }
+					ROOT = {
+						OR = {
+							ROM = { is_in_faction_with = GER }
+							GER = { exists = no }
+							AND = {
+								has_completed_focus = hun_greater_hungary
+								is_in_faction = no 
+							}
+						}
+					}
+				}
+			}
+		}
+		allowed = { always = no }
+		visible = {
+			is_in_faction = no
+		}
+		available = {
+			is_subject = no
+			has_capitulated = no
+			NOT = { 
+				has_war_with = FROM 
+				has_country_flag = HUN_joining_faction
+				FROM = { is_in_faction_with = ROM }
+			}
+		}
+		complete_effect = {
+			set_country_flag = HUN_joining_faction
+			FROM = {
+				country_event = { id = generic.30 days = 1 }
+			}
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove HUN_join_faction"
+			clr_country_flag = HUN_joining_faction
+		}
+		ai_will_do = { base = 100 }
+	}
+	
+}
+
+political_actions = {
+	HUN_revise_elod_mission = {
+		allowed = { always = no }
+		activation = { always = no }
+		days_mission_timeout = 2190
+		available = {
+			has_army_size = {
+				size > 24
+				type = infantry
+			}
+			has_army_size = {
+				size > 1
+				type = armor
+			}
+			has_army_size = {
+				size > 1
+				type = motorized
+			}
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Mission complete HUN_revise_elod_mission"
+			add_political_power = 75
+			add_war_support = 0.15
+			add_command_power = 100
+		}
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Mission timeout HUN_revise_elod_mission"
+			add_political_power = -75
+			add_war_support = -0.15
+			add_command_power = -75
+			if = {
+				limit = { power_balance_value = { id = HUN_power_balance value > 0 } }
+				HUN_bop_szalasi_high = yes
+			}
+			else = { HUN_bop_szeged_high = yes }
+		}
+	}
+}
+
+HUN_balance_of_power_category = {
+	HUN_arrow_cross_demonstrations = {
+		icon = eng_blackshirt_march
+		available = {
+			power_balance_value = {
+				id = HUN_power_balance
+				value > -0.5
+			}
+		}
+		cost = 25
+		days_remove = 21
+		days_re_enable = 120
+
+		ai_will_do = {
+			factor = 0
+			modifier = {
+				add = 50
+				power_balance_value = {
+					id = HUN_power_balance
+					value > 0
+				}
+			}
+			modifier = {
+				factor = 2
+				has_political_power > 74
+			}
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove HUN_arrow_cross_demonstrations"
+			add_war_support = 0.03
+			add_manpower = 2500
+			custom_effect_tooltip = tooltip_white_line
+			HUN_bop_szalasi_medium = yes
+		}
+	}
+	
+	HUN_expropriate_jewish_financiers = {
+		icon = eng_blackshirt_march
+		available = {
+			power_balance_value = {
+				id = HUN_power_balance
+				value > -0.25
+			}
+		}
+		cost = 75
+		days_remove = 21
+		fire_only_once = yes
+		modifier = {
+			consumer_goods_factor = -0.15
+			stability_factor = -0.1
+			political_power_gain = 0.1
+		}
+		ai_will_do = {
+			factor = 0
+			modifier = {
+				add = 50
+				power_balance_value = {
+					id = HUN_power_balance
+					value > 0
+				}
+			}
+			modifier = {
+				factor = 2
+				has_political_power > 124
+			}
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete HUN_expropriate_jewish_financiers"
+			add_stability = -0.05
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove HUN_expropriate_jewish_financiers"
+			add_war_support = 0.04
+			add_political_power = 75
+			custom_effect_tooltip = tooltip_white_line
+			HUN_bop_szalasi_medium = yes
+		}
+	}
+	
+	HUN_countryside_tours = {
+		icon = eng_blackshirt_march
+		available = {
+			power_balance_value = {
+				id = HUN_power_balance
+				value > -0.5
+			}
+		}
+		cost = 100
+		days_remove = 120
+		days_re_enable = 90
+		fire_only_once = yes
+		modifier = {
+			political_power_gain = 0.1
+			national_populist_drift = 0.01
+		}
+		ai_will_do = {
+			factor = 0
+			modifier = {
+				add = 50
+				power_balance_value = {
+					id = HUN_power_balance
+					value > 0
+				}
+			}
+			modifier = {
+				factor = 2
+				power_balance_value = {
+					id = HUN_power_balance
+					value > 0.2
+				}
+			}
+			modifier = {
+				factor = 2
+				OR = {
+					has_stability > 0.25
+					national_populist < party_popularity@paternal_autocrat
+				}
+			}
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove HUN_countryside_tours"
+			add_war_support = 0.05
+			add_political_power = 100
+			add_popularity = {
+				ideology = national_populist
+				popularity = 0.075
+			}
+			custom_effect_tooltip = tooltip_white_line
+			HUN_bop_szalasi_high = yes
+		}
+	}
+	HUN_incorporate_valkist_aesthetics = {
+		icon = eng_blackshirt_march
+		available = {
+			power_balance_value = {
+				id = HUN_power_balance
+				value > 0.5
+			}
+		}
+		cost = 75
+		days_remove = 45
+		fire_only_once = yes
+		modifier = {
+			valkist_drift = 0.01
+			stability_factor = -0.05
+		}
+		ai_will_do = {
+			factor = 0
+			modifier = {
+				add = 50
+				power_balance_value = {
+					id = HUN_power_balance
+					value > 0.1
+				}
+			}
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete HUN_incorporate_valkist_aesthetics"
+			add_stability = -0.05
+			add_political_power = -50
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove HUN_incorporate_valkist_aesthetics"
+			add_command_power = 75
+			add_war_support = 0.1
+			add_political_power = 50
+			add_popularity = {
+				ideology = valkist
+				popularity = 0.05
+			}
+			custom_effect_tooltip = tooltip_white_line
+			HUN_bop_szeged_high = yes
+		}
+	}
+	HUN_clerical_overtures = {
+		icon = eng_blackshirt_march
+		available = {
+			power_balance_value = {
+				id = HUN_power_balance
+				value > 0.25
+			}
+		}
+		cost = 75
+		days_remove = 45
+		days_re_enable = 60
+		modifier = {
+			political_power_gain = -0.15
+		}
+		ai_will_do = {
+			factor = 0
+			modifier = {
+				add = 50
+				power_balance_value = {
+					id = HUN_power_balance
+					value < 0
+				}
+			}
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove HUN_clerical_overtures"
+			add_stability = 0.05
+			add_war_support = 0.05
+			add_political_power = 50
+			add_popularity = {
+				ideology = social_conservative
+				popularity = 0.05
+			}
+			custom_effect_tooltip = tooltip_white_line
+			HUN_bop_szeged_medium = yes
+		}
+	}
+	HUN_court_conservatives = {
+		icon = eng_blackshirt_march
+		available = {
+			power_balance_value = {
+				id = HUN_power_balance
+				value > 0.5
+			}
+		}
+		cost = 50
+		days_remove = 45
+		days_re_enable = 60
+		modifier = {
+			political_power_factor = 0.15
+			authoritarian_democrat_drift = 0.01
+		}
+		ai_will_do = {
+			factor = 0
+			modifier = {
+				add = 50
+				power_balance_value = {
+					id = HUN_power_balance
+					value < 0
+				}
+			}
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove HUN_court_conservatives"
+			add_stability = 0.05
+			add_political_power = 75
+			add_popularity = {
+				ideology = authoritarian_democrat
+				popularity = 0.05
+			}
+			add_popularity = {
+				ideology = national_populist
+				popularity = -0.05
+			}
+			custom_effect_tooltip = tooltip_white_line
+			HUN_bop_szeged_medium = yes
+		}
+	}
+	HUN_enforce_national_unity = {
+		icon = eng_blackshirt_march
+		available = {
+			OR = {
+				power_balance_value = {
+					id = HUN_power_balance
+					value > 0.1
+				}
+				power_balance_value = {
+					id = HUN_power_balance
+					value < -0.1
+				}
+			}
+		}
+		cost = 75
+		days_remove = 21
+		days_re_enable = 45
+		modifier = {
+			political_power_factor = -0.2
+		}
+		ai_will_do = {
+			factor = 15
+			modifier = {
+				factor = 2
+				OR = {
+					power_balance_value = {
+						id = HUN_power_balance
+						value > 0.3
+					}
+					power_balance_value = {
+						id = HUN_power_balance
+						value < -0.3
+					}
+				}
+			}
+			modifier = {
+				factor = 2
+				OR = {
+					power_balance_value = {
+						id = HUN_power_balance
+						value > 0.5
+					}
+					power_balance_value = {
+						id = HUN_power_balance
+						value < -0.5
+					}
+				}
+			}
+			modifier = {
+				factor = 4
+				OR = {
+					power_balance_value = {
+						id = HUN_power_balance
+						value > 0.6
+					}
+					power_balance_value = {
+						id = HUN_power_balance
+						value < -0.6
+					}
+				}
+			}
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove HUN_enforce_national_unity"
+			add_stability = 0.05
+			add_war_support = 0.075
+			custom_effect_tooltip = tooltip_white_line
+			if = {
+				limit = { power_balance_value = { id = HUN_power_balance value > 0 } }
+				HUN_bop_szalasi_high = yes
+			}
+			else = { HUN_bop_szeged_high = yes }
+		}
+	}
+	HUN_work_with_national_socialists = {
+		icon = eng_blackshirt_march
+		available = {
+			OR = {
+				power_balance_value = {
+					id = HUN_power_balance
+					value > 0.15
+				}
+				power_balance_value = {
+					id = HUN_power_balance
+					value < -0.15
+				}
+			}
+		}
+		cost = 50
+		days_remove = 45
+		days_re_enable = 45
+		modifier = {
+			political_power_factor = -0.2
+			national_populist_drift = 0.01
+			paternal_autocrat_drift = 0.01
+		}
+		ai_will_do = {
+			factor = 15
+			modifier = {
+				factor = 2
+				OR = {
+					power_balance_value = {
+						id = HUN_power_balance
+						value > 0.3
+					}
+					power_balance_value = {
+						id = HUN_power_balance
+						value < -0.3
+					}
+				}
+			}
+			modifier = {
+				factor = 2
+				OR = {
+					power_balance_value = {
+						id = HUN_power_balance
+						value > 0.5
+					}
+					power_balance_value = {
+						id = HUN_power_balance
+						value < -0.5
+					}
+				}
+			}
+			modifier = {
+				factor = 4
+				OR = {
+					power_balance_value = {
+						id = HUN_power_balance
+						value > 0.6
+					}
+					power_balance_value = {
+						id = HUN_power_balance
+						value < -0.6
+					}
+				}
+			}
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove HUN_work_with_national_socialists"
+			add_political_power = 75
+			add_stability = -0.02
+			add_war_support = 0.02
+			custom_effect_tooltip = tooltip_white_line
+			if = {
+				limit = { power_balance_value = { id = HUN_power_balance value > 0 } }
+				HUN_bop_szalasi_high = yes
+			}
+			else = { HUN_bop_szeged_high = yes }
+		}
+	}
+}
+

@@ -265,3 +265,521 @@ JAP_land_reform_progress_effect = {
 	}
 }
 
+JAP_entente_peace = {
+	hidden_effect = {
+		# remove Asian/Oceanian countries from the Entente
+		if = {
+			limit = { ROOT = { NOT = { has_global_flag = JAP_seperated_entente_peace } } }
+			random_country = {
+				limit = {
+					is_in_faction_with = ROOT
+					OR = {
+						is_oceanian_tag = yes
+						is_south_asian_tag = yes
+						is_seast_asian_tag = yes
+					}
+				}
+				if = {
+					limit = { is_subject = yes }
+					overlord = {
+						set_autonomy = {
+							target = PREV
+							autonomy_state = autonomy_free
+						}
+					}
+				}
+				leave_faction = yes
+				if = {
+					limit = { ROOT = { tag = ENG } }
+					create_faction = asian_commonwealth
+				}
+				else = { create_faction = asian_entente }
+				save_event_target_as = ENT_peace_leader
+			}
+			every_other_country = {
+				limit = {
+					is_in_faction_with = ROOT
+					OR = {
+						is_oceanian_tag = yes
+						is_south_asian_tag = yes
+						is_seast_asian_tag = yes
+					}
+				}
+				if = {
+					limit = { is_subject = yes }
+					overlord = {
+						set_autonomy = {
+							target = PREV
+							autonomy_state = autonomy_free
+						}
+					}
+				}
+				leave_faction = yes
+			}
+		}
+		else = {
+			if = {
+				limit = { ROOT = { num_subjects > 0 } }
+				ROOT = {
+					every_subject_country = {
+						overlord = {
+							set_autonomy = {
+								target = PREV
+								autonomy_state = autonomy_free
+							}
+						}
+					}
+				}
+			}
+			if = {
+				limit = { ROOT = { is_faction_leader = yes } }
+				random_country = {
+					limit = {
+						is_in_faction_with = ROOT
+						OR = {
+							is_subject = no 
+							NOT = { is_subject_of = ROOT }
+						}
+						OR = {
+							is_oceanian_tag = yes
+							is_south_asian_tag = yes
+							is_seast_asian_tag = yes
+						}
+					}
+					
+					leave_faction = yes
+					if = {
+						limit = { ROOT = { tag = ENG } }
+						create_faction = asian_commonwealth
+					}
+					else = { create_faction = asian_entente }
+					save_event_target_as = ENT_peace_leader
+				}
+				every_other_country = {
+					limit = {
+						is_in_faction_with = ROOT
+						is_faction_leader = no
+						OR = {
+							is_subject = no 
+							NOT = { is_subject_of = ROOT }
+						}
+						OR = {
+							is_oceanian_tag = yes
+							is_south_asian_tag = yes
+							is_seast_asian_tag = yes
+						}
+					}
+					leave_faction = yes
+				}
+			}
+		}
+
+		# all directly-owned pacific states will go to XXB to be haggled over...
+		if = {
+			limit = { ROOT = { has_global_flag = JAP_seperated_entente_peace } } 
+			if = {
+				limit = { 
+					any_state = {
+						if = {
+							limit = {
+								is_owned_by = ROOT
+							}
+							OR = {
+								is_on_continent = australia
+								is_on_continent = asia
+								is_on_continent = south_asia
+							}
+						}
+					}
+				}
+				every_state = {
+					limit = {
+						is_owned_by = ROOT
+						OR = {
+							is_on_continent = australia
+							is_on_continent = asia
+							is_on_continent = south_asia
+						}
+					}
+					set_state_owner_to = XXB
+				}
+			}
+		}
+		else = {
+			if = {
+				limit = { 
+					any_state = {
+						if = {
+							limit = {
+								OR = {
+									is_owned_by = ROOT
+									owner = { 
+										is_in_faction_with = ROOT 
+										has_capitulated = no
+										has_war_with = JAP
+									}
+								}
+							}
+							OR = {
+								is_on_continent = australia
+								is_on_continent = asia
+								is_on_continent = south_asia
+							}
+						}
+					}
+				}
+				every_state = {
+					limit = {
+						OR = {
+							is_owned_by = ROOT
+							owner = { 
+								is_in_faction_with = ROOT 
+								has_capitulated = no
+								has_war_with = JAP
+							}
+						}
+						OR = {
+							is_on_continent = australia
+							is_on_continent = asia
+							is_on_continent = south_asia
+						}
+					}
+					controller = { save_event_target_as = original_owner }
+					transfer_state_to = XXB
+				}
+			} 
+		}
+			
+
+		# then peace any Asian/Oceanian countries at war with the Entente
+		every_enemy_country = {
+			limit = {
+				is_valid_peace_target = yes
+				OR = {
+					is_oceanian_tag = yes
+					is_south_asian_tag = yes
+					is_seast_asian_tag = yes
+				}
+				NOT = { any_allied_country = { is_in_europe = yes } }
+			}
+			XXB = {
+				if = {
+					limit = { 
+						OR = {
+							has_cosmetic_tag = ENG_east_asia
+							has_cosmetic_tag = FRA_east_asia
+							has_cosmetic_tag = USA_east_asia
+						}
+					}
+					drop_cosmetic_tag  = yes
+					set_cosmetic_tag = all_east_asia
+				}
+				if = {
+					limit = { NOT = { has_cosmetic_tag = all_east_asia } }
+					if = {
+						limit = { ROOT = { tag = ENG } }
+						set_cosmetic_tag = ENG_east_asia
+					}
+					else = { set_cosmetic_tag = FRA_east_asia }
+				}
+				add_to_war = {
+					targeted_alliance = ROOT
+					enemy = PREV
+				}
+				set_state_controller = original_owner
+				if = {
+					limit = { any_country = { has_event_target = ENT_peace_leader } }
+					event_target:ENT_peace_leader = { add_to_faction = XXB }		
+				}
+			}
+			country_event = jap.66
+		}
+
+		#remove any remaining diplomatic relations
+		every_other_country = {
+			limit = {
+				OR = {
+					is_oceanian_tag = yes
+					is_south_asian_tag = yes
+					is_seast_asian_tag = yes
+				}
+			}
+			if = {
+				limit = { has_non_aggression_pact_with = ROOT }
+				diplomatic_relation = {
+					country = ROOT
+					relation = non_aggression_pact
+					active = no
+				}
+			}
+			if = {
+				limit = { gives_military_access_to = ROOT }
+				diplomatic_relation = {
+					country = ROOT
+					relation = military_access
+					active = no
+				}
+			}
+			ROOT = {
+				if = {
+					limit = { has_guaranteed = PREV }
+					diplomatic_relation = {
+						country = PREV
+						relation = guarantee
+						active = no
+					}
+				}
+				if = {
+					limit = { gives_military_access_to = PREV }
+					diplomatic_relation = {
+						country = PREV
+						relation = military_access
+						active = no
+					}
+				}
+				if = {
+					limit = { has_wargoal_against = PREV }
+					remove_wargoal = { target = PREV type = all }
+				}
+			}
+		}
+		
+	}
+}
+
+JAP_usa_peace = {
+	hidden_effect = {
+		# remove Asian/Oceanian countries from American sphere
+		if = {
+			limit = { ROOT = { num_subjects > 0 } }
+			ROOT = {
+				every_subject_country = {
+					overlord = {
+						set_autonomy = {
+							target = PREV
+							autonomy_state = autonomy_free
+						}
+					}
+				}
+			}
+		}
+		if = {
+			limit = { ROOT = { is_faction_leader = yes } }
+			random_country = {
+				limit = {
+					is_in_faction_with = ROOT
+					OR = {
+						is_subject = no 
+						NOT = { is_subject_of = ROOT }
+					}
+					OR = {
+						is_oceanian_tag = yes
+						is_south_asian_tag = yes
+						is_seast_asian_tag = yes
+					}
+				}
+				
+				leave_faction = yes
+				create_faction = asian_usa_sphere
+				save_event_target_as = USA_asia_peace_leader
+			}
+			every_other_country = {
+				limit = {
+					is_in_faction_with = ROOT
+					OR = {
+						is_oceanian_tag = yes
+						is_south_asian_tag = yes
+						is_seast_asian_tag = yes
+					}
+				}
+				leave_faction = yes
+			}
+		}
+		# all directly-owned pacific states will go to controller, and if not to JAP
+		if = {
+			limit = { 
+				is_faction_leader = yes 
+				OR = {
+					AND = {
+						is_in_faction_with = ENG 
+						ENG = { is_subject = no }
+					}
+					AND = {
+						is_in_faction_with = FRA 
+						FRA = { is_subject = no }
+					}
+				}
+			}
+			if = {
+				limit = { 
+					any_state = {
+						if = {
+							limit = {
+								OR = {
+									is_owned_by = ROOT
+									owner = { 
+										is_in_faction_with = ROOT 
+										has_capitulated = no
+										has_war_with = JAP
+									}
+								}
+							}
+							OR = {
+								is_on_continent = australia
+								is_on_continent = asia
+								is_on_continent = south_asia
+							}
+						}
+					}
+				}
+				every_state = {
+					limit = {
+						OR = {
+							is_owned_by = ROOT
+							owner = { 
+								is_in_faction_with = ROOT 
+								has_capitulated = no
+								has_war_with = JAP
+							}
+						}
+						OR = {
+							is_on_continent = australia
+							is_on_continent = asia
+							is_on_continent = south_asia
+						}
+					}
+					controller = { save_event_target_as = original_owner }
+					transfer_state_to = XXB
+				}
+			}
+		}
+		else = {
+			every_state = {
+				limit = {
+					is_owned_by = ROOT
+					OR = {
+						is_on_continent = australia
+						is_on_continent = asia
+						is_on_continent = south_asia
+					}
+				}
+				set_state_owner_to = XXB
+			}
+		}
+		
+		if = {
+			limit = { 
+				ROOT = { 
+					is_faction_leader = no
+					OR = {
+						is_in_faction_with = FRA 
+						is_in_faction_with = ENG
+					}
+				}
+			}
+			ROOT = { leave_faction = yes }
+			every_other_country = {
+				limit = {
+					is_in_faction_with = ROOT
+					is_faction_leader = yes
+					OR = {
+						original_tag = ENG
+						original_tag = FRA
+					}
+				}
+				country_event = { id = jap.70 days = 3 }
+			}
+		}
+
+		# then peace any Asian/Oceanian countries at war with the USA
+		every_enemy_country = {
+			limit = {
+				is_valid_peace_target = yes
+				OR = {
+					is_oceanian_tag = yes
+					is_south_asian_tag = yes
+					is_seast_asian_tag = yes
+				}
+				NOT = { any_allied_country = { is_in_europe = yes } }
+			}
+			XXB = {
+				if = {
+					limit = { 
+						OR = {
+							has_cosmetic_tag = ENG_east_asia
+							has_cosmetic_tag = FRA_east_asia
+							has_cosmetic_tag = USA_east_asia
+						}
+					}
+					drop_cosmetic_tag  = yes
+					set_cosmetic_tag = all_east_asia
+				}
+				if = {
+					limit = { NOT = { has_cosmetic_tag = all_east_asia } }
+					set_cosmetic_tag = USA_east_asia
+				}
+				add_to_war = {
+					targeted_alliance = ROOT
+					enemy = PREV
+				}
+				set_state_controller = original_owner
+				if = {
+					limit = { any_country = { has_event_target = USA_asia_peace_leader } }
+					event_target:USA_asia_peace_leader = { add_to_faction = XXB }		
+				}
+			}
+			country_event = jap.69
+		}
+
+		#remove any remaining diplomatic relations
+		every_other_country = {
+			limit = {
+				OR = {
+					is_oceanian_tag = yes
+					is_south_asian_tag = yes
+					is_seast_asian_tag = yes
+				}
+			}
+			if = {
+				limit = { has_non_aggression_pact_with = ROOT }
+				diplomatic_relation = {
+					country = ROOT
+					relation = non_aggression_pact
+					active = no
+				}
+			}
+			if = {
+				limit = { gives_military_access_to = ROOT }
+				diplomatic_relation = {
+					country = ROOT
+					relation = military_access
+					active = no
+				}
+			}
+			ROOT = {
+				if = {
+					limit = { has_guaranteed = PREV }
+					diplomatic_relation = {
+						country = PREV
+						relation = guarantee
+						active = no
+					}
+				}
+				if = {
+					limit = { gives_military_access_to = PREV }
+					diplomatic_relation = {
+						country = PREV
+						relation = military_access
+						active = no
+					}
+				}
+				if = {
+					limit = { has_wargoal_against = PREV }
+					remove_wargoal = { target = PREV type = all }
+				}
+			}
+		}
+		
+	}
+}
+

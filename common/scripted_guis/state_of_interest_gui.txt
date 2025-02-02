@@ -1,0 +1,55 @@
+scripted_gui = {
+
+  FX_State_of_Interest_gui_region = {
+    context_type = selected_state_context
+    window_name = FX_state_of_interest_german_region
+    parent_window_token = selected_state_view
+    # dirty = FX_state_of_interest_dirty
+
+    ai_enabled = { always = no }
+
+    effects = {
+      FX_state_of_interest_region_button_click = {
+        if = {
+          limit = { 
+            GER = { check_variable = { FX_state_of_interest_dirty = 0 } } 
+          }
+          GER = { set_variable = { FX_state_of_interest_dirty = 1 } }
+        } else_if = {
+          limit = { 
+            GER = { check_variable = { FX_state_of_interest_dirty =  1 } } 
+          }
+          GER = { set_variable = { FX_state_of_interest_dirty = 0 } }
+        }
+      }
+    }
+    triggers = {
+      FX_state_of_interest_region_button_click_enabled = {
+        GER = { has_variable = FX_state_of_interest_dirty }
+      }
+	  FX_state_of_interest_region_button_visible = {
+        GER = { has_variable = FX_state_of_interest_dirty }
+		ROOT = { is_germany_or_splinter_tag = yes }
+      }
+      german_region_title_visible = {
+        GER = { check_variable = { FX_state_of_interest_dirty = 1 } }
+		ROOT = { is_germany_or_splinter_tag = yes }
+      } 
+      FX_state_of_interest_popup_region_box_visible = {
+        GER = { check_variable = { FX_state_of_interest_dirty = 1 } }
+		ROOT = { is_germany_or_splinter_tag = yes }
+      }
+    }
+
+    properties = {
+      FX_state_of_interest_region_button = {
+        image = "[GetStateOfInterestArrow]"
+      }
+    }
+
+    visible = {
+      owner = { GER_can_be_germany = yes }
+      has_variable = belongs_to_region
+    }
+  }
+}

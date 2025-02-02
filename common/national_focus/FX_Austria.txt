@@ -1,0 +1,4904 @@
+#!gfx:interface/fuhrerredux/FX_goals.gfx
+
+####################################################################
+# Made by Ayla/Hue, Berries, Meep, thanasislanaras and retiredlt24 #
+####################################################################
+# with assistance of Ahmed 
+# designed by Ayla and Pascal
+
+### SCHUSCHNIGG	###
+### HABSBURG	###
+
+focus_tree = {
+	id = FX_Austria
+
+	country = {
+		factor = 0
+		modifier = { add = 100 tag = AUS }
+	}
+
+	continuous_focus_position = { x = 2600 y = 1350 }
+
+	default = no
+	reset_on_civilwar = no
+
+	#Political Branch
+
+	### SCHUSCHNIGG	###
+	
+	focus = {
+		id = AUS_dolfuss_successor
+		icon = GFX_goal_generic_banking_legislation
+		x = 15
+		y = 0
+		cost = 1
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = unlocked_later
+				always = no
+			}
+		}
+		allow_branch = {
+			NOT = { has_country_flag = AUS_path_monarchy }
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_dolfuss_successor"
+			custom_effect_tooltip = AUS_unlock_mechanic_tt
+			mark_focus_tree_layout_dirty = yes
+		}
+	}
+
+	focus = {
+		id = AUS_new_constitution
+		icon = GFX_goal_GRE_spartan_constitution
+		prerequisite = { 
+			focus = AUS_dolfuss_successor
+		}
+		available = {
+			has_government = authoritarian_democrat
+		}
+		bypass = { #uhm i dont really understand the whole fail-path shit so ill leave it in for now --thanlan
+			has_government = social_conservative
+		}
+		ai_will_do = {
+			factor = 100
+		}
+		# ughhh i hate the positioning being this low...
+		x = 0
+		y = 1
+		relative_position_id = AUS_dolfuss_successor
+		cost = 6
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_new_constitution"
+			custom_effect_tooltip = AUS_politicise_the_military_tooltip
+			hidden_effect = {
+				set_temp_variable = { num_armies_temp = num_armies }
+				multiply_temp_variable = { num_armies_temp = 3 }
+				add_political_power = var:num_armies_temp
+			}
+			swap_ideas = {
+				add_idea = one_party_dictatorship
+				remove_idea = parliamentary_republic
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_future_of_unions
+		icon = GFX_goal_GBR_fate_of_unions
+		x = -4
+		y = 3
+		relative_position_id = AUS_dolfuss_successor
+		cost = 4
+		prerequisite = { 
+			focus = AUS_corporatism
+		}
+		available = {
+			OR = {
+				has_government = authoritarian_democrat
+				has_government = social_conservative	
+			}
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_future_of_unions"
+			custom_effect_tooltip = {
+				localization_key = AUS_generic_add_to_dynmod
+				DYNMOD = AUS_schuschnigg_corporatism
+			}
+			add_to_variable = { 
+				AUS_schuschnigg_corporatism_production_speed_buildings_factor = 0.07
+				tooltip = production_speed_buildings_factor_tt
+			}
+			add_to_variable = { 
+				AUS_schuschnigg_corporatism_consumer_goods_factor = -0.03
+				tooltip = consumer_goods_factor_tt
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_unitary_economy
+		icon = GFX_goal_state_economy
+		x = -3
+		y = 4
+		relative_position_id = AUS_dolfuss_successor
+		cost = 4
+		prerequisite = { 
+			focus = AUS_future_of_unions
+			focus = AUS_giving_the_ministry_of_agriculture
+		}
+		available = {
+			NOT = {
+				has_dynamic_modifier = { modifier = AUS_black_wednesday }
+			}
+			has_government = authoritarian_democrat
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_unitary_economy"
+			custom_effect_tooltip = {
+				localization_key = AUS_generic_add_to_dynmod
+				DYNMOD = AUS_schuschnigg_corporatism
+			}
+			add_to_variable = { 
+				AUS_schuschnigg_corporatism_production_speed_infrastructure_factor = 0.05
+				tooltip = production_speed_infrastructure_factor_tt
+			}
+			add_to_variable = { 
+				AUS_schuschnigg_corporatism_production_speed_buildings_factor = 0.05
+				tooltip = production_speed_buildings_factor_tt
+			}
+			country_event = ausks.7
+		}
+	}
+
+	focus = {
+		id = AUS_promulgate_the_may_constitution
+		icon = GFX_goal_generic_authoritarian_government
+		x = -1
+		y = 2
+		relative_position_id = AUS_dolfuss_successor
+		cost = 5
+		prerequisite = { 
+			focus = AUS_new_constitution
+		}
+		available = {
+			has_country_flag = AUS_socialist_militia_crackdown_victory_cf
+			has_government = authoritarian_democrat
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_promulgate_the_may_constitution"
+			add_stability = 0.05
+			add_war_support = 0.05
+			swap_ideas = {
+				add_idea = AUS_at_the_edges_of_revolution_schuschnigg
+				remove_idea = AUS_at_the_edges_of_revolution
+			}
+			new_line = yes
+			custom_effect_tooltip = {
+				localization_key = AUS_generic_add_to_dynmod
+				DYNMOD = AUS_austrian_pan_german_sentiment
+			}
+			add_to_variable = { 
+				AUS_austrian_pan_german_sentiment_conscription_factor = 0.02 
+				tooltip = conscription_factor_tt
+			}
+			add_to_variable = { 
+				AUS_austrian_pan_german_sentiment_political_power_gain = 0.02 
+				tooltip = political_power_gain_tt
+			}
+		}
+	}
+	focus = {
+		id = AUS_eliminate_parliamentarism
+		icon = GFX_goal_generic_police_state
+		x = 1
+		y = 2
+		relative_position_id = AUS_dolfuss_successor
+		cost = 5
+		prerequisite = { 
+			focus = AUS_new_constitution
+		}
+		available = {
+			has_country_flag = AUS_socialist_militia_crackdown_victory_cf
+			has_government = authoritarian_democrat
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_eliminate_parliamentarism"
+			country_event = { id = ausks.3 days = 3 }
+		}
+	}
+	focus = {
+		id = AUS_corporatism
+		icon = GFX_goal_generic_takeover_industries
+		x = -3
+		y = 2
+		relative_position_id = AUS_dolfuss_successor
+		cost = 5
+		prerequisite = { 
+			focus = AUS_new_constitution
+		}
+		available = {
+			OR = {
+				has_government = authoritarian_democrat
+				has_government = social_conservative	
+			}
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_corporatism"
+			add_dynamic_modifier = { modifier = AUS_schuschnigg_corporatism }
+			custom_effect_tooltip = {
+				localization_key = AUS_generic_add_to_dynmod
+				DYNMOD = AUS_schuschnigg_corporatism
+			}
+			add_to_variable = { 
+				AUS_schuschnigg_corporatism_production_speed_buildings_factor = 0.05
+				tooltip = production_speed_buildings_factor_tt
+			}
+			add_to_variable = { 
+				AUS_schuschnigg_corporatism_consumer_goods_factor = -0.05
+				tooltip = consumer_goods_factor_tt
+			}
+		}
+	}
+	focus = {
+		id = AUS_giving_the_ministry_of_agriculture
+		icon = GFX_goal_AUS_agrarian_state
+		x = -2
+		y = 3
+		relative_position_id = AUS_dolfuss_successor
+		cost = 3
+		prerequisite = { 
+			focus = AUS_promulgate_the_may_constitution
+		}
+		prerequisite = { 
+			focus = AUS_corporatism
+		}
+		available = {
+			has_completed_focus = AUS_intergrate_allies_in_landbund
+			has_government = authoritarian_democrat
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_giving_the_ministry_of_agriculture"
+			custom_effect_tooltip = {
+				localization_key = AUS_generic_add_to_dynmod
+				DYNMOD = AUS_schuschnigg_corporatism
+			}
+			add_to_variable = { 
+				AUS_schuschnigg_corporatism_production_speed_infrastructure_factor = 0.10
+				tooltip = production_speed_infrastructure_factor_tt
+			}
+		}
+	}
+	focus = {
+		id = AUS_expand_help_to_farmers
+		icon = GFX_goal_SZC_improvised_farming_machinery
+		x = -1
+		y = 4
+		relative_position_id = AUS_dolfuss_successor
+		cost = 4
+		prerequisite = { 
+			focus = AUS_giving_the_ministry_of_agriculture
+		}
+		available = {
+			has_government = authoritarian_democrat
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_expand_help_to_farmers"
+			custom_effect_tooltip = {
+				localization_key = AUS_generic_add_to_dynmod
+				DYNMOD = AUS_schuschnigg_corporatism
+			}
+			add_to_variable = { 
+				AUS_schuschnigg_corporatism_production_speed_infrastructure_factor = 0.05
+				tooltip = production_speed_infrastructure_factor_tt
+			}
+		}
+	}
+	focus = {
+		id = AUS_eliminate_socialist_parties
+		icon = GFX_goal_HOL_crackdown_totalist
+		x = 0
+		y = 3
+		relative_position_id = AUS_dolfuss_successor
+		cost = 6
+		prerequisite = { 
+			focus = AUS_promulgate_the_may_constitution
+			focus = AUS_eliminate_parliamentarism
+		}
+		available = {
+			has_government = authoritarian_democrat
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_eliminate_socialist_parties"
+			add_popularity = {
+				ideology = collectivist
+				popularity = -0.05
+			}
+			swap_ideas = {
+				add_idea = AUS_at_the_edges_of_revolution_schuschnigg2
+				remove_idea = AUS_at_the_edges_of_revolution_schuschnigg
+			}
+			country_event = ausks.4
+		}
+	}
+
+	focus = {
+		id = AUS_establish_the_front
+		icon = GFX_goal_AUS_nationalist_coalition
+		x = 2
+		y = 1
+		relative_position_id = AUS_dolfuss_successor
+		cost = 5
+		prerequisite = { 
+			focus = AUS_dolfuss_successor
+		}
+		available = {
+			has_government = authoritarian_democrat
+		}
+		bypass = {
+			has_government = social_conservative
+		}
+
+		ai_will_do = {
+			factor = 100
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_establish_the_front"
+			add_ideas = AUS_frontmiliz_idea
+			country_event = ausks.1
+			custom_effect_tooltip = AUS_politicise_the_military_tooltip
+			hidden_effect = {
+				set_temp_variable = { num_armies_temp = num_armies }
+				multiply_temp_variable = { num_armies_temp = 3 }
+				add_political_power = var:num_armies_temp
+			}
+			new_line = yes
+			custom_effect_tooltip = {
+				localization_key = AUS_generic_add_to_dynmod
+				DYNMOD = AUS_austrian_pan_german_sentiment
+			}
+			add_to_variable = { 
+				AUS_austrian_pan_german_sentiment_conscription_factor = 0.02 
+				tooltip = conscription_factor_tt
+			}
+			add_to_variable = { 
+				AUS_austrian_pan_german_sentiment_political_power_gain = 0.02 
+				tooltip = political_power_gain_tt
+			}
+			new_line = yes
+			custom_effect_tooltip = AUS_create_divisions_temp_tooltip
+			hidden_effect = {
+				division_template = {
+					name = "Freiwillige Schutzkorps"
+					division_names_group = AUS_LTINF_01
+					regiments = {
+						irregular_infantry = { x = 0 y = 0 }
+						irregular_infantry = { x = 0 y = 1 }
+						irregular_infantry = { x = 0 y = 2 }
+						irregular_infantry = { x = 1 y = 0 }
+						irregular_infantry = { x = 1 y = 1 }
+						irregular_infantry = { x = 1 y = 2 }
+						irregular_infantry = { x = 2 y = 0 }
+						irregular_infantry = { x = 2 y = 1 }
+						irregular_infantry = { x = 2 y = 2 }
+					}
+					support = {
+						artillery = { x = 0 y = 0 }
+					}
+				}
+				random_owned_controlled_state = {
+					limit = { is_capital = no }
+					create_unit = {
+						division = "name = \"1. Freiwillige Schutzkorps\" division_template = \"Freiwillige Schutzkorps\" start_experience_factor = 0.5"
+						owner = ROOT
+					}
+				}
+				random_owned_controlled_state = {
+					limit = { is_capital = no }
+					create_unit = {
+						division = "name = \"2. Freiwillige Schutzkorps\" division_template = \"Freiwillige Schutzkorps\" start_experience_factor = 0.5"
+						owner = ROOT
+					}
+				}
+				random_owned_controlled_state = {
+					limit = { is_capital = no }
+					create_unit = {
+						division = "name = \"3. Freiwillige Schutzkorps\" division_template = \"Freiwillige Schutzkorps\" start_experience_factor = 0.5"
+						owner = ROOT
+					}
+				}
+			}
+			set_party_name = {
+				ideology = authoritarian_democrat
+				long_name = AUS_fatherland_front_long
+				name = AUS_fatherland_front
+			}
+		}
+	}
+	focus = {
+		id = AUS_buy_loyalty
+		icon = GFX_goal_generic_investments
+		x = 3
+		y = 2
+		relative_position_id = AUS_dolfuss_successor
+		cost = 5
+		prerequisite = { 
+			focus = AUS_establish_the_front
+		}
+		available = {
+			has_government = authoritarian_democrat
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_buy_loyalty"
+			custom_effect_tooltip = AUS_unlock_decisions_buy_loyalty_tt
+			add_popularity = {
+				ideology = authoritarian_democrat
+				popularity = 0.05
+			}
+		}
+	}
+	
+	focus = {
+		id = AUS_ally_moderate_hemiwehr
+		icon = GFX_goal_AUS_work_with_militarists
+		x = 5
+		y = 2
+		relative_position_id = AUS_dolfuss_successor
+		cost = 6
+		prerequisite = { 
+			focus = AUS_establish_the_front
+		}
+		available = {
+			OR = {
+				has_government = authoritarian_democrat
+				has_government = social_conservative	
+			}
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_ally_moderate_hemiwehr"
+			add_political_power = 25
+			custom_effect_tooltip = AUS_unlock_decisions_buy_loyalty_tt
+			swap_ideas = {
+				remove_idea = AUS_frontmiliz_idea
+				add_idea = AUS_frontmiliz2_idea
+			}
+			country_event = ausks.6
+			new_line = yes
+			custom_effect_tooltip = {
+				localization_key = AUS_generic_add_to_dynmod
+				DYNMOD = AUS_austrian_pan_german_sentiment
+			}
+			add_to_variable = { 
+				AUS_austrian_pan_german_sentiment_conscription_factor = 0.02 
+				tooltip = conscription_factor_tt
+			}
+			add_to_variable = { 
+				AUS_austrian_pan_german_sentiment_political_power_gain = 0.02 
+				tooltip = political_power_gain_tt
+			}
+			set_party_name = {
+				ideology = national_populist
+				long_name = AUS_fatherland_front_long
+				name = AUS_fatherland_front
+			}
+			set_temp_variable = { coalition_partner_var = token:national_populist }
+			add_to_coalition = yes
+		}
+	}
+	focus = {
+		id = AUS_intergrate_allies_in_landbund
+		icon = GFX_goal_AUS_agrarians
+		x = 7
+		y = 2
+		relative_position_id = AUS_dolfuss_successor
+		cost = 3
+		prerequisite = { 
+			focus = AUS_establish_the_front
+		}
+		bypass = {
+			has_government = social_conservative
+		}
+		available = {
+			has_country_flag = AUS_landbund_promises_made
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_intergrate_allies_in_landbund"
+			add_stability = 0.05
+			hidden_effect = {
+				set_temp_variable = { pp_to_give = party_popularity_100@market_liberal }
+				add_to_temp_variable = { pp_to_give = party_popularity_100@social_liberal }
+				add_political_power = var:pp_to_give
+			}
+
+			custom_effect_tooltip = AUS_intergrate_allies_in_landbund_tt
+			add_coalition_market_liberal = yes
+			add_coalition_social_liberal = yes
+			add_ideas = AUS_landbund_support_schuschnigg
+		}
+	}
+	focus = {
+		id = AUS_intergrate_allies_in_CS
+		icon = GFX_goal_AUS_CS
+		x = 9
+		y = 2
+		relative_position_id = AUS_dolfuss_successor
+		cost = 3
+		prerequisite = { 
+			focus = AUS_establish_the_front
+		}
+		available = {
+			has_government = authoritarian_democrat
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_intergrate_allies_in_CS"
+			add_stability = 0.05
+			add_political_power = var:party_popularity_100@social_conservative
+			custom_effect_tooltip = AUS_intergrate_allies_in_CS_tt
+			add_coalition_social_conservative = yes
+			add_ideas = AUS_CS_support_schuschnigg
+		}
+	}
+	focus = {
+		id = AUS_schuschnigg_for_independence
+		icon = GFX_goal_AUS_appoint_schuschnigg
+		x = 6
+		y = 3
+		relative_position_id = AUS_dolfuss_successor
+		cost = 6
+		prerequisite = { 
+			focus = AUS_ally_moderate_hemiwehr 
+		}
+		available = {
+			has_government = authoritarian_democrat
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_schuschnigg_for_independence"
+			country_event = { id = ausks.8 days = 5 }
+			swap_ideas = {
+				remove_idea = AUS_frontmiliz2_idea
+				add_idea = AUS_frontmiliz3_idea
+			}
+			custom_effect_tooltip = {
+				localization_key = AUS_generic_add_to_dynmod
+				DYNMOD = AUS_austrian_pan_german_sentiment
+			}
+			add_to_variable = { 
+				AUS_austrian_pan_german_sentiment_conscription_factor = 0.02 
+				tooltip = conscription_factor_tt
+			}
+			add_to_variable = { 
+				AUS_austrian_pan_german_sentiment_political_power_gain = 0.02 
+				tooltip = political_power_gain_tt
+			}
+		}
+	}
+	focus = {
+		id = AUS_crush_socialist_militias
+		icon = GFX_goal_HOL_ban_paramilitary_left
+		x = 4
+		y = 3
+		relative_position_id = AUS_dolfuss_successor
+		cost = 6
+		prerequisite = { 
+			focus = AUS_buy_loyalty
+			focus = AUS_ally_moderate_hemiwehr
+		}
+		available = {
+			has_country_flag = AUS_socialist_militia_crackdown_victory_cf
+			has_government = authoritarian_democrat
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_crush_socialist_militias"
+			add_political_power = 50
+			add_manpower = -10000
+			add_popularity = {
+				ideology = social_democrat
+				popularity = -0.1
+			}
+			add_popularity = {
+				ideology = libertarian_socialist
+				popularity = -0.15
+			}
+		}
+	}
+	focus = {
+		id = AUS_eliminate_valkist_networks
+		icon = GFX_goal_USA_no_valkist
+		x = 8
+		y = 3
+		relative_position_id = AUS_dolfuss_successor
+		cost = 6
+		prerequisite = { 
+			focus = AUS_buy_loyalty
+		}
+		prerequisite = { 
+			focus = AUS_ally_moderate_hemiwehr
+		}
+		prerequisite = { 
+			focus = AUS_intergrate_allies_in_landbund 
+			focus = AUS_intergrate_allies_in_CS
+		}
+		available = {
+			has_government = authoritarian_democrat
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_eliminate_valkist_networks"
+			add_stability = 0.05
+			add_war_support = 0.1
+			add_manpower = -500
+			GER = { country_event = austria.2 }
+			new_line = yes
+			custom_effect_tooltip = {
+				localization_key = AUS_generic_add_to_dynmod
+				DYNMOD = AUS_austrian_pan_german_sentiment
+			}
+			add_to_variable = { 
+				AUS_austrian_pan_german_sentiment_political_power_gain = 0.02 
+				tooltip = political_power_gain_tt
+			}			
+			country_event = ausks.9
+		}
+	}
+	focus = {
+		id = AUS_new_nationalism
+		icon = GFX_goal_AUS_new_nationalism
+		x = 0
+		y = 1
+		relative_position_id = AUS_schuschnigg_for_independence
+		cost = 2
+		prerequisite = { 
+			focus = AUS_schuschnigg_for_independence
+		}
+		available = {
+			has_government = authoritarian_democrat
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_new_nationalism"
+			country_event = ausks.10
+			add_dynamic_modifier = { modifier = AUS_schuschnigg_nationalism }
+			custom_effect_tooltip = {
+				localization_key = AUS_generic_add_to_dynmod
+				DYNMOD = AUS_austrian_pan_german_sentiment
+			}
+			add_to_variable = { 
+				AUS_austrian_pan_german_sentiment_conscription_factor = 0.02 
+				tooltip = conscription_factor_tt
+			}
+			add_to_variable = { 
+				AUS_austrian_pan_german_sentiment_political_power_gain = 0.02 
+				tooltip = political_power_gain_tt
+			}
+		}
+	}
+	focus = {
+		id = AUS_the_new_constitution
+		icon = GFX_goal_constitutional_guarantees
+		x = 2
+		y = 4
+		relative_position_id = AUS_dolfuss_successor
+		cost = 4
+		prerequisite = { 
+			focus = AUS_crush_socialist_militias
+		}
+		prerequisite = { 
+			focus = AUS_schuschnigg_for_independence
+		}
+		prerequisite = { 
+			focus = AUS_eliminate_socialist_parties
+		}
+		available = {
+			has_completed_focus = AUS_promulgate_the_may_constitution
+			has_government = authoritarian_democrat
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_the_new_constitution"
+			if = { 
+				limit = {
+					AND = {
+						has_idea = AUS_CS_support_schuschnigg
+						has_idea = AUS_landbund_support_schuschnigg
+					}
+				}
+				remove_ideas = AUS_at_the_edges_of_revolution_schuschnigg2
+			} else_if = { 
+				limit = { has_idea = AUS_landbund_support_schuschnigg }
+				swap_ideas = {
+					add_idea = AUS_at_the_edges_of_revolution_schuschnigg3_landbund
+					remove_idea = AUS_at_the_edges_of_revolution_schuschnigg2
+				}
+				remove_ideas = AUS_landbund_support_schuschnigg
+			}
+			else_if = { 
+				limit = { has_idea = AUS_CS_support_schuschnigg }
+				swap_ideas = {
+					add_idea = AUS_at_the_edges_of_revolution_schuschnigg3_CS
+					remove_idea = AUS_at_the_edges_of_revolution_schuschnigg2
+				}
+				remove_ideas = AUS_CS_support_schuschnigg
+			}
+			custom_effect_tooltip = tooltip_white_line
+			custom_effect_tooltip = {
+				localization_key = AUS_generic_add_to_dynmod
+				DYNMOD = AUS_schuschnigg_nationalism
+			}
+			add_to_variable = { 
+				AUS_schuschnigg_nationalism_conscription_factor = 0.02 
+				tooltip = conscription_factor_tt
+			}
+			add_to_variable = { 
+				AUS_schuschnigg_nationalism_political_power_gain = 0.02 
+				tooltip = political_power_gain_tt
+			}
+			custom_effect_tooltip = tooltip_white_line
+			set_politics = {
+				ruling_party = paternal_autocrat
+				long_name = AUS_fatherland_front_long
+				name = AUS_fatherland_front
+			}
+			hidden_effect = {
+				set_temp_variable = { vf_popularity = party_popularity_100@authoritarian_democrat }
+				multiply_temp_variable = { vf_popularity = 0.75 }
+				set_temp_variable = { vf_popularity_alt = party_popularity_100@authoritarian_democrat }
+				subtract_from_temp_variable = { vf_popularity_alt = vf_popularity }
+				add_to_temp_variable = { vf_popularity = party_popularity_100@paternal_autocrat }
+				set_popularities = {
+					vanguardist = party_popularity_100@vanguardist
+					collectivist = party_popularity_100@collectivist
+					libertarian_socialist = party_popularity_100@libertarian_socialist
+					social_democrat = party_popularity_100@social_democrat
+					social_liberal = party_popularity_100@social_liberal
+					market_liberal = party_popularity_100@market_liberal
+					social_conservative = party_popularity_100@social_conservative
+					authoritarian_democrat = vf_popularity_alt
+					paternal_autocrat = vf_popularity
+					national_populist = party_popularity_100@national_populist
+					valkist = party_popularity_100@valkist
+				}
+				set_temp_variable = { coalition_partner_var = token:authoritarian_democrat }
+				add_to_coalition = yes
+			}
+		}
+	}
+	focus = {
+		id = AUS_ost_guard
+		icon = GFX_goal_AUS_ost_guard
+		x = 3
+		y = 1
+		relative_position_id = AUS_new_nationalism
+		cost = 6
+		prerequisite = { 
+			focus = AUS_new_nationalism
+		}
+		available = {
+			has_government = authoritarian_democrat
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_ost_guard"
+			custom_effect_tooltip = {
+				localization_key = AUS_generic_add_to_dynmod
+				DYNMOD = AUS_schuschnigg_nationalism
+			}
+			add_to_variable = { 
+				AUS_schuschnigg_nationalism_army_core_defence_factor = 0.05 
+				tooltip = army_core_defence_factor_tt
+			}
+			add_to_variable = { 
+				AUS_schuschnigg_nationalism_army_core_attack_factor = 0.05 
+				tooltip = army_core_attack_factor_tt
+			}
+			custom_effect_tooltip = {
+				localization_key = AUS_generic_add_to_dynmod
+				DYNMOD = AUS_austrian_pan_german_sentiment
+			}
+			add_to_variable = { 
+				AUS_austrian_pan_german_sentiment_conscription_factor = 0.02 
+				tooltip = conscription_factor_tt
+			}
+		}
+	}
+	focus = {
+		id = AUS_christian_values
+		icon = GFX_goal_generic_bible
+		x = -1
+		y = 1
+		relative_position_id = AUS_new_nationalism
+		cost = 6
+		prerequisite = { 
+			focus = AUS_new_nationalism
+		}
+		available = {
+			has_government = authoritarian_democrat
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_christian_values"
+			add_stability = 0.05
+			new_line = yes
+			custom_effect_tooltip = {
+				localization_key = AUS_generic_add_to_dynmod
+				DYNMOD = AUS_schuschnigg_nationalism
+			}
+			add_to_variable = { 
+				AUS_schuschnigg_nationalism_political_power_gain = 0.05
+				tooltip = political_power_gain_tt
+			}
+			new_line = yes
+			custom_effect_tooltip = {
+				localization_key = AUS_generic_add_to_dynmod
+				DYNMOD = AUS_austrian_pan_german_sentiment
+			}
+			add_to_variable = { 
+				AUS_austrian_pan_german_sentiment_conscription_factor = 0.02 
+				tooltip = conscription_factor_tt
+			}
+			add_to_variable = { 
+				AUS_austrian_pan_german_sentiment_political_power_gain = 0.02 
+				tooltip = political_power_gain_tt
+			}
+		}
+	}
+	focus = {
+		id = AUS_the_youth
+		icon = GFX_goal_AUS_youth
+		x = 1
+		y = 1
+		relative_position_id = AUS_new_nationalism
+		cost = 6
+		prerequisite = { 
+			focus = AUS_new_nationalism
+		}
+		available = {
+			has_government = authoritarian_democrat
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_the_youth"
+			custom_effect_tooltip = {
+				localization_key = AUS_generic_add_to_dynmod
+				DYNMOD = AUS_schuschnigg_nationalism
+			}
+			add_to_variable = { 
+				AUS_schuschnigg_nationalism_conscription_factor = 0.05
+				tooltip = conscription_factor_tt
+			}
+			add_to_variable = { 
+				AUS_schuschnigg_nationalism_political_power_gain = 0.05 
+				tooltip = political_power_gain_tt
+			}
+			new_line = yes
+			custom_effect_tooltip = {
+				localization_key = AUS_generic_add_to_dynmod
+				DYNMOD = AUS_austrian_pan_german_sentiment
+			}
+			add_to_variable = { 
+				AUS_austrian_pan_german_sentiment_conscription_factor = 0.02 
+				tooltip = conscription_factor_tt
+			}
+			add_to_variable = { 
+				AUS_austrian_pan_german_sentiment_political_power_gain = 0.02 
+				tooltip = political_power_gain_tt
+			}
+		}
+	}
+	focus = {
+		id = AUS_propaganda_department
+		icon = GFX_goal_generic_propaganda_film
+		x = 1
+		y = 1
+		relative_position_id = AUS_the_new_constitution
+		cost = 3
+		prerequisite = { 
+			focus = AUS_the_new_constitution
+		}
+		available = {
+			has_government = authoritarian_democrat
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_propaganda_department"
+			country_event = { id = ausks.13 days = 5 }
+		}
+	}
+	focus = {
+		id = AUS_anti_anchluss_campaign
+		icon = GFX_goal_generic_attack_german_reich
+		x = 0
+		y = 1
+		relative_position_id = AUS_propaganda_department
+		cost = 5
+		prerequisite = { 
+			focus = AUS_propaganda_department
+		}
+		available = {
+			has_government = authoritarian_democrat
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_anti_anchluss_campaign"
+			add_war_support = 0.10
+			custom_effect_tooltip = {
+				localization_key = AUS_generic_add_to_dynmod
+				DYNMOD = AUS_schuschnigg_nationalism
+			}
+			add_to_variable = { 
+				AUS_austrian_pan_german_sentiment_conscription_factor = 0.02 
+				tooltip = conscription_factor_tt
+			}
+			add_to_variable = { 
+				AUS_austrian_pan_german_sentiment_political_power_gain = 0.02 
+				tooltip = political_power_gain_tt
+			}
+		}
+	}
+	focus = {
+		id = AUS_mobolize_the_population
+		icon = GFX_goal_Focus_Military_Mobilisation
+		x = 1
+		y = 2
+		relative_position_id = AUS_propaganda_department
+		cost = 6
+		prerequisite = { 
+			focus = AUS_propaganda_department
+		}
+		available = {
+			has_government = authoritarian_democrat
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_mobolize_the_population"
+			increase_mobilization = yes
+		}
+	}
+	focus = {
+		id = AUS_defending_austria
+		icon = GFX_goal_austria
+		x = -1
+		y = 1
+		relative_position_id = AUS_the_new_constitution
+		cost = 5
+		prerequisite = { 
+			focus = AUS_the_new_constitution
+		}
+		available = {
+			has_government = authoritarian_democrat
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_defending_austria"
+			add_timed_idea = {
+				idea = AUS_mobilising_austria
+				days = 85
+			}
+		}
+	}
+	focus = {
+		id = AUS_prepare_for_storm
+		icon = GFX_goal_AUS_heimwehr_prevails
+		x = 0
+		y = 1
+		relative_position_id = AUS_defending_austria
+		cost = 3
+		prerequisite = { 
+			focus = AUS_defending_austria
+		}
+		available = {
+			has_government = authoritarian_democrat
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_prepare_for_storm"
+			country_event = ausks.12
+		}
+	}
+	focus = {
+		id = AUS_destroy_fuhrer_network
+		icon = GFX_goal_GRE_sabotage_italians
+		x = 1
+		y = 2
+		relative_position_id = AUS_defending_austria
+		cost = 6
+		prerequisite = { 
+			focus = AUS_prepare_for_storm
+		}
+		available = {
+			has_government = authoritarian_democrat
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_destroy_fuhrer_network"
+			add_ideas = AUS_destroy_fuhrer_network_idea
+		}
+	}
+	focus = {
+		id = AUS_jansa_plan
+		icon = GFX_SIA_jungletraining
+		x = -1
+		y = 2
+		relative_position_id = AUS_defending_austria
+		cost = 10
+		prerequisite = { 
+			focus = AUS_prepare_for_storm
+		}
+		available = {
+			has_government = authoritarian_democrat
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_jansa_plan"
+			add_ideas = AUS_jansa_plan_idea
+			country_event = ausks.14
+			custom_effect_tooltip = AUS_unlock_decisions_jansa_tt
+			152 = {
+				add_building_construction = {
+					type = bunker
+					level = 1
+					instant_build = yes
+					province = 9665
+				}
+				add_building_construction = {
+					type = bunker
+					level = 1
+					instant_build = yes
+					province = 3684
+				}
+			}
+			4 = {
+				add_building_construction = {
+					type = bunker
+					level = 1
+					instant_build = yes
+					province = 6691
+				}
+				add_building_construction = {
+					type = bunker
+					level = 1
+					instant_build = yes
+					province = 6687
+				}
+				add_building_construction = {
+					type = bunker
+					level = 1
+					instant_build = yes
+					province = 9650
+				}
+			}
+			803 = {
+				add_building_construction = {
+					type = bunker
+					level = 2
+					instant_build = yes
+					province = 11666
+				}
+			}
+		}
+	}
+	focus = {
+		id = AUS_conscription
+		icon = GFX_goal_generic_army_mass_assault
+		x = -2
+		y = 1
+		relative_position_id = AUS_defending_austria
+		cost = 6
+		prerequisite = { 
+			focus = AUS_defending_austria
+		}
+		available = {
+			has_government = authoritarian_democrat
+			OR = {
+				has_war = no 
+				country_exists = GER
+			}
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_conscription"
+			add_ideas = AUS_conscription_idea
+		}
+	}
+
+	### HABSBURG ###
+
+	focus = {
+		id = AUS_monarchy_restored
+		icon = GFX_focus_AUS_bring_back_the_habsburg_rule
+		x = 5
+		y = 10
+		cost = 1
+		available = {
+			hidden_trigger = { always = no }
+		}
+		allow_branch = {
+			NOT = { has_country_flag = AUS_path_schuschnigg }
+		}
+		offset = {
+			x = 13
+			y = -10
+			trigger = {
+				has_country_flag = AUS_path_monarchy
+			}
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_monarchy_restored"
+			custom_effect_tooltip = unlock_focuses
+			mark_focus_tree_layout_dirty = yes
+		}
+	}
+
+	focus = {
+		id = AUS_austria_hungary
+		icon = GFX_goal_AUS_the_eagle_is_back
+		x = -10
+		y = 7
+		relative_position_id = AUS_monarchy_restored
+		cost = 1
+		available = {
+			hidden_trigger = { always = no }
+		}
+		allow_branch = {
+			has_completed_focus = AUS_otto_speech
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_austria_hungary"
+			custom_effect_tooltip = unlock_focuses
+			mark_focus_tree_layout_dirty = yes
+		}
+	}
+
+	focus = {
+		id = AUS_a_federal_kuk
+		icon = GFX_focus_HABSBURG_bring_back_royal_and_imperial_hussars
+		x = -4
+		y = 1
+		relative_position_id = AUS_austria_hungary
+		cost = 5
+		
+		prerequisite = {
+			focus = AUS_austria_hungary
+		}
+
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_a_federal_kuk"
+			hidden_effect = {
+				43 = {
+					create_unit = {
+						division = "name = \"Infanterie Division\" division_template = \"Infanterie Division\" start_experience_factor = 0.5"
+						owner = AUS
+					}
+				}
+				9 = {
+					create_unit = {
+						division = "name = \"Infanterie Division\" division_template = \"Infanterie Division\" start_experience_factor = 0.5"
+						owner = AUS
+					}
+				}
+			}
+			custom_effect_tooltip = AUS_a_federal_kuk_tt
+			add_ideas = AUS_federal_kuk
+		}
+	}
+
+	focus = {
+		id = AUS_award_the_ottomen
+		icon = GFX_focus_AUS_strengthen_legitimistische_corps
+		x = -4
+		y = 3
+		relative_position_id = AUS_austria_hungary
+		cost = 5
+		prerequisite = {
+			focus = AUS_a_federal_kuk
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_award_the_ottomen"
+			army_experience = 25
+			add_political_power = 25
+		}
+	}
+
+	focus = {
+		id = AUS_restore_the_dragoons
+		icon = GFX_focus_HABSBURG_defensive_hussars
+		x = -1
+		y = 1
+		relative_position_id = AUS_a_federal_kuk
+		cost = 6
+		prerequisite = {
+			focus = AUS_a_federal_kuk
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_restore_the_dragoons"
+			swap_ideas = {
+				add_idea = AUS_federal_kuk2
+				remove_idea = AUS_federal_kuk
+			}
+			custom_effect_tooltip = AUS_improves_stability_of_the_realm_tt
+			hidden_effect = {
+				155 = { 
+					add_compliance = 5
+					add_resistance = -5
+				}
+				751 = { 
+					add_compliance = 5
+					add_resistance = -5
+				}
+				940 = { 
+					add_compliance = 5
+					add_resistance = -5
+				}
+				43 = { 
+					add_compliance = 5
+					add_resistance = -5
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_the_new_status_quo
+		icon = GFX_goal_AUS_the_new_status_quo
+		x = 0
+		y = 1
+		relative_position_id = AUS_austria_hungary
+		cost = 5
+		prerequisite = {
+			focus = AUS_austria_hungary
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_the_new_status_quo"
+			add_political_power = 25
+			add_ideas = AUS_hab_status_quo
+		}
+	}
+
+	focus = {
+		id = AUS_all_around_the_danube
+		icon = GFX_focus_AUS_protector_of_the_danube
+		x = 2
+		y = 1
+		relative_position_id = AUS_austria_hungary
+		cost = 6
+		
+		prerequisite = {
+			focus = AUS_austria_hungary
+		}
+
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_all_around_the_danube"
+			# create decisions for factories, infra and forts
+			activate_targeted_decision = { decision = AUS_integrate_hungarian_industries target = ROOT }
+			activate_targeted_decision = { decision = AUS_integrate_czech_industries target = ROOT }
+			activate_targeted_decision = { decision = AUS_upgrade_hungarian_infrastucture target = ROOT }
+			activate_targeted_decision = { decision = AUS_illyrian_roads target = ROOT }
+			activate_targeted_decision = { decision = AUS_renovate_budapest_fortifications target = ROOT }
+			activate_targeted_decision = { decision = AUS_fortify_carpathians target = ROOT }
+		}
+	}
+
+	focus = {
+		id = AUS_expand_imperial_mining_operations
+		icon = GFX_focus_generic_mining_industry
+		x = 1
+		y = 1
+		relative_position_id = AUS_all_around_the_danube
+		cost = 5
+		prerequisite = {
+			focus = AUS_all_around_the_danube
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_expand_imperial_mining_operations"
+			add_resource = {
+				type = steel
+				amount = 15
+				state = 9
+			}
+			add_resource = {
+				type = tungsten
+				amount = 5
+				state = 70
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_connect_the_country
+		icon = GFX_focus_generic_railroad
+		x = 0
+		y = 2
+		relative_position_id = AUS_all_around_the_danube
+		cost = 6
+		prerequisite = {
+			focus = AUS_all_around_the_danube
+		}
+		available = {
+			has_full_control_of_state = 9
+			has_full_control_of_state = 71
+			has_full_control_of_state = 799
+			has_full_control_of_state = 789
+			has_full_control_of_state = 788
+			has_full_control_of_state = 104
+			has_full_control_of_state = 1039
+		}
+
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_all_around_the_danube"
+			build_railway = {
+				level = 1
+				path = { 9569 9429 }
+				start_state = 9
+				target_state = 9
+			}
+			build_railway = {
+				level = 1
+				path = { 3581 3410 }
+				start_state = 71
+				target_state = 799
+			}
+			build_railway = {
+				level = 1
+				path = { 746 9704 9548 }
+				start_state = 1040
+				target_state = 1041
+			}
+			build_railway = {
+				level = 1
+				path = { 3924 6957 9922 11572 6799 606 11577 619 }
+				start_state = 789
+				target_state = 1039
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_the_triune_kingdom_of_illyria
+		icon = GFX_focus_HABSBURG_an_empire_not_just_in_name
+		x = -1
+		y = 1
+		relative_position_id = AUS_the_new_status_quo
+		cost = 5
+		prerequisite = {
+			focus = AUS_the_new_status_quo
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_the_triune_kingdom_of_illyria"
+			release = CRO
+			set_autonomy = {
+				target = CRO
+				autonomy_state = autonomy_federated_crownland
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_combat_serbian_nationalism
+		icon = GFX_goal_flag_serbia
+		x = -1
+		y = 1
+		relative_position_id = AUS_the_triune_kingdom_of_illyria
+		cost = 5
+		prerequisite = {
+			focus = AUS_the_triune_kingdom_of_illyria
+			focus = AUS_special_autonomies
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_combat_serbian_nationalism"
+			add_ideas = AUS_combating_spies_and_serbs
+			custom_effect_tooltip = AUS_improves_stability_of_the_realm_tt
+			hidden_effect = {
+				788 = { 
+					add_compliance = 5 
+					add_resistance = -10
+				}
+				104 = { 
+					add_compliance = 5 
+					add_resistance = -10
+				}
+				1039 = { 
+					add_compliance = 5 
+					add_resistance = -10
+				}
+				109 = { 
+					add_compliance = 5
+					add_resistance = -10
+				}
+				103 = { 
+					add_compliance = 5 
+					add_resistance = -10
+				}
+				102 = { 
+					add_compliance = 5 
+					add_resistance = -10
+				}
+				767 = { 
+					add_compliance = 5 
+					add_resistance = -10
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_the_question_of_transylvania
+		icon = GFX_goal_generic_mountain_warfare
+		x = 1
+		y = 1
+		relative_position_id = AUS_the_new_status_quo
+		cost = 5
+		prerequisite = {
+			focus = AUS_the_new_status_quo
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_the_question_of_transylvania"
+			country_event = { id = AUShabsburg.23 days = 1 }
+		}
+	}
+
+	focus = {
+		id = AUS_federations_within_a_federation
+		icon = GFX_focus_HABSBURG_part_of_something_bigger
+		x = 0
+		y = 2
+		relative_position_id = AUS_the_new_status_quo
+		cost = 5
+		prerequisite = {
+			focus = AUS_the_triune_kingdom_of_illyria
+			focus = AUS_the_question_of_transylvania
+		}
+		prerequisite = {
+			focus = AUS_special_autonomies
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_federations_within_a_federation"
+			add_political_power = 75
+			add_country_leader_trait = AUS_emperor_of_the_danube
+			release = HUN
+			release = CZE
+			release = SLO
+			set_autonomy = {
+				target = HUN
+				autonomy_state = autonomy_federated_crownland
+			}
+			set_autonomy = {
+				target = CZE
+				autonomy_state = autonomy_federated_crownland
+			}
+			set_autonomy = {
+				target = SLO
+				autonomy_state = autonomy_federated_crownland
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_prepare_local_parliaments
+		icon = GFX_goal_generic_parliament
+		x = -2
+		y = 1
+		relative_position_id = AUS_austria_hungary
+		cost = 6
+		prerequisite = {
+			focus = AUS_austria_hungary
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_prepare_local_parliaments"
+			add_ideas = AUS_federal_parliamentarism
+			custom_effect_tooltip = AUS_improves_stability_of_the_realm_tt
+			hidden_effect = {
+				9 = { 
+					add_compliance = 10 
+					add_resistance = -10
+				}
+				75 = { 
+					add_compliance = 10 
+					add_resistance = -10
+				}
+				74 = { 
+					add_compliance = 10 
+					add_resistance = -10
+				}
+				775 = { 
+					add_compliance = 10 
+					add_resistance = -10
+				}
+				69 = { 
+					add_compliance = 10 
+					add_resistance = -10
+				}
+				70 = { 
+					add_compliance = 10 
+					add_resistance = -10
+				}
+				664 = { 
+					add_compliance = 10 
+					add_resistance = -10
+				}
+				70 = { 
+					add_compliance = 10 
+					add_resistance = -10
+				}
+				70 = { 
+					add_compliance = 10 
+					add_resistance = -10
+				}
+				1043 = { 
+					add_compliance = 10 
+					add_resistance = -10
+				}
+				1042 = { 
+					add_compliance = 10 
+					add_resistance = -10
+				}
+				73 = { 
+					add_compliance = 10 
+					add_resistance = -10
+				}
+				155 = { 
+					add_compliance = 15 
+					add_resistance = -10
+				}
+				751 = { 
+					add_compliance = 15 
+					add_resistance = -10
+				}
+				940 = { 
+					add_compliance = 15 
+					add_resistance = -10
+				}
+				43 = { 
+					add_compliance = 15 
+					add_resistance = -10
+				}
+				788 = { 
+					add_compliance = 10 
+					add_resistance = -10
+				}
+				104 = { 
+					add_compliance = 10 
+					add_resistance = -10
+				}
+				1039 = { 
+					add_compliance = 10 
+					add_resistance = -10
+				}
+				109 = { 
+					add_compliance = 10
+					add_resistance = -10
+				}
+				103 = { 
+					add_compliance = 10 
+					add_resistance = -10
+				}
+				102 = { 
+					add_compliance = 10 
+					add_resistance = -10
+				}
+				767 = { 
+					add_compliance = 10 
+					add_resistance = -10
+				}
+				774 = { 
+					add_compliance = 10 
+					add_resistance = -10
+				}
+				154 = { 
+					add_compliance = 10
+					add_resistance = -10
+				}
+				83 = { 
+					add_compliance = 5
+					add_resistance = -10
+				}
+				762 = { 
+					add_compliance = 5
+					add_resistance = -10
+				}
+				82 = { 
+					add_compliance = 5
+					add_resistance = -10
+				}
+				84 = { 
+					add_compliance = 5
+					add_resistance = -10
+				}
+				76 = { 
+					add_compliance = 5
+					add_resistance = -10
+				}
+				1040 = { 
+					add_compliance = 5
+					add_resistance = -10
+				}
+				1041 = { 
+					add_compliance = 5
+					add_resistance = -10
+				}
+				90 = { 
+					add_compliance = 5
+					add_resistance = -10
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_special_autonomies
+		icon = GFX_goal_RAJ_Decentralized_Land_Reform
+		x = -1
+		y = 1
+		relative_position_id = AUS_prepare_local_parliaments
+		cost = 4
+		
+		prerequisite = {
+			focus = AUS_prepare_local_parliaments
+		}
+
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_special_autonomies"
+			custom_effect_tooltip = AUS_improves_stability_of_the_realm_tt
+			hidden_effect = {
+				102 = { 
+					add_compliance = 5
+					add_resistance = -10
+				}
+				767 = { 
+					add_compliance = 5
+					add_resistance = -10
+				}
+				774 = { 
+					add_compliance = 5
+					add_resistance = -10
+				}
+				772 = { 
+					add_compliance = 5
+					add_resistance = -10
+				}
+				154 = { 
+					add_compliance = 10
+					add_resistance = -10
+				}
+				83 = { 
+					add_compliance = 5
+					add_resistance = -10
+				}
+				762 = { 
+					add_compliance = 5
+					add_resistance = -10
+				}
+				82 = { 
+					add_compliance = 5
+					add_resistance = -10
+				}
+				84 = { 
+					add_compliance = 5
+					add_resistance = -10
+				}
+				76 = { 
+					add_compliance = 5
+					add_resistance = -10
+				}
+				1040 = { 
+					add_compliance = 5
+					add_resistance = -10
+				}
+				1041 = { 
+					add_compliance = 5
+					add_resistance = -10
+				}
+				90 = { 
+					add_compliance = 5
+					add_resistance = -10
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_the_danube_federation
+		icon = GFX_focus_AUS_proclaim_austrian_empire
+		x = 0
+		y = 1
+		relative_position_id = AUS_federations_within_a_federation
+		cost = 3
+		
+		prerequisite = {
+			focus = AUS_federations_within_a_federation
+		}
+		prerequisite = {
+			focus = AUS_combat_serbian_nationalism
+		}
+		prerequisite = {
+			focus = AUS_connect_the_country
+		}
+
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_the_danube_federation"
+			set_cosmetic_tag = DanFed
+		}
+	}
+
+	focus = {
+		id = AUS_layout_federalisation
+		icon = GFX_goal_AUS_federation
+		x = -2
+		y = 1
+		relative_position_id = AUS_monarchy_restored
+		cost = 6
+		
+		prerequisite = {
+			focus = AUS_monarchy_restored
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_layout_federalisation"
+			custom_effect_tooltip = AUS_increase_legitimacy_tt
+			custom_effect_tooltip = AUS_increase_legitimacy_pp_mod
+			add_to_variable = { var = AUS_monarchy_legitimacy_political_power_gain value = 0.02 }
+		}
+	}
+
+	focus = {
+		id = AUS_titles
+		icon = GFX_goal_AUS_titles_question
+		x = 0
+		y = 1
+		relative_position_id = AUS_monarchy_restored
+		cost = 4
+		
+		prerequisite = {
+			focus = AUS_monarchy_restored
+		}
+
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_the_question_of_titles"
+			add_stability = 0.05
+			add_political_power = 30
+			add_ideas = AUS_noble_support
+			custom_effect_tooltip = AUS_increase_legitimacy_tt
+			custom_effect_tooltip = AUS_increase_legitimacy_pp_mod
+			add_to_variable = { var = AUS_monarchy_legitimacy_political_power_gain value = 0.02 }
+		}
+	}
+
+	focus = {
+		id = AUS_appoint_ernst_karl_winter # Appoints Ernst Karl Winter as minister of education
+		icon = GFX_focus_AUS_legitimistische_studentenverbindung
+		x = -4
+		y = 1
+		relative_position_id = AUS_monarchy_restored
+		cost = 6
+		
+		prerequisite = {
+			focus = AUS_monarchy_restored
+		}
+
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_appoint_ernst_karl_winter"
+			country_event = { id = AUShabsburg.2 days = 1 }
+			add_ideas = AUS_appoint_ernst_karl_winter_idea
+			custom_effect_tooltip = AUS_increase_legitimacy_tt
+			custom_effect_tooltip = AUS_increase_legitimacy_pp_mod
+			add_to_variable = { var = AUS_monarchy_legitimacy_political_power_gain value = 0.02 }
+		}
+	}
+
+	focus = {
+		id = AUS_work_with_hugo # Uses Hugo von Hofmannsthal to enhance Austrian morale and create a more divise Austro than German identity
+		icon = GFX_focus_AUS_legitimistische_jugend
+		x = 0
+		y = 2
+		relative_position_id = AUS_appoint_ernst_karl_winter
+		cost = 6
+		
+		prerequisite = {
+			focus = AUS_appoint_ernst_karl_winter
+		}
+
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_work_with_hugo"
+			country_event = { id = AUShabsburg.1 days = 1 }
+			swap_ideas = {
+				remove_idea = AUS_appoint_ernst_karl_winter_idea
+				add_idea = AUS_work_with_hugo_idea
+			}
+			custom_effect_tooltip = AUS_increase_legitimacy_tt
+			custom_effect_tooltip = AUS_increase_legitimacy_pp_mod
+			add_to_variable = { var = AUS_monarchy_legitimacy_political_power_gain value = 0.02 }
+		}
+	}
+
+	focus = {
+		id = AUS_our_imperial_claims
+		icon = GFX_goal_agency
+		x = -1
+		y = 1
+		relative_position_id = AUS_layout_federalisation
+		cost = 10
+		
+		prerequisite = {
+			focus = AUS_layout_federalisation
+		}
+		
+		available = { 
+			GER = { exists = no }
+		}
+
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_our_imperial_claims"
+			custom_effect_tooltip = AUS_reclaiming_the_empire_tt
+			AUS_setup_aushun_mechanic = yes
+			hidden_effect = {
+				add_state_claim = 789
+				add_state_claim = 102
+				add_state_claim = 767
+				add_state_claim = 770
+				add_state_claim = 738
+				add_state_claim = 917
+				add_state_claim = 103
+				add_state_claim = 109
+				add_state_claim = 788
+				add_state_claim = 104
+				add_state_claim = 1039
+				add_state_claim = 45
+				add_state_claim = 985
+				add_state_claim = 750
+				add_state_claim = 1034
+				add_state_claim = 1035
+				add_state_claim = 1037
+				add_state_claim = 1036
+				add_state_claim = 163
+				add_state_claim = 39
+				add_state_claim = 774
+				add_state_claim = 155
+				add_state_claim = 751
+				add_state_claim = 940
+				add_state_claim = 43
+				add_state_claim = 70
+				add_state_claim = 664
+				add_state_claim = 71
+				add_state_claim = 1043
+				add_state_claim = 1042
+				add_state_claim = 73
+				add_state_claim = 69
+				add_state_claim = 9
+				add_state_claim = 775
+				add_state_claim = 75
+				add_state_claim = 74
+				add_state_claim = 154
+				add_state_claim = 83
+				add_state_claim = 82
+				add_state_claim = 762
+				add_state_claim = 76
+				add_state_claim = 84
+				add_state_claim = 1040
+				add_state_claim = 1041
+				add_state_claim = 799
+				add_state_claim = 88
+				add_state_claim = 91
+				add_state_claim = 89
+				every_other_country = {
+					limit = {
+						OR = {
+							tag = ENT
+							is_in_faction_with = ENT
+						}
+					}
+					add_opinion_modifier = { target = AUS modifier = AUS_austrian_claims }
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_allies_in_nobility
+		icon = GFX_goal_AUS_agrarians
+		x = -1
+		y = 1
+		relative_position_id = AUS_titles
+		cost = 5
+
+		prerequisite = {
+			focus = AUS_titles
+		}
+
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_possible_allies_in_nobility"
+			add_coalition_social_conservative = yes
+			swap_ideas = {
+				remove_idea = AUS_noble_support
+				add_idea = AUS_noble_support2
+			}
+			custom_effect_tooltip = AUS_increase_legitimacy_tt
+			custom_effect_tooltip = AUS_increase_legitimacy_pp_mod
+			add_to_variable = { var = AUS_monarchy_legitimacy_political_power_gain value = 0.02 }
+		}
+	}
+
+	focus = {
+		id = AUS_ban_KPO
+		icon = GFX_goal_AUS_ban_socialism
+		x = 1
+		y = 1
+		relative_position_id = AUS_allies_in_nobility
+		cost = 3
+
+		prerequisite = {
+			focus = AUS_allies_in_nobility
+		}
+
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_ban_or_not_communism"
+			add_popularity = {
+				ideology = collectivist
+				popularity = -0.1
+			}
+			add_popularity = {
+				ideology = vanguardist
+				popularity = -0.1
+			}
+			custom_effect_tooltip = AUS_increase_SDAPO_irritation_tt
+			add_to_variable = {
+				AUS_SPO_irritation_stability_factor = -0.02
+				AUS_SPO_irritation_political_power_gain = -0.02
+			}
+			custom_effect_tooltip = AUS_increase_legitimacy_tt
+			custom_effect_tooltip = AUS_increase_legitimacy_pp_mod
+			add_to_variable = { var = AUS_monarchy_legitimacy_political_power_gain value = 0.02 }
+		}
+	}
+
+	focus = {
+		id = AUS_new_imperial_constitution
+		icon = GFX_goal_generic_bastion_of_democracy
+		x = -1
+		y = 1
+		relative_position_id = AUS_allies_in_nobility
+		cost = 1
+
+		prerequisite = {
+			focus = AUS_our_imperial_claims
+		}
+		prerequisite = {
+			focus = AUS_allies_in_nobility
+		}
+
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_new_imperial_constitution"
+			add_popularity = { ideology = authoritarian_democrat popularity = 0.05 }
+			#add_ideas = constitutional_monarchy
+			custom_effect_tooltip = AUS_increase_legitimacy_tt
+			custom_effect_tooltip = AUS_increase_legitimacy_st_mod
+			add_to_variable = { var = AUS_monarchy_legitimacy_stability_factor value = 0.03 }
+		}
+	}
+
+	focus = {
+		id = AUS_otto_speech # will appoint Viktor Dankl von Krasnik as President, whilst Otto will continue to be a chancellor until 1939
+		icon = GFX_focus_generic_monarchist_workers
+		x = 0
+		y = 1
+		relative_position_id = AUS_new_imperial_constitution
+		cost = 3
+
+		prerequisite = {
+			focus = AUS_new_imperial_constitution
+		}
+
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_the_speech"
+			country_event = { id = AUShabsburg.3 days = 1 }
+			add_political_power = 25
+			add_stability = 0.05
+			mark_focus_tree_layout_dirty = yes
+		}
+	}
+
+	focus = {
+		id = AUS_the_eagles_legacy
+		icon = GFX_focus_AUS_heritage_of_an_empire
+		x = -1
+		y = 1
+		relative_position_id = AUS_otto_speech
+		cost = 3
+
+		prerequisite = {
+			focus = AUS_otto_speech
+		}
+
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_the_eagles_legacy"
+			swap_ideas = {
+				remove_idea = AUS_at_the_edges_of_revolution
+				add_idea = AUS_imperial_democracy_rev_idea
+			}
+			swap_ideas = {
+				remove_idea = AUS_noble_support2
+				add_idea = AUS_the_eagle_legacy_idea
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_keep_officers_at_check #will force many officers to retire, this will take a toll on the XP
+		icon = GFX_goal_generic_army_cooperation
+		x = -1
+		y = 1
+		relative_position_id = AUS_the_eagles_legacy
+		cost = 5
+
+		prerequisite = {
+			focus = AUS_the_eagles_legacy
+		}
+
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_keep_officers_at_check"
+			custom_effect_tooltip = AUS_keep_officers_at_check_tt
+			hidden_effect = {
+				retire_character = AUS_Hermann_Reschny
+			}
+			swap_ideas = {
+				remove_idea = AUS_the_eagle_legacy_idea
+				add_idea = AUS_keeping_officers_at_check_idea
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_defenders_of_democracy #this will bring some members of the SDAPO militia on the side of Otto, though destroying militias will make this focus impossible to take
+		icon = GFX_goal_AUS_defend_our_democracy
+		x = -1
+		y = 1
+		relative_position_id = AUS_keep_officers_at_check
+		cost = 5
+
+		prerequisite = {
+			focus = AUS_keep_officers_at_check
+		}
+		available = {
+			has_completed_focus = AUS_integrate_moderate_militiamen
+		}
+
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_defenders_of_democracy"
+			# division_template = {
+				# 	name = "Infanterie Division"
+				# 	regiments = {
+					# 		infantry = { x = 0 y = 0 }
+					# 		infantry = { x = 0 y = 1 }
+					# 		infantry = { x = 0 y = 2 }
+					# 		infantry = { x = 1 y = 0 }
+					# 		infantry = { x = 1 y = 1 }
+					# 		infantry = { x = 1 y = 2 }
+					# 		infantry = { x = 2 y = 0 }
+					# 		infantry = { x = 2 y = 1 }
+					# 		infantry = { x = 2 y = 2 }
+					# 	}
+				# 	is_locked = yes
+				# 	division_names_group = AUS_INF_01
+				# 	support = {
+					# 		engineer = {
+						# 			x = 0
+						# 			y = 0
+						# 		}
+					# 	}
+				# }
+			hidden_effect = {
+				803 = {
+					create_unit = {
+						division = "name = \"Infanterie Division\" division_template = \"Infanterie Division\" start_experience_factor = 0.5"
+						owner = AUS
+					}
+				}
+			}
+			custom_effect_tooltip = AUS_defenders_of_democracy_tt
+			swap_ideas = {
+				remove_idea = AUS_keeping_officers_at_check_idea
+				add_idea = AUS_defenders_of_democracy_idea
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_imperial_democracy 
+		icon = GFX_goal_generic_parliament2
+		x = 1
+		y = 1
+		relative_position_id = AUS_the_eagles_legacy
+		cost = 5
+
+		prerequisite = {
+			focus = AUS_the_eagles_legacy
+		}
+
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_imperial_democracy"
+			add_stability = 0.05
+			add_popularity = { ideology = authoritarian_democrat popularity = 0.05 }
+			add_coalition_social_liberal = yes
+			add_coalition_market_liberal = yes
+			swap_ideas = {
+				remove_idea = AUS_imperial_democracy_rev_idea
+				add_idea = AUS_imperial_democracy_idea
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_trade_with_italy 
+		icon = GFX_focus_befriend_italy
+		x = 1
+		y = 1
+		relative_position_id = AUS_otto_speech
+		cost = 2
+
+		prerequisite = {
+			focus = AUS_otto_speech
+		}
+
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_trade_with_italy"
+			ITA = {
+				country_event = { id = AUShabsburg.4 days = 1 }
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_trade_with_bulgaria
+		icon = GFX_focus_generic_befriend_bulgaria
+		x = 2
+		y = 2
+		relative_position_id = AUS_otto_speech
+		cost = 2
+
+		prerequisite = {
+			focus = AUS_otto_speech
+		}
+
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_trade_with_bulgaria"
+			BUL = {
+				country_event = { id = AUShabsburg.7 days = 1 }
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_expose_the_demons #basically public shaming of Valkism
+		icon = GFX_goal_generic_crush_valkists
+		x = -1
+		y = 1
+		relative_position_id = AUS_imperial_democracy
+		cost = 5
+
+		prerequisite = {
+			focus = AUS_imperial_democracy
+		}
+
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_expose_the_demons"
+			add_popularity = { ideology = valkist popularity = -0.10 }
+			if = {
+				limit = { has_idea = AUS_imperial_democracy_idea }
+				swap_ideas = {
+					remove_idea = AUS_imperial_democracy_idea
+					add_idea = AUS_expose_the_demons_idea
+				}
+			}
+			else = {
+				swap_ideas = {
+					remove_idea = AUS_revere_the_angels_idea
+					add_idea = AUS_imperial_democracy2_idea
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_revere_the_angels #basically democratic propaganda
+		icon = GFX_goal_generic_even_more_freedom
+		x = 1
+		y = 1
+		relative_position_id = AUS_imperial_democracy
+		cost = 5
+
+		prerequisite = {
+			focus = AUS_imperial_democracy
+		}
+
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_revere_the_angels"
+			add_popularity = { ideology = authoritarian_democrat popularity = 0.05 }
+			add_popularity = { ideology = social_conservative popularity = 0.03 }
+			add_popularity = { ideology = market_liberal popularity = 0.03 }
+			add_popularity = { ideology = social_liberal popularity = 0.03 }
+			add_popularity = { ideology = social_democrat popularity = 0.03 }
+			if = {
+				limit = { has_idea = AUS_imperial_democracy_idea }
+				swap_ideas = {
+					remove_idea = AUS_imperial_democracy_idea
+					add_idea = AUS_revere_the_angels_idea
+				}
+			}
+			else = {
+				swap_ideas = {
+					remove_idea = AUS_expose_the_demons_idea
+					add_idea = AUS_imperial_democracy2_idea
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_attract_hungarian_refugees #Hungary WILL get mad
+		icon = GFX_goal_refugee_management
+		x = -1
+		y = 1
+		relative_position_id = AUS_revere_the_angels
+		cost = 5
+
+		prerequisite = {
+			focus = AUS_revere_the_angels
+		}
+
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_attract_hungarian_refugees"
+			if = {
+				limit = { owns_state = 803 }
+				803 = {
+					add_manpower = 25000
+				}
+			}
+			if = {
+				limit = { owns_state = 4 }
+				4 = {
+					add_manpower = 18000
+				}
+			}
+			if = {
+				limit = { owns_state = 772 }
+				772 = {
+					add_manpower = 11000
+				}
+			}
+			HUN = {
+				add_opinion_modifier = { target = AUS modifier = FX_disapproves_of_govt }
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_an_alliance_with_officers
+		icon = GFX_focus_AUS_bring_generals_out_of_retirement
+		x = 2
+		y = 1
+		relative_position_id = AUS_monarchy_restored
+		cost = 6
+		
+		prerequisite = {
+			focus = AUS_monarchy_restored
+		}
+
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_an_alliance_with_officers"
+			army_experience = 15
+			custom_effect_tooltip = AUS_an_alliance_with_officers_tt
+			hidden_effect = {
+				add_corps_commander_role = {
+					character = AUS_Eugen_von_Habsburg
+					traits = { old_guard }
+					skill = 3
+					attack_skill = 3
+					defense_skill = 2
+					planning_skill = 2
+					logistics_skill = 2
+				}
+				add_corps_commander_role = {
+					character = AUS_Peter_Ferdinand_von_Habsburg
+					traits = { trait_reckless infantry_leader }
+					skill = 2
+					attack_skill = 2
+					defense_skill = 2
+					planning_skill = 1
+					logistics_skill = 2
+				}
+				add_naval_commander_role = {
+					character = AUS_Maximilian_von_Habsburg
+					traits = { bold }
+					skill = 2
+					attack_skill = 1
+					defense_skill = 2
+					maneuvering_skill = 2
+					coordination_skill = 1
+				}
+				add_naval_commander_role = {
+					character = AUS_Georg_von_Trapp
+					traits = { navy_media_personality seawolf silent_hunter }
+					skill = 3
+					attack_skill = 3
+					defense_skill = 3
+					maneuvering_skill = 2
+					coordination_skill = 2
+				}
+			}
+			custom_effect_tooltip = AUS_increase_legitimacy_tt
+			custom_effect_tooltip = AUS_increase_legitimacy_pp_mod
+			add_to_variable = { var = AUS_monarchy_legitimacy_political_power_gain value = 0.02 }
+		}
+	}
+
+	focus = {
+		id = AUS_recall_stjepan_sarkotic
+		icon = GFX_focus_generic_military_mission
+		x = 1
+		y = 2
+		relative_position_id = AUS_monarchy_restored
+		cost = 6
+		
+		prerequisite = {
+			focus = AUS_monarchy_restored
+		}
+
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_recall_stjepan_sarkotic"
+			custom_effect_tooltip = AUS_recall_stjepan_sarkotic_tt
+			hidden_effect = {
+				add_field_marshal_role = {
+					character = AUS_Stjepan_Sarkotic
+					traits = { old_guard }
+					skill = 2
+					attack_skill = 2
+					defense_skill = 2
+					planning_skill = 2
+					logistics_skill = 2
+				}
+			}
+			set_country_flag = AUS_Stjepan_Sarkotic_employed
+			custom_effect_tooltip = AUS_increase_legitimacy_tt
+			custom_effect_tooltip = AUS_increase_legitimacy_pp_mod
+			add_to_variable = { var = AUS_monarchy_legitimacy_political_power_gain value = 0.02 }
+		}
+	}
+
+	focus = {
+		id = AUS_reforming_the_kuk
+		icon = GFX_goal_AUS_reform_kuk
+		x = 0
+		y = 2
+		relative_position_id = AUS_an_alliance_with_officers
+		cost = 7
+		
+		prerequisite = {
+			focus = AUS_an_alliance_with_officers
+		}
+		prerequisite = {
+			focus = AUS_recall_stjepan_sarkotic
+		}
+
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_reforming_the_kuk"
+			hidden_effect = {
+				803 = {
+					create_unit = {
+						division = "name = \"Infanterie Division\" division_template = \"Infanterie Division\" start_experience_factor = 0.5"
+						owner = AUS
+					}
+					create_unit = {
+						division = "name = \"Infanterie Division\" division_template = \"Infanterie Division\" start_experience_factor = 0.5"
+						owner = AUS
+					}
+				}
+			}
+			custom_effect_tooltip = AUS_reforming_the_kuk_tt
+			add_ideas = AUS_reforming_the_kuk_idea
+		}
+	}
+
+	focus = {
+		id = AUS_akademisches_corps_ottonen
+		icon = GFX_goal_AUS_support_imperial_academic_society
+		x = 3
+		y = 1
+		relative_position_id = AUS_reforming_the_kuk
+		cost = 4
+		
+		prerequisite = {
+			focus = AUS_reforming_the_kuk
+		}
+
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_akademisches_corps_ottonen"
+			add_ideas = AUS_akademisches_corps_ottonen_idea
+			custom_effect_tooltip = AUS_increase_legitimacy_tt
+			custom_effect_tooltip = AUS_increase_legitimacy_both_mod
+			add_to_variable = { var = AUS_monarchy_legitimacy_political_power_gain value = 0.02 }
+			add_to_variable = { var = AUS_monarchy_legitimacy_stability_factor value = 0.03 }
+		}
+	}
+
+	focus = {
+		id = AUS_calling_all_princes
+		icon = GFX_goal_generic_phone_crisis
+		x = 3
+		y = 2
+		relative_position_id = AUS_monarchy_restored
+		cost = 3
+		
+		prerequisite = {
+			focus = AUS_monarchy_restored
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_calling_all_princes"
+			if = {
+				limit = {
+					NOT = {
+						UKR = {
+							has_country_leader = {
+								character = UKR_Wilhelm_Franz_von_Habsburg_Lorithgen
+								ruling_only = yes
+							}
+						}
+					}
+				}
+				UKR = {
+					country_event = { id = AUShabsburg.16 days = 1 }
+				}
+			}
+			POL = {
+				country_event = { id = AUShabsburg.13 days = 1 }
+			}
+			if = {
+				limit = {
+					HUN = { exists = yes }
+				}
+				HUN = {
+					country_event = { id = AUShabsburg.10 days = 1 }
+				}
+			}
+			else_if = {
+				limit = {
+					AUS = {
+						owns_state = 43
+					}
+				}
+				AUS = {
+					country_event = { id = AUShabsburg.11 days = 1 }
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_reform_royal_academies
+		icon = GFX_goal_generic_banking_legislation
+		x = 2
+		y = 2
+		relative_position_id = AUS_reforming_the_kuk
+		cost = 10
+		
+		prerequisite = {
+			focus = AUS_reforming_the_kuk
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_reform_royal_academies"
+			add_research_slot_until_five = yes
+			army_experience = 25
+			add_doctrine_cost_reduction = {
+				name = AUS_reform_royal_academies
+				cost_reduction = 0.75
+				uses = 1
+				category = land_doctrine
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_creating_a_resistance_network
+		icon = GFX_focus_AUS_strengthen_legitimistische_corps
+		x = 0
+		y = 2
+		relative_position_id = AUS_akademisches_corps_ottonen
+		cost = 6
+		
+		prerequisite = {
+			focus = AUS_akademisches_corps_ottonen
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_creating_a_resistance_network"
+			swap_ideas = {
+				remove_idea = AUS_akademisches_corps_ottonen_idea
+				add_idea = AUS_creating_a_resistance_network_idea
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_destroy_militias
+		icon = GFX_goal_generic_investigation
+		x = -1
+		y = 1
+		relative_position_id = AUS_reforming_the_kuk
+		cost = 5
+		
+		mutually_exclusive = {
+			focus = AUS_integrate_moderate_militiamen
+		}
+		prerequisite = {
+			focus = AUS_reforming_the_kuk
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_destroy_militias"
+			add_stability = -0.10
+			add_war_support = -0.05
+			add_political_power = 5
+			add_popularity = {
+				ideology = valkist
+				popularity = -0.1
+			}
+			add_popularity = {
+				ideology = paternal_autocrat
+				popularity = -0.1
+			}
+			swap_ideas = {
+				remove_idea = AUS_reforming_the_kuk_idea
+				add_idea = AUS_reforming_the_kuk2_no_m 
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_integrate_moderate_militiamen
+		icon = GFX_goal_generic_paramilitary
+		x = 1
+		y = 1
+		relative_position_id = AUS_reforming_the_kuk
+		cost = 5
+		
+		mutually_exclusive = {
+			focus = AUS_destroy_militias
+		}
+		prerequisite = {
+			focus = AUS_reforming_the_kuk
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_integrate_moderate_militiamen"
+			add_stability = -0.05
+			add_war_support = 0.05
+			add_political_power = -5
+			add_popularity = {
+				ideology = valkist
+				popularity = 0.025
+			}
+			add_popularity = {
+				ideology = paternal_autocrat
+				popularity = 0.05
+			}
+			army_experience = 10
+			swap_ideas = {
+				remove_idea = AUS_reforming_the_kuk_idea
+				add_idea = AUS_reforming_the_kuk2_integrated 
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_the_matter_of_loyalty
+		icon = GFX_goal_generic_police_state
+		x = 0
+		y = 2
+		relative_position_id = AUS_reforming_the_kuk
+		cost = 5
+
+		prerequisite = {
+			focus = AUS_destroy_militias
+			focus = AUS_integrate_moderate_militiamen
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_the_matter_of_loyalty"
+			if = {
+				limit = { has_idea = AUS_reforming_the_kuk2_no_m }
+				swap_ideas = {
+					remove_idea = AUS_reforming_the_kuk2_no_m
+					add_idea = AUS_reforming_the_kuk3_no_m 
+				}
+			}
+			else = {
+				swap_ideas = {
+					remove_idea = AUS_reforming_the_kuk2_integrated
+					add_idea = AUS_reforming_the_kuk3_integrated
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_a_strict_doctrine
+		icon = GFX_goal_AUS_strict_discipline
+		x = 1
+		y = 1
+		relative_position_id = AUS_the_matter_of_loyalty
+		cost = 5
+
+		prerequisite = {
+			focus = AUS_the_matter_of_loyalty
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_a_strict_doctrine"
+			army_experience = 25
+			add_doctrine_cost_reduction = {
+				name = AUS_a_strict_doctrine
+				cost_reduction = 0.5
+				uses = 2
+				category = land_doctrine
+			}
+			if = {
+				limit = { has_idea = AUS_reforming_the_kuk3_no_m }
+				swap_ideas = {
+					remove_idea = AUS_reforming_the_kuk3_no_m
+					add_idea = AUS_reforming_the_kuk4_no_m 
+				}
+			}
+			else = {
+				swap_ideas = {
+					remove_idea = AUS_reforming_the_kuk3_integrated
+					add_idea = AUS_reforming_the_kuk4_integrated
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_basically_jansas_plan_but_with_resistance
+		icon = GFX_goal_generic_seize_railway
+		x = 1
+		y = 1
+		relative_position_id = AUS_a_strict_doctrine
+		cost = 5
+
+		prerequisite = {
+			focus = AUS_a_strict_doctrine
+		}
+		prerequisite = {
+			focus = AUS_creating_a_resistance_network
+		}
+		
+		available = {
+			controls_state = 152
+			controls_state = 4
+			controls_state = 803
+		}
+		
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_basically_jansas_plan_but_with_resistance"
+			army_experience = 15
+			swap_ideas = {
+				remove_idea = AUS_creating_a_resistance_network_idea
+				add_idea = AUS_basically_jansas_plan_but_with_resistance_idea
+			}
+			152 = {
+				add_building_construction = {
+					type = bunker
+					level = 1
+					instant_build = yes
+					province = 9665
+				}
+				add_building_construction = {
+					type = bunker
+					level = 1
+					instant_build = yes
+					province = 3684
+				}
+			}
+			4 = {
+				add_building_construction = {
+					type = bunker
+					level = 1
+					instant_build = yes
+					province = 6691
+				}
+				add_building_construction = {
+					type = bunker
+					level = 1
+					instant_build = yes
+					province = 6687
+				}
+				add_building_construction = {
+					type = bunker
+					level = 1
+					instant_build = yes
+					province = 9650
+				}
+			}
+			803 = {
+				add_building_construction = {
+					type = bunker
+					level = 2
+					instant_build = yes
+					province = 11666
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_learning_from_the_isonzo
+		icon = GFX_goal_artillery
+		x = -1
+		y = 1
+		relative_position_id = AUS_a_strict_doctrine
+		cost = 5
+
+		prerequisite = {
+			focus = AUS_a_strict_doctrine
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_learning_from_the_isonzo"
+			army_experience = 25
+			add_tech_bonus = {
+				name = AUS_learning_from_the_isonzo
+				bonus = 0.5
+				uses = 1
+				category = artillery
+			}
+			if = {
+				limit = { has_idea = AUS_reforming_the_kuk4_no_m }
+				swap_ideas = {
+					remove_idea = AUS_reforming_the_kuk4_no_m
+					add_idea = AUS_reforming_the_kuk5_no_m 
+				}
+			}
+			else = {
+				swap_ideas = {
+					remove_idea = AUS_reforming_the_kuk4_integrated
+					add_idea = AUS_reforming_the_kuk5_integrated
+				}
+			}
+		}
+	}
+
+	### BREAK ZE TREATY OF LINZ!!!
+
+	focus = {
+		id = AUS_burn_treaty_of_linz
+		icon = GFX_focus_AUS_disregard_the_treaties
+		x = 5
+		y = 0
+		cost = 2
+		available = {
+			is_subject = no
+			NOT = {
+				has_idea = AUS_treaty_of_saint_germain
+			}
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_burn_treaty_of_linz"
+			add_political_power = 100
+			increase_ruling_party_popularity_by_5 = yes
+		}
+	}
+
+	focus = {
+		id = AUS_reform_general_staff
+		icon = GFX_goal_AUS_austrian_army
+		x = 0
+		y = 1
+		relative_position_id = AUS_burn_treaty_of_linz
+		cost = 7
+		ai_will_do = {
+			factor = 30
+		}
+		prerequisite = {
+			focus = AUS_burn_treaty_of_linz
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_reform_general_staff"
+			add_ideas = AUS_austrian_general_staff
+			custom_effect_tooltip = tooltip_white_line
+			custom_effect_tooltip = AUS_experience_military_tooltip
+			hidden_effect = {
+				army_experience = var:num_armies
+				army_experience = var:num_armies
+				army_experience = var:num_armies
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_eimannsberger_kampfwagenkrieg
+		icon = GFX_goal_AUS_ein_tank_doc
+		x = -4
+		y = 2
+		relative_position_id = AUS_burn_treaty_of_linz
+		cost = 5
+		prerequisite = {
+			focus = AUS_reform_general_staff
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_eimannsberger_kampfwagenkrieg"
+			army_experience = 25
+			add_tech_bonus = {
+				name = AUS_eimannsberger_kampfwagenkrieg
+				bonus = 2
+				uses = 1
+				category = armor
+			}
+			custom_effect_tooltip = tooltip_white_line
+			add_ideas = AUS_tank_theory
+			custom_effect_tooltip = tooltip_white_line
+			activate_advisor = AUS_Ludwig_von_Eimannsberger_theo
+		}
+	}
+
+	focus = {
+		id = AUS_support_local_tank_production
+		icon = GFX_goal_Focus_Military_Mobilisation
+		x = -5
+		y = 3
+		relative_position_id = AUS_burn_treaty_of_linz
+		cost = 6
+		#available = {
+		#	
+		#}
+		prerequisite = {
+			focus = AUS_eimannsberger_kampfwagenkrieg
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_support_local_tank_production"
+			add_timed_idea = {
+				idea = AUS_encourage_local_tank_production
+				days = 365
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_armored_spearhead
+		icon = GFX_goal_generic_heavy_armour_german
+		x = -5
+		y = 5
+		relative_position_id = AUS_burn_treaty_of_linz
+		cost = 8
+		available = {
+			NOT = {
+				has_idea = AUS_encourage_local_tank_production
+			}
+		}
+		prerequisite = {
+			focus = AUS_support_local_tank_production
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_armored_spearhead"
+			swap_ideas = {
+				add_idea = AUS_tank_theory2
+				remove_idea = AUS_tank_theory
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_expand_alpine_fortifications
+		icon = GFX_goal_nested_fortifications
+		x = -3
+		y = 3
+		relative_position_id = AUS_burn_treaty_of_linz
+		cost = 10
+		available = {
+			has_full_control_of_state = 912
+			has_full_control_of_state = 913
+		}
+		prerequisite = {
+			focus = AUS_eimannsberger_kampfwagenkrieg
+		}
+		prerequisite = {
+			focus = AUS_modernize_theresian_military_academy
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_expand_alpine_fortifications"
+			912 = {
+				add_building_construction = {
+					type = bunker
+					level = 1
+					instant_build = yes
+					province = 668
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					instant_build = yes
+					province = 6673
+				}
+				add_building_construction = {
+					type = bunker
+					level = 1
+					instant_build = yes
+					province = 11612
+				}
+				add_building_construction = {
+					type = bunker
+					level = 1
+					instant_build = yes
+					province = 3673
+				}
+				add_building_construction = {
+					type = bunker
+					level = 1
+					instant_build = yes
+					province = 665
+				}
+			}
+			913 = {
+				add_building_construction = {
+					type = bunker
+					level = 1
+					instant_build = yes
+					province = 3674
+				}
+				add_building_construction = {
+					type = bunker
+					level = 1
+					instant_build = yes
+					province = 3676
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_mountain_artillery
+		icon = GFX_goal_generic_mountain_warfare
+		x = -4
+		y = 4
+		relative_position_id = AUS_burn_treaty_of_linz
+		cost = 5
+		#available = {
+		#	
+		#}
+		prerequisite = {
+			focus = AUS_expand_alpine_fortifications
+			focus = AUS_expand_logistic_capabilities
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_mountain_artillery"
+			set_technology = {
+				tech_mountain_artillery = 1
+				popup = no
+			}
+			swap_ideas = {
+				add_idea = AUS_austrian_general_staff3
+				remove_idea = AUS_austrian_general_staff2
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_expand_the_gebirgsjager
+		icon = GFX_goal_generic_mountain_warfare2
+		x = -3
+		y = 5
+		relative_position_id = AUS_burn_treaty_of_linz
+		cost = 5
+		#available = {
+		#	
+		#}
+		prerequisite = {
+			focus = AUS_mountain_artillery
+		}
+		prerequisite = {
+			focus = AUS_motorize_the_heer
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_expand_the_gebirgsjager"
+			set_technology = {
+				mountain_training_tech = 1
+				popup = no
+			}
+			add_tech_bonus = {
+				name = AUS_expand_the_gebirgsjager
+				bonus = 1
+				uses = 1
+				category = mountaineers_tech
+			}
+			army_experience = 50
+		}
+	}
+
+	focus = {
+		id = AUS_expand_logistic_capabilities
+		icon = GFX_focus_generic_reinforcing_the_supply_network
+		x = -1
+		y = 3
+		relative_position_id = AUS_burn_treaty_of_linz
+		cost = 5
+		#available = {
+		#	
+		#}
+		prerequisite = {
+			focus = AUS_modernize_theresian_military_academy
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_expand_logistic_capabilities"
+			add_tech_bonus = {
+				name = AUS_expand_logistic_capabilities
+				bonus = 0.5
+				uses = 1
+				category = logistics_tech
+			}
+			swap_ideas = {
+				add_idea = AUS_austrian_general_staff2
+				remove_idea = AUS_austrian_general_staff
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_motorize_the_heer
+		icon = GFX_focus_generic_truck
+		x = -2
+		y = 4
+		relative_position_id = AUS_burn_treaty_of_linz
+		cost = 6
+		#available = {
+		#	
+		#}
+		prerequisite = {
+			focus = AUS_expand_logistic_capabilities
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_motorize_the_heer"
+			add_tech_bonus = {
+				name = AUS_motorize_the_heer
+				bonus = 0.5
+				uses = 1
+				category = motorized_equipment
+			}
+			add_equipment_to_stockpile = {
+				type = motorized_equipment_1 amount = 250 producer = AUS
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_anti_tank_weaponry
+		icon = GFX_goal_anti_tank
+		x = -1
+		y = 5
+		relative_position_id = AUS_burn_treaty_of_linz
+		cost = 5
+		#available = {
+		#	
+		#}
+		prerequisite = {
+			focus = AUS_motorize_the_heer
+		}
+		prerequisite = {
+			focus = AUS_expand_logistic_capabilities
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_anti_tank_weaponry"
+			add_tech_bonus = {
+				name = AUS_anti_tank_weaponry
+				bonus = 1
+				uses = 1
+				category = cat_anti_tank
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_modernize_theresian_military_academy
+		icon = GFX_goal_AUS_austrian_mil_school
+		x = 0
+		y = 2
+		relative_position_id = AUS_burn_treaty_of_linz
+		cost = 6
+		prerequisite = {
+			focus = AUS_reform_general_staff
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_modernize_theresian_military_academy"
+			add_war_support = 0.05
+			army_experience = 25
+			custom_effect_tooltip = tooltip_white_line
+			add_research_slot_until_five = yes
+			custom_effect_tooltip = tooltip_white_line
+			add_doctrine_cost_reduction = {
+				name = AUS_fund_military_innovations
+				cost_reduction = 1
+				uses = 2
+				category = cat_grand_battle_plan
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_modernize_equipment
+		icon = GFX_goal_generic_military_equipment
+		x = 1
+		y = 3
+		relative_position_id = AUS_burn_treaty_of_linz
+		cost = 6
+		#available = {
+		#	
+		#}
+		prerequisite = {
+			focus = AUS_modernize_theresian_military_academy
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_modernize_equipment"
+			add_tech_bonus = {
+				name = AUS_modernize_equipment
+				bonus = 0.5
+				uses = 1
+				category = infantry_weapons
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_fund_military_innovations
+		icon = GFX_focus_AUS_defence_of_the_homeland
+		x = 0
+		y = 4
+		relative_position_id = AUS_burn_treaty_of_linz
+		cost = 6
+		#available = {
+		#	
+		#}
+		prerequisite = {
+			focus = AUS_modernize_equipment
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_fund_military_innovations"
+			add_doctrine_cost_reduction = {
+				name = AUS_fund_military_innovations
+				cost_reduction = 0.5
+				uses = 2
+				category = cat_grand_battle_plan
+			}
+			add_tech_bonus = {
+				name = AUS_fund_military_innovations
+				bonus = 0.5
+				uses = 1
+				category = infantry_weapons
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_use_civillian_pilot_schools
+		icon = GFX_focus_SOV_flying_clubs
+		x = 2
+		y = 2
+		relative_position_id = AUS_burn_treaty_of_linz
+		cost = 5
+		#available = {
+		#	
+		#}
+		prerequisite = {
+			focus = AUS_reform_general_staff
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_use_civillian_pilot_schools"
+			add_ideas = AUS_civillian_pilot_school
+		}
+	}
+
+	focus = {
+		id = AUS_build_brumowski_air_base
+		icon = GFX_goal_generic_airports
+		x = 3
+		y = 3
+		relative_position_id = AUS_burn_treaty_of_linz
+		cost = 5
+		available = {
+			NOT = {
+				has_dynamic_modifier = {
+					modifier = AUS_black_wednesday
+				}
+			}
+		}
+		prerequisite = {
+			focus = AUS_use_civillian_pilot_schools
+		}
+		prerequisite = {
+			focus = AUS_buy_planes_from_eastern_europe
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_build_brumowski_air_base"
+			803 = {
+				add_building_construction = {
+					type = air_base
+					level = 3
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_produce_austrian_fighters
+		icon = GFX_focus_AUS_osterreichische_luftstreitkrafte
+		x = 2
+		y = 4
+		relative_position_id = AUS_burn_treaty_of_linz
+		cost = 5
+		#available = {
+		#	
+		#}
+		prerequisite = {
+			focus = AUS_build_brumowski_air_base
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_produce_austrian_fighters"
+			add_tech_bonus = {
+				name = AUS_produce_austrian_fighters
+				bonus = 0.5
+				uses = 2
+				category = light_fighter
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_create_paratrooper_units
+		icon = GFX_focus_AUS_properly_trained_militias
+		x = 1
+		y = 5
+		relative_position_id = AUS_burn_treaty_of_linz
+		cost = 5
+		#available = {
+		#	
+		#}
+		prerequisite = {
+			focus = AUS_produce_austrian_fighters
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_create_paratrooper_units"
+			add_tech_bonus = {
+				name = AUS_create_paratrooper_units
+				bonus = 0.5
+				uses = 2
+				category = para_tech
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_produce_austrian_bombers
+		icon = GFX_focus_generic_air_research_boost
+		x = 4
+		y = 4
+		relative_position_id = AUS_burn_treaty_of_linz
+		cost = 5
+		prerequisite = {
+			focus = AUS_build_brumowski_air_base
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_produce_austrian_bombers"
+			add_tech_bonus = {
+				name = AUS_produce_austrian_bombers
+				bonus = 0.75
+				uses = 2
+				category = tactical_bomber
+				category = cat_strategic_bomber
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_adopt_dive_bomber_tactics
+		icon = GFX_goal_generic_air_naval_bomber2_new
+		x = 3
+		y = 5
+		relative_position_id = AUS_burn_treaty_of_linz
+		cost = 5
+		prerequisite = {
+			focus = AUS_produce_austrian_bombers
+		}
+  	prerequisite = {
+			focus = AUS_produce_austrian_fighters
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_adopt_dive_bomber_tactics"
+			add_doctrine_cost_reduction = {
+				name = AUS_adopt_dive_bomber_tactics
+				cost_reduction = 0.75
+				uses = 2
+				category = cat_battlefield_support
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_finish_air_defense_systems
+		icon = GFX_goal_generic_air_defense2
+		x = 5
+		y = 5
+		relative_position_id = AUS_burn_treaty_of_linz
+		cost = 5
+		available = {
+			has_capitulated = no
+		}
+		prerequisite = {
+			focus = AUS_produce_austrian_bombers
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_finish_air_defense_systems"
+			803 = {
+				add_building_construction = {
+					type = anti_air_building	
+					level = 2
+					instant_build = yes
+				}
+			}
+			4 = {
+				add_building_construction = {
+					type = anti_air_building	
+					level = 2
+					instant_build = yes
+				}
+			}
+			772 = {
+				add_building_construction = {
+					type = anti_air_building	
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_buy_planes_from_eastern_europe
+		icon = GFX_goal_industry_air
+		x = 4
+		y = 2
+		relative_position_id = AUS_burn_treaty_of_linz
+		cost = 6
+		#available = {
+		#	
+		#}
+		prerequisite = {
+			focus = AUS_reform_general_staff
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_buy_planes_from_eastern_europe"
+			if = {
+				limit = { has_dlc_bba = yes }
+				add_equipment_to_stockpile = {
+					type = small_plane_airframe_0
+					amount = 250
+					producer = AUS
+				}
+			}
+			else = {
+				add_equipment_to_stockpile = {
+					type = fighter_equipment_0
+					amount = 250
+					producer = AUS
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_armed_forces_of_austria_modernized_and_united
+		icon = GFX_goal_AUS_bundesheer
+		x = 0
+		y = 6
+		relative_position_id = AUS_burn_treaty_of_linz
+		cost = 6
+		#available = {
+		#	
+		#}
+		prerequisite = {
+			focus = AUS_mountain_artillery
+		}
+		prerequisite = {
+			focus = AUS_motorize_the_heer
+			focus = AUS_produce_austrian_fighters
+		}
+		prerequisite = {
+			focus = AUS_fund_military_innovations
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_armed_forces_of_austria_modernized_and_united"
+			swap_ideas = {
+				add_idea = AUS_austrian_general_staff4
+				remove_idea = AUS_austrian_general_staff3
+			}
+		}
+	}
+
+	#Industrial Branch
+
+	focus = {
+		id = AUS_economic_recovery
+		icon = GFX_focus_AUS_the_right_to_self_determination
+		x = 35
+		y = 0
+		cost = 1
+		available = {
+			hidden_trigger = { always = no }
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_economic_recovery"
+			custom_effect_tooltip = unlock_focuses
+			hidden_effect = {
+				country_event = austria.31
+			}
+		}
+	}
+	
+	# PRE-Industrial Branch
+
+	focus = {
+		id = AUS_starting_anew
+		icon = GFX_goal_generic_banking_legislation
+		x = -4
+		y = 0
+		relative_position_id = AUS_economic_recovery
+		cost = 1
+		available = {
+			is_subject = no
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_starting_anew"
+			add_political_power = 50
+		}
+	}
+
+	focus = {
+		id = AUS_military_sector
+		icon = GFX_focus_AUS_raid_military_storages
+		x = -2
+		y = 1
+		relative_position_id = AUS_starting_anew
+		cost = 6
+		prerequisite = {
+			focus = AUS_starting_anew
+		}
+		bypass = {
+			NOT = { has_idea = AUS_treaty_of_saint_germain }
+		}
+		ai_will_do = {
+			factor = 2
+		}
+		available = {
+			has_capitulated = no
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_military_sector"
+			add_one_random_military_factory = yes
+			add_one_random_military_factory = yes
+			custom_effect_tooltip = tooltip_white_line
+			country_event = AUSperfecteconomy.3
+			country_event = austria.3
+		}
+	}
+
+	focus = {
+		id = AUS_reinforce_csp_at_burgenland
+		icon = GFX_goal_AUS_burgenland_heimatschutz
+		x = 0
+		y = 1
+		relative_position_id = AUS_military_sector
+		cost = 5
+		available = {
+			owns_state = 772
+			has_capitulated = no
+		}
+		prerequisite = {
+			focus = AUS_military_sector
+		}
+		bypass = {
+			NOT = { has_idea = AUS_treaty_of_saint_germain }
+		}
+		ai_will_do = {
+			factor = 2
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_reinforce_csp_at_burgenland"
+			772 = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_strengthen_the_graz_csp
+		icon = GFX_goal_AUS_graz_heimatschutz
+		x = -2
+		y = 1
+		relative_position_id = AUS_military_sector
+		cost = 5
+		prerequisite = {
+			focus = AUS_military_sector
+		}
+		available = {
+			owns_state = 4
+			has_capitulated = no
+		}
+		bypass = {
+			NOT = { has_idea = AUS_treaty_of_saint_germain }
+		}
+		ai_will_do = {
+			factor = 2
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_strengthen_the_graz_heimwehr"
+			4 = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_taking_a_loan
+		icon = GFX_focus_AUS_economic_resuscitation
+		x = 0
+		y = 1
+		relative_position_id = AUS_starting_anew
+		cost = 3
+		prerequisite = {
+			focus = AUS_starting_anew
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_taking_a_loan"
+			add_political_power = 100
+			add_stability = -0.05
+			custom_effect_tooltip = tooltip_white_line
+			activate_targeted_decision = { decision = AUS_modernise_logistics target = 803 }
+			activate_targeted_decision = { decision = AUS_modernise_industrial_logistics target = 803 }
+		}
+	}
+
+	focus = {
+		id = AUS_continue_investing_brr
+		icon = GFX_focus_AUS_apprentice_programmes
+		x = 0
+		y = 1
+		relative_position_id = AUS_taking_a_loan
+		cost = 3
+		prerequisite = {
+			focus = AUS_taking_a_loan
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_continue_investing_brr"
+			add_timed_idea = { idea = AUS_generic_production days = 120 }
+			custom_effect_tooltip = tooltip_white_line
+			activate_targeted_decision = { decision = AUS_industrialisation_of_burgenland target = 772 }
+			activate_targeted_decision = { decision = AUS_industrialisation_of_tyrol target = 153 }
+		}
+	}
+
+	focus = {
+		id = AUS_fiscal_reforms
+		icon = GFX_goal_generic_austerity_measures
+		x = -2
+		y = 2
+		relative_position_id = AUS_economic_recovery
+		cost = 2
+		prerequisite = { 
+			focus = AUS_expand_frei_arbei 
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_fiscal_reforms"
+			country_event = AUSreforms.1
+			add_days_mission_timeout = {
+				mission = AUS_solve_black_wednesday
+				days = 30
+			}
+			custom_effect_tooltip = {
+				localization_key = AUS_generic_add_to_dynmod
+				DYNMOD = AUS_black_wednesday
+			}
+			add_to_variable = { 
+				AUS_black_wednesday_consumer_goods_factor = -0.05 
+				tooltip = consumer_goods_factor_tt
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_bail_out_agriculture
+		icon = GFX_goal_generic_debt_negotiations
+		x = 2
+		y = 1
+		relative_position_id = AUS_economic_recovery
+		cost = 3
+		prerequisite = { 
+			focus = AUS_economic_recovery 
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_production_effort"
+			add_days_mission_timeout = {
+				mission = AUS_solve_black_wednesday
+				days = 30
+			}
+			add_political_power = -75
+			custom_effect_tooltip = {
+				localization_key = AUS_generic_add_to_dynmod
+				DYNMOD = AUS_black_wednesday
+			}
+			add_to_variable = { 
+				AUS_black_wednesday_production_factory_efficiency_gain_factor = 0.05 
+				tooltip = production_factory_efficiency_gain_factor_tt
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_dealing_with_equipment
+		icon = GFX_goal_AUS_dealing_with_equipment
+		x = -4
+		y = 3
+		relative_position_id = AUS_economic_recovery
+		cost = 1
+		prerequisite = { 
+			focus = AUS_fiscal_reforms 
+		}
+		available = {
+			if = {
+				limit = { has_dlc_aat = no }
+				has_political_power > 0
+			}
+		}
+
+		ai_will_do = {
+			factor = 5
+		}
+
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_dealing_with_equipment"
+			if = {
+				limit = { has_dlc_aat = yes }
+				random_military_industrial_organization = { add_mio_funds = 750 }
+			}
+			else = {
+				add_political_power = 150
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_fate_of_steyr
+		icon = GFX_goal_AUS_dealing_with_steyr
+		x = -8
+		y = 4
+		relative_position_id = AUS_economic_recovery
+		cost = 1
+
+		prerequisite = { 
+			focus = AUS_dealing_with_equipment 
+		}
+				
+		ai_will_do = {
+			factor = 5
+		}
+
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_fate_of_steyr"
+			country_event = AUSreforms.3
+			add_days_mission_timeout = {
+				mission = AUS_solve_black_wednesday
+				days = 30
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_import_equipment
+		icon = GFX_goal_generic_deals
+		x = -6
+		y = 4
+		relative_position_id = AUS_economic_recovery
+		cost = 2
+		prerequisite = { 
+			focus = AUS_dealing_with_equipment 
+		}
+		available = {
+			NOT = {
+				has_idea = AUS_treaty_of_saint_germain
+			}
+		}
+		mutually_exclusive = {
+			focus = AUS_national_contracts
+			focus = AUS_nationalise_factories
+		}
+
+		ai_will_do = {
+			factor = 5
+		}
+
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_import_equipment"
+			custom_effect_tooltip = AUS_importing_weapons_tt
+		}
+	}
+
+	focus = {
+		id = AUS_national_contracts
+		icon = GFX_goal_national_arsenal
+		prerequisite = { 
+			focus = AUS_dealing_with_equipment 
+		}
+		available = {
+			NOT = {
+				has_idea = AUS_treaty_of_saint_germain
+			}
+		}
+		mutually_exclusive = {
+			focus = AUS_import_equipment
+			focus = AUS_nationalise_factories
+		}
+		
+		ai_will_do = {
+			factor = 5
+		}
+
+		x = -4
+		y = 4
+		relative_position_id = AUS_economic_recovery
+		cost = 2
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_national_contracts"
+			add_days_mission_timeout = {
+				mission = AUS_solve_black_wednesday
+				days = 30
+			}
+			custom_effect_tooltip = AUS_national_contracts_tt
+		}
+	}
+
+	focus = {
+		id = AUS_nationalise_factories
+		icon = GFX_goal_FIN_construct_factories
+		x = -2
+		y = 4
+		relative_position_id = AUS_economic_recovery
+		cost = 2
+		prerequisite = { 
+			focus = AUS_dealing_with_equipment 
+		}
+		mutually_exclusive = {
+			focus = AUS_import_equipment
+			focus = AUS_national_contracts
+		}
+		
+		ai_will_do = {
+			factor = 5
+		}
+
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_nationalise_factories"
+			add_days_mission_timeout = {
+				mission = AUS_solve_black_wednesday
+				days = 30
+			}
+			add_timed_idea = {
+				idea = AUS_nationalising_factories
+				days = 165
+			}
+			add_ideas = AUS_national_factories
+		}
+	}
+
+	focus = {
+		id = AUS_expand_the_foreign_ministry
+		icon = GFX_goal_foreign_diplomacy
+		x = -2
+		y = 2
+		relative_position_id = AUS_dealing_with_equipment
+		cost = 5
+		# prerequisite = {
+			# focus = 
+		# }
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_expand_the_foreign_ministry"
+			add_political_power = 70
+			hidden_effect = {
+				every_neighbor_country = {
+					ROOT = {
+						add_popularity = {
+							ideology = PREV
+							popularity = 0.02
+						}
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_reclaim_tyrol
+		icon = GFX_goal_generic_attack_italy
+		x = -3
+		y = 1
+		cost = 5
+		relative_position_id = AUS_expand_the_foreign_ministry
+		prerequisite = { focus = AUS_expand_the_foreign_ministry }
+		available = { 
+			NOT = { country_exists = GER } 
+			39 = { NOT = { is_owned_by = AUS } }
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_reclaim_tyrol"
+			create_wargoal = {
+				target = ITA
+				type = take_core_state
+				generator = { 39 }
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_ally_czechia
+		icon = GFX_goal_CZE_alliance
+		x = -1
+		y = 1
+		relative_position_id = AUS_expand_the_foreign_ministry
+		cost = 5
+		available = {
+			NOT = { has_war_with = CZE }
+			country_exists = CZE
+		}
+		mutually_exclusive = { focus = AUS_subjugate_czechia }
+		bypass = {
+			OR = {
+				CZE = { 
+					is_ally_with = ROOT
+					has_guaranteed = ROOT
+				}
+			}
+		}
+		prerequisite = {
+			focus = AUS_expand_the_foreign_ministry
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_ally_czechia"
+			CZE = { 
+				country_event = {
+					id = austria.33
+					days = 7
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 10
+			modifier = {
+				factor = 2.5
+				CZE = { same_government_type_as_ROOT = yes }
+			}
+			modifier = {
+				factor = 0.2
+				CZE = { has_war = yes }
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_subjugate_czechia
+		icon = GFX_goal_generic_attack_bohemia
+		x = 1
+		y = 1
+		relative_position_id = AUS_expand_the_foreign_ministry
+		cost = 5
+		available = {
+			NOT = { has_guaranteed = CZE }
+			CZE = {
+				exists = yes 
+				NOT = {  is_ally_with = ROOT }
+			}
+		}
+		mutually_exclusive = { focus = AUS_ally_czechia }
+		prerequisite = {
+			focus = AUS_expand_the_foreign_ministry
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_subjugate_czechia"
+			create_wargoal = {
+				target = CZE
+				type = take_claimed_state
+				generator = { 775 69 }
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_attack_hungary
+		icon = GFX_goal_generic_attack_hungary
+		x = 0
+		y = 1
+		relative_position_id = AUS_ally_czechia
+		cost = 5
+		available = {
+			NOT = { country_exists = GER }
+			country_exists = HUN
+			HUN = {
+				NOT = { 
+					is_ally_with = ROOT
+					has_war_with = ROOT
+				}
+			}
+		}
+		prerequisite = {
+			focus = AUS_ally_czechia
+			focus = AUS_subjugate_czechia
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_attack_hungary"
+			create_wargoal = {
+				target = HUN
+				type = annex_everything
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_join_entente
+		icon = GFX_focus_chi_reach_out_to_france
+		x = -2
+		y = 1
+		relative_position_id = AUS_ally_czechia
+		cost = 5
+		available = {
+			OR = {
+				NOT = { country_exists = CZE }
+				NOT = { country_exists = POL }
+				AND = {
+					NOT = {
+						country_exists = RHI
+						country_exists = SHO
+					}
+				}
+				SER = { is_in_faction_with = GER }
+			}
+			NOT = { has_completed_focus = AUS_our_imperial_claims }
+		}
+		prerequisite = {
+			focus = AUS_ally_czechia
+			focus = AUS_subjugate_czechia
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_attack_hungary"
+			set_variable = { to_join_entente = 1 }
+			ENT = {
+				country_event = { id = generic.30 days = 2 random_hours = 6}
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_purchase_polish_artillery
+		icon = GFX_goal_generic_polish_agreement
+		x = 0
+		y = 1
+		relative_position_id = AUS_subjugate_czechia
+		cost = 5
+		available = {
+			country_exists = POL
+		}
+		prerequisite = {
+			focus = AUS_ally_czechia
+			focus = AUS_subjugate_czechia
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_purchase_polish_artillery"
+			POL = {
+				send_equipment = {
+					equipment = artillery_equipment
+					amount = 850
+					target = AUS
+				}
+				add_two_random_civilian_factories = yes
+			}
+		}
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = AUS_vienna_accord
+		icon = GFX_goal_austria
+		x = 1
+		y = 1
+		relative_position_id = AUS_purchase_polish_artillery
+		cost = 5
+		available = {
+			country_exists = GER
+			country_exists = RHI
+			RHI = { 
+				is_subject = no 
+				is_in_faction = no
+			}
+		}
+		prerequisite = {
+			focus = AUS_ally_czechia
+			focus = AUS_subjugate_czechia
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_vienna_accord"
+			RHI = { country_event = { id = austria.38 days = 2 random_hours = 6 } }
+			custom_effect_tooltip = if_they_accept_tt
+			event_option_tooltip = austria.38.a
+		}
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = AUS_expand_the_jansas_plan
+		icon = GFX_goal_nested_fortifications
+		x = -1
+		y = 2
+		relative_position_id = AUS_ally_czechia
+		cost = 5
+		available = {
+			has_country_flag = AUS_foreign_one_cze
+		}
+		prerequisite = {
+			focus = AUS_ally_czechia
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_expand_the_jansas_plan"
+			custom_effect_tooltip = AUS_in_120_days
+			effect_tooltip = {
+				every_owned_state = {
+					limit = { 
+						any_neighbor_state = {
+							is_owned_by = GER
+						}
+					}
+					add_building_construction = {
+						type = bunker
+						level = 2
+						instant_build = yes
+						province = {
+							id = 6680
+							id = 9636
+							id = 673
+							id = 11634
+							id = 688
+							id = 6708
+							id = 3703
+							id = 3675
+							id = 732
+						}
+					}
+				}
+			}
+			add_timed_idea = {
+				idea = AUS_foreign_jansas_plan_aus
+				days = 120
+			}
+			CZE = { 
+				country_event = {
+					id = austria.36
+					days = 7
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = AUS_send_an_attache_to_spain
+		icon = GFX_goal_generic_spanish_civil_war
+		x = 3
+		y = 1
+		relative_position_id = AUS_expand_the_foreign_ministry
+		cost = 6
+		available = {
+			NOT = { has_global_flag = SPR_spanish_civil_war_ended_flag }
+		}
+		prerequisite = {
+			focus = AUS_expand_the_foreign_ministry
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_send_an_attache_to_spain"
+			custom_effect_tooltip = AUS_send_an_attache_to_spain_tooltip
+			hidden_effect = {
+				if = {
+					limit = { has_socialist_government = yes }
+					diplomatic_relation = {
+						country = SPA
+						relation = send_attache
+						active = yes
+					}
+				}
+				else_if = {
+					limit = { has_elected_government = yes }
+					diplomatic_relation = {
+						country = SPR
+						relation = send_attache
+						active = yes
+					}
+				}
+				else_if = {
+					limit = { has_ultranationalist_government = yes }
+					diplomatic_relation = {
+						country = SPF
+						relation = send_attache
+						active = yes
+					}
+				}
+				else = {
+					diplomatic_relation = {
+						country = SPM
+						relation = send_attache
+						active = yes
+					}
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = AUS_demand_slovenia
+		icon = GFX_goal_SER_yugoslavia
+		x = 1
+		y = 2
+		relative_position_id = AUS_ally_czechia
+		cost = 6
+		available = {
+			NOT = { country_exists = GER }
+			NOT = {
+				all_state = {
+					OR = {
+						state = 102 
+						state = 767
+					}
+					is_owned_and_controlled_by = ROOT
+				}
+				SLV = {
+					exists = yes
+					is_puppet_of = ROOT 
+					controls_state = 102
+					controls_state = 767
+				}
+			}
+		}
+		prerequisite = {
+			focus = AUS_ally_czechia
+			focus = AUS_subjugate_czechia
+		}
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_demand_slovenia"
+			create_wargoal = {
+				target = 102.owner
+				type = take_claimed_state
+				generator = { 102 767 }
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_expand_frei_arbei
+		icon = GFX_goal_generic_army_cooperation
+		prerequisite = { focus = AUS_economic_recovery }
+		x = 0
+		y = 1
+		relative_position_id = AUS_economic_recovery
+		cost = 3
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_expand_frei_arbei"
+			add_days_mission_timeout = {
+				mission = AUS_solve_black_wednesday
+				days = 30
+			}
+			add_timed_idea = {
+				idea = AUS_volunteer_work_fad
+				days = 160
+			}
+			custom_effect_tooltip = tooltip_white_line
+			custom_effect_tooltip = {
+				localization_key = AUS_generic_add_to_dynmod
+				DYNMOD = AUS_black_wednesday
+			}
+			add_to_variable = { 
+				AUS_black_wednesday_consumer_goods_factor = -0.05 
+				tooltip = consumer_goods_factor_tt
+			}
+			add_to_variable = { 
+				AUS_black_wednesday_production_factory_efficiency_gain_factor = 0.05 
+				tooltip = production_factory_efficiency_gain_factor_tt
+			}
+			add_tech_bonus = {
+				name = industry_bonus
+				bonus = 0.25
+				uses = 1
+				category = industry
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_catholic_works
+		icon = GFX_focus_BEL_christian_corporatism
+		prerequisite = { focus = AUS_expand_frei_arbei }
+		x = 0
+		y = 2
+		relative_position_id = AUS_economic_recovery
+		cost = 5
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_catholic_works"
+			add_days_mission_timeout = {
+				mission = AUS_solve_black_wednesday
+				days = 30
+			}
+			add_timed_idea = {
+				idea = AUS_catholic_works_idea
+				days = 80
+			}
+			custom_effect_tooltip = tooltip_white_line
+			custom_effect_tooltip = {
+				localization_key = AUS_generic_add_to_dynmod
+				DYNMOD = AUS_black_wednesday
+			}
+			add_to_variable = { 
+				AUS_black_wednesday_production_factory_efficiency_gain_factor = 0.05 
+				tooltip = production_factory_efficiency_gain_factor_tt
+			}
+		}
+	}
+
+
+	focus = {
+		id = AUS_electrify
+		icon = GFX_goal_generic_electricity
+		prerequisite = { focus = AUS_bail_out_agriculture }
+		x = 2
+		y = 2
+		relative_position_id = AUS_economic_recovery
+		cost = 4
+
+		ai_will_do = {
+			factor = 2
+		}
+
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_production_effort_2"
+			add_days_mission_timeout = {
+				mission = AUS_solve_black_wednesday
+				days = 30
+			}
+			custom_effect_tooltip = AUS_electrify_tt
+			add_tech_bonus = {
+				name = industry_bonus
+				bonus = 0.25
+				uses = 1
+				category = industry
+			}
+			activate_targeted_decision = { decision = AUS_electrify_the_north target = ROOT }
+   		activate_targeted_decision = { decision = AUS_electrify_the_south target = ROOT }
+			activate_targeted_decision = { decision = AUS_electrify_the_west target = ROOT }
+		}
+	}
+
+	focus = {
+		id = AUS_reform_the_corporate_system
+		icon = GFX_goal_VIN_State_Industrialization
+		x = 1
+		y = 3
+		relative_position_id = AUS_economic_recovery
+		cost = 5
+		prerequisite = { 
+			focus = AUS_fiscal_reforms 
+		}
+		prerequisite = { 
+			focus = AUS_electrify 
+		}
+		prerequisite = { 
+			focus = AUS_catholic_works 
+		}
+		mutually_exclusive = { 
+			focus = AUS_empower_corporations 
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_reform_the_corporate_system"
+			add_days_mission_timeout = {
+				mission = AUS_solve_black_wednesday
+				days = 75
+			}
+			add_ideas = AUS_reform_corporations_idea
+			new_line = yes
+			custom_effect_tooltip = {
+				localization_key = AUS_generic_add_to_dynmod
+				DYNMOD = AUS_black_wednesday
+			}
+			add_to_variable = { 
+				AUS_black_wednesday_consumer_goods_factor = -0.05 
+				tooltip = consumer_goods_factor_tt
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_empower_corporations
+		icon = GFX_goal_generic_cash_stimulus_plan
+		x = -1
+		y = 3
+		relative_position_id = AUS_economic_recovery
+		cost = 5
+		prerequisite = { 
+			focus = AUS_fiscal_reforms 
+		}
+		prerequisite = { 
+			focus = AUS_electrify 
+		}
+		prerequisite = { 
+			focus = AUS_catholic_works 
+		}
+		mutually_exclusive = { 
+			focus = AUS_reform_the_corporate_system 
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_empower_corporations"
+			add_days_mission_timeout = {
+				mission = AUS_solve_black_wednesday
+				days = 75
+			}
+			add_ideas = AUS_empower_corporations_idea
+			new_line = yes
+			custom_effect_tooltip = {
+				localization_key = AUS_generic_add_to_dynmod
+				DYNMOD = AUS_black_wednesday
+			}
+			add_to_variable = { 
+				AUS_black_wednesday_consumer_goods_factor = -0.05 
+				tooltip = consumer_goods_factor_tt
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_end_austerity
+		icon = GFX_focus_GER_autarky_achieved
+		x = 0
+		y = 4
+		relative_position_id = AUS_economic_recovery
+		cost = 2
+		prerequisite = { 
+			focus = AUS_empower_corporations 
+			focus = AUS_reform_the_corporate_system
+		}
+		
+		ai_will_do = {
+			factor = 10
+		}
+
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_end_austerity"
+			remove_ideas = AUS_fiscal_reform_idea
+			new_line = yes
+			custom_effect_tooltip = {
+				localization_key = AUS_generic_add_to_dynmod
+				DYNMOD = AUS_black_wednesday
+			}
+			add_to_variable = { 
+				AUS_black_wednesday_production_factory_efficiency_gain_factor = 0.05 
+				tooltip = production_factory_efficiency_gain_factor_tt
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_bundesbahn
+		icon = GFX_goal_AUS_bundesbahn
+		x = 2
+		y = 4
+		relative_position_id = AUS_economic_recovery
+		cost = 5
+		prerequisite = { 
+			focus = AUS_reform_the_corporate_system
+			focus = AUS_empower_corporations
+		}
+
+		ai_will_do = {
+			factor = 5
+		}
+
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_bundesbahn"
+			build_railway = {
+				level = 1
+				path = { 704 6552 }
+				start_province = 704
+				target_province = 6552
+			}
+			new_line = yes
+			custom_effect_tooltip = {
+				localization_key = AUS_generic_add_to_dynmod
+				DYNMOD = AUS_black_wednesday
+			}
+			add_to_variable = { 
+				AUS_black_wednesday_production_factory_efficiency_gain_factor = 0.05 
+				tooltip = production_factory_efficiency_gain_factor_tt
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_expand_social_programs
+		icon = GFX_focus_generic_welfare
+		cancelable = no
+		x = 1
+		y = 5
+		relative_position_id = AUS_economic_recovery
+		cost = 4
+		prerequisite = { 
+			focus = AUS_end_austerity
+		}
+		prerequisite = { 
+			focus = AUS_bundesbahn
+		}
+
+		ai_will_do = {
+			factor = 5
+		}
+
+		select_effect = {
+			country_event = { id = austria.15 days = 4 }
+		}
+
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_expand_social_programs"
+			activate_targeted_decision = { decision = AUS_expand_social_welfare target = 803 }
+			add_political_power = 10
+			add_stability = 0.05
+		}
+	}
+
+	focus = {
+		id = AUS_rethink_power_plant
+		icon = GFX_goal_generic_lightbulb
+		prerequisite = { 
+			focus = AUS_electrify 
+		}
+		x = 3
+		y = 3
+		relative_position_id = AUS_economic_recovery
+		cost = 7
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_rethink_power_plant"
+			add_days_mission_timeout = {
+				mission = AUS_solve_black_wednesday
+				days = 30
+			}
+			add_ideas = AUS_tauern_power_plant
+			new_line = yes
+			custom_effect_tooltip = {
+				localization_key = AUS_generic_add_to_dynmod
+				DYNMOD = AUS_black_wednesday
+			}
+			add_to_variable = { 
+				AUS_black_wednesday_consumer_goods_factor = -0.05 
+				tooltip = consumer_goods_factor_tt
+			}
+			add_to_variable = { 
+				AUS_black_wednesday_production_factory_max_efficiency_factor = 0.05 
+				tooltip = production_factory_max_efficiency_factor_tt
+			}
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	focus = {
+		id = AUS_infraestructure_initiatives
+		icon = GFX_goal_generic_road_construction
+		prerequisite = { 
+			focus = AUS_rethink_power_plant 
+		}
+		x = 4
+		y = 4
+		relative_position_id = AUS_economic_recovery
+		cost = 8
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_infraestructure_initiatives"
+			add_timed_idea = {
+				idea = AUS_infraestructure_initiatives_idea
+				days = 125
+			}
+			new_line = yes
+			custom_effect_tooltip = {
+				localization_key = AUS_generic_add_to_dynmod
+				DYNMOD = AUS_black_wednesday
+			}
+			add_to_variable = { 
+				AUS_black_wednesday_production_factory_efficiency_gain_factor = 0.05 
+				tooltip = production_factory_efficiency_gain_factor_tt
+			}
+			add_to_variable = { 
+				AUS_black_wednesday_production_factory_max_efficiency_factor = 0.10
+				tooltip = production_factory_max_efficiency_factor_tt
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_vienna_uni_investment
+		icon = GFX_focus_research
+		prerequisite = { focus = AUS_infraestructure_initiatives }
+		x = 5
+		y = 5
+		relative_position_id = AUS_economic_recovery
+		cost = 4
+
+		ai_will_do = {
+			factor = 25
+		}
+
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_vienna_uni_investment"
+			add_research_slot_until_five = yes
+			new_line = yes
+			custom_effect_tooltip = {
+				localization_key = AUS_generic_add_to_dynmod
+				DYNMOD = AUS_black_wednesday
+			}
+			add_to_variable = { 
+				AUS_black_wednesday_production_factory_max_efficiency_factor = 0.05
+				tooltip = production_factory_max_efficiency_factor_tt
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_a_recovering_economy
+		icon = GFX_goal_generic_financial_markets
+		prerequisite = { 
+			focus = AUS_vienna_uni_investment 
+		}
+		prerequisite = {
+			focus = AUS_expand_social_programs
+		}
+		x = 3
+		y = 6
+		relative_position_id = AUS_economic_recovery
+		cost = 10
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_a_recovering_economy"
+			add_stability = 0.10
+			add_timed_idea = {
+				idea = AUS_economic_recovery_fr_this_time
+				days = 180
+			}
+			custom_effect_tooltip = production_factory_max_efficiency_factor_tt
+			custom_effect_tooltip = consumer_goods_factor_ttproduction_factory_efficiency_gain_factor_tt
+			hidden_effect = { 
+				remove_dynamic_modifier = {
+					modifier = AUS_black_wednesday
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_expand_sudbahn
+		icon = GFX_goal_generic_road
+		prerequisite = { 
+			focus = AUS_a_recovering_economy 
+		}
+		available = {
+			has_capitulated = no
+		}
+		x = 3
+		y = 7
+		relative_position_id = AUS_economic_recovery
+		cost = 5
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_vienna_uni_investment"
+			build_railway = {
+				level = 1
+				path = { 11666 6690 9648 9646 }
+				start_state = 803
+				target_state = 4
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_credianstalt
+		icon = GFX_goal_generic_dissolve_parliament1
+		prerequisite = { 
+			focus = AUS_a_recovering_economy 
+		}
+		x = 1
+		y = 7
+		relative_position_id = AUS_economic_recovery
+		cost = 6
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_credianstalt"
+			add_ideas = AUS_reformed_credianstalt
+		}
+	}
+
+	focus = {
+		id = AUS_invest_into_graz
+		icon = GFX_goal_workers_for_business
+		prerequisite = { 
+			focus = AUS_expand_sudbahn 
+		}
+		available = {
+			owns_state = 4
+		}
+		x = 2
+		y = 8
+		relative_position_id = AUS_economic_recovery
+		cost = 5
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_invest_into_graz"
+			4 = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_steyr_expansion
+		icon = GFX_goal_VIN_State_above_All
+		prerequisite = { 
+			focus = AUS_expand_sudbahn 
+		}
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = AUS_steyr_survives_tt
+				OR = {
+					has_country_flag = AUS_steyr_revitalised
+					has_idea = AUS_national_steyr
+				}
+			}
+		}
+		prerequisite = {
+			focus = AUS_expand_mines
+		}
+		x = 4
+		y = 8
+		relative_position_id = AUS_economic_recovery
+		cost = 6
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_steyr_expansion"
+			if = {
+				limit = { has_country_flag = AUS_steyr_revitalised }
+				random_owned_state = {
+					add_extra_state_shared_building_slots = 4
+					add_building_construction = {
+						type = arms_factory
+						level = 4
+						instant_build = yes
+					}
+				}
+			}
+			else_if = {
+				limit = { has_idea = AUS_national_steyr}
+				random_owned_state = {
+					add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = arms_factory
+						level = 2
+						instant_build = yes
+					}
+				}
+				add_tech_bonus = {
+					name = industry_bonus
+					bonus = 0.5
+					uses = 1
+					category = industry
+				}
+			}
+			else = {
+				custom_effect_tooltip = apply_one_of_effects_depending_on_event_choice
+				effect_tooltip = {
+					random_owned_state = {
+						add_extra_state_shared_building_slots = 4
+						add_building_construction = {
+							type = arms_factory
+							level = 4
+							instant_build = yes
+						}
+					}
+				}
+				custom_effect_tooltip = tooltip_white_line
+				effect_tooltip = {
+					random_owned_state = {
+						add_extra_state_shared_building_slots = 2
+						add_building_construction = {
+							type = arms_factory
+							level = 2
+							instant_build = yes
+						}
+					}
+					add_tech_bonus = {
+						name = industry_bonus
+						bonus = 0.5
+						uses = 1
+						category = industry
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_expand_mines
+		icon = GFX_goal_generic_coal_mining
+		prerequisite = { 
+			focus = AUS_a_recovering_economy 
+		}
+		available = {
+			has_capitulated = no
+		}
+		x = 5
+		y = 7
+		relative_position_id = AUS_economic_recovery
+		cost = 5
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_expand_mines"
+			add_resource = {
+				type = steel
+				amount = 16
+				state = 4
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_resource_prospects
+		icon = GFX_goal_generic_coal_mining
+		prerequisite = { 
+			focus = AUS_expand_mines 
+		}
+		x = 5
+		y = 9
+		relative_position_id = AUS_economic_recovery
+		cost = 7
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_resource_prospects"
+			add_tech_bonus = {
+				name = AUS_resource_prospects
+				technology = excavation1
+				technology = excavation2
+				technology = excavation3
+				technology = excavation4
+				technology = excavation5
+				bonus = 1.0
+				uses = 1
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_expand_agricultural_sector
+		icon = GFX_goal_generic_agriculture
+		prerequisite = { 
+			focus = AUS_a_recovering_economy 
+		}
+		prerequisite = {
+			focus = AUS_empower_corporations
+		}
+		x = -1
+		y = 7
+		relative_position_id = AUS_economic_recovery
+		cost = 5
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_expand_agricultural_sector"
+			add_ideas = AUS_autarky
+		}
+	}
+
+	focus = {
+		id = AUS_favor_industry
+		icon = GFX_goal_generic_industry_reallocation
+		prerequisite = { 
+			focus = AUS_expand_agricultural_sector 
+		}
+		mutually_exclusive = {
+			focus = AUS_protect_austrian_farmers
+		}
+		x = -2
+		y = 8
+		relative_position_id = AUS_economic_recovery
+		cost = 6
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_favor_industry"
+			swap_ideas = {
+				remove_idea = AUS_autarky
+				add_idea = AUS_autarky_factories
+			}
+			add_tech_bonus = {
+				name = industry_bonus
+				bonus = 1
+				uses = 1
+				category = industry
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_protect_austrian_farmers
+		icon = GFX_goal_agricultural_aid
+		prerequisite = { 
+			focus = AUS_expand_agricultural_sector
+		}
+		mutually_exclusive = {
+			focus = AUS_favor_industry
+		}
+		x = 0
+		y = 8
+		relative_position_id = AUS_economic_recovery
+		cost = 6
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_protect_austrian_farmers"
+			swap_ideas = {
+				remove_idea = AUS_autarky
+				add_idea = AUS_autarky_farm_1
+			}
+		}
+	}
+
+	focus = {
+		id = AUS_way_to_autarky
+		icon = GFX_goal_generic_autarky
+		prerequisite = { 
+			focus = AUS_protect_austrian_farmers
+		}
+		x = -1
+		y = 9
+		relative_position_id = AUS_economic_recovery
+		cost = 6
+		completion_reward = {
+			log = "[GetBasicLogInfo]: Focus AUS_way_to_autarky"
+			swap_ideas = {
+				remove_idea = AUS_autarky_farm_1
+				add_idea = AUS_autarky_farm_2
+			}
+		}
+	}
+}

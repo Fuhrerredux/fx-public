@@ -259,7 +259,6 @@ france_capitulates = {
 					is_in_faction = yes
 					is_faction_leader = no
 				}
-				country_event = { id = fra.exile.2 }
 			}
 		}
 	}
@@ -270,75 +269,145 @@ france_capitulates = {
 # THIS is the TAG you are running this action on
 
 white_peace_with_ROOT = {
-	hidden_effect = {
-		# See if they're actually at war first
+	effect_tooltip = {
 		if = {
-			limit = { has_war_with = ROOT }
-
-			# First check if THIS is in a faction
+			limit = { NOT = { civilwar_target = ROOT } }
+			white_peace = ROOT
+		}
+	}
+	hidden_effect = {
+		if = {
+			limit = {
+				has_war_with = ROOT
+				NOT = { civilwar_target = ROOT }
+			}
 			if = {
 				limit = {
-					is_in_faction = no
-					any_country = {
-						is_in_faction = no
-						has_war_together_with = PREV
-						has_war_with = ROOT
-					}
+					is_in_faction = yes
+					is_faction_leader = no
+					faction_leader = { has_war_with = ROOT }
 				}
-				set_country_flag = KR_temp_faction
-				save_event_target_as = white_peace_defender
-				create_faction = "Temporary Defender Faction"
-				every_country = {
+				set_temp_variable = { peace_target1 = faction_leader }
+			}
+			else_if = {
+				limit = {
+					is_subject = yes
+					overlord = { has_war_with = ROOT }
+				}
+				set_temp_variable = { peace_target1 = overlord }
+			}
+			else = {
+				set_temp_variable = { peace_target1 = THIS }
+			}
+			ROOT = {
+				if = {
 					limit = {
-						is_in_faction = no
-						has_war_together_with = PREV
-						has_war_with = ROOT
+						is_in_faction = yes
+						is_faction_leader = no
+						faction_leader = { has_war_with = PREV.PREV }
 					}
-					event_target:white_peace_defender = { add_to_faction = PREV }
+					set_temp_variable = { peace_target2 = faction_leader }
+				}
+				else_if = {
+					limit = {
+						is_subject = yes
+						overlord = { has_war_with = PREV.PREV }
+					}
+					set_temp_variable = { peace_target2 = overlord }
+				}
+				else = {
+					set_temp_variable = { peace_target2 = THIS }
 				}
 			}
+			var:peace_target1 = { white_peace = var:peace_target2 }
 
-			# Then check if ROOT is in a faction
-			if = {
-				limit = {
-					ROOT = { is_in_faction = no }
-					any_country = {
-						is_in_faction = no
-						has_war_together_with = ROOT
-						has_war_with = PREV
-					}
+			#cleanup in case of war merge bugs
+			var:peace_target1 = {
+				every_enemy_country = {
+					limit = { is_ally_with = var:peace_target2 }
+					white_peace = var:peace_target1
 				}
-				ROOT = {
-					set_country_flag = KR_temp_faction
-					create_faction = "Temporary Attacker Faction"
-				}
-				every_country = {
-					limit = {
-						is_in_faction = no
-						has_war_together_with = ROOT
-						has_war_with = PREV
-					}
-					ROOT = { add_to_faction = PREV }
+			}
+			var:peace_target2 = {
+				every_enemy_country = {
+					limit = { is_ally_with = var:peace_target1 }
+					white_peace = var:peace_target2
 				}
 			}
 		}
 	}
+}
 
-	# Now white peace as per normal
-	white_peace = ROOT
+# This can be used normally: TAG = { white_peace_with_PREV = yes }
+# Remember: PREV is the previous scope
+# TAG is the country you want PREV to completely be at peace with
+# meaning it will ensure peace with all faction members and puppets on either side
 
-	# Then dismantle factions if necessary
+white_peace_with_PREV = {
+	effect_tooltip = {
+		if = {
+			limit = { NOT = { civilwar_target = PREV } }
+			white_peace = PREV
+		}
+	}
 	hidden_effect = {
 		if = {
-			limit = { has_country_flag = KR_temp_faction }
-			clr_country_flag = KR_temp_faction
-			dismantle_faction = yes
-		}
-		ROOT = {
+			limit = {
+				has_war_with = PREV
+				NOT = { civilwar_target = PREV }
+			}
 			if = {
-				limit = { has_country_flag = KR_temp_faction }
-				clr_country_flag = KR_temp_faction
-				dismantle_faction = yes
+				limit = {
+					is_in_faction = yes
+					is_faction_leader = no
+					faction_leader = { has_war_with = PREV.PREV }
+				}
+				set_temp_variable = { peace_target1 = faction_leader }
+			}
+			else_if = {
+				limit = {
+					is_subject = yes
+					overlord = { has_war_with = PREV.PREV }
+				}
+				set_temp_variable = { peace_target1 = overlord }
+			}
+			else = {
+				set_temp_variable = { peace_target1 = THIS }
+			}
+			PREV = {
+				if = {
+					limit = {
+						is_in_faction = yes
+						is_faction_leader = no
+						faction_leader = { has_war_with = PREV.PREV }
+					}
+					set_temp_variable = { peace_target2 = faction_leader }
+				}
+				else_if = {
+					limit = {
+						is_subject = yes
+						overlord = { has_war_with = PREV.PREV }
+					}
+					set_temp_variable = { peace_target2 = overlord }
+				}
+				else = {
+					set_temp_variable = { peace_target2 = THIS }
+				}
+			}
+			var:peace_target1 = { white_peace = var:peace_target2 }
+
+			#cleanup in case of war merge bugs
+			var:peace_target1 = {
+				every_enemy_country = {
+					limit = { is_ally_with = var:peace_target2 }
+					white_peace = var:peace_target1
+				}
+			}
+			var:peace_target2 = {
+				every_enemy_country = {
+					limit = { is_ally_with = var:peace_target1 }
+					white_peace = var:peace_target2
+				}
 			}
 		}
 	}
@@ -346,79 +415,82 @@ white_peace_with_ROOT = {
 
 # NOTE: "save_event_target_as = white_peace_receiver" needs to be performed first
 # Then you use "TAG = { white_peace_with_TARGET = yes }"
+# TAG is the country you want the event target to completely be at peace with
+# meaning it will ensure peace with all faction members and puppets on either side
+# remember: if you don't use TAG and just use "white_peace_with_TARGET = yes" then the event target is making peace with ROOT
 
 white_peace_with_TARGET = {
 	hidden_effect = {
-		# See if they're actually at war first
 		if = {
-			limit = { has_war_with = event_target:white_peace_receiver }
-
-			# First check if defender is in a faction
-			if = {
-				limit = {
-					is_in_faction = no
-					any_country = {
-						is_in_faction = no
-						has_war_together_with = PREV
-						has_war_with = event_target:white_peace_receiver
-					}
-				}
-				set_country_flag = KR_temp_faction
-				save_event_target_as = white_peace_offer
-				create_faction = "Temporary Defender Faction"
-				every_country = {
-					limit = {
-						is_in_faction = no
-						has_war_together_with = PREV
-						has_war_with = event_target:white_peace_receiver
-					}
-					event_target:white_peace_offer = { add_to_faction = PREV }
-				}
-			}
-
-			# Then check if EVENT_TARGET is in a faction
-			if = {
-				limit = {
-					event_target:white_peace_receiver = { is_in_faction = no }
-					any_country = {
-						is_in_faction = no
-						has_war_together_with = event_target:white_peace_receiver
-						has_war_with = PREV
-					}
-				}
-				event_target:white_peace_receiver = {
-					set_country_flag = KR_temp_faction
-					create_faction = "Temporary Attacker Faction"
-				}
-				every_country = {
-					limit = {
-						is_in_faction = no
-						has_war_together_with = event_target:white_peace_receiver
-						has_war_with = PREV
-					}
-					event_target:white_peace_receiver = { add_to_faction = PREV }
-				}
-			}
+			limit = { NOT = { has_event_target = white_peace_receiver } }
+			ROOT = { save_event_target_as = white_peace_receiver }
 		}
 	}
-
-	# Now white peace as per normal
-	white_peace = event_target:white_peace_receiver
-
-	# Then dismantle factions if necessary
+	effect_tooltip = {
+		if = {
+			limit = { NOT = { civilwar_target = event_target:white_peace_receiver } }
+			white_peace = event_target:white_peace_receiver
+		}
+	}
 	hidden_effect = {
 		if = {
-			limit = { has_country_flag = KR_temp_faction }
-			clr_country_flag = KR_temp_faction
-			dismantle_faction = yes
-		}
-		event_target:white_peace_receiver = {
+			limit = {
+				has_war_with = event_target:white_peace_receiver
+				NOT = { civilwar_target = event_target:white_peace_receiver }
+			}
 			if = {
-				limit = { has_country_flag = KR_temp_faction }
-				clr_country_flag = KR_temp_faction
-				dismantle_faction = yes
+				limit = {
+					is_in_faction = yes
+					is_faction_leader = no
+					faction_leader = { has_war_with = event_target:white_peace_receiver }
+				}
+				set_temp_variable = { peace_target1 = faction_leader }
+			}
+			else_if = {
+				limit = {
+					is_subject = yes
+					overlord = { has_war_with = event_target:white_peace_receiver }
+				}
+				set_temp_variable = { peace_target1 = overlord }
+			}
+			else = {
+				set_temp_variable = { peace_target1 = THIS }
+			}
+			event_target:white_peace_receiver = {
+				if = {
+					limit = {
+						is_in_faction = yes
+						is_faction_leader = no
+						faction_leader = { has_war_with = PREV.PREV }
+					}
+					set_temp_variable = { peace_target2 = faction_leader }
+				}
+				else_if = {
+					limit = {
+						is_subject = yes
+						overlord = { has_war_with = PREV.PREV }
+					}
+					set_temp_variable = { peace_target2 = overlord }
+				}
+				else = {
+					set_temp_variable = { peace_target2 = THIS }
+				}
+			}
+			var:peace_target1 = { white_peace = var:peace_target2 }
+
+			#cleanup in case of war merge bugs
+			var:peace_target1 = {
+				every_enemy_country = {
+					limit = { is_ally_with = var:peace_target2 }
+					white_peace = var:peace_target1
+				}
+			}
+			var:peace_target2 = {
+				every_enemy_country = {
+					limit = { is_ally_with = var:peace_target1 }
+					white_peace = var:peace_target2
+				}
 			}
 		}
 	}
 }
-

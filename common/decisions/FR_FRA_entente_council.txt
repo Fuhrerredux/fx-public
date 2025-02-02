@@ -39,11 +39,11 @@ FRA_entente_council = {
 					}
 					has_idea = GEN_entente_member
 				}
-				country_event = { id = ger.194 }
+				country_event = { id = FRA.council.32 }
 			}
 			hidden_effect = {
 				ROOT = {
-					country_event = { id = ger.195 days = 7 }
+					country_event = { id = FRA.council.33 days = 7 }
 				}
 			}
 		}
@@ -99,11 +99,11 @@ FRA_entente_council = {
 					}
 					has_idea = GEN_entente_member
 				}
-				country_event = { id = ger.203 }
+				country_event = { id = FRA.council.41 }
 			}
 			hidden_effect = {
 				FRA = {
-					country_event = { id = ger.204 days = 7 }
+					country_event = { id = FRA.council.42 days = 7 }
 				}
 			}
 		}
@@ -275,7 +275,7 @@ FRA_entente_council = {
 
 		complete_effect = {
 			log = "[GetDateText]: [Root.GetName]: Decision GEN_join_council"
-			#remove_ideas = GEN_entente_member
+			add_ideas = GEN_entente_member
 		}
 
 		cost = 50
@@ -349,9 +349,52 @@ FRA_entente_council = {
 		available = {
 			original_tag = FRA
 			FRA = {
-				has_country_flag = FRA_german_violation
 				check_variable = {
 					entente_faith > 89
+				}
+			}
+			OR = {
+				10 = {
+					owner = {
+						OR = {
+							tag = GER
+							is_subject_of = GER
+						}
+					}
+				}
+				9 = {
+					owner = {
+						OR = {
+							tag = GER
+							is_subject_of = GER
+						}
+					}
+				}
+				AND = {
+					746 = {
+						owner = {
+							OR = {
+								tag = GER
+								is_subject_of = GER
+							}
+						}
+					}
+					107 = {
+						owner = {
+							OR = {
+								tag = GER
+								is_subject_of = GER
+							}
+						}
+					}
+					803 = {
+						owner = {
+							OR = {
+								tag = GER
+								is_subject_of = GER
+							}
+						}
+					}
 				}
 			}
 		}
@@ -656,7 +699,7 @@ FRA_entente_council = {
 		icon = generic_industry
 		available = {
 			GER = {
-				has_completed_focus = GER_central_europe
+				has_completed_focus = GER_pan_germanism
 			}
 		}
 		visible = {
@@ -671,7 +714,7 @@ FRA_entente_council = {
 				has_war = no
 			}
 			GER = {
-				has_completed_focus = GER_pangerman
+				has_completed_focus = GER_german_rebirth
 			}
 		}
 		complete_effect = {
@@ -691,7 +734,7 @@ FRA_entente_council = {
 		icon = generic_industry
 		available = {
 			GER = {
-				has_completed_focus = GER_central_europe
+				has_completed_focus = GER_pan_germanism
 			}
 		}
 		visible = {
@@ -706,7 +749,7 @@ FRA_entente_council = {
 				has_war = no
 			}
 			GER = {
-				has_completed_focus = GER_pangerman
+				has_completed_focus = GER_german_rebirth
 			}
 		}
 		complete_effect = {
@@ -725,7 +768,7 @@ FRA_entente_council = {
 		icon = generic_industry
 		available = {
 			GER = {
-				has_completed_focus = GER_scandinavia_focus
+				has_completed_focus = GER_the_kiel_gambit
 			}
 		}
 		visible = {
@@ -740,7 +783,7 @@ FRA_entente_council = {
 				has_war = no
 			}
 			GER = {
-				has_completed_focus = GER_pangerman
+				has_completed_focus = GER_german_rebirth
 			}
 		}
 		complete_effect = {
@@ -759,7 +802,7 @@ FRA_entente_council = {
 		icon = generic_industry
 		available = {
 			GER = {
-				has_completed_focus = GER_eastern_focus
+				has_completed_focus = GER_eastern_claims
 			}
 		}
 		visible = {
@@ -774,7 +817,7 @@ FRA_entente_council = {
 				has_war = no
 			}
 			GER = {
-				has_completed_focus = GER_pangerman
+				has_completed_focus = GER_german_rebirth
 			}
 		}
 		complete_effect = {
@@ -840,6 +883,160 @@ FRA_entente_council = {
 					}
 				}
 			}
+		}
+	}
+}
+
+foreign_politics = {
+	GEN_united_nations_alliance = {
+		icon = generic_civil_support
+		priority = 20
+		target_root_trigger = { 
+			has_ultranationalist_government = no
+			is_faction_leader = yes
+			has_war_with = GER
+			OR = {
+				tag = ENT
+				tag = IPA
+				tag = USA
+			}
+		}
+		targets = { ENT IPA USA }
+		target_trigger = {
+			FROM = { has_war_with = GER }
+			is_faction_leader = yes
+		}
+		available = {
+			has_socialist_government = no
+			is_subject = no
+			country_exists = FROM
+			FROM = { 
+				is_faction_leader = yes
+				has_war_with = GER
+			}
+			hidden_trigger = { NOT = { has_global_flag = GEN_united_nations_alliance } }
+		}
+		ai_will_do = { factor = 100 }
+		days_remove = 7
+		complete_effect = {
+			set_global_flag = GEN_united_nations_alliance
+		}
+		remove_effect = { 
+			clr_global_flag = GEN_united_nations_alliance
+			FROM = {
+				country_event = FRA.council.23 
+			}
+		}
+	}
+	
+	GEN_reform_faction = {
+		icon = generic_political_discourse
+		allowed = { always = no }
+
+		available = {
+			has_war = no
+		}
+
+		visible = {
+			is_subject = no
+			has_socialist_government = no
+			OR = {
+				is_in_faction = no
+				is_in_faction_with = USA
+				is_in_faction_with = IPA 
+				is_in_faction_with = ENT
+			}
+			has_country_flag = GEN_former_faction_leader
+		}
+
+		cost = 0
+		fire_only_once = no
+
+		ai_will_do = { factor = 15 }
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete GEN_reform_faction"
+			if = {
+				limit = { 
+					OR = {
+						is_in_faction_with = ENT 
+						is_in_faction_with = IPA 
+						is_in_faction_with = USA 
+					}
+				}
+				ROOT = { faction_leader = { country_event = FRA.council.26 } }
+				leave_faction = yes
+			}
+			if = {
+				limit = { tag = USA }
+				create_faction = washington_accord
+				every_country = {
+					limit = {
+						has_country_flag = USA_former_faction_member
+						has_socialist_government = no
+						has_ultranationalist_government = no
+						is_subject = no
+					}
+					country_event = FRA.council.27
+				}
+				clr_country_flag = GEN_former_faction_leader
+			}
+			else_if = {
+				limit = { 
+					OR = {
+						tag = ENG
+						tag = CAN
+					}
+				}
+				create_faction = imperial_protection_alliance
+				every_country = {
+					limit = {
+						has_country_flag = IPA_former_faction_member
+						has_socialist_government = no
+						has_ultranationalist_government = no
+						is_subject = no
+					}
+					country_event = FRA.council.27
+				}
+				clr_country_flag = GEN_former_faction_leader
+			}
+			else = {
+				create_faction = continental_entente
+				every_country = {
+					limit = {
+						has_country_flag = ENT_former_faction_member
+						has_socialist_government = no
+						has_ultranationalist_government = no
+						is_subject = no
+					}
+					country_event = FRA.council.27
+				}
+				clr_country_flag = GEN_former_faction_leader
+			}
+		}
+	}
+	
+	GEN_leave_entente = {
+		icon = generic_political_discourse
+		allowed = { always = no }
+
+		available = {
+			has_war = no
+		}
+
+		visible = {
+			has_country_flag = GEN_former_french_puppet
+		}
+
+		cost = 0
+		fire_only_once = no
+
+		ai_will_do = { factor = 15 }
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete GEN_reform_faction"
+			leave_faction = yes
+			clr_country_flag = GEN_former_french_puppet
 		}
 	}
 }

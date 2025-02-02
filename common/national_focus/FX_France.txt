@@ -2,7 +2,6 @@
 # modified by: dax0102
 # from original Führerreich authors, just removed the dynamicness
 #!gfx:interface/FX_goals.gfx
-#!gfx:interface/KR_goals.gfx
 
 focus_tree = {
 	id = french_focus
@@ -73,7 +72,7 @@ focus_tree = {
 			modifier = {
 				factor = 4
 				GER = {
-					has_completed_focus = GER_pangerman
+					has_completed_focus = GER_german_rebirth
 				}
 			}
 		}
@@ -260,7 +259,7 @@ focus_tree = {
 			}
 			modifier = {
 				GER = {
-					has_completed_focus = GER_pangerman
+					has_completed_focus = GER_german_rebirth
 				}
 				factor = 6
 			}
@@ -618,7 +617,7 @@ focus_tree = {
 	# The SFIO
 	focus = {
 		id = fra_socdem_win
-		icon = GFX_goal_ideology_social_democrat
+		icon = GFX_goal_FRA_sfio
 		cost = 1
 		x = -3
 		y = 1
@@ -816,7 +815,7 @@ focus_tree = {
 	# The Parti Radical
 	focus = {
 		id = fra_soclib_win
-		icon = GFX_goal_ideology_social_liberal
+		icon = GFX_goal_FRA_pr
 		x = 1
 		y = 1
 		cost = 3
@@ -1326,7 +1325,7 @@ focus_tree = {
 	}
 	focus = {
 		id = fra_prov_govt
-		icon = GFX_goal_generic_council
+		icon = GFX_goal_FRA_military
 		x = 2
 		y = -1
 		cost = 2
@@ -1529,7 +1528,7 @@ focus_tree = {
 	# Triumph in Berlin
 	focus = {
 		id = fra_triumph
-		icon = GFX_goal_natfrance
+		icon = GFX_goal_GER_legacy_of_great_war
 		x = 0
 		y = 1
 		cost = 5
@@ -1842,9 +1841,8 @@ focus_tree = {
 		completion_reward = {
 			add_breakthrough_progress = {
 				specialization = specialization_land
-				value = 1
+				value = 0.5
 			}
-
 			custom_effect_tooltip = tooltip_white_line
 			add_ideas = FRA_military_tech
 			custom_effect_tooltip = tooltip_white_line
@@ -1897,17 +1895,22 @@ focus_tree = {
 		relative_position_id = fra_sky_eyes
 		completion_reward = {
 			add_research_slot = 1
-			add_to_tech_sharing_group = continental_entente_research
-			every_country = {
+			if = {
 				limit = {
-					OR = {
-						is_subject_of = FRA
-						is_in_faction_with = FRA
-					}
+					has_dlc = "Together for Victory"
 				}
 				add_to_tech_sharing_group = continental_entente_research
+				every_country = {
+					limit = {
+						OR = {
+							is_subject_of = FRA
+							is_in_faction_with = FRA
+						}
+					}
+					add_to_tech_sharing_group = continental_entente_research
+				}
+				set_global_flag = entente_research_established
 			}
-			set_global_flag = entente_research_established
 		}
 	}
 	# School of Doctrine
@@ -5261,6 +5264,7 @@ focus_tree = {
 			}
 		}
 	}
+
 	# Spread the Revolution in Germany
 	focus = {
 		id = fra_german_revolution
@@ -5269,21 +5273,21 @@ focus_tree = {
 		y = 1
 		cost = 5
 		available = {
+			country_exists = DEU
 			has_capitulated = no
 			has_government = paternal_autocrat
 			date > 1940.1.1
 		}
-		prerequisite = {
-			focus = fra_national_revolution
+		bypass = {
+			has_war_with = DEU
 		}
-		prerequisite = {
-			focus = fra_education_reform
-		}
+		prerequisite = { focus = fra_national_revolution }
+		prerequisite = { focus = fra_education_reform }
 		relative_position_id = fra_national_revolution
 		completion_reward = {
 			create_wargoal = {
 				type = annex_everything
-				target = GER
+				target = DEU
 			}
 		}
 	}
@@ -5646,18 +5650,19 @@ focus_tree = {
 		}
 		relative_position_id = fra_recruit_posters
 		available = {
+			country_exists = DEU
 			has_capitulated = no
 			has_government = paternal_autocrat
 			date > 1941.4.1
 		}
 		bypass = {
-			has_war_with = GER
+			has_war_with = DEU
 		}
 		completion_reward = {
 			add_manpower = 10000
 			create_wargoal = {
 				type = annex_everything
-				target = GER
+				target = DEU
 			}
 		}
 	}

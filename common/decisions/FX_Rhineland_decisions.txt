@@ -1,0 +1,5239 @@
+political_actions = {
+	RHI_reimplement_requirements = {
+		icon = oppression
+		allowed = { always = no }
+		ai_will_do = { base = 0 }
+		cost = 50
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_reimplement_requirements"
+			remove_ideas = RHI_lowered_requirements_conscripts
+			hidden_effect = { activate_targeted_decision = { target = RHI decision = RHI_lighten_requirements } }
+		}
+	}
+	
+	RHI_lighten_requirements = {
+		icon = oppression
+		allowed = { always = no }
+		ai_will_do = { base = 25 }
+		cost = 50
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_lighten_requirements"
+			add_ideas = RHI_lowered_requirements_conscripts
+			hidden_effect = { activate_targeted_decision = { target = RHI decision = RHI_reimplement_requirements } }
+		}
+	}
+}
+
+economy_decisions = {
+	RHI_end_rationing = {
+		icon = oppression
+		allowed = { always = no }
+		ai_will_do = { base = 5 }
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_end_rationing"
+			remove_ideas = RHI_rationing
+			add_political_power = 50
+			hidden_effect = { activate_targeted_decision = { target = RHI decision = RHI_institute_rationing } }
+		}
+	}
+	
+	RHI_institute_rationing = {
+		icon = oppression
+		allowed = { always = no }
+		ai_will_do = { base = 25 }
+		cost = 50
+		available = {
+			has_war = yes
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_institute_rationing"
+			add_ideas = RHI_rationing
+			hidden_effect = { activate_targeted_decision = { target = RHI decision = RHI_end_rationing } }
+		}
+	}
+	RHI_ask_investments_from = { # investments...
+		icon = generic_civil_support
+		allowed = { always = no }
+		cost = 25
+		targets = { ENG BEL HOL LUX USA ITA FRA }
+		target_trigger = {
+			if = {
+				limit = { 
+					FROM = { 
+						OR = {
+							tag = ITA
+							tag = FRA
+						}
+					}
+				}
+				RHI = { has_completed_focus = RHI_claim_the_mantle_of_republic }
+			}
+			else = { NOT = { is_in_faction_with = GER } }
+		}
+		days_remove = 100
+		ai_will_do = { base = 45 }
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_ask_investments_from"
+			custom_effect_tooltip = if_they_accept_tt
+			custom_effect_tooltip = apply_one_of_effects_depending_on_ideas
+			effect_tooltip = {
+				add_timed_idea = {
+					idea = RHI_investment_from
+					days = 200
+				}
+				custom_effect_tooltip = tooltip_white_line
+				modify_timed_idea = {
+					idea = RHI_investment_from
+					days = 100
+				}
+			}
+			FROM = { country_event = { id = rhein.22 days = 1 } }
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_ask_investments_from"
+			activate_targeted_decision = { target = FROM decision = RHI_ask_investments_from }
+		}
+	}
+	
+	RHI_reduce_reps = {
+		icon = generic_civil_support
+		allowed = { always = no }
+		cost = 15
+		days_remove = 30
+		targets = { FRA }
+		visible = { 
+			OR = {
+				has_idea = RHI_french_reparations 
+				has_idea = RHI_french_reparations_2
+				has_idea = RHI_french_reparations_3 
+			} 
+		}
+		ai_will_do = { base = 45 }
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_reduce_reps"
+			custom_effect_tooltip = if_they_accept_tt
+			effect_tooltip = {
+				if = {
+					limit = { has_idea = RHI_french_reparations }
+					swap_ideas = {
+						remove_idea = RHI_french_reparations
+						add_idea = RHI_french_reparations_2
+					}
+				}
+				else_if = {
+					limit = { has_idea = RHI_french_reparations_2 }
+					RHI_rm_resources_of_FRA_and_idea_with_influence = yes
+				}
+				else = { remove_ideas = RHI_french_reparations_3 }
+			}
+			FROM = { country_event = { id = rhein.25 days = 1 } }
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_reduce_reps"
+			if = {
+				limit = { 
+					OR = {
+						has_idea = RHI_french_reparations 
+						has_idea = RHI_french_reparations_2
+						has_idea = RHI_french_reparations_3 
+					} 
+				}
+				activate_targeted_decision = { target = FROM decision = RHI_reduce_reps }
+			}
+			else = { remove_targeted_decision = { target = FROM decision = RHI_reduce_reps } }
+		}
+	}
+}
+
+RHI_faction_struggle_category = {
+	RHI_conference_countdown = {
+		icon = generic_civil_support
+		activation = { always = no }
+		available = { hidden_trigger = { always = no } }
+		ai_will_do = { base = 45 }
+		days_mission_timeout = 80
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_conference_countdown"
+			country_event = rhein.12
+		}
+	}
+	
+	RHI_germany_moment = {
+		icon = generic_civil_support
+		activation = { always = no }
+		available = { hidden_trigger = { always = no } }
+		ai_will_do = { base = 45 }
+		days_mission_timeout = 10
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_germany_moment"
+			random_list = {
+				50 = { add_stability = -0.02 }
+				50 = { add_political_power = -50 }
+			}
+			set_temp_variable = { RHI_german_power_up = 0 }
+			RHI_german_power_change = yes
+			hidden_effect = { activate_mission = RHI_germany_moment }
+		}
+	}
+	
+	RHI_empower_schutztruppe = {
+		icon = generic_civil_support
+		allowed = { always = no }
+		days_remove = 10
+		ai_will_do = { base = 45 }
+		modifier = {
+			stability_weekly_factor = -0.001
+		}
+		available = {
+			NOT = {
+				OR = {
+					has_decision = RHI_concede_republicans
+					has_decision = RHI_crush_koblenz
+					has_decision = RHI_censor_republicans
+				}
+				hidden_trigger = { has_country_flag = RHI_fighting_german_funni }
+			}
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_empower_schutztruppe"
+			set_temp_variable = { RHI_strengthens_seperatist = 0 } 
+			set_temp_variable = { RHI_party_boost_amt = 5 } 
+			RHI_add_starting_pow = yes
+			RHI_german_power_change = yes
+			hidden_effect = { set_country_flag = RHI_fighting_german_funni }
+		}
+		remove_effect = { 
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_empower_schutztruppe"
+			hidden_effect = { 
+				activate_targeted_decision = { target = RHI decision = RHI_empower_schutztruppe }
+				clr_country_flag = RHI_fighting_german_funni
+			} 
+		}
+	}
+	
+	RHI_concede_republicans = {
+		icon = generic_civil_support
+		allowed = { always = no }
+		days_remove = 10
+		ai_will_do = { base = 45 }
+		modifier = {
+			political_power_cost = 0.1
+		}
+		available = {
+			NOT = {
+				OR = {
+					has_decision = RHI_empower_schutztruppe
+					has_decision = RHI_crush_koblenz
+					has_decision = RHI_censor_republicans
+				}
+				hidden_trigger = { has_country_flag = RHI_fighting_german_funni }
+			}
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_concede_republicans"
+			set_temp_variable = { RHI_strengthens_republican = 0 } 
+			set_temp_variable = { RHI_party_boost_amt = 3 } 
+			RHI_add_starting_pow = yes
+			RHI_german_power_change = yes
+			hidden_effect = { set_country_flag = RHI_fighting_german_funni }
+		}
+		remove_effect = { 
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_concede_republicans"
+			hidden_effect = { 
+				activate_targeted_decision = { target = RHI decision = RHI_concede_republicans }
+				clr_country_flag = RHI_fighting_german_funni
+			}
+		}
+	}
+	
+	RHI_crush_koblenz = { # one time decision
+		icon = generic_civil_support
+		allowed = { always = no }
+		days_remove = 15
+		ai_will_do = { base = 45 }
+		available = {
+			NOT = {
+				OR = {
+					has_decision = RHI_empower_schutztruppe
+					has_decision = RHI_concede_republicans
+					has_decision = RHI_censor_republicans
+				}
+				hidden_trigger = { has_country_flag = RHI_fighting_german_funni }
+			}
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_crush_koblenz"
+			set_temp_variable = { RHI_strengthens_seperatist = 0 } 
+			set_temp_variable = { RHI_party_boost_amt = -10 } 
+			RHI_add_starting_pow = yes
+			add_stability = 0.05
+			RHI_german_power_change = yes
+			hidden_effect = { set_country_flag = RHI_fighting_german_funni }
+		}
+		remove_effect = { 
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_crush_koblenz"
+			hidden_effect = { clr_country_flag = RHI_fighting_german_funni }
+		}
+	}
+	
+	RHI_censor_republicans = {
+		icon = generic_civil_support
+		allowed = { always = no }
+		days_remove = 10
+		ai_will_do = { base = 45 }
+		available = {
+			NOT = {
+				OR = {
+					has_decision = RHI_empower_schutztruppe
+					has_decision = RHI_concede_republicans
+					has_decision = RHI_crush_koblenz
+				}
+				hidden_trigger = { has_country_flag = RHI_fighting_german_funni }
+			}
+		}
+		modifier = {
+			political_power_cost = 0.05
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_censor_republicans"
+			set_temp_variable = { RHI_strengthens_republican = 0 } 
+			set_temp_variable = { RHI_party_boost_amt = -6 } 
+			RHI_add_starting_pow = yes
+			add_political_power = 15
+			RHI_german_power_change = yes
+			hidden_effect = { set_country_flag = RHI_fighting_german_funni }
+		}
+		remove_effect = { 
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_censor_republicans"
+			hidden_effect = { 
+				activate_targeted_decision = { target = RHI decision = RHI_censor_republicans }
+				clr_country_flag = RHI_fighting_german_funni
+			}
+		}
+	}
+	
+	GER_increase_pressure = {
+		icon = eng_blackshirt_speech
+		allowed = { always = no }
+		days_remove = 7
+		ai_will_do = { base = 45 }
+		cost = var:GER_increase_pressure_cost
+		available = {
+			if = {
+				limit = { has_country_flag = GER_no_pressure_increase }
+				custom_trigger_tooltip = {
+					tooltip = GER_no_pressure_increase_tt
+					NOT = { has_country_flag = GER_no_pressure_increase }
+				}
+			}
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete GER_increase_pressure"
+			custom_effect_tooltip = GER_increase_pressure_tt_alt
+			hidden_effect = { 
+				add_to_variable = { GER_increase_pressure_cost = 20 }
+				if = {
+					limit = { check_variable = { GER_increase_pressure_cost > 90 } }
+					set_country_flag = GER_no_pressure_increase
+				}
+			}
+			hidden_effect = { RHI = { activate_mission = RHI_increase_pressure } }
+		}
+		remove_effect = { 
+			log = "[GetDateText]: [Root.GetName]: Decision timeout GER_increase_pressure"
+			custom_effect_tooltip = GER_increase_pressure_tt
+		}
+	}
+	
+	GER_unleash_valkists = {
+		icon = eng_blackshirt_speech
+		cost = 75
+		allowed = { always = no }
+		days_remove = 10
+		ai_will_do = { base = 45 }
+		fire_only_once = yes
+		cost = 45
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = GER_not_doing_other
+				NOT = { has_country_flag = GER_doing_other_antics }
+			}
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete GER_unleash_valkists"
+			custom_effect_tooltip = RHI_german_power_up_timeout
+			effect_tooltip = {
+				set_temp_variable = { RHI_german_power_up = 0 }
+				RHI_german_power_change = yes
+				RHI = {
+					add_stability = -0.03
+					add_popularity = {
+						ideology = valkist
+						popularity = 0.03
+					}
+				}
+			}
+			hidden_effect = { RHI = { activate_mission = RHI_unleash_valkists } }
+			set_country_flag = GER_doing_other_antics
+		}
+		remove_effect = { 
+			log = "[GetDateText]: [Root.GetName]: Decision timeout GER_unleash_valkists"
+			custom_effect_tooltip = RHI_german_power_up_timeout
+			effect_tooltip = {
+				set_temp_variable = { RHI_german_power_up = 0 }
+				RHI_german_power_change = yes
+				RHI = {
+					add_stability = -0.03
+					add_popularity = {
+						ideology = valkist
+						popularity = 0.03
+					}
+				}
+			}
+			clr_country_flag = GER_doing_other_antics
+		}
+	}
+	GER_send_lutze = { 
+		icon = eng_blackshirt_speech
+		allowed = { always = no }
+		days_remove = 10
+		cost = 15
+		ai_will_do = { base = 45 }
+		fire_only_once = yes
+		cost = 45
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = GER_not_doing_other
+				NOT = { has_country_flag = GER_doing_other_antics }
+			}
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete GER_send_lutze"
+			custom_effect_tooltip = RHI_german_power_up_timeout
+			effect_tooltip = {
+				set_temp_variable = { RHI_german_power_up = 0 }
+				RHI_german_power_change = yes
+				RHI = {
+					add_popularity = {
+						ideology = valkist
+						popularity = 0.04
+					}
+				}
+				GER = {
+					GER_Viktor_Lutze = { 
+						set_nationality = RHI
+						add_country_leader_role = {
+							promote_leader = yes
+							country_leader = {
+								desc = GER_Viktor_Lutze_desc
+								ideology = valkist_subtype
+								traits = { GER_featureless_valkist }
+							}
+						}
+					}
+				}
+			}
+			custom_effect_tooltip = tooltip_white_line
+			add_stability = 0.04
+			hidden_effect = { RHI = { activate_mission = RHI_send_lutze } }
+			set_country_flag = GER_doing_other_antics
+		}
+		remove_effect = { 
+			log = "[GetDateText]: [Root.GetName]: Decision timeout GER_send_lutze"
+			custom_effect_tooltip = RHI_german_power_up_timeout
+			effect_tooltip = {
+				set_temp_variable = { RHI_german_power_up = 0 }
+				RHI_german_power_change = yes
+				RHI = {
+					add_popularity = {
+						ideology = valkist
+						popularity = 0.04
+					}
+				}
+				GER = {
+					GER_Viktor_Lutze = { 
+						set_nationality = RHI
+						add_country_leader_role = {
+							promote_leader = yes
+							country_leader = {
+								desc = GER_Viktor_Lutze_desc
+								ideology = valkist_subtype
+								traits = { GER_featureless_valkist }
+							}
+						}
+					}
+				}
+			}
+			clr_country_flag = GER_doing_other_antics
+		}
+	}
+	GER_propagandize_rhineland_bastards = { 
+		icon = eng_blackshirt_speech
+		cost = 75
+		allowed = { always = no }
+		days_remove = 10
+		ai_will_do = { base = 45 }
+		fire_only_once = yes
+		cost = 45
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = GER_not_doing_other
+				NOT = { has_country_flag = GER_doing_other_antics }
+			}
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete GER_propagandize_rhineland_bastards"
+			custom_effect_tooltip = RHI_german_power_up_timeout
+			effect_tooltip = {
+				set_temp_variable = { RHI_german_power_up = 0 }
+				RHI_german_power_change = yes
+				RHI = {
+					add_political_power = -75
+					add_popularity = {
+						ideology = national_populist
+						popularity = 0.05
+					}
+					set_temp_variable = { RHI_strengthens_seperatist = 0 } 
+					set_temp_variable = { RHI_party_boost_amt = -9 } 
+					RHI_add_starting_pow = yes
+				}
+			}
+			hidden_effect = { RHI = { activate_mission = RHI_propagandize_rhineland_bastards } }
+			set_country_flag = GER_doing_other_antics
+		}
+		remove_effect = { 
+			log = "[GetDateText]: [Root.GetName]: Decision timeout GER_propagandize_rhineland_bastards"
+			custom_effect_tooltip = RHI_german_power_up_timeout
+			effect_tooltip = {
+				set_temp_variable = { RHI_german_power_up = 0 }
+				RHI_german_power_change = yes
+				RHI = {
+					add_political_power = -75
+					add_popularity = {
+						ideology = national_populist
+						popularity = 0.05
+					}
+					set_temp_variable = { RHI_strengthens_seperatist = 0 } 
+					set_temp_variable = { RHI_party_boost_amt = -9 } 
+					RHI_add_starting_pow = yes
+				}
+			}
+			clr_country_flag = GER_doing_other_antics
+		}
+	}
+	GER_activate_tst_cells = { 
+		icon = eng_blackshirt_speech
+		cost = 75
+		allowed = { always = no }
+		days_remove = 10
+		ai_will_do = { base = 45 }
+		fire_only_once = yes
+		cost = 45
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = GER_not_doing_other
+				NOT = { has_country_flag = GER_doing_other_antics }
+			}
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete GER_activate_tst_cells"
+			custom_effect_tooltip = RHI_german_power_up_timeout
+			effect_tooltip = {
+				set_temp_variable = { RHI_german_power_up = 0 }
+				RHI_german_power_change = yes
+				RHI = {
+					add_stability = -0.08
+					add_popularity = {
+						ideology = national_populist
+						popularity = -0.04
+					}
+					set_temp_variable = { RHI_strengthens_seperatist = 0 } 
+					set_temp_variable = { RHI_party_boost_amt = -5 } 
+					RHI_add_starting_pow = yes
+				}
+			}
+			hidden_effect = { RHI = { activate_mission = RHI_activate_tst_cells } }
+			set_country_flag = GER_doing_other_antics
+		}
+		remove_effect = { 
+			log = "[GetDateText]: [Root.GetName]: Decision timeout GER_activate_tst_cells"
+			custom_effect_tooltip = RHI_german_power_up_timeout
+			effect_tooltip = {
+				set_temp_variable = { RHI_german_power_up = 0 }
+				RHI_german_power_change = yes
+				RHI = {
+					add_stability = -0.08
+					add_popularity = {
+						ideology = national_populist
+						popularity = -0.04
+					}
+					set_temp_variable = { RHI_strengthens_seperatist = 0 } 
+					set_temp_variable = { RHI_party_boost_amt = -5 } 
+					RHI_add_starting_pow = yes
+				}
+			}
+			clr_country_flag = GER_doing_other_antics
+		}
+	}
+	GER_economic_pressure_on_koblenz = { 
+		icon = eng_blackshirt_speech
+		cost = 75
+		allowed = { always = no }
+		days_remove = 30
+		ai_will_do = { base = 45 }
+		fire_only_once = yes
+		cost = 45
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = GER_not_doing_other
+				NOT = { has_country_flag = GER_doing_other_antics }
+			}
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete GER_economic_pressure_on_koblenz"
+			RHI = { add_ideas = RHI_german_economic_pressure }
+			custom_effect_tooltip = RHI_german_power_up_timeout
+			effect_tooltip = {
+				set_temp_variable = { RHI_german_power_up = 0 }
+				RHI_german_power_change = yes
+				RHI = {
+					add_political_power = -50
+					set_temp_variable = { RHI_strengthens_seperatist = 0 } 
+					set_temp_variable = { RHI_party_boost_amt = -4 } 
+					RHI_add_starting_pow = yes
+				}
+			}
+			hidden_effect = { RHI = { activate_mission = RHI_economic_pressure_on_koblenz } }
+			set_country_flag = GER_doing_other_antics
+		}
+		remove_effect = { 
+			log = "[GetDateText]: [Root.GetName]: Decision timeout GER_economic_pressure_on_koblenz"
+			custom_effect_tooltip = while_mission_is_active
+			RHI = { show_ideas_tooltip = RHI_german_economic_pressure }
+			custom_effect_tooltip = RHI_german_power_up_timeout
+			effect_tooltip = {
+				set_temp_variable = { RHI_german_power_up = 0 }
+				RHI_german_power_change = yes
+				RHI = {
+					add_political_power = -50
+					set_temp_variable = { RHI_strengthens_seperatist = 0 } 
+					set_temp_variable = { RHI_party_boost_amt = -4 } 
+					RHI_add_starting_pow = yes
+					remove_ideas = RHI_german_economic_pressure
+				}
+			}
+			clr_country_flag = GER_doing_other_antics
+		}
+	}
+	GER_support_antirepublicans = { 
+		icon = eng_blackshirt_speech
+		cost = 75
+		allowed = { always = no }
+		days_remove = 10
+		ai_will_do = { base = 45 }
+		fire_only_once = yes
+		cost = 45
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = GER_not_doing_other
+				NOT = { has_country_flag = GER_doing_other_antics }
+			}
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete GER_support_antirepublicans"
+			custom_effect_tooltip = RHI_german_power_up_timeout
+			effect_tooltip = {
+				set_temp_variable = { RHI_german_power_up = 0 }
+				RHI_german_power_change = yes
+				RHI = {
+					add_stability = -0.04
+					set_temp_variable = { RHI_strengthens_republican = 0 } 
+					set_temp_variable = { RHI_party_boost_amt = -8 } 
+					RHI_add_starting_pow = yes
+				}
+			}
+			hidden_effect = { RHI = { activate_mission = RHI_support_antirepublicans } }
+			set_country_flag = GER_doing_other_antics
+		}
+		remove_effect = { 
+			log = "[GetDateText]: [Root.GetName]: Decision timeout GER_support_antirepublicans"
+			custom_effect_tooltip = RHI_german_power_up_timeout
+			effect_tooltip = {
+				set_temp_variable = { RHI_german_power_up = 0 }
+				RHI_german_power_change = yes
+				RHI = {
+					add_stability = -0.04
+					set_temp_variable = { RHI_strengthens_republican = 0 } 
+					set_temp_variable = { RHI_party_boost_amt = -8 } 
+					RHI_add_starting_pow = yes
+				}
+			}
+			clr_country_flag = GER_doing_other_antics
+		}
+	}
+	
+	RHI_increase_pressure = {
+		icon = eng_blackshirt_speech	
+		activation = { always = no }
+		available = { hidden_trigger = { always = no } }
+		days_mission_timeout = 7
+		timeout_effect = {
+			custom_effect_tooltip = GER_increase_pressure_tt
+			add_to_variable = { RHI_german_power_up_raise = 3 }
+		}
+	}
+	
+	RHI_unleash_valkists = {
+		icon = eng_blackshirt_speech	
+		activation = { always = no }
+		available = { hidden_trigger = { always = no } }
+		days_mission_timeout = 10
+		timeout_effect = {
+			set_temp_variable = { RHI_german_power_up = 0 }
+			RHI_german_power_change = yes
+			RHI = {
+				add_stability = -0.03
+				add_popularity = {
+					ideology = valkist
+					popularity = 0.03
+				}
+			}
+		}
+	}
+	
+	RHI_send_lutze = { 
+		icon = eng_blackshirt_speech	
+		activation = { always = no }
+		available = { hidden_trigger = { always = no } }
+		days_mission_timeout = 10
+		timeout_effect = {
+			set_temp_variable = { RHI_german_power_up = 0 }
+			RHI_german_power_change = yes
+			add_popularity = {
+				ideology = valkist
+				popularity = 0.04
+			}
+			GER = {
+				GER_Viktor_Lutze = { 
+					set_nationality = RHI
+					add_country_leader_role = {
+						promote_leader = yes
+						country_leader = {
+							desc = GER_Viktor_Lutze_desc
+							ideology = valkist_subtype
+							traits = { GER_featureless_valkist }
+						}
+					}
+				}
+			}
+		}
+	}
+	RHI_propagandize_rhineland_bastards = { 
+		icon = eng_blackshirt_speech	
+		activation = { always = no }
+		available = { hidden_trigger = { always = no } }
+		days_mission_timeout = 10
+		timeout_effect = {
+			add_political_power = -75
+			add_popularity = {
+				ideology = national_populist
+				popularity = 0.05
+			}
+			set_temp_variable = { RHI_strengthens_seperatist = 0 } 
+			set_temp_variable = { RHI_party_boost_amt = -9 } 
+			RHI_add_starting_pow = yes
+		}
+	}
+	RHI_activate_tst_cells = { 
+		icon = eng_blackshirt_speech	
+		activation = { always = no }
+		available = { hidden_trigger = { always = no } }
+		days_mission_timeout = 10
+		timeout_effect = {
+			set_temp_variable = { RHI_german_power_up = 0 }
+			RHI_german_power_change = yes
+			RHI = {
+				add_stability = -0.08
+				add_popularity = {
+					ideology = national_populist
+					popularity = -0.04
+				}
+				set_temp_variable = { RHI_strengthens_seperatist = 0 } 
+				set_temp_variable = { RHI_party_boost_amt = -5 } 
+				RHI_add_starting_pow = yes
+			}
+		}
+	}
+	RHI_economic_pressure_on_koblenz = { 
+		icon = eng_blackshirt_speech	
+		activation = { always = no }
+		available = { hidden_trigger = { always = no } }
+		days_mission_timeout = 30
+		timeout_effect = {
+			custom_effect_tooltip = while_mission_is_active
+			RHI = { show_ideas_tooltip = RHI_german_economic_pressure }
+			custom_effect_tooltip = RHI_german_power_up_timeout
+			set_temp_variable = { RHI_german_power_up = 0 }
+			RHI_german_power_change = yes
+			RHI = {
+				add_political_power = -50
+				set_temp_variable = { RHI_strengthens_seperatist = 0 } 
+				set_temp_variable = { RHI_party_boost_amt = -4 } 
+				RHI_add_starting_pow = yes
+				remove_ideas = RHI_german_economic_pressure
+			}
+		}
+	}
+	RHI_support_antirepublicans = {
+		icon = eng_blackshirt_speech	
+		activation = { always = no }
+		available = { hidden_trigger = { always = no } }
+		days_mission_timeout = 10
+		timeout_effect = {
+			set_temp_variable = { RHI_german_power_up = 0 }
+			RHI_german_power_change = yes
+			add_stability = -0.04
+			set_temp_variable = { RHI_strengthens_republican = 0 } 
+			set_temp_variable = { RHI_party_boost_amt = -8 } 
+			RHI_add_starting_pow = yes
+		}
+	}
+	
+}
+
+RHI_separatist_sentiments_cat = {
+	RHI_upgrade_separatist_stage = {
+		icon = eng_blackshirt_speech	
+		allowed = { always = no }
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = RHI_sep_upgrade_cost
+				check_variable = { RHI_separatist_sentiment > 0 }
+			}
+			custom_trigger_tooltip = {
+				tooltip = RHI_not_reached_max
+				has_variable = RHI_separatist_pp_factor
+				NOT = { check_variable = { RHI_separatist_pp_factor = -0.1 } }
+			}
+		}
+		days_remove = 120
+		ai_will_do = {
+			factor = 125
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_upgrade_separatist_stage"
+			if = {
+				limit = { 
+					has_variable = RHI_separatist_pp_factor
+					check_variable = { RHI_separatist_pp_factor < -0.1 }
+				}
+				custom_effect_tooltip = RHI_sep_change_status
+				hidden_effect = {
+					add_to_variable = { RHI_separatist_pp_factor = 0.1 }
+					set_temp_variable = { RHI_separatist_sentiment_change = -0.15 }
+					RHI_separatist_sentiment_change = yes
+					force_update_dynamic_modifier = yes
+				}
+			}
+			else = { custom_effect_tooltip = RHI_reached_max }
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_weld_the_movements"
+			if = {
+				limit = { 
+					has_variable = RHI_separatist_pp_factor
+					check_variable = { RHI_separatist_pp_factor < -0.1 }
+				}
+				activate_targeted_decision = { target = RHI decision = RHI_upgrade_separatist_stage }
+			}
+		}
+	}
+	
+	RHI_weld_the_movements = { # *the* decision to use(for it is the only one you get at first)
+		icon = generic_civil_support
+		allowed = { always = no }
+		days_remove = 50
+		ai_will_do = { base = 45 }
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_weld_the_movements"
+			set_temp_variable = { RHI_separatist_sentiment_change = 0.06 }
+			RHI_separatist_sentiment_change = yes
+		}
+		modifier = {
+			political_power_cost = 0.1
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_weld_the_movements"
+			set_temp_variable = { RHI_separatist_sentiment_change = -0.06 }
+			if = {
+				limit = { has_completed_focus = RHI_unite_rhenish_movement }
+				set_temp_variable = { RHI_separatist_sentiment_change = -0.03 } # now you can get stuff
+			}
+			RHI_separatist_sentiment_change = yes
+			hidden_effect = { activate_targeted_decision = { target = RHI decision = RHI_weld_the_movements } }
+		}
+		cancel_trigger = {
+			hidden_trigger = { has_country_flag = RHI_separatist_splits }
+		}
+		cancel_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision cancelled RHI_weld_the_movements"
+			clr_country_flag = RHI_separatist_splits
+			hidden_effect = { activate_targeted_decision = { target = RHI decision = RHI_weld_the_movements } }
+		}
+	}
+	
+	RHI_emphasize_rhenish_genius = { # one-time
+		icon = generic_civil_support
+		fire_only_once = yes
+		allowed = { always = no }
+		cost = 25
+		days_remove = 100
+		ai_will_do = { base = 45 }
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_emphasize_rhenish_genius"
+			set_temp_variable = { RHI_separatist_sentiment_change = 0.04 }
+			RHI_separatist_sentiment_change = yes
+		}
+		modifier = {
+			political_power_cost = 0.15
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_emphasize_rhenish_genius"
+			add_stability = 0.03
+			add_war_support = 0.04
+			add_political_power = 100
+		}
+	}
+	
+	RHI_convert_the_weimarers = { # one-time
+		icon = generic_civil_support
+		fire_only_once = yes
+		allowed = { always = no }
+		cost = 100
+		days_remove = 50
+		ai_will_do = { base = 45 }
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_convert_the_weimarers"
+			set_temp_variable = { RHI_separatist_sentiment_change = 0.03 }
+			RHI_separatist_sentiment_change = yes
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_convert_the_weimarers"
+			add_stability = 0.05
+			add_popularity = {
+				ideology = vanguardist
+				popularity = -0.03
+			}
+			add_popularity = {
+				ideology = national_populist
+				popularity = -0.03
+			}
+			add_popularity = {
+				ideology = valkist
+				popularity = -0.02
+			}
+		}
+	}
+	
+	RHI_propagate_bund_heritage = { # one-time
+		icon = generic_civil_support
+		fire_only_once = yes
+		allowed = { always = no }
+		cost = 50
+		days_remove = 50
+		ai_will_do = { base = 45 }
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_propagate_bund_heritage"
+			custom_effect_tooltip = RHI_upgrade_rhenish_nationalism
+			show_ideas_tooltip = RHI_the_rhenish_duty
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_propagate_bund_heritage"
+			if = {
+				limit = { has_completed_focus = RHI_rhenish_nationalism_against_expansionism }
+				swap_ideas = {
+					remove_idea = RHI_rhenish_nationalism
+					add_idea = RHI_the_rhenish_duty
+				}
+			}
+			add_war_support = 0.04
+			set_temp_variable = { RHI_separatist_sentiment_change = 0.04 }
+			RHI_separatist_sentiment_change = yes
+		}
+	}
+	
+	RHI_concessions_to_other = { # sad...
+		icon = generic_civil_support
+		allowed = { always = no }
+		days_remove = 50
+		ai_will_do = { base = 45 }
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_concessions_to_other"
+			set_temp_variable = { RHI_separatist_sentiment_change = 0.02 }
+			RHI_separatist_sentiment_change = yes
+			set_temp_variable = { ideology_change_var = -0.05 } 
+			change_ruling_party_popularity = yes
+		}
+		modifier = {
+			political_power_cost = 0.15
+			drift_defence_factor = -0.25
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_concessions_to_other"
+			hidden_effect = { activate_targeted_decision = { target = RHI decision = RHI_concessions_to_other } }
+		}
+		cancel_trigger = {
+			hidden_trigger = { has_country_flag = RHI_separatist_splits }
+		}
+		cancel_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision cancelled RHI_weld_the_movements"
+			clr_country_flag = RHI_separatist_splits
+			hidden_effect = { activate_targeted_decision = { target = RHI decision = RHI_concessions_to_other } }
+		}
+	}
+	
+	RHI_establish_foreign_embassies = { # targeted towards countries, though some may be more controversial than others...
+		icon = generic_civil_support
+		allowed = { always = no }
+		cost = 25
+		targets = { FRA BEL USA ITA ENG SOV JAP }
+		available = { FROM = { NOT = { has_war_with = ROOT } } }
+		fire_only_once = yes
+		ai_will_do = { base = 45 }
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_establish_foreign_embassies"
+			custom_effect_tooltip = if_they_accept_tt
+			effect_tooltip = {
+				set_temp_variable = { RHI_separatist_sentiment_change = 0.01 }
+				RHI_separatist_sentiment_change = yes
+				add_war_support = 0.05
+				add_political_power = 50
+			}
+			FROM = { country_event = { id = rhein.separatist.1 days = 1 } }
+			if = {
+				limit = { FROM = { tag = SOV } }
+				set_country_flag = RHI_z_dislike_sep
+				RHI_coalition_cracks = yes
+				add_political_power = -50
+			}
+		}
+	}
+	
+	# missions...
+	RHI_splits_in_coalition = { # your own coalitions *FUCKS* you
+		icon = eng_blackshirt_speech	
+		activation = { always = no }
+		available = { hidden_trigger = { always = no } }
+		is_good = no
+		days_mission_timeout = 35
+		ai_will_do = {
+			factor = 125
+		}
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_valkist_agitation"
+			set_temp_variable = { RHI_separatist_sentiment_change = -0.03 }
+			RHI_separatist_sentiment_change = yes
+			if = {
+				limit = { 
+					OR = {
+						has_decision = RHI_weld_the_movements
+						has_decision = RHI_concessions_to_other
+					}
+				}
+				set_country_flag = RHI_separatist_splits # will cancel your decision(like an asshole)
+			}
+			hidden_effect = { 
+				activate_mission = RHI_splits_in_coalition 
+				random_list = {
+					25 = { RHI_coalition_cracks = yes }
+					25 = { }
+				}
+			}
+		}
+	}
+	
+	RHI_radical_attacks = { # when life throws shit at you
+		icon = eng_blackshirt_speech	
+		activation = { always = no }
+		available = { hidden_trigger = { always = no } }
+		is_good = no
+		days_mission_timeout = 60
+		ai_will_do = {
+			factor = 125
+		}
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_valkist_agitation"
+			set_temp_variable = { RHI_separatist_sentiment_change = -0.02 }
+			if = {
+				limit = { has_country_flag = RHI_no_communist_activity }
+				set_temp_variable = { RHI_separatist_sentiment_change = -0.01 }
+			}
+			RHI_separatist_sentiment_change = yes
+			random_list = {
+				50 = {
+					add_popularity = {
+						ideology = national_populist
+						popularity = 0.03
+					}
+					add_popularity = {
+						ideology = valkist
+						popularity = 0.02
+					}
+				}
+				50 = {
+					modifier = {
+						factor = 0
+						has_country_flag = RHI_no_communist_activity
+					}
+					add_popularity = {
+						ideology = vanguardist
+						popularity = 0.04
+					}
+					add_popularity = {
+						ideology = collectivist
+						popularity = 0.01
+					}
+				}
+			}
+			hidden_effect = {
+				clr_country_flag = RHI_no_communist_activity
+				random_list = {
+					10 = { RHI_coalition_cracks = yes }
+					25 = { }
+				}
+			}
+		}
+	}
+	
+	RHI_z_criticism = { # you dun messed up
+		icon = eng_blackshirt_speech	
+		activation = { always = no }
+		available = { hidden_trigger = { always = no } }
+		is_good = no
+		days_mission_timeout = 60
+		ai_will_do = {
+			factor = 125
+		}
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_z_criticism"
+			set_temp_variable = { RHI_separatist_sentiment_change = -0.05 }
+			RHI_separatist_sentiment_change = yes
+			add_political_power = -25
+			add_stability = -0.02
+			hidden_effect = { RHI_coalition_cracks = yes }
+		}
+	}
+	
+	RHI_z_skepticism = { # mmmmmm
+		icon = eng_blackshirt_speech	
+		activation = { always = no }
+		available = {
+			has_country_flag = RHI_z_likes_sep
+		}
+		selectable_mission = yes
+		days_mission_timeout = 60
+		ai_will_do = {
+			factor = 125
+		}
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_z_skepticism"
+			set_temp_variable = { RHI_separatist_sentiment_change = -0.01 }
+			RHI_separatist_sentiment_change = yes
+			hidden_effect = {
+				random_list = {
+					5 = { RHI_coalition_cracks = yes }
+					25 = { }
+				}
+			}
+		}
+	}
+	
+	RHI_z_support = { # nice
+		icon = eng_blackshirt_speech	
+		activation = { always = no }
+		available = { hidden_trigger = { always = no } }
+		is_good = yes
+		days_mission_timeout = 60
+		ai_will_do = {
+			factor = 125
+		}
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_z_support"
+			set_temp_variable = { RHI_separatist_sentiment_change = 0.03 }
+			RHI_separatist_sentiment_change = yes
+			add_stability = 0.03
+			hidden_effect = {
+				random_list = {
+					5 = { RHI_coalition_cracks = yes }
+					25 = { }
+				}
+			}
+		}
+	}
+}
+
+RHI_separatist_showdown_cat = {
+	RHI_conference_showdown = {
+		icon = generic_civil_support
+		activation = { always = no }
+		available = { hidden_trigger = { always = no } }
+		ai_will_do = { base = 45 }
+		days_mission_timeout = 120
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_conference_showdown"
+			country_event = rhein.separatist.8
+		}
+	} 
+	
+	RHI_opponent_campaigning = {
+		icon = eng_blackshirt_speech	
+		activation = { always = no }
+		available = { hidden_trigger = { always = no } }
+		is_good = no
+		days_mission_timeout = 30
+		ai_will_do = {
+			factor = 125
+		}
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_opponent_campaigning"
+			if = {
+				limit = { has_country_flag = RHI_matthes_playing }
+				add_popularity = { 
+					ideology = market_liberal
+					popularity = 0.03
+				}
+			}
+			else = {
+				add_popularity = { 
+					ideology = social_democrat
+					popularity = 0.03
+				}
+			}
+		}
+	}
+	
+	RHI_matthes_enlist_french_support = {
+		icon = oppression
+		allowed = { always = no }
+		ai_will_do = { base = 45 }
+		days_remove = 30
+		modifier = { 
+			political_power_factor = 0.1
+			social_democrat_drift = 0.05
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_matthes_enlist_french_support"
+			add_stability = -0.02
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_matthes_enlist_french_support"
+			add_popularity = {
+				ideology = social_democrat
+				popularity = 0.04
+			}
+			add_popularity = {
+				ideology = national_populist
+				popularity = 0.02
+			}
+			hidden_effect = { activate_targeted_decision = { target = RHI decision = RHI_matthes_enlist_french_support } }
+		}
+	}
+	
+	RHI_matthes_rally_workers = {
+		icon = oppression
+		allowed = { always = no }
+		ai_will_do = { base = 45 }
+		days_remove = 30
+		modifier = { 
+			political_power_factor = -0.15
+			social_democrat_drift = 0.05
+			libertarian_socialist_drift = 0.03
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_matthes_rally_workers"
+			add_political_power = 25
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_matthes_rally_workers"
+			add_popularity = {
+				ideology = social_democrat
+				popularity = 0.03
+			}
+			add_popularity = {
+				ideology = libertarian_socialist
+				popularity = 0.03
+			}
+			hidden_effect = { activate_targeted_decision = { target = RHI decision = RHI_matthes_rally_workers } }
+		}
+	}
+	
+	RHI_matthes_use_von_metzen = {
+		icon = oppression
+		allowed = { always = no }
+		ai_will_do = { base = 45 }
+		days_remove = 30
+		modifier = { 
+			social_democrat_drift = 0.03
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_matthes_use_von_metzen"
+			add_stability = 0.03
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_matthes_use_von_metzen"
+			add_popularity = {
+				ideology = social_democrat
+				popularity = 0.01
+			}
+			add_popularity = {
+				ideology = market_liberal
+				popularity = -0.03
+			}
+			hidden_effect = { activate_targeted_decision = { target = RHI decision = RHI_matthes_use_von_metzen } }
+		}
+	}
+	
+	RHI_dorten_demonize_matthes_socialism = {
+		icon = oppression
+		allowed = { always = no }
+		ai_will_do = { base = 45 }
+		days_remove = 30
+		modifier = { 
+			political_power_factor = 0.1
+			market_liberal_drift = 0.04
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_dorten_demonize_matthes_socialism"
+			add_war_support = -0.03
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_dorten_demonize_matthes_socialism"
+			add_popularity = {
+				ideology = market_liberal
+				popularity = 0.03
+			}
+			hidden_effect = { activate_targeted_decision = { target = RHI decision = RHI_dorten_demonize_matthes_socialism } }
+		}
+	}
+	
+	RHI_dorten_negotiate_with_z = {
+		icon = oppression
+		allowed = { always = no }
+		ai_will_do = { base = 45 }
+		cost = 25
+		days_remove = 30
+		modifier = { 
+			market_liberal_drift = 0.05
+			social_conservative_drift = 0.04
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_dorten_negotiate_with_z"
+			if = {
+				limit = { has_country_flag = RHI_z_support_2 }
+				clr_country_flag = RHI_z_support_2
+				set_country_flag = RHI_z_support_3
+			}
+			else_if = {
+				limit = { has_country_flag = RHI_z_support_1 }
+				clr_country_flag = RHI_z_support_1
+				set_country_flag = RHI_z_support_2
+			}
+			else_if = { set_country_flag = RHI_z_support_1 }
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_dorten_negotiate_with_z"
+			add_popularity = {
+				ideology = market_liberal
+				popularity = 0.03
+			}
+			add_popularity = {
+				ideology = social_conservative
+				popularity = 0.04
+			}
+			hidden_effect = { activate_targeted_decision = { target = RHI decision = RHI_dorten_negotiate_with_z } }
+		}
+	}
+	
+	RHI_dorten_work_with_business = {
+		icon = oppression
+		allowed = { always = no }
+		ai_will_do = { base = 45 }
+		days_remove = 30
+		modifier = { 
+			political_power_cost = 0.1
+			market_liberal_drift = 0.06
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_dorten_work_with_business"
+			add_stability = -0.03
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_dorten_work_with_business"
+			add_popularity = {
+				ideology = social_democrat
+				popularity = 0.02
+			}
+			add_popularity = {
+				ideology = market_liberal
+				popularity = 0.04
+			}
+			hidden_effect = { activate_targeted_decision = { target = RHI decision = RHI_dorten_work_with_business } }
+		}
+	}
+	
+	RHI_gov_promise_german_solution = {
+		icon = oppression
+		allowed = { always = no }
+		ai_will_do = { base = 45 }
+		cost = 25
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_gov_promise_german_solution"
+			add_stability = 0.03
+			set_temp_variable = { ruling_party_pop_to_increase = 0.06 }
+			increase_ruling_party_pop_by_num = yes
+		}
+	}
+	
+	RHI_gov_paris_stability = {
+		icon = oppression
+		allowed = { always = no }
+		ai_will_do = { base = 45 }
+		days_remove = 30
+		modifier = { 
+			political_power_cost = 0.2
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_gov_paris_stability"
+			add_stability = 0.04
+			set_temp_variable = { ruling_party_pop_to_increase = 0.04 }
+			increase_ruling_party_pop_by_num = yes
+		}
+	}
+	
+	RHI_opp_demonstrate_gov_incompetence = {
+		icon = oppression
+		allowed = { always = no }
+		ai_will_do = { base = 45 }
+		days_remove = 30
+		modifier = { 
+			drift_defence_factor = -0.75
+			political_power_cost = 0.1
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_opp_demonstrate_gov_incompetence"
+			add_stability = -0.03
+			set_temp_variable = { ruling_party_pop_to_increase = -0.04 }
+			increase_ruling_party_pop_by_num = yes
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_opp_demonstrate_gov_incompetence"
+			hidden_effect = { activate_targeted_decision = { target = RHI decision = RHI_opp_demonstrate_gov_incompetence } }
+		}
+	}
+	
+	RHI_opp_work_with_exiles = {
+		icon = oppression
+		allowed = { always = no }
+		ai_will_do = { base = 45 }
+		days_remove = 50
+		modifier = { 
+			political_power_cost = 0.1
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_opp_work_with_exiles"
+			add_stability = 0.05
+			set_temp_variable = { ruling_party_pop_to_increase = -0.03 }
+			increase_ruling_party_pop_by_num = yes
+		}
+	}
+}
+
+RHI_republican_stability_cat = {
+	RHI_republican_stability_ensured = {
+		icon = eng_blackshirt_speech	
+		activation = { always = no }
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = RHI_republican_stability_ensured_tt
+				check_variable = {
+					var = RHI_republican_stability
+					value = 0
+					compare = greater_than_or_equals
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 200
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_republican_stability_ensured"
+			remove_dynamic_modifier = { modifier = RHI_Republican_Instability }
+			clear_variable = RHI_republican_stability
+			clear_variable = RHI_republican_stability_double
+			clear_variable = RHI_change_projection
+			clr_country_flag = RHI_republican_stability_mechanic
+		}
+	}
+	
+	# Radical missions
+	
+	RHI_valkist_agitation = {
+		icon = eng_blackshirt_speech	
+		activation = { always = no }
+		custom_cost_trigger = {
+			command_power > 25
+		}
+		custom_cost_text = CP_25
+		is_good = no
+		selectable_mission = yes
+		days_mission_timeout = 75
+		ai_will_do = {
+			factor = 125
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_valkist_agitation"
+			add_popularity = {
+				ideology = valkist
+				popularity = -0.05
+			}
+			hidden_effect = { add_command_power = -25 }
+		}
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_valkist_agitation"
+			add_popularity = {
+				ideology = valkist
+				popularity = 0.05
+			}
+			if = {
+				limit = { 
+					valkist > 0.2
+				}
+				add_political_power = -25
+			}
+		}
+	}
+	
+	RHI_german_interference = {
+		icon = eng_blackshirt_speech	
+		activation = { always = no }
+		available = {
+			has_country_flag = RHI_republican_stability_mechanic
+			has_country_flag = RHI_valkists_arrested
+		}
+		cost = 35
+		is_good = no
+		selectable_mission = yes
+		days_mission_timeout = 75
+		ai_will_do = {
+			factor = 125
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_german_interference"
+			clr_country_flag = RHI_valkists_arrested
+		}
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_german_interference"
+			add_popularity = {
+				ideology = valkist
+				popularity = 0.05
+			}
+			add_popularity = {
+				ideology = national_populist
+				popularity = 0.05
+			}
+			set_temp_variable = { RHI_change_projection_add = -0.001 }
+			RHI_republican_stability_decrease = yes
+		}
+	}
+	
+	RHI_anti_republican_sentiment = {
+		icon = eng_blackshirt_speech	
+		activation = { has_country_flag = RHI_republican_stability_mechanic } 
+		cancel_trigger = { hidden_trigger = { NOT = { has_country_flag = RHI_republican_stability_mechanic } } }
+		cost = 50
+		is_good = no
+		selectable_mission = yes
+		days_mission_timeout = 150
+		days_re_enable = 30
+		ai_will_do = {
+			factor = 125
+		}
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_anti_republican_sentiment"
+			RHI_check_radical_power = yes
+			set_temp_variable = { RHI_republican_stability_change = RHI_radical_popularity }
+			RHI_republican_stability_change = yes
+			hidden_effect = {
+				activate_mission = RHI_anti_republican_sentiment
+			}
+		}
+	}
+	
+	RHI_communist_attacks = {
+		icon = eng_blackshirt_speech	
+		activation = { always = no }
+		available = {
+			has_country_flag = RHI_republican_stability_mechanic
+		}
+		cost = 25
+		is_good = no
+		selectable_mission = yes
+		days_mission_timeout = 75
+		ai_will_do = {
+			factor = 125
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_communist_attacks"
+			add_popularity = {
+				ideology = vanguardist
+				popularity = -0.02
+			}
+		}
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_communist_attacks"
+			add_popularity = {
+				ideology = vanguardist
+				popularity = 0.03
+			}
+			set_temp_variable = { RHI_republican_stability_change = -0.02 }
+			RHI_republican_stability_change = yes
+			if = {
+				limit = { 
+					set_temp_variable = { RHI_socialist_popularity = party_popularity@vanguardist }
+					add_to_temp_variable = { RHI_socialist_popularity = party_popularity@collectivist }
+					check_variable = { RHI_socialist_popularity > 0.3 }
+				}
+				set_temp_variable = { RHI_republican_stability_change = -0.03 }
+				RHI_republican_stability_change = yes
+			}
+		}
+	}
+	
+	RHI_union_organizing = {
+		icon = eng_blackshirt_speech	
+		activation = { always = no }
+		available = {
+			has_country_flag = RHI_republican_stability_mechanic
+		}
+		custom_cost_trigger = {
+			has_war_support > 0.05
+		}
+		custom_cost_text = war_support5
+		is_good = no
+		selectable_mission = yes
+		days_mission_timeout = 75
+		ai_will_do = {
+			factor = 125
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_union_organizing"
+			add_popularity = {
+				ideology = social_democrat
+				popularity = 0.02
+			}
+			add_war_support = -0.05
+		}
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_union_organizing"
+			add_popularity = {
+				ideology = collectivist
+				popularity = 0.02
+			}
+			add_popularity = {
+				ideology = libertarian_socialist
+				popularity = 0.02
+			}
+			add_stability = -0.02
+			set_temp_variable = { RHI_change_projection_add = -0.001 }
+			RHI_republican_stability_decrease = yes
+		}
+	}
+	
+	# Repeatable Decisions
+	
+	RHI_root_out_communist_cells = {
+		icon = oppression
+		available = {
+			has_country_flag = RHI_republican_stability_mechanic
+		}
+		custom_cost_trigger = {
+			command_power > 25
+		}
+		custom_cost_text = CP_25
+		ai_will_do = { base = 45 }
+		cost = 25
+		days_remove = 14
+		modifier = { 
+			political_power_cost = 0.15
+			vanguardist_drift = -0.1
+			collectivist_drift = -0.15
+			libertarian_socialist_drift = -0.1
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_root_out_communist_cells"
+			set_country_flag = RHI_put_down_communists
+			hidden_effect = { 
+				add_command_power = -25
+				RHI = { country_event = { id = rhein.flavor.1 days = 35 random_days = 35 } }
+			}
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_root_out_communist_cells"
+			add_popularity = {
+				ideology = vanguardist
+				popularity = -0.02
+			}
+			add_popularity = {
+				ideology = collectivist
+				popularity = -0.01
+			}
+			add_popularity = {
+				ideology = libertarian_socialist
+				popularity = -0.02
+			}
+		}
+	}
+	
+	RHI_arrest_valkists = {
+		icon = oppression
+		available = {
+			has_country_flag = RHI_republican_stability_mechanic
+			NOT = { has_decision = RHI_root_out_communist_cells }
+		}
+		ai_will_do = { base = 45 }
+		cost = 15
+		days_remove = 30
+		modifier = { 
+			political_power_cost = 0.2
+			valkist_drift = -0.05
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_arrest_valkists"
+			add_stability = -0.02
+			set_country_flag = RHI_valkists_arrested
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_arrest_valkists"
+			add_war_support = -0.02
+			add_popularity = {
+				ideology = valkist
+				popularity = -0.06
+			}
+		}
+	}
+	
+	RHI_prop_up_rivals = {
+		icon = oppression
+		available = {
+			has_country_flag = RHI_republican_stability_mechanic
+			has_country_leader = {
+				character = RHI_Kurt_von_Schleicher
+			}
+		}
+		visible = {
+			has_country_leader = {
+				character = RHI_Kurt_von_Schleicher
+			}
+		}
+		ai_will_do = { base = 45 }
+		cost = 35
+		days_remove = 60
+		modifier = { 
+			political_power_cost = 0.05
+			vanguardist_drift = -0.04
+			collectivist_drift = -0.06
+			libertarian_socialist_drift = 0.1
+			national_populist_drift = 0.1
+			valkist_drift = -0.1
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_prop_up_rivals"
+			set_temp_variable = { RHI_change_projection_add = -0.002 }
+			RHI_republican_stability_decrease = yes
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_prop_up_rivals"
+			add_stability = -0.02
+			add_political_power = -25
+			add_popularity = {
+				ideology = libertarian_socialist
+				popularity = 0.05
+			}
+			add_popularity = {
+				ideology = national_populist
+				popularity = 0.05
+			}
+		}
+	}
+	
+	RHI_constituitional_reforms = {
+		icon = oppression
+		available = {
+			has_country_flag = RHI_republican_stability_mechanic
+			OR = {
+				has_completed_focus = RHI_german_republicans_take_power
+				has_completed_focus = RHI_amend_weimar_constitution
+			}
+		}
+		ai_will_do = { base = 125 }
+		fire_only_once = yes
+		days_remove = 60
+		cost = 35
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_constituitional_reforms"
+			set_temp_variable = { RHI_republican_stability_change = 0.05 }
+			RHI_republican_stability_change = yes
+			set_temp_variable = { RHI_change_projection_add = 0.005 }
+			RHI_republican_stability_decrease = yes
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_constituitional_reforms"
+			activate_targeted_decision = { target = RHI decision = RHI_push_out_extremist_parties }
+			activate_targeted_decision = { target = RHI decision = RHI_reduce_proportionalization }
+			activate_targeted_decision = { target = RHI decision = RHI_republican_strengthening_act }
+			activate_targeted_decision = { target = RHI decision = RHI_weaken_presidential_powers }
+		}
+	}
+	
+	RHI_increase_military_investment = {
+		icon = oppression
+		available = {
+			has_country_flag = RHI_republican_stability_mechanic
+		}
+		ai_will_do = { base = 45 }
+		days_remove = 120
+		modifier = { 
+			political_power_cost = 0.15
+			industrial_capacity_factory = 0.25
+			command_power_gain = 2
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_increase_military_investment"
+			set_temp_variable = { ideology_change_var = -0.08 } 
+			change_ruling_party_popularity = yes
+			RHI_reichswehr_pleased = yes
+			set_country_flag = RHI_active_mil_investment
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_increase_military_investment"
+			set_temp_variable = { RHI_republican_stability_change = 0.02 }
+			RHI_republican_stability_change = yes
+			clr_country_flag = RHI_active_mil_investment
+			if = {
+				limit = { has_idea = RHI_militarization_drive }
+				remove_ideas = RHI_militarization_drive
+			}
+		}
+	}
+	
+	RHI_negotiate_with_seperatists = {
+		icon = oppression
+		available = {
+			has_country_flag = RHI_republican_stability_mechanic
+		}
+		ai_will_do = { base = 45 }
+		cost = 35
+		days_remove = 30
+		modifier = { 
+			political_power_factor = -0.75
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_negotiate_with_seperatists"
+			if = {
+				limit = { has_completed_focus = RHI_dorten_adenauer_federalism }
+				set_temp_variable = { RHI_republican_stability_change = 0.06 }
+				RHI_republican_stability_change = yes
+			}
+			else = {
+				set_temp_variable = { RHI_republican_stability_change = 0.02 }
+				RHI_republican_stability_change = yes
+			}
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_negotiate_with_seperatists"
+			add_stability = 0.1
+			add_war_support = 0.1
+		}
+	}
+	
+	# Special Missions
+	
+	RHI_social_democrat_attacks = {
+		icon = eng_blackshirt_speech	
+		activation = { always = no }
+		is_good = no
+		available = { 
+			is_in_coalition_with_social_democrat = yes
+		}
+		days_mission_timeout = 140
+		ai_will_do = {
+			factor = 125
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_social_democrat_attacks"
+			set_temp_variable = { RHI_republican_stability_change = 0.05 }
+			RHI_republican_stability_change = yes
+		}
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_social_democrat_attacks"
+			add_popularity = {
+				ideology = social_democrat
+				popularity = 0.05
+			}
+			set_temp_variable = { RHI_change_projection_add = -0.015 }
+			RHI_republican_stability_decrease = yes
+		}
+	}
+	
+	RHI_military_demands = {
+		icon = eng_blackshirt_speech	
+		activation = { always = no }
+		available = { 
+			has_completed_focus = RHI_support_local_arms_manfacturing
+			has_country_flag = RHI_active_mil_investment
+			OR = {
+				has_completed_focus = RHI_contact_dissident_reichswehr_officers
+				has_completed_focus = RHI_trad_army
+			}
+		}
+		is_good = no
+		days_mission_timeout = 180
+		ai_will_do = {
+			factor = 125
+		}
+		cancel_trigger = {
+			OR = {
+				has_completed_focus = RHI_invite_french_military_advisors
+				has_completed_focus = RHI_swiss_militia
+			}
+		}
+		cancel_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision cancelled RHI_military_demands"
+			country_event = rhein.republic.27
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_military_demands"
+			set_temp_variable = { RHI_republican_stability_change = 0.01 }
+			RHI_republican_stability_change = yes
+			RHI_reichswehr_pleased = yes
+		}
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_military_demands"
+			country_event = rhein.republic.27
+		}
+	}
+	
+	RHI_schleicher_expectations = {
+		icon = eng_blackshirt_speech	
+		activation = { always = no }
+		is_good = no
+		available = { 
+			custom_trigger_tooltip = {
+				tooltip = RHI_schleicher_expectations_tt
+				check_variable = {
+					var = RHI_republican_stability
+					value = RHI_republican_stability_toboost
+					compare = greater_than_or_equals
+				}
+			}
+		}
+		days_mission_timeout = 150
+		ai_will_do = {
+			factor = 125
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_schleicher_expectations"
+			add_stability = 0.1
+			add_war_support = 0.15
+			add_political_power = 100
+			add_popularity = {
+				ideology = authoritarian_democrat
+				popularity = 0.15
+			}
+			clear_variable = RHI_republican_stability_toboost
+		}
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_schleicher_expectations"
+			add_war_support = -0.1
+			add_political_power = -100
+			if = {
+				limit = { has_country_flag = RHI_schleicher_even_more_expectations }
+				add_stability = -0.1
+			}
+			clear_variable = RHI_republican_stability_toboost
+			hidden_effect = { 
+				if = {
+					limit = { has_country_flag = RHI_schleicher_even_more_expectations }
+					country_event = { id = rhein.republic.37 days = 7 }
+				}
+				else = { country_event = { id = rhein.republic.32 days = 14 } }
+			}
+		}
+	}
+	
+	RHI_rival_repub_government = {
+		icon = eng_blackshirt_speech	
+		activation = { always = no }
+		is_good = no
+		available = { always = no }
+		days_mission_timeout = 70
+		ai_will_do = {
+			factor = 125
+		}
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_rival_repub_government"
+			custom_effect_tooltip = RHI_republican_government_tt
+			if = {
+				limit = {
+					custom_trigger_tooltip = {
+						tooltip = RHI_republican_government_tt
+						check_variable = {
+							var = RHI_republican_stability
+							value = RHI_republican_stability_toboost_woo
+							compare = greater_than_or_equals
+						}
+					}
+				}
+				add_stability = 0.05
+				add_war_support = 0.15
+			}
+			else = {
+				add_war_support = -0.1
+				add_political_power = -175
+			}
+			clear_variable = RHI_republican_stability_toboost_woo
+		}
+	}
+	
+	RHI_satisfy_bavarians = {
+		icon = eng_blackshirt_speech	
+		activation = { always = no }
+		is_good = no
+		available = { 
+			RHI_bavarians_big_mad = yes
+		}
+		days_mission_timeout = 150
+		ai_will_do = {
+			factor = 125
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_satisfy_bavarians"
+			country_event = rhein.federals.11
+		}
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_satisfy_bavarians"
+			add_political_power = -100
+		}
+	}
+}
+
+RHI_democratic_bills_cat = {
+	# Bills and the like
+	
+	RHI_diminish_prussia = {
+		icon = eng_blackshirt_speech	
+		allowed = { always = no }
+		available = { NOT = { has_country_flag = RHI_passing_bill } }
+		days_remove = 60
+		ai_will_do = {
+			factor = 100
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_diminish_prussia"
+			set_country_flag = RHI_passing_bill
+			set_temp_variable = { RHI_party_bill_popularity_fake = 0.45 }
+			custom_effect_tooltip = RHI_democratic_bill_measure
+			effect_tooltip = {
+				add_political_power = 150
+				set_temp_variable = { RHI_change_projection_add = 0.004 }
+				RHI_republican_stability_decrease = yes
+				set_temp_variable = { RHI_federal_progress_change = 10 }
+				RHI_federal_progress = yes
+				set_country_flag = RHI_prussian_strike_success
+				activate_mission = RHI_military_demands
+			}
+			custom_effect_tooltip = tooltip_white_line
+			set_temp_variable = { RHI_party_bill_popularity_fake = 0.5 }
+			custom_effect_tooltip = RHI_democratic_bill_measure
+			effect_tooltip = {
+				add_political_power = 150
+				set_temp_variable = { RHI_change_projection_add = 0.004 }
+				RHI_republican_stability_decrease = yes
+				set_temp_variable = { RHI_federal_progress_change = 10 }
+				RHI_federal_progress = yes
+				set_country_flag = RHI_prussian_strike_success
+				activate_targeted_decision = { target = RHI decision = RHI_destroy_prussia }
+				activate_mission = RHI_military_demands
+			}
+			custom_effect_tooltip = tooltip_white_line
+			custom_effect_tooltip = RHI_democratic_bill_measure_fail
+			effect_tooltip = {
+				set_temp_variable = { RHI_republican_stability_change = -0.1 }
+				RHI_republican_stability_change = yes
+				set_temp_variable = { RHI_federal_progress_change = -20 }
+				RHI_federal_progress = yes
+				RHI_reichswehr_antagonized = yes
+				set_country_flag = RHI_prussian_strike_failed
+				uncomplete_national_focus = { focus = RHI_no_more_prussian_hegemony }
+			}
+		}
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_diminish_prussia"
+			if = {
+				limit = { 
+					has_completed_focus = RHI_no_more_prussian_hegemony
+					RHI_bill_passing_trigger = yes
+					check_variable = { RHI_party_bill_popularity > 0.44 }
+				}
+				add_political_power = 150
+				set_temp_variable = { RHI_change_projection_add = 0.004 }
+				RHI_republican_stability_decrease = yes
+				set_temp_variable = { RHI_federal_progress_change = 10 }
+				RHI_federal_progress = yes
+				set_country_flag = RHI_prussian_strike_success
+				activate_mission = RHI_military_demands
+			}
+			else_if = {
+				limit = { 
+					RHI_bill_passing_trigger = yes
+					check_variable = { RHI_party_bill_popularity > 0.49 }
+				}
+				add_political_power = 150
+				set_temp_variable = { RHI_change_projection_add = 0.004 }
+				RHI_republican_stability_decrease = yes
+				set_temp_variable = { RHI_federal_progress_change = 10 }
+				RHI_federal_progress = yes
+				set_country_flag = RHI_prussian_strike_success
+				activate_targeted_decision = { target = RHI decision = RHI_destroy_prussia }
+				activate_mission = RHI_military_demands
+			}
+			else = {
+				set_temp_variable = { RHI_republican_stability_change = -0.1 }
+				RHI_republican_stability_change = yes
+				set_temp_variable = { RHI_federal_progress_change = -20 }
+				RHI_federal_progress = yes
+				RHI_reichswehr_antagonized = yes
+				set_country_flag = RHI_prussian_strike_failed
+				uncomplete_national_focus = { focus = RHI_no_more_prussian_hegemony }
+			}
+			RHI_bill_passing_effect = yes
+		}
+	}
+	
+	RHI_destroy_prussia = {
+		icon = eng_blackshirt_speech	
+		allowed = { always = no }
+		available = { has_completed_focus = RHI_no_more_prussian_hegemony }
+		days_remove = 60
+		ai_will_do = {
+			factor = 35
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_destroy_prussia"
+			set_country_flag = RHI_passing_bill
+			set_temp_variable = { RHI_party_bill_popularity_fake = 0.65 }
+			custom_effect_tooltip = RHI_democratic_bill_measure
+			effect_tooltip = {
+				add_political_power = 150
+				set_temp_variable = { RHI_change_projection_add = 0.004 }
+				RHI_republican_stability_decrease = yes
+				set_temp_variable = { RHI_federal_progress_change = 10 }
+				RHI_federal_progress = yes
+				set_country_flag = RHI_prussian_strike_success
+				activate_targeted_decision = { target = RHI decision = RHI_destroy_prussia }
+				activate_mission = RHI_military_demands
+			}
+			custom_effect_tooltip = tooltip_white_line
+			custom_effect_tooltip = RHI_destroy_prussia_tt
+			effect_tooltip = {
+			add_political_power = 200
+				set_temp_variable = { RHI_change_projection_add = 0.01 }
+				RHI_republican_stability_decrease = yes
+				set_temp_variable = { RHI_federal_progress_change = 15 }
+				RHI_federal_progress = yes
+				add_ideas = RHI_anti_valkist_bulwark
+			}
+			custom_effect_tooltip = tooltip_white_line
+			custom_effect_tooltip = RHI_democratic_bill_measure_fail
+			effect_tooltip = {
+				set_temp_variable = { RHI_republican_stability_change = -0.05 }
+				RHI_republican_stability_change = yes
+				set_temp_variable = { RHI_federal_progress_change = -5 }
+				RHI_federal_progress = yes
+				RHI_reichswehr_antagonized = yes
+			}
+		}
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_destroy_prussia"
+			if = {
+				limit = { 
+					RHI_bill_passing_trigger = yes
+					check_variable = { RHI_party_bill_popularity > 0.64 }
+					has_completed_focus = RHI_no_more_prussian_hegemony
+				}
+				add_political_power = 200
+				set_temp_variable = { RHI_change_projection_add = 0.01 }
+				RHI_republican_stability_decrease = yes
+				set_temp_variable = { RHI_federal_progress_change = 15 }
+				RHI_federal_progress = yes
+				add_ideas = RHI_anti_valkist_bulwark
+			}
+			else_if = {
+				limit = { 
+					RHI_bill_passing_trigger = yes
+					check_variable = { RHI_party_bill_popularity > 0.64 }
+				}
+				add_political_power = 100
+				set_temp_variable = { RHI_change_projection_add = 0.004 }
+				RHI_republican_stability_decrease = yes
+				set_temp_variable = { RHI_federal_progress_change = 15 }
+				RHI_federal_progress = yes
+				set_country_flag = RHI_prussia_destroyed
+				activate_mission = RHI_military_demands
+			}
+			else = {
+				set_temp_variable = { RHI_republican_stability_change = -0.05 }
+				RHI_republican_stability_change = yes
+				set_temp_variable = { RHI_federal_progress_change = -5 }
+				RHI_federal_progress = yes
+				RHI_reichswehr_antagonized = yes
+			}
+			RHI_bill_passing_effect = yes
+		}
+	}
+	
+	RHI_reichsreform = {
+		icon = eng_blackshirt_speech	
+		allowed = { always = no }
+		available = { NOT = { has_country_flag = RHI_passing_bill } }
+		days_remove = 60
+		ai_will_do = {
+			factor = 100
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_reichsreform"
+			set_country_flag = RHI_passing_bill
+			set_temp_variable = { RHI_party_bill_popularity_fake = 0.55 }
+			custom_effect_tooltip = RHI_democratic_bill_measure
+			effect_tooltip = {
+				add_stability = 0.05
+				add_political_power = 100
+				set_temp_variable = { RHI_federal_progress_change = 15 }
+				RHI_federal_progress = yes
+			}
+			custom_effect_tooltip = tooltip_white_line
+			custom_effect_tooltip = RHI_democratic_bill_measure_fail
+			effect_tooltip = {
+				add_political_power = -50
+				set_temp_variable = { RHI_federal_progress_change = -10 }
+				RHI_federal_progress = yes
+			}
+		}
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_reichsreform"
+			if = {
+				limit = { 
+					RHI_bill_passing_trigger = yes
+					check_variable = { RHI_party_bill_popularity > 0.54 }
+				}
+				add_stability = 0.05
+				add_political_power = 100
+				set_temp_variable = { RHI_federal_progress_change = 15 }
+				RHI_federal_progress = yes
+			}
+			else = {
+				add_political_power = -50
+				set_temp_variable = { RHI_federal_progress_change = -10 }
+				RHI_federal_progress = yes
+			}
+			RHI_bill_passing_effect = yes
+		}
+	}
+	
+	RHI_overhaul_bureaucracy = {
+		icon = eng_blackshirt_speech	
+		allowed = { always = no }
+		available = { NOT = { has_country_flag = RHI_passing_bill } }
+		days_remove = 60
+		ai_will_do = {
+			factor = 45
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_overhaul_bureaucracy"
+			set_country_flag = RHI_passing_bill
+			set_temp_variable = { RHI_party_bill_popularity_fake = 0.5 }
+			custom_effect_tooltip = RHI_democratic_bill_measure
+			effect_tooltip = {
+				add_political_power = 150
+				set_temp_variable = { RHI_change_projection_add = 0.004 }
+				RHI_republican_stability_decrease = yes
+				set_temp_variable = { RHI_federal_progress_change = 5 }
+				RHI_federal_progress = yes
+			}
+			custom_effect_tooltip = tooltip_white_line
+			custom_effect_tooltip = RHI_democratic_bill_measure_fail
+			effect_tooltip = {
+				set_temp_variable = { RHI_republican_stability_change = -0.05 }
+				RHI_republican_stability_change = yes
+				set_temp_variable = { RHI_federal_progress_change = -5 }
+				RHI_federal_progress = yes
+			}
+		}
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_overhaul_bureaucracy"
+			if = {
+				limit = { 
+					RHI_bill_passing_trigger = yes
+					check_variable = { RHI_party_bill_popularity > 0.49 }
+				}
+				add_political_power = 150
+				set_temp_variable = { RHI_change_projection_add = 0.004 }
+				RHI_republican_stability_decrease = yes
+				set_temp_variable = { RHI_federal_progress_change = 5 }
+				RHI_federal_progress = yes
+			}
+			else = {
+				set_temp_variable = { RHI_republican_stability_change = -0.05 }
+				RHI_republican_stability_change = yes
+				set_temp_variable = { RHI_federal_progress_change = -5 }
+				RHI_federal_progress = yes
+			}
+			RHI_bill_passing_effect = yes
+		}
+	}
+	
+	RHI_the_federal_military = {
+		icon = eng_blackshirt_speech	
+		allowed = { always = no }
+		available = { NOT = { has_country_flag = RHI_passing_bill } }
+		days_remove = 60
+		ai_will_do = {
+			factor = 45
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_the_federal_military"
+			set_country_flag = RHI_passing_bill
+			set_temp_variable = { RHI_party_bill_popularity_fake = 0.5 }
+			custom_effect_tooltip = RHI_democratic_bill_measure
+			effect_tooltip = {
+				add_command_power = 50
+				set_temp_variable = { RHI_change_projection_add = 0.002 }
+				RHI_republican_stability_decrease = yes
+				set_temp_variable = { RHI_federal_progress_change = 10 }
+				RHI_federal_progress = yes
+				set_country_flag = RHI_military_reformed
+			}
+			custom_effect_tooltip = tooltip_white_line
+			custom_effect_tooltip = RHI_democratic_bill_measure_fail
+			effect_tooltip = {
+				set_temp_variable = { RHI_republican_stability_change = -0.05 }
+				RHI_republican_stability_change = yes
+				set_temp_variable = { RHI_federal_progress_change = -10 }
+				RHI_federal_progress = yes
+				RHI_reichswehr_antagonized = yes
+			}
+		}
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_the_federal_military"
+			if = {
+				limit = { 
+					RHI_bill_passing_trigger = yes
+					check_variable = { RHI_party_bill_popularity > 0.49 }
+				}
+				add_command_power = 50
+				set_temp_variable = { RHI_change_projection_add = 0.002 }
+				RHI_republican_stability_decrease = yes
+				set_temp_variable = { RHI_federal_progress_change = 10 }
+				RHI_federal_progress = yes
+				set_country_flag = RHI_military_reformed
+			}
+			else = {
+				set_temp_variable = { RHI_republican_stability_change = -0.05 }
+				RHI_republican_stability_change = yes
+				set_temp_variable = { RHI_federal_progress_change = -10 }
+				RHI_federal_progress = yes
+				RHI_reichswehr_antagonized = yes
+			}
+			RHI_bill_passing_effect = yes
+		}
+	}
+	
+	RHI_rhineland_autonomy = {
+		icon = eng_blackshirt_speech	
+		allowed = { always = no }
+		available = { NOT = { has_country_flag = RHI_passing_bill } }
+		days_remove = 60
+		ai_will_do = {
+			factor = 45
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_rhineland_autonomy"
+			set_country_flag = RHI_passing_bill
+			set_temp_variable = { RHI_party_bill_popularity_fake = 0.55 }
+			custom_effect_tooltip = RHI_democratic_bill_measure
+			effect_tooltip = {
+				set_temp_variable = { RHI_republican_stability_change = -0.03 }
+				RHI_republican_stability_change = yes
+				add_political_power = 150
+				set_temp_variable = { RHI_federal_progress_change = 10 }
+				RHI_federal_progress = yes
+			}
+			custom_effect_tooltip = tooltip_white_line
+			custom_effect_tooltip = RHI_democratic_bill_measure_fail
+			effect_tooltip = {
+				set_temp_variable = { RHI_republican_stability_change = -0.02 }
+				RHI_republican_stability_change = yes
+				set_temp_variable = { RHI_federal_progress_change = -20 }
+				RHI_federal_progress = yes
+			}
+		}
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_rhineland_autonomy"
+			if = {
+				limit = { 
+					RHI_bill_passing_trigger = yes
+					check_variable = { RHI_party_bill_popularity > 0.54 }
+				}
+				set_temp_variable = { RHI_republican_stability_change = -0.03 }
+				RHI_republican_stability_change = yes
+				add_political_power = 150
+				set_temp_variable = { RHI_federal_progress_change = 10 }
+				RHI_federal_progress = yes
+			}
+			else = {
+				set_temp_variable = { RHI_republican_stability_change = -0.02 }
+				RHI_republican_stability_change = yes
+				set_temp_variable = { RHI_federal_progress_change = -20 }
+				RHI_federal_progress = yes
+			}
+			RHI_bill_passing_effect = yes
+		}
+	}
+	
+	RHI_push_out_extremist_parties = {
+		icon = eng_blackshirt_speech	
+		allowed = { always = no }
+		available = { NOT = { has_country_flag = RHI_passing_bill } }
+		days_remove = 60
+		ai_will_do = {
+			factor = 100
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_push_out_extremist_parties"
+			set_country_flag = RHI_passing_bill
+			set_temp_variable = { RHI_party_bill_popularity_fake = 0.5 }
+			custom_effect_tooltip = RHI_democratic_bill_measure
+			effect_tooltip = {
+				set_temp_variable = { RHI_republican_stability_change = 0.05 }
+				RHI_republican_stability_change = yes
+				add_popularity = {
+					ideology = vanguardist
+					popularity = -0.05
+				}
+				add_popularity = {
+					ideology = collectivist
+					popularity = -0.1
+				}
+				add_popularity = {
+					ideology = valkist
+					popularity = -0.1
+				}
+			}
+			custom_effect_tooltip = tooltip_white_line
+			custom_effect_tooltip = RHI_democratic_bill_measure_fail
+			effect_tooltip = {
+				set_temp_variable = { RHI_republican_stability_change = -0.05 }
+				RHI_republican_stability_change = yes
+				add_popularity = {
+					ideology = vanguardist
+					popularity = 0.05
+				}
+				add_popularity = {
+					ideology = valkist
+					popularity = 0.05
+				}
+			}
+		}
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_push_out_extremist_parties"
+			if = {
+				limit = { 
+					RHI_bill_passing_trigger = yes
+					check_variable = { RHI_party_bill_popularity > 0.49 }
+				}
+				set_temp_variable = { RHI_republican_stability_change = 0.05 }
+				RHI_republican_stability_change = yes
+				add_popularity = {
+					ideology = vanguardist
+					popularity = -0.05
+				}
+				add_popularity = {
+					ideology = collectivist
+					popularity = -0.1
+				}
+				add_popularity = {
+					ideology = valkist
+					popularity = -0.1
+				}
+			}
+			else = {
+				set_temp_variable = { RHI_republican_stability_change = -0.05 }
+				RHI_republican_stability_change = yes
+				add_popularity = {
+					ideology = vanguardist
+					popularity = 0.05
+				}
+				add_popularity = {
+					ideology = valkist
+					popularity = 0.05
+				}
+			}
+			RHI_bill_passing_effect = yes
+		}
+	}
+	
+	RHI_reduce_proportionalization = {
+		icon = eng_blackshirt_speech	
+		allowed = { always = no }
+		available = { NOT = { has_country_flag = RHI_passing_bill } }
+		days_remove = 60
+		ai_will_do = {
+			factor = 100
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_reduce_proportionalization"
+			set_country_flag = RHI_passing_bill
+			set_temp_variable = { RHI_party_bill_popularity_fake = 0.5 }
+			custom_effect_tooltip = RHI_democratic_bill_measure
+			effect_tooltip = {
+				add_stability = 0.05
+				add_political_power = 75
+				set_temp_variable = { RHI_change_projection_add = 0.01 }
+				RHI_republican_stability_decrease = yes
+			}
+			custom_effect_tooltip = tooltip_white_line
+			custom_effect_tooltip = RHI_democratic_bill_measure_fail
+			effect_tooltip = {
+				add_political_power = -50
+				set_temp_variable = { RHI_change_projection_add = -0.005 }
+				RHI_republican_stability_decrease = yes
+			}
+		}
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_reduce_proportionalization"
+			if = {
+				limit = { 
+					RHI_bill_passing_trigger = yes
+					check_variable = { RHI_party_bill_popularity > 0.49 }
+				}
+				add_stability = 0.05
+				add_political_power = 75
+				set_temp_variable = { RHI_change_projection_add = 0.01 }
+				RHI_republican_stability_decrease = yes
+			}
+			else = {
+				add_political_power = -50
+				set_temp_variable = { RHI_change_projection_add = -0.005 }
+				RHI_republican_stability_decrease = yes
+			}
+			RHI_bill_passing_effect = yes
+		}
+	}
+	
+	RHI_republican_strengthening_act = {
+		icon = eng_blackshirt_speech	
+		allowed = { always = no }
+		available = { NOT = { has_country_flag = RHI_passing_bill } }
+		days_remove = 60
+		ai_will_do = {
+			factor = 45
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_republican_strengthening_act"
+			set_country_flag = RHI_passing_bill
+			set_temp_variable = { RHI_party_bill_popularity_fake = 0.5 }
+			custom_effect_tooltip = RHI_democratic_bill_measure
+			effect_tooltip = {
+				add_political_power = 150
+				set_temp_variable = { RHI_change_projection_add = 0.004 }
+				RHI_republican_stability_decrease = yes
+				set_temp_variable = { RHI_republican_stability_change = 0.1 }
+				RHI_republican_stability_change = yes
+				activate_mission = RHI_military_demands
+			}
+			custom_effect_tooltip = tooltip_white_line
+			custom_effect_tooltip = RHI_democratic_bill_measure_fail
+			effect_tooltip = {
+				set_temp_variable = { RHI_republican_stability_change = -0.1 }
+				RHI_republican_stability_change = yes
+			}
+		}
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_republican_strengthening_act"
+			if = {
+				limit = { 
+					RHI_bill_passing_trigger = yes
+					check_variable = { RHI_party_bill_popularity > 0.49 }
+				}
+				add_political_power = 150
+				set_temp_variable = { RHI_change_projection_add = 0.004 }
+				RHI_republican_stability_decrease = yes
+				set_temp_variable = { RHI_republican_stability_change = 0.1 }
+				RHI_republican_stability_change = yes
+				activate_mission = RHI_military_demands
+			}
+			else = {
+				set_temp_variable = { RHI_republican_stability_change = -0.1 }
+				RHI_republican_stability_change = yes
+			}
+			RHI_bill_passing_effect = yes
+		}
+	}
+	
+	RHI_weaken_presidential_powers = {
+		icon = eng_blackshirt_speech	
+		allowed = { always = no }
+		available = { NOT = { has_country_flag = RHI_passing_bill } }
+		days_remove = 60
+		ai_will_do = {
+			factor = 45
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_weaken_presidential_powers"
+			set_country_flag = RHI_passing_bill
+			set_temp_variable = { RHI_party_bill_popularity_fake = 0.5 }
+			custom_effect_tooltip = RHI_democratic_bill_measure
+			effect_tooltip = {
+				add_political_power = 25
+				set_temp_variable = { RHI_change_projection_add = 0.01 }
+				RHI_republican_stability_decrease = yes
+				set_temp_variable = { RHI_republican_stability_change = -0.02 }
+				RHI_republican_stability_change = yes
+			}
+			custom_effect_tooltip = tooltip_white_line
+			custom_effect_tooltip = RHI_democratic_bill_measure_fail
+			effect_tooltip = {
+				add_political_power = -100
+				set_temp_variable = { RHI_change_projection_add = -0.005 }
+				RHI_republican_stability_decrease = yes
+			}
+		}
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_weaken_presidential_powers"
+			if = {
+				limit = { 
+					RHI_bill_passing_trigger = yes
+					check_variable = { RHI_party_bill_popularity > 0.49 }
+				}
+				add_political_power = 25
+				set_temp_variable = { RHI_change_projection_add = 0.01 }
+				RHI_republican_stability_decrease = yes
+				set_temp_variable = { RHI_republican_stability_change = -0.02 }
+				RHI_republican_stability_change = yes
+			}
+			else = {
+				add_political_power = -100
+				set_temp_variable = { RHI_change_projection_add = -0.005 }
+				RHI_republican_stability_decrease = yes
+			}
+			RHI_bill_passing_effect = yes
+		}
+	}
+	
+	RHI_militarization_bill = {
+		icon = eng_blackshirt_speech	
+		activation = { always = no }
+		available = { always = no }
+		days_mission_timeout = 35
+		ai_will_do = {
+			factor = 125
+		}
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_militarization_bill"
+			set_temp_variable = { RHI_party_bill_popularity_fake = 0.75 }
+			custom_effect_tooltip = RHI_democratic_bill_measure
+			effect_tooltip = { add_ideas = RHI_militarized_state3 }
+			custom_effect_tooltip = tooltip_white_line
+			set_temp_variable = { RHI_party_bill_popularity_fake = 0.5 }
+			custom_effect_tooltip = RHI_democratic_bill_measure
+			effect_tooltip = { add_ideas = RHI_militarized_state2 }
+			custom_effect_tooltip = tooltip_white_line
+			custom_effect_tooltip = RHI_democratic_bill_measure_fail
+			effect_tooltip = { add_ideas = RHI_militarized_state }
+			custom_effect_tooltip = tooltip_white_line
+			custom_effect_tooltip = RHI_bill_transition_tt
+			if = {
+				limit = { 
+					RHI_bill_passing_trigger = yes
+					check_variable = { RHI_party_bill_popularity > 0.74 }
+				}
+				add_ideas = RHI_militarized_state3
+			}
+			else_if = {
+				limit = { 
+					RHI_bill_passing_trigger = yes
+					check_variable = { RHI_party_bill_popularity > 0.49 }
+				}
+				add_ideas = RHI_militarized_state2
+			}
+			else = {
+				add_ideas = RHI_militarized_state
+			}
+			RHI_bill_passing_effect = yes
+		}
+	}
+	
+	RHI_state_of_emergency = {
+		icon = eng_blackshirt_speech	
+		activation = { always = no }
+		available = { always = no }
+		days_mission_timeout = 35
+		ai_will_do = {
+			factor = 125
+		}
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_state_of_emergency"
+			set_temp_variable = { RHI_party_bill_popularity_fake = 0.75 }
+			custom_effect_tooltip = RHI_democratic_bill_measure
+			effect_tooltip = { 
+				add_ideas = RHI_total_emergency
+				set_temp_variable = { RHI_republican_stability_change = 0.04 }
+				RHI_republican_stability_change = yes
+			}
+			custom_effect_tooltip = tooltip_white_line
+			set_temp_variable = { RHI_party_bill_popularity_fake = 0.5 }
+			custom_effect_tooltip = RHI_democratic_bill_measure
+			effect_tooltip = { 
+				add_ideas = RHI_continued_emergency
+				set_temp_variable = { RHI_republican_stability_change = 0.02 }
+				RHI_republican_stability_change = yes
+			}
+			custom_effect_tooltip = tooltip_white_line
+			custom_effect_tooltip = RHI_democratic_bill_measure_fail
+			effect_tooltip = { 
+				add_ideas = RHI_less_emergency
+				add_political_power = -50
+			}
+			custom_effect_tooltip = tooltip_white_line
+			custom_effect_tooltip = RHI_bill_transition_tt
+			if = {
+				limit = { 
+					RHI_bill_passing_trigger = yes
+					check_variable = { RHI_party_bill_popularity > 0.74 }
+				}
+				add_ideas = RHI_total_emergency
+				set_temp_variable = { RHI_republican_stability_change = 0.04 }
+				RHI_republican_stability_change = yes
+			}
+			else_if = {
+				limit = { 
+					RHI_bill_passing_trigger = yes
+					check_variable = { RHI_party_bill_popularity > 0.49 }
+				}
+				add_ideas = RHI_continued_emergency
+				set_temp_variable = { RHI_republican_stability_change = 0.02 }
+				RHI_republican_stability_change = yes
+			}
+			else = {
+				add_political_power = -50
+				set_temp_variable = { RHI_republican_stability_change = -0.02 }
+				RHI_republican_stability_change = yes
+				add_ideas = RHI_less_emergency
+			}
+			RHI_bill_passing_effect = yes
+		}
+	}
+	
+	RHI_ban_faur = {
+		icon = eng_blackshirt_speech	
+		activation = { always = no }
+		available = { always = no }
+		days_mission_timeout = 70
+		ai_will_do = {
+			factor = 125
+		}
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_ban_faur"
+			set_temp_variable = { RHI_party_bill_popularity_fake = 0.5 }
+			custom_effect_tooltip = RHI_democratic_bill_measure
+			effect_tooltip = { 
+				add_popularity = {
+					ideology = libertarian_socialist
+					popularity = -0.25
+				}
+				set_country_flag = RHI_no_faur
+				swap_ideas = {
+					remove_idea = RHI_loyal_trade_unions
+					add_idea = RHI_loyal_trade_unions1
+				}
+			}
+			custom_effect_tooltip = tooltip_white_line
+			custom_effect_tooltip = RHI_democratic_bill_measure_fail
+			effect_tooltip = { 
+				add_political_power = -100
+				set_temp_variable = { RHI_republican_stability_change = -0.1 }
+				RHI_republican_stability_change = yes	
+				set_temp_variable = { RHI_change_projection_add = -0.001 }
+				RHI_republican_stability_decrease = yes
+			}
+			custom_effect_tooltip = tooltip_white_line
+			custom_effect_tooltip = RHI_bill_transition_tt
+			if = {
+				limit = { 
+					RHI_bill_passing_trigger = yes
+					check_variable = { RHI_party_bill_popularity > 0.49 }
+				}
+				add_popularity = {
+					ideology = libertarian_socialist
+					popularity = -0.25
+				}
+				set_country_flag = RHI_no_faur
+				swap_ideas = {
+					remove_idea = RHI_loyal_trade_unions
+					add_idea = RHI_loyal_trade_unions1
+				}
+			}
+			else = {
+				add_political_power = -100
+				set_temp_variable = { RHI_republican_stability_change = -0.1 }
+				RHI_republican_stability_change = yes	
+				set_temp_variable = { RHI_change_projection_add = -0.001 }
+				RHI_republican_stability_decrease = yes
+			}
+			RHI_bill_passing_effect = yes
+		}
+	}
+	
+	RHI_now_restore_president = {
+		icon = eng_blackshirt_speech	
+		activation = { always = no }
+		available = { always = no }
+		days_mission_timeout = 70
+		ai_will_do = {
+			factor = 125
+		}
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_now_restore_president"
+			set_temp_variable = { RHI_party_bill_popularity_fake = 0.5 }
+			custom_effect_tooltip = RHI_democratic_bill_measure
+			effect_tooltip = { 
+				country_event = rhein.republic.30
+			}
+			custom_effect_tooltip = tooltip_white_line
+			custom_effect_tooltip = RHI_democratic_bill_measure_fail
+			effect_tooltip = { 
+				add_political_power = -25
+				set_temp_variable = { RHI_republican_stability_change = -0.07 }
+				RHI_republican_stability_change = yes	
+			}
+			custom_effect_tooltip = tooltip_white_line
+			custom_effect_tooltip = RHI_bill_transition_tt
+			if = {
+				limit = { 
+					RHI_bill_passing_trigger = yes
+					check_variable = { RHI_party_bill_popularity > 0.49 }
+				}
+				country_event = rhein.republic.30
+			}
+			else = {
+				add_political_power = -25
+				set_temp_variable = { RHI_republican_stability_change = -0.07 }
+				RHI_republican_stability_change = yes	
+			}
+			RHI_bill_passing_effect = yes
+		}
+	}
+	
+	RHI_enabling_act = {
+		icon = eng_blackshirt_speech	
+		activation = { always = no }
+		available = { always = no }
+		days_mission_timeout = 70
+		ai_will_do = {
+			factor = 125
+		}
+		cancel_trigger = { hidden_trigger = { has_government = paternal_autocrat } }
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_enabling_act"
+			set_temp_variable = { RHI_party_bill_popularity_fake = 0.65 }
+			custom_effect_tooltip = RHI_democratic_bill_measure
+			effect_tooltip = { 
+				country_event = rhein.republic.33
+			}
+			if = {
+				limit = { has_country_flag = RHI_lib_backed_enabling_act }
+				custom_effect_tooltip = tooltip_white_line
+				set_temp_variable = { RHI_party_bill_popularity_fake = 0.55 }
+				custom_effect_tooltip = RHI_enabling_act_lib_tt
+				effect_tooltip = {
+					country_event = rhein.republic.57
+				}
+			}
+			custom_effect_tooltip = tooltip_white_line
+			custom_effect_tooltip = RHI_democratic_bill_measure_fail
+			effect_tooltip = { 
+				set_country_flag = RHI_schleicher_fails_enabling
+				country_event = rhein.republic.32
+				set_temp_variable = { RHI_republican_stability_change = -0.1 }
+				RHI_republican_stability_change = yes	
+			}
+			custom_effect_tooltip = tooltip_white_line
+			custom_effect_tooltip = RHI_bill_transition_tt
+			if = {
+				limit = { 
+					has_game_rule = { rule = RHI_ai_behavior option = RHI_SCHLEICHER }
+					RHI = { is_ai = yes }
+				}
+				country_event = rhein.republic.33
+			}
+			else_if = {
+				limit = { 
+					RHI_bill_passing_trigger = yes
+					check_variable = { RHI_party_bill_popularity > 0.64 }
+				}
+				country_event = rhein.republic.33
+			}
+			else_if = {
+				limit = {
+					RHI_bill_passing_trigger = yes
+					check_variable = { RHI_party_bill_popularity > 0.54 }
+					has_country_flag = RHI_lib_backed_enabling_act
+				}
+				country_event = rhein.republic.57
+			}
+			else = {
+				set_country_flag = RHI_schleicher_fails_enabling
+				country_event = rhein.republic.32
+				set_temp_variable = { RHI_republican_stability_change = -0.1 }
+				RHI_republican_stability_change = yes	
+			}
+			RHI_bill_passing_effect = yes
+		}
+	}
+	
+	RHI_ban_the_valkists = {
+		icon = eng_blackshirt_speech	
+		activation = { always = no }
+		available = { always = no }
+		days_mission_timeout = 70
+		ai_will_do = {
+			factor = 125
+		}
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_ban_the_valkists"
+			set_temp_variable = { RHI_party_bill_popularity_fake = 0.55 }
+			custom_effect_tooltip = RHI_democratic_bill_measure
+			effect_tooltip = { 
+				add_popularity = {
+					ideology = valkist
+					popularity = -0.35
+				}
+				set_country_flag = RHI_banned_valkists
+			}
+			custom_effect_tooltip = tooltip_white_line
+			custom_effect_tooltip = RHI_democratic_bill_measure_fail
+			effect_tooltip = { 
+				add_popularity = {
+					ideology = valkist
+					popularity = -0.1
+				}
+				set_temp_variable = { RHI_republican_stability_change = -0.05 }
+				RHI_republican_stability_change = yes	
+			}
+			custom_effect_tooltip = tooltip_white_line
+			custom_effect_tooltip = RHI_bill_transition_tt
+			if = {
+				limit = { 
+					RHI_bill_passing_trigger = yes
+					check_variable = { RHI_party_bill_popularity > 0.54 }
+				}
+				add_popularity = {
+					ideology = valkist
+					popularity = -0.35
+				}
+				set_country_flag = RHI_banned_valkists
+			}
+			else = {
+				add_popularity = {
+					ideology = valkist
+					popularity = -0.1
+				}
+				set_temp_variable = { RHI_republican_stability_change = -0.05 }
+				RHI_republican_stability_change = yes	
+			}
+			RHI_bill_passing_effect = yes
+		}
+	}
+	
+	RHI_restrict_press = {
+		icon = eng_blackshirt_speech	
+		activation = { always = no }
+		available = { always = no }
+		days_mission_timeout = 35
+		ai_will_do = {
+			factor = 125
+		}
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_restrict_press"
+			set_temp_variable = { RHI_party_bill_popularity_fake = 0.55 }
+			custom_effect_tooltip = RHI_democratic_bill_measure
+			effect_tooltip = { 
+				add_ideas = RHI_restricted_press
+				set_temp_variable = { RHI_republican_stability_change = 0.15 }
+				RHI_republican_stability_change = yes	
+				set_temp_variable = { RHI_change_projection_add = -0.005 }
+				RHI_republican_stability_decrease = yes
+			}
+			custom_effect_tooltip = tooltip_white_line
+			custom_effect_tooltip = RHI_democratic_bill_measure_fail
+			effect_tooltip = { 
+				set_temp_variable = { RHI_change_projection_add = -0.005 }
+				RHI_republican_stability_decrease = yes
+				set_temp_variable = { RHI_republican_stability_change = -0.1 }
+				RHI_republican_stability_change = yes	
+				add_popularity = {
+					ideology = collectivist
+					popularity = 0.02
+				}
+				add_popularity = {
+					ideology = valkist
+					popularity = 0.03
+				}
+			}
+			if = {
+				limit = { 
+					RHI_bill_passing_trigger = yes
+					check_variable = { RHI_party_bill_popularity > 0.54 }
+				}
+				add_ideas = RHI_restricted_press
+				set_temp_variable = { RHI_republican_stability_change = 0.15 }
+				RHI_republican_stability_change = yes	
+				set_temp_variable = { RHI_change_projection_add = -0.005 }
+				RHI_republican_stability_decrease = yes
+			}
+			else = {
+				set_temp_variable = { RHI_change_projection_add = -0.005 }
+				RHI_republican_stability_decrease = yes
+				set_temp_variable = { RHI_republican_stability_change = -0.1 }
+				RHI_republican_stability_change = yes	
+				add_popularity = {
+					ideology = collectivist
+					popularity = 0.02
+				}
+				add_popularity = {
+					ideology = valkist
+					popularity = 0.03
+				}
+			}
+			RHI_bill_passing_effect = yes
+		}
+	}
+
+	# Lobbying Decisions
+	
+	RHI_levy_schleicher_support = {
+		icon = oppression
+		visible = { has_country_flag = RHI_passing_bill NOT = { has_country_leader = { character = RHI_Kurt_von_Schleicher } } }
+		available = { 
+			NOT = { 
+				OR = { 
+					has_decision = RHI_republican_strengthening_act 
+					has_country_flag = RHI_full_schleicher_support 
+					has_completed_focus = RHI_dorten_adenauer_federalism
+				} 
+			} 
+		}
+		ai_will_do = { base = 45 }
+		days_remove = 14
+		modifier = { 
+			political_power_factor = -0.25
+			authoritarian_democrat_drift = 0.1
+			paternal_autocrat_drift = 0.1
+			
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_levy_schleicher_support"
+			add_popularity = {
+				ideology = authoritarian_democrat
+				popularity = 0.01
+			}
+			add_popularity = {
+				ideology = paternal_autocrat
+				popularity = 0.01
+			}
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_levy_schleicher_support"
+			if = {
+				limit = {
+					OR = {
+						has_active_mission = RHI_militarization_bill
+						has_active_mission = RHI_state_of_emergency
+						has_active_mission = RHI_ban_faur
+					}
+				}
+				set_country_flag = RHI_full_schleicher_support
+			}
+			else_if = {
+				limit = { has_country_flag = RHI_dependent_schleicher_support }
+				set_country_flag = RHI_full_schleicher_support
+				add_popularity = {
+					ideology = authoritarian_democrat
+					popularity = 0.03
+				}
+				set_temp_variable = { ideology_change_var = -0.03 } 
+				change_ruling_party_popularity = yes
+				clr_country_flag = RHI_dependent_schleicher_support
+			}
+			else = {
+				set_country_flag = RHI_dependent_schleicher_support
+			}
+		}
+	}
+	
+	RHI_bring_in_liberals = {
+		icon = oppression
+		visible = {
+			has_country_flag = RHI_passing_bill
+			NOT = { 
+				OR = {
+					has_government = social_liberal
+					has_government = market_liberal
+					has_country_flag = RHI_lib_backed_enabling_act
+				}
+			}
+		}
+		available = { 
+			NOT = { 
+				has_country_flag = RHI_full_liberal_support
+			}
+		}
+		ai_will_do = { base = 45 }
+		days_remove = 14
+		modifier = { 
+			political_power_factor = -0.25
+			social_liberal_drift = 0.1
+			market_liberal_drift = 0.1
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_bring_in_liberals"
+			add_popularity = {
+				ideology = social_liberal
+				popularity = 0.01
+			}
+			add_popularity = {
+				ideology = market_liberal
+				popularity = 0.01
+			}
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_bring_in_liberals"
+			if = {
+				limit = { has_country_flag = RHI_limited_liberal_support }
+				random_list = {
+					50 = { set_country_flag = RHI_socyes_marno }
+					50 = { set_country_flag = RHI_socno_maryes }
+				}
+				clr_country_flag = RHI_limited_liberal_support
+			}
+			else_if = {
+				limit = {
+					OR = {
+						has_decision = RHI_reduce_proportionalization
+						has_decision = RHI_push_out_extremist_parties
+						has_decision = RHI_overhaul_bureaucracy
+						has_decision = RHI_the_federal_military
+						has_active_mission = RHI_now_restore_president
+						has_country_flag = RHI_socyes_marno
+						has_country_flag = RHI_socno_maryes
+					}
+				}
+				set_country_flag = RHI_full_liberal_support
+				clr_country_flag = RHI_socyes_marno
+				clr_country_flag = RHI_socno_maryes
+			}
+			else_if = {
+				limit = {		
+					OR = {
+						has_country_flag = RHI_anti_prussian_sentiment
+						has_decision = RHI_weaken_presidential_powers
+						has_decision = RHI_republican_strengthening_act
+					}
+				}
+				set_country_flag = RHI_socyes_marno
+			}
+			else_if = {
+				limit = {		
+					OR = {
+						has_active_mission = RHI_militarization_bill
+						has_active_mission = RHI_state_of_emergency
+						has_active_mission = RHI_ban_faur
+					}
+				}
+				set_country_flag = RHI_socno_maryes
+			}
+			else = {
+				set_country_flag = RHI_limited_liberal_support
+			}
+		}
+	}
+	
+	RHI_negotiate_zentrum = {
+		icon = oppression
+		activation = { has_country_flag = RHI_passing_bill }
+		visible = {
+			has_country_flag = RHI_passing_bill
+			NOT = {	has_government = social_conservative }
+		}
+		available = { 
+			NOT = { 
+				OR = {
+					has_country_flag = RHI_zentrum_support 
+					has_country_flag = RHI_decent_zentrum_support
+					has_country_flag = RHI_limited_zentrum_support
+				}
+			} 
+		}
+		ai_will_do = { base = 45 }
+		days_remove = 14
+		modifier = { 
+			political_power_factor = -0.25
+			social_liberal_drift = 0.1
+			market_liberal_drift = 0.1
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_negotiate_zentrum"
+			add_popularity = {
+				ideology = social_conservative
+				popularity = 0.03
+			}
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_negotiate_zentrum"
+			if = {
+				limit = {
+					OR = {
+						has_country_flag = RHI_decent_zentrum_support
+						has_decision = RHI_republican_strengthening_act
+						has_decision = RHI_reichsreform
+						has_decision = RHI_the_federal_military
+						has_decision = RHI_reduce_proportionalization
+						has_decision = RHI_push_out_extremist_parties
+						has_decision = RHI_rhineland_autonomy
+						has_active_mission = RHI_militarization_bill
+						AND = {
+							has_active_mission = RHI_ban_faur
+							RHI_zentrum_bill_check = yes
+							check_variable = { left_of_zentrum < right_of_zentrum }
+						}
+						AND = {
+							has_active_mission = RHI_state_of_emergency
+							RHI_zentrum_bill_check = yes
+							check_variable = { left_of_zentrum < right_of_zentrum }
+						}
+					}
+				}
+				set_country_flag = RHI_zentrum_support
+				clr_country_flag = RHI_decent_zentrum_support
+			}
+			else_if = {
+				limit = {		
+					OR = {
+						has_country_flag = RHI_limited_zentrum_support
+						has_decision = RHI_overhaul_bureaucracy
+						has_decision = RHI_weaken_presidential_powers
+						has_active_mission = RHI_now_restore_president
+						AND = {
+							has_active_mission = RHI_state_of_emergency
+							RHI_zentrum_bill_check = yes
+							check_variable = { left_of_zentrum > right_of_zentrum }
+						}
+					}
+				}
+				set_country_flag = RHI_decent_zentrum_support
+				clr_country_flag = RHI_limited_zentrum_support
+			}
+			else = {
+				set_country_flag = RHI_limited_zentrum_support
+			}
+		}
+	}
+	
+	RHI_reach_out_spd = {
+		icon = oppression
+		visible = { 
+			has_country_flag = RHI_passing_bill
+		}
+		available = { 
+			NOT = { 
+				OR = {
+					has_country_flag = RHI_spd_support
+					AND = {
+						has_country_flag = RHI_decent_spd_support
+						has_active_mission = RHI_ban_faur
+					}
+					has_country_flag = RHI_lib_backed_enabling_act
+				}
+			}
+		}
+		ai_will_do = { base = 45 }
+		cost = 5
+		days_remove = 14
+		modifier = { 
+			political_power_factor = -0.2
+			social_democrat_drift = 0.1
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_reach_out_spd"
+			add_popularity = {
+				ideology = social_democrat
+				popularity = 0.01
+			}
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_reach_out_spd"
+			if = {
+				limit = {
+					OR = {
+						has_decision = RHI_weaken_presidential_powers
+						has_decision = RHI_overhaul_bureaucracy
+						has_decision = RHI_the_federal_military
+						has_decision = RHI_reduce_proportionalization
+						has_decision = RHI_push_out_extremist_parties
+						if = {
+							limit = { NOT = { has_active_mission = RHI_ban_faur } }
+							has_country_flag = RHI_decent_spd_support
+						}
+					}
+				}
+				set_country_flag = RHI_spd_support
+				clr_country_flag = RHI_decent_spd_support
+			}
+			else_if = {
+				limit = {		
+					OR = {
+						has_country_flag = RHI_anti_prussian_sentiment
+						has_decision = RHI_reichsreform
+						has_country_flag = RHI_limited_spd_support
+						has_decision = RHI_republican_strengthening_act
+						has_active_mission = RHI_militarization_bill
+					}
+				}
+				set_country_flag = RHI_decent_spd_support
+				clr_country_flag = RHI_limited_spd_support
+			}
+			else = {
+				set_country_flag = RHI_limited_spd_support
+			}
+		}
+	}
+	
+	RHI_schleicher_enabling_act_help = {
+		icon = oppression
+		allowed = { always = no }
+		ai_will_do = { base = 45 }
+		days_remove = 14
+		modifier = { 
+			political_power_factor = -0.1
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_schleicher_enabling_act_help"
+			add_popularity = {
+				ideology = paternal_autocrat 
+				popularity = 0.03
+			}
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_schleicher_enabling_act_help"
+			add_popularity = {
+				ideology = paternal_autocrat 
+				popularity = 0.06
+			}
+			activate_targeted_decision = { target = RHI decision = RHI_schleicher_enabling_act_help }
+		}
+	}
+	
+	RHI_whip_ruling_party = {
+		icon = oppression
+		visible = { 
+			has_country_flag = RHI_passing_bill
+			NOT = { has_government = paternal_autocrat }
+		}
+		available = { NOT = { has_country_flag = RHI_full_ruling_support } }
+		ai_will_do = { base = 45 }
+		days_remove = 14
+		modifier = { 
+			political_power_factor = -0.5
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_whip_ruling_party"
+			set_temp_variable = { RHI_republican_stability_change = 0.005 }
+			RHI_republican_stability_change = yes	
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_whip_ruling_party"
+			set_country_flag = RHI_full_ruling_support
+		}
+	}
+	
+	RHI_enforce_centrist_unity = {
+		icon = oppression
+		visible = { has_country_flag = RHI_passing_bill }
+		available = {
+			OR = {
+				has_country_leader = { character = RHI_Kurt_von_Schleicher }
+				has_completed_focus = RHI_political_burgfrieden
+				has_completed_focus = RHI_form_great_coalition
+			}
+			NOT = { has_country_flag = RHI_done_negotiating }
+		}
+		ai_will_do = { base = 45 }
+		days_remove = 21
+		modifier = { 
+			political_power_factor = -0.75
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_enforce_centrist_unity"
+			set_temp_variable = { RHI_republican_stability_change = 0.02 }
+			RHI_republican_stability_change = yes
+			set_country_flag = RHI_centrist_unity
+		}
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_enforce_centrist_unity"
+			add_stability = 0.1
+			add_war_support = 0.1
+		}
+	}
+}
+
+RHI_postwar_elections = {
+	RHI_postwar_election_event = {
+		icon = generic_civil_support
+		activation = { always = no }
+		available = { hidden_trigger = { always = no } }
+		ai_will_do = { base = 45 }
+		days_mission_timeout = 180
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_postwar_election_event"
+			country_event = rhein.federals.31
+		}
+	}
+	
+	RHI_spd_campaigning = {
+		icon = generic_civil_support
+		activation = { always = no }
+		available = { hidden_trigger = { always = no } }
+		ai_will_do = { base = 45 }
+		days_mission_timeout = 45
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_spd_campaigning"
+			set_temp_variable = { RHI_party_boost_amt = 6 }
+			RHI_add_postwar_elec_pop = yes
+			hidden_effect = { activate_mission = RHI_spd_campaigning }
+		}
+	}
+	
+	RHI_dpd_campaigning = {
+		icon = generic_civil_support
+		activation = { always = no }
+		available = { hidden_trigger = { always = no } }
+		ai_will_do = { base = 45 }
+		days_mission_timeout = 45
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_dpd_campaigning"
+			set_temp_variable = { RHI_dpd = 0 } 
+			set_temp_variable = { RHI_party_boost_amt = 6 }
+			RHI_add_postwar_elec_pop = yes
+			hidden_effect = { activate_mission = RHI_dpd_campaigning }
+		}
+	}
+	
+	RHI_z_campaigning = {
+		icon = generic_civil_support
+		activation = { always = no }
+		available = { hidden_trigger = { always = no } }
+		ai_will_do = { base = 45 }
+		days_mission_timeout = 45
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_z_campaigning"
+			set_temp_variable = { RHI_z = 0 } 
+			set_temp_variable = { RHI_party_boost_amt = 6 }
+			RHI_add_postwar_elec_pop = yes
+			hidden_effect = { activate_mission = RHI_z_campaigning }
+		}
+	}
+	
+	RHI_spd_emphasize_democratic_resistance = {
+		icon = generic_civil_support
+		allowed = { always = no }
+		days_remove = 60
+		ai_will_do = { base = 45 }
+		modifier = {
+			political_power_cost = 0.1
+			war_support_weekly_factor = -0.01
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_spd_emphasize_democratic_resistance"
+			add_political_power = 15
+			custom_effect_tooltip = effect_upon_decision_completion
+			effect_tooltip = {
+				set_temp_variable = { RHI_party_boost_amt = 4 }
+				RHI_add_postwar_elec_pop = yes
+			}
+		}
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_spd_emphasize_democratic_resistance"
+			set_temp_variable = { RHI_party_boost_amt = 4 }
+			RHI_add_postwar_elec_pop = yes
+		}
+	}
+	
+	RHI_spd_cooperate_with_left_liberals = {
+		icon = generic_civil_support
+		allowed = { always = no }
+		days_remove = 60
+		ai_will_do = { base = 45 }
+		modifier = {
+			political_power_cost = 0.2
+			social_democrat_drift = 0.02
+			social_liberal_drift = 0.02
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_spd_cooperate_with_left_liberals"
+			set_temp_variable = { RHI_dpd = 0 } 
+			set_temp_variable = { RHI_party_boost_amt = 3 }
+			if = {
+				limit = { has_country_flag = RHI_radical_spd }
+				add_to_temp_variable = { RHI_party_boost_amt = -1 }
+				add_stability = -0.02
+			}
+			RHI_add_postwar_elec_pop = yes
+			custom_effect_tooltip = effect_upon_decision_completion
+			effect_tooltip = {
+				add_to_temp_variable = { RHI_dpd = 1 }
+				set_temp_variable = { RHI_party_boost_amt = 5 }
+				RHI_add_postwar_elec_pop = yes
+			}
+		}
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_spd_cooperate_with_left_liberals"
+			set_temp_variable = { RHI_party_boost_amt = 5 }
+			RHI_add_postwar_elec_pop = yes
+		}
+	}
+	
+	RHI_spd_rally_workers = {
+		icon = generic_civil_support
+		allowed = { always = no }
+		days_remove = 60
+		ai_will_do = { base = 45 }
+		modifier = {
+			political_power_cost = 0.1
+			libertarian_socialist_drift = 0.02
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_spd_rally_workers"
+			add_stability = -0.02
+			if = {
+				limit = { has_country_flag = RHI_radical_spd }
+				add_political_power = 25
+			}
+			custom_effect_tooltip = effect_upon_decision_completion
+			effect_tooltip = {
+				set_temp_variable = { RHI_party_boost_amt = 4 }
+				if = {
+					limit = { has_country_flag = RHI_radical_spd }
+					add_to_temp_variable = { RHI_party_boost_amt = 2 }
+				}
+				RHI_add_postwar_elec_pop = yes
+			}
+		}
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_spd_rally_workers"
+			set_temp_variable = { RHI_party_boost_amt = 4 }
+			if = {
+				limit = { has_country_flag = RHI_radical_spd }
+				add_to_temp_variable = { RHI_party_boost_amt = 2 }
+			}
+			RHI_add_postwar_elec_pop = yes
+		}
+	}
+	
+	RHI_spd_denounce_conservatives = {
+		icon = generic_civil_support
+		allowed = { always = no }
+		days_remove = 60
+		ai_will_do = { base = 45 }
+		modifier = {
+			political_power_cost = 0.1
+			stability_weekly_factor = -0.001
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_spd_denounce_conservatives"
+			add_stability = -0.03
+			set_temp_variable = { RHI_party_boost_amt = -1 }
+			RHI_add_postwar_elec_pop = yes
+			custom_effect_tooltip = effect_upon_decision_completion
+			effect_tooltip = {
+				set_temp_variable = { RHI_z = 0 } 
+				add_to_temp_variable = { RHI_party_boost_amt = -4 }
+				RHI_add_postwar_elec_pop = yes
+			}
+		}
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_spd_denounce_conservatives"
+			set_temp_variable = { RHI_z = 0 } 
+			set_temp_variable = { RHI_party_boost_amt = -5 }
+			RHI_add_postwar_elec_pop = yes
+		}
+	}
+	
+	RHI_dpd_levy_business_interests = {
+		icon = generic_civil_support
+		allowed = { always = no }
+		days_remove = 60
+		ai_will_do = { base = 45 }
+		modifier = {
+			political_power_cost = 0.1
+			consumer_goods_factor = 0.35
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_dpd_levy_business_interests"
+			add_political_power = 50
+			if = {
+				limit = { has_country_flag = RHI_right_liberals }
+				custom_effect_tooltip = RHI_business_benefits
+				hidden_effect = { add_ideas = RHI_dpd_supported_business }
+			}
+			custom_effect_tooltip = effect_upon_decision_completion
+			effect_tooltip = {
+				set_temp_variable = { RHI_dpd = 0 } 
+				set_temp_variable = { RHI_party_boost_amt = 3 }
+				RHI_add_postwar_elec_pop = yes
+			}
+		}
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_dpd_levy_business_interests"
+			set_temp_variable = { RHI_dpd = 0 } 
+			set_temp_variable = { RHI_party_boost_amt = 3 }
+			RHI_add_postwar_elec_pop = yes
+			if = {
+				limit = { has_idea = RHI_dpd_supported_business }
+				hidden_effect = { remove_ideas = RHI_dpd_supported_business }
+			}
+		}
+	}
+	
+	RHI_dpd_capture_former_valkists = {
+		icon = generic_civil_support
+		allowed = { always = no }
+		days_remove = 60
+		ai_will_do = { base = 45 }
+		modifier = {
+			stability_weekly_factor = -0.002
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_dpd_capture_former_valkists"
+			add_popularity = {
+				ideology = valkist
+				popularity = 0.03
+			}
+			add_stability = -0.05
+			custom_effect_tooltip = effect_upon_decision_completion
+			effect_tooltip = {
+				set_temp_variable = { RHI_dpd = 0 } 
+				set_temp_variable = { RHI_party_boost_amt = 7 }
+				if = {
+					limit = { has_country_flag = RHI_right_liberals }
+					add_to_temp_variable = { RHI_party_boost_amt = 3 }
+				}
+				RHI_add_postwar_elec_pop = yes
+			}
+		}
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_dpd_capture_former_valkists"
+			set_temp_variable = { RHI_dpd = 0 } 
+			set_temp_variable = { RHI_party_boost_amt = 7 }
+			if = {
+				limit = { has_country_flag = RHI_right_liberals }
+				add_to_temp_variable = { RHI_party_boost_amt = 3 }
+			}
+			RHI_add_postwar_elec_pop = yes
+		}
+	}
+	
+	RHI_dpd_reintegrate_former_ddp = {
+		icon = generic_civil_support
+		allowed = { always = no }
+		days_remove = 60
+		ai_will_do = { base = 45 }
+		modifier = {
+			social_liberal_drift = 0.02
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_dpd_reintegrate_former_ddp"
+			add_popularity = {
+				ideology = social_liberal
+				popularity = 0.01
+			}
+			if = {
+				limit = { has_country_flag = RHI_right_liberals }
+				add_political_power = -25
+			}
+			custom_effect_tooltip = effect_upon_decision_completion
+			effect_tooltip = {
+				set_temp_variable = { RHI_dpd = 0 } 
+				set_temp_variable = { RHI_party_boost_amt = 3 }
+				RHI_add_postwar_elec_pop = yes
+			}
+		}
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_dpd_reintegrate_former_ddp"
+			set_temp_variable = { RHI_dpd = 0 } 
+			set_temp_variable = { RHI_party_boost_amt = 3 }
+			RHI_add_postwar_elec_pop = yes
+		}
+	}
+	
+	RHI_dpd_prosperity_from_poverty = {
+		icon = generic_civil_support
+		allowed = { always = no }
+		days_remove = 60
+		ai_will_do = { base = 45 }
+		modifier = {
+			political_power_cost = 0.1
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_dpd_prosperity_from_poverty"
+			add_political_power = -50
+			custom_effect_tooltip = effect_upon_decision_completion
+			effect_tooltip = {
+				set_temp_variable = { RHI_dpd = 0 } 
+				set_temp_variable = { RHI_party_boost_amt = 5 }
+				RHI_add_postwar_elec_pop = yes
+			}
+		}
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_dpd_prosperity_from_poverty"
+			set_temp_variable = { RHI_dpd = 0 } 
+			set_temp_variable = { RHI_party_boost_amt = 5 }
+			RHI_add_postwar_elec_pop = yes
+		}
+	}
+	
+	RHI_z_emphasize_christian_opposition = {
+		icon = generic_civil_support
+		allowed = { always = no }
+		days_remove = 60
+		ai_will_do = { base = 45 }
+		modifier = {
+			political_power_cost = 0.15
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_z_emphasize_christian_opposition"
+			add_stability = 0.02
+			if = {
+				limit = { has_country_flag = RHI_cdvp }
+				add_war_support = 0.04
+			}
+			custom_effect_tooltip = effect_upon_decision_completion
+			effect_tooltip = {
+				set_temp_variable = { RHI_z = 0 } 
+				set_temp_variable = { RHI_party_boost_amt = 4 }
+				if = {
+					limit = { has_country_flag = RHI_cdvp }
+					add_to_temp_variable = { RHI_party_boost_amt = 2 }
+				}
+				RHI_add_postwar_elec_pop = yes
+			}
+		}
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_z_emphasize_christian_opposition"
+			set_temp_variable = { RHI_z = 0 } 
+			set_temp_variable = { RHI_party_boost_amt = 4 }
+			if = {
+				limit = { has_country_flag = RHI_cdvp }
+				add_to_temp_variable = { RHI_party_boost_amt = 2 }
+			}
+			RHI_add_postwar_elec_pop = yes
+		}
+	}
+	
+	RHI_z_promise_yc_forgiveness = {
+		icon = generic_civil_support
+		allowed = { always = no }
+		days_remove = 60
+		ai_will_do = { base = 45 }
+		modifier = {
+			stability_weekly_factor = -0.002
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_z_promise_yc_forgiveness"
+			add_popularity = {
+				ideology = paternal_autocrat
+				popularity = 0.02
+			}
+			if = {
+				limit = { NOT = { has_country_flag = RHI_cdvp } }
+				add_stability = -0.03
+			}
+			custom_effect_tooltip = effect_upon_decision_completion
+			effect_tooltip = {
+				set_temp_variable = { RHI_z = 0 } 
+				set_temp_variable = { RHI_party_boost_amt = 6 }
+				RHI_add_postwar_elec_pop = yes
+			}
+		}
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_z_promise_yc_forgiveness"
+			set_temp_variable = { RHI_z = 0 } 
+			set_temp_variable = { RHI_party_boost_amt = 6 }
+			RHI_add_postwar_elec_pop = yes
+		}
+	}
+	
+	RHI_z_rally_christian_trade_unions = {
+		icon = generic_civil_support
+		allowed = { always = no }
+		days_remove = 60
+		ai_will_do = { base = 45 }
+		modifier = {
+			political_power_factor = -0.1
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_z_rally_christian_trade_unions"
+			if = {
+				limit = { has_country_flag = RHI_cdvp }
+				add_political_power = -50
+			}
+			else = { add_political_power = -20 }
+			custom_effect_tooltip = effect_upon_decision_completion
+			effect_tooltip = {
+				set_temp_variable = { RHI_z = 0 } 
+				set_temp_variable = { RHI_party_boost_amt = 4 }
+				RHI_add_postwar_elec_pop = yes
+			}
+		}
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_z_rally_christian_trade_unions"
+			set_temp_variable = { RHI_z = 0 } 
+			set_temp_variable = { RHI_party_boost_amt = 4 }
+			RHI_add_postwar_elec_pop = yes
+		}
+	}
+	
+	RHI_z_oppose_socialism = {
+		icon = generic_civil_support
+		allowed = { always = no }
+		days_remove = 60
+		ai_will_do = { base = 45 }
+		modifier = {
+			political_power_cost = 0.1
+			collectivist_drift = -0.02
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_z_oppose_socialism"
+			if = {
+				limit = { has_country_flag = RHI_cdvp }
+				add_political_power = 15
+			}
+			custom_effect_tooltip = effect_upon_decision_completion
+			effect_tooltip = {
+				set_temp_variable = { RHI_party_boost_amt = -3 }
+				RHI_add_postwar_elec_pop = yes
+			}
+		}
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_z_oppose_socialism"
+			set_temp_variable = { RHI_party_boost_amt = -3 }
+			RHI_add_postwar_elec_pop = yes
+		}
+	}
+}
+
+foreign_politics = {
+	RHI_join_faction = {
+		icon = generic_civil_support
+		priority = 20
+		allowed = { always = no }
+		target_root_trigger = { 
+			is_subject = no
+		}
+		targets = { IMP AUS ENT }
+		target_trigger = {
+			country_exists = FROM
+			if = {
+				limit = { 
+					FROM = { 
+						OR = {
+							tag = AUS
+							tag = FRA 
+						}
+					}
+				}
+			}
+			else = { NOT = { country_exists = GER } }
+		}
+		fire_only_once = yes
+		available = {
+			is_in_faction = no
+			is_subject = no
+			FROM = { is_faction_leader = yes }
+		}
+		complete_effect = {
+			if = {
+				limit = { FROM = { tag = AUS } }
+				FROM = { country_event = { id = rhein.republic.23 days = 1 } }
+			}
+			else_if = {
+				limit = { FROM = { tag = FRA } }
+				country_event = rhein.republic.14
+			}
+			else = {
+				FROM = {
+					country_event = { id = rhein.republic.20 days = 1 }
+				}
+			}
+		}
+	}
+	RHI_create_faction = {
+		icon = generic_civil_support
+		priority = 20
+		allowed = { always = no }
+		fire_only_once = yes
+		available = {
+			is_in_faction = no
+			is_subject = no
+		}
+		complete_effect = {
+			if = {
+				limit = { has_completed_focus = RHI_national_opposition }
+				create_faction = reichsbund
+				for_each_scope_loop = {
+					array = global.european_tags_array
+					if = {
+						limit = { 
+							NOT = {
+								OR = {
+									tag = ROOT
+									tag = FRA
+									tag = ENG
+								}
+							}
+							is_subject = no
+						}
+						activate_targeted_decision = { target = PREV decision = RHI_invite_to_faction }
+					}
+				}
+			}
+			else = {
+				create_faction = european_community
+			}
+		}
+	}
+	RHI_reclaim_claims = {
+		icon = generic_civil_support
+		priority = 20
+		target_root_trigger = { 
+			OR = {
+				has_completed_focus = RHI_republican_vanguard
+				has_completed_focus = RHI_in_service_of_germany
+				has_completed_focus = RHI_defending_the_republic
+			}
+			OR = {
+				is_faction_leader = yes
+				is_in_faction = no
+			}
+			is_subject = no
+		}
+		target_trigger = {
+			FROM = {
+				NOT = { is_subject_of = ROOT }
+				OR = {
+					original_tag = GRP
+					tag = PRS
+					tag = NGF
+					tag = BAY
+					tag = SHO
+					any_owned_state = { is_core_of = ROOT }
+				}
+			}
+		}
+		days_remove = 7
+		fire_only_once = yes
+		available = {
+			NOT = {
+				OR = {
+					has_non_aggression_pact_with = FROM
+					has_military_access_to = FROM
+				}
+			}
+		}
+		complete_effect = {
+			log = "[GetLogInfo]: Decision complete RHI_reclaim_claims"
+		}
+		remove_effect = {
+			log = "[GetLogInfo]: Decision timeout RHI_reclaim_claims"
+			declare_war_on = {
+				target = FROM
+				type = annex_everything
+			}
+		}
+	}
+	RHI_reclaim_old_claims = { # meme!!!!!
+		icon = generic_civil_support
+		priority = 20
+		allowed = { always = no }
+		target_root_trigger = { 
+			OR = {
+				is_faction_leader = yes
+				is_in_faction = no
+			}
+			is_subject = no
+		}
+		state_target = yes
+		target_trigger = {
+			FROM = {
+				owner = {
+					NOT = { is_subject_of = ROOT }
+					OR = {
+						same_government_type_as_ROOT = no
+						ROOT = { has_completed_focus = RHI_national_opposition }
+					}
+				}
+			}
+		}
+		days_remove = 7
+		fire_only_once = yes
+		available = {
+			NOT = {
+				FROM = {
+					owner = {
+						OR = {
+							has_non_aggression_pact_with = ROOT
+							has_military_access_to = ROOT
+						}
+					}
+				}
+			}
+		}
+		complete_effect = {
+			log = "[GetLogInfo]: Decision complete RHI_reclaim_old_claims"
+			FROM = { add_claim_by = ROOT }
+			if = {
+				limit = { FROM = { state = 28 } }
+				868 = { add_claim_by = ROOT }
+			}
+		}
+		remove_effect = {
+			log = "[GetLogInfo]: Decision timeout RHI_reclaim_old_claims"
+			FROM = { owner = { save_event_target_as = GEN_country_to_attack } }
+			declare_war_on = {
+				target = event_target:GEN_country_to_attack
+				type = annex_everything
+			}
+		}
+	}
+	RHI_invite_to_faction = {
+		icon = generic_civil_support
+		priority = 20
+		allowed = { always = no }
+		target_root_trigger = { 
+			is_faction_leader = yes
+			is_subject = no
+		}
+		target_trigger = {
+			is_subject = no
+		}
+		days_remove = 7
+		fire_only_once = yes
+		available = {
+			at_peace_or_same_enemies_as_FROM = yes
+			FROM = {
+				if = {
+					limit = { ROOT = { has_completed_focus = RHI_national_opposition } }
+					has_authoritarian_government = yes
+				}
+				else = { has_democratic_government = yes }
+				is_in_faction = no
+			}
+		}
+		complete_effect = {
+			log = "[GetLogInfo]: Decision complete RHI_invite_to_faction"
+			FROM = { country_event = { id = generic.30 days = 2 } }
+		}
+		remove_effect = {
+			log = "[GetLogInfo]: Decision timeout RHI_invite_to_faction"
+			if = {
+				limit = { 
+					FROM = { NOT = { is_in_faction_with = ROOT } }
+					OR = {
+						ROOT = { has_completed_focus = RHI_national_opposition }
+						AND = {
+							FROM = { 
+								has_elected_government = no
+								any_owned_state = { is_claim_or_core_of_ROOT = yes }
+							}
+						}
+					}
+				}		
+				activate_targeted_decision = { target = FROM decision = RHI_intervene_in_country }
+			}
+		}
+	}
+	RHI_invite_to_eec = {
+		icon = generic_civil_support
+		priority = 20
+		allowed = { always = no }
+		target_root_trigger = { 
+			is_faction_leader = yes
+			is_subject = no
+		}
+		target_trigger = {
+			is_subject = no
+		}
+		days_remove = 7
+		fire_only_once = yes
+		available = {
+			at_peace_or_same_enemies_as_FROM = yes
+			FROM = {
+				NOT = { 
+					OR = {
+						is_faction_leader = yes
+						is_economic_sphere_leader = yes
+						is_in_economic_sphere = yes
+					}
+				}
+			}
+		}
+		complete_effect = {
+			log = "[GetLogInfo]: Decision complete RHI_invite_to_eec"
+			FROM = { country_event = { id = rhein.unification.6 days = 2 } }
+		}
+	}
+	RHI_intervene_in_country = {
+		icon = generic_civil_support
+		priority = 20
+		allowed = { always = no }
+		target_root_trigger = { 
+			is_faction_leader = yes
+			is_subject = no
+		}
+		target_trigger = {
+			FROM = {
+				OR = {
+					has_socialist_government = yes
+					has_government = valkist
+					AND = {
+						has_government = national_populist
+						ROOT = { any_owned_state = { is_claimed_by = FROM } }
+					}
+				}
+			}
+		}
+		days_remove = 7
+		fire_only_once = yes
+		available = {
+			NOT = {
+				OR = {
+					has_non_aggression_pact_with = FROM
+					has_military_access_to = FROM
+				}
+			}
+		}
+		complete_effect = {
+			log = "[GetLogInfo]: Decision complete RHI_intervene_in_country"
+		}
+		remove_effect = {
+			log = "[GetLogInfo]: Decision timeout RHI_intervene_in_country"
+			declare_war_on = {
+				target = FROM
+				type = annex_everything
+			}
+		}
+	}
+	RHI_stop_socialist_expansionism = {
+		icon = generic_civil_support
+		priority = 20
+		allowed = { always = no }
+		target_root_trigger = { 
+			has_completed_focus = RHI_oppose_tyrannical_socialism
+			is_subject = no
+			OR = {
+				is_faction_leader = yes
+				is_in_faction = no
+			}
+		}
+		target_trigger = {
+			FROM = {
+				has_socialist_government = yes
+				is_actual_neighbor_of_ROOT_or_ally = yes
+			}
+			any_state = {
+				if = {
+					limit = { is_owned_by_ROOT_or_ally = yes }
+					is_claim_or_core_of_FROM = yes
+				}
+			}
+		}
+		days_remove = 14
+		fire_only_once = yes
+		available = {
+			NOT = {
+				OR = {
+					has_non_aggression_pact_with = FROM
+					has_military_access_to = FROM
+				}
+			}
+		}
+		complete_effect = {
+			log = "[GetLogInfo]: Decision complete RHI_stop_socialist_expansionism"
+		}
+		remove_effect = {
+			log = "[GetLogInfo]: Decision timeout RHI_stop_socialist_expansionism"
+			declare_war_on = {
+				target = FROM
+				type = annex_everything
+			}
+		}
+	}
+	RHI_unite_germany = {
+		icon = generic_disjointed_gov
+		allowed = { always = no }
+		available = { 
+			GER = { exists = no }
+			OR = {
+				owns_state = 64
+				AND = {
+					owns_state = 55
+					owns_states_in_two_major_german_regions = yes
+				}
+			}
+		}
+		fire_only_once = yes
+		complete_effect = {
+			log = "[GetLogInfo]: Decision complete RHI_unite_germany"
+			country_event = { id = rhein.unification.1 days = 1 }
+		}
+	}
+	RHI_ask_for_freedom = {
+		icon = generic_civil_support
+		allowed = { always = no }
+		available = { RHI = { NOT = { has_country_flag = RHI_refused_by_fra } } }
+		visible = { is_subject_of = FRA }
+		complete_effect = {
+			log = "[GetLogInfo]: Decision complete RHI_ask_for_freedom"
+			FROM = { country_event = { id = rhein.separatist.15 days = 2 random_hours = 6 } }
+			remove_decision_on_cooldown = RHI_ask_for_freedom
+		}
+	}
+	RHI_rapproach_country = {
+		icon = generic_civil_support
+		allowed = { always = no }
+		fire_only_once = yes
+		complete_effect = {
+			log = "[GetLogInfo]: Decision complete RHI_rapproach_country"
+			FROM = { country_event = { id = rhein.unification.2 days = 2 random_hours = 6 } }
+			custom_effect_tooltip = if_they_accept_tt
+			effect_tooltip = {
+				diplomatic_relation = { country = FROM relation = non_aggression_pact }
+				activate_targeted_decision = { target = FROM decision = RHI_invite_to_eec }
+			}
+		}
+	}
+	RHI_leave_faction = {
+		icon = generic_civil_support
+		allowed = { tag = RHI }
+		visible = { 
+			is_in_faction = yes
+			is_faction_leader = no
+			is_subject = no
+		}
+		available = {
+			has_war = no
+			GER = { exists = no }
+		}
+		complete_effect = {
+			log = "[GetLogInfo]: Decision complete RHI_leave_faction"
+			ROOT = { faction_leader = { country_event = { id = rhein.unification.8 hours = 1 } } }
+			leave_faction = yes
+		}
+	}
+}
+
+RHI_republican_power_cats = {
+	RHI_empower_military_opposition = {
+		icon = eng_propaganda_campaigns
+		cost = 100
+		days_remove = 30
+		days_re_enable = 30
+		available = {
+			power_balance_value = {
+				id = RHI_republican_power_balance
+				value < -0.1
+			}
+		}
+		remove_effect = {
+			add_popularity = {
+				ideology = valkist
+				popularity = -0.02
+			}
+			add_popularity = {
+				ideology = paternal_autocrat
+				popularity = 0.02
+			}
+			RHI_reichswehr_pleased = yes
+			set_temp_variable = { RHI_schleicher_bop_med = 0 }
+			RHI_schleicher_bop_effect = yes
+		}
+	}
+	RHI_attack_pan_germanists = {
+		icon = generic_arrest
+		cost = 50
+		days_remove = 42
+		days_re_enable = 40
+		available = {
+			GER = { exists = yes }
+			power_balance_value = {
+				id = RHI_republican_power_balance
+				value < -0.4
+			}
+		}
+		complete_effect = {
+			add_stability = -0.05
+		}
+		remove_effect = {
+			set_temp_variable = { RHI_schleicher_bop_small = 0 }
+			RHI_schleicher_bop_effect = yes
+		}
+		modifier = {
+			power_balance_weekly = 0.01
+		}
+	}
+	RHI_replace_sympathizers = {
+		icon = hol_radio_oranje
+		cost = 75
+		days_re_enable = 180
+		available = {
+			has_socialist_government = no
+		}
+		complete_effect = {
+			add_stability = -0.01
+			add_political_power = -50
+			set_temp_variable = { RHI_schleicher_bop_small = 0 }
+			RHI_schleicher_bop_effect = yes
+		}
+	}
+	RHI_utilize_anti_valkist_fronts = {
+		icon = eng_trade_unions_support
+		cost = 100
+		days_remove = 60
+		days_re_enable = 120
+		available = {
+			NOT = { 
+				OR = {
+					has_government = market_liberal
+					has_government = authoritarian_democrat
+					has_government = paternal_autocrat
+				}
+			}
+			power_balance_value = {
+				id = RHI_republican_power_balance
+				value < -0.25
+			}
+		}
+		complete_effect = { RHI_reichswehr_antagonized = yes }
+		modifier = {
+			political_power_cost = 0.3
+			power_balance_weekly = 0.005
+		}
+		remove_effect = {
+			add_popularity = {
+				ideology = collectivist
+				popularity = 0.04
+			}
+			add_popularity = {
+				ideology = libertarian_socialist
+				popularity = 0.04
+			}
+			set_temp_variable = { ideology_change_var = 0.04 } 
+			change_ruling_party_popularity = yes
+			add_stability = -0.05
+			set_temp_variable = { RHI_schleicher_bop_high = 0 }
+			RHI_schleicher_bop_effect = yes
+		}
+	}
+	RHI_gain_support_for_federalism = {
+		icon = eng_propaganda_campaigns
+		cost = 75
+		days_remove = 90
+		days_re_enable = 180
+		visible = { has_completed_focus = RHI_dorten_adenauer_federalism }
+		available = {
+			power_balance_value = {
+				id = RHI_republican_power_balance
+				value < -0.05
+			}
+		}
+		modifier = {
+			political_power_cost = 0.25
+			command_power_gain = -1
+		}
+		remove_effect = {
+			set_temp_variable = { RHI_schleicher_bop_med = 0 }
+			RHI_schleicher_bop_effect = yes
+		}
+	}
+	RHI_please_military = {
+		icon = eng_propaganda_campaigns
+		cost = 50
+		days_remove = 90
+		days_re_enable = 180
+		visible = { has_completed_focus = RHI_german_republicans_take_power }
+		available = {
+			power_balance_value = {
+				id = RHI_republican_power_balance
+				value < -0.05
+			}
+		}
+		complete_effect = {
+			set_temp_variable = { ideology_change_var = -0.05 } 
+			change_ruling_party_popularity = yes
+		}
+		modifier = {
+			political_power_cost = 0.25
+			command_power_gain = -1
+		}
+		remove_effect = {
+			set_temp_variable = { RHI_schleicher_bop_med = 0 }
+			RHI_schleicher_bop_effect = yes
+		}
+	}
+	RHI_release_valkist_supporters = {
+		icon = gre_investment_decisions
+		cost = 50
+		days_re_enable = 45
+		available = {
+			has_socialist_government = no
+		}
+		complete_effect = {
+			add_political_power = 50
+			add_stability = 0.05
+			set_temp_variable = { RHI_valkist_bop_med = 0 }
+			RHI_valkist_bop_effect = yes
+		}
+	}
+	RHI_cutback_military_power = {
+		icon = ger_reichskommissariats
+		custom_cost_trigger = {
+			command_power > 25
+		}
+		custom_cost_text = CP_25
+		days_remove = 30
+		ai_will_do = {
+			base = 200
+		}
+		available = {
+			power_balance_value = {
+				id = RHI_republican_power_balance
+				value > 0.25
+			}
+		}
+		complete_effect = {
+			RHI_reichswehr_antagonized = yes
+			hidden_effect = { add_command_power = -25 }
+			add_political_power = 50
+		}
+		remove_effect = {
+			set_temp_variable = { RHI_valkist_bop_small = 0 }
+			RHI_valkist_bop_effect = yes
+		}
+	}
+	RHI_shift_focus_to_communists = {
+		icon = generic_political_rally
+		cost = 50
+		days_remove = 60
+		ai_will_do = {
+			base = 200
+		}
+		available = {
+			power_balance_value = {
+				id = RHI_republican_power_balance
+				value > -0.15
+			}
+		}
+		complete_effect = {
+			add_popularity = {
+				ideology = collectivist
+				popularity = -0.04
+			}
+			add_popularity = {
+				ideology = libertarian_socialist
+				popularity = -0.04
+			}
+			RHI_reichswehr_pleased = yes
+			set_temp_variable = { ideology_change_var = 0.04 } 
+			change_ruling_party_popularity = yes
+		}
+		modifier = {
+			vanguardist_drift = -0.05
+			collectivist_drift = -0.05
+		}
+		remove_effect = {
+			set_temp_variable = { RHI_valkist_bop_small = 0 }
+			RHI_valkist_bop_effect = yes
+		}
+	}
+	RHI_demonize_french_presence = {
+		icon = generic_political_discourse
+		cost = 30
+		days_remove = 60
+		days_re_enable = 180
+		ai_will_do = {
+			base = 200
+		}
+		available = {
+			NOT = { is_subject_of = FRA }
+			power_balance_value = {
+				id = RHI_republican_power_balance
+				value > -0.2
+			}
+		}
+		complete_effect = {
+			add_opinion_modifier = { target = FRA modifier = RHI_demonized_us }
+		}
+		modifier = {
+			political_power_factor = 0.25
+		}
+		remove_effect = {
+			add_stability = 0.1
+			set_temp_variable = { RHI_valkist_bop_high = 0 }
+			RHI_valkist_bop_effect = yes
+		}
+	}
+	RHI_draw_away_valkists = {
+		icon = generic_political_discourse
+		cost = 25
+		days_remove = 70
+		days_re_enable = 70
+		ai_will_do = {
+			base = 200
+		}
+		visible = { has_completed_focus = RHI_dorten_adenauer_federalism }
+		available = {
+			valkist < 0.35
+		}
+		modifier = {
+			valkist_drift = -0.1
+			stability_weekly_factor = -0.002
+			political_power_factor = 0.1
+		}
+		remove_effect = {
+			set_temp_variable = { RHI_valkist_bop_small = 0 }
+			RHI_valkist_bop_effect = yes
+		}
+	}
+	RHI_defuse_tensions = {
+		icon = generic_political_discourse
+		cost = 30
+		days_remove = 70
+		days_re_enable = 70
+		ai_will_do = {
+			base = 200
+		}
+		visible = { has_completed_focus = RHI_german_republicans_take_power }
+		available = {
+			valkist < 0.35
+		}
+		modifier = {
+			valkist_drift = -0.1
+			stability_weekly_factor = 0.002
+			political_power_factor = -0.1
+		}
+		remove_effect = {
+			set_temp_variable = { RHI_valkist_bop_small = 0 }
+			RHI_valkist_bop_effect = yes
+		}
+	}
+	
+	# Missions
+	
+	RHI_schleicher_push_back = {
+		icon = eng_blackshirt_speech	
+		activation = { always = no }
+		available = { always = no }
+		is_good = no
+		days_mission_timeout = 45
+		ai_will_do = {
+			factor = 125
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_schleicher_push_back"
+			add_popularity = {
+				ideology = paternal_autocrat
+				popularity = 0.01
+			}
+		}
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_schleicher_push_back"
+			set_temp_variable = { RHI_schleicher_bop_med = 0 }
+			RHI_schleicher_bop_effect = yes
+			random_list = {
+				55 = { activate_mission = RHI_valkist_pull_forward }
+				45 = { activate_mission = RHI_schleicher_push_back }
+			}
+		}
+	}
+	
+	RHI_valkist_pull_forward = {
+		icon = eng_blackshirt_speech	
+		activation = { always = no }
+		available = { always = no }
+		is_good = no
+		days_mission_timeout = 45
+		ai_will_do = {
+			factor = 125
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_valkist_pull_forward"
+			add_popularity = {
+				ideology = valkist
+				popularity = 0.01
+			}
+		}
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_valkist_pull_forward"
+			set_temp_variable = { RHI_valkist_bop_med = 0 }
+			RHI_valkist_bop_effect = yes
+			random_list = {
+				45 = { activate_mission = RHI_valkist_pull_forward }
+				55 = { activate_mission = RHI_schleicher_push_back }
+			}
+		}
+	}
+}
+
+RHI_seperatist_power_cats = {
+	RHI_entice_french_investments = {
+		icon = eng_propaganda_campaigns
+		cost = 35
+		days_remove = 60
+		days_re_enable = 30
+		available = {
+			power_balance_value = {
+				id = RHI_seperatist_power_balance
+				value > -0.1
+			}
+		}
+		modifier = {
+			consumer_goods_factor = -0.2
+			production_factory_max_efficiency_factor = 0.1
+			industrial_capacity_factory = 0.1
+		}
+		remove_effect = {
+			set_temp_variable = { RHI_french_bop_med = 0 }
+			RHI_french_bop_effect = yes
+		}
+	}
+	RHI_request_french_weapons = {
+		icon = hol_radio_oranje
+		cost = 25
+		days_re_enable = 180
+		available = {
+			power_balance_value = {
+				id = RHI_seperatist_power_balance
+				value > -0.1
+			}
+		}
+		complete_effect = {
+			custom_effect_tooltip = if_they_accept_tt
+			effect_tooltip = {
+				send_equipment = {
+					equipment = infantry_equipment
+					amount = 2500
+					target = RHI
+				}
+				send_equipment = {
+					equipment = support_equipment
+					amount = 250
+					target = RHI
+				}
+				send_equipment = {
+					equipment = artillery_equipment
+					amount = 350
+					target = RHI
+				}
+				set_temp_variable = { RHI_french_bop_med = 0 }
+				RHI_french_bop_effect = yes
+			}
+		}
+	}
+	RHI_ask_french_support = {
+		icon = eng_propaganda_campaigns
+		days_remove = 90
+		days_re_enable = 180
+		available = {
+			power_balance_value = {
+				id = RHI_seperatist_power_balance
+				value > -0.1
+			}
+		}
+		modifier = {
+			political_power_cost = 0.25
+		}
+		remove_effect = {
+			add_political_power = 50
+			set_temp_variable = { RHI_french_bop_small = 0 }
+			RHI_french_bop_effect = yes
+		}
+	}
+	RHI_crackdown_nationalists = {
+		icon = generic_arrest
+		cost = 50
+		days_remove = 42
+		days_re_enable = 40
+		available = {
+			power_balance_value = {
+				id = RHI_seperatist_power_balance
+				value < -0.2
+			}
+		}
+		complete_effect = {
+			add_stability = -0.05
+		}
+		remove_effect = {
+			set_temp_variable = { RHI_french_bop_small = 0 }
+			RHI_french_bop_effect = yes
+		}
+		modifier = {
+			power_balance_weekly = 0.01
+			political_power_cost = 0.35
+		}
+	}
+	RHI_split_nationalist_movement = {
+		icon = gre_investment_decisions
+		cost = 100
+		fire_only_once = yes
+		complete_effect = {
+			add_stability = 0.1
+			set_temp_variable = { RHI_french_bop_high = 0 }
+			RHI_french_bop_effect = yes
+		}
+	}
+	RHI_frame_prussian_agents = {
+		icon = generic_political_discourse
+		cost = 15
+		days_remove = 70
+		days_re_enable = 70
+		ai_will_do = {
+			base = 200
+		}
+		available = {
+			power_balance_value = {
+				id = RHI_seperatist_power_balance
+				value < -0.25
+			}
+		}
+		complete_effect = {
+			set_temp_variable = { RHI_french_bop_med = 0 }
+			RHI_french_bop_effect = yes
+		}
+		remove_effect = {
+			set_temp_variable = { RHI_german_bop_med = 0 }
+			RHI_french_bop_effect = yes
+		}
+		modifier = {
+			political_power_cost = -0.15
+		}
+	}
+	RHI_temper_french_influence = {
+		icon = eng_propaganda_campaigns
+		days_remove = 90
+		days_re_enable = 180
+		available = {
+			power_balance_value = {
+				id = RHI_seperatist_power_balance
+				value > 0.25
+			}
+		}
+		complete_effect = {
+			set_temp_variable = { RHI_german_bop_small = 0 }
+			RHI_german_bop_effect = yes
+		}
+		modifier = {
+			power_balance_weekly = -0.001
+		}
+	}
+	RHI_concede_to_nationalists = {
+		icon = ger_reichskommissariats
+		cost = 15
+		days_remove = 60
+		ai_will_do = {
+			base = 200
+		}
+		available = {
+			power_balance_value = {
+				id = RHI_seperatist_power_balance
+				value > 0.15
+			}
+		}
+		complete_effect = {
+			set_temp_variable = { RHI_german_bop_med = 0 }
+			RHI_german_bop_effect = yes
+			remove_decision = RHI_entice_french_investments
+			remove_decision = RHI_request_french_weapons
+			remove_decision = RHI_ask_french_support
+		}
+		remove_effect = {
+			activate_targeted_decision = { target = RHI decision = RHI_entice_french_investments }
+			activate_targeted_decision = { target = RHI decision = RHI_request_french_weapons }
+			activate_targeted_decision = { target = RHI decision = RHI_ask_french_support }
+		}
+	}
+	RHI_populist_measures = {
+		icon = generic_political_rally
+		cost = 50
+		days_remove = 60
+		ai_will_do = {
+			base = 200
+		}
+		complete_effect = {
+			add_political_power = 75
+		}
+		modifier = {
+			stability_weekly_factor = 0.001
+		}
+		remove_effect = {
+			set_temp_variable = { RHI_german_bop_small = 0 }
+			RHI_german_bop_effect = yes
+		}
+	}
+	RHI_quiet_radical_seperatists = {
+		icon = generic_political_discourse
+		cost = 30
+		days_remove = 60
+		days_re_enable = 180
+		ai_will_do = {
+			base = 200
+		}
+		available = {
+			power_balance_value = {
+				id = RHI_seperatist_power_balance
+				value > -0.2
+			}
+		}
+		complete_effect = {
+			add_stability = 0.06
+		}
+		modifier = {
+			political_power_factor = 0.15
+		}
+		remove_effect = {
+			add_stability = 0.1
+			set_temp_variable = { RHI_german_bop_small = 0 }
+			RHI_german_bop_effect = yes
+		}
+	}
+	RHI_redirect_anger = {
+		icon = generic_political_discourse
+		cost = 30
+		days_remove = 70
+		days_re_enable = 70
+		ai_will_do = {
+			base = 200
+		}
+		available = {
+			power_balance_value = {
+				id = RHI_seperatist_power_balance
+				value > -0.25
+			}
+		}
+		modifier = {
+			valkist_drift = -0.1
+			vanguardist_drift = -0.1
+		}
+		remove_effect = {
+			set_temp_variable = { RHI_german_bop_small = 0 }
+			RHI_german_bop_effect = yes
+		}
+	}
+	
+	# Missions
+	
+	RHI_french_push_back = {
+		icon = eng_blackshirt_speech	
+		activation = { always = no }
+		available = { always = no }
+		is_good = no
+		days_mission_timeout = 45
+		ai_will_do = {
+			factor = 125
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_french_push_back"
+			add_political_power = -5
+		}
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_french_push_back"
+			set_temp_variable = { RHI_french_bop_med = 0 }
+			RHI_french_bop_effect = yes
+			random_list = {
+				55 = { activate_mission = RHI_german_pull_forward }
+				45 = { activate_mission = RHI_french_push_back }
+			}
+		}
+	}
+	
+	RHI_german_pull_forward = {
+		icon = eng_blackshirt_speech	
+		activation = { always = no }
+		available = { always = no }
+		is_good = no
+		days_mission_timeout = 45
+		ai_will_do = {
+			factor = 125
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_german_pull_forward"
+			add_stability = -0.01
+		}
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout RHI_german_pull_forward"
+			set_temp_variable = { RHI_german_bop_med = 0 }
+			RHI_german_bop_effect = yes
+			random_list = {
+				45 = { activate_mission = RHI_german_pull_forward }
+				55 = { activate_mission = RHI_french_push_back }
+			}
+		}
+	}
+}
+
+debug_decisions = {
+	
+	RHI_republican_power_balance = {
+		icon = eng_blackshirt_speech	
+		
+		ai_will_do = {
+			factor = 0
+		}
+		allowed = { tag = RHI }
+		available = { 
+			is_ai = no
+			date < 1936.02.01
+			tag = RHI
+		}
+		
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_republican_power_balance"
+			set_country_flag = RHI_republican_power_cats
+			set_power_balance = {
+				id = RHI_republican_power_balance
+				left_side = RHI_valkist_side
+				right_side = RHI_schleicher_side
+			}
+			random_list = {
+				50 = { activate_mission = RHI_valkist_pull_forward }
+				50 = { activate_mission = RHI_schleicher_push_back }
+			}
+		}
+	}
+	
+	RHI_german_coring_republicans = {
+		icon = eng_blackshirt_speech	
+		
+		ai_will_do = {
+			factor = 0
+		}
+		allowed = { tag = RHI }
+		available = { 
+			is_ai = no
+			date < 1936.02.01
+			tag = RHI
+		}
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_german_coring_republicans"
+			custom_effect_tooltip = "This will let you test the postwar coring system as the Republicans, all other countries will be debugged out"
+			RHI = { set_variable = { unification_path = token:german_republic } }
+			set_global_flag = RHI_united_germany
+			set_party_name = {
+				ideology = market_liberal
+				long_name = RHI_GER_market_liberal_party_long
+				name = RHI_GER_market_liberal_party
+			}
+			set_party_name = {
+				ideology = social_democrat
+				long_name = GRP_social_democrat_party_long
+				name = GRP_social_democrat_party
+			}
+			set_party_name = {
+				ideology = social_liberal
+				long_name = RHI_GER_social_liberal_party_long
+				name = RHI_GER_social_liberal_party
+			}
+			set_party_name = {
+				ideology = social_conservative
+				long_name = RHI_GER_social_conservative_party_long
+				name = RHI_GER_social_conservative_party
+			}
+			set_politics = {
+				ruling_party = social_conservative
+				elections_allowed = yes
+			}
+			drop_cosmetic_tag = yes
+			every_state = {
+				limit = { 
+					is_core_of = GER 
+					is_owned_by = GER
+				}
+				add_claim_by = RHI
+				transfer_state_to = RHI
+			}
+			RHI = { RHI_economic_stuff = yes }
+			complete_national_focus = RHI_phoenix_of_republic
+			set_cosmetic_tag = GER_german_republic
+			hidden_effect = {
+				if = {
+					limit = { 
+						has_completed_focus = RHI_dorten_adenauer_federalism
+						NOT = { has_completed_focus = RHI_design_federal_republic }
+					}
+					RHI_federal_republic_effect = yes
+				}
+				add_ideas = RHI_republican_resentment
+				country_event = { id = rhein.republic.51 days = 1 }
+			}
+			hidden_effect = {
+				if = {
+					limit = { has_country_flag = RHI_republican_stability_mechanic }
+					remove_dynamic_modifier = { modifier = RHI_Republican_Instability }
+					clear_variable = RHI_republican_stability
+					clear_variable = RHI_republican_stability_double
+					clear_variable = RHI_change_projection
+					clr_country_flag = RHI_republican_stability_mechanic
+				}
+				GER_bombed_out_effect = yes 
+				clear_variable = GER_valkist_resistance
+				add_dynamic_modifier = { modifier = GRP_aftermath_of_war }
+				set_temp_variable = { GER_defeat_pop = GER.party_popularity_100@valkist }
+				multiply_temp_variable = { GER_defeat_pop = -0.55 }
+				set_temp_variable = { GER_defeat_natpop = GER.party_popularity_100@national_populist }
+				multiply_temp_variable = { GER_defeat_natpop = -0.75 }
+				set_temp_variable = { GER_defeat_ycpop = GER.party_popularity_100@paternal_autocrat }
+				multiply_temp_variable = { GER_defeat_ycpop = -0.35 }
+				add_popularity = {
+					ideology = valkist
+					popularity = GER_defeat_pop
+				}
+				add_popularity = {
+					ideology = national_populist
+					popularity = GER_defeat_natpop
+				}
+				add_popularity = {
+					ideology = paternal_autocrat
+					popularity = GER_defeat_ycpop
+				}
+				set_party_name = {
+					ideology = vanguardist
+					long_name = GRP_collectivist_party_long
+					name = GRP_collectivist_party
+				}
+				set_party_name = {
+					ideology = collectivist
+					long_name = GRP_collectivist_party_long
+					name = GRP_collectivist_party
+				}
+				if = {
+					limit = { RHI = { RHI_Gerhard_Wartenberg = { can_be_country_leader = yes } } }
+					set_party_name = {
+						ideology = libertarian_socialist
+						long_name = RHI_GER_libertarian_socialist_party_long
+						name = RHI_GER_libertarian_socialist_party
+					}
+				}
+				activate_mission = GRP_valkist_state_resistance
+				GRP_valkist_resistance_flows = yes
+				mark_focus_tree_layout_dirty = yes
+			}
+			add_research_slot_until_five = yes
+			every_country = {
+				limit = { NOT = { tag = RHI } }
+				every_owned_state = {
+					transfer_state_to = XXB
+				}
+			}
+		}
+	}
+	
+	RHI_adenauer_set = {
+		icon = eng_blackshirt_speech	
+		
+		ai_will_do = {
+			factor = 0
+		}
+		allowed = { tag = RHI }
+		available = { 
+			is_ai = no
+			date < 1936.02.01
+			tag = RHI
+		}
+		
+		complete_effect = {
+			unlock_national_focus = RHI_together_with_france
+			unlock_national_focus = RHI_adenauer_and_french
+		}
+	}
+	
+	RHI_dorten_set = {
+		icon = eng_blackshirt_speech	
+		
+		ai_will_do = {
+			factor = 0
+		}
+		allowed = { tag = RHI }
+		available = { 
+			is_ai = no
+			date < 1936.02.01
+			tag = RHI
+		}
+		
+		complete_effect = {
+			unlock_national_focus = RHI_together_with_france
+			unlock_national_focus = RHI_matthes_dorten
+		}
+	}
+	
+	RHI_german_coring = {
+		icon = eng_blackshirt_speech	
+		
+		ai_will_do = {
+			factor = 0
+		}
+		allowed = { tag = RHI }
+		available = { 
+			is_ai = no
+			date < 1936.02.01
+			tag = RHI
+		}
+		
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete RHI_republican_power_balance"
+			custom_effect_tooltip = "This will let you test the postwar coring system as the German Union, all other countries will be debugged out"
+			RHI = { set_variable = { unification_path = token:german_union } }
+			set_global_flag = RHI_united_germany
+			set_party_name = {
+				ideology = libertarian_socialist
+				long_name = RHI_SEP_libertarian_socialist_party_long
+				name = RHI_SEP_libertarian_socialist_party
+			}
+			set_party_name = {
+				ideology = social_democrat
+				long_name = RHI_SEP_postwar_social_democrat_party_long
+				name = RHI_SEP_social_democrat_party
+			}
+			set_party_name = {
+				ideology = market_liberal
+				long_name = RHI_SEP_postwar_market_liberal_party_long
+				name = RHI_SEP_postwar_market_liberal_party
+			}
+			set_politics = {
+				ruling_party = social_democrat
+				elections_allowed = yes
+			}
+			drop_cosmetic_tag = yes
+			every_state = {
+				limit = { 
+					is_core_of = GER 
+					is_owned_by = GER
+				}
+				add_claim_by = RHI
+				transfer_state_to = RHI
+			}
+			RHI = { RHI_economic_stuff = yes }
+			complete_national_focus = RHI_the_german_union
+			hidden_effect = {
+				RHI_set_up_german_union = yes
+				save_global_event_target_as = german_union
+				if = {
+					limit = { 
+						has_completed_focus = RHI_dorten_adenauer_federalism
+						NOT = { has_completed_focus = RHI_design_federal_republic }
+					}
+					RHI_federal_republic_effect = yes
+				}
+				add_ideas = RHI_separatist_unrest
+				if = {
+					limit = { has_completed_focus = RHI_matthes_dorten }
+					country_event = { id = rhein.separatist.18 days = 1 }
+				}
+			}
+			hidden_effect = {
+				if = {
+					limit = { has_country_flag = RHI_republican_stability_mechanic }
+					remove_dynamic_modifier = { modifier = RHI_Republican_Instability }
+					clear_variable = RHI_republican_stability
+					clear_variable = RHI_republican_stability_double
+					clear_variable = RHI_change_projection
+					clr_country_flag = RHI_republican_stability_mechanic
+				}
+				GER_bombed_out_effect = yes 
+				clear_variable = GER_valkist_resistance
+				add_dynamic_modifier = { modifier = GRP_aftermath_of_war }
+				set_temp_variable = { GER_defeat_pop = GER.party_popularity_100@valkist }
+				multiply_temp_variable = { GER_defeat_pop = -0.55 }
+				set_temp_variable = { GER_defeat_natpop = GER.party_popularity_100@national_populist }
+				multiply_temp_variable = { GER_defeat_natpop = -0.75 }
+				set_temp_variable = { GER_defeat_ycpop = GER.party_popularity_100@paternal_autocrat }
+				multiply_temp_variable = { GER_defeat_ycpop = -0.35 }
+				add_popularity = {
+					ideology = valkist
+					popularity = GER_defeat_pop
+				}
+				add_popularity = {
+					ideology = national_populist
+					popularity = GER_defeat_natpop
+				}
+				add_popularity = {
+					ideology = paternal_autocrat
+					popularity = GER_defeat_ycpop
+				}
+				set_party_name = {
+					ideology = vanguardist
+					long_name = GRP_collectivist_party_long
+					name = GRP_collectivist_party
+				}
+				set_party_name = {
+					ideology = collectivist
+					long_name = GRP_collectivist_party_long
+					name = GRP_collectivist_party
+				}
+				if = {
+					limit = { RHI = { RHI_Gerhard_Wartenberg = { can_be_country_leader = yes } } }
+					set_party_name = {
+						ideology = libertarian_socialist
+						long_name = RHI_GER_libertarian_socialist_party_long
+						name = RHI_GER_libertarian_socialist_party
+					}
+				}
+				activate_mission = GRP_valkist_state_resistance
+				GRP_valkist_resistance_flows = yes
+				mark_focus_tree_layout_dirty = yes
+			}
+			add_research_slot_until_five = yes
+			every_country = {
+				limit = { 
+					NOT = { 
+						OR = {
+							tag = RHI
+							RHI_is_lander = yes
+						}
+					} 
+				}
+				every_owned_state = {
+					transfer_state_to = XXB
+				}
+			}
+		}
+	}
+}

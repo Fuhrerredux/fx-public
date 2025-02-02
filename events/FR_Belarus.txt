@@ -535,7 +535,7 @@ country_event = { # Konigsberg Conference
 	option = { # Agree to their territorial claims
 		name = belarus.19.a
 		ai_chance = {
-			base = 80
+			base = 40
 			modifier = {
 				add = 1000
 				ROOT = { is_ai = no }
@@ -622,17 +622,7 @@ country_event = { # Demand Ukrainian Lands
 	option = {
 		name = belarus.22.a
 		ai_chance = {
-			base = 40
-			modifier = {
-				add = 20
-				FROM = {
-					is_in_faction_with = GER
-				}
-			}
-			modifier = {
-				threat > 30
-				add = 10
-			}
+			base = 0
 		}
 
 		set_capital = { state = 139 }
@@ -669,7 +659,7 @@ country_event = { # Demand Ukrainian Lands
 	option = {
 		name = belarus.22.b
 		ai_chance = {
-			base = 60
+			base = 100
 		}
 
 		if = {
@@ -783,6 +773,10 @@ country_event = { # Demand Lithuania
 					is_in_faction_with = GER
 				}
 			}
+			modifier = {
+				factor = 0
+				FROM = { tag = LIT }
+			}
 		}
 
 		effect_tooltip = {
@@ -873,31 +867,7 @@ country_event = { # Demand Soviet Lands
 	option = {
 		name = belarus.28.a
 		ai_chance = {
-			base = 10
-			modifier = {
-				add = 40
-				has_country_flag = SOV_lacking_industrialization_flag
-			}
-			modifier = {
-				add = 10
-				has_war_with = RUS
-			}
-			modifier = {
-				add = 10
-				has_war_with = JAP
-			}
-			modifier = {
-				add = 20
-				has_war_with = GER
-			}
-			modifier = {
-				add = 5
-				has_war_with = ENG
-			}
-			modifier = {
-				add = 5
-				has_war_with = FRA
-			}
+			base = 0
 		}
 
 		effect_tooltip = {
@@ -931,7 +901,7 @@ country_event = { # Demand Soviet Lands
 	option = {
 		name = belarus.27.b
 		ai_chance = {
-			base = 60
+			base = 100
 		}
 
 		FROM = {
@@ -1044,6 +1014,32 @@ country_event = { # Honoring Belarusian Territorial Claims - SOV
 			}
 		}
 	}
+	
+	option = {
+		name = belarus.31.b
+		ai_chance = { base = 0 }
+		BLR = { country_event = { id = belarus.45 days = 1 } }
+		every_owned_state = {
+			limit = {
+				OR = {
+					state = 220
+					state = 242
+					state = 243
+					state = 948
+					state = 224
+					state = 205
+					state = 223
+					state = 222
+					state = 791
+					state = 1062
+				}
+			}
+
+			BLR = {
+				add_state_claim = PREV
+			}
+		}
+	}
 }
 
 country_event = { # Honoring Belarusian Territorial Claims - UKR
@@ -1082,6 +1078,33 @@ country_event = { # Honoring Belarusian Territorial Claims - UKR
 			country_event = { id = annex.149 days = 2 }
 		}
 	}
+	
+	option = {
+		name = belarus.32.b
+		ai_chance = { base = 0 }
+		BLR = { country_event = { id = belarus.45 days = 1 } }
+		every_owned_state = {
+			limit = {
+				OR = {
+					state = 94
+					state = 93
+					state = 199
+					state = 201
+					state = 241
+					state = 202
+					state = 203
+					state = 198
+					state = 193
+					state = 225
+					state = 259
+				}
+			}
+
+			BLR = {
+				add_state_claim = PREV
+			}
+		}
+	}
 }
 
 country_event = { # Honoring Belarusian Territorial Claims - LIT
@@ -1101,6 +1124,22 @@ country_event = { # Honoring Belarusian Territorial Claims - LIT
 
 			BLR = {
 				transfer_state = PREV
+				add_state_claim = PREV
+			}
+		}
+	}
+	
+	option = {
+		name = belarus.33.b
+		ai_chance = { base = 0 }
+		BLR = { country_event = { id = belarus.45 days = 1 } }
+		every_owned_state = {
+			limit = {
+				is_core_of = LIT
+				NOT = { state = 188 }
+			}
+
+			BLR = {
 				add_state_claim = PREV
 			}
 		}
@@ -1548,5 +1587,94 @@ country_event = { # Third Elections
 		activate_advisor = BLR_Alyaksandr_Tsvikyevich_sec_sli
 
 		set_country_flag = BLR_has_third_elections
+	}
+}
+
+country_event = { # we were refused!
+	id = belarus.45
+	title = belarus.45.t
+	desc = belarus.45.d
+	picture = GFX_report_event_BLR_soldiers_review
+	is_triggered_only = yes
+	
+	trigger = {
+		is_in_faction = yes
+	}
+
+	option = { # curse them!
+		name = belarus.45.a
+		ai_chance = { base = 15 }
+	
+		leave_faction = yes
+		FROM = { country_event = { id = belarus.46 days = 2 } }
+	}
+
+	option = { # we give up...
+		name = belarus.45.b
+		ai_chance = { base = 50 }
+
+		add_war_support = -0.15
+		add_stability = -0.05
+		every_state = {
+			limit = {
+				NOT = { is_owned_by = BLR }
+				is_claimed_by = BLR 
+				OR = {
+					AND = {
+						is_core_of = LIT
+						NOT = { state = 188 }
+					}
+					state = 94
+					state = 93
+					state = 199
+					state = 201
+					state = 241
+					state = 202
+					state = 203
+					state = 198
+					state = 193
+					state = 225
+					state = 259
+					state = 220
+					state = 242
+					state = 243
+					state = 948
+					state = 224
+					state = 205
+					state = 223
+					state = 222
+					state = 791
+					state = 1062
+				}
+			}
+			remove_claim_by = BLR
+		}
+	}
+}
+
+country_event = { # belarus leaves
+	id = belarus.46
+	title = belarus.46.t
+	desc = belarus.46.d
+	picture = GFX_report_event_BLR_soldiers_review
+	is_triggered_only = yes
+	
+	trigger = {
+		is_in_faction = yes
+	}
+
+	option = { # kill em'
+		name = belarus.46.a
+		ai_chance = { base = 50 }
+	
+		create_wargoal = {
+			target = FROM
+			type = annex_everything
+		}
+	}
+
+	option = { # they can go
+		name = belarus.46.b
+		ai_chance = { base = 50 }
 	}
 }

@@ -1486,4 +1486,102 @@ foreign_politics = {
 			}
 		}
 	}
+	
+	JAP_complete_tripartite_cooperation = {
+		icon = GFX_decision_generic_civil_support
+		allowed = { always = no }
+		days_remove = 14
+
+		ai_will_do = {
+			base = 50
+		}
+		targets = { GER }
+		target_root_trigger = {
+			has_country_flag = JAP_tripartite_pact
+		}
+		target_trigger = {
+			JAP = { all_enemy_country = { has_war_with = FROM } }
+			FROM = { all_enemy_country = { has_war_with = JAP } }
+		}
+		
+		available = {
+			JAP = { 
+				count_triggers = {
+					amount = 3
+					has_war_with = FRA
+					has_war_with = ENG
+					has_war_with = SOV
+					has_war_with = USA
+				}
+				OR = {
+					any_allied_country = { any_controlled_state = { is_on_continent = europe } }
+					any_controlled_state = { is_on_continent = europe }
+				}
+			}
+			FROM = {
+				count_triggers = {
+					amount = 3
+					has_war_with = FRA
+					has_war_with = ENG
+					has_war_with = SOV
+					has_war_with = USA
+				}
+				OR = {
+					any_allied_country = { 
+						any_controlled_state = { 
+							OR = {
+								is_on_continent = australia 
+								is_on_continent = south_asia
+								is_on_continent = asia  
+							} 
+						}
+					}
+					any_controlled_state = { 
+						OR = {
+							is_on_continent = australia 
+							is_on_continent = south_asia
+							is_on_continent = asia  
+						} 
+					}
+				}
+			}
+		}
+		remove_effect = {
+			FROM = {
+				country_event = { id = jap.60 days = 2 }
+			}
+		}
+	}
+	
+	JAP_reform_the_sphere = {
+		icon = generic_political_discourse
+		allowed = { always = no }
+
+		available = {
+			has_war = no
+		}
+
+		visible = {
+			is_subject = no
+			has_socialist_government = no
+		}
+
+		cost = 0
+		fire_only_once = no
+
+		ai_will_do = { factor = 200 }
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete JAP_reform_the_sphere"
+			leave_faction = yes
+			create_faction = co_prosperity_sphere
+			every_country = {
+				limit = {
+					has_country_flag = CPS_former_faction_member
+					is_subject = no
+				}
+				country_event = jap.63
+			}
+		}
+	}
 }

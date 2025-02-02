@@ -200,7 +200,7 @@ country_event = { #The LSMC Hits Japan
 			}
 			add_popularity = { ideology = social_conservative popularity = -0.1 }
 		}
-		hidden_effect = {
+		hidden_effect = { # Locked shogunate path(s)(do not lock the rest of Japan content)
 			set_country_flag = JAP_LSMC_felt
 			country_event = {
 				id = jap.11
@@ -238,7 +238,7 @@ country_event = {
 country_event = {
 	id = jap.12
 	immediate = {log = "[GetDateText]: [Root.GetName]: event jap.12"}
-	title = "Righteous Army Destoryed!"
+	title = "Righteous Army Destroyed!"
 	desc = jap.12.d
 	picture = Jap_coup
 
@@ -3011,42 +3011,8 @@ country_event = {
 ################################
 # RANDOM EVENTS DONE BY TEUTON #
 ################################
-
-add_namespace = jap.hol.friends.of.our.friends.are.our
-
-country_event = {
-	id = jap.hol.friends.of.our.friends.are.our.friends
-	immediate = {log = "[GetDateText]: [Root.GetName]: event jap.hol.friends.of.our.friends.are.our.friends"}
-	title = "Japan wants to join the Stahlpakt"
-	desc = jap.hol.friends.of.our.friends.are.our.friends.d
-	picture = GFX_report_event_hitler_handshake
-
-	fire_only_once = yes
-	is_triggered_only = yes
-
-	option = {
-		name = "A great opportunity in Asia"
-		if = {
-			limit = {
-				JAP = {
-					is_faction_leader = yes
-				}
-			}
-			every_country = {
-				limit = {
-					is_in_faction_with = JAP
-				}
-				GER = {
-					add_to_faction = PREV
-				}
-			}
-		}
-		GER = {
-			add_to_faction = JAP
-		}
-
-	}
-}
+# bruh ~ retiredlt24
+# add_namespace = jap.hol.friends.of.our.friends.are.our
 
 country_event = {
 	id = jap.50
@@ -3205,5 +3171,665 @@ country_event = {
 			factor = 0
 		}
 		decrease_ruling_party_popularity_by_10 = yes
+	}
+}
+
+country_event = {
+	id = jap.58
+	immediate = {log = "[GetDateText]: [Root.GetName]: event jap.58"}
+	title = jap.58.t
+	desc = jap.58.d
+	picture = GFX_report_event_hitler_handshake
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		name = jap.58.a
+		JAP = { 
+			give_guarantee = GER
+			give_military_access = GER
+			diplomatic_relation = {
+				country = GER
+				relation = non_aggression_pact
+				active = yes
+			}
+		}
+		GER = { 
+			give_guarantee = JAP
+			give_military_access = JAP
+			diplomatic_relation = {
+				country = JAP
+				relation = non_aggression_pact
+				active = yes
+			}
+		}
+		set_global_flag = JAP_tripartite_pact
+		hidden_effect = { JAP = { activate_targeted_decision = { target = GER decision = JAP_complete_tripartite_cooperation } } }
+	}
+	
+	option = {
+		name = jap.58.b
+		JAP = { country_event = { id = jap.59 days = 2 } }
+
+	}
+}
+
+country_event = { 
+	id = jap.59
+	immediate = {log = "[GetDateText]: [Root.GetName]: event jap.59"}
+	title = jap.59.t
+	desc = jap.59.d
+	picture = GFX_report_event_hitler_handshake
+
+	is_triggered_only = yes
+
+	option = {
+		name = jap.59.a
+		add_opinion_modifier = {
+			target = GER
+			modifier = FX_disapproves_of_govt
+		}
+		custom_effect_tooltip = JAP_no_tripartite
+		set_country_flag = JAP_no_tripartite_pact
+	}
+}
+
+country_event = {
+	id = jap.60
+	immediate = {log = "[GetDateText]: [Root.GetName]: event jap.60"}
+	title = jap.60.t
+	desc = jap.60.d
+	picture = GFX_report_event_hitler_handshake
+
+	is_triggered_only = yes
+
+	option = {
+		name = jap.60.a
+		add_war_support = 0.1
+		custom_effect_tooltip = JAP_they_will_axis
+		hidden_effect = {
+			every_other_country = {
+				limit = {
+					is_in_faction_with = FROM
+					is_subject = no
+				}
+				set_country_flag = CPS_former_faction_member
+				every_subject_country = { set_country_flag = CPS_former_faction_member }
+				ROOT = { add_to_faction = PREV }
+			}
+			FROM = { dismantle_faction = yes }
+		}
+		ROOT = { add_to_faction = FROM }
+		FROM = { country_event = { id = jap.61 days = 3 } }
+	}
+	
+	option = {
+		name = jap.60.b
+		JAP = { country_event = { id = jap.62 days = 2 } }
+
+	}
+}
+
+country_event = { 
+	id = jap.61
+	immediate = {log = "[GetDateText]: [Root.GetName]: event jap.61"}
+	title = jap.61.t
+	desc = jap.61.d
+	picture = GFX_report_event_hitler_handshake
+
+	is_triggered_only = yes
+
+	option = {
+		name = jap.61.a
+		add_war_support = 0.1
+		activate_targeted_decision = { target = ROOT decision = JAP_reform_the_sphere }
+	}
+}
+
+country_event = { 
+	id = jap.62
+	immediate = {log = "[GetDateText]: [Root.GetName]: event jap.62"}
+	title = jap.62.t
+	desc = jap.62.d
+	picture = GFX_report_event_hitler_handshake
+
+	is_triggered_only = yes
+
+	option = {
+		name = jap.62.a
+		add_opinion_modifier = {
+			target = GER
+			modifier = FX_disapproves_of_govt
+		}
+		custom_effect_tooltip = JAP_no_tripartite
+		set_country_flag = JAP_no_tripartite_pact
+	}
+}
+
+country_event = {
+	id = jap.63
+	immediate = {log = "[GetDateText]: [Root.GetName]: event jap.63"}
+	title = jap.63.t
+	desc = jap.63.d
+	picture = GFX_report_event_hitler_handshake
+
+	is_triggered_only = yes
+	
+	trigger = { JAP = { is_faction_leader = yes } }
+
+	option = {
+		name = jap.63.a
+		JAP = { add_to_faction = ROOT }
+		clr_country_flag = CPS_former_faction_member
+	}
+	
+	option = {
+		name = jap.63.b
+		trigger = {
+			is_ai = no
+			is_subject = no
+		}
+		leave_faction = yes
+		clr_country_flag = CPS_former_faction_member
+	}
+}
+
+country_event = { # Peace in Asia?
+	id = jap.64
+	title = jap.64.t
+	desc = jap.64.d
+	picture = GFX_report_event_JAP_meeting
+	
+	mean_time_to_happen = {
+		days = 30
+	}
+
+	trigger = {
+		OR = {
+			original_tag = ENG
+			original_tag = FRA 
+		}
+		ROOT = {
+			naval_strength_comparison = {
+				other = JAP
+				ratio < 0.5
+				sub_unit_def_weights = {
+					submarine = 0.1
+				}
+			}
+			all_allied_country = {
+				naval_strength_comparison = {
+					other = JAP
+					ratio < 0.5
+					sub_unit_def_weights = {
+						submarine = 0.1
+					}
+				}
+			}
+		}
+		has_war = yes
+		OR = {
+			is_in_faction = no
+			is_faction_leader = yes 
+			AND = {
+				is_in_faction = yes 
+				is_faction_leader = no 
+				USA = { is_faction_leader = yes }
+				is_in_faction_with = USA
+			}
+		}
+		is_subject = no
+		any_enemy_country = {
+			is_valid_peace_target = yes
+			has_civil_war = no
+			OR = {
+				is_oceanian_tag = yes
+				is_south_asian_tag = yes
+				is_seast_asian_tag = yes
+			}
+			NOT = { 
+				any_allied_country = { 
+					OR = {
+						is_eastern_european_tag = yes
+						is_western_european_tag = yes
+					}
+				} 
+			}
+		}
+		ROOT = {
+			any_owned_state = {
+				if = {
+					limit = {
+						OR = {
+							is_on_continent = australia
+							is_on_continent = asia
+							is_on_continent = south_asia
+						}
+						state_population_k > 200
+					}
+					NOT = { # no state in asia that has more than 200K people AND is controlled by FRA/ENG/ally
+						OR = {
+							is_controlled_by = FRA
+							is_controlled_by = ENG
+							controller = { 
+								is_in_faction_with = FRA 
+								has_capitulated = no
+							}
+							controller = { 
+								is_in_faction_with = ENG 
+								has_capitulated = no
+							}
+						}
+						state_population_k > 200
+					}
+				}
+			}
+		}
+		NOT = { any_allied_country = { tag = USA } } # USA will lead to a different peace event
+		NOT = {
+			any_allied_country = {
+				OR = {
+					is_oceanian_tag = yes
+					is_south_asian_tag = yes
+					is_seast_asian_tag = yes
+				}
+				has_capitulated = no
+			}
+		}
+	}
+
+	option = { #We surrender!
+		log = "[GetLogInfo]: event jap.64 option jap.64.a"
+		name = jap.64.a
+		trigger = {
+			FRA = {
+				OR = {
+					NOT = { is_in_faction_with = ENG }
+					is_subject_of = ENG
+				}
+			}
+			ENG = {
+				OR = {
+					NOT = { is_in_faction_with = FRA }
+					is_subject_of = FRA
+				}
+			}
+		}
+		# hidden_effect = { news_event = { id = gerflavour.84 days = 1 } }
+		custom_effect_tooltip = asian_entente_dies
+		JAP_entente_peace = yes
+		
+	}
+
+	option = { #We shall keep fighting
+		log = "[GetLogInfo]: event jap.64 option jap.64.b"
+		name = jap.64.b
+		ai_chance = { base = 0 }
+		add_war_support = -0.1
+		add_stability = -0.1
+	}
+	
+	option = { # We shall consult our other ally first
+		log = "[GetLogInfo]: event jap.64 option jap.64.c"
+		name = jap.64.c
+		trigger = {
+			if = {
+				limit = { tag = FRA }
+				is_in_faction_with = ENG 
+				NOT = { has_subject = ENG }
+			}
+			else = { 
+				is_in_faction_with = FRA
+			}
+		}
+		if = {
+			limit = { tag = ENG }
+			FRA = { country_event = { id = jap.65 days = 1 } }
+		}
+		else = { ENG = { country_event = { id = jap.65 days = 1 } } }
+	}
+}
+
+country_event = { # they ask for peace
+	id = jap.65
+	title = jap.65.t
+	desc = jap.65.d
+	picture = GFX_report_event_JAP_meeting
+
+	is_triggered_only = yes
+
+	option = { # ...
+		log = "[GetLogInfo]: event jap.65 option jap.65.a"
+		name = jap.65.a
+		ai_chance = { base = 100 }
+		custom_effect_tooltip = asian_entente_dies
+		JAP_entente_peace = yes
+	}
+
+	option = { # NEVER!!!!
+		log = "[GetLogInfo]: event jap.65 option jap.65.b"
+		name = jap.65.b
+		ai_chance = { base = 0 }
+		add_war_support = -0.1
+		add_stability = -0.1
+		FROM = { country_event = { id = jap.72 days = 1 } }
+	}
+}
+
+country_event = { # they ask for peace
+	id = jap.66
+	title = jap.66.t
+	desc = jap.66.d
+	picture = GFX_report_event_JAP_meeting
+
+	is_triggered_only = yes
+
+	option = { # woop woop 
+		log = "[GetLogInfo]: event jap.66 option jap.66.a"
+		name = jap.66.a
+		ai_chance = { base = 100 }
+		custom_effect_tooltip = asian_entente_dies
+		FROM = { white_peace_with_ROOT = yes }
+		every_other_country = {
+			limit = { is_ally_with = FROM }
+			diplomatic_relation = {
+				country = ROOT
+				relation = non_aggression_pact
+			}
+			set_truce = { target = ROOT days = 730 }
+		}
+	}
+
+	option = { # NEVER!!!!
+		log = "[GetLogInfo]: event jap.66 option jap.66.b"
+		name = jap.66.b
+		ai_chance = { base = 0 }
+		add_war_support = -0.1
+		add_stability = -0.1
+		FROM = { country_event = { id = jap.67 days = 1 } }
+	}
+}
+
+country_event = { #[From.GetNameDef] does not accept the peace in the east
+	id = jap.67
+	title = jap.67.t
+	desc = jap.67.d
+	picture = GFX_report_event_JAP_ultimatum
+
+	is_triggered_only = yes
+
+	option = { #No choice but to fight on then
+		log = "[GetLogInfo]: event jap.67 option jap.67.a"
+		name = jap.67.a
+		add_war_support = 0.1
+	}
+}
+
+country_event = { # Peace in Asia, American Edition
+	id = jap.68
+	title = jap.68.t
+	desc = jap.68.d
+	picture = GFX_report_event_JAP_foreign_minister_2
+
+	fire_only_once = yes
+
+	trigger = {
+		original_tag = USA
+		naval_strength_comparison = {
+			other = JAP
+			ratio < 0.4
+			sub_unit_def_weights = {
+				submarine = 0.1
+			}
+		}
+		ROOT = {
+			all_owned_state = {
+				if = {
+					limit = {
+						OR = {
+							is_on_continent = australia
+							is_on_continent = asia
+							is_on_continent = south_asia
+						}
+						state_population_k > 100
+					}
+					NOT = { # no state in asia that has more than 100K people 
+						is_controlled_by = ROOT
+					}
+				}
+			}
+		}
+		has_war = yes
+		OR = {
+			is_in_faction = no
+			is_faction_leader = yes 
+			AND = {
+				is_in_faction = yes 
+				is_faction_leader = no 
+				OR = {  # major player in war in asia, but still losing...
+					is_in_faction_with = FRA
+					is_in_faction_with = ENG
+				}
+			}	
+		}
+		is_subject = no
+		any_enemy_country = {
+			is_valid_peace_target = yes
+			has_civil_war = no
+			OR = {
+				is_oceanian_tag = yes
+				is_south_asian_tag = yes
+				is_seast_asian_tag = yes
+			}
+			NOT = { 
+				any_allied_country = { 
+					OR = {
+						is_north_american_tag = yes
+						is_latin_american_tag = yes
+					}
+				} 
+			}
+		}
+		ROOT = {
+			if = {
+				limit = {
+					AND = { 
+						OR = {  
+							is_in_faction_with = FRA
+							is_in_faction_with = ENG
+						}
+						is_faction_leader = no 
+					}
+				}
+				NOT = {
+					any_subject_country = {
+						OR = {
+							is_oceanian_tag = yes
+							is_south_asian_tag = yes
+							is_seast_asian_tag = yes
+						}
+						has_capitulated = no
+					}
+				}
+			}
+			else = {
+				NOT = {
+					any_allied_country = {
+						OR = {
+							is_oceanian_tag = yes
+							is_south_asian_tag = yes
+							is_seast_asian_tag = yes
+						}
+						has_capitulated = no
+					}
+				}
+			}
+		}
+	}
+
+	option = { #its truly joever
+		log = "[GetLogInfo]: event jap.68 option jap.68.a"
+		name = jap.68.a
+		# hidden_effect = { news_event = { id = gerflavour.84 days = 1 } }
+		add_war_support = -0.45
+		add_stability = -0.15
+		custom_effect_tooltip = USA_no_more_intervention_in_asia
+		set_global_flag = USA_defeated_in_pacific
+		JAP_usa_peace = yes
+		
+	}	
+
+	option = { #We shall keep fighting
+		log = "[GetLogInfo]: event jap.68 option jap.68.b"
+		name = jap.68.b
+		ai_chance = { base = 0 }
+		add_war_support = -0.1
+		add_stability = -0.1
+	}
+	
+	option = { # let's ask...
+		log = "[GetLogInfo]: event jap.68 option jap.68.c"
+		name = jap.68.c
+		trigger = { 
+			is_in_faction = yes 
+			is_faction_leader = no 
+			OR = { 
+				is_in_faction_with = FRA
+				is_in_faction_with = ENG
+			}
+		}
+		# hidden_effect = { news_event = { id = gerflavour.84 days = 1 } }
+		ROOT = { faction_leader = { country_event = jap.71 } }	
+	}
+
+}
+
+country_event = { # they ask for peace, usa version
+	id = jap.69
+	title = jap.69.t
+	desc = jap.69.d
+	picture = GFX_report_event_JAP_foreign_minister_2
+
+	is_triggered_only = yes
+
+	option = { # woop woop 
+		log = "[GetLogInfo]: event jap.69 option jap.69.a"
+		name = jap.69.a
+		ai_chance = { base = 100 }
+		custom_effect_tooltip = USA_no_more_intervention_in_asia
+		FROM = { white_peace_with_ROOT = yes }
+		every_other_country = {
+			limit = { is_ally_with = FROM }
+			diplomatic_relation = {
+				country = ROOT
+				relation = non_aggression_pact
+			}
+			set_truce = { target = ROOT days = 730 }
+		}
+	}
+
+	option = { # NEVER!!!!
+		log = "[GetLogInfo]: event jap.69 option jap.69.b"
+		name = jap.69.b
+		ai_chance = { base = 0 }
+		add_war_support = -0.1
+		add_stability = -0.1
+		FROM = { country_event = { id = jap.67 days = 1 } }
+	}
+}
+
+country_event = { # USA withdraws
+	id = jap.70
+	title = jap.70.t
+	desc = jap.70.d
+	picture = GFX_report_event_JAP_foreign_minister_2
+
+	is_triggered_only = yes
+
+	option = { # aw fuck
+		log = "[GetLogInfo]: event jap.70 option jap.70.a"
+		name = jap.70.a
+		ai_chance = { base = 100 }
+		add_war_support = -0.15
+		every_other_country = {
+			limit = {
+				is_in_faction_with = ROOT
+				OR = {
+					is_oceanian_tag = yes
+					is_south_asian_tag = yes
+					is_seast_asian_tag = yes
+				}
+			}
+			add_war_support = -0.25
+		}
+	}
+}
+
+country_event = { # USA withdraws???
+	id = jap.71
+	title = jap.71.t
+	desc = jap.71.d
+	picture = GFX_report_event_JAP_ultimatum
+
+	is_triggered_only = yes
+
+	option = { # give them our blessing
+		log = "[GetLogInfo]: event jap.71 option jap.71.a"
+		name = jap.71.a
+		ai_chance = { base = 100 }
+		FROM = {
+			add_war_support = -0.45
+			add_stability = -0.15
+			custom_effect_tooltip = USA_no_more_intervention_in_asia
+			set_global_flag = USA_defeated_in_pacific
+			JAP_usa_peace = yes
+		}
+	}
+	
+	option = { # but....
+		log = "[GetLogInfo]: event jap.71 option jap.71.b"
+		name = jap.71.b
+		ai_chance = { base = 0 }
+		add_war_support = -0.1
+		add_stability = -0.1
+		FROM = { country_event = { id = jap.72 days = 1 } }
+	}
+}
+
+country_event = { # our ally refuses!
+	id = jap.72
+	title = jap.72.t
+	desc = jap.72.d
+	picture = GFX_report_event_JAP_ultimatum
+
+	is_triggered_only = yes
+
+	option = { # too bad
+		log = "[GetLogInfo]: event jap.72 option jap.72.a"
+		name = jap.72.a
+		ai_chance = { base = 50 }
+		add_war_support = 0.05
+	}
+	
+	option = { # go ahead without them
+		log = "[GetLogInfo]: event jap.72 option jap.72.b"
+		name = jap.72.b
+		ai_chance = { base = 50 }
+		add_political_power = -200
+		add_stability = -0.1
+		if = {
+			limit = { ROOT = { tag = USA } }
+			add_war_support = -0.45
+			add_stability = -0.15
+			custom_effect_tooltip = USA_no_more_intervention_in_asia
+			set_global_flag = USA_defeated_in_pacific
+			JAP_usa_peace = yes
+		}
+		else = {
+			set_global_flag = JAP_seperated_entente_peace
+			custom_effect_tooltip = asian_entente_dies
+			JAP_entente_peace = yes
+		}
 	}
 }

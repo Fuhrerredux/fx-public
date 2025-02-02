@@ -1,0 +1,172 @@
+### German Union Shared Events
+
+add_namespace = gerunion
+
+country_event = { # FROM provided economic assistance
+  id = gerunion.2
+  immediate = {log = "[GetDateText]: [Root.GetName]: event gerunion.2"}
+  title = gerunion.2.t
+  desc = gerunion.2.d
+  picture = GFX_report_event_generic_read_write
+  is_triggered_only = yes
+
+  option = {
+    log = "[GetDateText]: [Root.GetName]: event gerunion.2 option gerunion.2.a"
+    name = gerunion.2.a
+    add_political_power = 20
+    add_one_random_civilian_factory = yes
+  }
+}
+
+country_event = { # Militarization Question
+  id = gerunion.3
+  immediate = {log = "[GetDateText]: [Root.GetName]: event gerunion.3"}
+  title = gerunion.3.t
+  desc = gerunion.3.d
+  picture = GFX_report_event_generic_sign_treaty2
+  is_triggered_only = yes
+
+  option = { # prepare for everything
+    log = "[GetDateText]: [Root.GetName]: event gerunion.3 option gerunion.3.a"
+    name = gerunion.3.a
+    increase_mobilization = yes
+    increase_conscription = yes
+
+    add_one_random_military_factory = yes
+    add_one_random_military_factory = yes
+    add_one_random_military_factory = yes
+  }
+
+  option = { # prepare somewhat
+    log = "[GetDateText]: [Root.GetName]: event gerunion.3 option gerunion.3.b"
+    name = gerunion.3.b
+
+    increase_mobilization = yes
+
+    add_one_random_military_factory = yes
+    add_one_random_civilian_factory = yes
+  }
+} 
+
+country_event = { # Devalkification 
+  id = gerunion.4
+  immediate = {log = "[GetDateText]: [Root.GetName]: event gerunion.4"}
+  title = gerunion.4.t
+  desc = gerunion.4.d
+  picture = GFX_report_event_generic_sign_treaty2
+  is_triggered_only = yes
+
+  option = { # Be gentle
+    log = "[GetDateText]: [Root.GetName]: event gerunion.4 option gerunion.4.a"
+    name = gerunion.4.a
+    add_political_power = -50
+    add_stability = 0.05
+  }
+
+  option = { # Gamer-mode
+    log = "[GetDateText]: [Root.GetName]: event gerunion.4 option gerunion.4.b"
+    name = gerunion.4.b
+    add_political_power = -100
+    add_stability = 0.1
+  }
+} 
+
+country_event = { # Monarchy Question
+  id = gerunion.5
+  immediate = {log = "[GetDateText]: [Root.GetName]: event gerunion.5"}
+  title = gerunion.5.t
+  desc = gerunion.5.d
+  picture = GFX_report_event_generic_sign_treaty2
+  is_triggered_only = yes
+
+  option = { # Petition is approved
+    log = "[GetDateText]: [Root.GetName]: event gerunion.5 option gerunion.5.a"
+    name = gerunion.5.a
+    ai_chance = {
+      base = 50
+    }
+    
+    custom_effect_tooltip = GRU_BAY_monarchist_referendum_will_be_held_tt
+    hidden_effect = {
+      country_event = { id = gerunion.6 days = 100 }
+    }
+  }
+
+  option = { # Petition is rejected or something
+    log = "[GetDateText]: [Root.GetName]: event gerunion.5 option gerunion.5.b"
+    name = gerunion.5.b
+    ai_chance = {
+      base = 50
+    }
+    add_political_power = -10
+  }
+} 
+
+country_event = { # Monarchist Referendum
+  id = gerunion.6
+  immediate = {log = "[GetDateText]: [Root.GetName]: event gerunion.6"}
+  title = gerunion.6.t
+  desc = gerunion.6.d
+  picture = GFX_report_event_generic_sign_treaty2
+  is_triggered_only = yes
+
+  option = { # Referendum succeeds
+    log = "[GetDateText]: [Root.GetName]: event gerunion.6 option gerunion.6.a"
+    name = gerunion.6.a
+    ai_chance = {
+      base = 20
+      modifier = {
+        factor = 4
+        RHI = {
+          has_country_leader = {
+            character = RHI_Hans_Adam_Dorten
+            ruling_only = yes
+          }
+        }
+      }
+    }
+
+    if = {
+      limit = { has_character = BAY_Rupprecht_von_Bayern }
+      custom_effect_tooltip = GRU_BAY_rupprecht_is_king_tt
+      hidden_effect = {
+        BAY_crown_rupprecht = yes
+      }
+    }
+    add_popularity = {
+      ideology = social_conservative
+      popularity = 0.1
+    }
+  }
+
+  option = { # Referendum fails
+    log = "[GetDateText]: [Root.GetName]: event gerunion.6 option gerunion.6.b"
+    name = gerunion.6.b
+    ai_chance = {
+      base = 20
+    }
+  }
+} 
+
+country_event = { # Status of Berlin
+  id = gerunion.7
+  immediate = {log = "[GetDateText]: [Root.GetName]: event gerunion.7"}
+  title = gerunion.7.t
+  desc = gerunion.7.d
+  picture = GFX_report_event_generic_read_write
+  is_triggered_only = yes
+
+  option = {
+    log = "[GetDateText]: [Root.GetName]: event gerunion.7 option gerunion.7.a"
+    name = gerunion.7.a
+    65 = {
+      add_dynamic_modifier = { modifier = GRU_state_autonomy }
+    }
+  }
+
+  option = {
+    log = "[GetDateText]: [Root.GetName]: event gerunion.7 option gerunion.7.b"
+    name = gerunion.7.b
+    add_political_power = 50
+  }
+}

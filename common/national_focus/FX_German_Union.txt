@@ -1,0 +1,764 @@
+#!gfx:interface/FX_goals.gfx
+#!gfx:interface/KR_goals.gfx
+###########################
+
+
+focus_tree = {
+	id = FX_German_Union
+
+	country = {
+		factor = 0 # loaded by effect
+		modifier = {
+			add = 20
+			RHI_is_lander = yes
+		}
+	}
+	
+	focus = {
+		id = GRU_the_new_confederation
+		icon = GFX_goal_GER_government
+		x = 12
+		y = 0	
+		cost = 6
+		available = { RHI_is_lander = yes }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus GRU_the_new_confederation"
+			add_political_power = 25
+		}
+	}
+
+	focus = {
+		id = GRU_autonomy_for_states
+		icon = GFX_goal_RHI_autonomy
+		cost = 5
+		x = 0
+		y = 1
+		relative_position_id = GRU_the_new_confederation
+		available = {
+			RHI_is_lander = yes
+			has_capitulated = no
+		}
+		prerequisite = {
+			focus = GRU_the_new_confederation
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus GRU_autonomy_for_states"
+			add_stability = 0.1
+			add_political_power = -50
+			custom_effect_tooltip = tooltip_white_line
+			add_ideas = GRU_decentralized_autonomy
+		}
+	}
+
+	focus = {
+		id = GRU_rebuild_army
+		icon = GFX_goal_generic_paramilitary
+		cost = 5
+		x = -2
+		y = 1
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = GRU_the_new_confederation
+		prerequisite = {
+			focus = GRU_the_new_confederation
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus GRU_rebuild_army"
+			add_ideas = GRU_regional_militias
+		}
+	}
+
+	focus = {
+		id = GRU_fortify_the_borders
+		icon = GFX_goal_nested_fortifications
+		cost = 5
+		x = -1
+		y = 1
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = GRU_rebuild_army
+		prerequisite = {
+			focus = GRU_rebuild_army
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus GRU_fortify_the_borders"
+			add_ideas = GRU_fort_construction
+		}
+	}
+
+	focus = {
+		id = GRU_joint_training_development
+		icon = GFX_goal_generic_army_cooperation
+		cost = 5
+		x = 1
+		y = 1
+		relative_position_id = GRU_rebuild_army
+		available = {
+			has_capitulated = no
+		}
+		prerequisite = {
+			focus = GRU_rebuild_army
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: FocusGRU_joint_training_development"
+			army_experience = 25
+			add_tech_bonus = {
+				bonus = 0.5
+				uses = 1
+				category = land_doctrine
+			}
+			custom_effect_tooltip = tooltip_white_line
+			add_ideas = GRU_unified_command_doctrine
+		}
+	}
+
+	focus = {
+		id = GRU_break_prussian_hold
+		icon = GFX_goal_RHI_prussia_gon
+		cost = 5
+		x = 2
+		y = 1
+		relative_position_id = GRU_the_new_confederation
+		available = {
+			has_capitulated = no
+		}
+		prerequisite = {
+			focus = GRU_the_new_confederation
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus GRU_break_prussian_hold"
+			add_political_power = 50
+			RHI_separatistcovery = yes
+		}
+	}
+
+	focus = {
+		id = GRU_reform_rail
+		icon = GFX_goal_generic_railway_construction
+		cost = 5
+		x = -1
+		y = 1
+		relative_position_id = GRU_break_prussian_hold
+		available = {
+			has_capitulated = no
+		}
+		prerequisite = {
+			focus = GRU_break_prussian_hold
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: FocusGRU_reform_rail"
+			add_one_random_infrastructure = yes
+			add_one_random_infrastructure = yes	
+		}
+	}
+
+	focus = {
+		id = GRU_militarisation_question
+		icon = GFX_goal_military_academy
+		cost = 5
+		x = 1
+		y = 1
+		relative_position_id = GRU_break_prussian_hold
+		available = {
+			has_capitulated = no
+		}
+		prerequisite = {
+			focus = GRU_break_prussian_hold
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: FocusGRU_militarisation_question"
+			country_event = { id = gerunion.3 days = 2 }
+		}
+	}
+
+	focus = {
+		id = GRU_joint_economic_planning_council
+		icon = GFX_goal_generic_banking_legislation
+		cost = 5
+		x = 1
+		y = 1
+		relative_position_id = GRU_reform_rail
+		available = {
+			has_capitulated = no
+		}
+		prerequisite = {
+			focus = GRU_reform_rail
+			focus = GRU_militarisation_question
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus GRU_joint_economic_planning_council"
+			custom_effect_tooltip = GRU_joint_economic_planning_council_tt
+		}
+	}
+	
+	
+	# North Germany
+	focus = {
+		id = GRU_north_german_union
+		icon = GFX_goal_GRU_north_german_union
+		cost = 5
+		x = 6
+		y = 1
+		allow_branch = { tag = NGF }
+		relative_position_id = GRU_the_new_confederation
+		available = {
+			has_capitulated = no
+		}
+		prerequisite = {
+			focus = GRU_the_new_confederation
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus GRU_north_german_union"
+			add_political_power = 100
+		}
+	}
+
+	focus = {
+		id = GRU_beyond_the_guelphs
+		icon = GFX_goal_GRU_beyond_the_guelphs
+		cost = 5
+		x = -1
+		y = 1
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = GRU_north_german_union
+		prerequisite = {
+			focus = GRU_north_german_union
+		}
+		mutually_exclusive = {
+			focus = GRU_the_guelph_tradition
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus GRU_beyond_the_guelphs"
+			add_stability = 0.1
+		}
+	}
+
+	focus = {
+		id = GRU_the_guelph_tradition
+		icon = GFX_goal_GRU_the_guelph_tradition
+		cost = 5
+		x = 1
+		y = 1
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = GRU_north_german_union
+		prerequisite = {
+			focus = GRU_north_german_union
+		}
+		mutually_exclusive = {
+			focus = GRU_beyond_the_guelphs
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus GRU_the_guelph_tradition"
+			add_ideas = GRU_guelph_tradition_idea
+		}
+	}
+
+	focus = {
+		id = GRU_reassure_upper_class
+		icon = GFX_goal_collaborate_local_elites
+		cost = 5
+		x = 1
+		y = 1
+		available = {
+			has_socialist_government = no
+		}
+		relative_position_id = GRU_the_guelph_tradition
+		prerequisite = {
+			focus = GRU_the_guelph_tradition
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus GRU_reassure_upper_class"
+			add_political_power = 100
+			add_one_random_civilian_factory = yes
+		}
+	}
+
+	focus = {
+		id = GRU_soft_devalkification
+		icon = GFX_goal_generic_crush_valkists
+		cost = 5
+		x = -1
+		y = 1
+		relative_position_id = GRU_the_guelph_tradition
+		available = {
+			NOT = { has_government = valkist }
+		}
+		prerequisite = {
+			focus = GRU_beyond_the_guelphs
+			focus = GRU_the_guelph_tradition
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus GRU_break_valkists"
+			country_event = { id = gerunion.3 days = 2 }
+			RHI_separatistcovery = yes
+		}
+	}
+
+	focus = {
+		id = GRU_work_with_city_states
+		icon = GFX_focus_GER_customs_union
+		cost = 5
+		x = -1
+		y = 1
+		relative_position_id = GRU_beyond_the_guelphs
+		available = {
+			has_capitulated = no
+			OR = {
+				has_full_control_of_state = 59
+				has_full_control_of_state = 915
+			}
+		}
+		prerequisite = {
+			focus = GRU_beyond_the_guelphs
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus GRU_work_with_city_states"
+			every_state = {
+				limit = {
+					OR = {
+						state = 59
+						state = 915
+					}
+					is_fully_controlled_by = ROOT
+				}
+
+				add_dynamic_modifier = { modifier = GRU_state_autonomy }
+			}
+		}
+	}
+
+	focus = {
+		id = GRU_lower_saxony
+		icon = GFX_goal_RHI_german_republicans_power
+		cost = 5
+		x = 1
+		y = 1
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = GRU_work_with_city_states
+		prerequisite = {
+			focus = GRU_work_with_city_states
+			focus = GRU_soft_devalkification
+		}
+		mutually_exclusive = {
+			focus = GRU_brave_hannover
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus GRU_lower_saxony"
+			set_cosmetic_tag = NGF_lander_ls
+			RHI_separatistcovery = yes
+		}
+	}	
+
+	focus = {
+		id = GRU_brave_hannover
+		icon = GFX_goal_GRU_brave_hannover
+		cost = 5
+		x = 3
+		y = 1
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = GRU_work_with_city_states
+		prerequisite = {
+			focus = GRU_work_with_city_states
+			focus = GRU_soft_devalkification
+		}
+		mutually_exclusive = {
+			focus = GRU_lower_saxony
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus GRU_brave_hannover"
+			increase_ruling_party_popularity_by_5 = yes
+			RHI_separatistcovery = yes
+		}
+	}	
+	
+	
+	# South Germany
+	focus = {
+		id = GRU_south_german_union
+		icon = GFX_goal_BAY_restoration
+		cost = 5
+		x = 7
+		y = 1
+		available = {
+			has_capitulated = no
+		}
+		allow_branch = { tag = BAY }
+		relative_position_id = GRU_the_new_confederation
+		prerequisite = {
+			focus = GRU_the_new_confederation
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus GRU_south_german_union"
+		}
+	}
+
+	focus = {
+		id = GRU_appeal_tradition
+		icon = GFX_goal_BAY_in_treu_fest
+		cost = 5
+		x = 2
+		y = 1
+		relative_position_id = GRU_south_german_union
+		prerequisite = {
+			focus = GRU_south_german_union
+		}
+		mutually_exclusive = {
+			focus = GRU_burn_the_cradle
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus GRU_appeal_tradition"
+			add_ideas = GRU_pivot_to_traditionalism
+		}
+	}
+
+	focus = {
+		id = GRU_burn_the_cradle
+		icon = GFX_goal_generic_blow_up_valkism
+		cost = 5
+		x = -2
+		y = 1
+		available = {
+			has_capitulated = no
+			NOT = { has_government = valkist }
+		}
+		relative_position_id = GRU_south_german_union
+		prerequisite = {
+			focus = GRU_south_german_union
+		}
+		mutually_exclusive = {
+			focus = GRU_appeal_tradition
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus GRU_burn_the_cradle"
+			add_ideas = GRU_devalkification
+			RHI_separatistcovery = yes
+		}
+	}
+
+	focus = {
+		id = GRU_peace_with_social_democracy
+		icon = GFX_goal_generic_parliament
+		cost = 5
+		x = 0
+		y = 1
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = GRU_burn_the_cradle
+		prerequisite = {
+			focus = GRU_burn_the_cradle
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus GRU_peace_with_social_democracy"
+			add_political_power = 100
+			hidden_effect = { add_coalition_social_democrat = yes }
+			custom_effect_tooltip = GRU_peace_with_social_democracy_tt
+		}
+	}
+	
+	focus = {
+		id = GRU_south_german_values
+		icon = GFX_goal_BAY_nationalism
+		cost = 5
+		x = -2
+		y = 1
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = GRU_appeal_tradition
+		prerequisite = {
+			focus = GRU_appeal_tradition
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus GRU_south_german_values"
+			RHI_separatistcovery = yes
+			add_political_power = 100
+			add_popularity = {
+				ideology = social_conservative
+				popularity = 0.05
+			}
+		}
+	}
+
+	focus = {
+		id = GRU_monarchist_referendum
+		icon = GFX_focus_GER_monarchy_compromise
+		cost = 5
+		x = 0
+		y = 1
+		available = {
+			has_capitulated = no
+			has_socialist_government = no
+		}
+		relative_position_id = GRU_appeal_tradition
+		prerequisite = {
+			focus = GRU_appeal_tradition
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus GRU_monarchist_referendum"
+			country_event = { id = gerunion.5 days = 2 }
+		}
+	}
+
+	focus = {
+		id = GRU_educate_former_valkists
+		icon = GFX_goal_generic_enforced_beleifs
+		cost = 5
+		x = 1
+		y = 1
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = GRU_peace_with_social_democracy
+		prerequisite = {
+			focus = GRU_peace_with_social_democracy
+			focus = GRU_south_german_values
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus GRU_educate_former_valkists"
+			add_stability = 0.05
+			add_popularity = { popularity = -0.2 ideology = valkist }
+			if = {
+				limit = { has_idea = GRU_devalkification }
+				swap_ideas = {
+					remove_idea = GRU_devalkification
+					add_idea = GRU_devalkification_finished
+				}
+			}
+		}
+	}	
+
+	focus = {
+		id = GRU_south_german_republic
+		icon = GFX_goal_BAY_new_beginning
+		cost = 5
+		x = 1
+		y = 1
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = GRU_south_german_values
+		prerequisite = {
+			focus = GRU_peace_with_social_democracy
+			focus = GRU_south_german_values
+		}
+		completion_reward = {
+			RHI_separatistcovery = yes
+			log = "[GetDateText]: [Root.GetName]: Focus GRU_south_german_republic"
+		}
+	}
+
+	# East Germany
+	focus = {
+		id = GRU_east_german_union
+		icon = GFX_goal_RHI_prussian_ghost
+		cost = 5
+		x = 6
+		y = 1
+		allow_branch = { tag = PRS }
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = GRU_the_new_confederation
+		prerequisite = {
+			focus = GRU_the_new_confederation
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus GRU_east_german_union"
+			RHI_separatistcovery = yes
+		}
+	}	
+
+	focus = {
+		id = GRU_destroy_prussian_legacy
+		icon = GFX_focus_GER_subdue_the_wehrmacht
+		cost = 5
+		x = -1
+		y = 1
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = GRU_east_german_union
+		prerequisite = {
+			focus = GRU_east_german_union
+		}
+		mutually_exclusive = {
+			focus = GRU_inheritors_of_prussia
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus GRU_destroy_prussian_legacy"
+			if = {
+				limit = { is_ally_with = RHI }
+				RHI = {
+					add_opinion_modifier = {
+						target = ROOT
+						modifier = PRU_renounced_prussian_values
+					}
+				}
+				custom_effect_tooltip = tooltip_white_line
+			}
+
+			add_stability = -0.1
+		}
+	}	
+
+	focus = {
+		id = GRU_topple_aristocrats
+		icon = GFX_focus_rom_parties_end
+		cost = 5
+		x = -1
+		y = 1
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = GRU_destroy_prussian_legacy
+		prerequisite = {
+			focus = GRU_destroy_prussian_legacy
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus GRU_topple_aristocrats"
+			add_one_random_civilian_factory = yes
+			add_one_random_civilian_factory = yes
+		}
+	}	
+
+	focus = {
+		id = GRU_grant_polish_autonomy
+		icon = GFX_goal_generic_polish_agreement
+		cost = 5
+		x = 1
+		y = 1
+		available = {
+			has_capitulated = no
+			OR = {
+				owns_state = 86
+				owns_state = 85
+				owns_state = 752
+				owns_state = 67
+			}
+		}
+		relative_position_id = GRU_destroy_prussian_legacy
+		prerequisite = {
+			focus = GRU_destroy_prussian_legacy
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus GRU_grant_polish_autonomy"
+			every_owned_state = {
+				add_dynamic_modifier = {
+					modifier = GRU_polish_autonomy
+				}
+			}
+		}
+	}	
+
+	focus = {
+		id = GRU_the_status_of_berlin
+		icon = GFX_goal_GRU_the_status_of_berlin
+		cost = 5
+		x = 1
+		y = 1
+		available = {
+			has_capitulated = no
+			owns_state = 64
+		}
+		relative_position_id = GRU_topple_aristocrats
+		prerequisite = {
+			focus = GRU_topple_aristocrats
+			focus = GRU_grant_polish_autonomy
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus GRU_the_status_of_berlin"
+			country_event = { id = gerunion.7 days = 2 }
+		}
+	}	
+
+	focus = {
+		id = GRU_inheritors_of_prussia
+		icon = GFX_focus_GER_prussian_legacy
+		cost = 5
+		x = 1
+		y = 1
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = GRU_east_german_union
+		prerequisite = {
+			focus = GRU_east_german_union
+		}
+		mutually_exclusive = {
+			focus = GRU_destroy_prussian_legacy
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus GRU_inheritors_of_prussia"
+			if = {
+				limit = { is_ally_with = RHI }
+				RHI = {
+					add_opinion_modifier = {
+						target = ROOT
+						modifier = PRU_revitalize_prussian_militarism
+					}
+				}
+				custom_effect_tooltip = tooltip_white_line
+			}
+
+			add_ideas = GRU_prussian_heritage
+		}
+	}	
+
+	focus = {
+		id = GRU_assert_prussian_nature
+		icon = GFX_focus_ger_return_of_the_kaiser
+		cost = 5
+		x = 1
+		y = 1
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = GRU_inheritors_of_prussia
+		prerequisite = {
+			focus = GRU_inheritors_of_prussia
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus GRU_assert_prussian_nature"
+			swap_ideas = {
+				remove_idea = GRU_prussian_heritage
+				add_idea = GRU_prussian_heritage_1
+			}
+		}
+	}	
+
+	focus = {
+		id = GRU_eastern_watch
+		icon = GFX_focus_GER_further_demands_for_polish_territory
+		cost = 5
+		x = -1
+		y = 1
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = GRU_assert_prussian_nature
+		prerequisite = {
+			focus = GRU_assert_prussian_nature
+		}
+		prerequisite = {
+			focus = GRU_topple_aristocrats
+			focus = GRU_grant_polish_autonomy
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus GRU_eastern_watch"
+			add_political_power = 50
+			unlock_decision_category_tooltip = GRU_eastern_watch_cat
+			RHI_separatistcovery = yes
+		}
+	}
+}

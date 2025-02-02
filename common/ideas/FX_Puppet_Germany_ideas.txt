@@ -1,0 +1,231 @@
+ideas = {
+
+	### National Spirits ###
+	
+	country = {
+	
+		military_occupation_germany = {
+			on_add = { log = "[GetDateText]: [Root.GetName]: add idea military_occupation_germany" }
+			picture = GRP_occupied
+			allowed = { always = no }
+
+			modifier = {
+				war_support_factor = -0.55
+				stability_weekly_factor = -0.005
+				required_garrison_factor = -0.5
+				compliance_growth = -0.15
+				resistance_growth = 0.1
+			}
+		}
+		
+		germany_disarmed_nation = {
+			on_add = { log = "[GetDateText]: [Root.GetName]: add idea germany_disarmed_nation" }
+			picture = GRP_military_restrictions
+			allowed = { always = no }
+			on_add = { 
+				log = "[GetDateText]: [Root.GetName]: add idea sgf_we_were_defeated_morgenthau_ver" 
+				set_country_flag = cannot_produce_armor
+				set_country_flag = cannot_produce_aircraft
+			}
+			on_remove = {
+				log = "[GetDateText]: [Root.GetName]: remove idea sgf_we_were_defeated_morgenthau_ver"
+				clr_country_flag = cannot_produce_armor
+				clr_country_flag = cannot_produce_aircraft
+			}
+
+			modifier = {
+				minimum_training_level = 0.95
+				command_power_gain = -1
+			}
+			equipment_bonus = {
+				artillery = {
+					instant = yes
+					build_cost_ic = 0.5
+				}
+				infantry_equipment = {
+					instant = yes
+					build_cost_ic = 0.5
+				}
+				anti_air_equipment = {
+					instant = yes
+					build_cost_ic = 0.5
+				}
+				anti_tank_equipment = {
+					instant = yes
+					build_cost_ic = 0.5
+				}
+				support_equipment = {
+					instant = yes
+					build_cost_ic = 0.5
+				}
+			}
+		}
+		
+		legacy_of_valkism = {
+			on_add = { log = "[GetDateText]: [Root.GetName]: add idea legacy_of_valkism" }
+			picture = generic_army_problems
+			allowed = { always = no }
+
+			modifier = {
+				stability_factor = -0.05
+				war_support_factor = -0.15
+				valkist_drift = 0.01
+			}
+		}
+		
+		recovering_from_war = {
+			name = GRP_aftermath_of_war
+			on_add = { 
+				log = "[GetDateText]: [Root.GetName]: add idea recovering_from_war"
+				remove_dynamic_modifier = { modifier = GRP_aftermath_of_war }
+				clear_variable = GER_bomber_harris_effect
+			}
+			on_remove = { 
+				log = "[GetDateText]: [Root.GetName]: remove idea recovering_from_war"
+				#if = {
+				#	limit = { has_completed_focus = GRP_foster_a_free_market }
+				#	swap_ideas = {
+				#		remove_idea = GRP_social_market
+				#		add_idea = GRP_social_market_economy
+				#	}
+				#}
+				#else_if = {
+				#	limit = { has_completed_focus = GRP_coopt_revolutionary_structures }
+				#	swap_ideas = {
+				#		remove_idea = GRP_planning_committees
+				#		add_idea = GRP_planned_economy
+				#	}
+				#}
+			}
+			picture = generic_army_problems
+			allowed = { always = no }
+
+			modifier = {
+				war_support_factor = -0.1
+				production_speed_arms_factory_factor = -0.2
+				industrial_capacity_factory = -0.1
+				industrial_capacity_dockyard = -0.1
+				production_factory_max_efficiency_factor = -0.05
+			}
+		}
+		
+		GRP_social = {
+			name = GRP_social_market_economy
+			on_add = { log = "[GetDateText]: [Root.GetName]: add idea GRP_social" }
+			picture = HOL_booming_economy
+			allowed = { always = no }
+
+			modifier = {
+				production_factory_max_efficiency_factor = 0.05
+				production_speed_buildings_factor = 0.05
+				production_factory_start_efficiency_factor = 0.05
+			}
+		}
+		
+		GRP_social_market = {
+			name = GRP_social_market_economy
+			on_add = { log = "[GetDateText]: [Root.GetName]: add idea GRP_social_market" }
+			picture = HOL_booming_economy
+			allowed = { always = no }
+
+			modifier = {
+				production_factory_max_efficiency_factor = 0.1
+				production_speed_buildings_factor = 0.1
+				production_factory_start_efficiency_factor = 0.1
+			}
+		}
+		
+		GRP_social_market_economy = {
+			on_add = { log = "[GetDateText]: [Root.GetName]: add idea GRP_social_market_economy" }
+			picture = HOL_booming_economy
+			allowed = { always = no }
+
+			modifier = {
+				production_factory_max_efficiency_factor = 0.15
+				production_speed_buildings_factor = 0.15
+				production_factory_start_efficiency_factor = 0.15
+			}
+		}
+		
+		GRP_planned_economy = {
+			on_add = { log = "[GetDateText]: [Root.GetName]: add idea GRP_planned_economy" }
+			picture = HOL_booming_economy
+			allowed = { always = no }
+
+			modifier = {
+				industrial_capacity_factory = 0.1
+				industrial_capacity_dockyard = 0.1
+				line_change_production_efficiency_factor = 0.15
+				consumer_goods_factor = -0.15
+			}
+		}
+		
+		GRP_planning_committees = {
+			on_add = { log = "[GetDateText]: [Root.GetName]: add idea GRP_planning_committees" }
+			picture = HOL_booming_economy
+			allowed = { always = no }
+
+			modifier = {
+				industrial_capacity_factory = 0.05
+				industrial_capacity_dockyard = 0.05
+				line_change_production_efficiency_factor = 0.1
+			}
+		}
+		
+		GRP_workers_rights = {
+			on_add = { log = "[GetDateText]: [Root.GetName]: add idea GRP_workers_rights" }
+			picture = generic_production_bonus
+			allowed = { always = no }
+
+			modifier = {
+				production_factory_max_efficiency_factor = 0.1
+				industrial_capacity_factory = -0.05
+				consumer_goods_factor = 0.15
+			}
+		}
+		
+		GRP_railway_reorging = {
+			on_add = { log = "[GetDateText]: [Root.GetName]: add idea GRP_railway_reorging" }
+			picture = GFX_idea_train_funding
+			allowed = { always = no }
+
+			modifier = {
+				political_power_cost = 0.05
+				production_speed_rail_way_factor = 0.75
+			}
+		}
+	}
+	
+	hidden_ideas = {
+		GRP_valkist_resistance_dummy = {
+			name = GRP_valkist_resistance
+			modifier = { }
+		}
+		
+		GRP_valkist_resistance_idea = {
+			name = GRP_valkist_resistance
+			
+			modifier = { 
+				stability_factor = 0.02
+				war_support_factor = 0.02
+				drift_defence_factor = 0.02
+				resistance_activity = -0.02
+				political_power_cost = -0.02
+				valkist_drift = -0.02
+			}
+		}
+		
+		GRP_valkist_resistance_larger_idea = {
+			name = GRP_valkist_resistance
+			
+			modifier = { 
+				stability_factor = 0.04
+				war_support_factor = 0.04
+				drift_defence_factor = 0.04
+				resistance_activity = -0.04
+				political_power_cost = -0.04
+				valkist_drift = -0.04
+			}
+		}
+	}
+}

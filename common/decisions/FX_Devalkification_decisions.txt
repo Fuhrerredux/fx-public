@@ -1,0 +1,689 @@
+GER_devalkification = {
+	GRP_valkist_state_resistance = {
+		icon = GFX_decision_eng_blackshirt_speech	
+		allowed = { always = no }
+		activation = { hidden_trigger = { always = no } }
+		available = { hidden_trigger = { always = no } }
+		cancel_trigger = {
+			hidden_trigger = {
+				OR = {
+					has_government = valkist
+					all_owned_state = {
+						NOT = { is_core_of = GER }
+					}
+				}
+			}
+		}
+		is_good = no
+		fixed_random_seed = no
+		selectable_mission = yes
+		fire_only_once = yes
+		days_mission_timeout = GRP_valkist_timer
+		ai_will_do = {
+			factor = 125
+		}
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout GRP_valkist_state_resistance"
+			every_owned_state = {
+				limit = {
+					NOT = { is_core_of = ROOT }
+					is_core_of = GER
+				}
+				GRP_valkist_resistance_flows = yes
+				random_list = {
+					50 = { add_compliance = -2 }
+					50 = { add_resistance = 5 }
+				}
+			}
+			for_each_scope_loop = {
+				array = GER.core_states
+				if = {
+					limit = { 
+						is_owned_by = ROOT
+						has_dynamic_modifier = { modifier = GRP_low_valkist_locals }
+					}
+					ROOT = {
+						add_popularity = {
+							ideology = valkist
+							popularity = 0.01
+						}
+					}
+				}
+			}
+			for_each_scope_loop = {
+				array = GER.core_states
+				if = {
+					limit = { 
+						is_owned_by = ROOT
+						has_dynamic_modifier = { modifier = GRP_valkist_locals }
+					}
+					ROOT = {
+						add_popularity = {
+							ideology = valkist
+							popularity = 0.02
+						}
+					}
+				}
+			}
+			for_each_scope_loop = {
+				array = GER.core_states
+				if = {
+					limit = { 
+						is_owned_by = ROOT
+						has_dynamic_modifier = { modifier = GRP_intense_valkist_locals }
+					}
+					ROOT = {
+						add_popularity = {
+							ideology = valkist
+							popularity = 0.03
+						}
+					}
+				}
+			}
+		}
+	}
+
+	GRU_help_integrate_state = {
+		icon = generic_nationalism
+		
+		allowed = { always = no } #activated by effect
+		
+		custom_cost_trigger = { command_power > 44 }
+		custom_cost_text = CP_45
+		
+		target_trigger = {
+			FROM = {
+				NOT = {
+					is_core_of = owner
+				}
+				owner = { owns_state = FROM }
+			}
+		}
+		
+		available = {
+			has_political_power > 0
+			if = {
+				limit = { is_ai = yes }
+				FROM = { compliance > 65 }
+				FROM = { resistance < 35 }
+			}
+			else = {
+				FROM = { compliance > 75 }
+				FROM = { resistance < 15 }
+			}
+		}
+
+		visible = {
+			55 = { is_core_of = ROOT }
+		}
+
+		cancel_trigger = {
+			NOT = { has_full_control_of_state = FROM }
+		}
+
+		cost = 0
+		days_remove = 75
+		cancel_if_not_visible = yes
+		on_map_mode = map_only
+		state_target = yes
+
+		ai_will_do = { factor = 1000 }
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete GRP_integrate_state target: [From.GetName]"
+			FROM = { set_state_flag = currently_being_cored }
+			FROM = { owner = { GRP_dynamic_coring_negatives = yes } }
+			hidden_effect = { ROOT = { add_command_power = -45 } }
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove GRP_integrate_state target: [From.GetName]"
+			FROM = { clr_state_flag = currently_being_cored }
+			hidden_effect = { remove_state_claim = FROM }
+			add_state_core = FROM
+			FROM = {
+				if = {
+					limit = { has_dynamic_modifier = { modifier = GRP_low_valkist_locals } }
+					remove_dynamic_modifier = { modifier = GRP_low_valkist_locals }
+				}
+				else_if = {
+					limit = { has_dynamic_modifier = { modifier = GRP_valkist_locals } }
+					remove_dynamic_modifier = { modifier = GRP_valkist_locals }
+				}
+				else_if = {
+					limit = { has_dynamic_modifier = { modifier = GRP_intense_valkist_locals } }
+					remove_dynamic_modifier = { modifier = GRP_intense_valkist_locals }
+				}
+			}
+			hidden_effect = {
+				remove_targeted_decision = { decision = GRU_help_integrate_state target = FROM }
+			}
+		}
+	}
+	
+	GRP_crush_valkist_cells = {
+		icon = generic_nationalism
+		
+		allowed = { always = no } #activated by effect
+
+		target_trigger = {
+			FROM = {
+				NOT = {
+					is_core_of = ROOT
+				}
+				owner = { tag = ROOT }
+			}
+		}
+
+		available = {
+			has_full_control_of_state = FROM
+			GRP_check_valkist_lim = yes
+		}
+
+		cancel_trigger = {
+			NOT = { has_full_control_of_state = FROM }
+		}
+
+		cost = 35
+		days_remove = 75
+		cancel_if_not_visible = yes
+		on_map_mode = map_only
+		state_target = yes
+
+		ai_will_do = { factor = 1000 }
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete GRP_crush_valkist_cells target: [From.GetName]"
+			FROM = { 
+				set_state_flag = currently_crushing_resistance
+				add_dynamic_modifier = { modifier = GRP_crushing_valkist_cells }
+			}
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove GRP_crush_valkist_cells target: [From.GetName]"
+			FROM = {
+				clr_state_flag = currently_crushing_resistance
+				add_resistance = -10
+				remove_dynamic_modifier = { modifier = GRP_crushing_valkist_cells }
+			}
+		}
+	}
+	
+	GRP_ingratiate_government = {
+		icon = generic_nationalism
+		
+		allowed = { always = no } #activated by effect
+
+		target_trigger = {
+			FROM = {
+				NOT = {
+					is_core_of = ROOT
+				}
+				owner = { tag = ROOT }
+			}
+		}
+
+		available = {
+			has_full_control_of_state = FROM
+			GRP_check_valkist_lim = yes
+		}
+
+		cancel_trigger = {
+			NOT = { has_full_control_of_state = FROM }
+		}
+
+		cost = 35
+		days_remove = 75
+		cancel_if_not_visible = yes
+		on_map_mode = map_only
+		state_target = yes
+
+		ai_will_do = { factor = 1000 }
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete GRP_ingratiate_government target: [From.GetName]"
+			FROM = { 
+				set_state_flag = currently_getting_compliance
+				add_dynamic_modifier = { modifier = GRP_antivalkist_propaganda }
+			}
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove GRP_ingratiate_government target: [From.GetName]"
+			FROM = {
+				clr_state_flag = currently_getting_compliance
+				add_compliance = 3
+				remove_dynamic_modifier = { modifier = GRP_antivalkist_propaganda }
+			}
+		}
+	}
+	
+	GRP_integrate_state = {
+		icon = generic_nationalism
+		
+		allowed = { always = no } #activated by effect
+
+		target_trigger = {
+			FROM = {
+				NOT = {
+					is_core_of = ROOT
+				}
+				owner = { tag = ROOT }
+			}
+		}
+
+		available = {
+			has_political_power > 0
+			has_full_control_of_state = FROM
+			if = {
+				limit = { is_ai = yes }
+				FROM = { compliance > 65 }
+				FROM = { resistance < 35 }
+			}
+			else = {
+				FROM = { compliance > 75 }
+				FROM = { resistance < 15 }
+			}
+		}
+
+		cancel_trigger = {
+			NOT = { has_full_control_of_state = FROM }
+		}
+
+		cost = 0
+		days_remove = 75
+		cancel_if_not_visible = yes
+		on_map_mode = map_only
+		state_target = yes
+
+		ai_will_do = { factor = 1000 }
+
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete GRP_integrate_state target: [From.GetName]"
+			FROM = { set_state_flag = currently_being_cored }
+			GRP_dynamic_coring_negatives = yes
+		}
+
+		remove_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision remove GRP_integrate_state target: [From.GetName]"
+			FROM = {
+				clr_state_flag = currently_being_cored
+				remove_core_of = GER
+			}
+			hidden_effect = { remove_state_claim = FROM }
+			add_state_core = FROM
+			FROM = {
+				if = {
+					limit = { has_dynamic_modifier = { modifier = GRP_low_valkist_locals } }
+					remove_dynamic_modifier = { modifier = GRP_low_valkist_locals }
+				}
+				else_if = {
+					limit = { has_dynamic_modifier = { modifier = GRP_valkist_locals } }
+					remove_dynamic_modifier = { modifier = GRP_valkist_locals }
+				}
+				else_if = {
+					limit = { has_dynamic_modifier = { modifier = GRP_intense_valkist_locals } }
+					remove_dynamic_modifier = { modifier = GRP_intense_valkist_locals }
+				}
+				if = {
+					limit = { has_dynamic_modifier = { modifier = RHI_prussian_redemption } }
+					remove_dynamic_modifier = { modifier = GRP_low_valkist_locals }
+					add_dynamic_modifier = { modifier = RHI_prussian_redeemed }
+				}
+				if = {
+					limit = { has_dynamic_modifier = { modifier = RHI_reinforced_federalism } }
+					remove_dynamic_modifier = { modifier = RHI_reinforced_federalism }
+					add_dynamic_modifier = { modifier = RHI_entrenched_federalism }
+				}
+			}
+			if = {
+				limit = { 
+					FROM = { state = 55 }
+					ROOT = { has_completed_focus = RHI_the_german_union }
+				}
+				every_state = {
+					limit = {
+						owner = {
+							is_subject_of = ROOT
+							OR = {
+								has_autonomy_state = lander
+								has_autonomy_state = lander_less
+							}
+						}
+						NOT = { is_core_of = owner }
+						is_claimed_by = owner
+					}
+					activate_targeted_decision = { target = THIS decision = GRU_help_integrate_state }
+				}
+			}
+			hidden_effect = {
+				remove_targeted_decision = { decision = GRP_integrate_state target = FROM }
+			}
+		}
+	}
+}
+
+GER_postwar_reconstruction = {
+
+	GER_continue_reconstruction = {
+		icon = GFX_decision_eng_blackshirt_speech	
+		allowed = { always = no }
+		days_remove = 75
+		ai_will_do = {
+			factor = 45
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete GER_continue_reconstruction"
+			set_temp_variable = { RHI_increase_bomber_harris = 0.1 }
+			if = {
+				limit = { has_completed_focus = RHI_prioritize_recovery }
+				set_temp_variable = { RHI_increase_bomber_harris = 0.15 }
+			}
+			RHI_postwar_recovering = yes
+		}
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout GER_continue_reconstruction"
+			hidden_effect = {
+				if = {
+					limit = { has_idea = RHI_recovering_from_war }
+					remove_targeted_decision = { target = ROOT decision = GER_continue_reconstruction }
+				}
+			}
+		}
+	}
+	
+	GER_reentice_foreign_investments = {
+		icon = GFX_decision_eng_blackshirt_speech	
+		cost = 35
+		allowed = { always = no }
+		days_remove = 50
+		ai_will_do = {
+			factor = 45
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete GER_reentice_foreign_investments"
+			random_list = {
+				25 = { 
+					set_temp_variable = { RHI_increase_bomber_harris = 0.1 }
+					RHI_postwar_recovering = yes
+				}
+				25 = {
+					set_temp_variable = { RHI_increase_bomber_harris = 0.15 }
+					RHI_postwar_recovering = yes
+				}
+				25 = { 
+					set_temp_variable = { RHI_increase_bomber_harris = 0.2 }
+					RHI_postwar_recovering = yes
+				}
+				20 = {
+				}
+			}
+		}
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout GER_reentice_foreign_investments"
+			hidden_effect = {
+				if = {
+					limit = { has_idea = RHI_recovering_from_war }
+					remove_decision = GER_reentice_foreign_investments
+				}
+			}
+		}
+	}
+	
+	GER_reform_collective_farms = {
+		icon = GFX_decision_eng_blackshirt_speech	
+		cost = 35
+		allowed = { always = no }
+		fire_only_once = yes
+		days_remove = 150
+		ai_will_do = {
+			factor = 45
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete GER_reallow_coereced_valkists"
+			add_stability = 0.04
+			set_temp_variable = { RHI_increase_bomber_harris = 0.15 }
+			RHI_postwar_recovering = yes
+			hidden_effect = { remove_decision = GER_disband_collective_farms }
+		}
+		modifier = {
+			political_power_cost = 0.15
+		}
+	}
+	
+	GER_disband_collective_farms = {
+		icon = GFX_decision_eng_blackshirt_speech
+		allowed = { always = no }
+		fire_only_once = yes
+		days_remove = 150
+		ai_will_do = {
+			factor = 45
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete GER_reallow_coereced_valkists"
+			add_stability = -0.04
+			add_political_power = 70
+			set_temp_variable = { RHI_increase_bomber_harris = 0.2 }
+			RHI_postwar_recovering = yes
+			hidden_effect = { remove_decision = GER_reform_collective_farms }
+		}
+		modifier = {
+			stability_weekly_factor = -0.001
+		}
+	}
+	
+	GER_restore_silesian_mines = {
+		icon = GFX_decision_eng_blackshirt_speech	
+		available = { owns_state = 66 }
+		allowed = { always = no }
+		fire_only_once = yes
+		days_remove = 100
+		ai_will_do = {
+			factor = 45
+		}
+		state_target = yes
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete GER_restore_silesian_mines"
+			66 = { 
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+		modifier = {
+			consumer_goods_factor = 0.25
+		}
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout GER_restore_silesian_mines"
+			66 = { 
+				add_resource = {
+					type = steel
+					amount = 20
+				}
+			}
+			set_temp_variable = { RHI_increase_bomber_harris = 0.25 }
+			RHI_postwar_recovering = yes
+		}
+	}
+	
+	GER_revitalize_ruhr = {
+		icon = GFX_decision_eng_blackshirt_speech	
+		available = { 
+			owns_state = 746
+			owns_state = 51
+		}
+		cost = 75
+		allowed = { always = no }
+		fire_only_once = yes
+		days_remove = 100
+		ai_will_do = {
+			factor = 45
+		}
+		state_target = yes
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete GER_revitalize_ruhr"
+			746 = { 
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			51 = { 
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+		modifier = {
+			consumer_goods_factor = 0.35
+		}
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout GER_revitalize_ruhr"
+			746 = { add_dynamic_modifier = { modifier = RHI_ruhr_good } }
+			51 = { add_dynamic_modifier = { modifier = RHI_ruhr_good } }
+			set_temp_variable = { RHI_increase_bomber_harris = 0.25 }
+			RHI_postwar_recovering = yes
+		}
+	}
+	
+	GER_reorganize_railways = {
+		icon = GFX_decision_eng_blackshirt_speech	
+		cost = 25
+		allowed = { always = no }
+		fire_only_once = yes
+		days_remove = 250
+		ai_will_do = {
+			factor = 45
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete GER_reorganize_railways"
+			set_temp_variable = { RHI_increase_bomber_harris = 0.15 }
+			RHI_postwar_recovering = yes
+			add_timed_idea = {
+				 idea = GRP_railway_reorging
+				 days = 250
+			}
+		}
+		modifier = {
+			consumer_goods_factor = 0.15
+		}
+	}
+	
+	GER_break_ig_farben = {
+		icon = GFX_decision_eng_blackshirt_speech	
+		cost = 25
+		allowed = { always = no }
+		fire_only_once = yes
+		days_remove = 365
+		ai_will_do = {
+			factor = 45
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete GER_break_ig_farben"
+			add_political_power = 100
+		}
+		modifier = {
+			political_power_cost = 0.1
+		}
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout GER_revitalize_ruhr"
+			set_country_flag = RHI_broken_ig_farben
+			custom_effect_tooltip = available_industrial_concern
+			show_ideas_tooltip = basf
+			set_temp_variable = { RHI_increase_bomber_harris = 0.2 }
+			RHI_postwar_recovering = yes
+		}
+	}
+	
+	GER_convert_kdf = {
+		icon = GFX_decision_eng_blackshirt_speech	
+		available = { owns_state = 59 }
+		allowed = { always = no }
+		fire_only_once = yes
+		days_remove = 100
+		ai_will_do = {
+			factor = 45
+		}
+		state_target = yes
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete GER_convert_kdf"
+			59 = { 
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+		modifier = {
+			consumer_goods_factor = 0.2
+		}
+		timeout_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision timeout GER_convert_kdf"
+			59 = { 
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			set_temp_variable = { RHI_increase_bomber_harris = 0.25 }
+			RHI_postwar_recovering = yes
+		}
+	}
+	
+	GER_maintain_deutsche_bank = {
+		icon = GFX_decision_eng_blackshirt_speech	
+		cost = 35
+		allowed = { always = no }
+		fire_only_once = yes
+		days_remove = 150
+		ai_will_do = {
+			factor = 45
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete GER_reallow_coereced_valkists"
+			add_stability = 0.04
+			set_temp_variable = { RHI_increase_bomber_harris = 0.2 }
+			RHI_postwar_recovering = yes
+			hidden_effect = { remove_decision = GER_break_deutsche_bank }
+		}
+		modifier = {
+			political_power_cost = 0.25
+		}
+	}
+	
+	GER_break_deutsche_bank = {
+		icon = GFX_decision_eng_blackshirt_speech
+		allowed = { always = no }
+		fire_only_once = yes
+		days_remove = 100
+		ai_will_do = {
+			factor = 45
+		}
+		complete_effect = {
+			log = "[GetDateText]: [Root.GetName]: Decision complete GER_break_deutsche_bank"
+			add_stability = -0.03
+			add_political_power = 35
+			set_temp_variable = { RHI_increase_bomber_harris = 0.15 }
+			RHI_postwar_recovering = yes
+			hidden_effect = { remove_decision = GER_maintain_deutsche_bank }
+		}
+	}
+}

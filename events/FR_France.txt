@@ -35,7 +35,7 @@ country_event = { #SIC initial budget report
 	immediate = {log = "[GetDateText]: [Root.GetName]: event fra.2"}
 	title = fra.2.t
 	desc = fra.2.d
-	picture = GFX_report_event_Diplomacy1
+	picture = GFX_report_event_FRA_Chamber_of_Deputies
 
 	is_triggered_only = yes
 
@@ -81,7 +81,7 @@ country_event = { #investigating the army
 	immediate = {log = "[GetDateText]: [Root.GetName]: event fra.4"}
 	title = fra.4.t
 	desc = fra.4.d
-	picture = GFX_report_event_bank
+	picture = GFX_report_event_FRA_civilian_military
 
 	is_triggered_only = yes
 
@@ -113,7 +113,7 @@ country_event = { #investigating the government
 	immediate = {log = "[GetDateText]: [Root.GetName]: event fra.6"}
 	title = fra.6.t
 	desc = fra.6.d
-	picture = GFX_report_event_bank
+	picture = GFX_report_event_FRA_Chamber_of_Deputies2
 
 	is_triggered_only = yes
 
@@ -129,7 +129,7 @@ country_event = { #trial of the eleven - result
 	immediate = {log = "[GetDateText]: [Root.GetName]: event fra.7"}
 	title = fra.7.t
 	desc = fra.7.d
-	picture = GFX_report_event_bank
+	picture = GFX_report_event_FRA_Angry_People
 
 	is_triggered_only = yes
 
@@ -384,7 +384,7 @@ country_event = { #national restructuring
 	immediate = {log = "[GetDateText]: [Root.GetName]: event fra.11"}
 	title = fra.11.t
 	desc = fra.11.d
-	picture = GFX_report_event_diplomacy3
+	picture = GFX_report_event_FRA_Far_Right_March
 
 	is_triggered_only = yes
 
@@ -401,7 +401,7 @@ country_event = { #death of the third republic
 	immediate = {log = "[GetDateText]: [Root.GetName]: event fra.12"}
 	title = fra.12.t
 	desc = fra.12.d
-	picture = GFX_report_event_diplomacy3
+	picture = GFX_report_event_FRA_Council_Meeting
 
 	is_triggered_only = yes
 
@@ -429,7 +429,7 @@ country_event = { #Petain's power is questioned
 	immediate = {log = "[GetDateText]: [Root.GetName]: event fra.13"}
 	title = fra.13.t
 	desc = fra.13.d
-	picture = GFX_report_event_diplomacy3
+	picture = GFX_report_event_FRA_Petain
 	is_triggered_only = yes
 
 	trigger = {
@@ -490,7 +490,7 @@ country_event = { #restoration of the monarchy
 	immediate = {log = "[GetDateText]: [Root.GetName]: event fra.14"}
 	title = fra.14.t
 	desc = fra.14.d
-	picture = GFX_report_event_diplomacy3
+	picture = GFX_report_event_FRA_Jean_III
 
 	is_triggered_only = yes
 
@@ -630,7 +630,7 @@ country_event = { #workers strike after strikes made illegal, 60% chance of happ
 	immediate = {log = "[GetDateText]: [Root.GetName]: event fra.15"}
 	title = fra.15.t
 	desc = fra.15.d
-	picture = GFX_report_event_diplomacy3
+	picture = GFX_report_event_FRA_Strikes
 
 	is_triggered_only = yes
 
@@ -682,7 +682,7 @@ country_event = {
 	immediate = {log = "[GetDateText]: [Root.GetName]: event fra.17"}
 	title = fra.17.t
 	desc = fra.17.d
-	picture = GFX_report_event_diplomacy3
+	picture = GFX_report_event_FRA_Tanks
 
 	trigger = {
 		date > 1937.3.1
@@ -730,7 +730,7 @@ country_event = {
 	immediate = {log = "[GetDateText]: [Root.GetName]: event fra.19"}
 	title = fra.19.t
 	desc = fra.19.d
-	picture = GFX_report_event_diplomacy3
+	picture = GFX_report_event_FRA_Strikes
 
 	trigger = {
 		date > 1936.2.4
@@ -755,7 +755,7 @@ country_event = {
 	immediate = {log = "[GetDateText]: [Root.GetName]: event fra.20"}
 	title = fra.20.t
 	desc = fra.20.d
-	picture = GFX_report_event_diplomacy3
+	picture = GFX_report_event_FRA_Bleriot
 
 	trigger = {
 		date > 1936.9.1
@@ -779,7 +779,7 @@ country_event = {
 	immediate = {log = "[GetDateText]: [Root.GetName]: event fra.21"}
 	title = fra.21.t
 	desc = fra.21.d
-	picture = GFX_report_event_diplomacy3
+	picture = GFX_report_event_FRA_Juliette
 
 	trigger = {
 		date > 1936.11.1
@@ -854,8 +854,13 @@ country_event = {
 		FRA = {
 			has_capitulated = no
 		}
-		has_government = paternal_autocrat
-		has_country_flag = fra_junta_incoming
+		OR = {
+			AND = {
+				has_country_flag = fra_junta_incoming
+				has_government = paternal_autocrat
+			}
+			has_country_flag = FRA_Petain_Provisional_Government
+		}
 	}
 
 	fire_only_once = yes
@@ -909,28 +914,25 @@ country_event = { #flee to Algeria
 	picture = GFX_report_event_diplomacy3
 
 	trigger = {
-		original_tag = FRA
-		GER = {
-			has_offensive_war_with = FRA
-			surrender_progress < 0.2
-		}
-		FRA = {
-			has_defensive_war_with = GER
-			surrender_progress > 0.85
-			controls_state = 513
-			controls_state = 459
-			controls_state = 460
+		AND = {
+			original_tag = FRA
+			FRA = {
+				surrender_progress > 0.85
+				has_war_with = GER
+			}
+			GER = {
+				surrender_progress < 0.20
+			}
 		}
 	}
+	
+	is_triggered_only = yes
 
 	fire_only_once = yes
 
-	mean_time_to_happen = {
-		days = 1
-	}
-
 	option = { #leave to Africa
 		name = fra.24.a
+		ai_chance = { base = 100 }
 		set_capital = { state = 459 }
 		459 = {
 			add_core_of = FRA
@@ -938,19 +940,14 @@ country_event = { #flee to Algeria
 		460 = {
 			add_core_of = FRA
 		}
-		GER = {
-			country_event = {
-				id = ger.403
-				days = 2
-			}
-		}
+		FRA = { hidden_effect = { country_event = { id = gerexp.87 days = 2 } } }
 		add_ideas = FRA_govt_in_exile
 	}
 
 	option = { #stay in Europe (picking this option means you have a small peepee)
 		name = fra.24.b
+		ai_chance = { base = 1 }
 		custom_effect_tooltip = fra_gaulle_mad
-		custom_effect_tooltip = fra_blank
 		set_capital = { state = 459 }
 
 	}
@@ -960,7 +957,7 @@ country_event = { #officer purge 1
 	id = fra.25
 	title = fra.25.t
 	desc = fra.25.d
-	picture = GFX_report_event_diplomacy3
+	picture = GFX_AF_trial_dec_1
 
 	trigger = {
 		original_tag = FRA
@@ -993,7 +990,7 @@ country_event = { #officer purge 2
 	id = fra.26
 	title = fra.26.t
 	desc = fra.26.d
-	picture = GFX_report_event_diplomacy3
+	picture = GFX_AF_trial_dec_2
 
 	is_triggered_only = yes
 
@@ -1020,7 +1017,7 @@ country_event = { #officer purge 3
 	id = fra.27
 	title = fra.27.t
 	desc = fra.27.d
-	picture = GFX_report_event_diplomacy3
+	picture = GFX_AF_trial_dec_3
 
 	is_triggered_only = yes
 
@@ -1047,7 +1044,7 @@ country_event = { #officer purge 4
 	id = fra.28
 	title = fra.28.t
 	desc = fra.28.d
-	picture = GFX_report_event_diplomacy3
+	picture = GFX_AF_trial_dec_4
 
 	is_triggered_only = yes
 
@@ -1074,7 +1071,7 @@ country_event = { #officer purge 5
 	id = fra.29
 	title = fra.29.t
 	desc = fra.29.d
-	picture = GFX_report_event_diplomacy3
+	picture = GFX_report_event_FRA_event_AFRessurection
 
 	is_triggered_only = yes
 
@@ -1101,7 +1098,7 @@ country_event = { #officer purge 6
 	id = fra.30
 	title = fra.30.t
 	desc = fra.30.d
-	picture = GFX_report_event_diplomacy3
+	picture = GFX_report_event_FRA_event_AFRessurection
 
 	is_triggered_only = yes
 
@@ -1128,7 +1125,7 @@ country_event = { #officer purge 7
 	id = fra.31
 	title = fra.31.t
 	desc = fra.31.d
-	picture = GFX_report_event_diplomacy3
+	picture = GFX_report_event_FRA_event_AFRessurection
 
 	is_triggered_only = yes
 
@@ -1155,7 +1152,7 @@ country_event = { #officer purge 8
 	id = fra.32
 	title = fra.32.t
 	desc = fra.32.d
-	picture = GFX_report_event_diplomacy3
+	picture = GFX_report_event_FRA_event_AFRessurection
 
 	is_triggered_only = yes
 
@@ -1716,6 +1713,9 @@ country_event = { #Switzerland refuses to cede Romandie
 				is_in_faction_with = FRA
 			}
 		}
+		ai_chance = {
+			base = 0
+		}
 		name = fra.50.a
 		country_event = {
 			id = fra.53
@@ -1731,6 +1731,9 @@ country_event = { #Switzerland refuses to cede Romandie
 				}
 			}
 		}
+		ai_chance = {
+			base = 0
+		}
 		name = fra.50.b
 		create_wargoal = {
 			type = annex_everything
@@ -1740,6 +1743,9 @@ country_event = { #Switzerland refuses to cede Romandie
 
 	option = { #back down
 		name = fra.50.c
+		ai_chance = {
+			base = 5
+		}
 	}
 }
 
@@ -2087,6 +2093,9 @@ country_event = { #*crab rave* Black Wednesday IS GONE *crab rave*
 		name = fra.57.a
 		remove_ideas = FRA_black_wednesday3
 		clr_country_flag = FRA_black_wednesday
+		clear_variable = fra_var_inflation
+		clear_variable = fra_var_unemployment
+		clear_variable = frenchBudgetAmount
 	}
 }
 
@@ -2173,7 +2182,7 @@ country_event = {
 	title = fra.61.t
 	desc = fra.61.d
 
-	picture = GFX_report_event_diplomacy3
+	picture = GFX_report_event_FRA_Action_Francaise
 
 	is_triggered_only = yes
 
@@ -3768,14 +3777,7 @@ country_event = { #Petain takes control of Free France
 			long_name = "gouvernement provisoire de la République française"
 			name = "GPRF"
 		}
-		hidden_effect = {
-			FRA = {
-				country_event = {
-					id = fra.100
-					days = 20
-				}
-			}
-		}
+		set_country_flag = FRA_Petain_Provisional_Government
 	}
 }
 
@@ -4186,12 +4188,7 @@ country_event = { #event after the 2GW between FRA and GER is over
 				has_government = paternal_autocrat
 			}
 		}
-		GER = {
-			NOT = {
-				has_government = valkist
-				has_war_with = ENG
-			}
-		}
+		GER = { exists = no }
 	}
 
 	fire_only_once = yes
@@ -4613,7 +4610,7 @@ country_event = { #corporatism event 2 - the sciences
 	}
 
 	option = { #military focus
-		name = fra.120.a
+		name = fra.120.b
 		add_tech_bonus = {
 			bonus = 0.1
 			uses = 1
@@ -5657,16 +5654,46 @@ country_event = { #event for KMT, French pilot arrives by accident
 	}
 }
 
-
-country_event = {
+country_event = { # France rejoins Entente
 	id = fra.5006
+	immediate = {log = "[GetDateText]: [Root.GetName]: event fra.5006"}
 	title = fra.5006.t
 	desc = fra.5006.d
+	picture = GFX_report_event_generic_diplomacy1
+
 	is_triggered_only = yes
-	immediate = { log = "[GetLogInfo]: event fra.5006" }
+
+	fire_only_once = yes
+
+	option = {
+		log = "[GetDateText]: [Root.GetName]: event fra.5006 option fra.5006.a"
+		name = fra.5006.a
+		ENT = {
+			add_to_faction = FRA
+		}
+	}
+
+	option = {
+		log = "[GetDateText]: [Root.GetName]: event fra.5006 option fra.5006.b"
+		name = fra.5006.b
+		FRA = {
+			add_opinion_modifier = {
+				target = SHO
+				modifier = large_decrease
+			}
+		}
+	}
+}
+
+country_event = {
+	id = fra.5007
+	title = fra.5007.t
+	desc = fra.5007.d
+	is_triggered_only = yes
+	immediate = { log = "[GetLogInfo]: event fra.5007" }
 	picture = GFX_report_event_FRA_emperor_macron
 	option = {
-		name = fra.5006.a
+		name = fra.5007.a
 		retire_country_leader = yes
 		FRA_Emmanuel_Macron = {
 			add_country_leader_role = {

@@ -7,22 +7,35 @@ GER_mauser_organization = {
 	icon = GFX_idea_mauser
 	allowed = {
 		OR = {
-			original_tag = GER
+			is_germany_or_splinter_tag = yes
 			original_tag = RHI
 			original_tag = PHI
+		}
+	}
+	visible = {
+		if = {
+			limit = {
+				FROM = { original_tag = RHI }
+			}
+			FROM = {
+				OR = {
+					has_completed_focus = RHI_open_industrial_contacts
+					has_completed_focus = RHI_work_with_the_industrialists
+				}
+			}
 		}
 	}
 	available = {
 		if = {
 			limit = {
-				FROM = { NOT = { original_tag = GER } }
+				FROM = { is_germany_or_splinter_tag = no }
 			}
 			FROM = { NOT = { has_war_with = GER } }
 		}
 
-		if = {
+		else_if = {
 			limit = {
-				FROM = { NOT  = { original_tag = GER } }
+				FROM = { is_germany_or_splinter_tag = no }
 			}
 			custom_trigger_tooltip = {
 				tooltip = has_invited_mio_tt
@@ -30,6 +43,16 @@ GER_mauser_organization = {
 					has_country_flag = has_invited_mauser
 				}
 			}
+		}
+	}
+	visible = {
+		if = {
+			limit = { FROM = { tag = RHI } }
+			has_global_flag = GER_companies_evacuated_rhine
+		}
+		else_if = {
+			limit = { FROM = { is_germany_or_splinter_tag = yes } }
+			NOT = { has_global_flag = GER_companies_evacuated_rhine }
 		}
 	}
 }
@@ -40,21 +63,28 @@ GER_walther_organization = {
 	icon = GFX_idea_walther
 	allowed = {
 		OR = {
-			original_tag = GER
+			is_germany_or_splinter_tag = yes
 			original_tag = RHI
 		}
 	}
-	available = {
+	visible = {
 		if = {
 			limit = {
-				FROM = { NOT = { original_tag = GER } }
+				FROM = { original_tag = RHI }
 			}
-			FROM = { NOT = { has_war_with = GER } }
+			FROM = {
+				OR = {
+					has_completed_focus = RHI_open_industrial_contacts
+					has_completed_focus = RHI_work_with_the_industrialists
+				}
+			}
 		}
-
+	}
+	available = {
+		FROM = { NOT = { has_war_with = GER } }
 		if = {
 			limit = {
-				FROM = { NOT  = { original_tag = GER } }
+				FROM = { is_germany_or_splinter_tag = no }
 			}
 			custom_trigger_tooltip = {
 				tooltip = has_invited_mio_tt
@@ -65,25 +95,26 @@ GER_walther_organization = {
 		}
 	}
 }
-
-GER_alkett_organization = {
+GER_hasag_organization = {
 	include = generic_support_equipment_organization
-	name = alkett
-	icon = GFX_idea_alkett
+	name = hasag
+	icon = GFX_idea_hasag
 	allowed = {
-		original_tag = GER
+		OR = {
+			is_germany_or_splinter_tag = yes
+		}
 	}
 	available = {
 		if = {
 			limit = {
-				FROM = { NOT = { original_tag = GER } }
+				FROM = { NOT = { is_germany_or_splinter_tag = yes } }
 			}
-			FROM = { NOT = { has_war_with = GER } }
+			FROM = { NOT = { has_war_with = GER country_exists = GER } }
 		}
 
 		if = {
 			limit = {
-				FROM = { NOT  = { original_tag = GER } }
+				FROM = { is_germany_or_splinter_tag = no }
 			}
 			custom_trigger_tooltip = {
 				tooltip = has_invited_mio_tt
@@ -94,84 +125,50 @@ GER_alkett_organization = {
 		}
 	}
 }
-
-GER_gebruder_organization = {
-	include = generic_infantry_equipment_organization
-	name = gebruder
-	icon = GFX_idea_gebruder
+GER_alkett_organization = {
+	include = generic_assault_guns_organization
+	name = alkett
+	icon = GFX_idea_alkett
 	allowed = {
-		original_tag = GER
+		OR = {
+			is_germany_or_splinter_tag = yes
+		}
 	}
 	available = {
-		if = {
-			limit = {
-				FROM = { NOT = { original_tag = GER } }
-			}
-			FROM = { NOT = { has_war_with = GER } }
-		}
+		FROM = { NOT = { has_war_with = GER } }
 
 		if = {
 			limit = {
-				FROM = { NOT  = { original_tag = GER } }
+				FROM = { is_germany_or_splinter_tag = no }
 			}
 			custom_trigger_tooltip = {
 				tooltip = has_invited_mio_tt
 				FROM = {
-					has_country_flag = has_invited_gebruder
+					has_country_flag = has_invited_alkett
 				}
 			}
 		}
 	}
 }
-
-GER_Pabst_Werke_organization = {
-	include = generic_infantry_equipment_organization
-	name = Pabst_Werke
-	icon = GFX_idea_Pabst_Werke
-	allowed = {
-		original_tag = GER
-	}
-	available = {
-		if = {
-			limit = {
-				FROM = { NOT = { original_tag = GER } }
-			}
-			FROM = { NOT = { has_war_with = GER } }
-		}
-
-		if = {
-			limit = {
-				FROM = { NOT  = { original_tag = GER } }
-			}
-			custom_trigger_tooltip = {
-				tooltip = has_invited_mio_tt
-				FROM = {
-					has_country_flag = has_invited_pabst_werke
-				}
-			}
-		}
-	}
-}
-
 GER_rheinmetall_organization = {
 	include = generic_artillery_organization
 	name = rheinmetall
 	icon = GFX_idea_rheinmetall
 	allowed = {
-		original_tag = GER
-		original_tag = PHI
+		OR = {
+			is_germany_or_splinter_tag = yes
+			original_tag = RHI
+			original_tag = PHI
+			original_tag = GRP
+			original_tag = RHI
+		}
 	}
 	available = {
-		if = {
-			limit = {
-				FROM = { NOT = { original_tag = GER } }
-			}
-			FROM = { NOT = { has_war_with = GER } }
-		}
+		FROM = { NOT = { has_war_with = GER } }
 
 		if = {
 			limit = {
-				FROM = { NOT  = { original_tag = GER } }
+				FROM = { is_germany_or_splinter_tag = no }
 			}
 			custom_trigger_tooltip = {
 				tooltip = has_invited_mio_tt
@@ -179,6 +176,16 @@ GER_rheinmetall_organization = {
 					has_country_flag = has_invited_rheinmetall
 				}
 			}
+		}
+	}
+	visible = {
+		if = {
+			limit = { FROM = { tag = RHI } }
+			has_global_flag = GER_companies_evacuated_rhine
+		}
+		else_if = {
+			limit = { FROM = { is_germany_or_splinter_tag = yes } }
+			NOT = { has_global_flag = GER_companies_evacuated_rhine }
 		}
 	}
 }
@@ -190,22 +197,17 @@ GER_opel_organization = {
 
 	allowed = {
 		OR = {
-			original_tag = GER
+			is_germany_or_splinter_tag = yes
 			original_tag = RHI
 		}
 	}
-
+	
 	available = {
-		if = {
-			limit = {
-				FROM = { NOT = { original_tag = GER } }
-			}
-			FROM = { NOT = { has_war_with = GER } }
-		}
+		FROM = { NOT = { has_war_with = GER } }
 
 		if = {
 			limit = {
-				FROM = { NOT  = { original_tag = GER } }
+				FROM = { is_germany_or_splinter_tag = no }
 			}
 			custom_trigger_tooltip = {
 				tooltip = has_invited_mio_tt
@@ -223,20 +225,15 @@ GER_hanomag_organization = {
 	name = hanomag
 
 	allowed = {
-		original_tag = GER
+		is_germany_or_splinter_tag = yes
 	}
 
 	available = {
-		if = {
-			limit = {
-				FROM = { NOT = { original_tag = GER } }
-			}
-			FROM = { NOT = { has_war_with = GER } }
-		}
+		FROM = { NOT = { has_war_with = GER } }
 
 		if = {
 			limit = {
-				FROM = { NOT  = { original_tag = GER } }
+				FROM = { is_germany_or_splinter_tag = no }
 			}
 			custom_trigger_tooltip = {
 				tooltip = has_invited_mio_tt
@@ -256,20 +253,14 @@ GER_henschel_organization = {
 	name = henschel
 
 	allowed = {
-		original_tag = GER
+		is_germany_or_splinter_tag = yes
 	}
 
 	available = {
+		FROM = { NOT = { has_war_with = GER } }
 		if = {
 			limit = {
-				FROM = { NOT = { original_tag = GER } }
-			}
-			FROM = { NOT = { has_war_with = GER } }
-		}
-
-		if = {
-			limit = {
-				FROM = { NOT  = { original_tag = GER } }
+				FROM = { is_germany_or_splinter_tag = no }
 			}
 			custom_trigger_tooltip = {
 				tooltip = has_invited_mio_tt
@@ -287,20 +278,15 @@ GER_porsche_organization = {
 	name = porsche
 
 	allowed = {
-		original_tag = GER
+		is_germany_or_splinter_tag = yes
 	}
 
 	available = {
-		if = {
-			limit = {
-				FROM = { NOT = { original_tag = GER } }
-			}
-			FROM = { NOT = { has_war_with = GER } }
-		}
+		FROM = { NOT = { has_war_with = GER } }
 
 		if = {
 			limit = {
-				FROM = { NOT  = { original_tag = GER } }
+				FROM = { is_germany_or_splinter_tag = no }
 			}
 			custom_trigger_tooltip = {
 				tooltip = has_invited_mio_tt
@@ -318,22 +304,17 @@ GER_daimler_benz_organization = {
 	name = daimler_benz
 	allowed = {
 		OR = {
-			original_tag = GER
+			is_germany_or_splinter_tag = yes
 			original_tag = PHI
 		}
 	}
 
 	available = {
-		if = {
-			limit = {
-				FROM = { NOT = { original_tag = GER } }
-			}
-			FROM = { NOT = { has_war_with = GER } }
-		}
+		FROM = { NOT = { has_war_with = GER } }
 
 		if = {
 			limit = {
-				FROM = { NOT  = { original_tag = GER } }
+				FROM = { is_germany_or_splinter_tag = no }
 			}
 			custom_trigger_tooltip = {
 				tooltip = has_invited_mio_tt
@@ -417,22 +398,31 @@ GER_man_organization = {
 	name = man_company
 	allowed = {
 		OR = {
-			original_tag = GER
+			is_germany_or_splinter_tag = yes
 			original_tag = RHI
 		}
 	}
-
-	available = {
+	
+	visible = {
 		if = {
 			limit = {
-				FROM = { NOT = { original_tag = GER } }
+				FROM = { original_tag = RHI }
 			}
-			FROM = { NOT = { has_war_with = GER } }
+			FROM = {
+				OR = {
+					has_completed_focus = RHI_open_industrial_contacts
+					has_completed_focus = RHI_work_with_the_industrialists
+				}
+			}
 		}
+	}
+	
+	available = {
+		FROM = { NOT = { has_war_with = GER } }
 
 		if = {
 			limit = {
-				FROM = { NOT  = { original_tag = GER } }
+				FROM = { is_germany_or_splinter_tag = no }
 			}
 			custom_trigger_tooltip = {
 				tooltip = has_invited_mio_tt
@@ -444,55 +434,23 @@ GER_man_organization = {
 	}
 }
 
-GER_wegmann_organization = {
-	include = generic_tank_organization
-	icon = GFX_idea_wegmann
-	name = wegmann
-	allowed = {
-		original_tag = GER
-	}
-
-	available = {
-		if = {
-			limit = {
-				FROM = { NOT = { original_tag = GER } }
-			}
-			FROM = { NOT = { has_war_with = GER } }
-		}
-
-		if = {
-			limit = {
-				FROM = { NOT  = { original_tag = GER } }
-			}
-			custom_trigger_tooltip = {
-				tooltip = has_invited_mio_tt
-				FROM = {
-					has_country_flag = has_invited_wegmann
-				}
-			}
-		}
-	}
-}
-
 GER_vomag_organization = {
-	include = generic_tank_organization
+	include = generic_tank_refurbishment_plant_organization
 	icon = GFX_idea_vomag
-	name = wegmann
+	name = vomag
 	allowed = {
-		original_tag = GER
+		OR = {
+			is_germany_or_splinter_tag = yes
+			original_tag = SHO
+		}
 	}
 
 	available = {
-		if = {
-			limit = {
-				FROM = { NOT = { original_tag = GER } }
-			}
-			FROM = { NOT = { has_war_with = GER } }
-		}
+		FROM = { NOT = { has_war_with = GER } }
 
 		if = {
 			limit = {
-				FROM = { NOT  = { original_tag = GER } }
+				FROM = { is_germany_or_splinter_tag = no }
 			}
 			custom_trigger_tooltip = {
 				tooltip = has_invited_mio_tt
@@ -500,6 +458,16 @@ GER_vomag_organization = {
 					has_country_flag = has_invited_vomag
 				}
 			}
+		}
+	}
+	visible = {
+		if = {
+			limit = { FROM = { tag = SHO } }
+			has_global_flag = GER_companies_evacuated_kiel
+		}
+		else_if = {
+			limit = { FROM = { is_germany_or_splinter_tag = yes } }
+			NOT = { has_global_flag = GER_companies_evacuated_kiel }
 		}
 	}
 }
@@ -512,19 +480,14 @@ GER_messerschmitt_organization = {
 	name = messerschmitt
 
 	allowed = {
-		original_tag = GER
+		is_germany_or_splinter_tag = yes
 	}
 	available = {
-		if = {
-			limit = {
-				FROM = { NOT = { original_tag = GER } }
-			}
-			FROM = { NOT = { has_war_with = GER } }
-		}
+		FROM = { NOT = { has_war_with = GER } }
 
 		if = {
 			limit = {
-				FROM = { NOT  = { original_tag = GER } }
+				FROM = { is_germany_or_splinter_tag = no }
 			}
 			custom_trigger_tooltip = {
 				tooltip = has_invited_mio_tt
@@ -583,20 +546,18 @@ GER_heinkel_organization = {
 	icon = GFX_idea_heinkel
 	name = heinkel
 	allowed = {
-		original_tag = GER
+		OR = {
+			is_germany_or_splinter_tag = yes
+			original_tag = SHO
+		}
 	}
 
 	available = {
-		if = {
-			limit = {
-				FROM = { NOT = { original_tag = GER } }
-			}
-			FROM = { NOT = { has_war_with = GER } }
-		}
+		FROM = { NOT = { has_war_with = GER } }
 
 		if = {
 			limit = {
-				FROM = { NOT  = { original_tag = GER } }
+				FROM = { is_germany_or_splinter_tag = no }
 			}
 			custom_trigger_tooltip = {
 				tooltip = has_invited_mio_tt
@@ -604,6 +565,16 @@ GER_heinkel_organization = {
 					has_country_flag = has_invited_heinkel
 				}
 			}
+		}
+	}
+	visible = {
+		if = {
+			limit = { FROM = { tag = SHO } }
+			has_global_flag = GER_companies_evacuated_kiel
+		}
+		else_if = {
+			limit = { FROM = { is_germany_or_splinter_tag = yes } }
+			NOT = { has_global_flag = GER_companies_evacuated_kiel }
 		}
 	}
 }
@@ -614,21 +585,17 @@ GER_junkers_organization = {
 	name = junkers
 	allowed = {
 		OR = {
-			original_tag = GER
+			is_germany_or_splinter_tag = yes
+			original_tag = SHO
 			original_tag = PHI
 		}
 	}
 	available = {
-		if = {
-			limit = {
-				FROM = { NOT = { original_tag = GER } }
-			}
-			FROM = { NOT = { has_war_with = GER } }
-		}
+		FROM = { NOT = { has_war_with = GER } }
 
 		if = {
 			limit = {
-				FROM = { NOT  = { original_tag = GER } }
+				FROM = { is_germany_or_splinter_tag = no }
 			}
 			custom_trigger_tooltip = {
 				tooltip = has_invited_mio_tt
@@ -636,6 +603,16 @@ GER_junkers_organization = {
 					has_country_flag = has_invited_junkers
 				}
 			}
+		}
+	}
+	visible = {
+		if = {
+			limit = { FROM = { tag = SHO } }
+			has_global_flag = GER_companies_evacuated_kiel
+		}
+		else_if = {
+			limit = { FROM = { is_germany_or_splinter_tag = yes } }
+			NOT = { has_global_flag = GER_companies_evacuated_kiel }
 		}
 	}
 
@@ -655,12 +632,24 @@ GER_junkers_organization = {
 	}
 }
 
+GER_siemens_schuckert_organization = {
+	include = generic_light_aircraft_organization
+	icon = GFX_idea_siemens_schuckert
+	name = siemens_schuckert
+	allowed = {
+		is_germany_or_splinter_tag = yes
+	}
+	available = {
+		FROM = { has_completed_focus = GER_engine_innovations }
+	}
+}
+
 GER_focke_wulf_organization = {
 	include = generic_multi_role_aircraft_organization
 	icon = GFX_idea_focke_wulf
 	name = focke_wulf
 	allowed = {
-		original_tag = GER
+		is_germany_or_splinter_tag = yes
 	}
 }
 
@@ -669,7 +658,7 @@ GER_gothaer_waggonfabrik_organization = {
 	icon = GFX_idea_gothaer_waggonfabrik
 	name = gothaer_waggonfabrik
 	allowed = {
-		original_tag = GER
+		is_germany_or_splinter_tag = yes
 	}
 }
 
@@ -678,7 +667,7 @@ GER_arado_organization = {
 	icon = GFX_idea_arado
 	name = arado
 	allowed = {
-		original_tag = GER
+		is_germany_or_splinter_tag = yes
 	}
 }
 
@@ -690,21 +679,23 @@ GER_blohm_voss_organization = {
 	name = blohm_voss
 	allowed = {
 		OR = {
-			original_tag = GER
+			is_germany_or_splinter_tag = yes
 			original_tag = PHI
 		}
 	}
-	available = {
-		if = {
-			limit = {
-				FROM = { NOT = { original_tag = GER } }
+	visible = { 
+		FROM = {
+			if = {
+				limit = { is_germany_or_splinter_tag = yes }
+				owns_state = 915
 			}
-			FROM = { NOT = { has_war_with = GER } }
 		}
-
+	}
+	available = {
+		FROM = { NOT = { has_war_with = GER } }
 		if = {
 			limit = {
-				FROM = { NOT  = { original_tag = GER } }
+				FROM = { is_germany_or_splinter_tag = no }
 			}
 			custom_trigger_tooltip = {
 				tooltip = has_invited_mio_tt
@@ -722,7 +713,39 @@ GER_germaniawerft_organization = {
 	name = germaniawerft
 
 	allowed = {
-		original_tag = GER
+		FROM = { is_germany_or_splinter_tag = yes }
+	}
+	
+	visible = {
+		FROM = { owns_state = 58 }
+	}
+}
+
+GER_schichau_werke = {
+	include = generic_submarine_organization
+	icon = GFX_idea_schichau_werke
+	name = schichau_werke
+
+	allowed = {
+		is_germany_or_splinter_tag = yes
+	}
+	visible = {
+		OR = {
+			if = {
+				limit = { FROM = { tag = SHO } }
+				has_global_flag = GER_companies_evacuated_kiel
+			}
+			else_if = {
+				limit = { FROM = { is_germany_or_splinter_tag = yes } }
+				NOT = { has_global_flag = GER_companies_evacuated_kiel }
+			}
+			AND = {
+				FROM = {
+					owns_state = 5
+					NOT = { has_global_flag = GER_companies_evacuated_kiel }
+				}
+			}
+		}
 	}
 }
 
@@ -732,16 +755,43 @@ GER_vulcan_stettin_organization = {
 	name = vulcan_stettin
 
 	allowed = {
-		original_tag = GER
+		OR = {
+			is_germany_or_splinter_tag = yes
+			original_tag = SHO
+		}
+	}
+	visible = {
+		OR = {
+			if = {
+				limit = { FROM = { tag = SHO } }
+				has_global_flag = GER_companies_evacuated_kiel
+			}
+			else_if = {
+				limit = { FROM = { is_germany_or_splinter_tag = yes } }
+				NOT = { has_global_flag = GER_companies_evacuated_kiel }
+			}
+			AND = {
+				FROM = {
+					owns_state = 786
+					NOT = { has_global_flag = GER_companies_evacuated_kiel }
+				}
+			}
+		}
 	}
 }
 
 GER_wesser_organization = {
 	include = generic_battle_line_ship_organization
-	icon = GFX_idea_Wesser
+	icon = GFX_idea_wesser
 	name = Wesser
+	
+	allowed = {
+		is_germany_or_splinter_tag = yes
+	}
+	
+	visible = { FROM = { owns_state = 59 } }
 
 	allowed = {
-		original_tag = GER
+		is_germany_or_splinter_tag = yes
 	}
 }

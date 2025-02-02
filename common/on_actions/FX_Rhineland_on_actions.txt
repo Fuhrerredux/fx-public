@@ -1,0 +1,187 @@
+on_actions = {
+	on_startup = {
+		effect = {
+			RHI = { RHI_setup_resources_to_FRA = yes }
+		}
+	}
+	
+	on_monthly_RHI = {
+		effect = {
+			if = {
+				limit = { has_country_flag = RHI_republican_stability_mechanic }
+				RHI_republican_stability_action = yes
+			}
+			if = {
+				limit = { 
+					has_completed_focus = RHI_unite_rhenish_movement
+					has_country_flag = RHI_separatist_sentiment_mechanic
+					NOT = { has_country_flag = RHI_bimonthly_septiments_rise }
+				}
+				set_country_flag = RHI_bimonthly_septiments_rise
+				set_temp_variable = { RHI_separatist_sentiment_change = 0.05 }
+				RHI_separatist_sentiment_change = yes
+			}
+			if = {
+				limit = { 
+					has_country_flag = RHI_bimonthly_septiments_rise
+				}
+				clr_country_flag = RHI_bimonthly_septiments_rise
+			}
+		}
+	}
+	
+	on_state_control_changed = {
+		effect = {
+			if = {
+				limit = {
+					ROOT = {
+						has_full_control_of_state = 746
+						has_full_control_of_state = 981
+						has_full_control_of_state = 42
+						OR = {
+							tag = GER
+							any_country_with_original_tag = {
+								original_tag_to_check = RHI
+								if = { limit = { has_country_flag = RHI_valkist_rebels } }
+							}
+						}
+						any_country_with_original_tag = {
+							original_tag_to_check = RHI
+							if = { limit = { has_country_flag = RHI_valkist_rebels } }
+							has_war_together_with = GER
+							exists = yes
+						}
+					}
+					FROM = {
+						OR = {
+							is_in_faction_with = ENT
+							tag = FRA 
+							tag = RHI
+						}
+					}
+				}
+				GER = { country_event = rhein.republic.46 }
+			}
+		}
+	}
+	
+	on_war_relation_added = {
+		effect = {
+			log = "[GetDateText]: on_war_relation_added attacker: [Root.GetName] defender: [From.GetName]"
+			if = {
+				limit = {
+					OR = {
+						tag = GER 
+						tag = RHI
+					}
+					FROM = {
+						OR = {
+							tag = GER 
+							tag = RHI
+						}
+					}
+				}
+				RHI = { country_event = { id = rhein.flavor.27 days = 1 } }
+			}
+			if = {
+				limit = {
+					OR = {
+						tag = GER 
+						tag = RHI
+					}
+					RHI = { has_completed_focus = RHI_joint_defence_strategy }
+					FROM = {
+						OR = {
+							tag = GER 
+							tag = RHI
+						}
+					}
+				}
+				RHI = { add_ideas = RHI_joint_staff_plans }
+				FRA = { add_ideas = RHI_joint_staff_plans }
+			}
+			if = {
+				limit = {
+					OR = {
+						AND = {
+							tag = GRU
+							has_completed_focus = RHI_establish_elitoc
+						}
+						FROM = {
+							tag = GRU
+							has_completed_focus = RHI_establish_elitoc
+						}
+					}
+				}
+				GRU = { add_ideas = GRU_crisis_leader }
+			}
+		}
+	}
+	
+	on_peaceconference_ended = { # can reunite Germany?
+		effect = {
+			if = {
+				limit = { 
+					ROOT = {
+						tag = RHI
+						RHI = { 
+							OR = {
+								check_variable = { unification_path = token:german_union }
+								check_variable = { unification_path = token:german_republic }
+								check_variable = { unification_path = token:authoritarian_german_republic }
+							}
+						}
+					}
+					FROM = { tag = GER }
+					GER = { exists = no }
+				}
+				RHI = { country_event = rhein.34 }
+			}
+			if = {
+				limit = { 
+					ROOT = {
+						tag = RHI
+						RHI = { 
+							has_completed_focus = RHI_ally_local_parties
+							NOT = { check_variable = { RHI_regional_states_number = 0.1 } }
+						}
+					}
+				}
+				RHI = { RHI_defender_of_feds = yes }
+			}
+			if = {
+				limit = { 
+					RHI = { has_completed_focus = RHI_matthes_dorten }
+					GER = { exists = no }
+				}
+				RHI = { country_event = { id = rhein.separatist.18 days = 1 } }
+			}
+			if = {
+				limit = { 
+					RHI = { has_completed_focus = RHI_adenauer_and_french }
+					GER = { exists = no }
+				}
+				RHI = { country_event = { id = rhein.adenauer.7 days = 1 } }
+			}
+		}
+	}
+	
+	on_new_term_election = {
+		effect = {
+			if = {
+				limit = { 
+					RHI = {
+						OR = {
+							has_completed_focus = RHI_spd
+							has_completed_focus = RHI_ddp
+							has_completed_focus = RHI_zentrum
+						}
+						has_country_flag = RHI_first_elections_held
+					}
+				}
+				RHI = { country_event = rhein.federals.33 }
+			}
+		}
+	}
+
+}

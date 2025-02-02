@@ -1,0 +1,307 @@
+GER_operation_aid_generic_valkists = { ### 1 1/35
+	icon = GFX_operations_infiltrate_civilian_govt
+	map_icon = GFX_operations_infiltrate_civilian_govt_map
+	name = GER_operation_aid_generic_valkists
+	desc = GER_operation_aid_generic_valkists_desc
+	priority = 1
+
+	days = 90
+	network_strength = 35
+	operatives = 2
+	
+	allowed = { original_tag = GER }
+
+	visible = {
+		network_national_coverage = {
+			target = FROM
+			value > 0
+		}
+		if = {
+			limit = {
+				FROM = {
+					OR = {
+						tag = CZE
+						tag = SLO
+						tag = POL
+						tag = BLR
+						tag = LIT
+						tag = UKR
+						tag = SOV
+						tag = SER
+						tag = EST
+						tag = BUL
+						tag = LAT
+					}
+				}
+			}
+			ROOT = {
+				OR = {
+					has_completed_focus = GER_work_with_slavic_valkists 
+					has_completed_focus = GER_european_economic_community
+				}
+			}
+		}
+		if = {
+			limit = {
+				FROM = {
+					OR = {
+						tag = AUS
+						tag = SHO
+						tag = RHI
+						tag = HUN
+						tag = BEL
+						tag = HOL
+						tag = DEN
+						tag = SWE
+						tag = NOR
+						tag = ITA
+						tag = ALB
+						tag = GRE
+					}
+				}
+			}
+			ROOT = {
+				OR = {
+					has_completed_focus = GER_european_economic_community 
+					has_completed_focus = GER_pangermanic_brotherhood
+				}
+			}
+		}
+		if = {
+			limit = {
+				FROM = {
+					OR = {
+						tag = FRA
+						tag = FRP
+						tag = SPA
+						tag = SPR
+						tag = SPA
+						tag = SPM
+						tag = SPF
+					}
+				}
+			}
+			ROOT = {
+				OR = {
+					has_completed_focus = GER_work_with_slavic_valkists 
+					has_completed_focus = GER_work_with_slavic_valkists
+					has_completed_focus = GER_european_economic_community 
+				}
+			}
+		}
+	}
+
+	equipment = {
+		support_equipment = 500
+	}
+
+	available = {
+		#NOT = {
+			#has_operation_token = {
+			#	tag = FROM
+			#	token = token_civilian
+			#}
+		#}
+	}
+
+	awarded_tokens = {
+		token_civilian
+	}
+	risk_chance = 0.1
+	outcome_extra_chance = 0.25
+	risk_modifiers = { operation_infiltrate_risk operation_risk }
+	outcome_modifiers = { operation_infiltrate_outcome operation_outcome }
+	cost_modifiers = { operation_infiltrate_cost operation_cost }
+	outcome_execute = {
+		ROOT = {
+			add_collaboration = {
+				target = FROM
+				value = 0.15
+			}
+			FROM = { 
+				add_popularity = { 
+					ideology = valkist
+					popularity = 0.04
+				}
+			}
+		}
+	}
+	outcome_extra_execute = { # SCOPE_OPERATION
+		random_list = {
+			33 = {
+				ROOT = {
+					add_collaboration = {
+						target = FROM
+						value = 0.15
+					}
+					FROM = { 
+						add_popularity = { 
+							ideology = valkist
+							popularity = 0.05
+						}
+					}
+				}
+			}
+			67 = {
+			}
+		}
+	}
+
+	outcome_potential = {
+		ROOT = {
+			add_collaboration = {
+				target = FROM
+				value = 0.15
+			}
+			FROM = { 
+				add_popularity = { 
+					ideology = valkist
+					popularity = 0.04
+				}
+			}
+		}
+	}
+
+	phases = { #infiltration
+		infiltration_border = { base = 25 }
+		infiltration_submarine = { base = 25 }
+		infiltration_paradrop = {
+			base = 25
+			modifier = {
+				ROOT = {
+					has_equipment = {
+						transport_plane_equipment < 1
+					}
+				}
+				factor = 0
+			}
+		}
+		infiltration_diplomatic = {
+			base = 25
+			modifier = {
+				factor = 20
+				ROOT = { has_war = no }
+				FROM = {
+					has_war = no
+				}
+			}
+		}
+	}
+	phases = { #infiltrate military
+		infiltrate_military_bribe = { base = 25 }
+		infiltrate_military_seduction = { base = 15 }
+		infiltrate_military_ideological_supporter = {
+			base = 45
+		}
+	}
+	phases = { #exfiltration
+		exfiltration_air_pickup = {
+			base = 15
+			modifier = {
+				ROOT = {
+					has_equipment = {
+						transport_plane_equipment < 1
+					}
+				}
+				factor = 0
+			}
+		}
+		exfiltration_border = { base = 50 }
+		exfiltration_go_to_ground = { base = 30 }
+	}
+}
+
+GER_operation_destabilize_austria = {
+	icon = GFX_operations_boost_resistance
+	map_icon = GFX_operations_boost_resistance_map
+	name = GER_operation_destabilize_austria
+	desc = GER_operation_destabilize_austria_desc
+	priority = 25
+	days = 90
+	network_strength = 20
+	operatives = 2
+	allowed = { original_tag = GER }
+	visible = {
+		country_exists = AUS
+		NOT = { GER = { has_war_with = AUS } }
+		has_completed_focus = GER_free_trade_agreement_austria
+	}
+	operation_target = {
+		targets = { AUS }
+	}
+	risk_chance = 0.1
+	experience = 1.5
+
+	equipment = {
+		infantry_equipment = 2000
+		civilian_factories = {
+			amount = 10
+			days = 45
+		}
+	}
+
+	outcome_potential = {
+		ROOT = {
+			add_collaboration = {
+				target = FROM
+				value = 0.45
+			}
+		}
+	}
+
+	outcome_execute = {
+		ROOT = {
+			add_collaboration = {
+				target = FROM
+				value = 0.45
+			}
+		}
+	}
+
+	phases = {
+		infiltration_border = { base = 25 }
+		infiltration_submarine = { base = 25 }
+		infiltration_paradrop = {
+			base = 25
+			modifier = {
+				ROOT = {
+					has_equipment = {
+						transport_plane_equipment < 1
+					}
+				}
+				factor = 0
+			}
+		}
+		infiltration_diplomatic = {
+			base = 25
+			modifier = {
+				factor = 20
+				ROOT = { has_war = no }
+				FROM = {
+					has_war = no
+				}
+			}
+		}
+	}
+	phases = {
+		collaboration_government_set_up_planning_committees = { base = 33 }
+		collaboration_government_train_paramilitary_forces = { base = 33 }
+		collaboration_government_contact_military_officers = { base = 33 }
+	}
+	phases = { #exfiltration
+		exfiltration_air_pickup = {
+			base = 15
+			modifier = {
+				ROOT = {
+					has_equipment = {
+						transport_plane_equipment < 1
+					}
+				}
+				factor = 0
+			}
+		}
+		exfiltration_border = { base = 30 }
+		exfiltration_go_to_ground = { base = 30 }
+		exfiltration_submarine_pickup = { base = 25 }
+	}
+}

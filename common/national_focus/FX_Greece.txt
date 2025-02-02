@@ -1545,9 +1545,17 @@ focus_tree = {
 		completion_reward = {
 			GRE = {
 				clr_country_flag = GRE_third_warwithturkey
-				set_autonomy = {
-					target = TUR
-					autonomy_state = autonomy_puppet
+				if = {
+					limit = {
+						has_dlc_tfv = yes
+					}
+					set_autonomy = {
+						target = TUR
+						autonomy_state = autonomy_puppet
+					}
+					else = {
+						puppet = TUR
+					}
 				}
 			}
 			TUR = {
@@ -8924,8 +8932,33 @@ focus_tree = {
 		}
 		completion_reward = {
 			custom_effect_tooltip = GRE_commonwealth_will_start
-			set_country_flag = GRE_commonwealth_will_start
+			hidden_effect = {
+				create_economic_sphere = yes
+				var:economic_sphere = {
+					set_character_name = BYZ_CommonwealthName
+					var:desc = { set_character_name = BYZ_CommonwealthDesc }
+					var:icon = { set_character_name = "GFX_goal_GRE_eek_eee" }
+				}
+				set_temp_variable = { sphere_target = THIS }
+				GRE = { add_to_economic_sphere = yes } # Greece needs to be the first index in the array
+				for_each_scope_loop = {
+					array = GRE.BYZ_commonwealth_members
+					add_to_tech_sharing_group = byzantine_commonwealth_research
+					set_temp_variable = { sphere_target = THIS }
+					GRE = { add_to_economic_sphere = yes }
+				}
+			}
 			add_ideas = GRE_byzantine_commonwealth
+			set_global_flag = GRE_created_byz_commonwealth
+			hidden_effect = {
+				create_economic_sphere = yes
+				var:economic_sphere = {
+					set_character_name = byzantine_commonwealth
+					var:desc = { set_character_name = FX_BYZ_CommonwealthDescOther }
+					var:icon = { set_character_name = "GFX_goal_GRE_eek"}
+				}
+			}
+			GRE_add_to_byz_commonwealth = yes
 		}
 	}
 
@@ -9658,14 +9691,24 @@ focus_tree = {
 
 		completion_reward = {
 			log = "[GetDateText]: [Root.GetName]: Focus GRE_nukes"
-			add_tech_bonus = {
-				name = nukes
-				technology = nukes
-				ahead_reduction = 0.1
-				bonus = 0.5
-				uses = 1
+			if = {
+				limit = {
+					NOT = { has_tech = atomic_research }
+					NOT = { is_researching_technology = atomic_research }
+				}
+				add_tech_bonus = {
+					name = GRE_nukes
+					technology = atomic_research
+					bonus = 1.0
+					uses = 1
+				}
 			}
-
+			else = {
+				add_breakthrough_progress = {
+					specialization = specialization_nuclear
+					value = 1
+				}
+			}
 		}
 		search_filters = { FOCUS_FILTER_RESEARCH }
 	}
@@ -10071,12 +10114,6 @@ focus_tree = {
 		completion_reward = {
 			log = "[GetDateText]: [Root.GetName]: Focus GRE_expand_staff"
 			add_ideas = GRE_general_staff
-			add_doctrine_cost_reduction = {
-				name = GRE_expand_staff
-				cost_reduction = 0.5
-				uses = 1
-				category = land_doctrine
-			}
 		}
 		search_filters = { FOCUS_FILTER_ARMY_BONUS FOCUS_FILTER_POLITICAL FOCUS_FILTER_RESEARCH }
 	}
@@ -10104,7 +10141,11 @@ focus_tree = {
 
 		completion_reward = {
 			log = "[GetDateText]: [Root.GetName]: Focus GRE_expand_staff"
-			add_ideas = GRE_general_staff
+			add_breakthrough_progress = {
+				specialization = specialization_land
+				value = 0.5
+			}
+			custom_effect_tooltip = tooltip_white_line
 			add_doctrine_cost_reduction = {
 				name = GRE_expand_staff
 				cost_reduction = 0.5

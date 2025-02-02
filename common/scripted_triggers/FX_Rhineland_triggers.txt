@@ -1,0 +1,274 @@
+RHI_ade_trigger = {
+	set_temp_variable = { RHI_total_power = RHI_sep_power }
+	add_to_temp_variable = { RHI_total_power = RHI_ade_power }
+	add_to_temp_variable = { RHI_total_power = RHI_rep_power }
+	multiply_temp_variable = { RHI_total_power = 0.4 }
+	check_variable = { RHI_ade_power > RHI_total_power }
+}
+
+RHI_separatist_sentiment_measure = {
+	set_temp_variable = { RHI_separatist_sentiment_100 = RHI_separatist_sentiment }
+	if = {
+		limit = { check_variable = { RHI_separatist_sentiment > 0 } }
+		divide_temp_variable = { RHI_separatist_sentiment_100 = 0.3 } # divide RHI_separatist_sentiment_100, </= 0.15 and > 0 by 0.3(i.e. divide 15< by 30)
+		add_to_temp_variable = { RHI_separatist_sentiment_100 = 0.5 } # over 50% threshold
+	}
+	else_if = {
+		limit = { check_variable = { RHI_separatist_sentiment < 0 } }
+		add_to_temp_variable = { RHI_separatist_sentiment_100 = 0.15 }
+		divide_temp_variable = { RHI_separatist_sentiment_100 = 0.3 }
+	}
+	else = {
+		set_temp_variable = { RHI_separatist_sentiment_100 = 0.5 }
+	}
+}
+
+RHI_separatist_struggle_check = {
+	set_temp_variable = { RHI_matthes_power = party_popularity@social_democrat }
+	set_temp_variable = { RHI_dorten_power = party_popularity@market_liberal }
+	if = {
+		limit = { has_country_flag = RHI_smeets_dorten }
+		add_to_temp_variable = { RHI_dorten_power = party_popularity@libertarian_socialist }
+	}
+	else = { add_to_temp_variable = { RHI_matthes_power = party_popularity@libertarian_socialist } }
+	if = {
+		limit = { has_country_flag = RHI_z_support_3 }
+		add_to_temp_variable = { RHI_dorten_power = party_popularity@social_conservative }
+	}
+	else_if = {
+		limit = { has_country_flag = RHI_z_support_2 }
+		set_temp_variable = { RHI_z_power = party_popularity@social_conservative }
+		multiply_temp_variable = { RHI_z_power = 0.5 }
+		add_to_temp_variable = { RHI_dorten_power = RHI_z_power }
+	}
+	else_if = {
+		limit = { has_country_flag = RHI_z_support_1 }
+		set_temp_variable = { RHI_z_power = party_popularity@social_conservative }
+		multiply_temp_variable = { RHI_z_power = 0.25 }
+		add_to_temp_variable = { RHI_dorten_power = RHI_z_power }
+	}
+}
+
+RHI_dorten_win_condition = {
+	RHI_separatist_struggle_check = yes
+	check_variable = { RHI_dorten_power > RHI_matthes_power }
+}
+
+RHI_republican_stability_add_trigger = {
+	set_temp_variable = { RHI_republican_stability_add = RHI_change_projection }
+	if = {
+		limit = { coalition_majority = yes }
+		add_to_temp_variable  = { RHI_republican_stability_add = 0.001 }
+	}
+	if = {
+		limit = { check_variable = { party_popularity@ruling_party > 0.5 } }
+		add_to_temp_variable  = { RHI_republican_stability_add = 0.004 }
+	}
+	if = {
+		limit = { has_country_flag = RHI_reichswehr_happy }
+		add_to_temp_variable  = { RHI_republican_stability_add = 0.003 }
+	}
+	if = {
+		limit = { has_country_flag = RHI_reichswehr_angry }
+		add_to_temp_variable  = { RHI_republican_stability_add = -0.002 }
+	}
+}
+
+RHI_zentrum_bill_check = {
+	set_temp_variable = { left_of_zentrum = party_popularity@social_democrat }
+	add_to_temp_variable = { left_of_zentrum = party_popularity@social_liberal }
+	add_to_temp_variable = { left_of_zentrum = party_popularity@libertarian_socialist }
+	set_temp_variable = { right_of_zentrum = party_popularity@authoritarian_democrat }
+	add_to_temp_variable = { right_of_zentrum = party_popularity@market_liberal }
+	add_to_temp_variable = { right_of_zentrum = party_popularity@paternal_autocrat }
+}
+
+RHI_bill_passing_trigger = {
+	set_temp_variable = { RHI_soccon_support_bill = party_popularity@social_conservative }
+	set_temp_variable = { RHI_socdem_support_bill = party_popularity@social_democrat }
+	set_temp_variable = { RHI_soclib_support_bill = party_popularity@social_liberal }
+	set_temp_variable = { RHI_marlib_support_bill = party_popularity@social_liberal }
+	if = {
+		limit = { has_country_flag = RHI_centrist_unity }
+		set_temp_variable = { RHI_party_bill_popularity = party_popularity@ruling_party }
+		multiply_temp_variable = { RHI_soccon_support_bill = 0.85 }
+		multiply_temp_variable = { RHI_socdem_support_bill = 0.75 }
+		multiply_temp_variable = { RHI_soclib_support_bill = 0.80 }
+		multiply_temp_variable = { RHI_marlib_support_bill = 0.80 }
+		add_to_temp_variable  = { RHI_party_bill_popularity = RHI_soccon_support_bill }
+		add_to_temp_variable  = { RHI_party_bill_popularity = RHI_socdem_support_bill }
+		add_to_temp_variable  = { RHI_party_bill_popularity = RHI_soclib_support_bill }
+		add_to_temp_variable  = { RHI_party_bill_popularity = RHI_marlib_support_bill }
+		add_to_temp_variable  = { RHI_party_bill_popularity = party_popularity@authoritarian_democrat }
+		add_to_temp_variable  = { RHI_party_bill_popularity = party_popularity@paternal_autocrat }
+		check_variable = { RHI_party_bill_popularity > 0.5 }
+	}
+	else = {
+		RHI_bill_popularity_check = yes 
+	}
+}
+
+RHI_bill_popularity_check = {
+	set_temp_variable = { RHI_party_bill_popularity = party_popularity@ruling_party }
+	if = {
+		limit = { NOT = { has_country_flag = RHI_full_ruling_support } }
+		multiply_temp_variable = { RHI_party_bill_popularity = 0.7 }
+	}
+	set_temp_variable = { RHI_schleicher_support_bill = party_popularity@authoritarian_democrat }
+	add_to_temp_variable = { RHI_schleicher_support_bill = party_popularity@paternal_autocrat }
+	if = {
+		limit = { 
+			OR = {
+				has_country_flag = RHI_full_schleicher_support
+				has_country_leader = { character = RHI_Kurt_von_Schleicher }
+			}
+		}
+		add_to_temp_variable  = { RHI_party_bill_popularity = RHI_schleicher_support_bill }
+	}
+	if = {
+		limit = { 
+			has_country_flag = RHI_dependent_schleicher_support
+			has_country_flag = RHI_reichswehr_happy
+		}
+		multiply_temp_variable = { RHI_schleicher_support_bill = 0.75 }
+		add_to_temp_variable  = { RHI_party_bill_popularity = RHI_schleicher_support_bill }
+	}
+	if = {
+		limit = { has_country_flag = RHI_full_liberal_support }
+		add_to_temp_variable  = { RHI_party_bill_popularity = RHI_soclib_support_bill }
+		add_to_temp_variable  = { RHI_party_bill_popularity = RHI_marlib_support_bill }
+	}
+	if = {
+		limit = { has_country_flag = RHI_socyes_marno }
+		add_to_temp_variable  = { RHI_party_bill_popularity = RHI_soclib_support_bill }
+		multiply_temp_variable = { RHI_marlib_support_bill = 0.45 }
+		add_to_temp_variable  = { RHI_party_bill_popularity = RHI_marlib_support_bill }
+	}
+	if = {
+		limit = { has_country_flag = RHI_socno_maryes }
+		add_to_temp_variable  = { RHI_party_bill_popularity = RHI_marlib_support_bill }
+		multiply_temp_variable = { RHI_soclib_support_bill = 0.30 }
+		add_to_temp_variable  = { RHI_party_bill_popularity = RHI_soclib_support_bill }
+	}
+	if = {
+		limit = { has_country_flag = RHI_limited_liberal_support }
+		multiply_temp_variable = { RHI_marlib_support_bill = 0.45 }
+		multiply_temp_variable = { RHI_soclib_support_bill = 0.30 }
+		add_to_temp_variable  = { RHI_party_bill_popularity = RHI_soclib_support_bill }
+		add_to_temp_variable  = { RHI_party_bill_popularity = RHI_marlib_support_bill }
+	}
+	if = {
+		limit = { has_country_flag = RHI_zentrum_support }
+		add_to_temp_variable  = { RHI_party_bill_popularity = RHI_soccon_support_bill }
+	}
+	if = {
+		limit = { has_country_flag = RHI_decent_zentrum_support }
+		multiply_temp_variable = { RHI_soccon_support_bill = 0.65 }
+		add_to_temp_variable  = { RHI_party_bill_popularity = RHI_soccon_support_bill }
+	}
+	if = {
+		limit = { has_country_flag = RHI_limited_zentrum_support }
+		multiply_temp_variable = { RHI_soccon_support_bill = 0.35 }
+		add_to_temp_variable  = { RHI_party_bill_popularity = RHI_soccon_support_bill }
+	}
+	if = {
+		limit = { has_country_flag = RHI_spd_support }
+		add_to_temp_variable  = { RHI_party_bill_popularity = RHI_socdem_support_bill }
+	}
+	if = {
+		limit = { has_country_flag = RHI_decent_spd_support }
+		multiply_temp_variable = { RHI_socdem_support_bill = 0.5 }
+		add_to_temp_variable  = { RHI_party_bill_popularity = RHI_socdem_support_bill }
+	}
+	if = {
+		limit = { has_country_flag = RHI_limited_spd_support }
+		multiply_temp_variable = { RHI_socdem_support_bill = 0.25 }
+		add_to_temp_variable  = { RHI_party_bill_popularity = RHI_socdem_support_bill }
+	}
+	if = {
+		limit = { has_country_flag = RHI_reichswehr_happy }
+		add_to_temp_variable  = { RHI_party_bill_popularity = 0.05 }
+	}
+}
+
+RHI_bavarians_big_mad = {
+	if = {
+		limit = { has_country_flag = RHI_bavarians_nph }
+		has_completed_focus = RHI_no_more_prussian_hegemony
+	}
+	else_if = {
+		limit = { has_country_flag = RHI_bavarians_cpr }
+		has_completed_focus = RHI_continue_proposed_reforms
+	}
+	else = {
+		has_completed_focus = RHI_support_federalist_vision
+	}
+}
+
+RHI_coalition_checkup = {
+	# SPD + DPD 
+	set_temp_variable = { RHI_dpd_spd = RHI_spd_popularity }
+	add_to_temp_variable = { RHI_dpd_spd = RHI_dpd_popularity }
+	# DPD + Z
+	set_temp_variable = { RHI_dpd_z = RHI_z_popularity }
+	add_to_temp_variable = { RHI_dpd_z = RHI_dpd_popularity }
+}
+
+RHI_leftlib_coalition_trigger = {
+	RHI_coalition_checkup = yes
+	check_variable = { RHI_dpd_spd > RHI_dpd_z }
+	check_variable = { RHI_dpd_popularity > RHI_spd_popularity }
+}
+
+RHI_natlib_coalition_trigger = {
+	RHI_coalition_checkup = yes
+	check_variable = { RHI_dpd_z > RHI_dpd_spd }
+	check_variable = { RHI_dpd_popularity > RHI_z_popularity }
+}
+
+RHI_right_coalition_trigger = {
+	RHI_coalition_checkup = yes
+	check_variable = { RHI_dpd_z > RHI_dpd_spd }
+	check_variable = { RHI_dpd_popularity < RHI_z_popularity }
+}
+
+RHI_leftwing_coalition_trigger = {
+	RHI_coalition_checkup = yes
+	check_variable = { RHI_dpd_spd > RHI_dpd_z }
+	check_variable = { RHI_dpd_popularity < RHI_spd_popularity }
+}
+
+RHI_spd_gov_trigger = {
+	RHI_coalition_checkup = yes
+	check_variable = { RHI_spd_popularity > RHI_dpd_z }
+}
+
+RHI_z_gov_trigger = {
+	RHI_coalition_checkup = yes
+	check_variable = { RHI_z_popularity > RHI_dpd_spd }
+}
+
+RHI_is_lander = {
+	custom_trigger_tooltip = {
+		tooltip = GRU_trigger_lander
+		OR = {
+			has_autonomy_state = lander
+			has_autonomy_state = lander_less
+		}
+	}
+}
+
+RHI_left_spd_locked_trigger = {
+	custom_trigger_tooltip = {
+		tooltip = RHI_left_spd_locked_trigger
+		NOT = { has_country_flag = RHI_left_spd_locked }
+	}
+}
+
+RHI_right_spd_locked_trigger = {
+	custom_trigger_tooltip = {
+		tooltip = RHI_right_spd_locked_trigger
+		NOT = { has_country_flag = RHI_right_spd_locked }
+	}
+}
+

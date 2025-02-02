@@ -1,0 +1,413 @@
+
+no_valkist_german_puppet_setup = {
+	custom_effect_tooltip = GRP_setup_moment
+	hidden_effect = {
+		set_variable = { GER_valkist_resistance = -0.15 }
+		if = {
+			limit = { GER = { has_government = authoritarian_democrat } }
+			add_to_variable = { GER_valkist_resistance = -0.1 }
+		}
+		if = {
+			limit = { GER = { has_government = national_populist } }
+			add_to_variable = { GER_valkist_resistance = -0.05 }
+		}
+		if = {
+			limit = { GER = { has_war_support > 0.95 } }
+			add_to_variable = { GER_valkist_resistance = -0.1 }
+		}
+		if = {
+			limit = { GER = { has_war_support > 0.75 } }
+			add_to_variable = { GER_valkist_resistance = -0.05 }
+		}
+		if = {
+			limit = { GER = { has_war_support > 0.50 } }
+			add_to_variable = { GER_valkist_resistance = -0.05 }
+		}
+		if = {
+			limit = { GER = { has_war_support > 0.25 } }
+			add_to_variable = { GER_valkist_resistance = -0.05 }
+		}
+		if = {
+			limit = { GER = { has_coalition = yes } } 
+			GER_coalition_adding = yes
+		}
+		if = {
+			limit = { GER = { has_coalition = no } } 
+			set_temp_variable = { GER_gov_strength = party_popularity@ruling_party }
+			multiply_temp_variable = { GER_gov_strength = -0.1 }
+			add_to_variable = { GER_valkist_resistance = GER_gov_strength }
+		}
+		if = {
+			limit = { GER = { has_war_support < 0.1 } }
+			add_to_variable = { GER_valkist_resistance = 0.05 }
+		}
+		if = {
+			limit = { GER = { has_war_support < 0.01 } }
+			add_to_variable = { GER_valkist_resistance = 0.05 }
+		}
+		set_variable = { GER_valkist_resistance_reverse = GER_valkist_resistance }
+		divide_variable = { GER_valkist_resistance_reverse = -1 }
+	}
+}
+
+GER_coalition_adding = {
+	set_temp_variable = { GER_gov_strength = party_popularity@ruling_party }
+	if = {
+		limit = { GER = { is_in_coalition_with_authoritarian_democrat = yes } }
+		add_to_temp_variable = { GER_gov_strength = party_popularity@authoritarian_democrat }
+	}
+	if = {
+		limit = { GER = { is_in_coalition_with_national_populist = yes } }
+		add_to_temp_variable = { GER_gov_strength = party_popularity@national_populist }
+	}
+	if = {
+		limit = { GER = { is_in_coalition_with_valkist = yes } }
+		add_to_temp_variable = { GER_gov_strength = party_popularity@valkist }
+	}
+	multiply_temp_variable = { GER_gov_strength = -0.1 }
+	add_to_variable = { GER_valkist_resistance = GER_gov_strength }
+}
+
+GER_bombed_out_effect = {
+	ROOT = { set_variable = { GER_bomber_harris_effect = 0 } }
+	set_temp_variable = { GER_infrastructure_weight = 0 }
+	set_temp_variable = { GER_military_factory_weight = 0 }
+	set_temp_variable = { GER_civilian_factory_weight = 0 }
+	set_temp_variable = { GER_railway_weight = 0 }
+	every_owned_state = {
+		limit = { is_core_of = GER }
+		add_to_temp_variable = { GER_infrastructure_weight = damaged_building_level@infrastructure }
+		add_to_temp_variable = { GER_military_factory_weight = damaged_building_level@arms_factory }
+		add_to_temp_variable = { GER_civilian_factory_weight = damaged_building_level@industrial_complex }
+		add_to_temp_variable = { GER_railway_weight = damaged_building_level@rail_way }
+	}
+	multiply_temp_variable = { GER_infrastructure_weight = 0.65 }
+	multiply_temp_variable = { GER_military_factory_weight = 0.1 }
+	multiply_temp_variable = { GER_civilian_factory_weight = 0.25 }
+	multiply_temp_variable = { GER_railway_weight = 0.05 }
+	add_to_variable = { GER_bomber_harris_effect = GER_infrastructure_weight }
+	add_to_variable = { GER_bomber_harris_effect = GER_military_factory_weight }
+	add_to_variable = { GER_bomber_harris_effect = GER_civilian_factory_weight }
+	add_to_variable = { GER_bomber_harris_effect = GER_railway_weight }
+	set_temp_variable = { GER_bomber_harris_effect_dupe = GER_bomber_harris_effect }
+	multiply_variable = { GER_bomber_harris_effect = -0.1 }
+	ROOT = { add_to_variable = { GER_bomber_harris_effect = -0.2 } }
+	multiply_temp_variable = { GER_bomber_harris_effect_dupe = 0.02 }
+	ROOT = { add_to_variable = { GER_valkist_resistance = GER_bomber_harris_effect_dupe } }
+	force_update_dynamic_modifier = yes
+}
+
+GRP_dynamic_coring_negatives = {
+	if = {
+		limit = {
+			FROM = { state_population_k > 3500 }
+		}
+		ROOT = {
+			set_temp_variable = { a = FROM.state_population_k }
+			multiply_temp_variable = { a = 0.02 }
+			clamp_temp_variable = {
+				var = a
+				min = 35
+				max = 300
+			}
+			multiply_temp_variable = { a = -1 }
+			add_stability = -0.05
+			add_war_support = -0.1
+		}
+	}
+	else_if = {
+		limit = {
+			FROM = { state_population_k > 2000 }
+		}
+		ROOT = {
+			set_temp_variable = { a = FROM.state_population_k }
+			multiply_temp_variable = { a = 0.0225 }
+			clamp_temp_variable = {
+				var = a
+				min = 28
+				max = 250
+			}
+			multiply_temp_variable = { a = -1 }
+			add_stability = -0.03
+			add_war_support = -0.1
+		}
+	}
+	else_if = {
+		limit = {
+			FROM = { state_population_k > 1000 }
+		}
+		ROOT = {
+			set_temp_variable = { a = FROM.state_population_k }
+			multiply_temp_variable = { a = 0.025 }
+			clamp_temp_variable = {
+				var = a
+				min = 25
+				max = 200
+			}
+			multiply_temp_variable = { a = -1 }
+			add_political_power = a
+			add_stability = -0.01
+			add_war_support = -0.1
+		}
+	}
+	else_if = {
+		limit = {
+			FROM = { state_population_k > 500 }
+		}
+		ROOT = {
+			set_temp_variable = { a = FROM.state_population_k }
+			multiply_temp_variable = { a = 0.0275 }
+			clamp_temp_variable = {
+				var = a
+				min = 20
+				max = 150
+			}
+			multiply_temp_variable = { a = -1 }
+			add_political_power = a
+			add_war_support = -0.1
+		}
+	}
+	else_if = {
+		limit = {
+			FROM = { state_population_k > 250 }
+		}
+		ROOT = {
+			set_temp_variable = { a = FROM.state_population_k }
+			multiply_temp_variable = { a = 0.03 }
+			clamp_temp_variable = {
+				var = a
+				min = 15
+				max = 100
+			}
+			multiply_temp_variable = { a = -1 }
+			add_political_power = a
+			add_war_support = -0.08
+		}
+	}
+	else_if = {
+		limit = {
+			FROM = { state_population_k > 100 }
+		}
+		ROOT = {
+			set_temp_variable = { a = FROM.state_population_k }
+			multiply_temp_variable = { a = 0.0325 }
+			clamp_temp_variable = {
+				var = a
+				min = 13
+				max = 75
+			}
+			multiply_temp_variable = { a = -1 }
+			add_political_power = a
+			add_war_support = -0.06
+		}
+	}
+	else_if = {
+		limit = {
+			FROM = { state_population_k > 50 }
+		}
+		ROOT = {
+			set_temp_variable = { a = FROM.state_population_k }
+			multiply_temp_variable = { a = 0.0375 }
+			clamp_temp_variable = {
+				var = a
+				min = 10
+				max = 50
+			}
+			multiply_temp_variable = { a = -1 }
+			add_political_power = a
+			add_war_support = -0.04
+		}
+	}
+	else_if = {
+		limit = {
+			FROM = { state_population_k < 50 }
+		}
+		set_temp_variable = { a = FROM.state_population_k }
+		multiply_temp_variable = { a = 0.0425 }
+		clamp_temp_variable = {
+			var = a
+			min = 8
+			max = 25
+		}
+		multiply_temp_variable = { a = -1 }
+		add_political_power = a
+		add_war_support = -0.02
+	}
+}
+
+GRP_valkist_resistance_flows = {
+	random_list = {
+		10 = {
+			modifier = {
+				factor = 1.5
+				has_dynamic_modifier = { modifier = GRP_low_valkist_locals }
+			}
+			set_temp_variable = { GRP_valkist_resistance_mod = 1 }
+		}
+		10 = {
+			modifier = {
+				factor = 1.5
+				has_dynamic_modifier = { modifier = GRP_valkist_locals }
+			}
+			set_temp_variable = { GRP_valkist_resistance_mod = 2 }
+		}
+		10 = {
+			modifier = {
+				factor = 1.5
+				has_dynamic_modifier = { modifier = GRP_intense_valkist_locals }
+			}
+			set_temp_variable = { GRP_valkist_resistance_mod = 3 }
+		}
+	}
+	if = {
+		limit = { check_variable = { GRP_valkist_resistance_mod = 1 } }
+		add_dynamic_modifier = { modifier = GRP_low_valkist_locals }
+	}
+	else_if = {
+		limit = { check_variable = { GRP_valkist_resistance_mod = 2 } }
+		add_dynamic_modifier = { modifier = GRP_valkist_locals }
+	}
+	else_if = {
+		limit = { check_variable = { GRP_valkist_resistance_mod = 3 } }
+		add_dynamic_modifier = { modifier = GRP_intense_valkist_locals }
+	}
+}
+
+GRP_check_states_to_integrate = {
+	every_owned_state = {
+		limit = {
+			NOT = { 
+				OR = {
+					is_core_of = ROOT
+					has_state_flag = currently_being_cored
+				}
+			}
+			is_core_of = GER
+		}
+		ROOT = {
+			activate_targeted_decision = { target = PREV decision = GRP_integrate_state }
+			activate_targeted_decision = { target = PREV decision = GRP_crush_valkist_cells }
+			activate_targeted_decision = { target = PREV decision = GRP_ingratiate_government }
+		}
+	}
+}
+
+GRP_random_three_states_resist = {
+	random_owned_controlled_state = {
+		limit = { 
+			is_core_of = GER
+			NOT = { is_core_of = ROOT }
+		}
+		add_resistance = -10
+		set_temp_variable = { counter = 1 }
+	}
+	random_owned_controlled_state = {
+		limit = { 
+			is_core_of = GER
+			NOT = { is_core_of = ROOT }
+			NOT = { check_variable = { counter = 1 } }
+		}
+		add_resistance = -10
+		set_temp_variable = { counter = 1 }
+	}
+	random_owned_controlled_state = {
+		limit = { 
+			is_core_of = GER
+			NOT = { is_core_of = ROOT }
+			NOT = { check_variable = { counter = 1 } }
+		}
+		add_resistance = -10
+	}
+}
+
+GRP_random_three_states_comp = {
+	random_owned_controlled_state = {
+		limit = { 
+			is_core_of = GER
+			NOT = { is_core_of = ROOT }
+		}
+		add_compliance = 5
+		set_temp_variable = { counter = 1 }
+	}
+	random_owned_controlled_state = {
+		limit = { 
+			is_core_of = GER
+			NOT = { is_core_of = ROOT }
+			NOT = { check_variable = { counter = 1 } }
+		}
+		add_compliance = 5
+		set_temp_variable = { counter = 1 }
+	}
+	random_owned_controlled_state = {
+		limit = { 
+			is_core_of = GER
+			NOT = { is_core_of = ROOT }
+			NOT = { check_variable = { counter = 1 } }
+		}
+		add_compliance = 5
+	}
+}
+
+BAY_crown_rupprecht = {
+	BAY_Rupprecht_von_Bayern = {
+		remove_all_country_leader_roles = yes
+		add_country_leader_role = {
+			country_leader = { ideology = social_democrat_subtype }
+			promote_leader = yes
+		}
+		add_country_leader_role = {
+			country_leader = { ideology = social_liberal_subtype }
+			promote_leader = yes
+		}
+		add_country_leader_role = {
+			country_leader = { ideology = market_liberal_subtype }
+			promote_leader = yes
+		}
+		add_country_leader_role = {
+			country_leader = { ideology = social_conservative_subtype }
+			promote_leader = yes
+		}
+		add_country_leader_role = {
+			country_leader = { ideology = authoritarian_democrat_subtype }
+			promote_leader = yes
+		}
+		add_country_leader_role = {
+			country_leader = { ideology = paternal_autocrat_subtype }
+			promote_leader = yes
+		}
+		add_country_leader_role = {
+			country_leader = { ideology = national_populist_subtype }
+			promote_leader = yes
+		}
+		add_country_leader_role = {
+			country_leader = { ideology = valkist_subtype }
+			promote_leader = yes
+		}
+	}
+}
+
+SHO_lessen_valkist_resistance = {
+	if = {
+		limit = {
+			has_dynamic_modifier = { modifier = GRP_intense_valkist_locals }
+		}
+
+		remove_dynamic_modifier = { modifier = GRP_intense_valkist_locals }
+		add_dynamic_modifier = { modifier = GRP_valkist_locals }
+	}
+	else_if = {
+		limit = {
+			has_dynamic_modifier = { modifier = GRP_valkist_locals }
+		}
+
+		remove_dynamic_modifier = { modifier = GRP_valkist_locals }
+		add_dynamic_modifier = { modifier = GRP_low_valkist_locals }
+	}
+	else_if = {
+		limit = {
+			has_dynamic_modifier = { modifier = GRP_low_valkist_locals }
+		}
+
+		remove_dynamic_modifier = { modifier = GRP_low_valkist_locals }
+	}
+}

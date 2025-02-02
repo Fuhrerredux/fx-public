@@ -1,0 +1,4461 @@
+#!gfx:interface/FX_goals.gfx
+#!gfx:interface/FX_goals_new.gfx
+#!gfx:interface/KR_goals.gfx
+###########################
+# Kiel zone Focus Tree
+focus_tree = {
+	id = FX_Kiel
+
+	country = {
+		factor = 0
+		modifier = { add = 10 tag = SHO }
+	}
+	continuous_focus_position = { x = 3200 y = 600 }
+	default = no
+
+	focus = {
+		id = SHO_Natpop_republicans
+		icon = GFX_goal_GER_government
+		x = 4
+		y = 0
+		allow_branch = {
+			has_country_flag = Kiel_natrep_state
+		}
+		available = {
+			hidden_trigger = { always = no }
+		}
+		bypass = {
+			has_country_flag = Kiel_natrep_state
+		}
+		cost = 6
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_Natpop_republicans"
+			custom_effect_tooltip = unlock_focuses
+		}
+	}
+
+	focus = {
+		id = SHO_Deal_with_danes
+		icon = GFX_goal_DEN_focus_danish_kingdom
+		x = 0
+		y = 1
+		cost = 6
+		available = {
+			country_exists = DEN
+			NOT = { has_war_with = DEN }
+			OR = {
+				has_government = authoritarian_democrat
+				has_government = paternal_autocrat
+			}
+		}
+		bypass = {
+			OR = {
+				NOT = { country_exists = DEN }
+				DEN = { is_subject_of = ROOT }
+			}
+		}
+		prerequisite = {
+			focus = SHO_Natpop_republicans
+		}
+		relative_position_id = SHO_Natpop_republicans
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_Deal_with_danes"
+			DEN = {
+				country_event = { id = kiel.18 days = 7 }
+			}
+		}
+	}
+
+	focus = {
+		id = SHO_return_seized_german_estates
+		icon = GFX_goal_generic_german_agreement
+		x = -1
+		y = 1
+		cost = 6
+		prerequisite = { focus = SHO_Deal_with_danes }
+		available = {
+			OR = {
+				has_government = authoritarian_democrat
+				has_government = paternal_autocrat
+			}
+		}
+		relative_position_id = SHO_Deal_with_danes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_return_seized_german_estates"
+			add_political_power = 50
+			add_one_random_civilian_factory = yes
+		}
+	}
+
+	focus = {
+		id = SHO_contact_entente
+		icon = GFX_goal_FRA_paris
+		x = -2
+		y = 1
+		cost = 6
+		prerequisite = {
+			focus = SHO_Natpop_republicans
+		}
+		available = {
+			country_exists = ENT
+			NOT = { has_war_with = ENT }
+			OR = {
+				has_government = authoritarian_democrat
+				has_government = paternal_autocrat
+			}
+		}
+		bypass = {
+			OR = {
+				NOT = { country_exists = ENT }
+			}
+		}
+		relative_position_id = SHO_Natpop_republicans
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_contact_entente"
+			ENT = {
+				country_event = { id = kiel.37 days = 1 }
+				if = {
+					limit = { has_dlc_aat = yes }
+					give_market_access = ROOT
+				}
+			}
+			custom_effect_tooltip = if_they_accept_tt
+			effect_tooltip = {
+				add_ideas = SHO_french_attache
+			}
+		}
+	}
+
+	focus = {
+		id = SHO_RHI_contacts
+		icon = GFX_RHI_Interallied_Gov
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			OR = {
+				has_government = authoritarian_democrat
+				has_government = paternal_autocrat
+			}
+			country_exists = RHI
+			NOT = { has_war_with = RHI }
+			RHI = { is_subject = no }
+			is_subject = no
+		}
+		prerequisite = { focus = SHO_contact_entente }
+		bypass = {
+			OR = {
+				NOT = { country_exists = RHI }
+				RHI = { is_subject = yes }
+				is_in_faction_with = RHI
+			}
+		}
+		relative_position_id = SHO_contact_entente
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_RHI_contacts"
+			RHI = { 
+				country_event = { id = kiel.29 days = 1 } 
+			}
+
+			custom_effect_tooltip = if_they_accept_tt
+			effect_tooltip = {
+				give_guarantee = RHI
+				give_military_access = RHI
+				diplomatic_relation = { country = RHI relation = non_aggression_pact }
+
+				custom_effect_tooltip = tooltip_white_line
+				RHI = { 
+					give_guarantee = ROOT
+					give_military_access = ROOT
+					diplomatic_relation = { country = ROOT relation = non_aggression_pact }
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = SHO_follow_Fatherland_front
+		icon = GFX_goal_austria
+		x = 0
+		y = 2
+		cost = 6
+		available = {
+			OR = {
+				has_government = authoritarian_democrat
+				has_government = paternal_autocrat
+			}
+			country_exists = AUS
+			NOT = { has_war_with = AUS }
+			AUS = { is_subject = no }
+			is_subject = no
+		}
+		prerequisite = { focus = SHO_contact_entente }
+		bypass = {
+			OR = {
+				NOT = { country_exists = AUS }
+				AUS = { is_subject = yes }
+				is_in_faction_with = AUS
+			}
+		}
+		relative_position_id = SHO_contact_entente
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_follow_Fatherland_front"
+			AUS = { country_event = { id = kiel.29 days = 1 } }
+
+			custom_effect_tooltip = if_they_accept_tt
+			effect_tooltip = {
+				give_guarantee = AUS
+				give_military_access = AUS
+				diplomatic_relation = { country = AUS relation = non_aggression_pact }
+
+				custom_effect_tooltip = tooltip_white_line
+				AUS = { 
+					give_guarantee = ROOT
+					give_military_access = ROOT
+					diplomatic_relation = { country = ROOT relation = non_aggression_pact }
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = SHO_reichswehr
+		icon = GFX_goal_GER_army_valkyrie
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			OR = {
+				has_government = authoritarian_democrat
+				has_government = paternal_autocrat
+			}
+		}
+		prerequisite = { focus = SHO_return_seized_german_estates }
+		relative_position_id = SHO_return_seized_german_estates
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_reichswehr"
+			add_ideas = SHO_German_advisors
+			custom_effect_tooltip = tooltip_white_line
+			if = {
+				limit = { RHI = { NOT = { has_completed_focus = RHI_invite_schleischer_hos } } }
+				hidden_effect = {
+					RHI = {
+						RHI_Ferdinand_von_Bredow = { set_nationality = ROOT }
+						RHI_Eugen_Ott = { set_nationality = ROOT }
+					}
+				}
+				effect_tooltip = {
+					add_corps_commander_role = {
+						character = RHI_Ferdinand_von_Bredow
+						traits = { infantry_officer politically_connected }
+						skill = 3
+						attack_skill = 2
+						defense_skill = 2
+						planning_skill = 3
+						logistics_skill = 4
+					}
+					add_corps_commander_role = {
+						character = RHI_Eugen_Ott
+						traits = { politically_connected career_officer }
+						skill = 3
+						attack_skill = 2
+						defense_skill = 2
+						planning_skill = 4
+						logistics_skill = 3
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = SHO_free_city_kiel
+		icon = GFX_goal_model_cities
+		x = 3
+		y = 1
+		cost = 6
+		available = {
+			OR = {
+				has_government = authoritarian_democrat
+				has_government = paternal_autocrat
+			}
+		}
+		prerequisite = { focus = SHO_Deal_with_danes }
+		relative_position_id = SHO_Deal_with_danes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_free_city_kiel"
+			add_ideas = SHO_free_city
+		}
+	}
+
+	focus = {
+		id = SHO_war_eco
+		icon = GFX_goal_generic_cash_stimulus_plan
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			OR = {
+				has_government = authoritarian_democrat
+				has_government = paternal_autocrat
+			}
+		}
+		bypass = {
+			OR = {
+				has_idea = tot_economic_mobilisation
+				has_idea = war_economy
+			}
+		}
+		prerequisite = { focus = SHO_free_city_kiel }
+		relative_position_id = SHO_free_city_kiel
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_war_eco"
+			add_ideas = war_economy
+		}
+	}
+
+	focus = {
+		id = SHO_welcome_german_exiles
+		icon = GFX_goal_German_Staff
+		x = 2
+		y = 1
+		cost = 6
+		available = {
+			OR = {
+				has_government = authoritarian_democrat
+				has_government = paternal_autocrat
+			}
+		}
+		prerequisite = { focus = SHO_Natpop_republicans }
+		relative_position_id = SHO_Natpop_republicans
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_welcome_german_exiles"
+			add_ideas = SHO_Exiles
+		}
+	}
+
+	focus = {
+		id = SHO_crush_communism
+		icon = GFX_HOL_red_scare
+		x = 4
+	 	y = 1
+	 	cost = 6
+	 	available = {
+	 		OR = {
+				has_government = authoritarian_democrat
+				has_government = paternal_autocrat
+			}
+	 	}
+	 	prerequisite = { focus = SHO_Natpop_republicans }
+	 	relative_position_id = SHO_Natpop_republicans
+	 	completion_reward = {
+	 		log = "[GetDateText]: [Root.GetName]: Focus SHO_crush_communism"
+
+	 		set_temp_variable = { vanpop = party_popularity@vanguardist }
+	 		multiply_temp_variable = { vanpop = -1 }
+	 		add_popularity = { ideology = vanguardist popularity = vanpop }
+	 		set_party_name = {
+	 			ideology = vanguardist
+				long_name = SHO_purged_party
+				name = SHO_purged_party
+	 		}
+			remove_ideas = SHO_nazbol_gang
+	 		custom_effect_tooltip = tooltip_white_line
+
+	 		set_temp_variable = { colpop = party_popularity@collectivist }
+	 		multiply_temp_variable = { colpop = -1 }
+	 		add_popularity = { ideology = collectivist popularity = colpop }
+	 		set_party_name = {
+	 			ideology = collectivist
+	 			long_name = SHO_purged_party
+	 			name = SHO_purged_party
+	 		}
+	 		custom_effect_tooltip = tooltip_white_line
+
+	 		set_temp_variable = { libpop = party_popularity@collectivist }
+	 		multiply_temp_variable = { libpop = -1 }
+	 		add_popularity = { ideology = libertarian_socialist popularity = libpop }
+	 		set_party_name = {
+	 			ideology = libertarian_socialist
+	 			long_name = SHO_purged_party
+	 			name = SHO_purged_party
+	 		}
+	 	}
+	}
+
+	focus = {
+		id = SHO_stirke_deal_democrat_opposition
+		icon = GFX_goal_generic_parliament
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			OR = {
+				has_government = authoritarian_democrat
+				has_government = paternal_autocrat
+			}
+		}
+		prerequisite = { focus = SHO_free_city_kiel }
+		relative_position_id = SHO_free_city_kiel
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_stirke_deal_democrat_opposition"
+			remove_ideas = SHO_democratic_opposition
+			custom_effect_tooltip = tooltip_white_line
+			
+			set_temp_variable = { coalition_partner_var = token:market_liberal }
+			add_to_coalition = yes
+			set_temp_variable = { coalition_partner_var = token:social_conservative }
+			add_to_coalition = yes
+			set_temp_variable = { coalition_partner_var = token:national_populist }
+			add_to_coalition = yes
+		}
+	}
+
+	focus = {
+		id = SHO_limited_parliament
+		icon = GFX_focus_LAT_suspend_constitution_of_latvia
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			OR = {
+				has_government = authoritarian_democrat
+				has_government = paternal_autocrat
+			}
+		}
+		mutually_exclusive = {
+			focus = SHO_temp_dictator
+		}
+		prerequisite = { focus = SHO_stirke_deal_democrat_opposition }
+		relative_position_id = SHO_stirke_deal_democrat_opposition
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_limited_parliament"
+			add_ideas = parliamentary_republic
+		}
+	}
+
+	focus = {
+		id = SHO_temp_dictator
+		icon = GFX_focus_generic_military_dictatorship
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			OR = {
+				has_government = authoritarian_democrat
+				has_government = paternal_autocrat
+			}
+		}
+		mutually_exclusive = {
+			focus = SHO_limited_parliament
+		}
+		prerequisite = { focus = SHO_stirke_deal_democrat_opposition }
+		relative_position_id = SHO_stirke_deal_democrat_opposition
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_temp_dictator"
+			add_ideas = SHO_benevolent_dictatorship
+			custom_effect_tooltip = tooltip_white_line
+			add_ideas = republican_dictatorship
+		}
+	}
+
+	focus = {
+		id = SHO_corporatist_society
+		icon = GFX_goal_state_economy
+		x = 6
+		y = 1
+		cost = 6
+		available = {
+			OR = {
+				has_government = authoritarian_democrat
+				has_government = paternal_autocrat
+			}
+		}
+		prerequisite = { focus = SHO_Natpop_republicans }
+		relative_position_id = SHO_Natpop_republicans
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_corporatist_society"
+			add_ideas = SHO_corporatist_society
+		}
+	}
+
+	focus = {
+		id = SHO_create_bismarckbund
+		icon = GFX_goal_GER_expand_tst
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			OR = {
+				has_government = authoritarian_democrat
+				has_government = paternal_autocrat
+			}
+		}
+		prerequisite = { focus = SHO_reichswehr }
+		relative_position_id = SHO_reichswehr
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_create_bismarckbund"
+			add_manpower = 1000
+		}
+	}
+
+	focus = {
+		id = SHO_prussian_militarism
+		icon = GFX_goal_imperial_german
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			OR = {
+				has_government = authoritarian_democrat
+				has_government = paternal_autocrat
+			}
+		}
+		prerequisite = { focus = SHO_reichswehr }
+		relative_position_id = SHO_reichswehr
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_prussian_militarism"
+			add_ideas = SHO_prussian_militarism_idea
+		}
+	}
+
+	focus = {
+		id = SHO_Embrace_naval_trad
+		icon = GFX_goal_generic_naval_base
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			controls_state = 58
+			OR = {
+				has_government = authoritarian_democrat
+				has_government = paternal_autocrat
+			}
+		}
+		prerequisite = { focus = SHO_Deal_with_danes }
+		relative_position_id = SHO_Deal_with_danes
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_Embrace_naval_trad"
+			58 = {
+				if = {
+					limit = { is_controlled_by = ROOT }
+					add_building_construction = {
+						type = naval_base
+						level = 3
+						instant_build = yes
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = SHO_army_with_state
+		icon = GFX_focus_ger_return_of_the_kaiser
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			OR = {
+				has_government = authoritarian_democrat
+				has_government = paternal_autocrat
+			}
+		}
+		prerequisite = { focus = SHO_prussian_militarism }
+		prerequisite = { focus = SHO_create_bismarckbund }
+		relative_position_id = SHO_prussian_militarism
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_army_with_state"
+			army_experience = 25
+			add_command_power = 50
+		}
+	}
+
+	focus = {
+		id = SHO_official_bund_koingin_louise
+		icon = GFX_GRE_empower_monarchy
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			OR = {
+				has_government = authoritarian_democrat
+				has_government = paternal_autocrat
+			}
+		}
+		prerequisite = { focus = SHO_corporatist_society }
+		relative_position_id = SHO_corporatist_society
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_official_bund_koingin_louise"
+			add_ideas = SHO_women_rights
+		}
+	}
+
+	focus = {
+		id = SHO_create_work_program
+		icon = GFX_goal_workers_for_business
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			OR = {
+				has_government = authoritarian_democrat
+				has_government = paternal_autocrat
+			}
+		}
+		prerequisite = { focus = SHO_corporatist_society }
+		relative_position_id = SHO_corporatist_society
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_follow_Fatherland_front"
+			add_ideas = ROM_public_works_programs
+		}
+	}
+
+	focus = {
+		id = SHO_promote_seldte
+		icon = GFX_goal_german_worker
+		x = 0
+		y = 2
+		cost = 6
+		available = {
+			OR = {
+				has_government = authoritarian_democrat
+				has_government = paternal_autocrat
+			}
+		}
+		prerequisite = { focus = SHO_corporatist_society }
+		relative_position_id = SHO_corporatist_society
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_follow_Fatherland_front"
+			add_ideas = SHO_solidary_labour
+		}
+	}
+
+	focus = {
+		id = SHO_expand_notprogramme
+		icon = GFX_goal_generic_martial_law
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			OR = {
+				has_government = authoritarian_democrat
+				has_government = paternal_autocrat
+			}
+		}
+		prerequisite = { 
+			focus = SHO_limited_parliament 
+			focus = SHO_temp_dictator 
+		}
+		relative_position_id = SHO_limited_parliament
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_follow_Fatherland_front"
+			add_stability = 0.1
+			add_political_power = 100
+		}
+	}
+
+	focus = {
+		id = SHO_father_modern_germany
+		icon = GFX_BAT_germanisation
+		x = -2
+		y = 1
+		cost = 6
+		available = {
+			owns_state = 64
+			OR = {
+				has_government = authoritarian_democrat
+				has_government = paternal_autocrat
+			}
+		}
+		prerequisite = { focus = SHO_expand_notprogramme }
+		prerequisite = { focus = SHO_army_with_state }
+		relative_position_id = SHO_expand_notprogramme
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_follow_Fatherland_front"
+			unlock_decision_tooltip = SHO_proclaim_germany
+			custom_effect_tooltip = tooltip_white_line
+			every_state = {
+				limit = { is_core_of = GER }
+				add_core_of = ROOT
+			}
+		}
+	}
+
+	focus = {
+		id = SHO_Landvolk_victory
+		icon = GFX_goal_SHO_landvolk
+		x = 2
+		y = 0
+		allow_branch = {
+			has_country_flag = SHO_election_tree
+		}
+		available = {
+			hidden_trigger = { always = no }
+		}
+		bypass = {
+			has_country_flag = Kiel_landvolk
+		}
+		cost = 6
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_Landvolk_victory"
+			custom_effect_tooltip = unlock_focuses
+		}
+	}
+
+	focus = {
+		id = SHO_work_with_freikorps
+		icon = GFX_focus_ger_oppose_hitler
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_government = national_populist
+		}
+		prerequisite = { focus = SHO_Landvolk_victory }
+		mutually_exclusive = { focus = SHO_peasents_army }
+		relative_position_id = SHO_Landvolk_victory
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_work_with_freikorps"
+			GER = {
+				add_popularity = { ideology = paternal_autocrat popularity = 0.1 }
+			}
+			add_manpower = 10000
+		}
+		search_filters = {
+			FOCUS_FILTER_MANPOWER
+		}
+	}
+
+	focus = {
+		id = SHO_peasents_army
+		icon = GFX_goal_Agarian_Soldiers
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			has_government = national_populist
+		}
+		prerequisite = { focus = SHO_Landvolk_victory }
+		mutually_exclusive = { focus = SHO_work_with_freikorps }
+		relative_position_id = SHO_Landvolk_victory
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_peasents_army"
+			add_ideas = SHO_decentralized_command
+			add_manpower = 1000
+		}
+	}
+
+	focus = {
+		id = SHO_folkish_ideals
+		icon = GFX_goal_valkist_star
+		x = 0
+		y = 2
+		cost = 6
+		available = {
+			has_government = national_populist
+		}
+		prerequisite = {
+			focus = SHO_peasents_army 
+			focus = SHO_work_with_freikorps
+		}
+		relative_position_id = SHO_Landvolk_victory
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_folkish_ideals"
+			add_ideas = SHO_Volkish_ideals
+			add_popularity = {
+				ideology = valkist
+				popularity = 0.1
+			}
+			if = {
+				limit = {
+					GER = { has_government = valkist }
+				}
+				add_opinion_modifier = {
+					target = GER
+					modifier = large_increase
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = SHO_Wehrbauern
+		icon = GFX_goal_COS_Ferrer_Coup
+		x = -1
+		y = 3
+		cost = 6
+		available = {
+			has_government = national_populist
+		}
+		prerequisite = { focus = SHO_peasents_army }
+		relative_position_id = SHO_Landvolk_victory
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_Wehrbauren"
+			add_ideas = SHO_Wehrbauern_idea
+		}
+		search_filters = {
+			FOCUS_FILTER_MANPOWER
+		}
+	}
+
+	focus = {
+		id = SHO_resistance_doctrine
+		icon = GFX_focus_ETH_freedom_at_gunpoint
+		x = 1
+		y = 3
+		cost = 6
+		available = {
+			has_government = national_populist
+		}
+		prerequisite = { focus = SHO_work_with_freikorps }
+		relative_position_id = SHO_Landvolk_victory
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_Wehrbauren"
+			add_ideas = SHO_resistance_doctrine_idea
+		}
+		search_filters = {
+			FOCUS_FILTER_ARMY_BONUS
+		}
+	}
+
+	focus = {
+		id = SHO_Landspartei_victory
+		icon = GFX_goal_GER_Agrarian_Parties
+		x = 4
+		y = 0
+		cost = 6
+		allow_branch = {
+			has_country_flag = SHO_election_tree
+		}
+		available = {
+			hidden_trigger = { always = no }
+		}
+		bypass = {
+			has_country_flag = Kiel_landspartei
+		}
+		relative_position_id = SHO_Landvolk_victory
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_Landspartei_victory"
+			custom_effect_tooltip = unlock_focuses
+		}
+	}
+
+	focus = {
+		id = SHO_liberal_economics
+		icon = GFX_goal_ideology_market_liberal
+		x = 3
+		y = 1
+		cost = 6
+		available = {
+			OR = {
+				has_government = social_democrat
+				has_government = social_conservative
+			}
+		}
+		prerequisite = {
+			focus = SHO_Landspartei_victory 
+			focus = SHO_SDPSH_victory
+		}
+		mutually_exclusive = { focus = SHO_social_economics }
+		relative_position_id = SHO_Landspartei_victory
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_liberal_economics"
+			add_ideas = SHO_free_market
+		}
+		search_filters = {
+			FOCUS_FILTER_PRODUCTION
+		}
+	}
+
+	focus = {
+		id = SHO_support_petite_bourgeoisie
+		icon = GFX_goal_collaborate_local_elites
+		x = 3
+		y = 3
+		cost = 6
+		prerequisite = { focus = SHO_liberal_economics }
+		prerequisite = { focus = SHO_shared_machinery }
+		prerequisite = { focus = SHO_reagrarianism_program }
+		available = {
+			NOT = {
+				has_completed_focus = SHO_Communal_farming
+			}
+		}
+		relative_position_id = SHO_Landspartei_victory
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_liberal_economics"
+			swap_ideas = {
+				remove_idea = SHO_free_market
+				add_idea = SHO_free_market_1
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_PRODUCTION
+		}
+	}
+
+	focus = {
+		id = SHO_shared_machinery
+		icon = GFX_goal_generic_agriculture2
+		x = 4
+		y = 2
+		cost = 6
+		available = {
+			OR = {
+				has_government = social_democrat
+				has_government = social_conservative
+			}
+		}
+		prerequisite = {
+			focus = SHO_liberal_economics 
+			focus = SHO_social_economics
+		}
+		relative_position_id = SHO_Landspartei_victory
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_liberal_economics"
+			add_tech_bonus = {
+				name = SHO_shared_machinery
+				category = industry
+				bonus = 1.0
+				uses = 2
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_RESEARCH
+			FOCUS_FILTER_INDUSTRY
+		}
+	}
+
+	focus = {
+		id = SHO_farmer_relief_act
+		icon = GFX_goal_generic_agricultural_aid
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			OR = {
+				has_government = social_conservative
+				has_government = national_populist
+			}
+		}
+		prerequisite = {
+			focus = SHO_Landspartei_victory 
+			focus = SHO_Landvolk_victory
+		}
+		relative_position_id = SHO_Landspartei_victory
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_farmer_relief_act"
+			add_ideas = SHO_farming_subsidies
+		}
+		search_filters = {
+			FOCUS_FILTER_MANPOWER
+			FOCUS_FILTER_PRODUCTION
+		}
+	}
+
+	focus = {
+		id = SHO_revitalize_countryside
+		icon = GFX_goal_generic_agriculture
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			OR = {
+				has_government = social_conservative
+				has_government = national_populist
+			}
+			owns_state = 784
+			owns_state = 1071
+		}
+		prerequisite = {
+			focus = SHO_Landspartei_victory 
+			focus = SHO_Landvolk_victory
+		}
+		relative_position_id = SHO_Landspartei_victory
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_revitalize_countryside"
+			1071 = { set_state_category = four }
+			784 = { set_state_category = four }
+		}
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+		}
+	}
+
+	focus = {
+		id = SHO_revive_peasents
+		icon = GFX_focus_generic_population_growth
+		x = 0
+		y = 2
+		cost = 6
+		available = {
+			OR = {
+				has_government = social_conservative
+				has_government = national_populist
+			}
+		}
+		prerequisite = { focus = SHO_farmer_relief_act }
+		prerequisite = { focus = SHO_revitalize_countryside }
+		relative_position_id = SHO_Landspartei_victory
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_revive_peasents"
+			add_political_power = 100
+		}
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+	}
+
+	focus = {
+		id = SHO_reagrarianism_program
+		icon = GFX_focus_AUS_agriculture
+		x = 2
+		y = 2
+		cost = 6
+		available = {
+			OR = {
+				has_government = social_conservative
+				has_government = national_populist
+			}
+		}
+		prerequisite = { focus = SHO_farmer_relief_act }
+		prerequisite = {
+			focus = SHO_liberal_economics
+			focus = SHO_revitalize_countryside 
+		}
+		relative_position_id = SHO_Landspartei_victory
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_reagrarianism_program"
+			swap_ideas = {
+				remove_idea = SHO_farming_subsidies
+				add_idea = SHO_farming_subsidies_1
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+		}
+	}
+
+	focus = {
+		id = SHO_village_resettlement_program
+		icon = GFX_goal_RAJ_India_Revitalize_Farming
+		x = -2
+		y = 2
+		cost = 6
+		available = {
+			OR = {
+				has_government = social_conservative
+				has_government = national_populist
+			}
+			owns_state = 1071
+			owns_state = 784
+		}
+		prerequisite = { focus = SHO_farmer_relief_act }
+		prerequisite = { focus = SHO_revitalize_countryside }
+		relative_position_id = SHO_Landspartei_victory
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_village_resettlement_program"
+			1071 = { add_manpower = 5000 }
+			784 = { add_manpower = 5000 }
+		}
+		search_filters = {
+			FOCUS_FILTER_MANPOWER
+		}
+	}
+
+	focus = {
+		id = SHO_Communal_farming
+		icon = GFX_goal_commune_politics
+		x = -1
+		y = 3
+		cost = 6
+		available = {
+			OR = {
+				has_government = social_conservative
+				has_government = national_populist
+			}
+		}
+		mutually_exclusive = { focus = SHO_Large_estates }
+		prerequisite = { focus = SHO_village_resettlement_program }
+		prerequisite = { focus = SHO_reagrarianism_program }
+		prerequisite = { focus = SHO_revive_peasents }
+		relative_position_id = SHO_Landspartei_victory
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_village_resettlement_program"
+			add_ideas = SHO_collectivized_agriculture
+		}
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+		}
+	}
+
+	focus = {
+		id = SHO_Large_estates
+		icon = GFX_goal_plantation_grants
+		x = 1
+		y = 3
+		cost = 6
+		available = {
+			OR = {
+				has_government = social_conservative
+				has_government = national_populist
+			}
+		}
+		mutually_exclusive = { focus = SHO_Communal_farming }
+		prerequisite = { focus = SHO_village_resettlement_program }
+		prerequisite = { focus = SHO_reagrarianism_program }
+		prerequisite = { focus = SHO_revive_peasents }
+		relative_position_id = SHO_Landspartei_victory
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_Large_estates"
+			add_political_power = -25
+			add_popularity = { ideology = paternal_autocrat popularity = 0.05 }
+			add_one_random_infrastructure = yes
+			add_one_random_infrastructure = yes
+		}
+	}
+
+	focus = {
+		id = SHO_peasent_state
+		icon = GFX_goal_agrarian_reform
+		x = 0
+		y = 4
+		cost = 6
+		available = {
+			OR = {
+				has_government = social_conservative
+				has_government = national_populist
+			}
+		}
+		prerequisite = {
+			focus = SHO_Large_estates 
+			focus = SHO_Communal_farming
+		}
+		relative_position_id = SHO_Landspartei_victory
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_peasent_state"
+			add_political_power = 100
+		}
+	}
+
+	focus = {
+		id = SHO_SDPSH_victory
+		icon = GFX_goal_ideology_social_democrat
+		x = 6
+		y = 0
+		allow_branch = {
+			has_country_flag = SHO_election_tree
+		}
+		available = {
+			hidden_trigger = { always = no }
+		}
+		bypass = {
+			has_country_flag = Kiel_SOCDEM_state
+		}
+		cost = 6
+		relative_position_id = SHO_Landspartei_victory
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_Landspartei_victory"
+			custom_effect_tooltip = unlock_focuses
+		}
+	}
+
+	focus = {
+		id = SHO_social_economics
+		icon = GFX_socialist_constitution
+		x = 5
+		y = 1
+		cost = 6
+		available = {
+			has_government = social_democrat
+		}
+		prerequisite = { focus = SHO_SDPSH_victory }
+		mutually_exclusive = { focus = SHO_liberal_economics }
+		relative_position_id = SHO_Landspartei_victory
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_liberal_economics"
+			add_ideas = SHO_welfare_programs
+		}
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+		}
+	}
+
+	focus = {
+		id = SHO_expand_public_works
+		icon = GFX_goal_socialist_infrastructure
+		x = 7
+		y = 1
+		cost = 6
+		available = {
+			has_government = social_democrat
+		}
+		prerequisite = { focus = SHO_SDPSH_victory }
+		relative_position_id = SHO_Landspartei_victory
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_expand_public_works"
+			add_one_random_civilian_factory = yes
+			custom_effect_tooltip = tooltip_white_line
+			add_ideas = SHO_public_works_idea
+		}
+	}
+
+	focus = {
+		id = SHO_free_healthcare
+		icon = GFX_focus_generic_field_hostpital
+		x = 9
+		y = 1
+		cost = 6
+		available = {
+			has_government = social_democrat
+		}
+		prerequisite = { focus = SHO_SDPSH_victory }
+		relative_position_id = SHO_Landspartei_victory
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_liberal_economics"
+			add_tech_bonus = {
+				name = SHO_free_healthcare
+				category = hospital_tech
+				bonus = 1.0
+				uses = 1
+			}
+			custom_effect_tooltip = tooltip_white_line
+			add_ideas = SHO_improved_healthcare
+		}
+		search_filters = {
+			FOCUS_FILTER_MANPOWER
+		}
+	}
+
+	focus = {
+		id = SHO_rural_education
+		icon = GFX_focus_generic_university_1
+		x = 8
+		y = 2
+		cost = 6
+		available = {
+			has_government = social_democrat
+		}
+		prerequisite = { focus = SHO_expand_public_works }
+		prerequisite = { focus = SHO_free_healthcare }
+		relative_position_id = SHO_Landspartei_victory
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_rural_education"
+			add_research_slot = 1
+		}
+		search_filters = {
+			FOCUS_FILTER_RESEARCH
+		}
+	}
+
+	focus = {
+		id = SHO_support_unemployed
+		icon = GFX_goal_generic_debt_negotiations
+		x = 5
+		y = 3
+		cost = 6
+		available = {
+			has_government = social_democrat
+		}
+		prerequisite = { focus = SHO_social_economics }
+		prerequisite = { focus = SHO_nationalize_foreign_industries }
+		relative_position_id = SHO_Landspartei_victory
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_support_unemployed"
+			increase_ruling_party_popularity_by_5 = yes
+		}
+	}
+
+	focus = {
+		id = SHO_state_supported_unions
+		icon = GFX_goal_generic_workers_rights
+		x = 7
+		y = 3
+		cost = 6
+		available = {
+			has_government = social_democrat
+		}
+		prerequisite = { focus = SHO_rural_education }
+		prerequisite = { focus = SHO_expand_public_works }
+		prerequisite = { focus = SHO_nationalize_foreign_industries }
+		relative_position_id = SHO_Landspartei_victory
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_state_supported_unions"
+			add_ideas = SHO_empowered_unions
+		}
+		search_filters = {
+			FOCUS_FILTER_PRODUCTION
+		}
+	}
+
+	focus = {
+		id = SHO_nationalize_foreign_industries
+		icon = GFX_goal_generic_seize_investments
+		x = 6
+		y = 2
+		cost = 6
+		available = {
+			has_government = social_democrat
+		}
+		prerequisite = { focus = SHO_social_economics }
+		prerequisite = { focus = SHO_SDPSH_victory }
+		relative_position_id = SHO_Landspartei_victory
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_liberal_economics"
+			add_one_random_civilian_factory = yes
+			add_one_random_civilian_factory = yes
+			add_one_random_civilian_factory = yes
+			custom_effect_tooltip = tooltip_white_line
+			every_other_country = {
+				limit = {
+					OR = { tag = ENG tag = DEN }
+				}
+				add_opinion_modifier = {
+					target = ROOT
+					modifier = ITA_outraged
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = SHO_bastion_of_german_democracy
+		icon = GFX_goal_generic_workers_rights
+		x = 6
+		y = 4
+		cost = 6
+		allow_branch = { 
+			NOT = { has_country_flag = SPD_locked }
+			has_completed_focus = SHO_SDPSH_victory
+		}
+		available = {
+			has_government = social_democrat
+			controls_state = 64
+		}
+		prerequisite = { focus = SHO_support_unemployed }
+		prerequisite = { focus = SHO_state_supported_unions }
+		relative_position_id = SHO_Landspartei_victory
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_bastion_of_german_democracy"
+			unlock_decision_tooltip = SHO_proclaim_germany
+			custom_effect_tooltip = tooltip_white_line
+			every_state = {
+				limit = { is_core_of = GER }
+				add_core_of = ROOT
+			}
+			remove_ideas = SHO_nazbol_gang
+		}
+	}
+
+	focus = {
+		id = SHO_Peoples_revolution
+		icon = GFX_focus_GER_establish_volkskommissariats
+		x = 3
+		y = 0
+		allow_branch = {
+			has_country_flag = Kiel_communist_state
+		}
+		available = {
+			hidden_trigger = { always = no }
+		}
+		bypass = {
+			has_country_flag = Kiel_communist_state
+		}
+		cost = 4
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_Peoples_revolution"
+			custom_effect_tooltip = unlock_focuses
+		}
+	}
+
+	focus = {
+		id = SHO_contacts_with_moskau
+		icon = GFX_focus_SOV_the_path_of_marxism_leninism
+		x = -2
+		y = 1
+		cost = 4
+		prerequisite = {
+			focus = SHO_Peoples_revolution 
+		}
+		available = {
+			country_exists = SOV
+			SOV = { is_subject = no }
+			has_socialist_government = yes
+		}
+		relative_position_id = SHO_Peoples_revolution
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_contacts_with_moskau"
+			add_ideas = SHO_soviet_support
+			custom_effect_tooltip = tooltip_white_line
+			SOV = {
+				if = {
+					limit = { has_dlc_aat = yes }
+					give_market_access = ROOT
+					custom_effect_tooltip = tooltip_white_line
+				}
+			}
+			hidden_effect = { SHO_Voldemar_Roze = { set_nationality = ROOT } }
+			effect_tooltip = {
+				add_corps_commander_role = {
+					character = SHO_Voldemar_Roze
+					traits = { infantry_officer }
+					skill = 2
+					attack_skill = 2
+					defense_skill = 2
+					planning_skill = 2
+					logistics_skill = 2
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = SHO_Danish_deal
+		icon = GFX_focus_generic_befriend_denmark
+		x = 0
+		y = 1
+		cost = 4
+		prerequisite = {
+			focus = SHO_Peoples_revolution 
+		}
+		available = {
+			country_exists = DEN
+			NOT = { has_war_with = DEN }
+			has_socialist_government = yes
+		}
+		bypass = {
+			OR = {
+				NOT = { country_exists = DEN }
+				DEN = {
+					is_subject_of = ROOT
+					is_in_faction_with = ROOT
+				}
+			}
+		}
+		relative_position_id = SHO_Peoples_revolution
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_Danish_deal"
+			DEN = {
+				country_event = { id = kiel.18 days = 7 }
+			}
+		}
+	}
+
+	focus = {
+		id = SHO_seize_means_production
+		icon = GFX_goal_generic_seize_investments
+		x = 2
+		y = 1
+		cost = 4
+		prerequisite = {
+			focus = SHO_Peoples_revolution 
+		}
+		available = {
+			has_capitulated = no
+			has_socialist_government = yes
+		}
+		relative_position_id = SHO_Peoples_revolution
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_seize_means_production"
+			add_political_power = -100
+			add_one_random_civilian_factory = yes
+			add_one_random_civilian_factory = yes
+		}
+	}
+	
+	focus = {
+		id = SHO_volksheer
+		icon = GFX_goal_SOV_army
+		x = -3
+		y = 2
+		cost = 4
+		prerequisite = { focus = SHO_contacts_with_moskau }
+		prerequisite = { focus = SHO_Danish_deal }
+		prerequisite = { focus = SHO_seize_means_production }
+		available = {
+			has_capitulated = no
+			has_socialist_government = yes
+		}
+		relative_position_id = SHO_Peoples_revolution
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_volksheer"
+			add_manpower = 15000
+			increase_conscription = yes
+		}
+	}
+
+	focus = {
+		id = SHO_War_econ
+		icon = GFX_goal_generic_war_in_the_plate
+		x = 3
+		y = 2
+		cost = 4
+		prerequisite = { focus = SHO_contacts_with_moskau }
+		prerequisite = { focus = SHO_Danish_deal }
+		prerequisite = { focus = SHO_seize_means_production }
+		available = {
+			has_capitulated = no
+			has_socialist_government = yes
+		}
+		bypass = {
+			OR = {
+				has_idea = war_economy
+				has_idea = tot_economic_mobilisation
+			}
+		}
+		relative_position_id = SHO_Peoples_revolution
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_War_econ"
+			add_ideas = war_economy
+		}
+	}
+
+	focus = {
+		id = SHO_kiel_fortress
+		icon = GFX_goal_nested_fortifications
+		x = -1
+		y = 2
+		cost = 4
+		prerequisite = { focus = SHO_contacts_with_moskau }
+		prerequisite = { focus = SHO_Danish_deal }
+		prerequisite = { focus = SHO_seize_means_production }
+		available = {
+			has_capitulated = no
+			controls_state = 58
+			has_socialist_government = yes
+		}
+		relative_position_id = SHO_Peoples_revolution
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_kiel_fortress"
+			58 = {
+				add_building_construction = {
+					type = bunker
+					level = 3
+					province = 6389
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = SHO_destroy_opposition
+		icon = GFX_HOL_crackdown_natpop
+		x = 1
+		y = 2
+		cost = 4
+		prerequisite = { focus = SHO_contacts_with_moskau }
+		prerequisite = { focus = SHO_Danish_deal }
+		prerequisite = { focus = SHO_seize_means_production }
+		available = {
+			has_socialist_government = yes
+		}
+		relative_position_id = SHO_Peoples_revolution
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_destroy_opposition"
+			add_popularity = {
+				ideology = authoritarian_democrat
+				popularity = -0.1
+			}
+			add_popularity = {
+				ideology = social_conservative
+				popularity = -0.1
+			}
+			add_popularity = {
+				ideology = social_liberal
+				popularity = -0.1
+			}
+			add_popularity = {
+				ideology = market_liberal
+				popularity = -0.1
+			}
+		}
+	}
+	
+	focus = {
+		id = SHO_frauenabteilung
+		icon = GFX_goal_GRE_rights_of_woman
+		x = -2
+		y = 3
+		cost = 4
+		prerequisite = { focus = SHO_contacts_with_moskau }
+		prerequisite = { focus = SHO_Danish_deal }
+		prerequisite = { focus = SHO_seize_means_production }
+		available = {
+			has_socialist_government = yes
+		}
+		relative_position_id = SHO_Peoples_revolution
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_frauenabteilung"
+			add_political_power = -50
+			add_ideas = SHO_women_workforce
+		}
+	}
+
+	focus = {
+		id = SHO_politburo
+		icon = GFX_focus_GER_integrate_volkskommissariats
+		x = 0
+		y = 3
+		cost = 4
+		prerequisite = { focus = SHO_kiel_fortress }
+		prerequisite = { focus = SHO_destroy_opposition }
+		available = {
+			has_socialist_government = yes
+		}
+		relative_position_id = SHO_Peoples_revolution
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_politburo"
+			add_ideas = SHO_worker_councils
+		}
+	}
+
+	focus = {
+		id = SHO_support_KDP
+		icon = GFX_goal_revolution_tools
+		x = 2
+		y = 3
+		cost = 4
+		prerequisite = { focus = SHO_contacts_with_moskau }
+		prerequisite = { focus = SHO_Danish_deal }
+		prerequisite = { focus = SHO_seize_means_production }
+		available = {
+			has_socialist_government = yes
+			country_exists = GER
+			GER = { has_socialist_government = no }
+		}
+		relative_position_id = SHO_Peoples_revolution
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_support_KDP"
+			if = {
+				limit = { has_dlc_lar = yes }
+				add_intel = {
+					target = GER
+					civilian_intel = 2
+					army_intel = 2
+					navy_intel = 2
+					airforce_intel = 2
+				}
+			}
+			custom_effect_tooltip = tooltip_white_line
+			unlock_decision_tooltip = SHO_contact_german_resistance
+		}
+	}
+
+	focus = {
+		id = SHO_United_front
+		icon = GFX_focus_GER_liberate_exploited_colonial_workers
+		x = -1
+		y = 4
+		cost = 4
+		prerequisite = { focus = SHO_support_KDP }
+		prerequisite = { focus = SHO_politburo }
+		prerequisite = { focus = SHO_frauenabteilung }
+		available = {
+			has_socialist_government = yes
+		}
+		relative_position_id = SHO_Peoples_revolution
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_United_front"
+			add_war_support = 0.05
+			add_popularity = { ideology = vanguardist popularity = 0.05 }
+			add_popularity = { ideology = collectivist popularity = 0.05 }
+		}
+	}
+
+	focus = {
+		id = SHO_crush_moderates
+		icon = GFX_focus_ICE_thungur_hnifur
+		x = 1
+		y = 4
+		cost = 4
+		prerequisite = { focus = SHO_support_KDP }
+		prerequisite = { focus = SHO_politburo }
+		prerequisite = { focus = SHO_frauenabteilung }
+		available = {
+			has_socialist_government = yes
+		}
+		relative_position_id = SHO_Peoples_revolution
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_crush_moderates"
+			add_popularity = { ideology = libertarian_socialist popularity = -0.1 }
+			add_popularity = { ideology = social_democrat popularity = -0.1 }
+		}
+	}
+
+	focus = {
+		id = SHO_Party_congress
+		icon = GFX_goal_SHO_party_congress
+		x = 0
+		y = 5
+		cost = 4
+		prerequisite = { focus = SHO_crush_moderates }
+		prerequisite = { focus = SHO_politburo }
+		prerequisite = { focus = SHO_United_front }
+		available = {
+			has_socialist_government = yes
+		}
+		relative_position_id = SHO_Peoples_revolution
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_Party_congress"
+			country_event = { id = kiel.16 days = 1 }
+		}
+	}
+
+	focus = {
+		id = SHO_Pieck
+		icon = GFX_goal_SHO_pieck
+		x = 7
+		y = 5
+		allow_branch = {
+			has_country_flag = SHO_Pieck_flag
+		}
+		available = {
+			hidden_trigger = { always = no }
+		}
+		bypass = {
+			has_country_flag = SHO_Pieck_flag
+		}
+		cost = 6
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_Pieck"
+			custom_effect_tooltip = unlock_focuses
+		}
+	}
+
+	focus = {
+		id = SHO_leader_of_commies
+		icon = GFX_goal_all_krauts_for_switzerland
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			has_country_leader = {
+				character = SHO_Wilhelm_Pieck
+				ruling_only = yes
+			}
+		}
+		prerequisite = { focus = SHO_Pieck }
+		relative_position_id = SHO_Pieck
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_leader_of_commies"
+			add_trait = {
+				character = SHO_Wilhelm_Pieck
+				ideology = leninism_subtype
+				trait = old_socialist
+			}
+		}
+	}
+
+	focus = {
+		id = SHO_red_aid
+		icon = GFX_goal_FIN_promote_the_red_cross
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_country_leader = {
+				character = SHO_Wilhelm_Pieck
+				ruling_only = yes
+			}
+		}
+		prerequisite = { focus = SHO_Pieck }
+		relative_position_id = SHO_Pieck
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_red_aid"
+			add_ideas = SHO_improved_healthcare
+		}
+	}
+
+	focus = {
+		id = SHO_great_purge
+		icon = GFX_goal_purge_opposition
+		x = -2
+		y = 2
+		cost = 6
+		available = {
+			has_country_leader = {
+				character = SHO_Wilhelm_Pieck
+				ruling_only = yes
+			}
+		}
+		prerequisite = { focus = SHO_red_aid }
+		prerequisite = { focus = SHO_leader_of_commies }
+		relative_position_id = SHO_Pieck
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_great_purge"
+			add_popularity = { ideology = collectivist popularity = 0.2 }
+			hidden_effect = { country_event = { id = kiel.57 days = 35 random_days = 25 } }
+		}
+	}
+
+	focus = {
+		id = SHO_party_primacy
+		icon = GFX_goal_SHO_kpd
+		x = 0
+		y = 2
+		cost = 6
+		available = {
+			has_country_leader = {
+				character = SHO_Wilhelm_Pieck
+				ruling_only = yes
+			}
+		}
+		prerequisite = { focus = SHO_red_aid }
+		prerequisite = { focus = SHO_leader_of_commies }
+		relative_position_id = SHO_Pieck
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_party_primacy"
+			increase_ruling_party_popularity_by_5 = yes
+		}
+	}
+
+	focus = {
+		id = SHO_international_commies
+		icon = GFX_focus_SOV_international_union_of_soviet_republics
+		x = 2
+		y = 2
+		cost = 6
+		available = {
+			has_country_leader = {
+				character = SHO_Wilhelm_Pieck
+				ruling_only = yes
+			}
+		}
+		prerequisite = { focus = SHO_red_aid }
+		prerequisite = { focus = SHO_leader_of_commies }
+		relative_position_id = SHO_Pieck
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_international_commies"
+			every_other_country = {
+				limit = { has_socialist_government = yes }
+				add_opinion_modifier = {
+					target = PREV
+					modifier = large_increase
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = SHO_anti_valkist_propaganda
+		icon = GFX_goal_USA_no_valkist
+		x = 1
+		y = 3
+		cost = 6
+		available = {
+			has_country_leader = {
+				character = SHO_Wilhelm_Pieck
+				ruling_only = yes
+			}
+		}
+		prerequisite = { focus = SHO_international_commies }
+		prerequisite = { focus = SHO_party_primacy }
+		prerequisite = { focus = SHO_great_purge }
+		relative_position_id = SHO_Pieck
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_anti_valkist_propaganda"
+			add_popularity = { ideology = valkist popularity = -0.1 }
+			if = {
+				limit = {
+					GER={
+						has_government = valkist
+					}
+				}
+				add_opinion_modifier = {
+					target = GER
+					modifier = large_decrease
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = SHO_work_with_german_military_commies
+		icon = GFX_goal_generic_german_officers_socialist
+		x = -1
+		y = 3
+		cost = 6
+		available = {
+			has_country_leader = {
+				character = SHO_Wilhelm_Pieck
+				ruling_only = yes
+			}
+		}
+		prerequisite = { focus = SHO_international_commies }
+		prerequisite = { focus = SHO_party_primacy }
+		prerequisite = { focus = SHO_great_purge }
+		relative_position_id = SHO_Pieck
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_work_with_german_military_commies"
+			add_ideas = SHO_German_advisors
+		}
+	}
+
+	focus = {
+		id = SHO_collectivise_economy
+		icon = GFX_collective_housing
+		x = -2
+		y = 4
+		cost = 6
+		available = {
+			has_country_leader = {
+				character = SHO_Wilhelm_Pieck
+				ruling_only = yes
+			}
+		}
+		prerequisite = { focus = SHO_work_with_german_military_commies }
+		prerequisite = { focus = SHO_great_purge }
+		relative_position_id = SHO_Pieck
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_liberal_economics"
+			add_ideas = BOL_collectivist_administration
+		}
+	}
+
+	focus = {
+		id = SHO_est_stasi
+		icon = GFX_goal_NOR_secret_police
+		x = 0
+		y = 4
+		cost = 6
+		available = {
+			has_country_leader = {
+				character = SHO_Wilhelm_Pieck
+				ruling_only = yes
+			}
+		}
+		prerequisite = { focus = SHO_work_with_german_military_commies }
+		prerequisite = { focus = SHO_great_purge }
+		prerequisite = { focus = SHO_anti_valkist_propaganda }
+		relative_position_id = SHO_Pieck
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_est_stasi"
+			if = {
+				limit = { has_dlc_lar = yes }
+				add_ideas = SHO_socialist_security_police_idea_lar
+
+				if = {
+					limit = { has_intelligence_agency = no }
+					create_intelligence_agency = yes
+				}
+			}
+			else = {
+				add_ideas = SHO_socialist_security_police_idea
+			}
+		}
+	}
+
+	focus = {
+		id = SHO_unify_left_parties
+		icon = GFX_goal_generic_workers_democracy
+		x = 2
+		y = 4
+		cost = 6
+		available = {
+			has_country_leader = {
+				character = SHO_Wilhelm_Pieck
+				ruling_only = yes
+			}
+		}
+		prerequisite = { focus = SHO_international_commies }
+		prerequisite = { focus = SHO_anti_valkist_propaganda }
+		relative_position_id = SHO_Pieck
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_unify_left_parties"
+			add_popularity = { ideology = collectivist popularity = 0.5 }
+		}
+	}
+
+	focus = {
+		id = SHO_work_with_collaborators
+		icon = GFX_goal_generic_red_guard
+		x = 1
+		y = 5
+		cost = 6
+		available = {
+			country_exists = GER
+			has_country_leader = {
+				character = SHO_Wilhelm_Pieck
+				ruling_only = yes
+			}
+		}
+		prerequisite = { focus = SHO_unify_left_parties }
+		prerequisite = { focus = SHO_anti_valkist_propaganda }
+		relative_position_id = SHO_Pieck
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_work_with_collaborators"
+			add_collaboration = { target = GER value = 0.2 }
+		}
+	}
+
+	focus = {
+		id = SHO_create_planning_comission
+		icon = GFX_goal_generic_revolutionary_government
+		x = -1
+		y = 5
+		cost = 6
+		available = {
+			has_country_leader = {
+				character = SHO_Wilhelm_Pieck
+				ruling_only = yes
+			}
+		}
+		prerequisite = { focus = SHO_collectivise_economy }
+		prerequisite = { focus = SHO_work_with_german_military_commies }
+		relative_position_id = SHO_Pieck
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_create_planning_comission"
+			add_ideas = SHO_four_year_plan
+			add_research_slot = 1
+		}
+	}
+
+	focus = {
+		id = SHO_german_revolution
+		icon = GFX_goal_SHO_germany
+		x = 0
+		y = 6
+		cost = 6
+		available = {
+			has_country_leader = {
+				character = SHO_Wilhelm_Pieck
+				ruling_only = yes
+			}
+		}
+		prerequisite = { focus = SHO_create_planning_comission }
+		prerequisite = { focus = SHO_work_with_collaborators }
+		relative_position_id = SHO_Pieck
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_german_revolution"
+			unlock_decision_tooltip = SHO_proclaim_germany
+			custom_effect_tooltip = tooltip_white_line
+			every_state = {
+				limit = { is_core_of = GER }
+				add_core_of = ROOT
+			}
+			hidden_effect = {
+				country_event = { id = kiel.54 days = 60 random_days = 60 }
+			}
+		}
+	}
+
+	focus = {
+		id = SHO_Laufenberg
+		icon = GFX_goal_SHO_laufenberg
+		x = 7
+		y = 5
+		allow_branch = {
+			has_country_flag = SHO_Laufenberg_flag
+		}
+		available = {
+			hidden_trigger = { always = no }
+		}
+		bypass = {
+			has_country_flag = SHO_Laufenberg_flag
+		}
+		cost = 6
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_Laufenberg"
+			custom_effect_tooltip = unlock_focuses
+		}
+	}
+
+	focus = {
+		id = SHO_Workers_councils
+		icon = GFX_goal_generic_workers_rights
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			has_country_leader = {
+				character = SHO_Heinrich_Laufenberg
+				ruling_only = yes
+			}
+		}
+		prerequisite = { focus = SHO_Laufenberg }
+		relative_position_id = SHO_Laufenberg
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_Workers_councils"
+			add_ideas = SHO_worker_councils
+		}
+	}
+
+	focus = {
+		id = SHO_End_Parliamentarianism
+		icon = GFX_goal_NFA_end_parliamentarism
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_country_leader = {
+				character = SHO_Heinrich_Laufenberg
+				ruling_only = yes
+			}
+		}
+		prerequisite = { focus = SHO_Laufenberg }
+		relative_position_id = SHO_Laufenberg
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_End_Parliamentarianism"
+			increase_ruling_party_popularity_by_5 = yes
+			add_stability = 0.05
+			add_war_support = 0.05
+			hidden_effect = { country_event = { id = kiel.57 days = 35 random_days = 25 } }
+		}
+	}
+
+	focus = {
+		id = SHO_Eastern_diplomacy
+		icon = GFX_focus_SOV_third_rome
+		x = -2
+		y = 2
+		cost = 6
+		available = {
+			has_country_leader = {
+				character = SHO_Heinrich_Laufenberg
+				ruling_only = yes
+			}
+		}
+		prerequisite = { focus = SHO_End_Parliamentarianism }
+		prerequisite = { focus = SHO_Workers_councils }
+		relative_position_id = SHO_Laufenberg
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_Eastern_diplomacy"
+			add_research_slot = 1
+		}
+	}
+
+	focus = {
+		id = SHO_Revanchist_ideals
+		icon = GFX_BAT_germanisation
+		x = 0
+		y = 2
+		cost = 6
+		available = {
+			has_country_leader = {
+				character = SHO_Heinrich_Laufenberg
+				ruling_only = yes
+			}
+		}
+		prerequisite = { focus = SHO_End_Parliamentarianism }
+		prerequisite = { focus = SHO_Workers_councils }
+		relative_position_id = SHO_Laufenberg
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_Revanchist_ideals"
+			add_ideas = SHO_revolutionary_revaunchism
+		}
+	}
+
+	focus = {
+		id = SHO_Approach_valkists
+		icon = GFX_goal_valkist_support
+		x = 2
+		y = 2
+		cost = 6
+		available = {
+			has_country_leader = {
+				character = SHO_Heinrich_Laufenberg
+				ruling_only = yes
+			}
+		}
+		prerequisite = { focus = SHO_End_Parliamentarianism }
+		prerequisite = { focus = SHO_Workers_councils }
+		relative_position_id = SHO_Laufenberg
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_Approach_valkists"
+			if = {
+				limit = {
+					GER={
+						has_government = valkist
+					}
+				}
+				add_opinion_modifier = {
+					target = GER
+					modifier = large_increase
+				}
+			}
+			add_popularity = {
+				ideology = valkist
+				popularity = 0.05
+			}
+			hidden_effect = {
+				country_event = { id = kiel.44 days = 20 random_days = 10 }
+			}
+		}
+	}
+
+	focus = {
+		id = SHO_Create_one_workers_union
+		icon = GFX_goal_syndicalism
+		x = 1
+		y = 3
+		cost = 6
+		available = {
+			has_country_leader = {
+				character = SHO_Heinrich_Laufenberg
+				ruling_only = yes
+			}
+		}
+		prerequisite = { focus = SHO_Approach_valkists }
+		prerequisite = { focus = SHO_Revanchist_ideals }
+		prerequisite = { focus = SHO_Eastern_diplomacy }
+		relative_position_id = SHO_Laufenberg
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_Create_one_workers_union"
+			add_ideas = SHO_empowered_unions
+		}
+	}
+
+	focus = {
+		id = SHO_socialist_volk_community
+		icon = GFX_goal_generic_workers_democracy
+		x = -1
+		y = 3
+		cost = 6
+		available = {
+			has_country_leader = {
+				character = SHO_Heinrich_Laufenberg
+				ruling_only = yes
+			}
+		}
+		prerequisite = { focus = SHO_Approach_valkists }
+		prerequisite = { focus = SHO_Revanchist_ideals }
+		prerequisite = { focus = SHO_Eastern_diplomacy }
+		relative_position_id = SHO_Laufenberg
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_socialist_volk_community"
+			add_ideas = SHO_support_communes
+		}
+	}
+
+	focus = {
+		id = SHO_appeal_to_middle_class
+		icon = GFX_collective_housing
+		x = -2
+		y = 4
+		cost = 6
+		available = {
+			has_country_leader = {
+				character = SHO_Heinrich_Laufenberg
+				ruling_only = yes
+			}
+		}
+		prerequisite = { focus = SHO_socialist_volk_community }
+		prerequisite = { focus = SHO_Eastern_diplomacy }
+		relative_position_id = SHO_Laufenberg
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_appeal_to_middle_class"
+			add_stability = 0.05
+			increase_ruling_party_popularity_by_10 = yes
+			add_two_random_civilian_factories = yes
+		}
+	}
+
+	focus = {
+		id = SHO_German_worker
+		icon = GFX_goal_german_worker
+		x = 0
+		y = 4
+		cost = 6
+		available = {
+			has_country_leader = {
+				character = SHO_Heinrich_Laufenberg
+				ruling_only = yes
+			}
+		}
+		prerequisite = { focus = SHO_socialist_volk_community }
+		prerequisite = { focus = SHO_Revanchist_ideals }
+		prerequisite = { focus = SHO_Create_one_workers_union }
+		relative_position_id = SHO_Laufenberg
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_German_worker"
+			add_ideas = ger_worker_conditions
+		}
+	}
+
+	focus = {
+		id = SHO_Destroy_communist_dissidents
+		icon = GFX_focus_SOV_the_last_purge
+		x = 2
+		y = 4
+		cost = 6
+		available = {
+			has_country_leader = {
+				character = SHO_Heinrich_Laufenberg
+				ruling_only = yes
+			}
+		}
+		prerequisite = { focus = SHO_Approach_valkists }
+		prerequisite = { focus = SHO_Create_one_workers_union }
+		relative_position_id = SHO_Laufenberg
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_Destroy_communist_dissidents"
+			add_popularity = {
+				ideology = collectivist
+				popularity = -0.3
+			}
+			set_party_name = {
+				ideology = collectivist
+				long_name = SHO_purged_party
+				name = SHO_purged_party
+			}
+		}
+	}
+
+	focus = {
+		id = SHO_huntdown_reactionaries
+		icon = GFX_goal_generic_ban_right_wing
+		x = 1
+		y = 5
+		cost = 6
+		available = {
+			has_country_leader = {
+				character = SHO_Heinrich_Laufenberg
+				ruling_only = yes
+			}
+		}
+		prerequisite = { focus = SHO_Destroy_communist_dissidents }
+		prerequisite = { focus = SHO_Create_one_workers_union }
+		relative_position_id = SHO_Laufenberg
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_huntdown_reactionaries"
+			add_popularity = {
+				ideology = national_populist
+				popularity = -0.1
+			}
+		}
+	}
+
+	focus = {
+		id = SHO_Work_with_landvolk
+		icon = GFX_goal_generic_red_guard
+		x = -1
+		y = 5
+		cost = 6
+		prerequisite = { focus = SHO_appeal_to_middle_class }
+		prerequisite = { focus = SHO_socialist_volk_community}
+		relative_position_id = SHO_Laufenberg
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_Work_with_landvolk"
+			add_ideas = SHO_collectivized_agriculture
+		}
+	}
+
+	focus = {
+		id = SHO_German_rebirth
+		icon = GFX_goal_SHO_german_rebirth
+		x = 0
+		y = 6
+		cost = 6
+		available = {
+			has_country_leader = {
+				character = SHO_Heinrich_Laufenberg
+				ruling_only = yes
+			}
+		}
+		prerequisite = { focus = SHO_Work_with_landvolk }
+		prerequisite = { focus = SHO_huntdown_reactionaries }
+		relative_position_id = SHO_Laufenberg
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_German_rebirth"
+			unlock_decision_tooltip = SHO_proclaim_germany
+			custom_effect_tooltip = tooltip_white_line
+			every_state = {
+				limit = { is_core_of = GER }
+				add_core_of = ROOT
+			}
+			hidden_effect = {
+				country_event = { id = kiel.54 days = 60 random_days = 60 }
+			}
+		}
+	}
+
+	focus = {
+		id = SHO_Brandler
+		icon = GFX_goal_SHO_brandler
+		x = 7
+		y = 5
+		allow_branch = {
+			has_country_flag = SHO_Brandler_flag
+		}
+		available = {
+			hidden_trigger = { always = no }
+		}
+		bypass = {
+			has_country_flag = SHO_Brandler_flag
+		}
+		cost = 6
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_Brandler"
+			custom_effect_tooltip = unlock_focuses
+		}
+	}
+
+	focus = {
+		id = SHO_Victorious_council
+		icon = GFX_goal_generic_revolutionary_government
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			has_country_leader = {
+				character = SHO_Heinrich_Brandler
+				ruling_only = yes
+			}
+		}
+		prerequisite = { focus = SHO_Brandler }
+		relative_position_id = SHO_Brandler
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_Victorious_council"
+			add_political_power = 100
+		}
+	}
+
+	focus = {
+		id = SHO_Finish_revolution
+		icon = GFX_goal_generic_communist_world_revolution
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_country_leader = {
+				character = SHO_Heinrich_Brandler
+				ruling_only = yes
+			}
+		}
+		prerequisite = { focus = SHO_Brandler }
+		relative_position_id = SHO_Brandler
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_Finish_revolution"
+			add_ideas = SHO_revolutionary_spirit
+		}
+	}
+
+	focus = {
+		id = SHO_Radical_land_reform
+		icon = GFX_goal_generic_land_reform
+		x = -2
+		y = 2
+		cost = 6
+		available = {
+			has_country_leader = {
+				character = SHO_Heinrich_Brandler
+				ruling_only = yes
+			}
+		}
+		prerequisite = { focus = SHO_Finish_revolution }
+		prerequisite = { focus = SHO_Victorious_council }
+		relative_position_id = SHO_Brandler
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_Radical_land_reform"
+			1081 = { add_extra_state_shared_building_slots = 1 }
+			58 = { add_extra_state_shared_building_slots = 1 }
+		}
+	}
+
+	focus = {
+		id = SHO_Fight_socdems
+		icon = GFX_goal_Stomp_Social_Democracy
+		x = 0
+		y = 2
+		cost = 6
+		available = {
+			has_country_leader = {
+				character = SHO_Heinrich_Brandler
+				ruling_only = yes
+			}
+		}
+		prerequisite = { focus = SHO_Finish_revolution }
+		prerequisite = { focus = SHO_Victorious_council }
+		relative_position_id = SHO_Brandler
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_Fight_socdems"
+			add_popularity = {
+				ideology = social_democrat
+				popularity = -0.5
+			}
+			set_party_name = {
+				ideology = social_democrat
+				long_name = SHO_purged_party
+				name = SHO_purged_party
+			}
+		}
+	}
+
+	focus = {
+		id = SHO_Fund_socialist_news
+		icon = GFX_goal_big_news
+		x = 2
+		y = 2
+		cost = 6
+		available = {
+			has_country_leader = {
+				character = SHO_Heinrich_Brandler
+				ruling_only = yes
+			}
+		}
+		prerequisite = { focus = SHO_Finish_revolution }
+		prerequisite = { focus = SHO_Victorious_council }
+		relative_position_id = SHO_Brandler
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_Fund_socialist_news"
+			add_political_power = 100
+		}
+	}
+
+	focus = {
+		id = SHO_Farmer_aid
+		icon = GFX_goal_generic_agricultural_aid
+		x = 1
+		y = 3
+		cost = 6
+		available = {
+			has_country_leader = {
+				character = SHO_Heinrich_Brandler
+				ruling_only = yes
+			}
+		}
+		prerequisite = { focus = SHO_Fund_socialist_news }
+		prerequisite = { focus = SHO_Fight_socdems }
+		prerequisite = { focus = SHO_Radical_land_reform }
+		relative_position_id = SHO_Brandler
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_Farmer_aid"
+			add_ideas = SHO_agrarian_model
+		}
+	}
+
+	focus = {
+		id = SHO_Worker_aid
+		icon = GFX_goal_generic_enforce_labor_regulation
+		x = -1
+		y = 3
+		cost = 6
+		available = {
+			has_country_leader = {
+				character = SHO_Heinrich_Brandler
+				ruling_only = yes
+			}
+		}
+		prerequisite = { focus = SHO_Fund_socialist_news }
+		prerequisite = { focus = SHO_Fight_socdems }
+		prerequisite = { focus = SHO_Radical_land_reform }
+		relative_position_id = SHO_Brandler
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_Worker_aid"
+			increase_ruling_party_popularity_by_10 = yes
+		}
+	}
+
+	focus = {
+		id = SHO_Strengthern_councils
+		icon = GFX_goal_generic_council
+		x = -2
+		y = 4
+		cost = 6
+		available = {
+			has_country_leader = {
+				character = SHO_Heinrich_Brandler
+				ruling_only = yes
+			}
+		}
+		prerequisite = { focus = SHO_Worker_aid }
+		prerequisite = { focus = SHO_Radical_land_reform }
+		relative_position_id = SHO_Brandler
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_Strengthern_councils"
+			add_ideas = SHO_worker_councils
+		}
+	}
+
+	focus = {
+		id = SHO_spartacusbund_legacy
+		icon = GFX_focus_ITA_peasants_rise
+		x = 0
+		y = 4
+		cost = 6
+		available = {
+			has_country_leader = {
+				character = SHO_Heinrich_Brandler
+				ruling_only = yes
+			}
+		}
+		prerequisite = { focus = SHO_Worker_aid }
+		prerequisite = { focus = SHO_Fight_socdems }
+		prerequisite = { focus = SHO_Farmer_aid	}
+		relative_position_id = SHO_Brandler
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_spartacusbund_legacy"
+			swap_ideas = {
+				remove_idea = SHO_revolutionary_spirit
+				add_idea = SHO_revolutionary_spirit_1
+			}
+		}
+	}
+
+	focus = {
+		id = SHO_Fund_rotfrontkampferbund
+		icon = GFX_goal_GRE_military_support
+		x = 2
+		y = 4
+		cost = 6
+		available = {
+			has_country_leader = {
+				character = SHO_Heinrich_Brandler
+				ruling_only = yes
+			}
+		}
+		prerequisite = { focus = SHO_Fund_socialist_news }
+		prerequisite = { focus = SHO_Farmer_aid }
+		relative_position_id = SHO_Brandler
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_Fund_rotfrontkampferbund"
+			add_manpower = 15000
+			if = {
+				limit = { has_dlc_lar = yes }
+
+				if = {
+					limit = { has_intelligence_agency = no }
+					create_intelligence_agency = yes
+				}
+				if = {
+					limit = {
+						NOT = { has_done_agency_upgrade = upgrade_anti_partisan }
+					}
+					upgrade_intelligence_agency = upgrade_anti_partisan
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = SHO_Fight_the_reaction
+		icon = GFX_focus_ITA_liberation_or_death
+		x = 1
+		y = 5
+		cost = 6
+		available = {
+			has_country_leader = {
+				character = SHO_Heinrich_Brandler
+				ruling_only = yes
+			}
+		}
+		prerequisite = { focus = SHO_Fund_rotfrontkampferbund }
+		prerequisite = { focus = SHO_Farmer_aid }
+		relative_position_id = SHO_Brandler
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_Fight_the_reaction"
+			add_popularity = {
+				ideology = paternal_autocrat
+				popularity = -0.1
+			}
+			add_popularity = {
+				ideology = authoritarian_democrat
+				popularity = -0.1
+			}
+			set_party_name = {
+				ideology = authoritarian_democrat
+				long_name = SHO_purged_party
+				name = SHO_purged_party
+			}
+			set_party_name = {
+				ideology = paternal_autocrat
+				long_name = SHO_purged_party
+				name = SHO_purged_party
+			}
+		}
+	}
+
+	focus = {
+		id = SHO_Free_socialist_economy
+		icon = GFX_goal_generic_market_socialism
+		x = -1
+		y = 5
+		cost = 6
+		available = {
+			has_country_leader = {
+				character = SHO_Heinrich_Brandler
+				ruling_only = yes
+			}
+		}
+		prerequisite = { focus = SHO_Strengthern_councils }
+		prerequisite = { focus = SHO_Worker_aid }
+		relative_position_id = SHO_Brandler
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_Free_socialist_economy"
+			add_ideas = SHO_socialist_economy
+		}
+	}
+
+	focus = {
+		id = SHO_Socialist_republic
+		icon = GFX_goal_SHO_germany
+		x = 0
+		y = 6
+		cost = 6
+		available = {
+			has_country_leader = {
+				character = SHO_Heinrich_Brandler
+				ruling_only = yes
+			}
+		}
+		prerequisite = { focus = SHO_Free_socialist_economy }
+		prerequisite = { focus = SHO_Fight_the_reaction }
+		relative_position_id = SHO_Brandler
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_Socialist_republic"
+			unlock_decision_tooltip = SHO_proclaim_germany
+			custom_effect_tooltip = tooltip_white_line
+			every_state = {
+				limit = { is_core_of = GER }
+				add_core_of = ROOT
+			}
+			hidden_effect = {
+				country_event = { id = kiel.54 days = 60 random_days = 60 }
+			}
+		}
+	}
+
+	focus = {
+		id = SHO_Economy_rejuvenation
+		icon = GFX_goal_HOL_black_monday
+		x = 4
+		y = 0
+		offset = {
+			x = 12
+			y = 0
+			trigger = { has_country_flag = Kiel_natrep_state }
+		}
+		offset = {
+			x = 7
+			y = 0
+			trigger = { has_country_flag = Kiel_communist_state }
+		}
+		offset = {
+			x = 16
+			y = 0
+			trigger = { has_country_flag = SHO_election_tree }
+		}
+		available = {
+			hidden_trigger = { always = no }
+		}
+		bypass = {
+			has_global_flag = black_wednesday
+		}
+		cost = 3
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_Economy_rejuvenation"
+			custom_effect_tooltip = unlock_focuses
+		}
+	}
+
+	focus = {
+		id = SHO_expand_railways
+		icon = GFX_goal_generic_railroad
+		x = -3
+		y = 1
+		cost = 6
+		prerequisite = { focus = SHO_Economy_rejuvenation }
+		relative_position_id = SHO_Economy_rejuvenation
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_expand_railways"
+			add_tech_bonus = {
+				name = industry_bonus
+				bonus = 0.5
+				uses = 2
+				category = construction_tech
+			}
+			custom_effect_tooltip = tooltip_white_line
+			add_two_random_infrastructure = yes
+			add_two_random_infrastructure = yes
+		}
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+		}
+	}
+
+	focus = {
+		id = SHO_help_the_Kieler_Bank
+		icon = GFX_goal_TEX_banks_for_america
+		x = -1
+		y = 1
+		cost = 6
+		prerequisite = { focus = SHO_Economy_rejuvenation }
+		mutually_exclusive = { focus = SHO_tax_canal }
+		relative_position_id = SHO_Economy_rejuvenation
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_help_the_Kieler_Bank"
+			add_ideas = SHO_fund_bank_idea
+			swap_ideas = {
+				remove_idea = SHO_black_wednesday
+				add_idea = SHO_black_wednesday1
+			}
+			add_political_power = 50
+			add_stability = 0.05
+			custom_effect_tooltip = tooltip_white_line
+			add_one_random_civilian_factory = yes
+		}
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+			FOCUS_FILTER_PRODUCTION
+		}
+	}
+
+	focus = {
+		id = SHO_Militarization_of_economy
+		icon = GFX_goal_generic_small_arms
+		x = 3
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+		}
+		prerequisite = { focus = SHO_Economy_rejuvenation }
+		prerequisite = { focus = SHO_defense_organization }
+		relative_position_id = SHO_Economy_rejuvenation
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_Militarization_of_economy"
+			add_two_random_military_factories = yes
+			add_two_random_military_factories = yes
+		}
+		search_filters = {
+			FOCUS_FILTER_PRODUCTION
+		}
+	}
+	focus = {
+		id = SHO_tax_canal
+		icon = GFX_goal_generic_canal
+		x = 1
+		y = 1
+		cost = 6
+		prerequisite = { focus = SHO_Economy_rejuvenation }
+		mutually_exclusive = { focus = SHO_help_the_Kieler_Bank }
+		relative_position_id = SHO_Economy_rejuvenation
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_tax_canal"
+			add_ideas = SHO_kiel_profits
+			swap_ideas = {
+				remove_idea = SHO_black_wednesday
+				add_idea = SHO_black_wednesday1
+			}
+			every_other_country = {
+				limit = {
+					OR = {
+						tag = LIT
+						tag = LAT
+						tag = EST
+						tag = SWE
+						tag = SOV
+						tag = FIN
+					}
+				}
+				country_event = kiel.19
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_PRODUCTION
+		}
+	}
+
+	focus = {
+		id = SHO_Promote_free_trade
+		icon = GFX_goal_AST_new_markets
+		x = 0
+		y = 2
+		cost = 6
+		prerequisite = {
+			focus = SHO_tax_canal 
+			focus = SHO_help_the_Kieler_Bank
+		}
+		relative_position_id = SHO_Economy_rejuvenation
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_Promote_free_trade"
+			add_ideas = SHO_free_trade
+		}
+		search_filters = {
+			FOCUS_FILTER_PRODUCTION
+		}
+	}
+
+	focus = {
+		id = SHO_invite_krupp
+		icon = GFX_goal_LEP_krupp_industial
+		x = -2
+		y = 2
+		cost = 6
+		prerequisite = { focus = SHO_expand_railways }
+		prerequisite = { focus = SHO_help_the_Kieler_Bank }
+		relative_position_id = SHO_Economy_rejuvenation
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_Promote_free_trade"
+			custom_effect_tooltip = available_designer
+			show_ideas_tooltip = krupp_kiel
+		}
+		search_filters = {
+			FOCUS_FILTER_PRODUCTION
+		}
+	}
+
+	focus = {
+		id = SHO_expand_maritime_industry
+		icon = GFX_goal_generic_naval_industry
+		x = 4
+		y = 2
+		cost = 6
+		available = {
+			has_capitulated = no
+			any_owned_state = { is_coastal = yes }
+		}
+		prerequisite = { focus = SHO_tax_canal }
+		relative_position_id = SHO_Economy_rejuvenation
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_expand_maritime_industry"
+			add_one_random_dockyard = yes
+			add_one_random_dockyard = yes
+
+			custom_effect_tooltip = tooltip_white_line
+			if = {
+				limit = { has_dlc_aat = yes }
+				custom_effect_tooltip = available_mio_tt
+				show_mio_tooltip = SHO_howaldtswerke_werft_organization
+				else = {
+					custom_effect_tooltip = available_designer
+					show_ideas_tooltip = SHO_Howaldtswerke_Werft
+				}
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_PRODUCTION
+		}
+	}
+
+	focus = {
+		id = SHO_expand_kiel_fjords_forts
+		icon = GFX_goal_generic_naval_base
+		x = 2
+		y = 2
+		cost = 6
+		available = {
+			has_capitulated = no
+			any_owned_state = { is_coastal = yes }
+		}
+		prerequisite = { focus = SHO_tax_canal }
+		relative_position_id = SHO_Economy_rejuvenation
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_expand_maritime_industry"
+			58 = {
+				if = {
+					limit = {
+						any_province_building_level = {
+							building = naval_base
+							level < 10
+						}
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = naval_base
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = SHO_establish_free_ports
+		icon = GFX_Maritime_Silkroad_2
+		x = 2
+		y = 3
+		cost = 6
+		prerequisite = { focus = SHO_expand_kiel_fjords_forts }
+		relative_position_id = SHO_Economy_rejuvenation
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_establish_free_ports"
+			add_ideas = SHO_free_port
+			custom_effect_tooltip = tooltip_white_line
+			swap_ideas = {
+				remove_idea = SHO_black_wednesday1
+				add_idea = SHO_black_wednesday2
+			}
+			hidden_effect = {
+				country_event = { id = kiel.40 days = 120 }
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_PRODUCTION
+		}
+	}
+
+	focus = {
+		id = SHO_banking_reform
+		icon = GFX_goal_generic_banking_legislation
+		x = -2
+		y = 3
+		cost = 6
+		prerequisite = { focus = SHO_invite_krupp }
+		prerequisite = { focus = SHO_Promote_free_trade }
+		relative_position_id = SHO_Economy_rejuvenation
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_banking_reform"
+			swap_ideas = {
+				remove_idea = SHO_black_wednesday1
+				add_idea = SHO_black_wednesday2
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_PRODUCTION
+		}
+	}
+
+	focus = {
+		id = SHO_modernize_rural_areas
+		icon = GFX_focus_DEN_civilian_preparations
+		x = 0
+		y = 3
+		cost = 6
+		available = {
+			has_capitulated = no
+		}
+		prerequisite = { focus = SHO_Promote_free_trade }
+		relative_position_id = SHO_Economy_rejuvenation
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_modernize_rural_areas"
+			add_one_random_civilian_factory = yes
+			add_one_random_civilian_factory = yes
+		}
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+			FOCUS_FILTER_PRODUCTION
+		}
+	}
+
+	focus = {
+		id = SHO_small_business_support
+		icon = GFX_goal_RUS_Support_Small_Business_vns
+		x = 1
+		y = 4
+		cost = 6
+		available = {
+			has_socialist_government = no
+		}
+		prerequisite = { focus = SHO_modernize_rural_areas }
+		prerequisite = {
+			focus = SHO_banking_reform 
+			focus = SHO_establish_free_ports
+		}
+		mutually_exclusive = { focus = SHO_planned_eco }
+		relative_position_id = SHO_Economy_rejuvenation
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_small_business_support"
+			add_ideas = SHO_assistance_small_businesses
+			custom_effect_tooltip = tooltip_white_line
+			swap_ideas = {
+				remove_idea = SHO_black_wednesday2
+				add_idea = SHO_black_wednesday3
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_PRODUCTION
+		}
+	}
+
+	focus = {
+		id = SHO_recive_loans
+		icon = GFX_goal_generic_debt_negotiations
+		x = 1
+		y = 5
+		cost = 6
+		prerequisite = { focus = SHO_small_business_support }
+		relative_position_id = SHO_Economy_rejuvenation
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_recive_loans"
+			swap_ideas = {
+				remove_idea = SHO_assistance_small_businesses
+				add_idea = SHO_assistance_small_businesses_1
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_PRODUCTION
+		}
+	}
+
+	focus = {
+		id = SHO_planned_eco
+		icon = GFX_focus_SOV_merge_plants
+		x = -1
+		y = 4
+		cost = 6
+		mutually_exclusive = {
+			focus = SHO_small_business_support
+		}
+		prerequisite = { focus = SHO_modernize_rural_areas }
+		prerequisite = {
+			focus = SHO_banking_reform 
+			focus = SHO_establish_free_ports
+		}
+		relative_position_id = SHO_Economy_rejuvenation
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_planned_eco"
+			swap_ideas = {
+				remove_idea = SHO_black_wednesday2
+				add_idea = SHO_black_wednesday3
+			}
+			add_one_random_civilian_factory = yes
+			add_one_random_civilian_factory = yes
+		}
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+			FOCUS_FILTER_PRODUCTION
+		}
+	}
+
+	focus = {
+		id = SHO_nationalize_industry
+		icon = GFX_focus_DEN_heavy_regulations
+		x = -1
+		y = 5
+		cost = 6
+		available = {
+			controls_state = 58
+		}
+		prerequisite = { focus = SHO_planned_eco }
+		relative_position_id = SHO_Economy_rejuvenation
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_nationalize_industry"
+			add_political_power = 25
+			custom_effect_tooltip = tooltip_white_line
+			add_ideas = SHO_nationalized_foreign_industries
+			custom_effect_tooltip = tooltip_white_line
+			add_one_random_military_factory = yes
+		}
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+			FOCUS_FILTER_PRODUCTION
+		}
+	}
+
+	focus = {
+		id = SHO_heart_of_industry
+		icon = GFX_goal_state_economy
+		x = 0
+		y = 6
+		cost = 6
+		prerequisite = { 
+			focus = SHO_nationalize_industry focus = SHO_recive_loans
+		}
+		relative_position_id = SHO_Economy_rejuvenation
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_heart_of_industry"
+			add_political_power = 25
+			remove_ideas = SHO_black_wednesday3
+		}
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+			FOCUS_FILTER_PRODUCTION
+		}
+	}
+
+	focus = {
+		id = SHO_defense_organization
+		icon = GFX_goal_generic_barricades
+		x = 8
+		y = 0
+		cost = 3
+		available = {
+			has_capitulated = no
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_defense_organization"
+			army_experience = 25
+		}
+		relative_position_id = SHO_Economy_rejuvenation
+		search_filters = {
+			FOCUS_FILTER_ARMY_EXPERIENCE
+		}
+	}
+
+	focus = {
+		id = SHO_canal_bunkers
+		icon = GFX_focus_FIN_coastal_defense
+		x = 0
+		y = 2
+		cost = 6
+		available = {
+			controls_state = 58
+			controls_state = 1071
+		}
+		bypass = {
+			has_global_flag = SHO_Flooded_canal
+		}
+		relative_position_id = SHO_defense_organization
+		prerequisite = {
+			focus = SHO_offensive_doctrine
+			focus = SHO_defensive_doctrine
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_canal_bunkers"
+			58 = {
+				add_building_construction = {
+					type = bunker
+					level = 3
+					province = 6389
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 3
+					province = 3368
+					instant_build = yes
+				}
+			}
+			1071 = {
+				add_building_construction = {
+					type = bunker
+					level = 1
+					province = 317
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 1
+					province = 3231
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = SHO_fighter_programme
+		icon = GFX_goal_generic_air_fighter2_new
+		x = 0
+		y = 4
+		cost = 6
+		relative_position_id = SHO_defense_organization
+		prerequisite = { focus = SHO_canal_bunkers }
+		prerequisite={
+			focus = SHO_resistance_doctrine2 
+			focus = SHO_artillery_corps
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_fighter_programme"
+			add_tech_bonus = {
+				name = fighter_bonus
+				bonus = 0.5
+				uses = 2
+				category = light_fighter
+				category = cat_heavy_fighter
+			}
+			hidden_effect = { SHO_Walter_Hagen = { set_nationality = ROOT } }
+			effect_tooltip = {
+				add_advisor_role = {
+					character = SHO_Walter_Hagen
+					advisor = {
+						cost = 100
+						slot = air_chief
+						idea_token = SHO_Walter_Hagen_cair
+						traits = { FX_air_chief_ground_support_2 }
+					}
+				}
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_AIRFORCE_BONUS
+		}
+	}
+
+	focus = {
+		id = SHO_expand_schleswig_airfield
+		icon = GFX_goal_generic_airports
+		x = -1
+		y = 5
+		cost = 6
+		available = {
+			controls_state = 1081
+		}
+		relative_position_id = SHO_defense_organization
+		prerequisite = {
+			focus = SHO_fighter_programme
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_fighter_programme"
+			1081 = {
+				add_building_construction = {
+					type = air_base
+					level = 4
+					instant_build = yes
+				}
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_AIRFORCE_BONUS
+		}
+	}
+	
+	focus = {
+		id = SHO_buy_English_old_submarines
+		icon = GFX_goal_AUS_unrestricted_submarine_warfare
+		x = 1
+		y = 5
+		cost = 6
+		relative_position_id = SHO_defense_organization
+		prerequisite = { focus = SHO_fighter_programme }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_fighter_programme"
+			add_tech_bonus = {
+				name = ss_bonus
+				bonus = 0.5
+				ahead_reduction = 1
+				uses = 1
+				technology = early_submarine
+				technology = basic_submarine
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_RESEARCH
+			FOCUS_FILTER_NAVY_BONUS
+		}
+	}
+	
+	focus = {
+		id = SHO_hanastic_fleet
+		icon = GFX_goal_generic_naval_fleet_in_being
+		x = 2
+		y = 6
+		cost = 6
+		relative_position_id = SHO_defense_organization
+		prerequisite = { focus = SHO_buy_English_old_submarines }
+		prerequisite = { focus = SHO_anti_air }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_defense_organization"
+			navy_experience = 20
+			add_tech_bonus = {
+				bonus = 0.5
+				uses = 1
+				category = ca_tech
+			}
+			add_tech_bonus = {
+				bonus = 0.5
+				uses = 1
+				category = cl_tech
+			}
+			add_tech_bonus = {
+				name = nav_doctrine_bonus
+				bonus = 0.3
+				uses = 2
+				category = fleet_in_being_tree
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_RESEARCH
+			FOCUS_FILTER_NAVY_BONUS
+		}
+	}
+
+	focus = {
+		id = SHO_army_reformed
+		icon = GFX_goal_military_academy
+		x = 0
+		y = 6
+		cost = 6
+		relative_position_id = SHO_defense_organization
+		prerequisite = { focus = SHO_expand_schleswig_airfield }
+		prerequisite = { focus = SHO_buy_English_old_submarines }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_fighter_programme"
+			army_experience = 50
+			hidden_effect = {
+				SHO_Erich_Dethleffsen = { set_nationality = ROOT }
+				SHO_Friedrich_Wiese = { set_nationality = ROOT }
+			}
+			effect_tooltip = {
+				add_corps_commander_role = {
+					character = SHO_Erich_Dethleffsen
+					traits = { career_officer }
+					skill = 1
+					attack_skill = 3
+					defense_skill = 2
+					planning_skill = 2
+					logistics_skill = 3
+				}
+				add_corps_commander_role = {
+					character = SHO_Friedrich_Wiese
+					traits = { infantry_officer career_officer }	
+					skill = 1
+					attack_skill = 2
+					defense_skill = 3
+					planning_skill = 3
+					logistics_skill = 2
+				}
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_ARMY_EXPERIENCE
+		}
+	}
+
+	focus = {
+		id = SHO_defensive_doctrine
+		icon = GFX_goal_generic_drafted_army
+		x = 2
+		y = 1
+		cost = 6
+		relative_position_id = SHO_defense_organization
+		prerequisite = { focus = SHO_defense_organization }
+		mutually_exclusive = { focus = SHO_offensive_doctrine }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_defensive_doctrine"
+			
+			add_doctrine_cost_reduction = {
+				name = land_doc_bonus
+				cost_reduction = 0.50
+				uses = 2
+				category = land_doctrine
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_ARMY_BONUS
+		}
+	}
+
+	focus = {
+		id = SHO_border_bunkers
+		icon = GFX_goal_generic_fortify_city
+		x = 2
+		y = 2
+		cost = 6
+		available = {
+			controls_state = 1081
+			controls_state = 58
+		}
+		relative_position_id = SHO_defense_organization
+		prerequisite = {
+			focus = SHO_defensive_doctrine
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_defense_organization"
+			58 = {
+				add_building_construction = {
+					type = bunker
+					level = 3
+					province = 6389
+					instant_build = yes
+				}
+			}
+			1081 = {
+				add_building_construction = {
+					type = bunker
+					level = 3
+					province = 4903
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = bunker
+					level = 3
+					province = 6257
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = SHO_artillery_corps
+		icon = GFX_goal_national_artillery
+		x = 1
+		y = 3
+		cost = 6
+		relative_position_id = SHO_defense_organization
+		prerequisite = { focus = SHO_border_bunkers }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_defense_organization"
+			add_tech_bonus = {
+				category = artillery
+				bonus = 0.75
+				uses = 2
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_ARMY_BONUS
+			FOCUS_FILTER_RESEARCH
+		}
+	}
+
+	focus = {
+		id = SHO_fortify_position
+		icon = GFX_goal_generic_army_superior_firepower
+		x = 3
+		y = 3
+		cost = 6
+		relative_position_id = SHO_defense_organization
+		prerequisite = {
+			focus = SHO_border_bunkers
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_defense_organization"
+			add_tech_bonus = {
+				category = engineers_tech
+				bonus = 1.0
+				uses = 1
+			}
+			add_tech_bonus = { 
+				bonus = 0.5 
+				uses = 2 
+				category = support_tech 
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_ARMY_BONUS
+			FOCUS_FILTER_RESEARCH
+		}
+	}
+
+	focus = {
+		id = SHO_anti_air
+		icon = GFX_goal_generic_air_defense2
+		x = 3
+		y = 5
+		cost = 6
+		relative_position_id = SHO_defense_organization
+		prerequisite = { focus = SHO_fortify_position }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_defense_organization"
+			if = {
+				limit = {
+					NOT = { has_tech = interwar_antiair }
+				}
+				set_technology = {
+					interwar_antiair = 1
+				}
+			}
+			else = {
+				add_tech_bonus = {
+					category = cat_anti_air
+					bonus = 1.0
+					uses = 1
+				}
+			}
+			effect_tooltip = {
+				add_equipment_to_stockpile = {
+					type = anti_air_equipment_1
+					amount = 500
+					producer = ROOT
+				}
+			}
+			hidden_effect = {
+				add_equipment_to_stockpile = {
+					type = anti_air_equipment_1
+					amount = 500
+					producer = ROOT
+				}
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_ARMY_BONUS
+		}
+	}
+
+	focus = {
+		id = SHO_protect_supply
+		icon = GFX_goal_ENG_supply_runs
+		x = 2
+		y = 4
+		cost = 6
+		available = {
+		}
+		relative_position_id = SHO_defense_organization
+		prerequisite = { focus = SHO_fortify_position }
+		prerequisite = { focus = SHO_artillery_corps }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_defense_organization"
+			add_ideas = generic_reformsupply_focus
+		}
+		search_filters = {
+			FOCUS_FILTER_ARMY_BONUS
+		}
+	}
+
+	focus = {
+		id = SHO_offensive_doctrine
+		icon = GFX_goal_offensive_army
+		x = -2
+		y = 1
+		cost = 6
+		relative_position_id = SHO_defense_organization
+		prerequisite = { focus = SHO_defense_organization }
+		mutually_exclusive = { focus = SHO_defensive_doctrine }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_offensive_doctrine"
+			add_doctrine_cost_reduction = {
+				name = doctrine_bonus
+				cost_reduction = 0.5
+				uses = 2
+				category = land_doctrine
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_ARMY_BONUS
+		}
+	}
+
+	focus = {
+		id = SHO_civilian_militias
+		icon = GFX_focus_generic_full_social_mobilization
+		x = -2
+		y = 2
+		cost = 6
+		relative_position_id = SHO_defense_organization
+		prerequisite = {
+			focus = SHO_offensive_doctrine
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_civilian_militias"
+			division_template = {
+				name = "Kieler Bürgerwehr"
+				is_locked = no
+				priority = 1
+				template_counter = 06
+				regiments = { 
+					militia = { x = 0 y = 0 }
+					militia = { x = 0 y = 1 }
+					militia = { x = 1 y = 0 }
+					militia = { x = 1 y = 1 }
+					militia = { x = 2 y = 0 }
+					militia = { x = 2 y = 1 }
+				}
+			}
+			58 = {
+				create_unit = {
+					division = "division_template = \"Kieler Bürgerwehr\" start_experience_factor = 0.5 start_equipment_factor = 1.0"
+					owner = ROOT
+					count = 3
+				}
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_ARMY_BONUS
+			FOCUS_FILTER_MANPOWER
+		}
+	}
+
+	focus = {
+		id = SHO_hit_and_run
+		icon = GFX_focus_prc_infiltration
+		x = -3
+		y = 3
+		cost = 6
+		relative_position_id = SHO_defense_organization
+		prerequisite = {
+			focus = SHO_civilian_militias
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_hit_and_run"
+			add_ideas = SHO_hit_and_run_idea
+		}
+		search_filters = {
+			FOCUS_FILTER_ARMY_BONUS
+		}
+	}
+
+	focus = {
+		id = SHO_merchant_fleet
+		icon = GFX_focus_generic_merchant_fleet
+		x = -4
+		y = 4
+		cost = 6
+		relative_position_id = SHO_defense_organization
+		prerequisite = {
+			focus = SHO_hit_and_run 
+			focus = SHO_establish_free_ports 
+			focus = SHO_banking_reform
+		}
+		prerequisite = { focus = SHO_expand_maritime_industry }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_merchant_fleet"
+			add_equipment_to_stockpile = { type = convoy_1 amount = 200 }
+		}
+	}
+
+	focus = {
+		id = SHO_motorized_divisions
+		icon = GFX_goal_generic_army_motorized
+		x = -3
+		y = 5
+		cost = 6
+		relative_position_id = SHO_defense_organization
+		prerequisite = { focus = SHO_hit_and_run }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_motorized_divisions"
+			add_tech_bonus = {
+				name = motorised_bonus
+				bonus = 0.5
+				uses = 1
+				technology = motorised_infantry
+			}
+			custom_effect_tooltip = tooltip_white_line
+			custom_effect_tooltip = SHO_motorized_divisions_tt
+			hidden_effect = {
+				division_template = {
+					name = "Leichten Brigade"
+					division_names_group = GER_ARM_01
+					regiments = {
+						motorized = { x = 0 y = 0 }
+						motorized = { x = 0 y = 1 }
+						motorized = { x = 1 y = 0 }
+						motorized = { x = 1 y = 1 }
+						light_armor = { x = 2 y = 0 }
+						light_armor = { x = 2 y = 1 }
+					}
+				}
+				58 = {
+					create_unit = {
+						division = "name = \"1. Leichten Brigade\" division_template = \"Leichten Brigade\" start_experience_factor = 0.1"
+						owner = ROOT
+					}
+					create_unit = {
+						division = "name = \"2. Leichten Brigade\" division_template = \"Leichten Brigade\" start_experience_factor = 0.1"
+						owner = ROOT
+					}
+				}
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_ARMY_BONUS
+			FOCUS_FILTER_MANPOWER
+		}
+	}
+
+	focus = {
+		id = SHO_resistance_doctrine2
+		icon = GFX_goal_generic_army_mass_assault
+		x = -1
+		y = 3
+		cost = 6
+		relative_position_id = SHO_defense_organization
+		prerequisite = { focus = SHO_civilian_militias }
+		bypass = {
+			has_completed_focus = SHO_resistance_doctrine
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_resistance_doctrine2"
+			add_ideas = SHO_army_defence
+		}
+		search_filters = {
+			FOCUS_FILTER_ARMY_BONUS
+		}
+	}
+
+	focus = {
+		id = SHO_develop_anti_tank
+		icon = GFX_focus_generic_tank_destroyer
+		x = -2
+		y = 4
+		cost = 6
+		relative_position_id = SHO_defense_organization
+		prerequisite = { focus = SHO_hit_and_run }
+		prerequisite = { focus = SHO_resistance_doctrine2 }
+		bypass = {
+			has_completed_focus = SHO_resistance_doctrine
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_develop_anti_tank"
+			add_tech_bonus = {
+				name = SHO_develop_anti_tank
+				bonus = 1
+				uses = 1
+				category = cat_anti_tank
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_ARMY_BONUS
+		}
+	}
+
+	focus = {
+		id = SHO_foreign_policy
+		icon = GFX_goal_generic_world_diplomacy
+		x = 8
+		y = 0
+		cost = 3
+		available = {
+			is_subject = no
+		}
+		relative_position_id = SHO_defense_organization
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_foreign_policy"
+			unlock_decision_tooltip = SHO_join_entente
+			unlock_decision_tooltip = SHO_join_internationale
+			hidden_effect = {
+				if = {
+					limit = { has_socialist_government = yes }
+					country_event = { id = kiel.55 days = 35 random_days = 25 }
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = SHO_spread_revolution
+		icon = GFX_focus_GER_hegemony_over_europe
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_socialist_government = yes
+			threat > 0.5
+		}
+		relative_position_id = SHO_foreign_policy
+		prerequisite = { focus = SHO_foreign_policy }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_spread_revolution"
+			increase_ruling_party_popularity_by_10 = yes
+		}
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+	}
+
+	focus = {
+		id = SHO_Support_communism
+		icon = GFX_focus_GER_spheres_of_influence
+		x = 0
+		y = 2
+		cost = 6
+		available = {
+			OR = {
+				has_government = collectivist
+				has_government = libertarian_socialist
+			}
+		}
+		relative_position_id = SHO_spread_revolution
+		prerequisite = { focus = SHO_spread_revolution }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_Support_opposition"
+			add_war_support = 0.1
+			add_manpower = 25000
+		}
+		search_filters = {
+			FOCUS_FILTER_MANPOWER
+		}
+	}
+
+	focus = {
+		id = SHO_soviet_deal
+		icon = GFX_focus_chi_mission_to_the_soviet_union
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			has_socialist_government = yes
+		}
+		relative_position_id = SHO_spread_revolution
+		prerequisite = { focus = SHO_spread_revolution }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_soviet_deal"
+			add_ideas = SHO_soviet_advisors
+			custom_effect_tooltip = tooltip_white_line
+			unlock_decision_tooltip = SHO_request_equipment
+			custom_effect_tooltip = tooltip_white_line
+			add_tech_bonus = {
+				category = armor
+				bonus = 0.75
+				uses = 2
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_ARMY_BONUS
+			FOCUS_FILTER_RESEARCH
+		}
+	}
+
+	focus = {
+		id = SHO_Destroy_Dressler
+		icon = GFX_goal_munitions_factories
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+			threat > 0.5
+		}
+		relative_position_id = SHO_foreign_policy
+		prerequisite = { focus = SHO_foreign_policy }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_Destroy_Dressler"
+			add_timed_idea = {
+				idea = SHO_preparing_for_war
+				days = 240
+			}
+		}
+	}
+
+	focus = {
+		id = SHO_Embargo_germany
+		icon = GFX_goal_generic_treaty_fails
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = SHO_spread_revolution
+		prerequisite = {
+			focus = SHO_Destroy_Dressler 
+			focus = SHO_spread_revolution
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_Embargo_germany"
+			GER = {
+				embargo_ROOT = yes
+				custom_effect_tooltip = tooltip_white_line 	
+				country_event = { id = kiel.35 days = 1 }
+				custom_effect_tooltip = will_get_event_with_effects
+			}
+			effect_tooltip = {
+				add_timed_idea = { idea = SHO_kiel_embargo days = 180 }
+			}
+		}
+	}
+	
+	focus = {
+		id = SHO_Support_opposition
+		icon = GFX_goal_renewed_militarism
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = SHO_Destroy_Dressler
+		prerequisite = { focus = SHO_Destroy_Dressler }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_Support_opposition"
+			GER = {
+				country_event = { id = kiel.32 days = 1 }
+				custom_effect_tooltip = will_get_event_with_effects
+			}
+			effect_tooltip = {
+				SHO_support_german_resistance = yes
+			}
+		}
+	}
+
+	focus = {
+		id = SHO_Brit_deal
+		icon = GFX_goal_GBR_big_ben
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			has_socialist_government = no
+			ENG = {
+				NOT = { is_in_faction_with = GER }
+			}
+		}
+		relative_position_id = SHO_Support_opposition
+		prerequisite = { focus = SHO_Support_opposition  }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_Embargo_germany"
+			add_ideas = SHO_british_advisors
+			custom_effect_tooltip = tooltip_white_line
+			unlock_decision_tooltip = SHO_request_equipment
+			custom_effect_tooltip = tooltip_white_line
+			add_tech_bonus = {
+				category = infantry_weapons
+				category = armor
+				bonus = 0.75
+				uses = 2
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_ARMY_BONUS
+			FOCUS_FILTER_RESEARCH
+		}
+	}
+
+	focus = {
+		id = SHO_Liberate_Germany
+		icon = GFX_goal_generic_attack_german_reich
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			is_subject = no
+			country_exists = GER
+		}
+		relative_position_id = SHO_Embargo_germany
+		prerequisite = { 
+			focus = SHO_Support_opposition
+			focus = SHO_Embargo_germany
+		}
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_Embargo_germany"
+			create_wargoal = {
+				type = annex_everything
+				target = GER
+			}
+			hidden_effect = { activate_targeted_decision = { target = GER decision = SHO_invade_germany } }
+		}
+		search_filters = {
+			FOCUS_FILTER_ANNEXATION
+		}
+	}
+	
+	### Postwar Germany
+	
+	focus = { # Spartacus Avenged
+		id = SHO_spartacus_avenged 
+		icon = GFX_focus_GER_integrate_volkskommissariats
+		x = 17
+		y = 8
+		cost = 6
+		allow_branch = {
+			has_country_flag = SHO_united_germany
+			has_socialist_government = yes
+		}
+		available = {
+			hidden_trigger = { always = no }
+		}
+		bypass = {
+			has_country_flag = SHO_united_germany
+		}
+		ai_will_do = { factor = 10 }
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_spartacus_avenged"
+			custom_effect_tooltip = unlock_focuses
+		}
+	}
+	
+	focus = { # Commence Devalkification
+		id = SHO_commence_devalkification
+		icon = GFX_goal_generic_crush_valkists
+		x = 3
+		y = 1
+		cost = 6
+		available = {
+			NOT = { has_government = valkist }
+		}
+		relative_position_id = SHO_spartacus_avenged
+		prerequisite = { focus = SHO_spartacus_avenged }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_commence_devalkification"			
+			set_variable = { SHO_resistance_days_remove = 180 }
+			unlock_decision_category_tooltip = SHO_devalkification
+		}
+	}
+
+	focus = { # Strengthen the Security Apparatus
+		id = SHO_strengthen_the_security_apparatus
+		icon = GFX_goal_generic_espionage
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			NOT = { has_government = valkist }
+		}
+		relative_position_id = SHO_commence_devalkification
+		prerequisite = { focus = SHO_commence_devalkification }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_strengthen_the_security_apparatus"			
+			if = {
+				limit = { has_intelligence_agency = no }
+				create_intelligence_agency = yes
+				custom_effect_tooltip = tooltip_white_line
+			}
+
+			if = {
+				limit = {
+					NOT = { has_done_agency_upgrade = upgrade_anti_partisan }
+				}
+				upgrade_intelligence_agency = upgrade_anti_partisan
+			}
+			if = {
+				limit = {
+					NOT = { has_done_agency_upgrade = upgrade_interrogation_techniques }
+				}
+				upgrade_intelligence_agency = upgrade_interrogation_techniques
+			}
+			custom_effect_tooltip = tooltip_white_line
+			custom_effect_tooltip = SHO_strengthen_the_security_apparatus_tt
+			hidden_effect = {
+				subtract_from_variable = { SHO_resistance_days_remove = 60 }
+			}
+		}
+	}
+
+	focus = { # Reeducate the Masses
+		id = SHO_reeducate_the_masses
+		icon = GFX_goal_generic_cinema
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			NOT = { has_government = valkist }
+		}
+		relative_position_id = SHO_strengthen_the_security_apparatus
+		prerequisite = { focus = SHO_strengthen_the_security_apparatus }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_reeducate_the_masses"			
+			SHO_improve_legitimacy = yes
+		}
+	}
+
+	focus = { # Crush the Werwolf
+		id = SHO_crush_the_werwolf
+		icon = GFX_goal_generic_blow_up_valkism
+		x = 0
+		y = 2
+		cost = 6
+		available = {
+			NOT = { has_government = valkist }
+		}
+		relative_position_id = SHO_strengthen_the_security_apparatus
+		prerequisite = { focus = SHO_strengthen_the_security_apparatus }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_crush_the_werwolf"
+			add_equipment_to_stockpile = {
+				type = infantry_equipment_1
+				amount = 4000
+				producer = ROOT
+			}
+			custom_effect_tooltip = tooltip_white_line
+			custom_effect_tooltip = SHO_crush_the_werwolf_tt		
+			subtract_from_variable = { SHO_resistance_days_remove = 60 }
+		}
+	}
+
+	focus = { # Reorganize the Reich Economic Chamber
+		id = SHO_reorganize_the_reich_economic_chamber
+		icon = GFX_goal_generic_revolutionary_government
+		x = -3
+		y = 1
+		cost = 6
+		available = {
+			NOT = { has_government = valkist }
+		}
+		relative_position_id = SHO_commence_devalkification
+		prerequisite = { focus = SHO_commence_devalkification }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_reorganize_the_reich_economic_chamber"			
+			add_political_power = 100
+			custom_effect_tooltip = tooltip_white_line
+			SHO_improve_legitimacy = yes
+		}
+	}
+
+	focus = { # Start the Rationing
+		id = SHO_start_the_rationing
+		icon = GFX_focus_generic_price_controls
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			NOT = { has_government = valkist }
+		}
+		relative_position_id = SHO_reorganize_the_reich_economic_chamber
+		prerequisite = { focus = SHO_reorganize_the_reich_economic_chamber }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_start_the_rationing"			
+			SHO_improve_legitimacy = yes
+		}
+	}
+
+	focus = { # Repeal Valkist Economic Laws
+		id = SHO_repeal_valkist_economic_laws
+		icon = GFX_goal_treaty_fails
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			NOT = { has_government = valkist }
+		}
+		relative_position_id = SHO_reorganize_the_reich_economic_chamber
+		prerequisite = { focus = SHO_reorganize_the_reich_economic_chamber }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_repeal_valkist_economic_laws"			
+			add_ideas = SHO_new_economic_policy
+		}
+	}
+
+	focus = { # Transition to Market Socialism
+		id = SHO_transition_to_market_socialism
+		icon = GFX_goal_generic_market_socialism
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			NOT = { has_government = valkist }
+		}
+		mutually_exclusive = { focus = SHO_five_year_plan }
+		relative_position_id = SHO_repeal_valkist_economic_laws
+		prerequisite = { focus = SHO_repeal_valkist_economic_laws }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_transition_to_market_socialism"			
+			swap_ideas = {
+				remove_idea = SHO_new_economic_policy
+				add_idea = SHO_kieler_market_socialism
+			}
+		}
+	}
+
+	focus = { # Five Year Plan
+		id = SHO_five_year_plan
+		icon = GFX_goal_generic_workers_democracy
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			NOT = { has_government = valkist }
+		}
+		mutually_exclusive = { focus = SHO_transition_to_market_socialism }
+		relative_position_id = SHO_repeal_valkist_economic_laws
+		prerequisite = { focus = SHO_repeal_valkist_economic_laws }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_five_year_plan"			
+			swap_ideas = {
+				remove_idea = SHO_new_economic_policy
+				add_idea = SHO_socialist_five_year_plan
+			}
+		}
+	}
+
+	focus = { # Stick with Moskau
+		id = SHO_stick_with_moskau
+		icon = GFX_focus_GER_spheres_of_influence
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			country_exists = SOV
+			NOT = { has_war_with = SOV }
+		}
+		mutually_exclusive = { focus = SHO_proclaim_the_fourth_internationale }
+		relative_position_id = SHO_spartacus_avenged
+		prerequisite = { focus = SHO_spartacus_avenged }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_stick_with_moskau"			
+			add_political_power = 100
+			SOV = {
+				add_opinion_modifier = {
+					modifier = FX_approves_of_govt
+					target = ROOT
+				}
+			}
+		}
+	}
+
+	focus = { # Proclaim the Fourth Internationale
+		id = SHO_proclaim_the_fourth_internationale
+		icon = GFX_focus_GER_the_peoples_victory
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			is_subject = no
+			has_capitulated = no
+		}
+		mutually_exclusive = { focus = SHO_stick_with_moskau }
+		relative_position_id = SHO_spartacus_avenged
+		prerequisite = { focus = SHO_spartacus_avenged }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_proclaim_the_fourth_internationale"
+			if = {
+				limit = { is_in_faction = yes }
+				leave_faction = yes
+			}
+			create_faction = SHO_fourth_internationale
+		}
+	}
+
+	focus = { # Dealing with Separatists
+		id = SHO_dealing_with_separatists
+		icon = GFX_goal_generic_spreading_the_revolution
+		x = -3
+		y = 1
+		cost = 6
+		available = {
+			has_capitulated = no
+		}
+		relative_position_id = SHO_spartacus_avenged
+		prerequisite = { focus = SHO_spartacus_avenged }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_dealing_with_separatists"			
+			add_war_support = 0.1
+			custom_effect_tooltip = tooltip_white_line
+			increase_mobilization = yes
+		}
+	}
+
+	focus = { # Rhine
+		id = SHO_rhine
+		icon = GFX_goal_RHI_Interallied_Gov
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			country_exists = RHI
+			NOT = { is_in_faction_with = RHI }
+		}
+		relative_position_id = SHO_dealing_with_separatists
+		prerequisite = { focus = SHO_dealing_with_separatists }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_rhine"
+			create_wargoal = {
+				target = RHI
+				type = annex_everything
+			}			
+		}
+	}
+
+	focus = { # Bavaria
+		id = SHO_bavaria
+		icon = GFX_goal_BAY_in_treu_fest
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			country_exists = BAY
+			NOT = { is_in_faction_with = BAY }
+		}
+		relative_position_id = SHO_dealing_with_separatists
+		prerequisite = { focus = SHO_dealing_with_separatists }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_bavaria"	
+			create_wargoal = {
+				target = BAY
+				type = annex_everything
+			}			
+		}
+	}
+
+	focus = { # Prussia
+		id = SHO_prussia
+		icon = GFX_goal_GER_legacy_of_great_war
+		x = 0
+		y = 2
+		cost = 6
+		available = {
+			country_exists = PRS
+			NOT = { is_in_faction_with = PRS }
+		}
+		relative_position_id = SHO_dealing_with_separatists
+		prerequisite = { focus = SHO_dealing_with_separatists }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_prussia"		
+			create_wargoal = {
+				target = PRS
+				type = annex_everything
+			}		
+		}
+	}
+
+	focus = { # Look Onwards
+		id = SHO_look_onwards
+		icon = GFX_focus_CHL_union_of_hispanic_republics
+		x = 5
+		y = 1
+		cost = 6
+		available = {
+			is_subject = no
+		}
+		relative_position_id = SHO_spartacus_avenged
+		prerequisite = { focus = SHO_spartacus_avenged }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_look_onwards"	
+			add_political_power = 100		
+		}
+	}
+
+	focus = { # Reach out to Norway
+		id = SHO_reach_out_to_norway
+		icon = GFX_focus_NOR_a_resurgent_labor_movement
+		x = -1
+		y = 1
+		cost = 6
+		available = {
+			country_exists = NOR
+			NOR = { has_socialist_government = yes }
+			NOT = { has_war_with = NOR }
+		}
+		relative_position_id = SHO_look_onwards
+		prerequisite = { focus = SHO_look_onwards }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_reach_out_to_norway"
+			NOR = {
+				country_event = { id = kiel.71 days = 2 }
+				effect_tooltip = { SHO_foreign_support = yes }
+			}			
+		}
+	}
+
+	focus = { # Intervention in Spain
+		id = SHO_intervention_in_spain
+		icon = GFX_focus_spr_war_of_independence
+		x = 1
+		y = 1
+		cost = 6
+		available = {
+			num_divisions > 15
+			NOT = { has_global_flag = SPR_spanish_civil_war_ended_flag }
+			country_exists = SPA
+			NOT = { has_war_with = SPA }
+		}
+		relative_position_id = SHO_look_onwards
+		prerequisite = { focus = SHO_look_onwards }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_intervention_in_spain"			
+			add_ideas = SHO_spanish_civil_war_intervention
+			custom_effect_tooltip = tooltip_white_line
+			SPA = {
+				country_event = { id = kiel.71 days = 2 }
+				effect_tooltip = { SHO_foreign_support = yes }
+			}
+		}
+	}
+
+	focus = { # Allies in Madrid
+		id = SHO_allies_in_madrid
+		icon = GFX_focus_intervention_spain_republic
+		x = 0
+		y = 1
+		cost = 6
+		available = {
+			has_global_flag = SPR_spanish_civil_war_ended_flag
+			country_exists = SPA
+			NOT = { has_war_with = SPA }
+		}
+		relative_position_id = SHO_intervention_in_spain
+		prerequisite = { focus = SHO_intervention_in_spain }
+		completion_reward = {
+			log = "[GetDateText]: [Root.GetName]: Focus SHO_allies_in_madrid"	
+			SPA = { save_event_target_as = target_country }
+			if = {
+				limit = { 
+					is_faction_leader = no
+					is_in_faction = yes
+				}
+				faction_leader = {
+					country_event = { id = kiel.75 days = 2 }
+				}
+			}	
+			else_if = {
+				limit = { is_faction_leader = yes }
+				event_target:target_country = {
+					country_event = { id = kiel.72 days = 2 }
+				}
+			}
+			else = {
+				effect_tooltip = {
+					SPA = {
+						country_event = { id = kiel.72 days = 2 }
+					}
+				}
+			}
+		}
+	}
+	
+	
+}

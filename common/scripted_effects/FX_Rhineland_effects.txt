@@ -1,0 +1,1943 @@
+RHI_setup_resources_to_FRA = {
+	for_each_scope_loop = {
+		array = RHI.owned_controlled_states
+		OWNER = {
+			give_resource_rights = {
+				receiver = FRA
+				state = PREV
+			}
+		}
+	}
+	set_country_flag = RHI_pays_resource_reparations
+}
+RHI_rm_resources_of_FRA = {
+	for_each_scope_loop = {
+		array = RHI.owned_controlled_states
+		if = {
+			limit = {
+				has_resources_rights = {
+					receiver = FRA
+				}
+			}
+			FRA = { remove_resource_rights = PREV }
+		}
+	}
+	clr_country_flag = RHI_pays_resource_reparations
+}
+RHI_rm_resources_of_FRA_localised = {
+	RHI_rm_resources_of_FRA = yes
+	effect_tooltip = { # arrays dont support loc
+		every_state = {
+			limit = {
+				is_owned_by = RHI
+				has_resources_rights = { receiver = FRA }
+			}
+			FRA = { remove_resource_rights = PREV }
+		}
+	}
+}
+RHI_rm_resources_of_FRA_and_idea_with_influence = {
+	RHI_rm_resources_of_FRA_localised = yes
+	swap_ideas = {
+		remove_idea = RHI_french_reparations_2
+		add_idea = RHI_french_reparations_3
+	}
+}
+# How to use?
+# eg. set_temp_variable = { RHI_strengthens_seperatist = 0 } # the other is RHI_strengthens_republican, adenauer is default
+# set_temp_variable = { RHI_party_boost_amt = 10 } # use whole numbers
+# RHI_add_starting_pow = yes
+
+RHI_add_starting_pow = {
+	custom_effect_tooltip = RHI_strengthen_who
+	hidden_effect = {
+		if = {
+			limit = { 
+				has_variable = RHI_strengthens_republican
+				check_variable = { RHI_strengthens_republican = 0 }
+			}
+			add_to_variable = { RHI_rep_power = RHI_party_boost_amt }
+		}
+		else_if = {
+			limit = { 
+				has_variable = RHI_strengthens_seperatist
+				check_variable = { RHI_strengthens_seperatist = 0 }
+			}
+			add_to_variable = { RHI_sep_power = RHI_party_boost_amt }
+		}
+		else = {
+			add_to_variable = { RHI_ade_power = RHI_party_boost_amt }
+		}
+	}
+}
+
+RHI_german_power_change = {
+	if = {
+		limit = { has_variable = RHI_german_power_up }
+		custom_effect_tooltip = RHI_german_power_up
+		add_to_variable = { RHI_german_power = RHI_german_power_up_raise }
+	}
+	else = {
+		custom_effect_tooltip = RHI_german_power_down
+		add_to_variable = { RHI_german_power = -20 }
+		RHI_mission_extend = yes
+	}
+}
+
+RHI_mission_extend = {
+	if = {
+		limit = { has_active_mission = RHI_increase_pressure }
+		add_days_mission_timeout = { mission = RHI_increase_pressure days = 7 }
+		GER = { add_days_remove = { decision = GER_increase_pressure days = 7 } }
+	}
+	if = {
+		limit = { has_active_mission = RHI_unleash_valkists }
+		add_days_mission_timeout = { mission = RHI_unleash_valkists days = 10 }
+		GER = { add_days_remove = { decision = GER_unleash_valkists days = 10 } }
+	}
+	else_if = {
+		limit = { has_active_mission = RHI_send_lutze }
+		add_days_mission_timeout = { mission = RHI_send_lutze days = 10 }
+		GER = { add_days_remove = { decision = GER_send_lutze days = 10 } }
+	}
+	else_if = {
+		limit = { has_active_mission = RHI_propagandize_rhineland_bastards }
+		add_days_mission_timeout = { mission = RHI_propagandize_rhineland_bastards days = 10 }
+		GER = { add_days_remove = { decision = GER_propagandize_rhineland_bastards days = 10 } }
+	}
+	else_if = {
+		limit = { has_active_mission = RHI_activate_tst_cells }
+		add_days_mission_timeout = { mission = RHI_activate_tst_cells days = 10 }
+		GER = { add_days_remove = { 	decision = GER_activate_tst_cells 	days = 10 } }
+	}
+	else_if = {
+		limit = { has_active_mission = RHI_support_antirepublicans }
+		add_days_mission_timeout = { mission = RHI_support_antirepublicans days = 10 }
+		GER = { add_days_remove = { decision = GER_support_antirepublicans 	days = 10 } }
+	}
+}
+
+RHI_recover_lsmc = {
+	if = {
+		limit = { has_idea = RHI_stock_market_crash }
+		swap_ideas = {
+			remove_idea = RHI_stock_market_crash
+			add_idea = RHI_stock_market_crash_1
+		}
+	}
+	else_if = {
+		limit = { has_idea = RHI_stock_market_crash_1 }
+		swap_ideas = {
+			remove_idea = RHI_stock_market_crash_1
+			add_idea = RHI_stock_market_crash_2
+		}
+	}
+	else_if = {
+		limit = { has_idea = RHI_stock_market_crash_2 }
+		swap_ideas = {
+			remove_idea = RHI_stock_market_crash_2
+			add_idea = RHI_stock_market_crash_3
+		}
+	}
+	else_if = {
+		limit = { has_idea = RHI_stock_market_crash_3 }
+		remove_ideas = RHI_stock_market_crash_3
+	}
+}
+
+RHI_transitioning_economy_change = {
+	if = {
+		limit = { has_idea = RHI_transitioning_economy }
+		swap_ideas = {
+			remove_idea = RHI_transitioning_economy
+			add_idea = RHI_transitioning_economy1
+		}
+	}
+	else_if = {
+		limit = { has_idea = RHI_transitioning_economy1 }
+		remove_ideas = RHI_transitioning_economy1
+		custom_effect_tooltip = tooltip_white_line
+		add_timed_idea = {
+			idea = RHI_transitioning_economy2
+			days = 200
+		}
+	}
+	else = {
+		effect_tooltip = {
+			swap_ideas = {
+				remove_idea = RHI_transitioning_economy
+				add_idea = RHI_transitioning_economy1
+			}
+		}
+	}
+}
+
+RHI_degrade_political_powderkeg = {
+	if = {
+		limit = {
+			has_idea = RHI_political_powderkeg
+		}
+		swap_ideas = {
+			remove_idea = RHI_political_powderkeg
+			add_idea = RHI_political_powderkeg_2
+		}
+	} 
+	else_if = {
+		limit = {
+			has_idea = RHI_political_powderkeg_2
+		}
+		swap_ideas = {
+			remove_idea = RHI_political_powderkeg_2
+			add_idea = RHI_political_powderkeg_3
+		}
+	}
+	else = { remove_ideas = RHI_political_powderkeg_3 }
+}
+
+RHI_reichswehr_pleased = {
+	custom_effect_tooltip = RHI_reichswehr_happy_tt
+	set_country_flag = RHI_reichswehr_happy
+}
+
+RHI_reichswehr_antagonized = {
+	custom_effect_tooltip = RHI_reichswehr_angry_tt
+	set_country_flag = RHI_reichswehr_angry
+}
+
+# to use:
+# eg. set_temp_variable = { RHI_separatist_sentiment_change = -0.005 }
+# RHI_separatist_sentiment_change = yes
+
+RHI_separatist_sentiment_change = {
+	if = {
+		limit = { has_country_flag = RHI_separatist_sentiment_mechanic } # faster
+		hidden_effect = { # for tooltip
+			set_temp_variable = { RHI_separatist_sentiment_100 = RHI_separatist_sentiment_change }
+			divide_temp_variable = { RHI_separatist_sentiment_100 = 0.3 }
+			set_temp_variable = { RHI_separatist_sentiment_change_2 = RHI_separatist_sentiment_change } 
+			multiply_temp_variable = { RHI_separatist_sentiment_change_2 = 2 }
+		}
+		custom_effect_tooltip = RHI_separatist_sentiment_change_tt
+		hidden_effect = {
+			add_to_variable = { RHI_separatist_sentiment = RHI_separatist_sentiment_change }
+			add_to_variable = { RHI_separatist_sentiment_double = RHI_separatist_sentiment_change_2 }
+			force_update_dynamic_modifier = yes
+			clamp_variable = {
+				var = RHI_separatist_sentiment
+				max = 0.15
+				min = -0.15
+			}
+			clamp_variable = {
+				var = RHI_separatist_sentiment_double
+				max = 0.3
+				min = -0.3
+			}
+		}
+	}
+}
+
+RHI_ze_missions = {
+	if = {
+		limit = { has_country_flag = RHI_separatist_sentiment_mechanic }
+		random_list = {
+			25 = {
+				modifier = {
+					factor = 0.4
+					has_country_flag = RHI_z_like_sep
+				}
+				activate_mission = RHI_z_criticism
+			}
+			60 = {
+				activate_mission = RHI_z_skepticism
+			}
+			25 = {
+				modifier = {
+					factor = 0.4
+					has_country_flag = RHI_z_dislike_sep
+				}
+				activate_mission = RHI_z_support
+			}
+			10 = {
+				country_event = { id = rhein.31 days = 60 }
+			}
+		}
+		if = {
+			limit = { has_country_flag = RHI_z_like_sep }
+			clr_country_flag = RHI_z_like_sep
+		}
+		if = {
+			limit = { has_country_flag = RHI_z_dislike_sep }
+			clr_country_flag = RHI_z_dislike_sep
+		}
+	}
+}
+
+RHI_radicals_yes_no = {
+	if = {
+		limit = { has_country_flag = RHI_separatist_sentiment_mechanic }
+		random_list = {
+			55 = {
+				country_event = { id = rhein.31 days = 60 }
+			}
+			45 = {
+				activate_mission = RHI_radical_attacks
+			}
+		}
+	}
+}
+
+RHI_coalition_cracks = {
+	if = {
+		limit = { NOT = { has_country_flag = RHI_no_power_struggle } }
+		custom_effect_tooltip = RHI_displease_coalition
+		hidden_effect = {
+			if = {
+				limit = { has_country_leader = { character = RHI_Josef_Friedrich_Matthes } }
+				country_event = rhein.separatist.4
+			}
+			else = { country_event = rhein.separatist.5 }
+		}
+	}
+}
+
+RHI_gov_sep_showdown = {
+	activate_targeted_decision = { target = RHI decision = RHI_gov_promise_german_solution }
+	if = {
+		limit = { has_global_flag = RHI_FRA_big_mad }
+		clr_global_flag = RHI_FRA_big_mad
+	}
+	else = { activate_targeted_decision = { target = RHI decision = RHI_gov_paris_stability } }
+}
+
+RHI_clear_showdown = {
+	hidden_effect = {
+		clr_country_flag = RHI_sep_showdown
+		if = {
+			limit = { has_country_flag = RHI_matthes_playing }
+			clr_country_flag = RHI_matthes_playing
+		}
+		remove_targeted_decision = { target = RHI decision = RHI_matthes_rally_workers }
+		remove_targeted_decision = { target = RHI decision = RHI_matthes_use_von_metzen }
+		remove_targeted_decision = { target = RHI decision = RHI_matthes_enlist_french_support }
+		remove_targeted_decision = { target = RHI decision = RHI_dorten_demonize_matthes_socialism }
+		remove_targeted_decision = { target = RHI decision = RHI_dorten_negotiate_with_z }
+		remove_targeted_decision = { target = RHI decision = RHI_dorten_work_with_business }
+		remove_targeted_decision = { target = RHI decision = RHI_opp_demonstrate_gov_incompetence }
+		remove_targeted_decision = { target = RHI decision = RHI_opp_work_with_exiles }
+		remove_targeted_decision = { target = RHI decision = RHI_gov_paris_stability }
+		remove_targeted_decision = { target = RHI decision = RHI_gov_promise_german_solution }
+	}
+}
+
+RHI_clear_sep_sentiments = {
+	hidden_effect = {
+		clr_country_flag = RHI_separatist_sentiment_mechanic
+		clear_variable = RHI_separatist_sentiment
+		clear_variable = RHI_separatist_sentiment_double
+		clear_variable = RHI_separatist_pp_factor
+		remove_dynamic_modifier = { modifier = RHI_Separatist_Sentiments }
+		remove_targeted_decision = { target = RHI decision = RHI_upgrade_separatist_stage }
+		remove_targeted_decision = { target = RHI decision = RHI_weld_the_movements }
+		remove_targeted_decision = { target = RHI decision = RHI_concessions_to_other }
+		remove_targeted_decision = { target = RHI decision = RHI_convert_the_weimarers }
+		remove_targeted_decision = { target = RHI decision = RHI_emphasize_rhenish_genius }
+		remove_targeted_decision = { target = RHI decision = RHI_propagate_bund_heritage }
+		remove_targeted_decision = { target = FRA decision = RHI_establish_foreign_embassies }
+		remove_targeted_decision = { target = BEL decision = RHI_establish_foreign_embassies }
+		remove_targeted_decision = { target = USA decision = RHI_establish_foreign_embassies }
+		remove_targeted_decision = { target = SOV decision = RHI_establish_foreign_embassies }
+		remove_targeted_decision = { target = JAP decision = RHI_establish_foreign_embassies }
+		remove_targeted_decision = { target = ITA decision = RHI_establish_foreign_embassies }
+		remove_targeted_decision = { target = ENG decision = RHI_establish_foreign_embassies }
+		
+		if = {
+			limit = { has_active_mission = RHI_splits_in_coalition }
+			remove_mission = RHI_splits_in_coalition
+		}
+		if = {
+			limit = { has_active_mission = RHI_radical_attacks }
+			remove_mission = RHI_radical_attacks
+		}
+		if = {
+			limit = { has_active_mission = RHI_z_criticism }
+			remove_mission = RHI_z_criticism
+		}
+		if = {
+			limit = { has_active_mission = RHI_z_skepticism }
+			remove_mission = RHI_z_skepticism
+		}	
+		if = {
+			limit = { has_active_mission = RHI_z_support }
+			remove_mission = RHI_z_support
+		}		
+			
+	}
+}
+
+RHI_randomical_missions = {
+	random_list = {
+		50 = {
+			modifier = {
+				factor = 0
+				has_country_flag = RHI_banned_valkists
+			}
+			activate_mission = RHI_valkist_agitation
+		}
+		50 = {
+			modifier = {
+				factor = 0
+				has_country_flag = RHI_banned_valkists
+			}
+			activate_mission = RHI_german_interference
+		}
+	}
+	random_list = {
+		50 = {
+			activate_mission = RHI_communist_attacks
+			modifier = {
+				factor = 0.75
+				has_country_flag = RHI_put_down_communists
+			}
+			modifier = {
+				factor = 0 
+				OR = {
+					has_country_flag = RHI_no_communist_activity
+					is_in_coalition_with_vanguardist = yes
+					is_in_coalition_with_collectivist = yes
+				}
+			}
+		}
+		50 = {
+			modifier = {
+				factor = 0.35
+				has_country_flag = RHI_no_faur
+			}
+			modifier = {
+				factor = 0
+				OR = {
+					is_in_coalition_with_social_democrat = yes
+					is_in_coalition_with_libertarian_socialist = yes
+				}
+			}
+			activate_mission = RHI_union_organizing
+		}
+	}
+	if = {
+		limit = { has_completed_focus = RHI_dorten_adenauer_federalism }
+		random_list = {
+			50 = {
+				country_event = { id = rhein.federals.6 random_days = 180 }
+			}
+			75 = {
+			}
+		}
+	}
+	clr_country_flag = RHI_put_down_communists
+	clr_country_flag = RHI_no_communist_activity
+}
+
+RHI_republican_stability_action = {
+	set_temp_variable = { RHI_republican_stability_add = RHI_change_projection }
+	if = {
+		limit = { coalition_majority = yes }
+		add_to_temp_variable  = { RHI_republican_stability_add = 0.001 }
+	}
+	if = {
+		limit = { check_variable = { party_popularity@ruling_party > 0.5 } }
+		add_to_temp_variable  = { RHI_republican_stability_add = 0.004 }
+	}
+	if = {
+		limit = { has_country_flag = RHI_reichswehr_happy }
+		add_to_temp_variable  = { RHI_republican_stability_add = 0.003 }
+	}
+	if = {
+		limit = { has_country_flag = RHI_reichswehr_angry }
+		add_to_temp_variable  = { RHI_republican_stability_add = -0.002 }
+	}
+	add_to_variable = { RHI_republican_stability = RHI_republican_stability_add }
+	multiply_temp_variable = { RHI_republican_stability_add = 2 }
+	add_to_variable = { RHI_republican_stability_double = RHI_republican_stability_add }
+	RHI_randomical_missions = yes
+	force_update_dynamic_modifier = yes
+	clr_country_flag = RHI_reichswehr_happy
+	clr_country_flag = RHI_reichswehr_angry
+	clamp_variable = {
+		var = RHI_republican_stability
+		max = 0
+	}
+	clamp_variable = {
+		var = RHI_republican_stability_double
+		max = 0
+	}
+}
+
+# to use:
+# eg. set_temp_variable = { RHI_change_projection_add = -0.005 }
+# RHI_republican_stability_decrease = yes
+RHI_republican_stability_decrease = {
+	if = {
+		limit = { has_country_flag = RHI_republican_stability_mechanic }
+		custom_effect_tooltip = RHI_projection_decrease_tt
+		hidden_effect = {
+			add_to_variable = { RHI_change_projection = RHI_change_projection_add }
+		}
+	}
+}
+
+# to use:
+# eg. set_temp_variable = { RHI_republican_stability_change = -0.005 }
+# RHI_republican_stability_change = yes
+RHI_republican_stability_change = {
+	if = {
+		limit = { has_country_flag = RHI_republican_stability_mechanic }
+		custom_effect_tooltip = RHI_republican_stability_change_tt
+		hidden_effect = {
+			add_to_variable = { RHI_republican_stability = RHI_republican_stability_change }
+			multiply_temp_variable = { RHI_republican_stability_change = 2 }
+			add_to_variable = { RHI_republican_stability_double = RHI_republican_stability_change }
+			force_update_dynamic_modifier = yes
+			clamp_variable = {
+				var = RHI_republican_stability
+				max = 0
+				min = -0.5
+			}
+			clamp_variable = {
+				var = RHI_republican_stability_double
+				max = 0
+				min = -0.75
+			}
+		}
+	}
+}
+
+# to use:
+# eg. set_temp_variable = { RHI_federal_progress_change = 5 }
+# RHI_federal_progress = yes
+RHI_federal_progress = {
+	if = {
+		limit = { has_variable = RHI_federalism_progress }
+		custom_effect_tooltip = RHI_federal_progress_tt
+		hidden_effect = {
+			add_to_variable = { RHI_federalism_progress  = RHI_federal_progress }
+			clamp_variable = {
+				var = RHI_federalism_progress
+				max = 100
+				min = 0
+			}
+		}
+	}
+}
+
+RHI_federal_republic_effect = { 
+	if = {
+		limit = { check_variable = { RHI_federalism_progress > 74 } }
+		set_temp_variable = { RHI_federalism_add = RHI_federalism_progress }
+		add_to_temp_variable = { RHI_federalism_add = -75 }
+		multiply_temp_variable = { RHI_federalism_add = 2 }
+		add_political_power = RHI_federalism_add
+	}
+	else_if = {
+		limit = { 
+			check_variable = { RHI_federalism_progress > 49 }
+			check_variable = { RHI_federalism_progress < 75 }
+		}
+		add_political_power = -100
+		add_stability = -0.1
+		add_war_support = -0.15
+		add_ideas = RHI_the_federal_state
+	}
+	else_if = {
+		limit = { 
+			check_variable = { RHI_federalism_progress > 24 }
+			check_variable = { RHI_federalism_progress < 50 }
+		}
+		add_ideas = RHI_deep_reforms
+	}
+	else = {
+		add_political_power = -100
+		add_stability = -0.1
+		add_war_support = -0.15
+		add_ideas = RHI_surface_reforms
+	}
+	clear_variable = RHI_federalism_progress
+	remove_targeted_decision = { target = RHI decision = RHI_diminish_prussia }
+	remove_targeted_decision = { target = RHI decision = RHI_destroy_prussia }
+	remove_targeted_decision = { target = RHI decision = RHI_reichsreform }
+	remove_targeted_decision = { target = RHI decision = RHI_overhaul_bureaucracy }
+	remove_targeted_decision = { target = RHI decision = RHI_the_federal_military }
+	remove_targeted_decision = { target = RHI decision = RHI_rhineland_autonomy }
+}
+
+RHI_check_radical_power = {
+	set_temp_variable = { RHI_radical_popularity = party_popularity@valkist }
+	add_to_temp_variable = { RHI_radical_popularity = party_popularity@vanguardist }
+	add_to_temp_variable = { RHI_radical_popularity = party_popularity@collectivist }
+	set_temp_variable = { RHI_other_radical_popularity = party_popularity@national_populist }
+	add_to_temp_variable = { RHI_other_radical_popularity = party_popularity@libertarian_socialist }
+	if = {
+		limit = { has_country_flag = RHI_temp_united_front }
+		clr_country_flag = RHI_temp_united_front
+		subtract_from_temp_variable = { RHI_radical_popularity = party_popularity@vanguardist }
+		subtract_from_temp_variable = { RHI_radical_popularity = party_popularity@collectivist }
+		subtract_from_temp_variable = { RHI_other_radical_popularity = party_popularity@libertarian_socialist }
+	}
+	if = {
+		limit = { check_variable = { RHI_other_radical_popularity > RHI_radical_popularity } }
+		multiply_temp_variable = { RHI_radical_popularity = -0.2 }
+		multiply_temp_variable = { RHI_other_radical_popularity = -0.1 }
+	}
+	else = {
+		multiply_temp_variable = { RHI_radical_popularity = -0.3 }
+		multiply_temp_variable = { RHI_other_radical_popularity = -0.1 }
+	}
+	add_to_temp_variable = { RHI_radical_popularity = RHI_other_radical_popularity }
+}
+
+RHI_republic_alliance_check = {
+	if = {
+		limit = { 
+			FROM = { 
+				is_in_faction = yes
+				NOT = { is_in_faction_with = ROOT }
+			}  
+		}
+		FROM = { leave_faction = yes }
+		ROOT = { add_to_faction = FROM }
+	}
+	else = {
+		ROOT = { add_to_faction = FROM }
+	}
+	RHI_remove_guarantee = yes
+}
+
+RHI_bill_passing_effect = {
+	clr_country_flag = RHI_passing_bill
+	clr_country_flag = RHI_full_schleicher_support
+	clr_country_flag = RHI_dependent_schleicher_support
+	clr_country_flag = RHI_full_liberal_support
+	clr_country_flag = RHI_socyes_marno
+	clr_country_flag = RHI_socno_maryes
+	clr_country_flag = RHI_limited_liberal_support
+	clr_country_flag = RHI_zentrum_support
+	clr_country_flag = RHI_decent_zentrum_support
+	clr_country_flag = RHI_limited_zentrum_support
+	clr_country_flag = RHI_spd_support
+	clr_country_flag = RHI_decent_spd_support
+	clr_country_flag = RHI_limited_spd_support
+	clr_country_flag = RHI_full_ruling_support
+	clr_country_flag = RHI_centrist_unity
+	set_temp_variable = { RHI_change_projection_add = 0.002 }
+	RHI_republican_stability_decrease = yes
+}
+
+setup_rhenish_revolt = {
+
+	set_global_flag = RHI_rhine_failstate
+
+	hidden_effect = {
+		RHI = { set_temp_variable = { RHI_valkist_strength = party_popularity@valkist } }
+		
+		#start the civil war
+		start_civil_war = {
+			### basics ###
+			ideology = valkist
+			size = party_popularity@valkist
+			navy_ratio = 0
+
+			### states ###
+			capital = 746
+			states = { 746 }
+
+			### characters ###
+			keep_all_characters = yes
+
+			### effects ###
+			set_temp_variable = { RHI_valkist_revolt = THIS }
+			set_country_flag = RHI_valkist_rebels
+		}
+
+		# move the valkists
+		RHI = {
+			every_character = {
+				limit = {
+					OR = {
+						has_trait = valkist
+						is_character = RHI_Albert_Leo_Schlageter
+					}
+				}
+				set_nationality = var:RHI_valkist_revolt
+			}
+		}
+
+		#setup revolter
+		var:RHI_valkist_revolt = {
+			#set leaders
+			RHI_Albert_Leo_Schlageter = { promote_character = valkist_subtype }
+			
+			#set ideology
+			set_popularities = {
+				vanguardist = 11
+				collectivist = 9
+				libertarian_socialist = 8
+				social_democrat = 6
+				social_liberal = 1
+				market_liberal = 3
+				social_conservative = 9
+				authoritarian_democrat = 2
+				paternal_autocrat = 1
+				national_populist = 10
+				valkist = 40
+			}
+			
+			
+			#set advisors
+			activate_advisor = RHI_Gunter_d_Alquen_hog_val
+			activate_advisor = RHI_Albert_Krebs_eco_val
+			activate_advisor = RHI_Franz_Six_for_val
+			activate_advisor = RHI_Joseph_Berchtold_sec_val
+
+			#spawn units
+			division_template = {
+				name = "Valkistischer Standarte"
+				division_names_group = RHI_INF_01
+				is_locked = yes
+
+				regiments = {
+					irregular_infantry = { x = 0 y = 0 }
+					irregular_infantry = { x = 0 y = 1 }
+					irregular_infantry = { x = 1 y = 0 }
+					irregular_infantry = { x = 1 y = 1 }
+					irregular_infantry = { x = 2 y = 0 }
+					irregular_infantry = { x = 2 y = 1 }
+				}
+			}
+		
+			capital_scope = {
+				create_unit = {
+					division = "division_template = \"Valkistischer Standarte\" start_equipment_factor = 0.6"
+					owner = PREV
+					count = 7
+				}
+			}
+		}
+		
+		if = {
+			limit = { has_wargoal_against = var:RHI_valkist_revolt }
+			remove_wargoal = { target = var:RHI_valkist_revolt type = all }
+		}
+
+		#if at war, give wargoal to enemies
+		every_other_country = {
+			limit = {
+				OR = {
+					has_wargoal_against = var:RHI_valkist_revolt
+					has_offensive_war_with = var:RHI_valkist_revolt
+				}
+				NOT = { tag = GER } # NOT Germany
+				can_declare_war_on = PREV
+			}
+			create_wargoal = {
+				target = PREV
+				type = annex_everything
+			}
+		}
+	}
+}
+
+RHI_valkist_bop_effect = {
+	if = {
+		limit = { has_variable = RHI_valkist_bop_small }
+		add_power_balance_value = {
+			id = RHI_republican_power_balance
+			value = -0.05
+			tooltip_side = RHI_valkist_side
+		}
+	}
+	else_if = {
+		limit = { has_variable = RHI_valkist_bop_med }
+		add_power_balance_value = {
+			id = RHI_republican_power_balance
+			value = -0.1
+			tooltip_side = RHI_valkist_side
+		}
+	}
+	else_if = {
+		limit = { has_variable = RHI_valkist_bop_high }
+		add_power_balance_value = {
+			id = RHI_republican_power_balance
+			value = -0.15
+			tooltip_side = RHI_valkist_side
+		}
+	}
+}
+
+RHI_schleicher_bop_effect = {
+	if = {
+		limit = { has_variable = RHI_schleicher_bop_small }
+		add_power_balance_value = {
+			id = RHI_republican_power_balance
+			value = 0.05
+			tooltip_side = RHI_schleicher_side
+		}
+	}
+	else_if = {
+		limit = { has_variable = RHI_schleicher_bop_med }
+		add_power_balance_value = {
+			id = RHI_republican_power_balance
+			value = 0.1
+			tooltip_side = RHI_schleicher_side
+		}
+	}
+	else_if = {
+		limit = { has_variable = RHI_schleicher_bop_high }
+		add_power_balance_value = {
+			id = RHI_republican_power_balance
+			value = 0.15
+			tooltip_side = RHI_schleicher_side
+		}
+	}	
+}
+
+RHI_german_bop_effect = {
+	if = {
+		limit = { has_variable = RHI_german_bop_small }
+		add_power_balance_value = {
+			id = RHI_seperatist_power_balance
+			value = -0.05
+			tooltip_side = RHI_german_side
+		}
+	}
+	else_if = {
+		limit = { has_variable = RHI_german_bop_med }
+		add_power_balance_value = {
+			id = RHI_seperatist_power_balance
+			value = -0.1
+			tooltip_side = RHI_german_side
+		}
+	}
+	else_if = {
+		limit = { has_variable = RHI_german_bop_high }
+		add_power_balance_value = {
+			id = RHI_seperatist_power_balance
+			value = -0.15
+			tooltip_side = RHI_german_side
+		}
+	}
+}
+
+RHI_french_bop_effect = {
+	if = {
+		limit = { has_variable = RHI_french_bop_small }
+		add_power_balance_value = {
+			id = RHI_seperatist_power_balance
+			value = 0.05
+			tooltip_side = RHI_french_side
+		}
+	}
+	else_if = {
+		limit = { has_variable = RHI_french_bop_med }
+		add_power_balance_value = {
+			id = RHI_seperatist_power_balance
+			value = 0.1
+			tooltip_side = RHI_french_side
+		}
+	}
+	else_if = {
+		limit = { has_variable = RHI_french_bop_high }
+		add_power_balance_value = {
+			id = RHI_seperatist_power_balance
+			value = 0.15
+			tooltip_side = RHI_french_side
+		}
+	}
+}
+
+RHI_exceptional_rhine_swap = {
+	if = {
+		limit = {
+			has_idea = RHI_exceptionally_bad_rhine
+		}
+		swap_ideas = {
+			remove_idea = RHI_exceptionally_bad_rhine
+			add_idea = RHI_exceptionally_ok_rhine
+		}
+	} 
+	else = {
+		swap_ideas = {
+			remove_idea = RHI_exceptionally_ok_rhine
+			add_idea = RHI_exceptional_rhine
+		}
+	}
+}
+
+RHI_exceptional_rhine_add = {
+	if = {
+		limit = { check_variable = { RHI_exceptional_rhine_count > 1 } }
+		RHI_exceptional_rhine_swap = yes
+		multiply_variable = { RHI_exceptional_rhine_count = 0 }
+	}
+	else = { add_to_variable = { RHI_exceptional_rhine_count = 1 } }
+	if = {
+		limit = { has_idea = RHI_exceptional_rhine }
+		clear_variable = RHI_exceptional_rhine_count
+	}
+}
+
+RHI_remove_guarantee = {
+	FRA = {
+		diplomatic_relation = {
+			country = RHI
+			relation = guarantee
+			active = no
+		}
+	}
+	BEL = {
+		diplomatic_relation = {
+			country = RHI
+			relation = guarantee
+			active = no
+		}
+	}
+	USA = {
+		diplomatic_relation = {
+			country = RHI
+			relation = guarantee
+			active = no
+		}
+	}
+	ENG = {
+		diplomatic_relation = {
+			country = RHI
+			relation = guarantee
+			active = no
+		}
+	}
+}
+
+RHI_random_aid = {
+	hidden_effect = {
+		random_list = {
+			25 = { 
+				modifier = {
+					add = 5
+					OR = {
+						has_government = market_liberal
+						has_government = social_liberal
+					}
+				}
+				modifier = {
+					factor = 0
+					SWI = {
+						OR = {
+							has_war = yes 
+							is_in_faction_with = GER 
+						}
+					}
+				}
+				modifier = {
+					factor = 0
+					has_country_flag = RHI_aid_just_came_11
+				}
+				country_event = { id = rhein.flavor.11 days = 120 random_days = 60  }
+			} 
+			25 = { 
+				modifier = {
+					add = 5
+					OR = {
+						has_government = social_democrat
+						has_government = social_conservative
+					}
+				}
+				modifier = {
+					factor = 0
+					has_country_flag = RHI_aid_just_came_12
+				}
+				country_event = { id = rhein.flavor.12 days = 120 random_days = 60 }
+			}
+			10 = { 
+				modifier = {
+					add = 5
+					has_completed_focus = RHI_matthes_dorten
+				}
+				modifier = {
+					factor = 0
+					OR = {
+						has_government = authoritarian_democrat
+						has_government = paternal_autocrat
+						AND = {
+							9 = {
+								controller = {
+									NOT = { 
+										OR = {
+											tag = GER 
+											is_in_faction_with = GER
+											is_subject_of = GER
+											has_authoritarian_government = yes
+										}
+									}
+								}
+							}
+							16 = {
+								controller = {
+									NOT = { 
+										OR = {
+											tag = GER 
+											is_in_faction_with = GER
+											is_subject_of = GER
+											has_authoritarian_government = yes
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+				modifier = {
+					factor = 0
+					has_country_flag = RHI_aid_just_came_13
+				}
+				country_event = { id = rhein.flavor.13 days = 120 random_days = 60 }
+			} 
+			10 = { 
+				modifier = {
+					factor = 0.1
+					GER = { has_stability > 0.65 }
+				}
+				modifier = {
+					factor = 0
+					has_country_flag = RHI_aid_just_came_14
+				}
+				country_event = { id = rhein.flavor.14 days = 300 random_days = 60 }
+			}
+		}
+		clr_country_flag = RHI_aid_just_came_11
+		clr_country_flag = RHI_aid_just_came_12
+		clr_country_flag = RHI_aid_just_came_13
+		clr_country_flag = RHI_aid_just_came_14
+	}
+}
+
+RHI_set_postwarelection_pop = {
+	every_state = {
+		limit = {
+			is_owned_by = RHI
+			OR = {
+				state = 51
+				state = 57
+				state = 56
+				state = 54
+				state = 65
+				state = 64
+				state = 795
+				state = 66
+				state = 807
+				state = 58
+			}
+		}
+		add_to_temp_array = { rhi_liberal_pop = THIS }
+	}
+	every_state = {
+		limit = {
+			is_owned_by = RHI
+			OR = {
+				state = 60
+				state = 64
+				state = 65
+			}
+		}
+		add_to_temp_array = { rhi_high_spd_pop = THIS }
+	}
+	every_state = {
+		limit = {
+			is_owned_by = RHI
+			OR = {
+				state = 51
+				state = 56
+				state = 59
+				state = 794
+			}
+		}
+		add_to_temp_array = { rhi_med_spd_pop = THIS }
+	}
+	every_state = {
+		limit = {
+			is_owned_by = RHI
+			OR = {
+				state = 57
+				state = 55
+				state = 61
+				state = 62
+				state = 795
+				state = 58
+				state = 915
+			}
+		}
+		add_to_temp_array = { rhi_low_spd_pop = THIS }
+	}
+	every_state = {
+		limit = {
+			is_owned_by = RHI
+			state = 50
+		}
+		add_to_temp_array = { rhi_high_z_pop = THIS }
+	}
+	every_state = {
+		limit = {
+			is_owned_by = RHI
+			OR = {
+				state = 52
+				state = 64
+			}
+		}
+		add_to_temp_array = { rhi_med_z_pop = THIS }
+	}
+	every_state = {
+		limit = {
+			is_owned_by = RHI
+			OR = {
+				state = 57
+				state = 51
+				state = 55
+				state = 54
+				state = 53
+				state = 773
+				state = 782
+				state = 783
+				state = 786
+				state = 63
+				state = 66
+				state = 85
+				state = 807
+				state = 5
+				state = 991
+				state = 1071
+				state = 784
+			}
+		}
+		add_to_temp_array = { rhi_low_z_pop = THIS }
+	}
+	for_each_loop = {
+		array = rhi_liberal_pop
+		value = v
+		break = break
+		add_to_variable = { RHI_dpd_popularity = 2 }
+	}
+	for_each_loop = {
+		array = rhi_high_spd_pop
+		value = v
+		break = break
+		add_to_variable = { RHI_spd_popularity = 3 }
+	}
+	for_each_loop = {
+		array = rhi_med_spd_pop
+		value = v
+		break = break
+		add_to_variable = { RHI_spd_popularity = 2 }
+	}
+	for_each_loop = {
+		array = rhi_low_spd_pop
+		value = v
+		break = break
+		add_to_variable = { RHI_spd_popularity = 1 }
+	}
+	for_each_loop = {
+		array = rhi_high_z_pop
+		value = v
+		break = break
+		add_to_variable = { RHI_z_popularity = 3 }
+	}
+	for_each_loop = {
+		array = rhi_med_z_pop
+		value = v
+		break = break
+		add_to_variable = { RHI_z_popularity = 2 }
+	}
+	for_each_loop = {
+		array = rhi_low_z_pop
+		value = v
+		break = break
+		add_to_variable = { RHI_z_popularity = 1 }
+	}
+	if = {
+		limit = { has_government = social_democrat }
+		add_to_variable = { RHI_spd_popularity = 10 }
+	}
+	if = {
+		limit = {
+			OR = {
+				has_government = social_liberal
+				has_government = market_liberal
+			}
+		}
+		add_to_variable = { RHI_dpd_popularity = 10 }
+	}
+	if = {
+		limit = { has_government = social_conservative }
+		add_to_variable = { RHI_z_popularity = 10 }
+	} # more to be added...
+}
+
+# How to use? (yes its deja vu)
+# eg. set_temp_variable = { RHI_z = 0 } # the other is RHI_dpd, RHI_spd not necessary
+# set_temp_variable = { RHI_party_boost_amt = 10 } # use whole numbers
+# RHI_add_postwar_elec_pop = yes
+
+RHI_add_postwar_elec_pop = {
+	if = {
+		limit = { 
+			has_variable = RHI_z
+			check_variable = { RHI_z = 0 }
+		}
+		custom_effect_tooltip = RHI_z_pop_change
+		add_to_variable = { RHI_z_popularity = RHI_party_boost_amt }
+	}
+	else_if = {
+		limit = { 
+			has_variable = RHI_dpd
+			check_variable = { RHI_dpd = 0 }
+		}
+		custom_effect_tooltip = RHI_dpd_pop_change
+		add_to_variable = { RHI_dpd_popularity = RHI_party_boost_amt }
+	}
+	else = {
+		custom_effect_tooltip = RHI_spd_pop_change
+		add_to_variable = { RHI_spd_popularity = RHI_party_boost_amt }
+	}
+}
+
+RHI_libs_take_power = {
+	if = {
+		limit = { has_country_flag = GER_federalist_dpd }
+		set_politics = {
+			ruling_party = market_liberal
+			elections_allowed = yes
+		}
+		set_temp_variable = { coalition_partner_var = token:social_liberal }
+		add_to_coalition = yes
+		activate_advisor = RHI_Hermann_Klamt_hog_mli
+		activate_advisor = RHI_Josef_Schmitz_Epper_for_mli
+		activate_advisor = RHI_Heinz_Orbis_sec_mli
+		activate_advisor = RHI_Johann_von_Stein_eco_mli
+	}
+	else_if = {
+		limit = { has_country_flag = RHI_right_liberals }
+		set_politics = {
+			ruling_party = market_liberal
+			elections_allowed = yes
+		}
+		set_temp_variable = { coalition_partner_var = token:social_liberal }
+		add_to_coalition = yes
+		activate_advisor = RHI_Frank_Glatzel_hog_mli
+		activate_advisor = RHI_Werner_von_Rheinbaben_for_ade
+		activate_advisor = RHI_Otto_Thiel_eco_mli
+		activate_advisor = RHI_Ernst_Lemmer_sec_sli
+	}
+	else = {
+		set_politics = {
+			ruling_party = social_liberal
+			elections_allowed = yes
+		}
+		set_temp_variable = { coalition_partner_var = token:market_liberal }
+		add_to_coalition = yes
+		activate_advisor = RHI_Josef_Winschuh_hog_sli
+		activate_advisor = RHI_Julius_Curtius_for_sli
+		activate_advisor = RHI_Ernst_Trendelenburg_eco_sli
+		activate_advisor = RHI_Ernst_Lemmer_sec_sli
+	}
+}
+
+RHI_dynamic_repubs = {
+	mark_focus_tree_layout_dirty = yes
+	if = {
+		limit = { has_government = social_conservative }
+		complete_national_focus = RHI_zentrum
+	}
+	else_if = {
+		limit = { has_government = social_democrat }
+		complete_national_focus = RHI_spd
+	}
+	else_if = {
+		limit = { 
+			OR = {
+				has_government = social_liberal
+				has_government = market_liberal
+			}
+		}
+		complete_national_focus = RHI_ddp
+	}
+	if = {
+		limit = { 
+			OR = {
+				is_in_coalition_with_social_liberal = yes
+				is_in_coalition_with_market_liberal = yes
+			}
+			NOT = {
+				OR = {
+					has_government = social_liberal
+					has_government = market_liberal
+				}
+			}
+		}
+		complete_national_focus = RHI_ddp_coalitions
+	}
+	if = {
+		limit = { is_in_coalition_with_social_conservative = yes }
+		complete_national_focus = RHI_zentrum_coalitions
+	}
+	if = {
+		limit = { is_in_coalition_with_social_democrat = yes }
+		complete_national_focus = RHI_spd_coalitions
+	}	
+}
+
+RHI_economic_stuff = {
+	hidden_effect = {
+		remove_ideas = {
+			RHI_transitioning_economy
+			RHI_transitioning_economy1
+			RHI_transitioning_economy2
+		}
+		if = {
+			limit = { has_idea = RHI_revived_rhenish_economy }
+			swap_ideas = {
+				remove_idea = RHI_revived_rhenish_economy
+				add_idea = RHI_engine_of_germany
+			}
+		}
+		else_if = {
+			limit = { has_idea = RHI_economy_for_people }
+			swap_ideas = {
+				remove_idea = RHI_economy_for_people
+				add_idea = RHI_engine_of_germany
+			}
+		}
+		else = {
+			add_ideas = RHI_engine_of_germany
+			remove_ideas = {
+				RHI_stock_market_crash
+				RHI_stock_market_crash_1
+				RHI_stock_market_crash_2
+				RHI_stock_market_crash_3
+				RHI_public_works
+				RHI_social_market_econ
+				RHI_social_market_econ_betrieb
+				RHI_christian_socialist_econ
+				RHI_christian_socialist_econ_betrieb
+			}
+		}
+	}
+}
+
+# yes this is like the GRP system, just better
+# use like this:
+# set_temp_variable = { RHI_increase_bomber_harris = 0.09 } # increase reconstruction by 9% of current value, once effects become less than 15%, get timed modifier
+# RHI_postwar_recovering = yes
+RHI_postwar_recovering = {
+	if = {
+		limit = { NOT = { has_idea = recovering_from_war } }
+		set_temp_variable = { RHI_b_h_effect = GER_bomber_harris_effect }
+		multiply_temp_variable = { RHI_b_h_effect = -1 }
+		multiply_temp_variable = { RHI_b_h_effect = RHI_increase_bomber_harris }
+		add_to_variable = { GER_bomber_harris_effect = RHI_b_h_effect }
+		if = {
+			limit = { check_variable = { GER_bomber_harris_effect > -0.15 } }
+			custom_effect_tooltip = RHI_postwar_recovered
+			hidden_effect = {
+				remove_dynamic_modifier = { modifier = GRP_aftermath_of_war }
+				clear_variable = GER_bomber_harris_effect
+			}
+			add_timed_idea = {
+				idea = recovering_from_war
+				days = 1095
+			}
+		}
+		else = { 
+			custom_effect_tooltip = RHI_postwar_recovery
+		}
+	}
+}
+
+RHI_republicovery = {
+	custom_effect_tooltip = tooltip_white_line
+	if = {
+		limit = { has_idea = RHI_republican_resentment }
+		swap_ideas = {
+			remove_idea = RHI_republican_resentment
+			add_idea = RHI_republican_resentment1
+		}
+	}
+	else_if = {
+		limit = { has_idea = RHI_republican_resentment1 }
+		swap_ideas = {
+			remove_idea = RHI_republican_resentment1
+			add_idea = RHI_republican_resentment2
+		}
+	}
+	else_if = {
+		limit = { has_idea = RHI_republican_resentment2 }
+		swap_ideas = {
+			remove_idea = RHI_republican_resentment2
+			add_idea = RHI_republican_resentment3
+		}
+	}
+	else_if = {
+		limit = { has_idea = RHI_republican_resentment3 }
+		remove_ideas = RHI_republican_resentment3
+	}
+	else = {
+		effect_tooltip = { remove_ideas = RHI_republican_resentment3 }
+	}
+}
+
+RHI_separatistcovery = {
+	custom_effect_tooltip = tooltip_white_line
+	if = {
+		limit = { has_idea = RHI_separatist_unrest }
+		swap_ideas = {
+			remove_idea = RHI_separatist_unrest
+			add_idea = RHI_separatist_unrest1
+		}
+	}
+	else_if = {
+		limit = { has_idea = RHI_separatist_unrest1 }
+		swap_ideas = {
+			remove_idea = RHI_separatist_unrest1
+			add_idea = RHI_separatist_unrest2
+		}
+	}
+	else_if = {
+		limit = { has_idea = RHI_separatist_unrest2 }
+		swap_ideas = {
+			remove_idea = RHI_separatist_unrest2
+			add_idea = RHI_separatist_unrest3
+		}
+	}
+	else_if = {
+		limit = { has_idea = RHI_separatist_unrest3 }
+		remove_ideas = RHI_separatist_unrest3
+	}
+	else = {
+		effect_tooltip = { remove_ideas = RHI_separatist_unrest3 }
+	}
+}
+
+lander_released_set_up = {
+	if = {
+		limit = { has_completed_focus = RHI_dorten_adenauer_federalism }
+		RHI = {
+			set_autonomy = {
+				target = var:tag_to_release
+				autonomous_state = lander_less
+			}
+		}
+	}
+	else = {
+		RHI = {
+			set_autonomy = {
+				target = var:tag_to_release
+				autonomous_state = lander
+			}
+		}
+	}
+	var:tag_to_release = {
+		mark_focus_tree_layout_dirty = yes
+		load_focus_tree = FX_German_Union
+		hidden_effect = {
+			transfer_technology_without_doctrines = yes
+			remove_ideas = ready_to_surrender
+			add_ideas = RHI_separatist_unrest
+			GER_bombed_out_effect = yes 
+			clear_variable = GER_valkist_resistance
+			add_dynamic_modifier = { modifier = GRP_aftermath_of_war }
+			if = {
+				limit = { check_variable = { tag_to_release = BAY } }
+				set_politics = {
+					ruling_party = social_conservative
+					elections_allowed = yes
+				}
+				set_cosmetic_tag = BAY_lander
+				set_popularities = {
+					vanguardist = 5
+					collectivist = 6
+					libertarian_socialist = 4
+					social_democrat = 12
+					social_liberal = 5
+					market_liberal = 3
+					social_conservative = 21
+					authoritarian_democrat = 15
+					paternal_autocrat = 2
+					national_populist = 9
+					valkist = 18
+				}
+			}
+			else_if = {
+				limit = { check_variable = { tag_to_release = NGF } }
+				set_politics = {
+					ruling_party = social_conservative
+					elections_allowed = yes
+				}
+				set_cosmetic_tag = NGF_lander
+				set_popularities = {
+					vanguardist = 5
+					collectivist = 6
+					libertarian_socialist = 6
+					social_democrat = 20
+					social_liberal = 5
+					market_liberal = 6
+					social_conservative = 21
+					authoritarian_democrat = 5
+					paternal_autocrat = 2
+					national_populist = 3
+					valkist = 21
+				}
+			}
+			else_if = {
+				limit = { check_variable = { tag_to_release = PRS } }
+				set_politics = {
+					ruling_party = social_conservative
+					elections_allowed = yes
+				}
+				set_cosmetic_tag = PRS_lander
+				set_popularities = {
+					vanguardist = 9
+					collectivist = 8
+					libertarian_socialist = 2
+					social_democrat = 18
+					social_liberal = 5
+					market_liberal = 5
+					social_conservative = 14
+					authoritarian_democrat = 8
+					paternal_autocrat = 5
+					national_populist = 8
+					valkist = 18
+				}
+			}
+		}
+	}
+}
+
+RHI_set_up_german_union = {
+	set_temp_variable = { tag_to_release = BAY }
+	every_state = {
+		limit = { 
+			is_south_germany = yes
+			OR = {
+				is_owned_by = RHI
+				owner = { is_subject_of = RHI }
+			}
+		}
+		remove_claim_by = owner
+		add_claim_by = var:tag_to_release
+		if = {
+			limit = { is_fully_controlled_by = owner }
+			transfer_state_to = var:tag_to_release
+		}
+		else = {
+			set_state_owner_to = var:tag_to_release
+			set_state_province_controller = {
+				controller = var:tag_to_release
+				limit = { NOT = { has_war_with = var:tag_to_release } }
+			}
+		}
+	}
+	hidden_effect = { lander_released_set_up = yes }
+	
+	set_temp_variable = { tag_to_release = NGF }
+	every_state = {
+		limit = { 
+			OR = {
+				state = 56 # Weser-Erms
+				state = 57 # Westfalen				
+				state = 59 # Hanover
+				state = 60 # Thuringia
+				state = 58   # Kiel
+				state = 784  # Schleswig
+				state = 915  # Hamburg
+				state = 991  # Holstein
+				state = 1071 # North Kiel
+			}
+			OR = {
+				is_owned_by = RHI
+				owner = { is_subject_of = RHI }
+			}
+		}
+		remove_claim_by = owner
+		add_claim_by = var:tag_to_release
+		if = {
+			limit = { is_fully_controlled_by = owner }
+			transfer_state_to = var:tag_to_release
+		}
+		else = {
+			set_state_owner_to = var:tag_to_release
+			set_state_province_controller = {
+				controller = var:tag_to_release
+				limit = { NOT = { has_war_with = var:tag_to_release } }
+			}
+		}
+	}
+	hidden_effect = { lander_released_set_up = yes }
+	
+	set_temp_variable = { tag_to_release = PRS }
+	every_state = {
+		limit = { 
+			OR = {
+				state = 61  # Mecklenburg
+				state = 62  # Vorpommern
+				state = 64  # Brandenburg
+				state = 65  # Sachsen 
+				state = 63  # Hinter Pommern
+				state = 66  # Oberschlesien
+				state = 786 # Neumark
+				state = 794 # Niederschlesien
+				state = 795 # Luzice
+				state = 5   #East Prussia
+				state = 85  #West Prussia
+				state = 807 #Danzig
+			}
+			OR = {
+				is_owned_by = RHI
+				owner = { is_subject_of = RHI }
+			}
+		}
+		remove_claim_by = owner
+		add_claim_by = var:tag_to_release
+		if = {
+			limit = { is_fully_controlled_by = owner }
+			transfer_state_to = var:tag_to_release
+		}
+		else = {
+			set_state_owner_to = var:tag_to_release
+			set_state_province_controller = {
+				controller = var:tag_to_release
+				limit = { NOT = { has_war_with = var:tag_to_release } }
+			}
+		}
+	}
+	
+	hidden_effect = {
+		lander_released_set_up = yes
+		if = {
+			limit = { RHI = { has_completed_focus = RHI_adenauer_and_french } }
+			RHI = {
+				set_cosmetic_tag = RHI_west_germany
+				transfer_state = 57
+				add_ideas = RHI_separatist_unrest
+			}
+			57 = { 
+				remove_core_of  = NGF
+				add_dynamic_modifier = { modifier =  RHI_west_german_problem }
+			}
+			55 = { add_dynamic_modifier = { modifier =  RHI_west_german_problem } }
+		}
+		else = {
+			RHI = {
+				set_cosmetic_tag = RHI_matthes_dorten_union
+				add_ideas = RHI_separatist_unrest
+			}
+		}
+	}
+}
+
+RHI_spd_left_effect = {
+	if = {
+		limit = { 
+			NOT = {
+				OR = {
+					has_completed_focus = RHI_reform_social_democracy
+					has_completed_focus = RHI_eschew_reformist_principles
+				}
+			}
+		}
+		custom_effect_tooltip = RHI_spd_left_effect
+		hidden_effect = {
+			add_to_variable = { RHI_right_spd_mad = 1 }
+			set_temp_variable = { RHI_spd_difference = RHI_right_spd_mad }
+			subtract_from_temp_variable = { RHI_spd_difference = RHI_left_spd_mad }
+			if = {
+				limit = { check_variable = { RHI_spd_difference > 1 } }
+				country_event = rhein.federals.36
+			}
+		}
+	}
+}
+
+RHI_spd_right_effect = {
+	if = {
+		limit = { 
+			NOT = {
+				OR = {
+					has_completed_focus = RHI_reform_social_democracy
+					has_completed_focus = RHI_eschew_reformist_principles
+				}
+			}
+		}
+		custom_effect_tooltip = RHI_spd_right_effect
+		hidden_effect = {
+			add_to_variable = { RHI_left_spd_mad = 1 }
+			set_temp_variable = { RHI_spd_difference = RHI_left_spd_mad }
+			subtract_from_temp_variable = { RHI_spd_difference = RHI_right_spd_mad }
+			if = {
+				limit = { check_variable = { RHI_spd_difference > 1 } }
+				country_event = rhein.federals.35
+			}	
+		}
+	}
+}
+
+RHI_defender_of_feds = {
+	if = {
+		limit = { NOT = { has_dynamic_modifier = { modifier = RHI_defender_of_federalism_spirit } } }
+		add_dynamic_modifier = { modifier = RHI_defender_of_federalism_spirit }
+	}
+	set_variable = { RHI_regional_states_number = 0 }
+	every_owned_state = {
+		limit = {
+			OR = {
+				state = 56 
+				state = 57
+				state = 59
+				is_south_germany = yes
+			}
+		}
+		add_to_temp_array = { RHI_regional_states = THIS }
+	}
+	for_each_scope_loop = {
+		array = RHI_regional_states
+		ROOT = { add_to_variable = { RHI_regional_states_number = 0.01 } }
+	}
+	force_update_dynamic_modifier = yes
+}
+
+RHI_militant_democracy_effect = {
+	if = {
+		limit = { has_idea = RHI_militant_democracy1 }
+		swap_ideas = {
+			remove_idea = RHI_militant_democracy1
+			add_idea = RHI_militant_democracy2
+		}
+	}
+	else_if = {
+		limit = { has_idea = RHI_militant_democracy }
+		swap_ideas = {
+			remove_idea = RHI_militant_democracy
+			add_idea = RHI_militant_democracy1
+		}
+	}
+	else = { add_ideas = RHI_militant_democracy }
+}
+
+RHI_calculate_eec_effects = {
+	hidden_effect = {
+		set_temp_variable = { var_eec_factories = 0 }
+		for_each_scope_loop = {
+			array = EEC.economic_sphere:members
+			add_to_temp_variable = { var_eec_factories = THIS.num_of_civilian_factories }
+		}
+
+		#Building boost
+		set_variable = { global.eec_building_modifier = var_eec_factories }
+		clamp_variable = { var = global.eec_building_modifier max = 60 min = 0 }
+		multiply_variable = { global.eec_building_modifier = 0.005 }
+
+		#Leaders's consumer goods boost
+		set_variable = { global.eec_cg_modifier = var_eec_factories }
+		add_to_variable = { global.eec_cg_modifier = EEC.num_of_civilian_factories }
+		clamp_variable = { var = global.eec_cg_modifier max = 100 min = 0 }
+		multiply_variable = { global.eec_cg_modifier = -0.006 }
+
+		#Member's consumer goods boost
+		set_variable = { global.eec_cg_modifier_half = eec_cg_modifier }
+		multiply_variable = { global.eec_cg_modifier_half = 0.5 }
+
+		#Leader/Member's PP boost
+		set_variable = { global.eec_pp_modifier = eec_cg_modifier }
+		multiply_variable = { global.eec_pp_modifier = -2 }
+		set_variable = { global.eec_pp_modifier_less = eec_pp_modifier }
+		multiply_variable = { global.eec_pp_modifier_half = 0.75 }
+	}
+	for_each_scope_loop = {
+		array = EEC.economic_sphere:members
+		force_update_dynamic_modifier = yes
+	}
+}
+
+RHI_federal_effects = {
+	if = { 
+		limit = { has_idea = RHI_surface_reforms }
+		swap_ideas = {
+			remove_idea = RHI_surface_reforms
+			add_idea = RHI_the_federal_state
+		}
+		add_political_power = -50
+	}
+	else_if = { 
+		limit = { has_idea = RHI_middling_reforms }
+		swap_ideas = {
+			remove_idea = RHI_middling_reforms
+			add_idea = RHI_the_federal_state
+		}
+		add_political_power = -25
+	}
+	else = { 
+		swap_ideas = {
+			remove_idea = RHI_deep_reforms
+			add_idea = RHI_the_federal_state
+		}
+	}
+}
+
+RHI_join_econ_sphere = {
+	set_temp_variable = { sphere_target = THIS }
+	add_to_economic_sphere = yes
+	add_ideas = RHI_eec_member_spirit
+	RHI_calculate_eec_effects = yes
+}
+
+GRU_check_trade = {
+	if = {
+		limit = { 
+			PRS = { RHI_is_lander = no }
+			NOT = { tag = PRS }
+		}
+		add_ideas = PRS_zol_trade
+	}
+	if = {
+		limit = { 
+			NGF = { RHI_is_lander = no }
+			NOT = { tag = NGF }
+		}
+		add_ideas = NGF_zol_trade
+	}
+	if = {
+		limit = { 
+			BAY = { RHI_is_lander = no }
+			NOT = { tag = BAY }
+		}
+		add_ideas = BAY_zol_trade
+	}
+	if = {
+		limit = {
+			RHI = { has_completed_focus = RHI_matthes_dorten } 
+			NOT = { tag = RHI }
+		}
+		add_ideas = RHI_zol_trade
+	}
+	if = {
+		limit = { 
+			NOT = { PRS = { RHI_is_lander = no } }
+			has_idea = PRS_zol_trade
+		}
+		remove_ideas = PRS_zol_trade
+	}
+	if = {
+		limit = { 
+			NOT = { NGF = { RHI_is_lander = no } }
+			has_idea = NGF_zol_trade
+		}
+		remove_ideas = NGF_zol_trade
+	}
+	if = {
+		limit = { 
+			NOT = { BAY = { RHI_is_lander = no } }
+			has_idea = BAY_zol_trade
+		}
+		remove_ideas = BAY_zol_trade
+	}
+	if = {
+		limit = { 
+			NOT = { RHI = { has_completed_focus = RHI_matthes_dorten } }
+			has_idea = RHI_zol_trade
+		}
+		remove_ideas = RHI_zol_trade
+	}
+}
+
+GRU_zollverein_up = {
+	custom_effect_tooltip = tooltip_white_line
+	if = {
+		limit = { has_idea = GRU_zollverein_spirit }
+		swap_ideas = {
+			remove_idea = GRU_zollverein_spirit
+			add_idea = GRU_zollverein_spirit1
+		}
+	}
+	else_if = {
+		limit = { has_idea = GRU_zollverein_spirit1 }
+		swap_ideas = {
+			remove_idea = GRU_zollverein_spirit1
+			add_idea = GRU_zollverein_spirit2
+		}
+	}
+	else_if = {
+		limit = { has_idea = GRU_zollverein_spirit2 }
+		swap_ideas = {
+			remove_idea = GRU_zollverein_spirit2
+			add_idea = GRU_zollverein_spirit3
+		}
+	}
+	else = {
+		effect_tooltip = { remove_ideas = GRU_zollverein_spirit3 }
+	}
+	
+}
+
+RHI_schleicher_culmination = {
+	custom_effect_tooltip = RHI_schleicher_culmination
+	hidden_effect = {
+		remove_ideas = RHI_widely_hated
+		clear_variable = RHI_schleicher_republican_foci
+		clear_variable = RHI_schleicher_new_state_foci
+		clear_variable = RHI_schleicher_wehrstaat_foci
+	}
+}
+
+RHI_schleicher_postwar_tree_effect = {
+	if = {
+		limit = { has_variable = RHI_schleicher_strengthen_repubs }
+		add_to_variable = { RHI_republic_help = 0.05 }
+		force_update_dynamic_modifier = yes
+		effect_tooltip = { 
+			swap_ideas = {
+				remove_idea = RHI_republic_buff_dummy
+				add_idea = RHI_republic_buff_schleicher
+			}
+		}
+		add_to_variable = { RHI_schleicher_republican_foci = 1 }
+	}
+	else_if = {
+		limit = { has_variable = RHI_schleicher_strengthen_new_state }
+		add_to_variable = { RHI_state_help = 0.05 }
+		force_update_dynamic_modifier = yes
+		effect_tooltip = { 
+			swap_ideas = {
+				remove_idea = RHI_republic_buff_dummy
+				add_idea = RHI_state_buff_schleicher
+			}
+		}
+		add_to_variable = { RHI_schleicher_new_state_foci = 1 }
+	}
+	else = {
+		effect_tooltip = { 
+		add_to_variable = { RHI_wehr_help = 0.001 }
+		force_update_dynamic_modifier = yes
+		swap_ideas = {
+				remove_idea = RHI_republic_buff_dummy
+				add_idea = RHI_wehr_buff_schleicher
+			}
+		}
+		add_to_variable = { RHI_schleicher_wehrstaat_foci = 1 }
+	}
+	set_temp_variable = { RHI_total_schleicher_foci = RHI_schleicher_republican_foci }
+	add_to_temp_variable = { RHI_total_schleicher_foci = RHI_schleicher_new_state_foci }
+	add_to_temp_variable = { RHI_total_schleicher_foci = RHI_schleicher_wehrstaat_foci }
+	if = {
+		limit = {
+			check_variable = {
+				var = RHI_total_schleicher_foci
+				value = 9
+				compare = greater_than_or_equals
+			}
+		}
+		country_event = rhein.flavor.39
+	}
+}
