@@ -572,9 +572,13 @@ country_event = { #Legalization of the trade unions - WIP
 
 	option = {
 		name = hun.20.a
+		add_political_power = 50
+		HUN_bop_szeged_low = yes
 	}
 	option = {
 		name = hun.20.b
+		add_stability = 0.01
+		HUN_bop_szalasi_low = yes
 	}
 }
 
@@ -1224,6 +1228,40 @@ country_event = { # le monarchy
 	}
 }
 
+country_event = { # economic recovery
+	id = hun.36
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		if = {
+			limit = { 
+				NOT = {
+					AND = {
+						has_idea = hun_economic_ruin_2 
+						NOT = {
+							has_completed_focus = hun_balanced_budget
+							has_completed_focus = hun_autarky
+						}
+					}
+					has_idea = hun_autarky_recovered
+					has_idea = hun_austerity_recovered
+				}
+			}
+			country_event = hun.44
+		}
+		if = {
+			limit = { 
+				OR = {
+					has_idea = hun_autarky_recovered
+					has_idea = hun_austerity_recovered
+				}
+			}
+			remove_ideas = hun_economic_recovery_hidden
+		}
+	}
+}
+
 country_event = { #German event, Hungary wants foreign investment
 	id = hun.40
 	title = hun.40.t
@@ -1323,7 +1361,7 @@ country_event = { # the economy!
 	immediate = { log = "[GetDateText]: [Root.GetName]: event hun.43" }
 	title = hun.43.t
 	desc = hun.43.d
-	picture = GFX_report_event_GER_lutze_2
+	picture = GFX_report_event_generic_economic_policy
 	is_triggered_only = yes
 	
 	option = {
@@ -1363,12 +1401,12 @@ country_event = { # economic recovery
 	desc = {
 		text = hun.44.d
 	}
-	picture = GFX_report_event_GER_lutze_2
+	picture = GFX_report_event_generic_economy_growth
 	is_triggered_only = yes
 	
 	option = {
 		name = hun.44.a # nice?
-		trigger = { NOT = { has_idea = hun_economic_ruin_2  } NOT = { has_country_flag = hun_economic_recovery_hidden_time_to_do } }
+		trigger = { NOT = { has_idea = hun_economic_ruin_2 } }
 		log = "[GetLogInfo]: event hun.44 option hun.44.a"
 		if = {
 			limit = { has_idea = hun_economic_ruin_worse }
@@ -1404,11 +1442,9 @@ country_event = { # economic recovery
 						has_completed_focus = hun_autarky
 					}
 				}
-				set_country_flag = hun_economic_recovery_hidden_time_to_do
 			}
 			else = { 
 				custom_effect_tooltip = hun_economic_recovery_req
-				set_country_flag = hun_economic_recovery_hidden_time_to_wait
 			}
 		}
 	}
@@ -1418,8 +1454,8 @@ country_event = { # economic recovery
 		trigger = { 
 			has_idea = hun_economic_ruin_2 
 			OR = {
-				has_country_flag = hun_economic_recovery_hidden_time_to_do
-				has_country_flag = hun_economic_recovery_hidden_time_to_wait
+				has_completed_focus = hun_balanced_budget
+				has_completed_focus = hun_autarky
 			}
 		}
 		log = "[GetLogInfo]: event hun.44 option hun.44.a"
@@ -1451,8 +1487,6 @@ country_event = { # economic recovery
 			remove_ideas = hun_austerity_measures
 			hidden_effect = { remove_ideas = hun_austerity_measures_1 }
 		}
-		clr_country_flag = hun_economic_recovery_hidden_time_to_wait
-		clr_country_flag = hun_economic_recovery_hidden_time_to_do
 	}
 }
 
@@ -1470,6 +1504,8 @@ country_event = { # we are back!
 		add_war_support = -0.25
 		add_stability = 0.1
 		add_political_power = 100
+		1042 = { enable_state_integration_80_compliance = yes }
+		73 = { enable_state_integration_80_compliance = yes }
 		762 = { enable_state_integration_80_compliance = yes }
 		84 = { enable_state_integration_80_compliance = yes }
 		76 = { enable_state_integration_80_compliance = yes }

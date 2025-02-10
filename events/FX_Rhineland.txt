@@ -308,6 +308,7 @@ country_event = { # the provisional governments
 		add_stability = -0.05
 		add_political_power = -50
 		hidden_effect = {
+			set_country_flag = RHI_has_koblenz_government
 			country_event = { id = rhein.9 days = 7 random_days = 14 }
 			country_event = { id = rhein.10 days = 10 random_days = 20 }
 			country_event = { id = rhein.11 days = 10 random_days = 20 }
@@ -726,6 +727,7 @@ country_event = { # france flees
 				RHI_rhenish_disarment
 				RHI_political_powderkeg
 			}
+			clr_country_flag = RHI_has_koblenz_government
 			RHI_Kurt_von_Hammerstein_Equord = { set_nationality = ROOT }
 			RHI_Wilhelm_Adam = { set_nationality = ROOT }
 			RHI_Erich_Marcks = { set_nationality = ROOT }
@@ -855,6 +857,7 @@ country_event = { # the mandate ends
 			remove_ideas = {
 				RHI_rhenish_disarment
 			}
+			clr_country_flag = RHI_has_koblenz_government
 			load_oob = RHI_regular_template
 			set_political_power = 25
 			set_stability = 0.5
@@ -1235,6 +1238,7 @@ country_event = { # deal with koblenz?
 			ideology = valkist
 			popularity = 0.06
 		}
+		clr_country_flag = RHI_has_koblenz_government
 	}
 }
 
@@ -1261,6 +1265,40 @@ country_event = { # the fallout of no more funding...
 			ideology = market_liberal
 			popularity = -0.07
 		}
+	}
+}
+
+country_event = { # ze hidden event, 2
+	id = rhein.39
+	is_triggered_only = yes
+	hidden = yes
+	trigger = { 
+		RHI = {
+			has_country_flag = RHI_passing_bill
+			NOT = {
+				has_decision = RHI_diminish_prussia
+				has_decision = RHI_destroy_prussia
+				has_decision = RHI_reichsreform
+				has_decision = RHI_overhaul_bureaucracy
+				has_decision = RHI_the_federal_military
+				has_decision = RHI_rhineland_autonomy
+				has_decision = RHI_push_out_extremist_parties
+				has_decision = RHI_reduce_proportionalization
+				has_decision = RHI_republican_strengthening_act
+				has_decision = RHI_weaken_presidential_powers
+				has_active_mission = RHI_militarization_bill
+				has_active_mission = RHI_state_of_emergency
+				has_active_mission = RHI_ban_faur
+				has_active_mission = RHI_now_restore_president
+				has_active_mission = RHI_enabling_act
+				has_active_mission = RHI_ban_the_valkists
+				has_active_mission = RHI_restrict_press
+			}
+		}
+	}
+	immediate  = {
+		log = "[GetDateText]: [Root.GetName]: event rhein.39"
+		clr_country_flag = RHI_passing_bill
 	}
 }
 
@@ -2439,6 +2477,46 @@ country_event = { # compromise?
 	}
 }
 
+country_event = { # france moment
+	id = rhein.flavor.41
+	title = rhein.flavor.41.t
+	desc = rhein.flavor.41.d
+	is_triggered_only = yes
+	immediate = { 
+		log = "[GetDateText]: [Root.GetName]: event rhein.flavor.41"
+		if = {
+			limit = { NOT = { has_character = RHI_Charles_Mangin } }
+			RHI = { RHI_Charles_Mangin = { set_nationality = ROOT } }
+		}
+	}
+	picture = GFX_report_event_RHI_french_troops
+	
+	option = { # fuck
+		name = rhein.flavor.41.a
+		log = "[GetLogInfo]: event rhein.flavor.41 option rhein.flavor.41.a"
+		add_stability = -0.15
+		add_war_support = -0.15
+		add_political_power = -200
+		add_country_leader_role = {
+			character = RHI_Charles_Mangin
+			country_leader = { ideology = paternal_autocrat_subtype }
+			promote_leader = yes
+		}
+		FRA = {
+			set_autonomy = {
+				target = ROOT
+				autonomous_state = autonomy_protectorate
+				end_wars = no
+				end_civil_wars = no
+			}
+		}
+		get_current_government_type = yes
+		restore_previous_government_type = yes
+		set_country_flag = RHI_failstate
+		mark_focus_tree_layout_dirty = yes
+	}
+}
+
 ## Seps 
 country_event = { # they take power
 	id = rhein.separatist.0
@@ -3055,6 +3133,7 @@ country_event = { # separatists win!!!
 		}
 		text = rhein.separatist.18.d_vrb
 	}
+	fire_only_once = yes
 	is_triggered_only = yes
 	immediate = { log = "[GetDateText]: [Root.GetName]: event rhein.separatist.18" }
 	picture = GFX_report_event_RHI_yay_separatism
@@ -3088,10 +3167,10 @@ country_event = { # separatists win!!!
 					}
 				}
 			}
-			add_political_power = 300
+			add_political_power = 150
 			add_popularity = { 
 				ideology = vanguardist
-				popularity = -0.1
+				popularity = -0.15
 			}
 			add_popularity = { 
 				ideology = valkist
@@ -3099,6 +3178,7 @@ country_event = { # separatists win!!!
 			}
 		}
 		else = { add_political_power = 150 }
+		end_coalition = yes
 		complete_national_focus = RHI_rhenish_state_born
 		FRA = {
 			set_autonomy = {
@@ -4392,6 +4472,18 @@ country_event = { # the postwar elections
 	immediate = { 
 		log = "[GetDateText]: [Root.GetName]: event rhein.federals.26"
 		hidden_effect = {
+			add_popularity = { 
+				ideology = valkist
+				popularity = -0.2
+			}
+			add_popularity = { 
+				ideology = national_populist
+				popularity = -0.2
+			}
+			add_popularity = { 
+				ideology = ROOT 
+				popularity = -0.15
+			}
 			set_variable = { RHI_spd_popularity = party_popularity_100@social_democrat }
 			set_variable = { RHI_z_popularity = party_popularity_100@social_conservative }
 			set_variable = { RHI_dpd_popularity = party_popularity_100@social_liberal }
@@ -4417,14 +4509,17 @@ country_event = { # the postwar elections
 	desc = rhein.federals.26.d
 	title = "[RHI_postwar_election_is_wahle]"
 	is_triggered_only = yes
+	fire_only_once = yes
 	picture = GFX_report_event_RHI_voting_moment
 
 	option = { # zentrum
 		name = rhein.federals.26.a
 		log = "[GetLogInfo]: event rhein.federals.26 option rhein.federals.26.a"
+		custom_effect_tooltip = rhein.federals.26.tt
 		custom_effect_tooltip = RHI_postwar_zentrum
 		hidden_effect = {
 			set_country_flag = RHI_z_pov
+			add_to_variable = { RHI_z_popularity = 10 }
 			activate_targeted_decision = { target = RHI decision = RHI_z_emphasize_christian_opposition }
 			activate_targeted_decision = { target = RHI decision = RHI_z_promise_yc_forgiveness }
 			activate_targeted_decision = { target = RHI decision = RHI_z_rally_christian_trade_unions }
@@ -4439,6 +4534,7 @@ country_event = { # the postwar elections
 		custom_effect_tooltip = RHI_postwar_liberals
 		hidden_effect = {
 			set_country_flag = RHI_dpd_pov
+			add_to_variable = { RHI_dpd_popularity = 10 }
 			activate_targeted_decision = { target = RHI decision = RHI_dpd_prosperity_from_poverty }
 			activate_targeted_decision = { target = RHI decision = RHI_dpd_reintegrate_former_ddp }
 			activate_targeted_decision = { target = RHI decision = RHI_dpd_capture_former_valkists }
@@ -4452,6 +4548,7 @@ country_event = { # the postwar elections
 		custom_effect_tooltip = RHI_postwar_socdems
 		hidden_effect = {
 			set_country_flag = RHI_spd_pov
+			add_to_variable = { RHI_spd_popularity = 10 }
 			activate_targeted_decision = { target = RHI decision = RHI_spd_emphasize_democratic_resistance }
 			activate_targeted_decision = { target = RHI decision = RHI_spd_cooperate_with_left_liberals }
 			activate_targeted_decision = { target = RHI decision = RHI_spd_rally_workers }
@@ -4600,7 +4697,7 @@ country_event = { # election event...
 	id = rhein.federals.31
 	immediate = {
 		log = "[GetDateText]: [Root.GetName]: event rhein.federals.31" 
-		hidden_effect = { set_country_flag = RHI_first_elections_held }
+		hidden_effect = { set_country_flag = RHI_first_elections_held clr_country_flag = RHI_postwar_elections_happening }
 	}
 	desc = rhein.federals.31.d
 	title = rhein.federals.31.t
@@ -4685,6 +4782,16 @@ country_event = { # election event...
 		RHI_dynamic_repubs = yes
 	}
 	
+	option = { # libs (mainly for dorten)
+		name = rhein.federals.31.l
+		trigger = {
+			RHI_dpd_gov_trigger = yes
+		}
+		log = "[GetLogInfo]: event rhein.federals.31 option rhein.federals.31.e"
+		RHI_libs_take_power = yes
+		RHI_dynamic_repubs = yes
+	}
+	
 	option = { # z > dpd, z + dpd
 		name = rhein.federals.31.f
 		trigger = {
@@ -4695,10 +4802,19 @@ country_event = { # election event...
 			ruling_party = social_conservative
 			elections_allowed = yes
 		}
-		activate_advisor = RHI_Joseph_Wirth_hog_sco
-		activate_advisor = RHI_Heinrich_Imbusch_eco_sco
-		activate_advisor = GER_Joseph_Joos_for_sco
-		activate_advisor = RHI_Jean_Schwarz_sec_sco
+		if = {
+			limit = { has_completed_focus = RHI_claim_the_mantle_of_republic }
+			activate_advisor = RHI_Joseph_Wirth_hog_sco
+			activate_advisor = RHI_Heinrich_Imbusch_eco_sco
+			activate_advisor = GER_Joseph_Joos_for_sco
+			activate_advisor = RHI_Jean_Schwarz_sec_sco
+		}
+		else = {
+			activate_advisor = RHI_Ludwig_Kaas_hog_sco
+			activate_advisor = RHI_Robert_Pferdmenges_eco_sco
+			activate_advisor = RHI_Konrad_Adenauer_for_sco
+			activate_advisor = RHI_Franz_Geueke_sec_sco
+		}
 		set_temp_variable = { coalition_partner_var = token:market_liberal }
 		add_to_coalition = yes
 		set_temp_variable = { coalition_partner_var = token:social_liberal }
@@ -4716,10 +4832,19 @@ country_event = { # election event...
 			ruling_party = social_democrat
 			elections_allowed = yes
 		}
-		activate_advisor = GER_Hans_Vogel_hog_sde
-		activate_advisor = RHI_Rudolf_Hilferding_eco_sde
-		activate_advisor = RHI_Emil_Kirschmann_for_sde
-		activate_advisor = RHI_Paul_Gerlach_sec_sde
+		if = {
+			limit = { has_completed_focus = RHI_claim_the_mantle_of_republic }
+			activate_advisor = GER_Hans_Vogel_hog_sde
+			activate_advisor = RHI_Rudolf_Hilferding_eco_sde
+			activate_advisor = RHI_Emil_Kirschmann_for_sde
+			activate_advisor = RHI_Paul_Gerlach_sec_sde
+		}
+		else = {
+			activate_advisor = RHI_Wilhelm_von_Metzen_hog_sde
+			activate_advisor = RHI_Hans_Bockler_eco_sde
+			activate_advisor = RHI_Franz_Josef_Smeets_for_lib
+			activate_advisor = RHI_Heinz_Orbis_sec_mli
+		}
 		set_temp_variable = { coalition_partner_var = token:market_liberal }
 		add_to_coalition = yes
 		set_temp_variable = { coalition_partner_var = token:social_liberal }
@@ -4818,10 +4943,19 @@ country_event = { # election event, pt.2
 				ruling_party = social_democrat
 				elections_allowed = yes
 			}
+			if = {
+			limit = { has_completed_focus = RHI_claim_the_mantle_of_republic }
 			activate_advisor = GER_Hans_Vogel_hog_sde
 			activate_advisor = RHI_Rudolf_Hilferding_eco_sde
 			activate_advisor = RHI_Emil_Kirschmann_for_sde
 			activate_advisor = RHI_Paul_Gerlach_sec_sde
+		}
+		else = {
+			activate_advisor = RHI_Wilhelm_von_Metzen_hog_sde
+			activate_advisor = RHI_Hans_Bockler_eco_sde
+			activate_advisor = RHI_Franz_Josef_Smeets_for_lib
+			activate_advisor = RHI_Heinz_Orbis_sec_mli
+		}
 		}
 		else = {
 			add_popularity = { 
@@ -4845,10 +4979,19 @@ country_event = { # election event, pt.2
 				limit = { has_completed_focus = RHI_incorporate_protestant_christians }
 				activate_advisor = GRP_Jakob_Kaiser_hog_sco
 			}
-			activate_advisor = RHI_Joseph_Wirth_hog_sco
-			activate_advisor = RHI_Heinrich_Imbusch_eco_sco
-			activate_advisor = GER_Joseph_Joos_for_sco
-			activate_advisor = RHI_Jean_Schwarz_sec_sco
+			if = {
+				limit = { has_completed_focus = RHI_claim_the_mantle_of_republic }
+				activate_advisor = RHI_Joseph_Wirth_hog_sco
+				activate_advisor = RHI_Heinrich_Imbusch_eco_sco
+				activate_advisor = GER_Joseph_Joos_for_sco
+				activate_advisor = RHI_Jean_Schwarz_sec_sco
+			}
+			else = {
+				activate_advisor = RHI_Ludwig_Kaas_hog_sco
+				activate_advisor = RHI_Robert_Pferdmenges_eco_sco
+				activate_advisor = RHI_Konrad_Adenauer_for_sco
+				activate_advisor = RHI_Franz_Geueke_sec_sco
+			}
 		}
 		else = {
 			add_popularity = { 
@@ -6687,7 +6830,7 @@ country_event = { # rhine in chaos
 
 	option = { # los, los, los!
 		name = rhein.republic.40.a
-		trigger = { tag = GER }
+		trigger = { original_tag = GER }
 		log = "[GetLogInfo]: event rhein.republic.40 option rhein.republic.40.a"
 		FRA = { country_event = { id = rhein.republic.41 days = 2 } }
 	}
@@ -6710,6 +6853,7 @@ country_event = { # event for FRA
 
 	option = { # damn teutons...
 		name = rhein.republic.41.a
+		ai_chance = { base = 5 }
 		log = "[GetLogInfo]: event rhein.republic.41 option rhein.republic.41.a"
 		custom_effect_tooltip = RHI_world_war_rhine
 		RHI = { country_event = rhein.republic.45 }
@@ -6736,6 +6880,7 @@ country_event = { # event for GER
 
 	option = { # GERMANY WILL BEAT THE ODDS
 		name = rhein.republic.42.a
+		ai_chance = { base = 5 }
 		log = "[GetLogInfo]: event rhein.republic.42 option rhein.republic.42.a"
 		custom_effect_tooltip = RHI_world_war_rhine
 		if = {

@@ -1,0 +1,36 @@
+has_exceeded_maximum_divisions = {
+	has_variable = max_divisions
+	if = {
+		limit = { has_variable = num_actual_divisions }
+		check_variable = { num_actual_divisions > max_divisions }
+	} else = {
+		check_variable = { num_divisions > max_divisions }
+	}
+}
+
+has_reached_maximum_divisions = {
+	has_variable = max_divisions
+	if = {
+		limit = { has_variable = num_actual_divisions }
+		NOT = { check_variable = { num_actual_divisions < max_divisions } }
+	}
+	else = {
+		NOT = { check_variable = { num_divisions < max_divisions } }
+	}
+}
+
+has_reached_ninety_percent_of_maximum_divisions = {
+	has_variable = max_divisions
+
+	set_temp_variable = { max_divisions_temp = max_divisions }
+	multiply_temp_variable = { max_divisions_temp = 0.9 }
+	round_temp_variable = max_divisions_temp
+
+	if = {
+		limit = { has_variable = num_actual_divisions }
+		NOT = { check_variable = { num_actual_divisions < max_divisions_temp } }
+	}
+	else = {
+		NOT = { check_variable = { num_divisions < max_divisions_temp } }
+	}
+}

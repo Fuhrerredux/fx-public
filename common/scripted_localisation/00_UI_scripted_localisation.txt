@@ -130,91 +130,71 @@ defined_text = {
 		localization_key = toggle_news_text_none
 	}
 }
-### Division Limits ###
-defined_text = {
-	name = unit_limit_count_loc
-	text = {
-		trigger = {
-			check_variable = { num_actual_divisions > max_divisions }
-		}
-		localization_key = unit_limit_count_red
-	}
-	text = {
-		trigger = {
-			check_variable = { num_actual_divisions = max_divisions }
-		}
-		localization_key = unit_limit_count_yellow
-	}
-	text = {
-		localization_key = unit_limit_count_green
-	}
-}
-
-defined_text = {
-	name = above_unit_limit_desc
-	text = {
-		trigger = {
-			has_dynamic_modifier = { modifier = mobilisation_penalty_modifier }
-		}
-		localization_key = unit_limit_desc_above_limit
-	}
-	text = {
-		localization_key = empty
-	}
-}
-
-defined_text = {
-	name = unit_limit_major_power
-	text = {
-		trigger = { is_major = yes }
-		localization_key = unit_limit_major_power_desc
-	}
-	text = {
-		localization_key = empty
-	}
-}
-
-defined_text = {
-	name = unit_limit_world_tension
-	text = {
-		trigger = { threat > 0.69 }
-		localization_key = unit_limit_world_tension_desc
-	}
-	text = {
-		localization_key = empty
-	}
-}
 
 ### Division Limits ###
 defined_text = {
 	name = unit_limit_count_loc
 	text = {
+		trigger = { NOT = { has_game_rule = { rule = unit_limit_options option = STANDARD } } }
+		localization_key = unit_limit_count_disabled
+	}
+	text = {
 		trigger = {
 			check_variable = { num_actual_divisions > max_divisions }
 		}
-		localization_key = unit_limit_count_red
+		localization_key = unit_limit_count_above
 	}
 	text = {
 		trigger = {
 			check_variable = { num_actual_divisions = max_divisions }
 		}
-		localization_key = unit_limit_count_yellow
+		localization_key = unit_limit_count_equal
 	}
 	text = {
-		localization_key = unit_limit_count_green
+		localization_key = unit_limit_count_below
 	}
 }
 
 defined_text = {
-	name = above_unit_limit_desc
+	name = unit_limit_breakdown
 	text = {
-		trigger = {
-			has_dynamic_modifier = { modifier = mobilisation_penalty_modifier }
-		}
-		localization_key = unit_limit_desc_above_limit
+		trigger = { has_game_rule = { rule = unit_limit_options option = STANDARD } }
+		localization_key = unit_limit_breakdown_default
+	}
+}
+
+defined_text = {
+	name = unit_limit_breakdown_desc
+	text = {
+		trigger = { NOT = { has_game_rule = { rule = unit_limit_options option = STANDARD } } }
+		localization_key = unit_limit_breakdown_desc_disabled
 	}
 	text = {
-		localization_key = empty
+		localization_key = unit_limit_breakdown_desc_enabled
+	}
+}
+
+defined_text = {
+	name = unit_limit_reached_cap
+	text = {
+		trigger = {
+			check_variable = { uncapped_max_divisions > 300 }
+		}
+		localization_key = unit_limit_reached_cap_desc
+	}
+}
+
+defined_text = {
+	name = unit_limit_base_value
+	text = {
+		localization_key = unit_limit_base_value_desc
+	}
+}
+
+defined_text = {
+	name = unit_limit_core_population
+	text = {
+		localization_key = unit_limit_core_population_desc
 	}
 }
 
@@ -226,9 +206,6 @@ defined_text = {
 		}
 		localization_key = unit_limit_noncore_population_desc
 	}
-	text = {
-		localization_key = empty
-	}
 }
 
 defined_text = {
@@ -239,8 +216,12 @@ defined_text = {
 		}
 		localization_key = unit_limit_subject_population_bonus_desc
 	}
+}
+
+defined_text = {
+	name = unit_limit_states
 	text = {
-		localization_key = empty
+		localization_key = unit_limit_states_desc
 	}
 }
 
@@ -252,37 +233,27 @@ defined_text = {
 		}
 		localization_key = unit_limit_subject_state_bonus_desc
 	}
+}
+
+defined_text = {
+	name = unit_limit_factory_count_multiplier
 	text = {
-		localization_key = empty
+		localization_key = unit_limit_factory_count_multiplier_desc
 	}
 }
 
 defined_text = {
-	name = unit_limit_modifier_was_capped
-	text = {
-		trigger = {
-			check_variable = { industry_factor_uncapped < 0.5 }
-		}
-		localization_key = unit_limit_modifier_was_capped_desc
-	}
-	text = {
-		localization_key = empty
-	}
-}
-
-defined_text = {
-	name = unit_limit_modified_by
+	name = unit_limit_additional_modifiers
 	text = {
 		trigger = {
 			OR = {
 				is_faction_leader = yes
+				NOT = { check_variable = { modifier@unit_limit_factor = 0 } }
+				NOT = { check_variable = { modifier@unit_limit_law_bonus = 0 } }
 				NOT = { check_variable = { modifier@unit_limit_bonus = 0 } }
 			}
 		}
-		localization_key = unit_limit_modified_by_desc
-	}
-	text = {
-		localization_key = empty
+		localization_key = unit_limit_additional_modifiers_desc
 	}
 }
 
@@ -292,8 +263,22 @@ defined_text = {
 		trigger = { is_faction_leader = yes }
 		localization_key = unit_limit_faction_leader_desc
 	}
+}
+
+defined_text = {
+	name = unit_limit_factor_used
 	text = {
-		localization_key = empty
+		trigger = {
+			NOT = { check_variable = { modifier@unit_limit_factor = 0 } }
+		}
+		localization_key = unit_limit_factor_used_desc
+	}
+}
+
+defined_text = {
+	name = unit_limit_default
+	text = {
+		localization_key = unit_limit_default_desc
 	}
 }
 
@@ -315,9 +300,6 @@ defined_text = {
 		trigger = { has_idea = tot_economic_mobilisation }
 		localization_key = unit_limit_tot_economic_mobilisation
 	}
-	text = {
-		localization_key = empty
-	}
 }
 
 defined_text = {
@@ -328,8 +310,15 @@ defined_text = {
 		}
 		localization_key = unit_limit_bonus_used_desc
 	}
+}
+
+defined_text = {
+	name = unit_limit_above_limit
 	text = {
-		localization_key = empty
+		trigger = {
+			has_dynamic_modifier = { modifier = mobilisation_penalty_modifier }
+		}
+		localization_key = unit_limit_above_limit_desc
 	}
 }
 

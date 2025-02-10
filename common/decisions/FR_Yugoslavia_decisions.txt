@@ -1,0 +1,45 @@
+foreign_politics = {
+	SER_join_stahlpakt = {
+		fire_only_once = yes
+		allowed = { tag = SER }
+		targets = { GER }
+		visible = {
+			has_global_flag = FX_WW2_HAS_STARTED
+		}
+		target_trigger = {
+			if = {
+				limit = {
+					SER = { has_dictatorship_government = yes }
+				}
+				FROM = { has_dictatorship_government = yes }
+				else_if = {
+					limit = {
+						SER = { has_socialist_government = yes }
+					}
+					FROM = { has_socialist_government = yes }
+				}
+				else = { FROM = { has_democratic_government = yes } }
+			}
+		}
+		ai_will_do = {
+			base = 5
+			modifier = {
+				add = 500
+				original_tag = GER
+			}
+			modifier = {
+				add = 1000
+				OR = {
+					has_war_with = ENT
+					has_war_with = ITA
+				}
+			}
+		}
+		available = { is_in_faction = no }
+		complete_effect = {
+			FROM = {
+				country_event = { id = generic.30 days = 1 }
+			}
+		}
+	}
+}

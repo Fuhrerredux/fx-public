@@ -4,22 +4,14 @@ on_actions = {
 			log = "=== MOD VERSION ==="
 			log = FX_CURRENT_VERSION
 			log = "=== MOD VERSION ==="
-			if = {
-				limit = {
-					has_game_rule = {
-						rule = unit_limit_options
-						option = AI_ONLY
-					}
+			every_country = { unit_limit_calculation_effect = yes }
+			random_country = { #has_dlc doesn't work in the default global scope
+				if = {
+					limit = { has_dlc_lar = no }
+					set_variable = { global.unit_limit_alert_position = -55 } #changes the position of the alert icon
 				}
-				set_global_flag = KR_unit_limits_ai_only
-				else_if = {
-					limit = {
-						has_game_rule = {
-							rule = unit_limit_options
-							option = NONE
-						}
-					}
-					set_global_flag = KR_no_unit_limits
+				else = {
+					clear_variable = global.unit_limit_alert_position
 				}
 			}
 			every_country = {
@@ -51,15 +43,6 @@ on_actions = {
 					set_variable = { FX_splash_tab_4_x = 338 }
 				}
 			}
-			every_country = {
-				limit = {
-					exists = yes
-				}
-				# unit limit calculations
-				calculate_actual_division_number = yes
-				calculate_maximum_divisions = yes
-			}
-			log = "[?outlook_rate@bayern]"
 			add_to_array = { global.HYD_princes = HYD }
 			every_possible_country = {
 				if = {
@@ -88,25 +71,19 @@ on_actions = {
 			}
 		}
 	}
+	on_daily = {
+		effect = {
+			if = {
+				limit = { 
+					check_variable = { coalition_partners^num > 0 } 
+				}
+				set_coalition_government_popularity = yes
+			}
+			unit_limit_calculation_effect = yes
+		}
+	}
 	on_weekly = {
 		effect = {
-			# unit limit calculations
-			if = {
-				limit = {
-					NOT = { has_global_flag = KR_no_unit_limits }
-				}
-				calculate_actual_division_number = yes
-				calculate_maximum_divisions = yes
-				if = {
-					limit = { is_faction_leader = yes }
-					country_event = fx.political.211
-					for_each_scope_loop = {
-						array = faction_members
-						country_event = fx.political.210
-					}
-				}
-				country_event = fx.political.122
-			}
 			# update intelligence agency AI
 			if = {
 				limit = {
@@ -328,6 +305,47 @@ on_actions = {
 		effect = {
 			log = "[GetDateText] on_peaceconference_ended ROOT = [Root.GetName] FROM = [From.GetName]"
 			recheck_annexations = yes
+			if = {
+				limit = { has_global_flag = XXB_being_divided }
+				clr_global_flag = XXB_being_divided
+			}
+			if = {
+				limit = {
+					ROOT = { original_tag = GER }
+					FROM = {
+						country_exists = XXB
+						XXB = { has_cosmetic_tag = SOV_surrender_lands }
+					}
+				}
+				XXB = { 
+					every_owned_state = {
+						limit = { is_on_continent = europe } 
+						transfer_state_to = GER 
+					}
+				}
+			}
+			if = {
+				limit = {
+					ROOT = { original_tag = JAP }
+					FROM = {
+						country_exists = XXB
+						XXB = {
+							OR = {
+								has_cosmetic_tag = ENG_east_asia
+								has_cosmetic_tag = FRA_east_asia
+								has_cosmetic_tag = USA_east_asia
+								has_cosmetic_tag = all_east_asia
+							}
+						}
+					}
+				}
+				XXB = { 
+					every_owned_state = {
+						limit = { is_on_continent = asia } 
+						transfer_state_to = JAP 
+					}
+				}
+			}
 		}
 	}
 	on_state_control_changed = {
@@ -340,26 +358,6 @@ on_actions = {
 				}
 				recheck_annexations = yes
 			}
-		}
-	}
-	on_daily = {
-		effect = {
-			if = {
-				limit = { 
-					check_variable = { coalition_partners^num > 0 } 
-				}
-				set_coalition_government_popularity = yes
-			}
-			# every_country = {
-			# 	limit = {
-			# 		OR = {
-			# 			has_idea = GEN_entente_member 
-			# 			has_idea = FRA_entente_leader
-			# 			has_idea = ITA_entente_leader
-			# 		}
-			# 	}
-			# 	add_to_array = { global.entente_council_members = THIS }
-			# }
 		}
 	}
 

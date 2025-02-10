@@ -1574,6 +1574,7 @@ GER_stormtrooper_buffs = {
 			limit = { GER_stormtrooper_checks = yes }
 			subtract_from_variable = { GER_stormtrooper_scaling = GER_tst_army }
 		}
+		clamp_temp_variable = { var = GER_stormtrooper_scaling min = 0.01 max = 0.6 } # stuff
 		force_update_dynamic_modifier = yes
 		if = {
 			limit = { NOT = { has_dynamic_modifier = { modifier = GER_stormtrooper_bonus } } }
@@ -1754,7 +1755,7 @@ GER_reset_propaganda_campaign_slot_effect = {
 				clear_variable = age@var:v 
 			}
 			add_to_variable = { GER_propaganda_dirty = 1 }
-			set_temp_variable = { break = 1 }
+			# set_temp_variable = { break = 1 }
 		}
 		set_variable = { GER_propaganda_campaign_to_remove = 0 } # Reset var... why not use temp vars? --thanasislanaras
 	}
@@ -2536,6 +2537,16 @@ GER_start_the_cultural_revolution = {
 	if = {
 		limit = { has_government = valkist NOT = { has_completed_focus = GER_eliminate_reactionaries } }
 		add_ideas = GER_military_disloyalty
+		for_each_scope_loop = {
+			array = GER.army_leaders
+			if = {
+				limit = { has_trait = hidden_sympathies }
+				PREV = { 
+					add_to_variable = { GER_military_disloyalty_command_factor = -0.05 }
+					add_to_variable = { GER_military_disloyalty_social_factor = -0.002 }
+				}
+			}
+		}
 	}
 	
 	GER_compute_cultural_revolution_modifiers = yes
@@ -4588,32 +4599,20 @@ GER_check_rl_exists = {
 	}
 	if = {
 		limit = { 
-			check_variable = { tag_to_release = NOR } 
-			any_country_with_original_tag = {
-				original_tag_to_check = NOR
-				OR = {
-					has_cosmetic_tag = GER_NOR_gg
-					has_cosmetic_tag = GER_NORD_gg
-				}
+			OR = {
+				check_variable = { tag_to_release = NOR }
+				check_variable = { tag_to_release = DEN }
 			}
-		}
-		random_country_with_original_tag = {
-			original_tag_to_check = NOR
-			limit = { 
-				OR = {
-					has_cosmetic_tag = GER_NOR_gg
-					has_cosmetic_tag = GER_NORD_gg
-				}
-			}
-			save_event_target_as = GER_norway_rk
+			country_exists = RLN
 		}
 		ROOT = {
 			every_owned_state = {
 				limit = {
 					is_core_of = NOR
+					is_core_of = DEN
 					is_claim_or_core_of_ROOT = no
 				}
-				transfer_state_to = event_target:GER_norway_rk
+				transfer_state_to = RLN
 			}
 		}
 		set_country_flag = GER_rl_exists_failsafe
@@ -4868,7 +4867,12 @@ GER_check_rl = {
 			}
 		}
 		if = {
-			limit = { check_variable = { tag_to_release = NOR } }
+			limit = {
+				OR = {
+					check_variable = { tag_to_release = NOR }
+					check_variable = { tag_to_release = DEN }
+				}
+			}
 			create_dynamic_country = {
 				original_tag = NOR 
 				reserve_dynamic_country = yes
@@ -4892,7 +4896,11 @@ GER_check_rl = {
 				ROOT = {
 					every_owned_state = {
 						limit = {
-							is_core_of = NOR
+							OR = {
+								is_core_of = NOR
+								is_core_of = DEN
+							}
+							is_claim_or_core_of_ROOT = no
 						}
 						add_to_temp_array = { temp_rl_states = THIS }
 						transfer_state_without_overriding_occupation = yes
@@ -5630,6 +5638,10 @@ GER_transfer_characters_to_DDR = {
 			limit = { has_character = GER_Hermann_Gauch }
 			GER_Hermann_Gauch = { promote_character = yes }
 		}
+		GER_Otto_Kumm = { retire = yes }
+		GER_Hermann_Preiss = { retire = yes }
+		GER_Gustav_Lombard = { retire = yes }
+		GER_Hyacinth_Strachwitz = { retire = yes }
 		GER_hire_tst_ministers = yes
 	}
 }
@@ -6153,20 +6165,10 @@ GER_start_civil_war = {
 			}
 		}
 	}
-	GER = { save_global_event_target_as = GER_original }
+	#GER = { save_global_event_target_as = GER_original }
 }
 
 GER_post_civil_war = {
-	event_target:GER_original = { 
-		change_tag_from = ROOT 
-		GER_replicate_dynamic_tag_situation = yes #retired change this effect to whatever it needs to do ^^
-		# i cant concentrate and have no idea what to do after, if oyu can figure out how to copy the tag just do it else i will eventually
-		load_focus_tree = { tree = german_focus_fx keep_completed = yes } # so the completed focuses remain
-		
-	}
-	every_owned_state = {
-		transfer_state_to = event_target:GER_original
-	}
 	clr_global_flag = german_civil_war
 	set_global_flag = german_civil_war_aftermath
 	set_country_flag = GER_aftermath_civil_war
@@ -6186,9 +6188,12 @@ GER_post_civil_war = {
 		set_cosmetic_tag = GER_YC
 	}
 	
+	create_faction = stahlpakt
+	
 	if = {
 		limit = { 
 			HOL = { 
+				exists = yes
 				is_subject = no
 				is_in_faction = no
 				has_authoritarian_government = yes
@@ -6204,8 +6209,6 @@ GER_post_civil_war = {
 		else = {
 			add_ideas = HOL_dutch_german_economic_cooperation
 		}
-		
-		create_faction = stahlpakt
 		add_to_faction = HOL
 	}
 }

@@ -163,14 +163,7 @@ country_event = { # Fate of Austria
 		ai_chance = {
 			base = 100
 		}
-		4 = { add_claim_by = GER }
-		39 = { add_claim_by = GER }
-		152 = { add_claim_by = GER }
-		153 = { add_claim_by = GER }
-		803 = { add_claim_by = GER }
-		912 = { add_claim_by = GER }
-		913 = { add_claim_by = GER }
-		GER = { AUS = { enable_country_integration_50_compliance = yes } }
+		GER = { country_event = { id = gerflavor.0 hours = 6 } }
 		set_country_flag = AUS_CONQ
 	}
 	option = { # Occupy
@@ -289,7 +282,7 @@ country_event = { # North German Confederation
 		set_temp_variable = { tag_to_release = event_target:german_magdeburg }
 		every_state = {
 			limit = { is_north_germany = yes }
-			add_core_of = var:tag_to_release
+			var:tag_to_release = { enable_state_integration_50_compliance = yes }
 		}
 		every_owned_state = {
 			limit = {
@@ -326,7 +319,7 @@ country_event = { # North German Confederation
 		set_temp_variable = { tag_to_release = event_target:german_franken }
 		every_state = {
 			limit = { is_north_germany = yes }
-			add_core_of = var:tag_to_release
+			var:tag_to_release = { enable_state_integration_50_compliance = yes }
 		}
 		every_owned_state = {
 			limit = {
@@ -363,7 +356,7 @@ country_event = { # North German Confederation
 		set_temp_variable = { tag_to_release = event_target:german_rhineland }
 		every_state = {
 			limit = { is_north_germany = yes }
-			add_core_of = var:tag_to_release
+			var:tag_to_release = { enable_state_integration_50_compliance = yes }
 		}
 		every_owned_state = {
 			limit = {
@@ -448,10 +441,6 @@ country_event = { # Fate of Bavaria
 			limit = { is_south_germany = yes }
 			add_core_of = var:tag_to_release
 		}
-		hidden_effect = {
-			BAY = {
-			}
-		}
 		release_targeted_tag = yes
 		recheck_annexations = yes
 	}
@@ -485,7 +474,7 @@ country_event = { # Fate of Bavaria
 		set_temp_variable = { tag_to_release = event_target:german_hesse }
 		every_state = {
 			limit = { is_south_germany = yes }
-			add_core_of = var:tag_to_release
+			var:tag_to_release = { enable_state_integration_50_compliance = yes }
 		}
 		every_owned_state = {
 			limit = {
@@ -521,7 +510,7 @@ country_event = { # Fate of Bavaria
 		set_temp_variable = { tag_to_release = event_target:german_thuringia }
 		every_state = {
 			limit = { is_south_germany = yes }
-			add_core_of = var:tag_to_release
+			var:tag_to_release = { enable_state_integration_50_compliance = yes }
 		}
 		every_owned_state = {
 			limit = {
@@ -1000,8 +989,14 @@ country_event = { # Fate of West Prussia
 		ai_chance = {
 			base = 100
 		}
-		85 = { enable_state_integration_50_compliance = yes }
-		807 = { enable_state_integration_50_compliance = yes }
+		85 = {
+			add_claim_of_ROOT = yes
+			enable_state_integration_50_compliance = yes
+		}
+		807 = {
+			add_claim_of_ROOT = yes
+			enable_state_integration_50_compliance = yes
+		}
 	}
 
 	option = { # Occupy
@@ -1212,6 +1207,19 @@ country_event = { # Fate of Denmark
 			add_claim_by = GNC
 			transfer_state_to = GNC
 		}
+	}
+	
+	option = { # Reichslander!
+		name = annex.reichslander
+		trigger = {
+			tag = GER 
+			has_government = national_populist
+		}
+		ai_chance = {
+			base = 150
+		}
+		set_temp_variable = { tag_to_release = DEN }
+		GER_rl_effect = yes
 	}
 
 	option = { # Occupy
@@ -2077,6 +2085,42 @@ country_event = { # Fate of Germany
 		}
 
 	}
+	
+	option = { # give it to (republican) government!
+		log = "[GetLogInfo]: event annex.118 option annex.118.c"
+		name = annex.118.c
+		trigger = {
+			country_exists = GRR
+		}
+		ai_chance = {
+			base = 60
+		}
+		every_owned_state = {
+			limit = { is_germany = yes }
+			transfer_state_to = GRR
+		}
+		
+	}
+	
+	option = { # give it to (socialist) government!
+		log = "[GetLogInfo]: event annex.118 option annex.118.e"
+		name = annex.118.e
+		trigger = {
+			any_country = {
+				tag = SHO
+				has_socialist_government = yes
+				is_subject = no
+			}
+			has_socialist_government = yes
+		}
+		ai_chance = {
+			base = 60
+		}
+		every_owned_state = {
+			limit = { is_germany = yes }
+			transfer_state_to = SHO
+		}
+	}
 
 	option = { # Split it up
 		log = "[GetLogInfo]: event annex.118 option annex.118.b"
@@ -2248,7 +2292,7 @@ country_event = { # Fate of East Prussia
 			base = 100
 		}
 		set_temp_variable = { tag_to_release = 63.owner }
-		5 = { transfer_state_and_add_claim = yes } #East Prussia
+		5 = { transfer_state_and_50_compliance_core = yes } #East Prussia
 		recheck_annexations = yes
 	}
 
@@ -2342,8 +2386,8 @@ country_event = { # Fate of Holstein
 			}
 		}
 		set_temp_variable = { tag_to_release = event_target:german_mecklenberg }
-		915 = { transfer_state_and_add_claim = yes }
-		991 = { transfer_state_and_add_claim = yes }
+		915 = { transfer_state_and_50_compliance_core = yes }
+		991 = { transfer_state_and_50_compliance_core = yes }
 		recheck_annexations = yes
 	}
 
@@ -2370,8 +2414,8 @@ country_event = { # Fate of Holstein
 			}
 		}
 		set_temp_variable = { tag_to_release = event_target:german_hannover }
-		915 = { transfer_state_and_add_claim = yes }
-		991 = { transfer_state_and_add_claim = yes }
+		915 = { transfer_state_and_50_compliance_core = yes }
+		991 = { transfer_state_and_50_compliance_core = yes }
 		recheck_annexations = yes
 	}
 
@@ -3093,6 +3137,10 @@ country_event = { # Fate of Lithuania
 				add_state_core = 189
 				drop_cosmetic_tag = yes
 			}
+			if = {
+				limit = { tag = GER }
+				188 = { add_claim_by = GER enable_state_integration_80_compliance = yes }
+			}
 		}
 	}
 
@@ -3724,6 +3772,12 @@ country_event = { # Fate of Poland
 					limit = { has_global_flag = POL_got_GERed_focus_tree }
 					load_focus_tree = polish_focus
 				}
+			}
+			if = {
+				limit = { tag = GER }
+				752 = { add_claim_by = GER enable_state_integration_80_compliance = yes }
+				86 = { add_claim_by = GER enable_state_integration_80_compliance = yes }
+				67 = { add_claim_by = GER enable_state_integration_50_compliance = yes }
 			}
 		}
 	}
@@ -4943,7 +4997,7 @@ country_event = { # Fate of Silesia
 		set_temp_variable = { tag_to_release = event_target:german_brandenburg }
 		every_state = {
 			limit = { is_silesia = yes }
-			add_core_of = var:tag_to_release
+			var:tag_to_release = { enable_state_integration_50_compliance = yes }
 		}
 		every_owned_state = {
 			limit = {
@@ -4980,7 +5034,7 @@ country_event = { # Fate of Silesia
 		set_temp_variable = { tag_to_release = event_target:german_pomerania }
 		every_state = {
 			limit = { is_silesia = yes }
-			add_core_of = var:tag_to_release
+			var:tag_to_release = { enable_state_integration_50_compliance = yes }
 		}
 		every_owned_state = {
 			limit = {
@@ -5094,6 +5148,42 @@ country_event = { # Fate of Slovakia
 		}
 		set_temp_variable = { tag_to_release = SLO }
 		release_targeted_tag = yes
+	}
+	
+	option = { # integration
+		name = annex.integration
+		ai_chance = {
+			base = 1000
+		}
+		trigger = {
+			OR = {
+				tag = CZE
+				tag = HUN
+			}
+		}
+		if = {
+			limit = { tag = HUN }
+			every_state = {
+				limit = {
+					is_core_of = SLO
+					NOT = {
+						state = 70
+						state = 71
+					}
+				}
+				add_claim_of_ROOT = yes
+				enable_state_integration_80_compliance = yes
+			}
+		}
+		else = {
+			every_state = {
+				limit = {
+					is_core_of = SLO
+				}
+				add_claim_of_ROOT = yes
+				enable_state_integration_50_compliance = yes
+			}
+		}
 	}
 	
 	option = { # Reichslander!
@@ -6264,14 +6354,29 @@ country_event = { # Fate of Zeuss-Vlaanderen
 	desc = annexation_ZEUSS_VLAANDEREN_CONQ_DESC
 	picture = GFX_report_event_czech_soldiers_01
 	is_triggered_only = yes
+	
+	immediate = {
+		if = {
+			limit = {
+				var:6.owner = { # flanders
+					ROOT_can_grant_land = yes
+					OR = {
+						tag = BEL
+						tag = FLA
+						tag = WLL
+						tag = HOL
+						tag = KNE
+					}
+				}
+			}
+			var:6.owner = { save_event_target_as = flanders }
+		}
+	}
 
 	option = { # Give it to Belgium
 		name = annex.160.a
 		trigger = {
-			OR = {
-				BEL = { ROOT_can_grant_land = yes }
-				WLL = { ROOT_can_grant_land = yes }
-			}
+			has_event_target = flanders
 		}
 		ai_chance = {
 			base = 100
@@ -6280,14 +6385,8 @@ country_event = { # Fate of Zeuss-Vlaanderen
 				is_ally_with = HOL
 			}
 		}
-		if = {
-			limit = { country_exists = WLL }
-			set_temp_variable = { tag_to_release = WLL }
-			867 = { transfer_state_and_add_core = yes }
-			} else = {
-			set_temp_variable = { tag_to_release = BEL }
-			867 = { transfer_state_and_add_core = yes }
-		}
+		set_temp_variable = { tag_to_release = event_target:flanders }
+		867 = { transfer_state_and_add_core = yes }
 	}
 
 	option = { # Give in to the Dutch
@@ -6411,7 +6510,7 @@ country_event = { # Fate of Shkoder
 	immediate = {
 		if = {
 			limit = {
-				var:1038 = { # Sjeverni
+				var:1038.owner = { # Sjeverni
 					ROOT_can_grant_land = yes
 					is_south_slav_tag = yes
 				}
@@ -7562,20 +7661,6 @@ country_event = { # Fate of Brandenburg
 			add_core_of = var:tag_to_release
 		}
 		hidden_effect = {
-			PRS = { 
-				if = {
-					limit = { FROM = { has_socialist_government = yes } }
-					set_country_flag = ddr_soc
-				}
-				if = {
-					limit = { FROM = { has_elected_government = yes } }
-					set_country_flag = ddr_dem
-				}
-				else_if = {
-					limit = { FROM = { has_authoritarian_government = yes } }
-					set_country_flag = ddr_aut
-				}
-			}
 		}
 		release_targeted_tag = yes
 		recheck_annexations = yes
@@ -7601,7 +7686,7 @@ country_event = { # Fate of Brandenburg
 		set_temp_variable = { tag_to_release = PRS }
 		every_state = {
 			limit = { is_brandenburg = yes }
-			add_core_of = var:tag_to_release
+			var:tag_to_release = { enable_state_integration_50_compliance = yes }
 		}
 		every_owned_state = {
 			limit = {
@@ -7645,7 +7730,7 @@ country_event = { # Fate of Brandenburg
 						is_saxony = yes
 					}
 				}
-				add_core_of = var:tag_to_release
+				var:tag_to_release = { enable_state_integration_50_compliance = yes }
 			}
 			every_owned_state = {
 				limit = {
@@ -7706,7 +7791,7 @@ country_event = { # Fate of Brandenburg
 						is_saxony = yes
 					}
 				}
-				add_core_of = var:tag_to_release
+				var:tag_to_release = { enable_state_integration_50_compliance = yes }
 			}
 			every_owned_state = {
 				limit = {
@@ -8228,6 +8313,31 @@ country_event = { # Fate of Saarland
 		}
 		set_temp_variable = { tag_to_release = GRP }
 		981 = { transfer_state_and_add_core = yes }
+	}
+	
+	option = { # Give it to the Germans
+		name = annex.integrate
+		trigger = {
+			OR = {
+				is_germany_or_splinter_tag = yes
+				original_tag = FRA
+			}
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.25
+				OR = {
+					is_ally_with = FRA
+					is_ally_with = FRP
+				}
+			}
+		}
+		if = {
+			limit = { is_germany_or_splinter_tag = yes }
+			981 = { transfer_state_and_add_core = yes }
+		}
+		else = { 981 = { transfer_state_and_add_claim = yes } }
 	}
 
 	option = { # Occupy
@@ -9330,6 +9440,11 @@ country_event = { # Fate of Fiume
 		}
 		occupy_small_country = yes
 		set_country_flag = FIUME_CONQ
+		if = {
+			limit = { has_country_flag = GER_promised_istria }
+			clr_country_flag = GER_promised_istria
+			SER = { country_event = { id = belarus.45 days = 1 } }
+		}
 	}
 }
 
@@ -9443,7 +9558,7 @@ country_event = { # Fate of Zara
 					is_italian_or_splinter_tag = yes
 				}
 			}
-			var:106.owner = { save_event_target_as = italian_istria }
+			var:736.owner = { save_event_target_as = italian_istria }
 		}
 
 		if = {
@@ -9538,6 +9653,11 @@ country_event = { # Fate of Zara
 		}
 		occupy_small_country = yes
 		set_country_flag = ZARA_CONQ
+		if = {
+			limit = { has_country_flag = GER_promised_istria }
+			clr_country_flag = GER_promised_istria
+			SER = { country_event = { id = belarus.45 days = 1 } }
+		}
 	}
 }
 
@@ -10376,6 +10496,171 @@ country_event = { # Fate of Bitola
 
 	option = { # Occupy
 		log = "[GetLogInfo]: event annex.204 option annex.occupation"
+		name = annex.occupation
+		ai_chance = {
+			base = 0
+		}
+		trigger = {
+			is_ai = no
+		}
+		occupy_small_country = yes
+		set_country_flag = KOS_CONQ
+	}
+}
+
+country_event = { # Fate of Istria
+	id = annex.205
+	title = annexation_ISTRIA_CONQ
+	desc = annexation_ISTRIA_CONQ_DESC
+	picture = GFX_report_event_czech_soldiers_01
+	is_triggered_only = yes
+
+	immediate = {
+		if = {
+			limit = { 
+				var:912.owner = { # Austria
+					ROOT_can_grant_land = yes
+					OR = {
+						tag = AUS
+						tag = BAY
+					}
+				}
+			}
+			var:912.owner = { save_event_target_as = austrian_state }
+		}
+		if = {
+			limit = {
+				var:102.owner = { # Yugoslav state
+					ROOT_can_grant_land = yes
+					OR = {
+						tag = GRE
+						tag = BUL
+						tag = SER
+					}
+					NOT = { tag = event_target:austrian_state }
+				}
+			}
+			var:102.owner = { save_event_target_as = yugoslav_state }
+		}
+		if = {
+			limit = {
+				var:160.owner = { # Italy
+					ROOT_can_grant_land = yes
+					is_italian_or_splinter_tag = yes
+					NOT = { 
+						tag = event_target:austrian_state
+						tag = event_target:yugoslav_state
+					}
+				}
+			}
+			var:160.owner = { save_event_target_as = italian_state }
+		}
+	}
+
+	option = { #Give it to italian tag
+		log = "[GetLogInfo]: event annex.205 option annex.205.a"
+		name = annex.205.a
+		trigger = {
+			has_event_target = italian_state
+		}
+		ai_chance = {
+			base = 20
+			modifier = {
+				factor = 0
+				OR = {
+					is_ally_with = event_target:austrian_state
+					is_ally_with = event_target:yugoslav_state
+				}
+				NOT = { is_ally_with = event_target:italian_state }
+			}
+		}
+
+		set_temp_variable = { tag_to_release = event_target:central_macedonia_owner }
+		736 = { transfer_state_and_50_compliance_core = yes }
+		recheck_annexations = yes
+	}
+
+	option = { #Give it to the yugoslav tag
+		log = "[GetLogInfo]: event annex.205 option annex.205.b"
+		name = annex.205.b
+		trigger = {
+			has_event_target = yugoslav_state
+		}
+		ai_chance = {
+			base = 20
+			modifier = {
+				factor = 0
+				OR = {
+					is_ally_with = event_target:austrian_state
+					is_ally_with = event_target:italian_state
+				}
+				NOT = { is_ally_with = event_target:yugoslav_state }
+			}
+		}
+
+		set_temp_variable = { tag_to_release = event_target:yugoslav_state }
+		736 = { transfer_state_and_50_compliance_core = yes }
+		recheck_annexations = yes
+	}
+
+	option = { #Give it to german tag
+		log = "[GetLogInfo]: event annex.205 option annex.205.c"
+		name = annex.205.c
+		trigger = {
+			has_event_target = austrian_state
+		}
+		ai_chance = {
+			base = 20
+			modifier = {
+				factor = 0
+				OR = {
+					is_ally_with = event_target:yugoslav_state
+					is_ally_with = event_target:italian_state
+				}
+				NOT = { is_ally_with = event_target:austrian_state }
+			}
+		}
+
+		set_temp_variable = { tag_to_release = event_target:austrian_state }
+		736 = { transfer_state_and_50_compliance_core = yes }
+		recheck_annexations = yes
+	}
+	
+	option = { #Give it to german tag
+		log = "[GetLogInfo]: event annex.205 option annex.205.c"
+		name = annex.integrate
+		trigger = {
+			OR = {
+				tag = AUS
+				is_germany_or_splinter_tag = yes
+				is_italian_or_splinter_tag = yes
+				is_south_slav_tag = yes
+			}
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0
+				if = {
+					limit = { tag = GER }
+					has_country_flag = GER_promised_istria
+				}
+			}
+		}
+		736 = { 
+			add_claim_of_ROOT = yes
+			enable_state_integration_50_compliance = yes
+		}
+		if = {
+			limit = { has_country_flag = GER_promised_istria }
+			clr_country_flag = GER_promised_istria
+			SER = { country_event = { id = belarus.45 days = 1 } }
+		}
+		recheck_annexations = yes
+	}
+
+	option = { # Occupy
+		log = "[GetLogInfo]: event annex.205 option annex.occupation"
 		name = annex.occupation
 		ai_chance = {
 			base = 0

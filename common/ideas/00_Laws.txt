@@ -183,7 +183,7 @@ ideas = {
 
 			modifier = {
 				political_power_gain = 0.1
-				unit_limit_factory_bonus = 0.1
+				unit_limit_law_bonus = 4
 				consumer_goods_expected_value = 0.3
 				production_speed_industrial_complex_factor = -0.1
 				production_speed_arms_factory_factor = -0.1
@@ -245,7 +245,7 @@ ideas = {
 			}
 
 			modifier = {
-				unit_limit_factory_bonus = 0.3
+				unit_limit_law_bonus = 12
 				consumer_goods_expected_value = 0.2
 				production_speed_arms_factory_factor = 0.2
 				conversion_cost_civ_to_mil_factor = -0.2
@@ -279,7 +279,7 @@ ideas = {
 
 			modifier = {
 				political_power_gain = -0.1
-				unit_limit_factory_bonus = 0.4
+				unit_limit_law_bonus = 16
 				consumer_goods_expected_value = 0.10
 				conscription = -0.03
 				production_speed_arms_factory_factor = 0.3
@@ -508,6 +508,8 @@ ideas = {
 		law = yes
 
 		unpopular_conscription = {
+			on_add = { log = "[GetDateText]: [Root.GetName]: add idea unpopular_conscription" }
+			on_remove = { hidden_effect = { set_variable = { previous_manpower_law = token:unpopular_conscription } } }
 			level = 8
 			removal_cost = -1
 			allowed = { always = no }
@@ -528,14 +530,11 @@ ideas = {
 		}
 
 		disarmed_nation = {
+			on_add = { log = "[GetDateText]: [Root.GetName]: add idea disarmed_nation" }
+			on_remove = { hidden_effect = { set_variable = { previous_manpower_law = token:disarmed_nation } } }
 			level = 7
-			cost = 100
 			removal_cost = -1
-
 			cancel_if_invalid = no
-			available = {
-				#has_manpower_for_recruit_change_to = { value = 0.005 group = mobilization_laws }
-			}
 
 			modifier = {
 				conscription = 0.01
@@ -543,10 +542,11 @@ ideas = {
 		}
 
 		volunteer_only = {
+			on_add = { log = "[GetDateText]: [Root.GetName]: add idea volunteer_only" }
+			on_remove = { hidden_effect = { set_variable = { previous_manpower_law = token:volunteer_only } } }
 			level = 6
-			cost = 100
-
 			cancel_if_invalid = no
+			default = yes
 			available = {
 				#has_manpower_for_recruit_change_to = { value = 0.015 group = mobilization_laws }
 				NOT = {
@@ -554,26 +554,28 @@ ideas = {
 					has_idea = undisturbed_isolation
 				}
 			}
-
 			modifier = {
 				conscription = 0.015
 			}
-
-			default = yes
+			ai_will_do = { factor = 10 }
 		}
 
 		limited_conscription = {
+			on_add = { log = "[GetDateText]: [Root.GetName]: add idea limited_conscription" }
+			on_remove = { hidden_effect = { set_variable = { previous_manpower_law = token:limited_conscription } } }
 			level = 5
-			cost = 100
 			removal_cost = -1
-
 			cancel_if_invalid = no
+
 			available = {
-				#has_manpower_for_recruit_change_to = { value = 0.025 group = mobilization_laws }
 				NOT = {
 					has_idea = isolation
 					has_idea = undisturbed_isolation
 					has_country_flag = cannot_have_conscription
+				}
+				OR = {
+					has_war_support > 0.1
+					surrender_progress > 0
 				}
 			}
 
@@ -582,25 +584,44 @@ ideas = {
 			}
 
 			ai_will_do = {
-				factor = 1
-				modifier = {
-					#Prio if low on manpower
+				factor = 10
+				modifier = { #one step at a time
+					factor = 0
+					NOT = { has_idea = volunteer_only }
+				}
+				modifier = { # the economy is mobilised enough - conscript people!
+					factor = 50
+					OR = {
+						has_idea = partial_economic_mobilisation
+						has_idea = war_economy
+					}
+				}
+				modifier = { #prio if low on manpower
 					factor = 20
-					manpower_per_military_factory <  1000
+					manpower_per_military_factory < 1500
 				}
 			}
 		}
 
 		extensive_conscription = {
+			on_add = { log = "[GetDateText]: [Root.GetName]: add idea extensive_conscription" }
+			on_remove = { hidden_effect = { set_variable = { previous_manpower_law = token:extensive_conscription } } }
 			level = 4
-			cost = 100
 			removal_cost = -1
 
 			cancel_if_invalid = no
 			available = {
-				#has_manpower_for_recruit_change_to = { value = 0.05 group = mobilization_laws }
-				has_war = yes
-				enemies_strength_ratio > 0.5
+				OR = {
+					has_war_support > 0.2
+					surrender_progress > 0
+				}
+				OR = {
+					has_war_support > 0.5
+					AND = {
+						has_war = yes
+						enemies_strength_ratio > 0.5
+					}
+				}
 				NOT = { has_country_flag = cannot_have_conscription }
 			}
 
@@ -610,24 +631,36 @@ ideas = {
 			}
 
 			ai_will_do = {
-				factor = 1
+				factor = 10
+				modifier = { #one step at a time
+					factor = 0
+					NOT = { has_idea = limited_conscription }
+				}
 				modifier = {
-					#Prio if low on manpower
+					factor = 50  #The tag has enough equipment stockpiled but doesn't have manpower
+					amount_manpower_in_deployment_queue < 40000   # Less than 4 divs in training
+					has_equipment = { infantry_equipment > 5000 } # And has enough equipment in stockpile to train new divisions
+				}
+				modifier = { #prio if low on manpower
 					factor = 20
-					manpower_per_military_factory <  800
+					manpower_per_military_factory < 2000
 				}
 			}
 		}
 
 		service_by_requirement = {
+			on_add = { log = "[GetDateText]: [Root.GetName]: add idea service_by_requirement" }
+			on_remove = { hidden_effect = { set_variable = { previous_manpower_law = token:service_by_requirement } } }
 			level = 3
-			cost = 100
 			removal_cost = -1
-
 			cancel_if_invalid = no
+
 			available = {
-				#has_manpower_for_recruit_change_to = { value = 0.1 group = mobilization_laws }
 				has_war = yes
+				OR = {
+					has_war_support > 0.6
+					surrender_progress > 0
+				}
 				enemies_strength_ratio > 0.6
 				NOT = { has_country_flag = cannot_have_conscription }
 			}
@@ -641,26 +674,33 @@ ideas = {
 			}
 
 			ai_will_do = {
-				factor = 1
-				modifier = {
-					#Prio if low on manpower
-					factor = 20
-					manpower_per_military_factory <  700
-				}
-				modifier = {
-					#Lower chance if has decent amount
-					factor = 0.5
-					manpower_per_military_factory >  1000
-				}
-				modifier = {
-					#Block has plenty manpower
+				factor = 10
+				modifier = { #one step at a time
 					factor = 0
-					manpower_per_military_factory >  3000
+					NOT = { has_idea = extensive_conscription }
+				}
+				modifier = { #already mobilising
+					factor = 0
+					NOT = { check_variable = { target_conscription_amount = current_conscription_amount } }
+				}
+				modifier = { #ignore if high on manpower
+					factor = 0
+					manpower_per_military_factory > 3000
+				}
+				modifier = { #lower if decent manpower
+					factor = 0.5
+					manpower_per_military_factory > 1000
+				}
+				modifier = { #prio if low on manpower
+					factor = 20
+					manpower_per_military_factory < 700
 				}
 			}
 		}
 
 		all_adults_serve = {
+			on_add = { log = "[GetDateText]: [Root.GetName]: add idea all_adults_serve" }
+			on_remove = { hidden_effect = { set_variable = { previous_manpower_law = token:all_adults_serve } } }
 			level = 2
 			cost = 100
 			removal_cost = -1
@@ -668,6 +708,10 @@ ideas = {
 			cancel_if_invalid = no
 			available = {
 				has_war = yes
+				OR = {
+					has_war_support > 0.7
+					surrender_progress > 0
+				}
 				enemies_strength_ratio > 0.75
 				NOT = { has_country_flag = cannot_have_conscription }
 			}
@@ -682,34 +726,43 @@ ideas = {
 			}
 
 			ai_will_do = {
-				factor = 1
-				modifier = {
-					#Prio if low on manpower
-					factor = 20
-					manpower_per_military_factory <  600
-				}
-				modifier = {
-					#Lower chance if has decent amount
-					factor = 0.5
-					manpower_per_military_factory >  1000
-				}
-				modifier = {
-					#Block has plenty manpower
+				factor = 10
+				modifier = { #one step at a time
 					factor = 0
-					manpower_per_military_factory >  5000
+					NOT = { has_idea = service_by_requirement }
+				}
+				modifier = { #already mobilising
+					factor = 0
+					NOT = { check_variable = { target_conscription_amount = current_conscription_amount } }
+				}
+				modifier = { #ignore if high on manpower
+					factor = 0
+					manpower_per_military_factory > 2800
+				}
+				modifier = { #lower if decent manpower
+					factor = 0.5
+					manpower_per_military_factory > 1000
+				}
+				modifier = { #prio if low on manpower
+					factor = 20
+					manpower_per_military_factory < 600
 				}
 			}
 		}
 
 		scraping_the_barrel = {
+			on_add = { log = "[GetDateText]: [Root.GetName]: add idea scraping_the_barrel" }
+			on_remove = { hidden_effect = { set_variable = { previous_manpower_law = token:scraping_the_barrel } } }
 			level = 1
-			cost = 100
 			removal_cost = -1
 
 			cancel_if_invalid = no
 			available = {
-				#has_manpower_for_recruit_change_to = { value = 0.25 group = mobilization_laws }
 				has_war = yes
+				OR = {
+					has_war_support > 0.85
+					surrender_progress > 0.25
+				}
 				enemies_strength_ratio > 1
 				NOT = { has_country_flag = cannot_have_conscription }
 			}
@@ -723,21 +776,26 @@ ideas = {
 			}
 
 			ai_will_do = {
-				factor = 1
-				modifier = {
-					#Prio if low on manpower
-					factor = 20
-					manpower_per_military_factory <  500
-				}
-				modifier = {
-					#Lower chance if has decent amount
-					factor = 0.5
-					manpower_per_military_factory >  1000
-				}
-				modifier = {
-					#Block has plenty manpower
+				factor = 10
+				modifier = { #one step at a time
 					factor = 0
-					manpower_per_military_factory >  5000
+					NOT = { has_idea = all_adults_serve }
+				}
+				modifier = { #already mobilising
+					factor = 0
+					NOT = { check_variable = { target_conscription_amount = current_conscription_amount } }
+				}
+				modifier = { #ignore if high on manpower
+					factor = 0
+					manpower_per_military_factory > 5000
+				}
+				modifier = { #lower if decent manpower
+					factor = 0.5
+					manpower_per_military_factory > 1000
+				}
+				modifier = { #prio if low on manpower
+					factor = 20
+					manpower_per_military_factory < 500
 				}
 			}
 		}

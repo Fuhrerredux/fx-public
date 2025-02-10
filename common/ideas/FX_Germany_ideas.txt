@@ -34,7 +34,6 @@ ideas = {
 		# GER_propaganda_age_1_days_left = { }
 		# GER_propaganda_age_2_days_left = { }
 		# GER_propaganda_age_3_days_left = { }
-	
 
 		GER_war_on_capitalism_idea_dummy_total = {
 			name = GER_war_on_capitalism
@@ -44,6 +43,15 @@ ideas = {
 		GER_military_disloyalty_dummy = {
 			name = GER_military_disloyalty
 			modifier = { }
+		}
+		
+		GER_tst_terror_dummy = {
+			name = GER_tst_terror
+			modifier = {
+				monthly_population = -0.2
+				resistance_target = -0.5
+				resistance_decay = 0.5
+			}
 		}
 		
 		GER_military_disloyalty_dummy_mod = {
@@ -405,9 +413,34 @@ ideas = {
 				}
 			}
 		}
-		
+		GER_unit_limit_boost = {
+			modifier = {
+				unit_limit_factor = 0.15
+			}
+		}
 	}
 	country = {
+		GER_fraying_union = {
+			on_add = {log = "[GetDateText]: [Root.GetName]: add idea GER_fraying_union"}
+			allowed = { is_ai = yes }
+			cancel = {
+				OR = {
+					has_war = no
+					GER = { exists = no }
+				}
+			}
+			picture = generic_army_problems
+			modifier = {
+				stability_factor = -0.25
+				war_support_factor = -0.25
+				stability_weekly = -0.001
+			}
+			targeted_modifier = {
+				tag = GER
+				attack_bonus_against = -0.35
+				defense_bonus_against = -0.35
+			}
+		}
 		GER_a_reich_divided = {
 			on_add = {log = "[GetDateText]: [Root.GetName]: add idea GER_a_reich_divided"}
 			picture = generic_disjointed_gov
@@ -3153,10 +3186,7 @@ ideas = {
 		krupp = {
 			on_add = {log = "[GetDateText]: [Root.GetName]: add idea krupp"}
 			allowed = {
-				OR = {
-					GER_can_be_germany = yes
-					original_tag = RHI
-				}
+				is_germany_or_splinter_tag = yes
 			}
 			available = {
 				OR = {
@@ -3210,10 +3240,7 @@ ideas = {
 		thyssen_company = {
 			on_add = {log = "[GetDateText]: [Root.GetName]: add idea thyssen_company"}
 			allowed = {
-				OR = {
-					GER_can_be_germany = yes
-					original_tag = RHI
-				}
+				original_tag = GER
 			}
 			available = {
 				if = {
@@ -3245,7 +3272,7 @@ ideas = {
 		amt_roh = {
 			on_add = {log = "[GetDateText]: [Root.GetName]: add idea amt_roh"}
 			allowed = {
-				GER_can_be_germany = yes
+				original_tag = GER
 			}
 			available = {
 				has_completed_focus = GER_create_adrw
@@ -3263,7 +3290,7 @@ ideas = {
 		rochling = {
 			on_add = {log = "[GetDateText]: [Root.GetName]: add idea rochling"}
 			allowed = {
-				GER_can_be_germany = yes
+				is_germany_or_splinter_tag = yes
 			}
 			visible = {
 				owns_state = 981
@@ -3282,14 +3309,11 @@ ideas = {
 		braun_company = {
 			on_add = {log = "[GetDateText]: [Root.GetName]: add idea braun_company"}
 			allowed = {
-				OR = {
-					GER_can_be_germany = yes
-					original_tag = RHI
-				}
+				is_germany_or_splinter_tag = yes
 			}
 			available = {
 				if = {
-					limit = { GER_can_be_germany = yes }
+					limit = { is_germany_or_splinter_tag = yes }
 					owns_state = 51
 				}
 			}
@@ -3299,7 +3323,7 @@ ideas = {
 					has_global_flag = GER_companies_evacuated_rhine
 				}
 				else_if = {
-					limit = { GER_can_be_germany = yes }
+					limit = { original_tag = GER }
 					NOT = { has_global_flag = GER_companies_evacuated_rhine }
 				}
 			}
@@ -3322,16 +3346,10 @@ ideas = {
 		mauser = {
 			on_add = {log = "[GetDateText]: [Root.GetName]: add idea mauser"}
 			allowed = {
-				OR = {
-					GER_can_be_germany = yes
-					original_tag = RHI
-				}
+				is_germany_or_splinter_tag = yes
 			}
 			available = {
-				if = {
-					limit = { GER_can_be_germany = yes }
-					owns_state = 50
-				}
+				owns_state = 50
 			}
 			visible = {
 				if = {
@@ -3339,7 +3357,7 @@ ideas = {
 					has_global_flag = GER_companies_evacuated_rhine
 				}
 				else_if = {
-					limit = { GER_can_be_germany = yes }
+					limit = { original_tag = GER }
 					NOT = { has_global_flag = GER_companies_evacuated_rhine }
 				}
 				OR = {

@@ -159,6 +159,7 @@ country_event = { # GER: TST in AUS
 		log = "[GetLogInfo]: event gerflavor.3 option gerflavor.3.a"
 		add_manpower = 3500
 		custom_effect_tooltip = gerflavor.3.tt
+		show_ideas_tooltip = GER_tst_terror_dummy
 		set_country_flag = GER_helped_AUS_tst
 	}
 	
@@ -1261,7 +1262,7 @@ country_event = { # Sending the Abwehr?
 		log = "[GetLogInfo]: event gerdom.6 option gerdom.6.b"
 		name = gerdom.6.b
 		ai_chance = {
-			base = 100
+			base = 0
 			modifier = {
 				factor = 0
 				GER_has_rule_yc_coalition = yes
@@ -1363,7 +1364,7 @@ country_event = { # Mobilization of the Reichswehr (Dressler Coma/Ded)
 		log = "[GetLogInfo]: event gerdom.9 option gerdom.9.a"
 		name = gerdom.9.b
 		ai_chance = {
-			base = 100
+			base = 0
 			modifier = {
 				factor = 0
 				OR = {
@@ -1735,7 +1736,7 @@ country_event = { # Dressler in Chancellory
 		log = "[GetLogInfo]: event gerdom.16 option gerdom.16.a"
 		name = gerdom.16.a
 		ai_chance = {
-			base = 100
+			base = 0
 			modifier = {
 				factor = 0
 				GER_has_rule_tst_control = yes
@@ -1836,7 +1837,7 @@ country_event = { # Powerstruggle in the Government
 		log = "[GetLogInfo]: event gerdom.19 option gerdom.19.a"
 		name = gerdom.19.a
 		ai_chance = {
-			base = 100
+			base = 0
 			modifier = {
 				factor = 0
 				OR = {
@@ -1981,7 +1982,8 @@ country_event = { # End of the Civil War
 		hidden_effect = {
 			if = {
 				limit = { has_government = national_populist }
-				XXB = { GER_Paul_Hausser = { set_nationality = GER } }
+				XXB = { GER_Paul_Hausser = { set_nationality = GER promote_to_field_marshal = yes } }
+				GER = { GER_Paul_Hausser = { promote_to_field_marshal = yes } }
 			}
 			XXB = {
 				GER_Wernher_von_Braun = { set_nationality = GER }
@@ -2004,6 +2006,17 @@ country_event = { # End of the Civil War
 				GER_Georg_Lindemann = { set_nationality = GER }
 				GER_Hermann_Balck = { set_nationality = GER }
 				GER_Hans_Speidel = { set_nationality = GER }
+			}
+			GER = {
+				GER_Kurt_Student = { retire = yes }
+				GER_Eugen_Meindl = { retire = yes }
+				GER_Hasso_von_Manteuffel = { retire = yes }
+				GER_Ferdinand_Schoerner = { retire = yes }
+				GER_Helmuth_Weidling = { retire = yes }
+				GER_Walther_Wenck = { retire = yes }
+				GER_Georg_Lindemann = { retire = yes }
+				GER_Hermann_Balck = { retire = yes }
+				GER_Hans_Speidel = { retire = yes }
 			}
 		}
 	}
@@ -2998,7 +3011,7 @@ country_event = { # Cultural Revolution Info Dump
 	title = gerdom.54.t
 	desc = gerdom.54.d
 	is_triggered_only = yes
-	picture = GFX_report_event_GER_youth_poster
+	picture = GFX_report_event_GER_big_meeting
 	immediate = {log = "[GetDateText]: [Root.GetName]: event gerdom.54"}
 
 	option = { # oh bruh!!!!!!!
@@ -4261,12 +4274,12 @@ country_event = { # The Reichswehr coup - who to choose
 	picture = GFX_report_event_GER_yc_take_over
 	is_triggered_only = yes
 	option = {
-		name = greyc.1.a
+		name = gery.1.a
 		log = "[GetLogInfo]: event geryc.1 option geryc.1.a"
 		complete_national_focus = GER_arthur_mahnrau_comes_out_on_top
 	}
 	option = {
-		name = greyc.1.b
+		name = gery.1.b
 		log = "[GetLogInfo]: event geryc.1 option geryc.1.b"
 		complete_national_focus = GER_return_juniklub
 		hidden_effect = {
@@ -4288,7 +4301,7 @@ country_event = { # The Reichswehr coup - who to choose
 		
 	}
 	option = {
-		name = greyc.1.c
+		name = gery.1.c
 		log = "[GetLogInfo]: event geryc.1 option geryc.1.c"
 		complete_national_focus = GER_jung_survived_the_chaos
 		GER_Edgar_Julius_Jung = {
@@ -4983,7 +4996,14 @@ country_event = { # Germany asks us to join!
 				}
 			}
 			modifier = {
-				factor = 1.5
+				factor = 2
+				OR = {
+					has_government = paternal_autocrat
+					has_government = national_populist
+				}
+			}
+			modifier = {
+				factor = 4
 				has_same_government_as_ROOT = yes
 			}
 			modifier = {
@@ -4994,11 +5014,15 @@ country_event = { # Germany asks us to join!
 				}
 			}
 			modifier = {
-				add = 75
+				add = 150
 				ROOT = {
 					tag = SER
-					FROM = { has_completed_focus = GER_germano_yugo_summit }
+					has_government = valkist
 				}
+			}
+			modifier = {
+				add = 1000
+				has_war_together_with = GER
 			}
 			modifier = {
 				add = -25 
@@ -5008,7 +5032,7 @@ country_event = { # Germany asks us to join!
 				}
 			}
 			modifier = {
-				add = 50
+				add = 100
 				strength_ratio = {
 					tag = ROOT
 					ratio > 1.001 # if it is 100% causes some rounding error seems like
@@ -5025,7 +5049,7 @@ country_event = { # Germany asks us to join!
 	option = { # no...
 		name = gerexp.8.b
 		ai_chance = {
-			base = 35
+			base = 10
 		}
 		log = "[GetLogInfo]: event gerexp.8 option gerexp.8.b"
 		GER = { 
@@ -5509,10 +5533,13 @@ country_event = { # Yugo-German summit begins...
 		log = "[GetLogInfo]: event gerexp.19 option gerexp.19.a"
 		add_political_power = 15
 		activate_targeted_decision = { target = SER decision = GER_expand_trade_ties }
-		activate_targeted_decision = { target = SER decision = GER_guarantee_yugoslavia }
 		activate_targeted_decision = { target = SER decision = GER_end_claims_on_yugoslavia }
 		activate_targeted_decision = { target = SER decision = GER_promise_istria }
-		activate_targeted_decision = { target = SER decision = GER_pact_of_steel }
+		if = {
+			limit = { NOT = { SER = { is_in_faction_with = GER } } }
+			activate_targeted_decision = { target = SER decision = GER_pact_of_steel }
+			activate_targeted_decision = { target = SER decision = GER_guarantee_yugoslavia }
+		}
 		SER = { country_event = { id = gerexp.20 days = 3 } }
 	}
 	
@@ -5521,10 +5548,13 @@ country_event = { # Yugo-German summit begins...
 		trigger = { has_government = national_populist }
 		log = "[GetLogInfo]: event gerexp.19 option gerexp.19.b"
 		activate_targeted_decision = { target = SER decision = GER_expand_trade_ties }
-		activate_targeted_decision = { target = SER decision = GER_guarantee_yugoslavia }
 		activate_targeted_decision = { target = SER decision = GER_end_claims_on_yugoslavia }
 		activate_targeted_decision = { target = SER decision = GER_promise_istria }
-		activate_targeted_decision = { target = SER decision = GER_pact_of_steel }
+		if = {
+			limit = { NOT = { SER = { is_in_faction_with = GER } } }
+			activate_targeted_decision = { target = SER decision = GER_pact_of_steel }
+			activate_targeted_decision = { target = SER decision = GER_guarantee_yugoslavia }
+		}
 		SER = { country_event = { id = gerexp.20 days = 3 } }
 	}
 	
@@ -5591,7 +5621,7 @@ country_event = { # trade ties?
 	option = {
 		name = gerexp.21.b # no pt.1
 		ai_chance = {
-			base = 15
+			base = 5
 		}
 		log = "[GetLogInfo]: event gerexp.21 option gerexp.21.b"
 		GER = { country_event = { id = gerexp.25 days = 2 } }
@@ -5621,7 +5651,7 @@ country_event = { # option agreement?
 	option = {
 		name = gerexp.22.b # no pt.2
 		ai_chance = {
-			base = 20
+			base = 1
 		}
 		log = "[GetLogInfo]: event gerexp.22 option gerexp.22.b"
 		GER = { country_event = { id = gerexp.25 days = 2 } }
@@ -5652,7 +5682,7 @@ country_event = { # guarantees?
 	option = {
 		name = gerexp.23.b # no pt.3
 		ai_chance = {
-			base = 5
+			base = 0
 		}
 		log = "[GetLogInfo]: event gerexp.23 option gerexp.23.b"
 		GER = { country_event = { id = gerexp.25 days = 2 } }
@@ -5682,7 +5712,7 @@ country_event = { # full alliance?
 	option = {
 		name = gerexp.24.b # no pt.4
 		ai_chance = {
-			base = 25
+			base = 15
 		}
 		log = "[GetLogInfo]: event gerexp.24 option gerexp.24.b"
 		GER = { country_event = { id = gerexp.25 days = 2 } }
@@ -6718,11 +6748,12 @@ country_event = { # FRA: RHI refuses to not accept referendum!
 		reverse_add_opinion_modifier = { target = RHI modifier = FX_disapproves_of_govt }
 	}
 	
-	#option = { # for now...
-	#	name = gerexp.63.b # prepare intervention
-	#	log = "[GetLogInfo]: event gerexp.63 option gerexp.63.b"
-	#	when RHI is integrated, let FRA do something! # oh right!
-	#}
+	option = { # for now...
+		name = gerexp.63.b # prepare intervention
+		log = "[GetLogInfo]: event gerexp.63 option gerexp.63.b"
+		add_political_power = -25
+		activate_targeted_decision = { target = RHI decision = FRA_rhineland_coup }
+	}
 }
 
 country_event = { # GER: RHI backs down after FRA...
@@ -7115,12 +7146,13 @@ country_event = { # claims in istria (definitely did not decide this later no si
 				}
 			}
 		}
+		set_country_flag = GER_promised_istria
 	}
 	
 	option = {
 		name = gerexp.75.b # no pt.5
 		ai_chance = {
-			base = 15
+			base = 5
 		}
 		log = "[GetLogInfo]: event gerexp.75 option gerexp.75.b"
 		GER = { country_event = { id = gerexp.25 days = 2 } }
@@ -7150,12 +7182,33 @@ country_event = { # FROM: anti-comintern pact?
 	
 	option = { # down with bolshevism!
 		name = gerexp.76.a
+		ai_chance = {
+			base = 20
+			modifier = {
+				factor = 0
+				has_democratic_left_government = yes
+			}
+		}
 		log = "[GetLogInfo]: event gerexp.76 option gerexp.76.a"
 		add_ideas = GER_anti_comintern_pact_idea
 	}
 	
 	option = { # mmmmmmm
 		name = gerexp.76.b
+		trigger = { 
+			NOT = { is_subject_of = GER }
+		}
+		ai_chance = {
+			base = 5
+			modifier = {
+				factor = 0.2
+				is_ally_with = GER
+			}
+			modifier = {
+				factor = 4
+				has_elected_government = yes
+			}
+		}
 		log = "[GetLogInfo]: event gerexp.76 option gerexp.76.b"
 		GER = { country_event = { id = gerexp.77 days = 2 } }
 	}
@@ -7650,7 +7703,7 @@ country_event = { # France Capitulates to North Africa
 
 	option = {
 		name = gerexp.88.a
-		FROM = { 
+		FRA = { 
 			if = {
 				limit = { is_in_faction = yes is_faction_leader = no }
 				leave_faction = yes 
@@ -9838,6 +9891,7 @@ country_event = { # SOV: Peace with Germany?
 		custom_effect_tooltip = soviets_retreats_in_urals_tt
 		set_global_flag = soviets_retreats_in_urals
 		hidden_effect = {
+			set_global_flag = XXB_being_divided
 			every_owned_state = {
 				limit = {
 					OR = {
@@ -9858,6 +9912,20 @@ country_event = { # SOV: Peace with Germany?
 					}
 				}
 				set_state_owner_to = XXB
+			}
+			SOV = {
+				every_allied_country = {
+					limit = { 
+						OR = {
+							has_capitulated = yes
+							any_owned_state = {
+								is_in_home_area = yes
+								NOT = { is_controlled_by = PREV }
+							}
+						}
+					}
+					leave_faction = yes
+				}
 			}
 			XXB = {
 				set_cosmetic_tag = SOV_surrender_lands
@@ -9907,6 +9975,7 @@ country_event = { # peace...
 			add_political_power = -50
 		}
 		hidden_effect = {
+			SOV = { dismantle_faction = yes }
 			every_state = {
 				limit = {
 					owner = { is_ally_with = GER }
@@ -10086,7 +10155,8 @@ country_event = { # ...
 		name = gerexp.128.germany
 		ai_chance = { base = 0 }
 		log = "[GetLogInfo]: event gerexp.128 option gerexp.128.germany"
-		add_political_power = -25
+		add_political_power = -50
+		add_stability = -0.02
 		add_state_claim = event_target:rl_disputed_territory 
 	}
 	
@@ -10664,6 +10734,9 @@ country_event = { # GER: Humiliationn!
 
 	option = { # ...
 		name = gerexp.142.a
+		ai_chance = {
+			base = 155
+		}
 		log = "[GetLogInfo]: event gerexp.142 option gerexp.142.a"
 		add_political_power = -200
 		add_stability = -0.1
@@ -10689,6 +10762,9 @@ country_event = { # GER: Humiliationn!
 	
 	option = { # no....
 		name = gerexp.142.b
+		ai_chance = {
+			base = 0
+		}
 		log = "[GetLogInfo]: event gerexp.142 option gerexp.142.b"
 		add_political_power = -100
 		add_war_support = -0.1
@@ -10804,7 +10880,7 @@ country_event = { # DEN: SHO event
 		}
 	}
 
-	option = { # this is just the beginning...
+	option = { # give it up
 		name = gerexp.146.a
 		ai_chance = {
 			base = 25
@@ -10822,7 +10898,7 @@ country_event = { # DEN: SHO event
 		}
 	}
 	
-	option = { # this is just the beginning...
+	option = { # no!
 		name = gerexp.146.b
 		ai_chance = {
 			base = 0
@@ -10842,6 +10918,16 @@ country_event = { # AUS/RHI/SHO: The Germans Strike!
 	is_triggered_only = yes
 	
 	fire_only_once = yes
+	
+	trigger = {
+		GER = {
+			OR = {
+				has_war_with = SHO
+				has_war_with = AUS
+				has_war_with = RHI
+			}
+		}
+	}
 
 	option = { # boldly into the combat!
 		name = gerexp.147.a
@@ -10852,6 +10938,10 @@ country_event = { # AUS/RHI/SHO: The Germans Strike!
 		add_war_support = 0.1
 		custom_effect_tooltip = gerexp.147.tt
 		if = {
+			limit = { country_exists = VAL }
+			VAL = { country_event = { id = generic.30 days = 1 } }
+		}
+		else_if = {
 			limit = { 
 				OR = {
 					has_government = social_democrat
@@ -10861,18 +10951,31 @@ country_event = { # AUS/RHI/SHO: The Germans Strike!
 				}
 			}
 			create_faction = anti_valkist_league
-		}
-		else = { create_faction = vienna_accord }
-		save_global_event_target_as = vienna_accord_leader
-		every_other_country = {
-			limit = {
-				OR = {
-					tag = AUS
-					tag = RHI
-					tag = SHO
+			save_global_event_target_as = vienna_accord_leader
+			every_other_country = {
+				limit = {
+					OR = {
+						tag = AUS
+						tag = RHI
+						tag = SHO
+					}
 				}
+				country_event = { id = gerexp.6 days = 1 }
 			}
-			country_event = { id = gerexp.6 days = 1 }
+		}
+		else = { 
+			create_faction = vienna_accord
+			save_global_event_target_as = vienna_accord_leader
+			every_other_country = {
+				limit = {
+					OR = {
+						tag = AUS
+						tag = RHI
+						tag = SHO
+					}
+				}
+				country_event = { id = gerexp.6 days = 1 }
+			}
 		}
 	}
 	
@@ -10916,5 +11019,55 @@ country_event = { # GER: France!
 		add_political_power = 50
 		add_stability = 0.01
 		add_war_support = -0.05
+	}
+}
+
+country_event = { # Other nation: ger...
+	id = gerexp.149
+	immediate = {log = "[GetDateText]: [Root.GetName]: event gerexp.149"}
+	title = gerexp.149.t
+	desc = gerexp.149.d
+	picture = GFX_report_event_GER_claims
+	
+	trigger = {
+		is_ally_with = GER
+		NOT = { original_tag = GER }
+		any_owned_state = {
+			OR = {
+				is_claimed_by = GER
+				is_core_of = GER
+			}
+		}
+	}
+	
+	is_triggered_only = yes
+
+	option = { # take nancy!
+		name = gerexp.149.a
+		ai_chance = {
+			base = 45
+		}
+		log = "[GetLogInfo]: event gerexp.149 option gerexp.149.a"
+		every_owned_state = {
+			limit = {
+				OR = {
+					is_claimed_by = GER
+					is_core_of = GER
+				}
+			}
+			transfer_state_to = GER
+		}
+	}
+	
+	option = { # nah
+		name = gerexp.149.b
+		ai_chance = {
+			base = 0
+		}
+		trigger = { is_subject = no }
+		log = "[GetLogInfo]: event gerexp.149 option gerexp.149.b"
+		add_war_support = 0.1
+		leave_faction = yes
+		GER = { country_event = { id = belarus.46 days = 1 } }
 	}
 }
